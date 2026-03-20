@@ -20,6 +20,12 @@ export async function searchAll(q: string, type?: string, page = 1, perPage = 20
   );
 }
 
+export async function searchSuggest(q: string, limit = 10) {
+  return fetchJSON<{ suggestions: import("./types").SearchSuggestion[] }>(
+    `/api/search/suggest?${qs({ q, limit })}`
+  );
+}
+
 export async function getItems(params: { page?: number; per_page?: number; category?: string; level_min?: number; level_max?: number; job?: string; q?: string } = {}) {
   return fetchJSON<{ items: import("./types").Item[]; total: number; page: number; per_page: number }>(
     `/api/items?${qs(params as Record<string, string | number>)}`

@@ -9,6 +9,106 @@ router = APIRouter()
 VALID_TYPES = {"item", "mob", "map", "npc", "quest", "blog"}
 
 
+@router.get("/search/suggest")
+def search_suggest(
+    q: str = Query(default=""),
+    limit: int = Query(default=10, ge=1, le=30),
+):
+    """Lightweight autocomplete endpoint — no snippets, fast response."""
+    if not q.strip():
+        return {"suggestions": []}
+
+    query = q.strip()
+
+    try:
+        conn = get_connection()
+    except Exception:
+        return {"suggestions": []}
+
+    suggestions: list[dict] = []
+    try:
+        # FTS5 prefix search
+        fts_query = query + "*"
+        fts_rows = conn.execute(
+            """SELECT entity_type, entity_id, name
+               FROM search_index
+               WHERE search_index MATCH ?
+               ORDER BY rank
+               LIMIT ?""",
+            [fts_query, limit],
+        ).fetchall()
+
+        seen = set()
+        for row in fts_rows:
+            key = (row["entity_type"], row["entity_id"])
+            if key in seen:
+                continue
+            seen.add(key)
+            suggestions.append({
+                "entity_type": row["entity_type"],
+                "entity_id": row["entity_id"],
+                "name": row["name"],
+                "name_kr": None,
+                "icon_url": None,
+            })
+
+        # Enrich with KMS names and icon_url
+        for s in suggestions:
+            etype = s["entity_type"]
+            eid = s["entity_id"]
+            # KMS name
+            kr_row = conn.execute(
+                "SELECT name_en FROM entity_names_en WHERE entity_type = ? AND entity_id = ? AND source = 'kms' LIMIT 1",
+                [etype, eid],
+            ).fetchone()
+            if kr_row:
+                s["name_kr"] = kr_row["name_en"]
+            # icon_url
+            table = {"item": "items", "mob": "mobs", "npc": "npcs"}.get(etype)
+            if table:
+                icon_row = conn.execute(
+                    f"SELECT icon_url FROM {table} WHERE id = ? LIMIT 1", [eid]
+                ).fetchone()
+                if icon_row:
+                    s["icon_url"] = icon_row["icon_url"]
+
+        # Fallback: LIKE on entity_names_en if not enough results
+        if len(suggestions) < limit:
+            remaining = limit - len(suggestions)
+            en_rows = conn.execute(
+                """SELECT DISTINCT e.entity_type, e.entity_id, e.name_en,
+                    CASE e.entity_type
+                        WHEN 'item' THEN (SELECT name FROM items WHERE id = e.entity_id)
+                        WHEN 'mob'  THEN (SELECT name FROM mobs WHERE id = e.entity_id)
+                        WHEN 'map'  THEN (SELECT name FROM maps WHERE id = e.entity_id)
+                        WHEN 'npc'  THEN (SELECT name FROM npcs WHERE id = e.entity_id)
+                        WHEN 'quest' THEN (SELECT name FROM quests WHERE id = e.entity_id)
+                    END as name
+                FROM entity_names_en e
+                WHERE name_en LIKE ?
+                LIMIT ?""",
+                [f"%{query}%", remaining],
+            ).fetchall()
+
+            for row in en_rows:
+                key = (row["entity_type"], row["entity_id"])
+                if key not in seen:
+                    seen.add(key)
+                    suggestions.append({
+                        "entity_type": row["entity_type"],
+                        "entity_id": row["entity_id"],
+                        "name": row["name"] or row["name_en"],
+                        "name_kr": row["name_en"],
+                        "icon_url": None,
+                    })
+    except Exception:
+        suggestions = []
+    finally:
+        conn.close()
+
+    return {"suggestions": suggestions}
+
+
 @router.get("/search")
 def search(
     q: str = Query(default=""),

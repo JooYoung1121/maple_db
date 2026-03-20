@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getItem } from "@/lib/api";
 import type { Item } from "@/lib/types";
+import StatGrid from "@/components/StatGrid";
 
 export default function ItemDetailPage() {
   const { id } = useParams();
@@ -25,6 +26,21 @@ export default function ItemDetailPage() {
   if (!item) return <div className="text-center py-12 text-gray-400">아이템을 찾을 수 없습니다</div>;
 
   const stats = item.stats ? JSON.parse(item.stats) : null;
+
+  // Separate requirement stats from equipment stats
+  const reqStats: Record<string, number> = {};
+  const equipStats: Record<string, number> = {};
+  if (stats) {
+    for (const [k, v] of Object.entries(stats)) {
+      const numVal = Number(v);
+      if (isNaN(numVal) || numVal === 0) continue;
+      if (k.startsWith("req")) {
+        reqStats[k] = numVal;
+      } else {
+        equipStats[k] = numVal;
+      }
+    }
+  }
 
   return (
     <div className="max-w-3xl mx-auto">
@@ -48,37 +64,67 @@ export default function ItemDetailPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 mt-6">
-          <div><span className="text-sm text-gray-500">레벨 요구</span><p className="font-medium">{item.level_req || "-"}</p></div>
-          <div><span className="text-sm text-gray-500">직업 요구</span><p className="font-medium">{item.job_req || "공용"}</p></div>
+        {/* 요구 사항 */}
+        <div className="mt-6">
+          <span className="text-sm font-semibold text-gray-700">요구 사항</span>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2">
+            <div className="bg-gray-50 rounded-lg p-3">
+              <span className="text-xs text-gray-500">레벨</span>
+              <p className="font-medium text-gray-800">{item.level_req || "-"}</p>
+            </div>
+            <div className="bg-gray-50 rounded-lg p-3">
+              <span className="text-xs text-gray-500">직업</span>
+              <p className="font-medium text-gray-800">{item.job_req || "공용"}</p>
+            </div>
+            {Object.keys(reqStats).length > 0 && Object.entries(reqStats).map(([k, v]) => {
+              const labels: Record<string, string> = { reqSTR: "힘(STR)", reqDEX: "민첩(DEX)", reqINT: "지능(INT)", reqLUK: "행운(LUK)" };
+              return (
+                <div key={k} className="bg-gray-50 rounded-lg p-3">
+                  <span className="text-xs text-gray-500">{labels[k] || k}</span>
+                  <p className="font-medium text-gray-800">{v}</p>
+                </div>
+              );
+            })}
+          </div>
         </div>
 
+        {/* 장비 정보 */}
         {(item.attack_speed || item.upgrade_slots || item.price) && (
-          <div className="grid grid-cols-3 gap-4 mt-4">
-            {item.attack_speed && <div><span className="text-sm text-gray-500">공격속도</span><p className="font-medium">{item.attack_speed}</p></div>}
-            {item.upgrade_slots != null && item.upgrade_slots > 0 && <div><span className="text-sm text-gray-500">업그레이드 슬롯</span><p className="font-medium">{item.upgrade_slots}</p></div>}
-            {item.price != null && item.price > 0 && <div><span className="text-sm text-gray-500">가격</span><p className="font-medium">{item.price.toLocaleString()} 메소</p></div>}
+          <div className="mt-6">
+            <span className="text-sm font-semibold text-gray-700">장비 정보</span>
+            <div className="grid grid-cols-3 gap-4 mt-2">
+              {item.attack_speed && (
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <span className="text-xs text-gray-500">공격속도</span>
+                  <p className="font-medium text-gray-800">{item.attack_speed}</p>
+                </div>
+              )}
+              {item.upgrade_slots != null && item.upgrade_slots > 0 && (
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <span className="text-xs text-gray-500">업그레이드 슬롯</span>
+                  <p className="font-medium text-gray-800">{item.upgrade_slots}</p>
+                </div>
+              )}
+              {item.price != null && item.price > 0 && (
+                <div className="bg-gray-50 rounded-lg p-3">
+                  <span className="text-xs text-gray-500">가격</span>
+                  <p className="font-medium text-gray-800">{item.price.toLocaleString()} 메소</p>
+                </div>
+              )}
+            </div>
           </div>
         )}
 
         {item.description && (
-          <div className="mt-4">
-            <span className="text-sm text-gray-500">설명</span>
-            <p className="mt-1">{item.description}</p>
+          <div className="mt-6">
+            <span className="text-sm font-semibold text-gray-700">설명</span>
+            <p className="mt-1 text-gray-600">{item.description}</p>
           </div>
         )}
 
-        {stats && Object.keys(stats).length > 0 && (
-          <div className="mt-4">
-            <span className="text-sm text-gray-500">스탯</span>
-            <div className="flex flex-wrap gap-2 mt-1">
-              {Object.entries(stats).map(([k, v]) => (
-                <span key={k} className="px-2 py-1 bg-orange-50 text-orange-700 rounded text-sm font-medium">
-                  {k}: {String(v)}
-                </span>
-              ))}
-            </div>
-          </div>
+        {/* 장비 스탯 — StatGrid 컴포넌트 */}
+        {Object.keys(equipStats).length > 0 && (
+          <StatGrid stats={equipStats} title="장비 스탯" />
         )}
       </div>
 

@@ -17,7 +17,7 @@ const columns: Column<Npc>[] = [
 
 const filters: FilterDef[] = [
   { key: "q", label: "이름 검색", type: "text", placeholder: "NPC 이름" },
-  { key: "is_shop", label: "상점만", type: "checkbox", placeholder: "상점 NPC만 보기" },
+  { key: "is_shop", label: "상점만", type: "toggle", placeholder: "상점 NPC만 보기" },
 ];
 
 export default function NpcsPage() {

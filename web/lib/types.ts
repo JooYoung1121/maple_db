@@ -135,6 +135,14 @@ export interface SearchResult {
   snippet: string;
 }
 
+export interface SearchSuggestion {
+  entity_type: string;
+  entity_id: number;
+  name: string;
+  name_kr: string | null;
+  icon_url: string | null;
+}
+
 export interface PaginatedResponse<T> {
   items: T[];
   total: number;

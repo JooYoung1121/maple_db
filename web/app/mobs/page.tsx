@@ -25,7 +25,7 @@ const filters: FilterDef[] = [
   { key: "q", label: "이름 검색", type: "text", placeholder: "몬스터 이름" },
   { key: "level_min", label: "최소 레벨", type: "number", placeholder: "0" },
   { key: "level_max", label: "최대 레벨", type: "number", placeholder: "200" },
-  { key: "is_boss", label: "보스만", type: "checkbox", placeholder: "보스 몬스터만 보기" },
+  { key: "is_boss", label: "보스만", type: "toggle", placeholder: "보스 몬스터만 보기" },
 ];
 
 export default function MobsPage() {

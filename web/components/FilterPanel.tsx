@@ -5,7 +5,7 @@ import { useState } from "react";
 export interface FilterDef {
   key: string;
   label: string;
-  type: "text" | "number" | "select" | "checkbox";
+  type: "text" | "number" | "select" | "checkbox" | "toggle";
   options?: { value: string; label: string }[];
   placeholder?: string;
 }
@@ -48,6 +48,17 @@ export default function FilterPanel({ filters, values, onChange }: Props) {
                     <option key={o.value} value={o.value}>{o.label}</option>
                   ))}
                 </select>
+              ) : f.type === "toggle" ? (
+                <button
+                  type="button"
+                  onClick={() => update(f.key, values[f.key] === "1" ? "" : "1")}
+                  className="flex items-center gap-2"
+                >
+                  <div className={`relative w-11 h-6 rounded-full transition-colors ${values[f.key] === "1" ? "bg-orange-500" : "bg-gray-300"}`}>
+                    <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${values[f.key] === "1" ? "translate-x-5" : "translate-x-0"}`} />
+                  </div>
+                  <span className="text-sm text-gray-600">{f.placeholder || "예"}</span>
+                </button>
               ) : f.type === "checkbox" ? (
                 <label className="flex items-center gap-2">
                   <input

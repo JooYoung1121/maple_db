@@ -45,7 +45,7 @@ export default function MapsPage() {
   const filters: FilterDef[] = [
     { key: "q", label: "이름 검색", type: "text", placeholder: "맵 이름" },
     { key: "area", label: "지역", type: areaOptions.length > 0 ? "select" : "text", options: areaOptions, placeholder: "빅토리아, 오시리아..." },
-    { key: "is_town", label: "마을만", type: "checkbox", placeholder: "마을 맵만 보기" },
+    { key: "is_town", label: "마을만", type: "toggle", placeholder: "마을 맵만 보기" },
   ];
 
   return (
