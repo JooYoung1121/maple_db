@@ -419,6 +419,9 @@ async def crawl_entity_details(
         except Exception:
             continue
 
+        if data is None:
+            continue
+
         conn.execute(
             """INSERT OR REPLACE INTO maplestory_io_cache
                (entity_type, entity_id, name_en, data_json, last_crawled_at)
