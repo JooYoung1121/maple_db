@@ -7,7 +7,7 @@ import type { Mob } from "@/lib/types";
 import DataTable, { Column } from "@/components/DataTable";
 import Pagination from "@/components/Pagination";
 import FilterPanel, { FilterDef, SortOption } from "@/components/FilterPanel";
-import ExportButton from "@/components/ExportButton";
+
 
 interface MobRow extends Mob {
   name_kr?: string | null;
@@ -58,7 +58,7 @@ export default function MobsPage() {
     <div>
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">몬스터</h1>
-        <ExportButton entityType="mobs" />
+
       </div>
       <FilterPanel filters={filters} values={filterValues} onChange={(v) => { setFilterValues(v); setPage(1); }} sortOptions={sortOptions} sortValue={sortValue} onSortChange={(v) => { setSortValue(v); setPage(1); }} />
       <div className="mt-4">

@@ -7,8 +7,8 @@ import type { Item } from "@/lib/types";
 import DataTable, { Column } from "@/components/DataTable";
 import Pagination from "@/components/Pagination";
 import FilterPanel, { FilterDef, SortOption } from "@/components/FilterPanel";
-import ExportButton from "@/components/ExportButton";
-import { toCategoryKr, toSubcategoryKr } from "@/lib/translations";
+
+import { toCategoryKr, toSubcategoryKr, JOB_KR } from "@/lib/translations";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -66,8 +66,8 @@ export default function ItemsPage() {
 
     getItemFilters()
       .then((d) => {
-        setSubcategoryOptions((d.subcategories || []).map((s) => ({ value: s, label: s })));
-        setJobOptions((d.jobs || []).map((j) => ({ value: j, label: j })));
+        setSubcategoryOptions((d.subcategories || []).map((s) => ({ value: s, label: toSubcategoryKr(s) })));
+        setJobOptions((d.jobs || []).map((j) => ({ value: j, label: JOB_KR[j] || j })));
       })
       .catch(() => {});
   }, []);
@@ -93,7 +93,7 @@ export default function ItemsPage() {
     <div>
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">아이템</h1>
-        <ExportButton entityType="items" />
+
       </div>
       <FilterPanel filters={filters} values={filterValues} onChange={(v) => { setFilterValues(v); setPage(1); }} sortOptions={sortOptions} sortValue={sortValue} onSortChange={(v) => { setSortValue(v); setPage(1); }} />
       <div className="mt-4">

@@ -7,7 +7,7 @@ import type { MapData } from "@/lib/types";
 import DataTable, { Column } from "@/components/DataTable";
 import Pagination from "@/components/Pagination";
 import FilterPanel, { FilterDef } from "@/components/FilterPanel";
-import ExportButton from "@/components/ExportButton";
+
 
 const columns: Column<MapData>[] = [
   { key: "name", label: "이름" },
@@ -52,7 +52,7 @@ export default function MapsPage() {
     <div>
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">맵</h1>
-        <ExportButton entityType="maps" />
+
       </div>
       <FilterPanel filters={filters} values={filterValues} onChange={(v) => { setFilterValues(v); setPage(1); }} />
       <div className="mt-4">

@@ -7,7 +7,7 @@ import type { Quest } from "@/lib/types";
 import DataTable, { Column } from "@/components/DataTable";
 import Pagination from "@/components/Pagination";
 import FilterPanel, { FilterDef } from "@/components/FilterPanel";
-import ExportButton from "@/components/ExportButton";
+
 
 const columns: Column<Quest>[] = [
   { key: "name", label: "이름" },
@@ -43,7 +43,7 @@ export default function QuestsPage() {
     <div>
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">퀘스트</h1>
-        <ExportButton entityType="quests" />
+
       </div>
       <FilterPanel filters={filters} values={filterValues} onChange={(v) => { setFilterValues(v); setPage(1); }} />
       <div className="mt-4">
