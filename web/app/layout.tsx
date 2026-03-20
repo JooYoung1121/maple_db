@@ -10,8 +10,8 @@ const notoSansKR = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
-  title: "메이플랜드 DB",
-  description: "메이플랜드 게임 데이터 통합 검색",
+  title: "추억길드 전용 메랜 관련 정보 조회 페이지",
+  description: "추억길드 전용 메이플랜드 게임 데이터 통합 검색",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

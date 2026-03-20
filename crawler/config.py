@@ -16,7 +16,7 @@ HIDDEN_STREET_BASE = "https://bbb.hidden-street.net"
 RATE_LIMIT = {
     "mapledb.kr": 1.0,       # 초당 1요청
     "tistory.com": 2.0,      # 초당 0.5요청
-    "maplestory.io": 2.0,    # 초당 0.5요청
+    "maplestory.io": 0.5,    # 초당 2요청
     "bbb.hidden-street.net": 3.0,  # 초당 ~0.33요청
 }
 
