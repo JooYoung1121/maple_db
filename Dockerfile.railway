@@ -1,5 +1,5 @@
-# Stage 1: Next.js 빌드 (Node 이미지에서)
-FROM node:18-alpine AS web-build
+# Stage 1: Next.js 빌드 (Node 20 slim - glibc 필요 for Tailwind v4 oxide)
+FROM node:20-slim AS web-build
 WORKDIR /app
 COPY web/package.json web/package-lock.json* ./
 RUN rm -rf node_modules package-lock.json && npm install
@@ -14,7 +14,7 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc curl \
-    && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
