@@ -58,6 +58,7 @@ def list_items(
     level_max: Optional[int] = Query(default=None, ge=0),
     job: Optional[str] = Query(default=None),
     q: Optional[str] = Query(default=None),
+    sort: Optional[str] = Query(default=None),
 ):
     offset = (page - 1) * per_page
     conditions = []
@@ -97,8 +98,15 @@ def list_items(
 
     try:
         total = conn.execute(f"SELECT COUNT(*) FROM items {where}", params).fetchone()[0]
+        valid_sorts = {
+            "level_asc": "level_req ASC",
+            "level_desc": "level_req DESC",
+            "name_asc": "name ASC",
+            "name_desc": "name DESC",
+        }
+        order = valid_sorts.get(sort or "", "id")
         rows = conn.execute(
-            f"SELECT * FROM items {where} ORDER BY id LIMIT ? OFFSET ?",
+            f"SELECT * FROM items {where} ORDER BY {order} LIMIT ? OFFSET ?",
             params + [per_page, offset],
         ).fetchall()
         results = []

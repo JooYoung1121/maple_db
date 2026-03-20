@@ -26,7 +26,7 @@ export async function searchSuggest(q: string, limit = 10) {
   );
 }
 
-export async function getItems(params: { page?: number; per_page?: number; category?: string; level_min?: number; level_max?: number; job?: string; q?: string } = {}) {
+export async function getItems(params: { page?: number; per_page?: number; category?: string; level_min?: number; level_max?: number; job?: string; q?: string; sort?: string } = {}) {
   return fetchJSON<{ items: import("./types").Item[]; total: number; page: number; per_page: number }>(
     `/api/items?${qs(params as Record<string, string | number>)}`
   );
@@ -38,7 +38,7 @@ export async function getItem(id: number) {
   );
 }
 
-export async function getMobs(params: { page?: number; per_page?: number; level_min?: number; level_max?: number; is_boss?: number; q?: string } = {}) {
+export async function getMobs(params: { page?: number; per_page?: number; level_min?: number; level_max?: number; is_boss?: number; q?: string; sort?: string } = {}) {
   return fetchJSON<{ mobs: import("./types").Mob[]; total: number; page: number; per_page: number }>(
     `/api/mobs?${qs(params as Record<string, string | number>)}`
   );

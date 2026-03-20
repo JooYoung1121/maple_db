@@ -6,7 +6,7 @@ import { getMobs } from "@/lib/api";
 import type { Mob } from "@/lib/types";
 import DataTable, { Column } from "@/components/DataTable";
 import Pagination from "@/components/Pagination";
-import FilterPanel, { FilterDef } from "@/components/FilterPanel";
+import FilterPanel, { FilterDef, SortOption } from "@/components/FilterPanel";
 import ExportButton from "@/components/ExportButton";
 
 interface MobRow extends Mob {
@@ -35,15 +35,24 @@ export default function MobsPage() {
   const [page, setPage] = useState(1);
   const [filterValues, setFilterValues] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
+  const [sortValue, setSortValue] = useState("");
   const perPage = 30;
+
+  const sortOptions: SortOption[] = [
+    { value: "", label: "레벨 낮은순" },
+    { value: "level_desc", label: "레벨 높은순" },
+    { value: "hp_desc", label: "HP 높은순" },
+    { value: "exp_desc", label: "경험치 높은순" },
+    { value: "name_asc", label: "이름순" },
+  ];
 
   useEffect(() => {
     setLoading(true);
-    getMobs({ page, per_page: perPage, ...filterValues })
+    getMobs({ page, per_page: perPage, sort: sortValue || undefined, ...filterValues })
       .then((d) => { setMobs(d.mobs); setTotal(d.total); })
       .catch(() => setMobs([]))
       .finally(() => setLoading(false));
-  }, [page, filterValues]);
+  }, [page, filterValues, sortValue]);
 
   return (
     <div>
@@ -51,7 +60,7 @@ export default function MobsPage() {
         <h1 className="text-2xl font-bold">몬스터</h1>
         <ExportButton entityType="mobs" />
       </div>
-      <FilterPanel filters={filters} values={filterValues} onChange={(v) => { setFilterValues(v); setPage(1); }} />
+      <FilterPanel filters={filters} values={filterValues} onChange={(v) => { setFilterValues(v); setPage(1); }} sortOptions={sortOptions} sortValue={sortValue} onSortChange={(v) => { setSortValue(v); setPage(1); }} />
       <div className="mt-4">
         {loading ? (
           <div className="text-center py-12 text-gray-400">로딩 중...</div>

@@ -6,8 +6,9 @@ import { getItems, getItemFilters } from "@/lib/api";
 import type { Item } from "@/lib/types";
 import DataTable, { Column } from "@/components/DataTable";
 import Pagination from "@/components/Pagination";
-import FilterPanel, { FilterDef } from "@/components/FilterPanel";
+import FilterPanel, { FilterDef, SortOption } from "@/components/FilterPanel";
 import ExportButton from "@/components/ExportButton";
+import { toCategoryKr, toSubcategoryKr } from "@/lib/translations";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -17,7 +18,7 @@ interface ItemRow extends Item {
 
 const columns: Column<ItemRow>[] = [
   { key: "name", label: "이름", render: (r) => r.name_kr ? <><span>{r.name_kr}</span> <span className="text-gray-400 text-xs">({r.name})</span></> : r.name },
-  { key: "category", label: "분류" },
+  { key: "category", label: "분류", render: (r) => toCategoryKr(r.category) },
   { key: "level_req", label: "레벨" },
   { key: "job_req", label: "직업" },
 ];
@@ -36,19 +37,27 @@ export default function ItemsPage() {
   const [categories, setCategories] = useState<{ value: string; label: string }[]>([]);
   const [subcategoryOptions, setSubcategoryOptions] = useState<{ value: string; label: string }[]>([]);
   const [jobOptions, setJobOptions] = useState<{ value: string; label: string }[]>([]);
+  const [sortValue, setSortValue] = useState("");
   const perPage = 30;
+
+  const sortOptions: SortOption[] = [
+    { value: "", label: "기본" },
+    { value: "level_asc", label: "레벨 낮은순" },
+    { value: "level_desc", label: "레벨 높은순" },
+    { value: "name_asc", label: "이름순" },
+  ];
 
   useEffect(() => {
     fetch(`${API_BASE}/api/items/categories`)
       .then((r) => r.json())
       .then((d) => {
         const cats: { value: string; label: string }[] = [
-          { value: DEFAULT_CATEGORY, label: "무기 전체 (Weapons)" },
+          { value: DEFAULT_CATEGORY, label: "무기 전체" },
         ];
         for (const c of d.categories || []) {
           cats.push({
             value: c.name,
-            label: `${c.name} (${c.count.toLocaleString()})`,
+            label: `${toCategoryKr(c.name)} (${c.count.toLocaleString()})`,
           });
         }
         setCategories(cats);
@@ -65,11 +74,11 @@ export default function ItemsPage() {
 
   useEffect(() => {
     setLoading(true);
-    getItems({ page, per_page: perPage, ...filterValues } as Parameters<typeof getItems>[0])
+    getItems({ page, per_page: perPage, sort: sortValue || undefined, ...filterValues } as Parameters<typeof getItems>[0])
       .then((d) => { setItems(d.items || []); setTotal(d.total); })
       .catch(() => setItems([]))
       .finally(() => setLoading(false));
-  }, [page, filterValues]);
+  }, [page, filterValues, sortValue]);
 
   const filters: FilterDef[] = [
     { key: "q", label: "이름 검색", type: "text", placeholder: "아이템 이름" },
@@ -86,7 +95,7 @@ export default function ItemsPage() {
         <h1 className="text-2xl font-bold">아이템</h1>
         <ExportButton entityType="items" />
       </div>
-      <FilterPanel filters={filters} values={filterValues} onChange={(v) => { setFilterValues(v); setPage(1); }} />
+      <FilterPanel filters={filters} values={filterValues} onChange={(v) => { setFilterValues(v); setPage(1); }} sortOptions={sortOptions} sortValue={sortValue} onSortChange={(v) => { setSortValue(v); setPage(1); }} />
       <div className="mt-4">
         {loading ? (
           <div className="text-center py-12 text-gray-400">로딩 중...</div>

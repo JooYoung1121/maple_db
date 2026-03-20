@@ -38,6 +38,7 @@ def list_mobs(
     level_max: Optional[int] = Query(default=None, ge=0),
     is_boss: Optional[bool] = Query(default=None),
     q: Optional[str] = Query(default=None),
+    sort: Optional[str] = Query(default=None),
 ):
     offset = (page - 1) * per_page
     conditions = []
@@ -64,9 +65,17 @@ def list_mobs(
         return {"mobs": [], "total": 0, "page": page, "per_page": per_page}
 
     try:
+        valid_sorts = {
+            "level_asc": "level ASC",
+            "level_desc": "level DESC",
+            "hp_desc": "hp DESC",
+            "exp_desc": "exp DESC",
+            "name_asc": "name ASC",
+        }
+        order = valid_sorts.get(sort or "", "level")
         total = conn.execute(f"SELECT COUNT(*) FROM mobs {where}", params).fetchone()[0]
         rows = conn.execute(
-            f"SELECT * FROM mobs {where} ORDER BY level LIMIT ? OFFSET ?",
+            f"SELECT * FROM mobs {where} ORDER BY {order} LIMIT ? OFFSET ?",
             params + [per_page, offset],
         ).fetchall()
         results = []

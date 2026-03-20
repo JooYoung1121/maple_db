@@ -441,19 +441,33 @@ async def crawl_entity_details(
 
 
 def _save_mob_detail(conn: sqlite3.Connection, eid: int, data: dict, now: str) -> None:
-    meta = data.get("metaInfo", {}) if isinstance(data.get("metaInfo"), dict) else {}
+    # API returns "meta" in detail, "metaInfo" in bulk — check both
+    raw_meta = data.get("meta") or data.get("metaInfo") or {}
+    meta = raw_meta if isinstance(raw_meta, dict) else {}
 
-    physical_damage = meta.get("PADamage", 0) or 0
-    magic_damage = meta.get("MADamage", 0) or 0
-    magic_defense = meta.get("MDDamage", 0) or 0
+    # Core stats (from detail "meta" keys)
+    level = meta.get("level", 0) or 0
+    hp = meta.get("maxHP", 0) or 0
+    mp = meta.get("maxMP", 0) or 0
+    exp = meta.get("exp", 0) or 0
+    defense = meta.get("physicalDefense") or meta.get("PDDamage", 0) or 0
+    accuracy = meta.get("accuracy") or meta.get("acc", 0) or 0
+    evasion = meta.get("evasion") or meta.get("eva", 0) or 0
+
+    # Extended stats
+    physical_damage = meta.get("physicalDamage") or meta.get("PADamage", 0) or 0
+    magic_damage = meta.get("magicDamage") or meta.get("MADamage", 0) or 0
+    magic_defense = meta.get("magicDefense") or meta.get("MDDamage", 0) or 0
     speed = meta.get("speed", 0) or 0
-    is_undead = 1 if meta.get("undead") else 0
+    is_undead = 1 if meta.get("isUndead") or meta.get("undead") else 0
     is_boss = 1 if meta.get("boss") else 0
 
     conn.execute(
-        """UPDATE mobs SET physical_damage=?, magic_damage=?, magic_defense=?,
+        """UPDATE mobs SET level=?, hp=?, mp=?, exp=?, defense=?, accuracy=?, evasion=?,
+           physical_damage=?, magic_damage=?, magic_defense=?,
            speed=?, is_undead=?, is_boss=?, last_crawled_at=? WHERE id=?""",
-        (physical_damage, magic_damage, magic_defense, speed, is_undead, is_boss, now, eid),
+        (level, hp, mp, exp, defense, accuracy, evasion,
+         physical_damage, magic_damage, magic_defense, speed, is_undead, is_boss, now, eid),
     )
 
     found_at = data.get("foundAt", [])
@@ -512,7 +526,8 @@ def _save_npc_detail(conn: sqlite3.Connection, eid: int, data: dict, now: str) -
 
 
 def _save_item_detail(conn: sqlite3.Connection, eid: int, data: dict, now: str) -> None:
-    meta = data.get("metaInfo", {}) if isinstance(data.get("metaInfo"), dict) else {}
+    raw_meta = data.get("meta") or data.get("metaInfo") or {}
+    meta = raw_meta if isinstance(raw_meta, dict) else {}
     type_info = data.get("typeInfo", {}) if isinstance(data.get("typeInfo"), dict) else {}
 
     attack_speed = str(meta.get("attackSpeed", "")) if meta.get("attackSpeed") else None
@@ -520,9 +535,30 @@ def _save_item_detail(conn: sqlite3.Connection, eid: int, data: dict, now: str) 
     tuc = meta.get("tuc", 0) or 0
     overall_category = type_info.get("overallCategory", "") or ""
 
+    # Core stats from detail API
+    req_level = meta.get("reqLevel", 0) or 0
+    req_job = meta.get("reqJob", 0)
+    job_name = _job_code_to_name(req_job) if req_job else ""
+
+    stats = {}
+    for key in ["incSTR", "incDEX", "incINT", "incLUK", "incPAD", "incMAD",
+                 "incPDD", "incMDD", "incACC", "incEVA", "incSpeed", "incJump",
+                 "incMHP", "incMMP"]:
+        val = meta.get(key, 0)
+        if val:
+            stats[key] = val
+    # Also check reqSTR/DEX/INT/LUK
+    for key in ["reqSTR", "reqDEX", "reqINT", "reqLUK"]:
+        val = meta.get(key, 0)
+        if val:
+            stats[key] = val
+
+    stats_json = json.dumps(stats, ensure_ascii=False) if stats else None
+
     conn.execute(
-        """UPDATE items SET attack_speed=?, price=?, upgrade_slots=?, overall_category=?, last_crawled_at=? WHERE id=?""",
-        (attack_speed, price, tuc, overall_category, now, eid),
+        """UPDATE items SET attack_speed=?, price=?, upgrade_slots=?, overall_category=?,
+           level_req=?, job_req=?, stats=?, last_crawled_at=? WHERE id=?""",
+        (attack_speed, price, tuc, overall_category, req_level, job_name, stats_json, now, eid),
     )
 
 

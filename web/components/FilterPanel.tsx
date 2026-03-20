@@ -2,6 +2,11 @@
 
 import { useState } from "react";
 
+export interface SortOption {
+  value: string;
+  label: string;
+}
+
 export interface FilterDef {
   key: string;
   label: string;
@@ -14,9 +19,12 @@ interface Props {
   filters: FilterDef[];
   values: Record<string, string>;
   onChange: (values: Record<string, string>) => void;
+  sortOptions?: SortOption[];
+  sortValue?: string;
+  onSortChange?: (value: string) => void;
 }
 
-export default function FilterPanel({ filters, values, onChange }: Props) {
+export default function FilterPanel({ filters, values, onChange, sortOptions, sortValue, onSortChange }: Props) {
   const [expanded, setExpanded] = useState(true);
 
   function update(key: string, value: string) {
@@ -34,6 +42,20 @@ export default function FilterPanel({ filters, values, onChange }: Props) {
       </button>
       {expanded && (
         <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {sortOptions && sortOptions.length > 0 && (
+            <div>
+              <label className="block text-xs font-medium text-gray-500 mb-1">정렬</label>
+              <select
+                value={sortValue || ""}
+                onChange={(e) => onSortChange?.(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              >
+                {sortOptions.map((o) => (
+                  <option key={o.value} value={o.value}>{o.label}</option>
+                ))}
+              </select>
+            </div>
+          )}
           {filters.map((f) => (
             <div key={f.key}>
               <label className="block text-xs font-medium text-gray-500 mb-1">{f.label}</label>

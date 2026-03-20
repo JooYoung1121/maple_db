@@ -6,6 +6,7 @@ import Link from "next/link";
 import { getItem } from "@/lib/api";
 import type { Item } from "@/lib/types";
 import StatGrid from "@/components/StatGrid";
+import { toCategoryKr, toSubcategoryKr } from "@/lib/translations";
 
 export default function ItemDetailPage() {
   const { id } = useParams();
@@ -58,8 +59,8 @@ export default function ItemDetailPage() {
               })()}
             </h1>
             <div className="flex gap-2 mt-1 flex-wrap">
-              {item.category && <span className="text-xs px-2 py-0.5 bg-gray-100 rounded">{item.category}</span>}
-              {item.subcategory && <span className="text-xs px-2 py-0.5 bg-gray-100 rounded">{item.subcategory}</span>}
+              {item.category && <span className="text-xs px-2 py-0.5 bg-gray-100 rounded">{toCategoryKr(item.category)}</span>}
+              {item.subcategory && <span className="text-xs px-2 py-0.5 bg-gray-100 rounded">{toSubcategoryKr(item.subcategory)}</span>}
             </div>
           </div>
         </div>
