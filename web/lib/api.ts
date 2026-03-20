@@ -1,0 +1,113 @@
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
+
+async function fetchJSON<T>(path: string): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`);
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  return res.json();
+}
+
+function qs(params: Record<string, string | number | undefined | null>): string {
+  const sp = new URLSearchParams();
+  for (const [k, v] of Object.entries(params)) {
+    if (v !== undefined && v !== null && v !== "") sp.set(k, String(v));
+  }
+  return sp.toString();
+}
+
+export async function searchAll(q: string, type?: string, page = 1, perPage = 20) {
+  return fetchJSON<{ results: import("./types").SearchResult[]; total: number; page: number; per_page: number }>(
+    `/api/search?${qs({ q, type, page, per_page: perPage })}`
+  );
+}
+
+export async function getItems(params: { page?: number; per_page?: number; category?: string; level_min?: number; level_max?: number; job?: string; q?: string } = {}) {
+  return fetchJSON<{ items: import("./types").Item[]; total: number; page: number; per_page: number }>(
+    `/api/items?${qs(params as Record<string, string | number>)}`
+  );
+}
+
+export async function getItem(id: number) {
+  return fetchJSON<{ item: import("./types").Item; dropped_by: { mob_id: number; mob_name: string; drop_rate: number | null }[] }>(
+    `/api/items/${id}`
+  );
+}
+
+export async function getMobs(params: { page?: number; per_page?: number; level_min?: number; level_max?: number; is_boss?: number; q?: string } = {}) {
+  return fetchJSON<{ mobs: import("./types").Mob[]; total: number; page: number; per_page: number }>(
+    `/api/mobs?${qs(params as Record<string, string | number>)}`
+  );
+}
+
+export async function getMob(id: number) {
+  return fetchJSON<{ mob: import("./types").Mob; drops: import("./types").MobDrop[]; spawn_maps: import("./types").MobSpawn[] }>(
+    `/api/mobs/${id}`
+  );
+}
+
+export async function getMaps(params: { page?: number; per_page?: number; area?: string; q?: string } = {}) {
+  return fetchJSON<{ maps: import("./types").MapData[]; total: number; page: number; per_page: number }>(
+    `/api/maps?${qs(params as Record<string, string | number>)}`
+  );
+}
+
+export async function getMap(id: number) {
+  return fetchJSON<{ map: import("./types").MapData; monsters: { mob_id: number; mob_name: string; level: number }[]; npcs: import("./types").Npc[] }>(
+    `/api/maps/${id}`
+  );
+}
+
+export async function getNpcs(params: { page?: number; per_page?: number; q?: string } = {}) {
+  return fetchJSON<{ npcs: import("./types").Npc[]; total: number; page: number; per_page: number }>(
+    `/api/npcs?${qs(params as Record<string, string | number>)}`
+  );
+}
+
+export async function getNpc(id: number) {
+  return fetchJSON<{ npc: import("./types").Npc }>(`/api/npcs/${id}`);
+}
+
+export async function getQuests(params: { page?: number; per_page?: number; level_min?: number; level_max?: number; q?: string } = {}) {
+  return fetchJSON<{ quests: import("./types").Quest[]; total: number; page: number; per_page: number }>(
+    `/api/quests?${qs(params as Record<string, string | number>)}`
+  );
+}
+
+export async function getQuest(id: number) {
+  return fetchJSON<{ quest: import("./types").Quest }>(`/api/quests/${id}`);
+}
+
+export async function getBosses(params: { page?: number; per_page?: number; level_min?: number; level_max?: number; q?: string } = {}) {
+  return fetchJSON<{ bosses: import("./types").Boss[]; total: number; page: number; per_page: number }>(
+    `/api/bosses?${qs(params as Record<string, string | number>)}`
+  );
+}
+
+export async function getSkills(params: { page?: number; per_page?: number; job_class?: string; job_branch?: string; skill_type?: string; q?: string } = {}) {
+  return fetchJSON<{ skills: import("./types").Skill[]; total: number; page: number; per_page: number }>(
+    `/api/skills?${qs(params as Record<string, string | number>)}`
+  );
+}
+
+export async function getSkill(id: number) {
+  return fetchJSON<{ skill: import("./types").Skill }>(`/api/skills/${id}`);
+}
+
+export async function getSkillFilters() {
+  return fetchJSON<{ job_classes: string[]; job_branches: string[]; skill_types: string[] }>(`/api/skills/filters`);
+}
+
+export async function getMobFilters() {
+  return fetchJSON<{ level_ranges: { min: number; max: number; count: number }[]; boss_count: number }>(`/api/mobs/filters`);
+}
+
+export async function getMapFilters() {
+  return fetchJSON<{ areas: string[]; street_names: string[]; town_count: number }>(`/api/maps/filters`);
+}
+
+export async function getItemFilters() {
+  return fetchJSON<{ categories: string[]; subcategories: string[]; jobs: string[] }>(`/api/items/filters`);
+}
+
+export function getExportUrl(type: string) {
+  return `${API_BASE}/api/export?type=${type}&format=xlsx`;
+}

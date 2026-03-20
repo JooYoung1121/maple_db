@@ -1,0 +1,13 @@
+data/cache/
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+# maple.db는 배포용으로 포함
+__pycache__/
+*.pyc
+.env
+node_modules/
+.next/
+web/out/
+.omc/
+.claude/

@@ -1,0 +1,48 @@
+# Railway 배포용 - API + Web 통합 컨테이너
+FROM python:3.11-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Node.js 설치
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+# Python 의존성
+COPY crawler/requirements.txt crawler/requirements.txt
+COPY api/requirements.txt api/requirements.txt
+RUN pip install --no-cache-dir -r crawler/requirements.txt -r api/requirements.txt
+
+# Next.js 빌드
+COPY web/package.json web/package-lock.json* web/
+RUN cd web && (npm ci || npm install)
+
+COPY web/ web/
+ENV NEXT_PUBLIC_API_URL=""
+RUN cd web && npm run build
+
+# standalone + static 파일 정리
+RUN cp -r web/.next/standalone web-standalone \
+    && cp -r web/.next/static web-standalone/.next/static \
+    && cp -r web/public web-standalone/public 2>/dev/null || true
+
+# 소스 복사
+COPY crawler/ crawler/
+COPY api/ api/
+
+# 데이터 디렉토리 + DB
+RUN mkdir -p data/cache
+COPY data/maple.db* data/
+RUN python -c "from crawler.db import init_db; init_db()"
+
+# 시작 스크립트
+COPY start.sh .
+RUN chmod +x start.sh
+
+EXPOSE 3000
+
+CMD ["./start.sh"]
