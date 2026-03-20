@@ -54,7 +54,10 @@ def list_maps(
         conditions.append("is_town = ?")
         params.append(1 if is_town else 0)
     if q:
-        conditions.append("name LIKE ?")
+        conditions.append(
+            "(name LIKE ? OR id IN (SELECT entity_id FROM entity_names_en WHERE entity_type='map' AND name_en LIKE ?))"
+        )
+        params.append(f"%{q}%")
         params.append(f"%{q}%")
 
     where = ("WHERE " + " AND ".join(conditions)) if conditions else ""

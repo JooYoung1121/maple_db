@@ -27,7 +27,10 @@ def list_quests(
         conditions.append("level_req <= ?")
         params.append(level_max)
     if q:
-        conditions.append("name LIKE ?")
+        conditions.append(
+            "(name LIKE ? OR id IN (SELECT entity_id FROM entity_names_en WHERE entity_type='quest' AND name_en LIKE ?))"
+        )
+        params.append(f"%{q}%")
         params.append(f"%{q}%")
 
     where = ("WHERE " + " AND ".join(conditions)) if conditions else ""

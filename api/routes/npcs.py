@@ -36,7 +36,10 @@ def list_npcs(
         conditions.append("is_shop = ?")
         params.append(1 if is_shop else 0)
     if q:
-        conditions.append("name LIKE ?")
+        conditions.append(
+            "(name LIKE ? OR id IN (SELECT entity_id FROM entity_names_en WHERE entity_type='npc' AND name_en LIKE ?))"
+        )
+        params.append(f"%{q}%")
         params.append(f"%{q}%")
 
     where = ("WHERE " + " AND ".join(conditions)) if conditions else ""

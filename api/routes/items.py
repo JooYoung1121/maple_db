@@ -86,7 +86,10 @@ def list_items(
         conditions.append("job_req LIKE ?")
         params.append(f"%{job}%")
     if q:
-        conditions.append("name LIKE ?")
+        conditions.append(
+            "(name LIKE ? OR id IN (SELECT entity_id FROM entity_names_en WHERE entity_type='item' AND name_en LIKE ?))"
+        )
+        params.append(f"%{q}%")
         params.append(f"%{q}%")
 
     where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
@@ -151,7 +154,7 @@ def get_item(item_id: int):
         # Mobs that drop this item
         drop_rows = conn.execute(
             """
-            SELECT m.id, m.name, m.level, m.is_boss, md.drop_rate
+            SELECT m.id as mob_id, m.name as mob_name, m.level, m.is_boss, md.drop_rate
             FROM mob_drops md
             JOIN mobs m ON m.id = md.mob_id
             WHERE md.item_id = ?
