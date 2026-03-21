@@ -27,58 +27,42 @@ def search_suggest(
 
     suggestions: list[dict] = []
     try:
-        # FTS5 prefix search
+        # FTS5 prefix search + JOIN으로 KMS name, icon_url을 한 번에 가져옴
         fts_query = query + "*"
         fts_rows = conn.execute(
-            """SELECT entity_type, entity_id, name
-               FROM search_index
+            """SELECT s.entity_type, s.entity_id, s.name,
+                      en.name_en AS name_kr,
+                      CASE s.entity_type
+                          WHEN 'item' THEN (SELECT icon_url FROM items WHERE id = s.entity_id)
+                          WHEN 'mob'  THEN (SELECT icon_url FROM mobs WHERE id = s.entity_id)
+                          WHEN 'npc'  THEN (SELECT icon_url FROM npcs WHERE id = s.entity_id)
+                      END AS icon_url
+               FROM search_index s
+               LEFT JOIN entity_names_en en
+                 ON en.entity_type = s.entity_type
+                AND en.entity_id = s.entity_id
+                AND en.source = 'kms'
                WHERE search_index MATCH ?
+                 AND NOT (s.entity_type = 'mob'
+                          AND EXISTS (SELECT 1 FROM mobs WHERE id = s.entity_id AND COALESCE(is_hidden,0)=1))
                ORDER BY rank
                LIMIT ?""",
             [fts_query, limit],
         ).fetchall()
-
-        # 숨김 처리된 몬스터 ID 집합
-        hidden_mob_ids = {r[0] for r in conn.execute(
-            "SELECT id FROM mobs WHERE COALESCE(is_hidden,0)=1"
-        ).fetchall()}
 
         seen = set()
         for row in fts_rows:
             key = (row["entity_type"], row["entity_id"])
             if key in seen:
                 continue
-            # 숨김 몹 제외
-            if row["entity_type"] == "mob" and row["entity_id"] in hidden_mob_ids:
-                continue
             seen.add(key)
             suggestions.append({
                 "entity_type": row["entity_type"],
                 "entity_id": row["entity_id"],
                 "name": row["name"],
-                "name_kr": None,
-                "icon_url": None,
+                "name_kr": row["name_kr"],
+                "icon_url": row["icon_url"],
             })
-
-        # Enrich with KMS names and icon_url
-        for s in suggestions:
-            etype = s["entity_type"]
-            eid = s["entity_id"]
-            # KMS name
-            kr_row = conn.execute(
-                "SELECT name_en FROM entity_names_en WHERE entity_type = ? AND entity_id = ? AND source = 'kms' LIMIT 1",
-                [etype, eid],
-            ).fetchone()
-            if kr_row:
-                s["name_kr"] = kr_row["name_en"]
-            # icon_url
-            table = {"item": "items", "mob": "mobs", "npc": "npcs"}.get(etype)
-            if table:
-                icon_row = conn.execute(
-                    f"SELECT icon_url FROM {table} WHERE id = ? LIMIT 1", [eid]
-                ).fetchone()
-                if icon_row:
-                    s["icon_url"] = icon_row["icon_url"]
 
         # Fallback: LIKE on entity_names_en if not enough results
         if len(suggestions) < limit:

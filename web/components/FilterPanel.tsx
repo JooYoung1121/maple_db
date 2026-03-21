@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 
 export interface SortOption {
   value: string;
@@ -22,6 +22,59 @@ interface Props {
   sortOptions?: SortOption[];
   sortValue?: string;
   onSortChange?: (value: string) => void;
+}
+
+/** text/number 입력용 debounced input */
+function DebouncedInput({
+  value,
+  onChange,
+  type,
+  placeholder,
+  className,
+  delay = 400,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  type: string;
+  placeholder?: string;
+  className?: string;
+  delay?: number;
+}) {
+  const [local, setLocal] = useState(value);
+  const timer = useRef<ReturnType<typeof setTimeout>>(null);
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
+
+  // 외부 value가 바뀌면 local 동기화 (뒤로가기 등)
+  useEffect(() => {
+    setLocal(value);
+  }, [value]);
+
+  const handleChange = useCallback(
+    (v: string) => {
+      setLocal(v);
+      if (timer.current) clearTimeout(timer.current);
+      timer.current = setTimeout(() => onChangeRef.current(v), delay);
+    },
+    [delay]
+  );
+
+  // 언마운트 시 pending timer flush
+  useEffect(() => {
+    return () => {
+      if (timer.current) clearTimeout(timer.current);
+    };
+  }, []);
+
+  return (
+    <input
+      type={type}
+      value={local}
+      onChange={(e) => handleChange(e.target.value)}
+      placeholder={placeholder}
+      className={className}
+    />
+  );
 }
 
 export default function FilterPanel({ filters, values, onChange, sortOptions, sortValue, onSortChange }: Props) {
@@ -92,10 +145,10 @@ export default function FilterPanel({ filters, values, onChange, sortOptions, so
                   <span className="text-sm text-gray-600">{f.placeholder || "예"}</span>
                 </label>
               ) : (
-                <input
+                <DebouncedInput
                   type={f.type}
                   value={values[f.key] || ""}
-                  onChange={(e) => update(f.key, e.target.value)}
+                  onChange={(v) => update(f.key, v)}
                   placeholder={f.placeholder}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
                 />
