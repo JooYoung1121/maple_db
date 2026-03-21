@@ -463,14 +463,17 @@ def _save_mob_detail(conn: sqlite3.Connection, eid: int, data: dict, now: str) -
     magic_defense = meta.get("magicDefense") or meta.get("MDDamage", 0) or 0
     speed = meta.get("speed", 0) or 0
     is_undead = 1 if meta.get("isUndead") or meta.get("undead") else 0
-    is_boss = 1 if meta.get("boss") else 0
+    is_boss_api = 1 if meta.get("boss") else 0
 
+    # is_boss: API가 1이면 설정, 아니면 기존 값 유지 (블로그 파싱 결과 보존)
     conn.execute(
         """UPDATE mobs SET level=?, hp=?, mp=?, exp=?, defense=?, accuracy=?, evasion=?,
            physical_damage=?, magic_damage=?, magic_defense=?,
-           speed=?, is_undead=?, is_boss=?, last_crawled_at=? WHERE id=?""",
+           speed=?, is_undead=?,
+           is_boss = CASE WHEN ? = 1 THEN 1 ELSE is_boss END,
+           last_crawled_at=? WHERE id=?""",
         (level, hp, mp, exp, defense, accuracy, evasion,
-         physical_damage, magic_damage, magic_defense, speed, is_undead, is_boss, now, eid),
+         physical_damage, magic_damage, magic_defense, speed, is_undead, is_boss_api, now, eid),
     )
 
     found_at = data.get("foundAt", [])

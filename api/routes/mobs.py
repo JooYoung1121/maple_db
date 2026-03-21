@@ -14,14 +14,14 @@ def mob_filters():
     except Exception:
         return {"level_ranges": [], "boss_count": 0}
     try:
-        boss_count = conn.execute("SELECT COUNT(*) FROM mobs WHERE is_boss=1").fetchone()[0]
-        max_level = conn.execute("SELECT MAX(level) FROM mobs").fetchone()[0] or 200
+        boss_count = conn.execute("SELECT COUNT(*) FROM mobs WHERE is_boss=1 AND (level > 0 OR hp > 0)").fetchone()[0]
+        max_level = conn.execute("SELECT MAX(level) FROM mobs WHERE level > 0 OR hp > 0").fetchone()[0] or 200
         ranges = []
         step = 10
         for start in range(0, max_level + 1, step):
             end = start + step - 1
             cnt = conn.execute(
-                "SELECT COUNT(*) FROM mobs WHERE level >= ? AND level <= ?", (start, end)
+                "SELECT COUNT(*) FROM mobs WHERE level >= ? AND level <= ? AND (level > 0 OR hp > 0)", (start, end)
             ).fetchone()[0]
             if cnt > 0:
                 ranges.append({"min": start, "max": end, "count": cnt})
@@ -43,6 +43,9 @@ def list_mobs(
     offset = (page - 1) * per_page
     conditions = []
     params: list = []
+
+    # 빈 데이터 몬스터 제외 (이벤트/퀘스트용 복제 몹)
+    conditions.append("(level > 0 OR hp > 0)")
 
     if level_min is not None:
         conditions.append("level >= ?")

@@ -53,6 +53,7 @@ ALL_CRAWL_TYPES = ENTITY_TYPES + [
     # Phase 1: blog parsers
     "blog-drops",
     "blog-monsters",
+    "blog-monster-info",
     "blog-skills",
     "blog-all",
     # Phase 2: detail API crawler
@@ -374,6 +375,15 @@ def crawl(entity_type: str | None, crawl_all: bool, force: bool):
             print("[blog-monsters] 블로그 몬스터 정보 파싱 중...")
             result = parse_blog_monsters(conn)
             print(f"[blog-monsters] 완료: 스폰 {result['spawns_added']}건, 드롭 {result['drops_added']}건, 포스트 {result['posts_parsed']}건")
+        elif t == "blog-monster-info":
+            from .parsers.blog_monster_info import parse_blog_monster_info
+            print("[blog-monster-info] 블로그 몬스터/보스 전용 파싱 중...")
+            result = parse_blog_monster_info(conn)
+            print(f"[blog-monster-info] 완료: 매칭 {result['mobs_matched']}건, 업데이트 {result['mobs_updated']}건, "
+                  f"보스 {result['bosses_found']}건, 스폰 {result['spawns_added']}건, 드롭 {result['drops_added']}건")
+            if result.get("unmatched"):
+                unique = list(dict.fromkeys(result["unmatched"]))[:30]
+                print(f"[blog-monster-info] 미매칭 ({len(unique)}건): {', '.join(unique)}")
         elif t == "blog-skills":
             from .parsers.blog_skills import parse_blog_skills
             print("[blog-skills] 블로그 스킬 데이터 파싱 중...")
@@ -381,8 +391,12 @@ def crawl(entity_type: str | None, crawl_all: bool, force: bool):
             print(f"[blog-skills] 완료: 스킬 {result['skills_added']}건, 포스트 {result['posts_parsed']}건")
         elif t == "blog-all":
             from .parsers.blog_drops import parse_blog_drops
+            from .parsers.blog_monster_info import parse_blog_monster_info
             from .parsers.blog_monsters import parse_blog_monsters
             from .parsers.blog_skills import parse_blog_skills
+            print("[blog-all] 블로그 몬스터/보스 전용 파싱 중...")
+            r = parse_blog_monster_info(conn)
+            print(f"[blog-all] 몬스터/보스: 매칭 {r['mobs_matched']}건, 보스 {r['bosses_found']}건, 스폰 {r['spawns_added']}건, 드롭 {r['drops_added']}건")
             print("[blog-all] 블로그 드롭 데이터 파싱 중...")
             r = parse_blog_drops(conn)
             print(f"[blog-all] 드롭: {r['drops_added']}건, 스폰: {r['spawns_added']}건, 보스: {r['bosses_updated']}건")
