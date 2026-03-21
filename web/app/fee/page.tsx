@@ -62,12 +62,48 @@ interface SplitResult {
   feeRate: number;
 }
 
+// 사용자가 선택 가능한 분할 단위
+const SPLIT_OPTIONS = [
+  { maxChunk: 99_999_999, label: "9999만 (1억 미만)" },
+  { maxChunk: 24_999_999, label: "2499만 (2500만 미만)" },
+  { maxChunk: 9_999_999, label: "999만 (1000만 미만)" },
+  { maxChunk: 4_999_999, label: "499만 (500만 미만)" },
+  { maxChunk: 999_999, label: "99만 (100만 미만)" },
+  { maxChunk: 99_999, label: "9만 (10만 미만)" },
+];
+
+function calcSplitWithChunk(amount: number, type: TradeType, maxChunk: number): SplitResult {
+  if (type === "direct") {
+    return { chunks: [amount], totalFee: 0, feeRate: 0 };
+  }
+  if (maxChunk >= amount) {
+    const fee = calcFee(amount, type);
+    return { chunks: [amount], totalFee: fee, feeRate: fee / amount };
+  }
+
+  const fullChunks = Math.floor(amount / maxChunk);
+  const remainder = amount - fullChunks * maxChunk;
+
+  const chunks: number[] = [];
+  let totalFee = 0;
+
+  for (let i = 0; i < fullChunks; i++) {
+    chunks.push(maxChunk);
+    totalFee += calcFee(maxChunk, type);
+  }
+  if (remainder > 0) {
+    chunks.push(remainder);
+    totalFee += calcFee(remainder, type);
+  }
+
+  return { chunks, totalFee, feeRate: totalFee / amount };
+}
+
 function calcOptimalSplit(amount: number, type: TradeType): SplitResult {
   if (type === "direct") {
     return { chunks: [amount], totalFee: 0, feeRate: 0 };
   }
 
-  // 분할 안 했을 때
   const noSplitFee = calcFee(amount, type);
   let best: SplitResult = {
     chunks: [amount],
@@ -75,27 +111,11 @@ function calcOptimalSplit(amount: number, type: TradeType): SplitResult {
     feeRate: noSplitFee / amount,
   };
 
-  // 각 경계값으로 분할 시도
   for (const { maxChunk } of SPLIT_BOUNDARIES) {
-    if (maxChunk >= amount) continue; // 분할 필요 없음
-
-    const fullChunks = Math.floor(amount / maxChunk);
-    const remainder = amount - fullChunks * maxChunk;
-
-    const chunks: number[] = [];
-    let totalFee = 0;
-
-    for (let i = 0; i < fullChunks; i++) {
-      chunks.push(maxChunk);
-      totalFee += calcFee(maxChunk, type);
-    }
-    if (remainder > 0) {
-      chunks.push(remainder);
-      totalFee += calcFee(remainder, type);
-    }
-
-    if (totalFee < best.totalFee) {
-      best = { chunks, totalFee, feeRate: totalFee / amount };
+    if (maxChunk >= amount) continue;
+    const result = calcSplitWithChunk(amount, type, maxChunk);
+    if (result.totalFee < best.totalFee) {
+      best = result;
     }
   }
 
@@ -271,6 +291,8 @@ function FeeTable({
 function SplitTab() {
   const [amount, setAmount] = useState("");
   const [tradeType, setTradeType] = useState<TradeType>("normal");
+  const [splitMode, setSplitMode] = useState<"auto" | "manual">("auto");
+  const [manualChunk, setManualChunk] = useState(4_999_999);
 
   const price = parseMeso(amount);
 
@@ -282,8 +304,11 @@ function SplitTab() {
 
   const optimal = useMemo(() => {
     if (price <= 0) return null;
+    if (splitMode === "manual") {
+      return calcSplitWithChunk(price, tradeType, manualChunk);
+    }
     return calcOptimalSplit(price, tradeType);
-  }, [price, tradeType]);
+  }, [price, tradeType, splitMode, manualChunk]);
 
   const savings = noSplit && optimal ? noSplit.fee - optimal.totalFee : 0;
 
@@ -322,6 +347,50 @@ function SplitTab() {
               ))}
             </div>
           </div>
+        </div>
+
+        {/* 분할 단위 선택 */}
+        <div className="mt-4">
+          <label className="block text-xs font-medium text-gray-500 mb-2">분할 방식</label>
+          <div className="flex gap-2 mb-2">
+            <button
+              onClick={() => setSplitMode("auto")}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                splitMode === "auto"
+                  ? "bg-orange-500 text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
+            >
+              자동 최적화
+            </button>
+            <button
+              onClick={() => setSplitMode("manual")}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                splitMode === "manual"
+                  ? "bg-orange-500 text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
+            >
+              직접 선택
+            </button>
+          </div>
+          {splitMode === "manual" && (
+            <div className="flex gap-1 flex-wrap">
+              {SPLIT_OPTIONS.map((opt) => (
+                <button
+                  key={opt.maxChunk}
+                  onClick={() => setManualChunk(opt.maxChunk)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                    manualChunk === opt.maxChunk
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
