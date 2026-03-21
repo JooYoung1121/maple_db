@@ -150,6 +150,19 @@ CREATE TABLE IF NOT EXISTS skills (
     source_post_url TEXT,
     UNIQUE(job_class, skill_name)
 );
+
+CREATE TABLE IF NOT EXISTS bimae_posts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nickname TEXT NOT NULL,
+    job_class TEXT,
+    level INTEGER,
+    reason TEXT,
+    image_url TEXT,
+    author TEXT DEFAULT '익명',
+    created_at TEXT DEFAULT (datetime('now')),
+    upvotes INTEGER DEFAULT 0,
+    downvotes INTEGER DEFAULT 0
+);
 """
 
 FTS_SCHEMA = """

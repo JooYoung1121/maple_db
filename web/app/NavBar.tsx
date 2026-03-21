@@ -13,6 +13,7 @@ const links = [
   { href: "/npcs", label: "NPC" },
   { href: "/quests", label: "퀘스트" },
   { href: "/skills", label: "스킬" },
+  { href: "/bimae", label: "비매박제" },
 ];
 
 export default function NavBar() {
