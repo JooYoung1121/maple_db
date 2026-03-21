@@ -31,11 +31,12 @@ def cleanup_mobs(conn: sqlite3.Connection) -> dict:
     stats["empty_hidden"] = cur.rowcount
 
     # 3) 정확한 복제본 숨김: 같은 이름+레벨+HP인 9M+ 몹 중,
-    #    <9M 정규 몹이 존재하면 9M+ 쪽을 숨김
+    #    <9M 정규 몹이 존재하면 9M+ 쪽을 숨김 (보스 제외)
     cur = conn.execute("""
         UPDATE mobs SET is_hidden = 1
         WHERE id >= 9000000
           AND is_hidden = 0
+          AND is_boss = 0
           AND EXISTS (
             SELECT 1 FROM mobs m2
             WHERE m2.id < 9000000
@@ -47,11 +48,12 @@ def cleanup_mobs(conn: sqlite3.Connection) -> dict:
     """)
     stats["exact_dupe_hidden"] = cur.rowcount
 
-    # 4) 이름+레벨만 같은 9M+ 복제본도 숨김 (HP가 약간 달라도)
+    # 4) 이름+레벨만 같은 9M+ 복제본도 숨김 (보스 제외)
     cur = conn.execute("""
         UPDATE mobs SET is_hidden = 1
         WHERE id >= 9000000
           AND is_hidden = 0
+          AND is_boss = 0
           AND EXISTS (
             SELECT 1 FROM mobs m2
             WHERE m2.id < 9000000
@@ -63,12 +65,12 @@ def cleanup_mobs(conn: sqlite3.Connection) -> dict:
     """)
     stats["exact_dupe_hidden"] += cur.rowcount
 
-    # 5) 9M+ only 그룹 중 같은 이름+레벨 중복 → 가장 작은 ID만 남기기
-    #    (같은 이름+레벨의 9M+ 몹이 여러 개일 때 1개만 노출)
+    # 5) 9M+ only 그룹 중 같은 이름+레벨 중복 → 가장 작은 ID만 남기기 (보스 제외)
     cur = conn.execute("""
         UPDATE mobs SET is_hidden = 1
         WHERE id >= 9000000
           AND is_hidden = 0
+          AND is_boss = 0
           AND id NOT IN (
             SELECT MIN(id) FROM mobs
             WHERE id >= 9000000 AND is_hidden = 0
@@ -83,10 +85,11 @@ def cleanup_mobs(conn: sqlite3.Connection) -> dict:
     """)
     stats["variant_hidden"] = cur.rowcount
 
-    # 6) 같은 이름+같은 레벨인 남은 중복 → 가장 작은 ID만 남기기
+    # 6) 같은 이름+같은 레벨인 남은 중복 → 가장 작은 ID만 남기기 (보스 제외)
     cur = conn.execute("""
         UPDATE mobs SET is_hidden = 1
         WHERE is_hidden = 0
+          AND is_boss = 0
           AND id NOT IN (
             SELECT MIN(id) FROM mobs
             WHERE is_hidden = 0
@@ -100,11 +103,11 @@ def cleanup_mobs(conn: sqlite3.Connection) -> dict:
           )
     """)
 
-    # 7) 같은 이름+다른 레벨 변형 → 대표 1개(가장 낮은 ID)만 남기기
-    #    (Witch Bear x10, Balrog x6 등 레벨별 변형)
+    # 7) 같은 이름+다른 레벨 변형 → 대표 1개만 남기기 (보스 제외)
     cur2 = conn.execute("""
         UPDATE mobs SET is_hidden = 1
         WHERE is_hidden = 0
+          AND is_boss = 0
           AND id NOT IN (
             SELECT MIN(id) FROM mobs
             WHERE is_hidden = 0
@@ -115,6 +118,17 @@ def cleanup_mobs(conn: sqlite3.Connection) -> dict:
             WHERE is_hidden = 0
             GROUP BY name
             HAVING COUNT(*) > 1
+          )
+    """)
+    stats["variant_hidden"] += cur.rowcount
+
+    # 8) 보스와 동명의 일반 몹 → 보스 버전만 남기기
+    cur = conn.execute("""
+        UPDATE mobs SET is_hidden = 1
+        WHERE is_hidden = 0
+          AND is_boss = 0
+          AND name IN (
+            SELECT name FROM mobs WHERE is_boss = 1 AND is_hidden = 0
           )
     """)
     stats["variant_hidden"] += cur.rowcount
