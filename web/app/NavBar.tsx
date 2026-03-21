@@ -13,6 +13,9 @@ const links = [
   { href: "/npcs", label: "NPC" },
   { href: "/quests", label: "퀘스트" },
   { href: "/skills", label: "스킬" },
+  { href: "/scroll", label: "주문서 계산기" },
+  { href: "/fee", label: "수수료 계산기" },
+  { href: "/exp", label: "경험치 계산기" },
   { href: "/bimae", label: "비매박제" },
 ];
 
