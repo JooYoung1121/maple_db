@@ -61,7 +61,7 @@ def list_items(
     sort: Optional[str] = Query(default=None),
 ):
     offset = (page - 1) * per_page
-    conditions = []
+    conditions = ["COALESCE(is_hidden, 0) = 0"]
     params: list = []
 
     if category:

@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getMobs } from "@/lib/api";
 import type { Mob } from "@/lib/types";
 import DataTable, { Column } from "@/components/DataTable";
 import Pagination from "@/components/Pagination";
 import FilterPanel, { FilterDef, SortOption } from "@/components/FilterPanel";
+import { useQueryState } from "@/lib/useQueryState";
 
 
 interface MobRow extends Mob {
@@ -28,23 +29,21 @@ const filters: FilterDef[] = [
   { key: "is_boss", label: "보스만", type: "toggle", placeholder: "보스 몬스터만 보기" },
 ];
 
-export default function MobsPage() {
+const sortOptions: SortOption[] = [
+  { value: "", label: "레벨 낮은순" },
+  { value: "level_desc", label: "레벨 높은순" },
+  { value: "hp_desc", label: "HP 높은순" },
+  { value: "exp_desc", label: "경험치 높은순" },
+  { value: "name_asc", label: "이름순" },
+];
+
+function MobsPageContent() {
   const router = useRouter();
+  const { filterValues, page, sortValue, setFilterValues, setPage, setSortValue } = useQueryState();
   const [mobs, setMobs] = useState<MobRow[]>([]);
   const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(1);
-  const [filterValues, setFilterValues] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
-  const [sortValue, setSortValue] = useState("");
   const perPage = 30;
-
-  const sortOptions: SortOption[] = [
-    { value: "", label: "레벨 낮은순" },
-    { value: "level_desc", label: "레벨 높은순" },
-    { value: "hp_desc", label: "HP 높은순" },
-    { value: "exp_desc", label: "경험치 높은순" },
-    { value: "name_asc", label: "이름순" },
-  ];
 
   useEffect(() => {
     setLoading(true);
@@ -60,7 +59,7 @@ export default function MobsPage() {
         <h1 className="text-2xl font-bold">몬스터</h1>
 
       </div>
-      <FilterPanel filters={filters} values={filterValues} onChange={(v) => { setFilterValues(v); setPage(1); }} sortOptions={sortOptions} sortValue={sortValue} onSortChange={(v) => { setSortValue(v); setPage(1); }} />
+      <FilterPanel filters={filters} values={filterValues} onChange={setFilterValues} sortOptions={sortOptions} sortValue={sortValue} onSortChange={setSortValue} />
       <div className="mt-4">
         {loading ? (
           <div className="text-center py-12 text-gray-400">로딩 중...</div>
@@ -73,5 +72,13 @@ export default function MobsPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function MobsPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-12 text-gray-400">로딩 중...</div>}>
+      <MobsPageContent />
+    </Suspense>
   );
 }

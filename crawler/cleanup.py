@@ -146,6 +146,30 @@ def cleanup_mobs(conn: sqlite3.Connection) -> dict:
     return stats
 
 
+def cleanup_items(conn: sqlite3.Connection) -> dict:
+    """아이템 데이터 정리. 같은 이름 중복 → 대표 1개만 노출."""
+    stats = {"total_hidden": 0, "visible": 0}
+
+    migrate_db(conn)
+    conn.execute("UPDATE items SET is_hidden = 0")
+
+    # 같은 이름 중복 → 가장 낮은 ID만 남기기
+    conn.execute("""
+        UPDATE items SET is_hidden = 1
+        WHERE id NOT IN (
+            SELECT MIN(id) FROM items GROUP BY name
+        )
+        AND name IN (
+            SELECT name FROM items GROUP BY name HAVING COUNT(*) > 1
+        )
+    """)
+
+    conn.commit()
+    stats["total_hidden"] = conn.execute("SELECT COUNT(*) FROM items WHERE is_hidden=1").fetchone()[0]
+    stats["visible"] = conn.execute("SELECT COUNT(*) FROM items WHERE is_hidden=0").fetchone()[0]
+    return stats
+
+
 def print_cleanup_report(conn: sqlite3.Connection) -> None:
     """정리 후 보고서 출력."""
     total = conn.execute("SELECT COUNT(*) FROM mobs").fetchone()[0]

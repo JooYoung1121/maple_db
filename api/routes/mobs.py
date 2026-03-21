@@ -76,9 +76,9 @@ def list_mobs(
             "level_desc": "level DESC",
             "hp_desc": "hp DESC",
             "exp_desc": "exp DESC",
-            "name_asc": "name ASC",
+            "name_asc": "COALESCE((SELECT name_en FROM entity_names_en WHERE entity_type='mob' AND entity_id=mobs.id AND source='kms'), name) ASC",
         }
-        order = valid_sorts.get(sort or "", "level")
+        order = valid_sorts.get(sort or "", "level ASC")
         total = conn.execute(f"SELECT COUNT(*) FROM mobs {where}", params).fetchone()[0]
         rows = conn.execute(
             f"SELECT * FROM mobs {where} ORDER BY {order} LIMIT ? OFFSET ?",
@@ -188,14 +188,19 @@ def get_mob(mob_id: int):
         ).fetchall()
         mob["names_en"] = [dict(r) for r in en_rows]
 
-        # Items dropped by this mob
+        # Items dropped by this mob (한국어 이름 포함)
         drop_rows = conn.execute(
             """
-            SELECT i.id, i.name, i.category, md.drop_rate
+            SELECT i.id, i.name, i.category, md.drop_rate,
+                   (SELECT name_en FROM entity_names_en
+                    WHERE entity_type='item' AND entity_id=i.id AND source='kms') as name_kr
             FROM mob_drops md
             JOIN items i ON i.id = md.item_id
             WHERE md.mob_id = ?
-            ORDER BY i.name
+            ORDER BY COALESCE(
+                (SELECT name_en FROM entity_names_en WHERE entity_type='item' AND entity_id=i.id AND source='kms'),
+                i.name
+            )
             """,
             (mob_id,),
         ).fetchall()

@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getBosses } from "@/lib/api";
 import type { Boss } from "@/lib/types";
 import DataTable, { Column } from "@/components/DataTable";
 import Pagination from "@/components/Pagination";
 import FilterPanel, { FilterDef } from "@/components/FilterPanel";
+import { useQueryState } from "@/lib/useQueryState";
 
 interface BossRow extends Boss {
   name_kr?: string | null;
@@ -27,12 +28,11 @@ const filters: FilterDef[] = [
   { key: "level_max", label: "최대 레벨", type: "number", placeholder: "200" },
 ];
 
-export default function BossesPage() {
+function BossesPageContent() {
   const router = useRouter();
+  const { filterValues, page, setFilterValues, setPage } = useQueryState();
   const [bosses, setBosses] = useState<BossRow[]>([]);
   const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(1);
-  const [filterValues, setFilterValues] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const perPage = 30;
 
@@ -49,7 +49,7 @@ export default function BossesPage() {
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">보스 몬스터</h1>
       </div>
-      <FilterPanel filters={filters} values={filterValues} onChange={(v) => { setFilterValues(v); setPage(1); }} />
+      <FilterPanel filters={filters} values={filterValues} onChange={setFilterValues} />
       <div className="mt-4">
         {loading ? (
           <div className="text-center py-12 text-gray-400">로딩 중...</div>
@@ -62,5 +62,13 @@ export default function BossesPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function BossesPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-12 text-gray-400">로딩 중...</div>}>
+      <BossesPageContent />
+    </Suspense>
   );
 }

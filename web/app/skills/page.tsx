@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getSkills } from "@/lib/api";
 import type { Skill } from "@/lib/types";
 import DataTable, { Column } from "@/components/DataTable";
 import Pagination from "@/components/Pagination";
 import FilterPanel, { FilterDef } from "@/components/FilterPanel";
+import { useQueryState } from "@/lib/useQueryState";
 
 const JOB_TABS = ["전체", "전사", "마법사", "궁수", "도적", "해적"];
 
@@ -18,27 +19,35 @@ const columns: Column<Skill>[] = [
   { key: "skill_type", label: "타입", render: (r) => r.skill_type === "passive" ? "패시브" : "액티브" },
 ];
 
-export default function SkillsPage() {
+function SkillsPageContent() {
   const router = useRouter();
+  const { filterValues, page, setFilterValues, setPage } = useQueryState();
   const [skills, setSkills] = useState<Skill[]>([]);
   const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(1);
-  const [activeTab, setActiveTab] = useState("전체");
-  const [filterValues, setFilterValues] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const perPage = 30;
+
+  // job_class는 filterValues에서 관리 (URL 동기화)
+  const activeTab = filterValues.job_class || "전체";
+
+  const setActiveTab = (tab: string) => {
+    const newFilters = { ...filterValues };
+    if (tab === "전체") {
+      delete newFilters.job_class;
+    } else {
+      newFilters.job_class = tab;
+    }
+    setFilterValues(newFilters);
+  };
 
   useEffect(() => {
     setLoading(true);
     const params: Record<string, string | number> = { page, per_page: perPage, ...filterValues };
-    if (activeTab !== "전체") {
-      params.job_class = activeTab;
-    }
     getSkills(params as Parameters<typeof getSkills>[0])
       .then((d) => { setSkills(d.skills); setTotal(d.total); })
       .catch(() => setSkills([]))
       .finally(() => setLoading(false));
-  }, [page, filterValues, activeTab]);
+  }, [page, filterValues]);
 
   const filters: FilterDef[] = [
     { key: "q", label: "스킬 검색", type: "text", placeholder: "스킬 이름" },
@@ -58,7 +67,7 @@ export default function SkillsPage() {
         {JOB_TABS.map((tab) => (
           <button
             key={tab}
-            onClick={() => { setActiveTab(tab); setPage(1); }}
+            onClick={() => setActiveTab(tab)}
             className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
               activeTab === tab
                 ? "bg-orange-500 text-white"
@@ -69,7 +78,7 @@ export default function SkillsPage() {
           </button>
         ))}
       </div>
-      <FilterPanel filters={filters} values={filterValues} onChange={(v) => { setFilterValues(v); setPage(1); }} />
+      <FilterPanel filters={filters} values={filterValues} onChange={setFilterValues} />
       <div className="mt-4">
         {loading ? (
           <div className="text-center py-12 text-gray-400">로딩 중...</div>
@@ -82,5 +91,13 @@ export default function SkillsPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function SkillsPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-12 text-gray-400">로딩 중...</div>}>
+      <SkillsPageContent />
+    </Suspense>
   );
 }

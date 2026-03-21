@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getMaps, getMapFilters } from "@/lib/api";
 import type { MapData } from "@/lib/types";
 import DataTable, { Column } from "@/components/DataTable";
 import Pagination from "@/components/Pagination";
 import FilterPanel, { FilterDef } from "@/components/FilterPanel";
+import { useQueryState } from "@/lib/useQueryState";
 
 
 const columns: Column<MapData>[] = [
@@ -16,12 +17,11 @@ const columns: Column<MapData>[] = [
   { key: "is_town", label: "마을", render: (r) => r.is_town ? "Y" : "" },
 ];
 
-export default function MapsPage() {
+function MapsPageContent() {
   const router = useRouter();
+  const { filterValues, page, setFilterValues, setPage } = useQueryState();
   const [maps, setMaps] = useState<MapData[]>([]);
   const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(1);
-  const [filterValues, setFilterValues] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [areaOptions, setAreaOptions] = useState<{ value: string; label: string }[]>([]);
   const perPage = 30;
@@ -54,7 +54,7 @@ export default function MapsPage() {
         <h1 className="text-2xl font-bold">맵</h1>
 
       </div>
-      <FilterPanel filters={filters} values={filterValues} onChange={(v) => { setFilterValues(v); setPage(1); }} />
+      <FilterPanel filters={filters} values={filterValues} onChange={setFilterValues} />
       <div className="mt-4">
         {loading ? (
           <div className="text-center py-12 text-gray-400">로딩 중...</div>
@@ -67,5 +67,13 @@ export default function MapsPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function MapsPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-12 text-gray-400">로딩 중...</div>}>
+      <MapsPageContent />
+    </Suspense>
   );
 }

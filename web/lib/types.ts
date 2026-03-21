@@ -43,6 +43,7 @@ export interface Mob {
 export interface MobDrop {
   id: number;
   name: string;
+  name_kr?: string | null;
   category?: string | null;
   drop_rate: number | null;
 }

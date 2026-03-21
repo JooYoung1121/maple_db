@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getQuests } from "@/lib/api";
 import type { Quest } from "@/lib/types";
 import DataTable, { Column } from "@/components/DataTable";
 import Pagination from "@/components/Pagination";
 import FilterPanel, { FilterDef } from "@/components/FilterPanel";
+import { useQueryState } from "@/lib/useQueryState";
 
 
 const columns: Column<Quest>[] = [
@@ -22,12 +23,11 @@ const filters: FilterDef[] = [
   { key: "level_max", label: "최대 레벨", type: "number", placeholder: "200" },
 ];
 
-export default function QuestsPage() {
+function QuestsPageContent() {
   const router = useRouter();
+  const { filterValues, page, setFilterValues, setPage } = useQueryState();
   const [quests, setQuests] = useState<Quest[]>([]);
   const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(1);
-  const [filterValues, setFilterValues] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const perPage = 30;
 
@@ -45,7 +45,7 @@ export default function QuestsPage() {
         <h1 className="text-2xl font-bold">퀘스트</h1>
 
       </div>
-      <FilterPanel filters={filters} values={filterValues} onChange={(v) => { setFilterValues(v); setPage(1); }} />
+      <FilterPanel filters={filters} values={filterValues} onChange={setFilterValues} />
       <div className="mt-4">
         {loading ? (
           <div className="text-center py-12 text-gray-400">로딩 중...</div>
@@ -58,5 +58,13 @@ export default function QuestsPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function QuestsPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-12 text-gray-400">로딩 중...</div>}>
+      <QuestsPageContent />
+    </Suspense>
   );
 }

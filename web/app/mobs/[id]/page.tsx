@@ -75,7 +75,7 @@ export default function MobDetailPage() {
             {drops.map((d) => (
               <Link key={d.id} href={`/items/${d.id}`} className="flex items-center justify-between px-4 py-3 hover:bg-orange-50">
                 <div className="flex items-center gap-2">
-                  <span className="font-medium">{d.name}</span>
+                  <span className="font-medium">{d.name_kr || d.name}</span>
                   {d.category && <span className="text-xs text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">{d.category}</span>}
                 </div>
                 {d.drop_rate != null && <span className="text-sm text-gray-400">{(d.drop_rate * 100).toFixed(2)}%</span>}

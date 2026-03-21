@@ -28,7 +28,7 @@ export default function NavBar() {
     <nav className="bg-white border-b border-gray-200 sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-14">
         <Link href="/" className="text-xl font-bold text-orange-500">
-          추억길드 메랜 정보
+          추억길드 전용 메랜 정보 사이트
         </Link>
 
         {/* Desktop */}

@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getNpcs } from "@/lib/api";
 import type { Npc } from "@/lib/types";
 import DataTable, { Column } from "@/components/DataTable";
 import Pagination from "@/components/Pagination";
 import FilterPanel, { FilterDef } from "@/components/FilterPanel";
+import { useQueryState } from "@/lib/useQueryState";
 
 
 const columns: Column<Npc>[] = [
@@ -20,12 +21,11 @@ const filters: FilterDef[] = [
   { key: "is_shop", label: "상점만", type: "toggle", placeholder: "상점 NPC만 보기" },
 ];
 
-export default function NpcsPage() {
+function NpcsPageContent() {
   const router = useRouter();
+  const { filterValues, page, setFilterValues, setPage } = useQueryState();
   const [npcs, setNpcs] = useState<Npc[]>([]);
   const [total, setTotal] = useState(0);
-  const [page, setPage] = useState(1);
-  const [filterValues, setFilterValues] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const perPage = 30;
 
@@ -43,7 +43,7 @@ export default function NpcsPage() {
         <h1 className="text-2xl font-bold">NPC</h1>
 
       </div>
-      <FilterPanel filters={filters} values={filterValues} onChange={(v) => { setFilterValues(v); setPage(1); }} />
+      <FilterPanel filters={filters} values={filterValues} onChange={setFilterValues} />
       <div className="mt-4">
         {loading ? (
           <div className="text-center py-12 text-gray-400">로딩 중...</div>
@@ -56,5 +56,13 @@ export default function NpcsPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function NpcsPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-12 text-gray-400">로딩 중...</div>}>
+      <NpcsPageContent />
+    </Suspense>
   );
 }
