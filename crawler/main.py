@@ -465,6 +465,24 @@ def reindex():
     print("완료.")
 
 
+@cli.command("name-match")
+def name_match():
+    """블로그 한국어 몬스터명 → DB 영문 몬스터 매칭."""
+    from .parsers.name_matcher import match_korean_names
+    conn = init_db()
+    print("[name-match] 한국어 이름 매칭 중...")
+    result = match_korean_names(conn)
+    print(f"[name-match] 블로그 몬스터: {result['blog_monsters_found']}건")
+    print(f"[name-match] 레벨+HP 매칭: {result['matched_by_level_hp']}건")
+    print(f"[name-match] 수동 매칭: {result['matched_manual']}건")
+    print(f"[name-match] 이미 있음: {result['already_has_name']}건")
+    print(f"[name-match] 총 추가: {result['names_added']}건")
+    if result["no_match"]:
+        print(f"[name-match] 미매칭 ({len(result['no_match'])}건):")
+        for nm in result["no_match"][:20]:
+            print(f"  {nm}")
+
+
 @cli.command()
 def cleanup():
     """몬스터 데이터 품질 정리 (중복/빈 데이터 숨김)."""
