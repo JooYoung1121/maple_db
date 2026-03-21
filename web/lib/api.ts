@@ -117,3 +117,43 @@ export async function getItemFilters() {
 export function getExportUrl(type: string) {
   return `${API_BASE}/api/export?type=${type}&format=xlsx`;
 }
+
+export async function getAdminStats() {
+  return fetchJSON<{
+    total_mobs: number;
+    hidden_count: number;
+    visible_count: number;
+    boss_count: number;
+    drop_count: number;
+    spawn_count: number;
+    no_kr_name: number;
+  }>(`/api/admin/stats`);
+}
+
+export async function getAdminMobs(params: {
+  page?: number;
+  per_page?: number;
+  q?: string;
+  is_hidden?: string;
+  is_boss?: string;
+} = {}) {
+  return fetchJSON<{ mobs: import("./types").AdminMob[]; total: number; page: number; per_page: number }>(
+    `/api/admin/mobs?${qs(params as Record<string, string | number>)}`
+  );
+}
+
+export async function patchAdminMob(id: number, body: { is_hidden?: number; is_boss?: number; name_kr?: string }) {
+  const res = await fetch(`${API_BASE}/api/admin/mobs/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  return res.json();
+}
+
+export async function deleteAdminMob(id: number) {
+  const res = await fetch(`${API_BASE}/api/admin/mobs/${id}`, { method: "DELETE" });
+  if (!res.ok) throw new Error(`API error: ${res.status}`);
+  return res.json();
+}

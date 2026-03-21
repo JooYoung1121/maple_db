@@ -143,6 +143,12 @@ export interface SearchSuggestion {
   icon_url: string | null;
 }
 
+export interface AdminMob extends Mob {
+  is_hidden: number;
+  drop_count: number;
+  spawn_count: number;
+}
+
 export interface PaginatedResponse<T> {
   items: T[];
   total: number;
