@@ -17,7 +17,15 @@ interface BimaePost {
   downvotes: number;
 }
 
-const JOB_OPTIONS = ["", "전사", "마법사", "궁수", "도적", "해적"];
+const JOB_GROUPS: { group: string; jobs: string[] }[] = [
+  { group: "전사", jobs: ["히어로", "팔라딘", "다크나이트"] },
+  { group: "마법사", jobs: ["불독 (F/P)", "썬콜 (I/L)", "비숍"] },
+  { group: "궁수", jobs: ["보우마스터", "신궁"] },
+  { group: "도적", jobs: ["나이트로드", "섀도어"] },
+  { group: "해적", jobs: ["바이퍼", "캡틴"] },
+  { group: "시그너스", jobs: ["소울마스터", "플레임위자드", "윈드브레이커", "나이트워커", "스트라이커"] },
+];
+const JOB_OPTIONS = ["", ...JOB_GROUPS.flatMap((g) => [g.group, ...g.jobs])];
 const SORT_OPTIONS = [
   { value: "", label: "최신순" },
   { value: "upvotes", label: "추천순" },
@@ -156,8 +164,12 @@ export default function BimaePage() {
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               >
                 <option value="">선택 안함</option>
-                {JOB_OPTIONS.filter(Boolean).map((j) => (
-                  <option key={j} value={j}>{j}</option>
+                {JOB_GROUPS.map((g) => (
+                  <optgroup key={g.group} label={g.group}>
+                    {g.jobs.map((j) => (
+                      <option key={j} value={j}>{j}</option>
+                    ))}
+                  </optgroup>
                 ))}
               </select>
             </div>
