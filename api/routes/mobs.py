@@ -14,14 +14,14 @@ def mob_filters():
     except Exception:
         return {"level_ranges": [], "boss_count": 0}
     try:
-        boss_count = conn.execute("SELECT COUNT(*) FROM mobs WHERE is_boss=1 AND (level > 0 OR hp > 0)").fetchone()[0]
-        max_level = conn.execute("SELECT MAX(level) FROM mobs WHERE level > 0 OR hp > 0").fetchone()[0] or 200
+        boss_count = conn.execute("SELECT COUNT(*) FROM mobs WHERE is_boss=1 AND COALESCE(is_hidden,0)=0").fetchone()[0]
+        max_level = conn.execute("SELECT MAX(level) FROM mobs WHERE COALESCE(is_hidden,0)=0").fetchone()[0] or 200
         ranges = []
         step = 10
         for start in range(0, max_level + 1, step):
             end = start + step - 1
             cnt = conn.execute(
-                "SELECT COUNT(*) FROM mobs WHERE level >= ? AND level <= ? AND (level > 0 OR hp > 0)", (start, end)
+                "SELECT COUNT(*) FROM mobs WHERE level >= ? AND level <= ? AND COALESCE(is_hidden,0)=0", (start, end)
             ).fetchone()[0]
             if cnt > 0:
                 ranges.append({"min": start, "max": end, "count": cnt})
@@ -44,8 +44,8 @@ def list_mobs(
     conditions = []
     params: list = []
 
-    # 빈 데이터 몬스터 제외 (이벤트/퀘스트용 복제 몹)
-    conditions.append("(level > 0 OR hp > 0)")
+    # 숨김 처리된 몬스터 제외 (중복/빈 데이터/이벤트 복제)
+    conditions.append("COALESCE(is_hidden, 0) = 0")
 
     if level_min is not None:
         conditions.append("level >= ?")
@@ -111,7 +111,7 @@ def list_bosses(
     q: Optional[str] = Query(default=None),
 ):
     offset = (page - 1) * per_page
-    conditions = ["is_boss = 1"]
+    conditions = ["is_boss = 1", "COALESCE(is_hidden,0) = 0"]
     params: list = []
 
     if level_min is not None:

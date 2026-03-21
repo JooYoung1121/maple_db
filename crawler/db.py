@@ -172,6 +172,7 @@ def migrate_db(conn: sqlite3.Connection) -> None:
         ("mobs", "speed", "INTEGER"),
         ("mobs", "is_undead", "INTEGER DEFAULT 0"),
         ("mobs", "spawn_time", "TEXT"),
+        ("mobs", "is_hidden", "INTEGER DEFAULT 0"),
         ("items", "attack_speed", "TEXT"),
         ("items", "price", "INTEGER"),
         ("items", "upgrade_slots", "INTEGER"),

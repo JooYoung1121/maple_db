@@ -466,6 +466,20 @@ def reindex():
 
 
 @cli.command()
+def cleanup():
+    """몬스터 데이터 품질 정리 (중복/빈 데이터 숨김)."""
+    from .cleanup import cleanup_mobs, print_cleanup_report
+    conn = init_db()
+    print("[cleanup] 몬스터 데이터 정리 중...")
+    result = cleanup_mobs(conn)
+    print(f"[cleanup] 빈 데이터 숨김: {result['empty_hidden']}건")
+    print(f"[cleanup] 정확한 복제본 숨김: {result['exact_dupe_hidden']}건")
+    print(f"[cleanup] 변형 중복 숨김: {result['variant_hidden']}건")
+    print(f"[cleanup] 총 숨김: {result['total_hidden']}건, 노출: {result['canonical_count']}건")
+    print_cleanup_report(conn)
+
+
+@cli.command()
 def stats():
     """DB 테이블별 행 수 출력."""
     conn = init_db()
