@@ -38,10 +38,18 @@ def search_suggest(
             [fts_query, limit],
         ).fetchall()
 
+        # 숨김 처리된 몬스터 ID 집합
+        hidden_mob_ids = {r[0] for r in conn.execute(
+            "SELECT id FROM mobs WHERE COALESCE(is_hidden,0)=1"
+        ).fetchall()}
+
         seen = set()
         for row in fts_rows:
             key = (row["entity_type"], row["entity_id"])
             if key in seen:
+                continue
+            # 숨김 몹 제외
+            if row["entity_type"] == "mob" and row["entity_id"] in hidden_mob_ids:
                 continue
             seen.add(key)
             suggestions.append({
