@@ -415,11 +415,18 @@ function SplitTab() {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  공대 분배 탭
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+interface ExtraCost {
+  id: string;
+  label: string;
+  amount: string;
+}
+
 function RaidTab() {
   const [items, setItems] = useState<RaidItem[]>([]);
   const [members, setMembers] = useState(6);
-  const [extraCost, setExtraCost] = useState("");
-  const [extraCostLabel, setExtraCostLabel] = useState("숍지원비");
+  const [extraCosts, setExtraCosts] = useState<ExtraCost[]>([
+    { id: "default", label: "숍지원비", amount: "" },
+  ]);
 
   // 새 아이템 입력
   const [newName, setNewName] = useState("");
@@ -446,7 +453,21 @@ function RaidTab() {
     setItems((prev) => prev.filter((item) => item.id !== id));
   };
 
-  const extra = parseMeso(extraCost);
+  const addExtraCost = () => {
+    setExtraCosts((prev) => [...prev, { id: Date.now().toString(), label: "", amount: "" }]);
+  };
+
+  const removeExtraCost = (id: string) => {
+    setExtraCosts((prev) => prev.filter((c) => c.id !== id));
+  };
+
+  const updateExtraCost = (id: string, field: "label" | "amount", value: string) => {
+    setExtraCosts((prev) =>
+      prev.map((c) => (c.id === id ? { ...c, [field]: field === "amount" ? value.replace(/[^0-9]/g, "") : value } : c))
+    );
+  };
+
+  const totalExtra = extraCosts.reduce((sum, c) => sum + parseMeso(c.amount), 0);
 
   const totals = useMemo(() => {
     let totalGross = 0;
@@ -459,47 +480,67 @@ function RaidTab() {
       return { ...item, fee, net };
     });
     const totalNet = totalGross - totalFee;
-    const afterExtra = totalNet - extra;
+    const afterExtra = totalNet - totalExtra;
     const perPerson = members > 0 ? Math.floor(afterExtra / members) : 0;
     return { rows, totalGross, totalFee, totalNet, afterExtra, perPerson };
-  }, [items, extra, members]);
+  }, [items, totalExtra, members]);
 
   return (
     <div className="space-y-6">
       {/* 설정 */}
       <div className="bg-white border border-gray-200 rounded-xl p-5">
         <h2 className="font-bold text-lg mb-4">공대 설정</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">트라이 인원</label>
-            <input
-              type="number"
-              min={1}
-              max={30}
-              value={members}
-              onChange={(e) => setMembers(Math.max(1, Number(e.target.value)))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
-            />
-          </div>
-          <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">공제 항목명</label>
-            <input
-              type="text"
-              value={extraCostLabel}
-              onChange={(e) => setExtraCostLabel(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
-            />
-          </div>
-          <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">공제 금액 (메소)</label>
-            <input
-              type="text"
-              value={extraCost}
-              onChange={(e) => setExtraCost(e.target.value.replace(/[^0-9]/g, ""))}
-              placeholder="0"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
-            />
-          </div>
+        <div className="mb-4">
+          <label className="block text-xs font-medium text-gray-500 mb-1">트라이 인원</label>
+          <input
+            type="number"
+            min={1}
+            max={30}
+            value={members}
+            onChange={(e) => setMembers(Math.max(1, Number(e.target.value)))}
+            className="w-32 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+          />
+        </div>
+
+        <div className="flex items-center justify-between mb-2">
+          <label className="text-xs font-medium text-gray-500">공제 항목</label>
+          <button
+            onClick={addExtraCost}
+            className="text-xs px-2 py-1 text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
+          >
+            + 항목 추가
+          </button>
+        </div>
+        <div className="space-y-2">
+          {extraCosts.map((cost) => (
+            <div key={cost.id} className="flex gap-2 items-center">
+              <input
+                type="text"
+                value={cost.label}
+                onChange={(e) => updateExtraCost(cost.id, "label", e.target.value)}
+                placeholder="항목명 (예: 숍지원비)"
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              />
+              <input
+                type="text"
+                value={cost.amount}
+                onChange={(e) => updateExtraCost(cost.id, "amount", e.target.value)}
+                placeholder="금액"
+                className="w-36 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              />
+              <button
+                onClick={() => removeExtraCost(cost.id)}
+                className="text-gray-300 hover:text-red-500 transition-colors flex-shrink-0"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+          ))}
+          {extraCosts.length === 0 && (
+            <p className="text-xs text-gray-400 py-2">공제 항목이 없습니다. 위 버튼으로 추가하세요.</p>
+          )}
         </div>
       </div>
 
@@ -610,12 +651,16 @@ function RaidTab() {
               <span className="text-gray-500">총 판매금</span>
               <span className="font-mono font-bold">{formatMeso(totals.totalNet)}</span>
             </div>
-            {extra > 0 && (
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-500">{extraCostLabel}</span>
-                <span className="font-mono text-red-500">-{formatMeso(extra)}</span>
-              </div>
-            )}
+            {extraCosts.map((cost) => {
+              const amt = parseMeso(cost.amount);
+              if (amt <= 0) return null;
+              return (
+                <div key={cost.id} className="flex justify-between text-sm">
+                  <span className="text-gray-500">{cost.label || "공제"}</span>
+                  <span className="font-mono text-red-500">-{formatMeso(amt)}</span>
+                </div>
+              );
+            })}
             <div className="flex justify-between text-sm">
               <span className="text-gray-500">합산</span>
               <span className="font-mono font-bold">{formatMeso(totals.afterExtra)}</span>
