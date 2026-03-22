@@ -29,6 +29,21 @@ interface ActiveSkill {
   mobs?: number;
   type: "active";
   element?: "fire" | "ice" | "lightning" | "holy" | "poison" | "dark";
+  minDamage: number;
+  maxLevel: number;
+}
+
+interface BuffSkill {
+  name: string;
+  type: "passive";
+  description: string;
+  damageMultiplier?: number;
+  statMultiplier?: number;
+  critRateBonus?: number;
+  critDmgBonus?: number;
+  comboType?: boolean;
+  comboMultiplierPerOrb?: number;
+  maxOrbs?: number;
 }
 
 interface PassiveSkill {
@@ -46,6 +61,7 @@ interface JobSkillData {
   isMagic: boolean;
   passives: PassiveSkill[];
   actives: ActiveSkill[];
+  buffs: BuffSkill[];
 }
 
 const JOB_SKILL_DATA: Record<string, JobSkillData> = {
@@ -58,9 +74,25 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "파이널어택", type: "passive", description: "40% 확률로 150% 추가 타격" },
     ],
     actives: [
-      { name: "파워스트라이크", damage: 260, hits: 1, mobs: 1, type: "active" },
-      { name: "슬래시블래스트", damage: 130, hits: 6, mobs: 1, type: "active" },
-      { name: "브랜디쉬", damage: 260, hits: 2, mobs: 3, type: "active" },
+      { name: "파워스트라이크", damage: 260, hits: 1, mobs: 1, type: "active", minDamage: 130, maxLevel: 30 },
+      { name: "슬래시블래스트", damage: 130, hits: 6, mobs: 1, type: "active", minDamage: 65, maxLevel: 30 },
+      { name: "브랜디쉬", damage: 260, hits: 2, mobs: 3, type: "active", minDamage: 135, maxLevel: 30 },
+    ],
+    buffs: [
+      {
+        name: "어드밴스드 콤보",
+        type: "passive",
+        description: "콤보 오브 1개당 데미지 +10% (최대 10오브)",
+        comboType: true,
+        comboMultiplierPerOrb: 10,
+        maxOrbs: 10,
+      },
+      {
+        name: "메이플 용사",
+        type: "passive",
+        description: "모든 스탯 +10%",
+        statMultiplier: 1.10,
+      },
     ],
   },
   "팔라딘": {
@@ -71,13 +103,21 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "소드 마스터리", type: "passive", mastery: 60, description: "검 최소 데미지 보장 (60%)" },
     ],
     actives: [
-      { name: "파워스트라이크", damage: 260, hits: 1, mobs: 1, type: "active" },
-      { name: "슬래시블래스트", damage: 130, hits: 6, mobs: 1, type: "active" },
-      { name: "차지블로우 (파이어)", damage: 280, hits: 1, mobs: 1, type: "active", element: "fire" },
-      { name: "차지블로우 (아이스)", damage: 280, hits: 1, mobs: 1, type: "active", element: "ice" },
-      { name: "차지블로우 (썬더)", damage: 280, hits: 1, mobs: 1, type: "active", element: "lightning" },
-      { name: "차지블로우 (홀리)", damage: 340, hits: 1, mobs: 1, type: "active", element: "holy" },
-      { name: "블래스트", damage: 310, hits: 8, mobs: 1, type: "active", element: "holy" },
+      { name: "파워스트라이크", damage: 260, hits: 1, mobs: 1, type: "active", minDamage: 130, maxLevel: 30 },
+      { name: "슬래시블래스트", damage: 130, hits: 6, mobs: 1, type: "active", minDamage: 65, maxLevel: 30 },
+      { name: "차지블로우 (파이어)", damage: 280, hits: 1, mobs: 1, type: "active", element: "fire", minDamage: 140, maxLevel: 30 },
+      { name: "차지블로우 (아이스)", damage: 280, hits: 1, mobs: 1, type: "active", element: "ice", minDamage: 140, maxLevel: 30 },
+      { name: "차지블로우 (썬더)", damage: 280, hits: 1, mobs: 1, type: "active", element: "lightning", minDamage: 140, maxLevel: 30 },
+      { name: "차지블로우 (홀리)", damage: 340, hits: 1, mobs: 1, type: "active", element: "holy", minDamage: 170, maxLevel: 30 },
+      { name: "블래스트", damage: 310, hits: 8, mobs: 1, type: "active", element: "holy", minDamage: 155, maxLevel: 30 },
+    ],
+    buffs: [
+      {
+        name: "메이플 용사",
+        type: "passive",
+        description: "모든 스탯 +10%",
+        statMultiplier: 1.10,
+      },
     ],
   },
   "다크나이트": {
@@ -89,10 +129,24 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "폴암 마스터리", type: "passive", mastery: 60, description: "폴암 최소 데미지 보장 (60%)" },
     ],
     actives: [
-      { name: "파워스트라이크", damage: 260, hits: 1, mobs: 1, type: "active" },
-      { name: "드래곤 쓰레셔", damage: 250, hits: 1, mobs: 6, type: "active" },
-      { name: "드래곤버스터", damage: 220, hits: 2, mobs: 3, type: "active", element: "dark" },
-      { name: "드래곤로어", damage: 150, hits: 1, mobs: 15, type: "active", element: "dark" },
+      { name: "파워스트라이크", damage: 260, hits: 1, mobs: 1, type: "active", minDamage: 130, maxLevel: 30 },
+      { name: "드래곤 쓰레셔", damage: 250, hits: 1, mobs: 6, type: "active", minDamage: 125, maxLevel: 30 },
+      { name: "드래곤버스터", damage: 220, hits: 2, mobs: 3, type: "active", element: "dark", minDamage: 110, maxLevel: 30 },
+      { name: "드래곤로어", damage: 150, hits: 1, mobs: 15, type: "active", element: "dark", minDamage: 75, maxLevel: 30 },
+    ],
+    buffs: [
+      {
+        name: "버서크",
+        type: "passive",
+        description: "HP 50% 이하 시 모든 데미지 ×2",
+        damageMultiplier: 2.0,
+      },
+      {
+        name: "메이플 용사",
+        type: "passive",
+        description: "모든 스탯 +10%",
+        statMultiplier: 1.10,
+      },
     ],
   },
   "불독(F/P)": {
@@ -101,11 +155,19 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
     isMagic: true,
     passives: [],
     actives: [
-      { name: "파이어 에로우", damage: 160, hits: 1, type: "active", element: "fire" },
-      { name: "포이즌 브레스", damage: 200, hits: 1, type: "active", element: "poison" },
-      { name: "익스플로전", damage: 300, hits: 1, type: "active", element: "fire" },
-      { name: "페럴라이즈", damage: 261, hits: 6, mobs: 8, type: "active", element: "poison" },
-      { name: "메테오", damage: 800, hits: 1, mobs: 15, type: "active", element: "fire" },
+      { name: "파이어 에로우", damage: 160, hits: 1, type: "active", element: "fire", minDamage: 80, maxLevel: 30 },
+      { name: "포이즌 브레스", damage: 200, hits: 1, type: "active", element: "poison", minDamage: 100, maxLevel: 30 },
+      { name: "익스플로전", damage: 300, hits: 1, type: "active", element: "fire", minDamage: 150, maxLevel: 30 },
+      { name: "페럴라이즈", damage: 261, hits: 6, mobs: 8, type: "active", element: "poison", minDamage: 145, maxLevel: 30 },
+      { name: "메테오", damage: 800, hits: 1, mobs: 15, type: "active", element: "fire", minDamage: 400, maxLevel: 30 },
+    ],
+    buffs: [
+      {
+        name: "메이플 용사",
+        type: "passive",
+        description: "모든 스탯 +10%",
+        statMultiplier: 1.10,
+      },
     ],
   },
   "썬콜(I/L)": {
@@ -114,11 +176,19 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
     isMagic: true,
     passives: [],
     actives: [
-      { name: "콜드 빔", damage: 160, hits: 1, type: "active", element: "ice" },
-      { name: "썬더 볼트", damage: 165, hits: 1, type: "active", element: "lightning" },
-      { name: "아이스 스트라이크", damage: 210, hits: 1, type: "active", element: "ice" },
-      { name: "체인 라이트닝", damage: 300, hits: 1, mobs: 6, type: "active", element: "lightning" },
-      { name: "블리자드", damage: 650, hits: 1, type: "active", element: "ice" },
+      { name: "콜드 빔", damage: 160, hits: 1, type: "active", element: "ice", minDamage: 80, maxLevel: 30 },
+      { name: "썬더 볼트", damage: 165, hits: 1, type: "active", element: "lightning", minDamage: 82, maxLevel: 30 },
+      { name: "아이스 스트라이크", damage: 210, hits: 1, type: "active", element: "ice", minDamage: 105, maxLevel: 30 },
+      { name: "체인 라이트닝", damage: 300, hits: 1, mobs: 6, type: "active", element: "lightning", minDamage: 150, maxLevel: 30 },
+      { name: "블리자드", damage: 650, hits: 1, type: "active", element: "ice", minDamage: 325, maxLevel: 30 },
+    ],
+    buffs: [
+      {
+        name: "메이플 용사",
+        type: "passive",
+        description: "모든 스탯 +10%",
+        statMultiplier: 1.10,
+      },
     ],
   },
   "비숍": {
@@ -127,10 +197,18 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
     isMagic: true,
     passives: [],
     actives: [
-      { name: "홀리 에로우", damage: 160, hits: 1, type: "active", element: "holy" },
-      { name: "샤이닝 레이", damage: 220, hits: 1, type: "active", element: "holy" },
-      { name: "엔젤레이", damage: 500, hits: 1, type: "active", element: "holy" },
-      { name: "제네시스", damage: 670, hits: 1, mobs: 15, type: "active", element: "holy" },
+      { name: "홀리 에로우", damage: 160, hits: 1, type: "active", element: "holy", minDamage: 80, maxLevel: 30 },
+      { name: "샤이닝 레이", damage: 220, hits: 1, type: "active", element: "holy", minDamage: 110, maxLevel: 30 },
+      { name: "엔젤레이", damage: 500, hits: 1, type: "active", element: "holy", minDamage: 250, maxLevel: 30 },
+      { name: "제네시스", damage: 670, hits: 1, mobs: 15, type: "active", element: "holy", minDamage: 335, maxLevel: 30 },
+    ],
+    buffs: [
+      {
+        name: "메이플 용사",
+        type: "passive",
+        description: "모든 스탯 +10%",
+        statMultiplier: 1.10,
+      },
     ],
   },
   "보우마스터": {
@@ -142,10 +220,25 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "파이널어택", type: "passive", description: "40% 확률로 150% 추가 타격" },
     ],
     actives: [
-      { name: "더블샷", damage: 130, hits: 2, mobs: 1, type: "active" },
-      { name: "애로우 봄", damage: 200, hits: 1, mobs: 6, type: "active" },
-      { name: "스트레이프", damage: 100, hits: 4, mobs: 1, type: "active" },
-      { name: "폭풍의 시", damage: 100, hits: 1, mobs: 1, type: "active" },
+      { name: "더블샷", damage: 130, hits: 2, mobs: 1, type: "active", minDamage: 65, maxLevel: 30 },
+      { name: "애로우 봄", damage: 200, hits: 1, mobs: 6, type: "active", minDamage: 100, maxLevel: 30 },
+      { name: "스트레이프", damage: 100, hits: 4, mobs: 1, type: "active", minDamage: 50, maxLevel: 30 },
+      { name: "폭풍의 시", damage: 100, hits: 1, mobs: 1, type: "active", minDamage: 51, maxLevel: 30 },
+    ],
+    buffs: [
+      {
+        name: "샤프 아이즈",
+        type: "passive",
+        description: "크리티컬 확률 +20%, 크리티컬 데미지 +40%",
+        critRateBonus: 20,
+        critDmgBonus: 40,
+      },
+      {
+        name: "메이플 용사",
+        type: "passive",
+        description: "모든 스탯 +10%",
+        statMultiplier: 1.10,
+      },
     ],
   },
   "신궁": {
@@ -156,10 +249,25 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "석궁 마스터리", type: "passive", mastery: 60, description: "석궁 최소 데미지 보장 (60%)" },
     ],
     actives: [
-      { name: "더블샷", damage: 130, hits: 2, mobs: 1, type: "active" },
-      { name: "아이언 에로우", damage: 200, hits: 1, mobs: 1, type: "active" },
-      { name: "스트레이프", damage: 100, hits: 4, mobs: 1, type: "active" },
-      { name: "피어싱 애로우", damage: 300, hits: 1, mobs: 1, type: "active" },
+      { name: "더블샷", damage: 130, hits: 2, mobs: 1, type: "active", minDamage: 65, maxLevel: 30 },
+      { name: "아이언 에로우", damage: 200, hits: 1, mobs: 1, type: "active", minDamage: 100, maxLevel: 30 },
+      { name: "스트레이프", damage: 100, hits: 4, mobs: 1, type: "active", minDamage: 50, maxLevel: 30 },
+      { name: "피어싱 애로우", damage: 300, hits: 1, mobs: 1, type: "active", minDamage: 150, maxLevel: 30 },
+    ],
+    buffs: [
+      {
+        name: "샤프 아이즈",
+        type: "passive",
+        description: "크리티컬 확률 +20%, 크리티컬 데미지 +40%",
+        critRateBonus: 20,
+        critDmgBonus: 40,
+      },
+      {
+        name: "메이플 용사",
+        type: "passive",
+        description: "모든 스탯 +10%",
+        statMultiplier: 1.10,
+      },
     ],
   },
   "나이트로드": {
@@ -171,9 +279,17 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "크리티컬 스로우", type: "passive", critRate: 50, critDmg: 100, description: "50% 확률로 크리 (+100%)" },
     ],
     actives: [
-      { name: "럭키세븐", damage: 250, hits: 2, mobs: 1, type: "active" },
-      { name: "어벤져", damage: 300, hits: 1, mobs: 3, type: "active" },
-      { name: "트리플 스로우", damage: 150, hits: 3, mobs: 1, type: "active" },
+      { name: "럭키세븐", damage: 250, hits: 2, mobs: 1, type: "active", minDamage: 125, maxLevel: 30 },
+      { name: "어벤져", damage: 300, hits: 1, mobs: 3, type: "active", minDamage: 150, maxLevel: 30 },
+      { name: "트리플 스로우", damage: 150, hits: 3, mobs: 1, type: "active", minDamage: 102, maxLevel: 30 },
+    ],
+    buffs: [
+      {
+        name: "메이플 용사",
+        type: "passive",
+        description: "모든 스탯 +10%",
+        statMultiplier: 1.10,
+      },
     ],
   },
   "섀도어": {
@@ -184,9 +300,17 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "대거 마스터리", type: "passive", mastery: 60, description: "단검 최소 데미지 보장 (60%)" },
     ],
     actives: [
-      { name: "새비지블로우", damage: 120, hits: 6, mobs: 1, type: "active" },
-      { name: "부메랑스텝", damage: 500, hits: 2, mobs: 4, type: "active" },
-      { name: "어쌔시네이트", damage: 120, hits: 4, mobs: 1, type: "active" },
+      { name: "새비지블로우", damage: 120, hits: 6, mobs: 1, type: "active", minDamage: 60, maxLevel: 30 },
+      { name: "부메랑스텝", damage: 500, hits: 2, mobs: 4, type: "active", minDamage: 250, maxLevel: 30 },
+      { name: "어쌔시네이트", damage: 120, hits: 4, mobs: 1, type: "active", minDamage: 60, maxLevel: 30 },
+    ],
+    buffs: [
+      {
+        name: "메이플 용사",
+        type: "passive",
+        description: "모든 스탯 +10%",
+        statMultiplier: 1.10,
+      },
     ],
   },
   "바이퍼": {
@@ -197,10 +321,18 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "너클 마스터리", type: "passive", mastery: 60, description: "너클 최소 데미지 보장 (60%)" },
     ],
     actives: [
-      { name: "코크스크류 블로우", damage: 360, hits: 1, mobs: 3, type: "active", element: "lightning" },
-      { name: "에너지 블래스트", damage: 360, hits: 1, mobs: 3, type: "active" },
-      { name: "배럭", damage: 170, hits: 6, mobs: 1, type: "active" },
-      { name: "드래곤 스트라이크", damage: 810, hits: 1, mobs: 6, type: "active" },
+      { name: "코크스크류 블로우", damage: 360, hits: 1, mobs: 3, type: "active", element: "lightning", minDamage: 180, maxLevel: 30 },
+      { name: "에너지 블래스트", damage: 360, hits: 1, mobs: 3, type: "active", minDamage: 180, maxLevel: 30 },
+      { name: "배럭", damage: 170, hits: 6, mobs: 1, type: "active", minDamage: 85, maxLevel: 30 },
+      { name: "드래곤 스트라이크", damage: 810, hits: 1, mobs: 6, type: "active", minDamage: 405, maxLevel: 30 },
+    ],
+    buffs: [
+      {
+        name: "메이플 용사",
+        type: "passive",
+        description: "모든 스탯 +10%",
+        statMultiplier: 1.10,
+      },
     ],
   },
   "캡틴": {
@@ -211,10 +343,18 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "건 마스터리", type: "passive", mastery: 60, description: "건 최소 데미지 보장 (60%)" },
     ],
     actives: [
-      { name: "더블파이어", damage: 130, hits: 2, mobs: 1, type: "active" },
-      { name: "래피드파이어", damage: 150, hits: 1, mobs: 1, type: "active" },
-      { name: "배틀쉽 캐논", damage: 380, hits: 4, mobs: 1, type: "active" },
-      { name: "배틀쉽 토피도", damage: 780, hits: 6, mobs: 1, type: "active" },
+      { name: "더블파이어", damage: 130, hits: 2, mobs: 1, type: "active", minDamage: 65, maxLevel: 30 },
+      { name: "래피드파이어", damage: 150, hits: 1, mobs: 1, type: "active", minDamage: 75, maxLevel: 30 },
+      { name: "배틀쉽 캐논", damage: 380, hits: 4, mobs: 1, type: "active", minDamage: 190, maxLevel: 30 },
+      { name: "배틀쉽 토피도", damage: 780, hits: 6, mobs: 1, type: "active", minDamage: 390, maxLevel: 30 },
+    ],
+    buffs: [
+      {
+        name: "메이플 용사",
+        type: "passive",
+        description: "모든 스탯 +10%",
+        statMultiplier: 1.10,
+      },
     ],
   },
 };
@@ -559,9 +699,14 @@ export default function NHitPage() {
 
   // 스킬 선택
   const [selectedSkillIdx, setSelectedSkillIdx] = useState(0);
+  const [skillLevel, setSkillLevel] = useState(30);
 
   // 패시브 토글 (기본 true)
   const [enabledPassives, setEnabledPassives] = useState<Record<string, boolean>>({});
+
+  // 버프 토글 (기본 false)
+  const [enabledBuffs, setEnabledBuffs] = useState<Record<string, boolean>>({});
+  const [comboOrbs, setComboOrbs] = useState(5);
 
   // 물리 스탯 입력 (분리된 공격력)
   const [mainStat, setMainStat] = useState(120);
@@ -615,6 +760,8 @@ export default function NHitPage() {
     const firstSub = JOB_GROUPS[group][0];
     setSubJob(firstSub);
     setSelectedSkillIdx(0);
+    setSkillLevel(30);
+    setEnabledBuffs({});
     const firstWeapon = JOB_SKILL_DATA[firstSub]?.weapons[0];
     if (firstWeapon) setWeaponKey(firstWeapon);
   };
@@ -623,6 +770,8 @@ export default function NHitPage() {
   const handleSubJobChange = (sub: string) => {
     setSubJob(sub);
     setSelectedSkillIdx(0);
+    setSkillLevel(30);
+    setEnabledBuffs({});
     const firstWeapon = JOB_SKILL_DATA[sub]?.weapons[0];
     if (firstWeapon) setWeaponKey(firstWeapon);
   };
@@ -660,14 +809,72 @@ export default function NHitPage() {
     return 0;
   }, [passives, enabledPassives]);
 
-  const skillPct = selectedSkill?.damage ?? 100;
+  // 스킬 레벨 보간 데미지 계산
+  const interpolatedSkillDamage = useMemo(() => {
+    if (!selectedSkill) return 100;
+    const { minDamage, damage: maxDamage, maxLevel } = selectedSkill;
+    if (maxLevel <= 1) return maxDamage;
+    const interpolated = minDamage + (skillLevel - 1) * (maxDamage - minDamage) / (maxLevel - 1);
+    return Math.round(interpolated);
+  }, [selectedSkill, skillLevel]);
+
+  const skillPct = interpolatedSkillDamage;
   const skillHits = selectedSkill?.hits ?? 1;
 
+  // 버프 효과 계산
+  const buffs = jobData?.buffs ?? [];
+
+  const activeStatMultiplier = useMemo(() => {
+    for (const b of buffs) {
+      if (enabledBuffs[b.name] && b.statMultiplier != null) return b.statMultiplier;
+    }
+    return 1;
+  }, [buffs, enabledBuffs]);
+
+  const activeDamageMultiplier = useMemo(() => {
+    for (const b of buffs) {
+      if (enabledBuffs[b.name] && b.damageMultiplier != null) return b.damageMultiplier;
+    }
+    return 1;
+  }, [buffs, enabledBuffs]);
+
+  const activeComboBonus = useMemo(() => {
+    for (const b of buffs) {
+      if (enabledBuffs[b.name] && b.comboType) {
+        return comboOrbs * (b.comboMultiplierPerOrb ?? 0) / 100;
+      }
+    }
+    return 0;
+  }, [buffs, enabledBuffs, comboOrbs]);
+
+  const buffCritRateBonus = useMemo(() => {
+    let bonus = 0;
+    for (const b of buffs) {
+      if (enabledBuffs[b.name] && b.critRateBonus != null) bonus += b.critRateBonus;
+    }
+    return bonus;
+  }, [buffs, enabledBuffs]);
+
+  const buffCritDmgBonus = useMemo(() => {
+    let bonus = 0;
+    for (const b of buffs) {
+      if (enabledBuffs[b.name] && b.critDmgBonus != null) bonus += b.critDmgBonus;
+    }
+    return bonus;
+  }, [buffs, enabledBuffs]);
+
+  // 스탯에 statMultiplier 적용
+  const effectiveMainStat = mainStat * activeStatMultiplier;
+  const effectiveSubStat = subStat * activeStatMultiplier;
+  const effectiveTotalInt = totalInt * activeStatMultiplier;
+  const effectiveTotalLuk = totalLuk * activeStatMultiplier;
+
   const dmgResult = useMemo<DamageResult>(() => {
+    let result: DamageResult;
     if (isMagic) {
-      return calcMagicDamage(
-        totalInt,
-        totalLuk,
+      result = calcMagicDamage(
+        effectiveTotalInt,
+        effectiveTotalLuk,
         ma,
         skillPct,
         skillHits,
@@ -675,45 +882,58 @@ export default function NHitPage() {
         monster.level,
         monster.mdef
       );
+    } else {
+      result = calcPhysicalDamage(
+        effectiveMainStat,
+        effectiveSubStat,
+        totalAtk,
+        weaponInfo?.maxMult ?? 4.0,
+        weaponInfo?.minMult ?? 4.0,
+        effectiveMastery / 100,
+        skillPct,
+        skillHits,
+        charLevel,
+        monster.level,
+        monster.wdef
+      );
     }
-    return calcPhysicalDamage(
-      mainStat,
-      subStat,
-      totalAtk,
-      weaponInfo?.maxMult ?? 4.0,
-      weaponInfo?.minMult ?? 4.0,
-      effectiveMastery / 100,
-      skillPct,
-      skillHits,
-      charLevel,
-      monster.level,
-      monster.wdef
-    );
+    // damageMultiplier (버서크) 및 comboBonus 적용
+    const totalMult = activeDamageMultiplier * (1 + activeComboBonus);
+    return {
+      maxDmg: result.maxDmg * totalMult,
+      minDmg: result.minDmg * totalMult,
+      avgDmg: result.avgDmg * totalMult,
+    };
   }, [
-    isMagic, ma, totalInt, totalLuk, effectiveMastery, skillPct, skillHits,
-    charLevel, mainStat, subStat, totalAtk, weaponInfo, monster,
+    isMagic, ma, effectiveTotalInt, effectiveTotalLuk, effectiveMastery, skillPct, skillHits,
+    charLevel, effectiveMainStat, effectiveSubStat, totalAtk, weaponInfo, monster,
+    activeDamageMultiplier, activeComboBonus,
   ]);
+
+  // 크리티컬 정보 (버프 보너스 포함)
+  const totalCritRate = effectiveCritRate + buffCritRateBonus;
+  const totalCritDmg = effectiveCritDmg + buffCritDmgBonus;
 
   // 크리티컬 데미지 결과
   const critDmgResult = useMemo<DamageResult>(() => {
-    if (effectiveCritRate === 0) return dmgResult;
-    const factor = 1 + effectiveCritDmg / 100;
+    if (totalCritRate === 0) return dmgResult;
+    const factor = 1 + totalCritDmg / 100;
     return {
       maxDmg: dmgResult.maxDmg * factor,
       minDmg: dmgResult.minDmg * factor,
       avgDmg: dmgResult.avgDmg * factor,
     };
-  }, [dmgResult, effectiveCritRate, effectiveCritDmg]);
+  }, [dmgResult, totalCritRate, totalCritDmg]);
 
   const { nHitMax, nHitAvg } = calcNHit(monster.hp, dmgResult);
   const { nHitMax: critNHitMax, nHitAvg: critNHitAvg } = calcNHit(monster.hp, critDmgResult);
 
   const oneKillAtk = isMagic
-    ? calcOneKillMa(monster.hp, totalInt, totalLuk, skillPct, skillHits, charLevel, monster.level, monster.mdef)
+    ? calcOneKillMa(monster.hp, effectiveTotalInt, effectiveTotalLuk, skillPct, skillHits, charLevel, monster.level, monster.mdef)
     : calcOneKillAtk(
         monster.hp,
-        mainStat,
-        subStat,
+        effectiveMainStat,
+        effectiveSubStat,
         weaponInfo?.maxMult ?? 4.0,
         skillPct,
         skillHits,
@@ -728,32 +948,32 @@ export default function NHitPage() {
       monster.hp,
       dmgResult.minDmg,
       dmgResult.maxDmg,
-      effectiveCritRate,
-      effectiveCritRate > 0 ? 1 + effectiveCritDmg / 100 : 1
+      totalCritRate,
+      totalCritRate > 0 ? 1 + totalCritDmg / 100 : 1
     );
-  }, [monster.hp, dmgResult.minDmg, dmgResult.maxDmg, effectiveCritRate, effectiveCritDmg]);
+  }, [monster.hp, dmgResult.minDmg, dmgResult.maxDmg, totalCritRate, totalCritDmg]);
 
   // 스탯공격력 범위 (물리)
   const statAtkMax = useMemo(() => {
     if (isMagic) return 0;
-    return (mainStat * (weaponInfo?.maxMult ?? 4.0) + subStat) * totalAtk / 100;
-  }, [isMagic, mainStat, subStat, totalAtk, weaponInfo]);
+    return (effectiveMainStat * (weaponInfo?.maxMult ?? 4.0) + effectiveSubStat) * totalAtk / 100;
+  }, [isMagic, effectiveMainStat, effectiveSubStat, totalAtk, weaponInfo]);
 
   const statAtkMin = useMemo(() => {
     if (isMagic) return 0;
-    return (mainStat * (weaponInfo?.minMult ?? 4.0) * 0.9 * (effectiveMastery / 100) + subStat) * totalAtk / 100;
-  }, [isMagic, mainStat, subStat, totalAtk, weaponInfo, effectiveMastery]);
+    return (effectiveMainStat * (weaponInfo?.minMult ?? 4.0) * 0.9 * (effectiveMastery / 100) + effectiveSubStat) * totalAtk / 100;
+  }, [isMagic, effectiveMainStat, effectiveSubStat, totalAtk, weaponInfo, effectiveMastery]);
 
   // 마법 데미지 범위 (법사, 스킬% 미포함 기준)
   const magicDmgMax = useMemo(() => {
     if (!isMagic) return 0;
-    return (totalInt + totalLuk) * ma / 100;
-  }, [isMagic, totalInt, totalLuk, ma]);
+    return (effectiveTotalInt + effectiveTotalLuk) * ma / 100;
+  }, [isMagic, effectiveTotalInt, effectiveTotalLuk, ma]);
 
   const magicDmgMin = useMemo(() => {
     if (!isMagic) return 0;
-    return (totalInt + totalLuk * 0.5) * ma / 100;
-  }, [isMagic, totalInt, totalLuk, ma]);
+    return (effectiveTotalInt + effectiveTotalLuk * 0.5) * ma / 100;
+  }, [isMagic, effectiveTotalInt, effectiveTotalLuk, ma]);
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -796,8 +1016,15 @@ export default function NHitPage() {
           isMagic={isMagic}
           selectedSkillIdx={selectedSkillIdx}
           setSelectedSkillIdx={setSelectedSkillIdx}
+          skillLevel={skillLevel}
+          setSkillLevel={setSkillLevel}
+          interpolatedSkillDamage={interpolatedSkillDamage}
           enabledPassives={enabledPassives}
           setEnabledPassives={setEnabledPassives}
+          enabledBuffs={enabledBuffs}
+          setEnabledBuffs={setEnabledBuffs}
+          comboOrbs={comboOrbs}
+          setComboOrbs={setComboOrbs}
           mainStat={mainStat}
           setMainStat={setMainStat}
           subStat={subStat}
@@ -850,6 +1077,8 @@ export default function NHitPage() {
           weaponInfo={weaponInfo}
           effectiveCritRate={effectiveCritRate}
           effectiveCritDmg={effectiveCritDmg}
+          totalCritRate={totalCritRate}
+          totalCritDmg={totalCritDmg}
           critNHitMax={critNHitMax}
           critNHitAvg={critNHitAvg}
           mcResult={mcResult}
@@ -857,6 +1086,8 @@ export default function NHitPage() {
           statAtkMin={statAtkMin}
           magicDmgMax={magicDmgMax}
           magicDmgMin={magicDmgMin}
+          activeDamageMultiplier={activeDamageMultiplier}
+          activeComboBonus={activeComboBonus}
         />
       )}
       {activeTab === "hunt" && (
@@ -882,8 +1113,15 @@ interface CalcTabProps {
   isMagic: boolean;
   selectedSkillIdx: number;
   setSelectedSkillIdx: (v: number) => void;
+  skillLevel: number;
+  setSkillLevel: (v: number) => void;
+  interpolatedSkillDamage: number;
   enabledPassives: Record<string, boolean>;
   setEnabledPassives: (v: Record<string, boolean>) => void;
+  enabledBuffs: Record<string, boolean>;
+  setEnabledBuffs: (v: Record<string, boolean>) => void;
+  comboOrbs: number;
+  setComboOrbs: (v: number) => void;
   mainStat: number;
   setMainStat: (v: number) => void;
   subStat: number;
@@ -936,6 +1174,8 @@ interface CalcTabProps {
   weaponInfo: { maxMult: number; minMult: number; mainStat: string; subStat: string; type: "melee" | "ranged" | "magic" } | undefined;
   effectiveCritRate: number;
   effectiveCritDmg: number;
+  totalCritRate: number;
+  totalCritDmg: number;
   critNHitMax: number;
   critNHitAvg: number;
   mcResult: MonteCarloResult;
@@ -943,13 +1183,18 @@ interface CalcTabProps {
   statAtkMin: number;
   magicDmgMax: number;
   magicDmgMin: number;
+  activeDamageMultiplier: number;
+  activeComboBonus: number;
 }
 
 function CalcTab({
   jobGroup, onJobGroupChange, subJob, onSubJobChange, jobData,
   weaponKey, setWeaponKey, isMagic,
   selectedSkillIdx, setSelectedSkillIdx,
+  skillLevel, setSkillLevel, interpolatedSkillDamage,
   enabledPassives, setEnabledPassives,
+  enabledBuffs, setEnabledBuffs,
+  comboOrbs, setComboOrbs,
   mainStat, setMainStat, subStat, setSubStat,
   weaponAtk, setWeaponAtk, gloveAtk, setGloveAtk,
   otherAtk, setOtherAtk, buff1, setBuff1, buff2, setBuff2,
@@ -964,18 +1209,26 @@ function CalcTab({
   manualHp, setManualHp, manualWdef, setManualWdef, manualMdef, setManualMdef,
   monster, dmgResult, nHitMax, nHitAvg, oneKillAtk,
   effectiveMastery, weaponInfo,
-  effectiveCritRate, effectiveCritDmg, critNHitMax, critNHitAvg,
+  effectiveCritRate, effectiveCritDmg,
+  totalCritRate, totalCritDmg,
+  critNHitMax, critNHitAvg,
   mcResult,
   statAtkMax, statAtkMin,
   magicDmgMax, magicDmgMin,
+  activeDamageMultiplier, activeComboBonus,
 }: CalcTabProps) {
   const actives = jobData?.actives ?? [];
   const passives = jobData?.passives ?? [];
+  const buffs = jobData?.buffs ?? [];
   const selectedSkill = actives[selectedSkillIdx] ?? actives[0];
 
   const togglePassive = (name: string) => {
     const current = enabledPassives[name] !== false;
     setEnabledPassives({ ...enabledPassives, [name]: !current });
+  };
+
+  const toggleBuff = (name: string) => {
+    setEnabledBuffs({ ...enabledBuffs, [name]: !enabledBuffs[name] });
   };
 
   const nHitColor = (n: number) => {
@@ -1189,6 +1442,49 @@ function CalcTab({
           </div>
         )}
 
+        {/* 버프 스킬 토글 */}
+        {buffs.length > 0 && (
+          <div className="mb-4">
+            <label className="block text-xs font-medium text-gray-500 mb-2">버프 스킬</label>
+            <div className="flex flex-wrap gap-2">
+              {buffs.map((b) => {
+                const isOn = !!enabledBuffs[b.name];
+                return (
+                  <div key={b.name} className="flex flex-col gap-1">
+                    <button
+                      onClick={() => toggleBuff(b.name)}
+                      title={b.description}
+                      className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors border ${
+                        isOn
+                          ? "bg-emerald-100 text-emerald-700 border-emerald-300"
+                          : "bg-gray-50 text-gray-400 border-gray-200"
+                      }`}
+                    >
+                      {isOn ? "✓ " : ""}{b.name}
+                    </button>
+                    {isOn && b.comboType && (
+                      <div className="px-1">
+                        <label className="text-xs text-emerald-600 mb-0.5 block">
+                          콤보 오브: {comboOrbs}개 (+{comboOrbs * (b.comboMultiplierPerOrb ?? 0)}%)
+                        </label>
+                        <input
+                          type="range"
+                          min={0}
+                          max={b.maxOrbs ?? 10}
+                          step={1}
+                          value={comboOrbs}
+                          onChange={(e) => setComboOrbs(Number(e.target.value))}
+                          className="w-32 accent-emerald-500"
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
         {/* 액티브 스킬 선택 */}
         {actives.length > 0 ? (
           <>
@@ -1197,7 +1493,7 @@ function CalcTab({
               {actives.map((skill, idx) => (
                 <button
                   key={skill.name}
-                  onClick={() => setSelectedSkillIdx(idx)}
+                  onClick={() => { setSelectedSkillIdx(idx); setSkillLevel(30); }}
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border ${
                     selectedSkillIdx === idx
                       ? "bg-orange-500 text-white border-orange-500"
@@ -1220,10 +1516,31 @@ function CalcTab({
                     </span>
                   )}
                 </div>
+
+                {/* 스킬 레벨 슬라이더 */}
+                <div className="mb-3">
+                  <label className="text-xs text-orange-600 mb-1 block">
+                    스킬 레벨: <span className="font-bold">{skillLevel}</span> | 데미지 <span className="font-bold">{interpolatedSkillDamage}%</span>
+                  </label>
+                  <input
+                    type="range"
+                    min={1}
+                    max={selectedSkill.maxLevel}
+                    step={1}
+                    value={skillLevel}
+                    onChange={(e) => setSkillLevel(Number(e.target.value))}
+                    className="w-full accent-orange-500"
+                  />
+                  <div className="flex justify-between text-xs text-orange-300 mt-0.5">
+                    <span>Lv.1 ({selectedSkill.minDamage}%)</span>
+                    <span>Lv.{selectedSkill.maxLevel} ({selectedSkill.damage}%)</span>
+                  </div>
+                </div>
+
                 <div className="flex gap-4 text-sm text-orange-700 flex-wrap">
                   <span>
-                    <span className="text-orange-400 text-xs mr-1">데미지</span>
-                    <span className="font-bold">{selectedSkill.damage}%</span>
+                    <span className="text-orange-400 text-xs mr-1">현재 데미지</span>
+                    <span className="font-bold">{interpolatedSkillDamage}%</span>
                   </span>
                   <span>
                     <span className="text-orange-400 text-xs mr-1">타수</span>
@@ -1236,9 +1553,17 @@ function CalcTab({
                     </span>
                   )}
                   <span>
-                    <span className="text-orange-400 text-xs mr-1">1회 총 데미지</span>
-                    <span className="font-bold">{selectedSkill.damage * selectedSkill.hits}%</span>
+                    <span className="text-orange-400 text-xs mr-1">총 데미지%</span>
+                    <span className="font-bold">{interpolatedSkillDamage * selectedSkill.hits}%</span>
                   </span>
+                  {(activeDamageMultiplier !== 1 || activeComboBonus > 0) && (
+                    <span>
+                      <span className="text-orange-400 text-xs mr-1">버프 후 배율</span>
+                      <span className="font-bold text-emerald-700">
+                        ×{(activeDamageMultiplier * (1 + activeComboBonus)).toFixed(2)}
+                      </span>
+                    </span>
+                  )}
                 </div>
                 {selectedSkill.element && (
                   <p className="text-xs text-orange-500 mt-2">
@@ -1409,7 +1734,7 @@ function CalcTab({
 
         <div className={`rounded-xl border p-4 mb-3 ${nHitBg(nHitAvg)}`}>
           <p className="text-sm text-gray-500 mb-1">
-            {monster.name} N방컷{effectiveCritRate > 0 ? " (노크리)" : ""}
+            {monster.name} N방컷{totalCritRate > 0 ? " (노크리)" : ""}
           </p>
           <p className={`text-3xl font-bold ${nHitColor(nHitAvg)}`}>
             평균 {nHitAvg}방컷
@@ -1419,15 +1744,15 @@ function CalcTab({
           </p>
           {selectedSkill && selectedSkill.hits > 1 && (
             <p className="text-xs text-gray-400 mt-1">
-              {selectedSkill.name} {selectedSkill.hits}타 × {selectedSkill.damage}% = 1회 {selectedSkill.damage * selectedSkill.hits}% 반영
+              {selectedSkill.name} {selectedSkill.hits}타 × {interpolatedSkillDamage}% = 1회 {interpolatedSkillDamage * selectedSkill.hits}% 반영
             </p>
           )}
         </div>
 
-        {effectiveCritRate > 0 && (
+        {totalCritRate > 0 && (
           <div className="rounded-xl border bg-yellow-50 border-yellow-200 p-4 mb-3">
             <p className="text-sm text-gray-500 mb-1">
-              {monster.name} N방컷 (크리 {effectiveCritRate}% 발동 시, +{effectiveCritDmg}%)
+              {monster.name} N방컷 (크리 {totalCritRate}% 발동 시, +{totalCritDmg}%)
             </p>
             <p className={`text-3xl font-bold ${nHitColor(critNHitAvg)}`}>
               크리 {critNHitAvg}방컷
