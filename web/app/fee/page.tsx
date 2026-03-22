@@ -122,12 +122,25 @@ function calcOptimalSplit(amount: number, type: TradeType): SplitResult {
   return best;
 }
 
-// ─── 공대 분배 아이템 ───
+// ─── 수수료작 방식 ───
+type FeeMode = "no-split" | "split";
+
+// 공대 분배 아이템
 interface RaidItem {
   id: string;
   name: string;
   price: number;
   tradeType: TradeType;
+  feeMode: FeeMode; // 노수작 or 수수료작
+  splitChunk: number; // 수수료작 시 분할 단위
+}
+
+function calcItemFee(item: RaidItem): number {
+  if (item.tradeType === "direct") return 0;
+  if (item.feeMode === "no-split") return calcFee(item.price, item.tradeType);
+  // 수수료작: 분할 후 총 수수료
+  const result = calcSplitWithChunk(item.price, item.tradeType, item.splitChunk);
+  return result.totalFee;
 }
 
 type Tab = "calc" | "split" | "raid";
@@ -501,6 +514,8 @@ function RaidTab() {
   const [newName, setNewName] = useState("");
   const [newPrice, setNewPrice] = useState("");
   const [newType, setNewType] = useState<TradeType>("delivery");
+  const [newFeeMode, setNewFeeMode] = useState<FeeMode>("split");
+  const [newSplitChunk, setNewSplitChunk] = useState(4_999_999);
 
   const addItem = useCallback(() => {
     const price = parseMeso(newPrice);
@@ -512,14 +527,20 @@ function RaidTab() {
         name: newName.trim(),
         price,
         tradeType: newType,
+        feeMode: newType === "direct" ? "no-split" : newFeeMode,
+        splitChunk: newSplitChunk,
       },
     ]);
     setNewName("");
     setNewPrice("");
-  }, [newName, newPrice, newType]);
+  }, [newName, newPrice, newType, newFeeMode, newSplitChunk]);
 
   const removeItem = (id: string) => {
     setItems((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const updateItem = (id: string, updates: Partial<RaidItem>) => {
+    setItems((prev) => prev.map((item) => (item.id === id ? { ...item, ...updates } : item)));
   };
 
   const addExtraCost = () => {
@@ -542,7 +563,7 @@ function RaidTab() {
     let totalGross = 0;
     let totalFee = 0;
     const rows = items.map((item) => {
-      const fee = calcFee(item.price, item.tradeType);
+      const fee = calcItemFee(item);
       const net = item.price - fee;
       totalGross += item.price;
       totalFee += fee;
@@ -616,7 +637,7 @@ function RaidTab() {
       {/* 아이템 추가 폼 */}
       <div className="bg-white border border-gray-200 rounded-xl p-5">
         <h2 className="font-bold text-lg mb-4">물품 등록</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
           <div>
             <label className="block text-xs font-medium text-gray-500 mb-1">품목명</label>
             <input
@@ -639,11 +660,17 @@ function RaidTab() {
               className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             />
           </div>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
           <div>
             <label className="block text-xs font-medium text-gray-500 mb-1">거래 방식</label>
             <select
               value={newType}
-              onChange={(e) => setNewType(e.target.value as TradeType)}
+              onChange={(e) => {
+                const v = e.target.value as TradeType;
+                setNewType(v);
+                if (v === "direct") setNewFeeMode("no-split");
+              }}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             >
               <option value="direct">판매 (수수료 없음)</option>
@@ -651,6 +678,29 @@ function RaidTab() {
               <option value="delivery">택배</option>
             </select>
           </div>
+          {newType !== "direct" && (
+            <div>
+              <label className="block text-xs font-medium text-gray-500 mb-1">수수료작</label>
+              <select
+                value={newFeeMode === "no-split" ? "no-split" : String(newSplitChunk)}
+                onChange={(e) => {
+                  if (e.target.value === "no-split") {
+                    setNewFeeMode("no-split");
+                  } else {
+                    setNewFeeMode("split");
+                    setNewSplitChunk(Number(e.target.value));
+                  }
+                }}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              >
+                <option value="no-split">노수작 (그대로)</option>
+                <option value="4999999">499만 수작</option>
+                <option value="9999999">999만 수작</option>
+                <option value="24999999">2499만 수작</option>
+                <option value="99999999">9999만 수작</option>
+              </select>
+            </div>
+          )}
           <button
             onClick={addItem}
             disabled={!newName.trim() || parseMeso(newPrice) <= 0}
@@ -668,37 +718,81 @@ function RaidTab() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-gray-50 text-gray-500">
-                  <th className="text-left px-4 py-2.5 font-medium">품목</th>
-                  <th className="text-right px-4 py-2.5 font-medium">가격</th>
-                  <th className="text-center px-4 py-2.5 font-medium">거래</th>
-                  <th className="text-right px-4 py-2.5 font-medium">수수료</th>
-                  <th className="text-right px-4 py-2.5 font-medium">최종금액</th>
-                  <th className="px-4 py-2.5 w-10"></th>
+                  <th className="text-left px-3 py-2.5 font-medium">품목</th>
+                  <th className="text-right px-3 py-2.5 font-medium">가격</th>
+                  <th className="text-center px-3 py-2.5 font-medium">거래</th>
+                  <th className="text-center px-3 py-2.5 font-medium">수수료작</th>
+                  <th className="text-right px-3 py-2.5 font-medium">수수료</th>
+                  <th className="text-right px-3 py-2.5 font-medium">최종금액</th>
+                  <th className="px-2 py-2.5 w-8"></th>
                 </tr>
               </thead>
               <tbody>
-                {totals.rows.map((row) => (
+                {totals.rows.map((row) => {
+                  const origItem = items.find((i) => i.id === row.id)!;
+                  return (
                   <tr key={row.id} className="border-t border-gray-50">
-                    <td className="px-4 py-2 font-medium">{row.name}</td>
-                    <td className="px-4 py-2 text-right font-mono">{formatMeso(row.price)}</td>
-                    <td className="px-4 py-2 text-center">
-                      <span
-                        className={`text-xs px-2 py-0.5 rounded ${
-                          row.tradeType === "direct"
-                            ? "bg-green-100 text-green-700"
-                            : row.tradeType === "normal"
-                            ? "bg-blue-100 text-blue-700"
-                            : "bg-purple-100 text-purple-700"
-                        }`}
-                      >
-                        {TRADE_LABELS[row.tradeType]}
-                      </span>
+                    <td className="px-3 py-1.5">
+                      <input
+                        type="text"
+                        value={origItem.name}
+                        onChange={(e) => updateItem(row.id, { name: e.target.value })}
+                        className="w-full px-1.5 py-1 border border-transparent hover:border-gray-300 focus:border-orange-400 rounded text-sm focus:outline-none"
+                      />
                     </td>
-                    <td className="px-4 py-2 text-right font-mono text-red-500">
+                    <td className="px-3 py-1.5">
+                      <input
+                        type="text"
+                        value={formatMeso(origItem.price)}
+                        onChange={(e) => updateItem(row.id, { price: parseMeso(e.target.value) })}
+                        className="w-24 px-1.5 py-1 border border-transparent hover:border-gray-300 focus:border-orange-400 rounded text-sm text-right font-mono focus:outline-none"
+                      />
+                    </td>
+                    <td className="px-3 py-1.5 text-center">
+                      <select
+                        value={origItem.tradeType}
+                        onChange={(e) => {
+                          const tt = e.target.value as TradeType;
+                          updateItem(row.id, {
+                            tradeType: tt,
+                            feeMode: tt === "direct" ? "no-split" : origItem.feeMode,
+                          });
+                        }}
+                        className="px-1.5 py-1 border border-transparent hover:border-gray-300 focus:border-orange-400 rounded text-xs focus:outline-none"
+                      >
+                        <option value="direct">판매</option>
+                        <option value="normal">일반</option>
+                        <option value="delivery">택배</option>
+                      </select>
+                    </td>
+                    <td className="px-3 py-1.5 text-center">
+                      {origItem.tradeType !== "direct" ? (
+                        <select
+                          value={origItem.feeMode === "no-split" ? "no-split" : String(origItem.splitChunk)}
+                          onChange={(e) => {
+                            if (e.target.value === "no-split") {
+                              updateItem(row.id, { feeMode: "no-split" });
+                            } else {
+                              updateItem(row.id, { feeMode: "split", splitChunk: Number(e.target.value) });
+                            }
+                          }}
+                          className="px-1.5 py-1 border border-transparent hover:border-gray-300 focus:border-orange-400 rounded text-xs focus:outline-none"
+                        >
+                          <option value="no-split">노수작</option>
+                          <option value="4999999">499만</option>
+                          <option value="9999999">999만</option>
+                          <option value="24999999">2499만</option>
+                          <option value="99999999">9999만</option>
+                        </select>
+                      ) : (
+                        <span className="text-xs text-gray-400">-</span>
+                      )}
+                    </td>
+                    <td className="px-3 py-1.5 text-right font-mono text-red-500">
                       {row.fee > 0 ? `-${formatMeso(row.fee)}` : "-"}
                     </td>
-                    <td className="px-4 py-2 text-right font-mono">{formatMeso(row.net)}</td>
-                    <td className="px-4 py-2">
+                    <td className="px-3 py-1.5 text-right font-mono">{formatMeso(row.net)}</td>
+                    <td className="px-2 py-1.5">
                       <button
                         onClick={() => removeItem(row.id)}
                         className="text-gray-300 hover:text-red-500 transition-colors"
@@ -709,7 +803,8 @@ function RaidTab() {
                       </button>
                     </td>
                   </tr>
-                ))}
+                  );
+                })}
               </tbody>
             </table>
           </div>
