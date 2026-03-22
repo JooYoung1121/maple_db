@@ -41,11 +41,16 @@ function HomeContent() {
     <div>
       {/* Hero */}
       <section className="text-center py-12">
-        <h1 className="text-4xl font-bold mb-2">
-          <span className="text-orange-500">메이플랜드</span> DB
-        </h1>
-        <p className="text-gray-500 mb-8">아이템, 몬스터, 맵, NPC, 퀘스트를 한 곳에서 검색하세요</p>
-        <div className="max-w-2xl mx-auto">
+        <div className="flex items-center justify-center gap-4 mb-2">
+          <img src="/mascot.png" alt="추억길드 마스코트" className="w-20 h-20 object-contain drop-shadow-md" />
+          <div>
+            <h1 className="text-4xl font-bold">
+              <span className="text-orange-500">메이플랜드</span> DB
+            </h1>
+            <p className="text-gray-500 mt-1">아이템, 몬스터, 맵, NPC, 퀘스트를 한 곳에서 검색하세요</p>
+          </div>
+        </div>
+        <div className="max-w-2xl mx-auto mt-6">
           <SearchBar large />
         </div>
       </section>
