@@ -16,9 +16,12 @@ const links = [
   { href: "/scroll", label: "주문서 계산기" },
   { href: "/fee", label: "수수료 계산기" },
   { href: "/exp", label: "경험치 계산기" },
+  { href: "/nhit", label: "엔방컷 계산기" },
   { href: "/pq", label: "파퀘 가이드" },
   { href: "/bimae", label: "비매박제" },
 ];
+
+const VERSION_LINK = { href: "/version", label: "v1.0.0" };
 
 export default function NavBar() {
   const pathname = usePathname();
@@ -51,6 +54,16 @@ export default function NavBar() {
               {l.label}
             </Link>
           ))}
+          <Link
+            href={VERSION_LINK.href}
+            className={`px-2 py-1 rounded-md text-xs font-mono transition-colors ml-1 ${
+              isActive(VERSION_LINK.href)
+                ? "bg-orange-50 text-orange-500"
+                : "text-gray-400 hover:text-orange-500 hover:bg-gray-50"
+            }`}
+          >
+            {VERSION_LINK.label}
+          </Link>
         </div>
 
         {/* Mobile hamburger */}
@@ -80,6 +93,15 @@ export default function NavBar() {
               {l.label}
             </Link>
           ))}
+          <Link
+            href={VERSION_LINK.href}
+            onClick={() => setMenuOpen(false)}
+            className={`block px-4 py-3 text-xs font-mono border-t border-gray-100 ${
+              isActive(VERSION_LINK.href) ? "text-orange-500" : "text-gray-400"
+            }`}
+          >
+            {VERSION_LINK.label}
+          </Link>
         </div>
       )}
     </nav>

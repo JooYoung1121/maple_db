@@ -163,6 +163,18 @@ CREATE TABLE IF NOT EXISTS bimae_posts (
     upvotes INTEGER DEFAULT 0,
     downvotes INTEGER DEFAULT 0
 );
+
+CREATE TABLE IF NOT EXISTS scroll_rankings (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nickname TEXT NOT NULL,
+    equipment_type TEXT NOT NULL,
+    scroll_type TEXT NOT NULL,
+    slot_count INTEGER NOT NULL,
+    success_count INTEGER NOT NULL,
+    total_stat_gain TEXT,
+    scroll_detail TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 """
 
 FTS_SCHEMA = """

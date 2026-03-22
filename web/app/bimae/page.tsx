@@ -41,6 +41,7 @@ export default function BimaePage() {
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [voteCooldowns, setVoteCooldowns] = useState<Record<number, number>>({}); // postId -> remaining seconds
   const perPage = 20;
 
   // form
@@ -102,6 +103,8 @@ export default function BimaePage() {
   }
 
   async function vote(postId: number, type: "up" | "down") {
+    // 5초 쿨다운 체크
+    if (voteCooldowns[postId]) return;
     try {
       const res = await fetch(`${API_BASE}/api/bimae/${postId}/vote`, {
         method: "POST",
@@ -111,6 +114,19 @@ export default function BimaePage() {
       if (res.ok) {
         const data = await res.json();
         setPosts((prev) => prev.map((p) => (p.id === postId ? data.post : p)));
+        // 5초 쿨다운 시작
+        setVoteCooldowns((prev) => ({ ...prev, [postId]: 5 }));
+        const interval = setInterval(() => {
+          setVoteCooldowns((prev) => {
+            const remaining = (prev[postId] || 0) - 1;
+            if (remaining <= 0) {
+              clearInterval(interval);
+              const { [postId]: _, ...rest } = prev;
+              return rest;
+            }
+            return { ...prev, [postId]: remaining };
+          });
+        }, 1000);
       }
     } catch { /* ignore */ }
   }
@@ -269,20 +285,28 @@ export default function BimaePage() {
 
                   {/* 투표 영역 */}
                   <div className="flex flex-col items-center gap-1 ml-4 min-w-[80px]">
-                    <button
-                      onClick={() => vote(post.id, "up")}
-                      className="w-full flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"
-                    >
-                      <span>{"진짜"}</span>
-                      <span className="font-bold">{post.upvotes}</span>
-                    </button>
-                    <button
-                      onClick={() => vote(post.id, "down")}
-                      className="w-full flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
-                    >
-                      <span>{"거짓"}</span>
-                      <span className="font-bold">{post.downvotes}</span>
-                    </button>
+                    {voteCooldowns[post.id] ? (
+                      <div className="w-full text-center px-3 py-3 rounded-lg text-xs font-medium bg-gray-100 text-gray-400">
+                        {voteCooldowns[post.id]}초 후 재투표
+                      </div>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => vote(post.id, "up")}
+                          className="w-full flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"
+                        >
+                          <span>{"진짜"}</span>
+                          <span className="font-bold">{post.upvotes}</span>
+                        </button>
+                        <button
+                          onClick={() => vote(post.id, "down")}
+                          className="w-full flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg text-sm font-medium bg-red-50 text-red-600 hover:bg-red-100 transition-colors"
+                        >
+                          <span>{"거짓"}</span>
+                          <span className="font-bold">{post.downvotes}</span>
+                        </button>
+                      </>
+                    )}
                     {total > 0 && (
                       <div className="w-full mt-1">
                         <div className="h-1.5 bg-red-200 rounded-full overflow-hidden">

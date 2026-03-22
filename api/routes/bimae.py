@@ -1,11 +1,16 @@
 """비매유저 박제 게시판 API"""
-from fastapi import APIRouter, Query, HTTPException
+import time
+from fastapi import APIRouter, Query, HTTPException, Request
 from pydantic import BaseModel
 from typing import Optional
 
 from crawler.db import get_connection
 
 router = APIRouter()
+
+# IP 기반 투표 쿨다운 (5초)
+_vote_cooldowns: dict[str, float] = {}
+VOTE_COOLDOWN_SEC = 5
 
 
 class BimaePostCreate(BaseModel):
@@ -90,9 +95,19 @@ def create_bimae(post: BimaePostCreate):
 
 
 @router.post("/bimae/{post_id}/vote")
-def vote_bimae(post_id: int, vote: BimaeVote):
+def vote_bimae(post_id: int, vote: BimaeVote, request: Request):
     if vote.vote not in ("up", "down"):
         raise HTTPException(status_code=400, detail="vote는 'up' 또는 'down'")
+
+    # IP 기반 쿨다운 체크
+    client_ip = request.client.host if request.client else "unknown"
+    cooldown_key = f"{client_ip}:{post_id}"
+    now = time.time()
+    last_vote = _vote_cooldowns.get(cooldown_key, 0)
+    if now - last_vote < VOTE_COOLDOWN_SEC:
+        remaining = int(VOTE_COOLDOWN_SEC - (now - last_vote)) + 1
+        raise HTTPException(status_code=429, detail=f"{remaining}초 후 다시 투표할 수 있습니다")
+    _vote_cooldowns[cooldown_key] = now
 
     try:
         conn = get_connection()

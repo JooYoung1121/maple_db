@@ -11,7 +11,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from crawler.db import init_db
-from api.routes import search, items, mobs, maps, npcs, quests, export, skills, admin, bimae
+from api.routes import search, items, mobs, maps, npcs, quests, export, skills, admin, bimae, scroll_rankings
 
 
 @asynccontextmanager
@@ -48,6 +48,7 @@ app.include_router(export.router, prefix="/api")
 app.include_router(skills.router, prefix="/api")
 app.include_router(admin.router, prefix="/api")
 app.include_router(bimae.router, prefix="/api")
+app.include_router(scroll_rankings.router, prefix="/api")
 
 
 @app.get("/api/health")
