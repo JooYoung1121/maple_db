@@ -5,20 +5,20 @@ import { useState, useMemo } from "react";
 // ─── 무기 배율 테이블 ───
 const WEAPON_MULTIPLIERS: Record<
   string,
-  { mult: number; mainStat: string; subStat: string; type: "melee" | "ranged" | "magic" }
+  { maxMult: number; minMult: number; mainStat: string; subStat: string; type: "melee" | "ranged" | "magic" }
 > = {
-  "한손검": { mult: 4.0, mainStat: "STR", subStat: "DEX", type: "melee" },
-  "두손검": { mult: 4.6, mainStat: "STR", subStat: "DEX", type: "melee" },
-  "한손도끼/둔기": { mult: 4.4, mainStat: "STR", subStat: "DEX", type: "melee" },
-  "두손도끼/둔기": { mult: 4.8, mainStat: "STR", subStat: "DEX", type: "melee" },
-  "창": { mult: 5.0, mainStat: "STR", subStat: "DEX", type: "melee" },
-  "폴암": { mult: 5.0, mainStat: "STR", subStat: "DEX", type: "melee" },
-  "활": { mult: 3.4, mainStat: "DEX", subStat: "STR", type: "ranged" },
-  "석궁": { mult: 3.6, mainStat: "DEX", subStat: "STR", type: "ranged" },
-  "단검": { mult: 3.6, mainStat: "LUK", subStat: "STR+DEX", type: "melee" },
-  "아대/클로": { mult: 3.6, mainStat: "LUK", subStat: "STR+DEX", type: "melee" },
-  "너클": { mult: 4.8, mainStat: "STR", subStat: "DEX", type: "melee" },
-  "건": { mult: 3.6, mainStat: "DEX", subStat: "STR", type: "ranged" },
+  "한손검":       { maxMult: 4.0, minMult: 4.0, mainStat: "STR", subStat: "DEX",     type: "melee"  },
+  "두손검":       { maxMult: 4.6, minMult: 4.6, mainStat: "STR", subStat: "DEX",     type: "melee"  },
+  "한손도끼/둔기": { maxMult: 4.4, minMult: 3.2, mainStat: "STR", subStat: "DEX",     type: "melee"  },
+  "두손도끼/둔기": { maxMult: 4.8, minMult: 3.4, mainStat: "STR", subStat: "DEX",     type: "melee"  },
+  "창":           { maxMult: 5.0, minMult: 3.0, mainStat: "STR", subStat: "DEX",     type: "melee"  },
+  "폴암":         { maxMult: 5.0, minMult: 3.0, mainStat: "STR", subStat: "DEX",     type: "melee"  },
+  "활":           { maxMult: 3.4, minMult: 3.4, mainStat: "DEX", subStat: "STR",     type: "ranged" },
+  "석궁":         { maxMult: 3.6, minMult: 3.6, mainStat: "DEX", subStat: "STR",     type: "ranged" },
+  "단검":         { maxMult: 3.6, minMult: 3.6, mainStat: "LUK", subStat: "STR+DEX", type: "melee"  },
+  "아대/클로":    { maxMult: 3.6, minMult: 3.6, mainStat: "LUK", subStat: "STR+DEX", type: "melee"  },
+  "너클":         { maxMult: 4.8, minMult: 4.8, mainStat: "STR", subStat: "DEX",     type: "melee"  },
+  "건":           { maxMult: 3.6, minMult: 3.6, mainStat: "DEX", subStat: "STR",     type: "ranged" },
 };
 
 // ─── 스킬 데이터 ───
@@ -36,7 +36,6 @@ interface PassiveSkill {
   mastery?: number;
   critRate?: number;
   critDmg?: number;
-  atkBonus?: number;
   description: string;
 }
 
@@ -96,9 +95,7 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
     label: "불독(F/P)",
     weapons: [],
     isMagic: true,
-    passives: [
-      { name: "스펠 마스터리", type: "passive", mastery: 75, atkBonus: 15, description: "마스터리 75% + 마력 +15" },
-    ],
+    passives: [],
     actives: [
       { name: "파이어 에로우", damage: 160, hits: 1, type: "active", element: "fire" },
       { name: "포이즌 브레스", damage: 200, hits: 1, type: "active", element: "poison" },
@@ -110,9 +107,7 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
     label: "썬콜(I/L)",
     weapons: [],
     isMagic: true,
-    passives: [
-      { name: "스펠 마스터리", type: "passive", mastery: 75, atkBonus: 15, description: "마스터리 75% + 마력 +15" },
-    ],
+    passives: [],
     actives: [
       { name: "콜드 빔", damage: 160, hits: 1, type: "active", element: "ice" },
       { name: "썬더 볼트", damage: 165, hits: 1, type: "active", element: "lightning" },
@@ -125,9 +120,7 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
     label: "비숍",
     weapons: [],
     isMagic: true,
-    passives: [
-      { name: "스펠 마스터리", type: "passive", mastery: 75, atkBonus: 15, description: "마스터리 75% + 마력 +15" },
-    ],
+    passives: [],
     actives: [
       { name: "홀리 에로우", damage: 160, hits: 1, type: "active", element: "holy" },
       { name: "샤이닝 레이", damage: 220, hits: 1, type: "active", element: "holy" },
@@ -229,9 +222,7 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
     label: "플레임위자드",
     weapons: [],
     isMagic: true,
-    passives: [
-      { name: "스펠 마스터리", type: "passive", mastery: 75, atkBonus: 15, description: "마스터리 75% + 마력 +15" },
-    ],
+    passives: [],
     actives: [
       { name: "파이어 에로우", damage: 160, hits: 1, type: "active", element: "fire" },
       { name: "파이어 필라", damage: 350, hits: 1, type: "active", element: "fire" },
@@ -318,43 +309,94 @@ interface Monster {
 }
 
 const HUNTING_GROUNDS: Monster[] = [
+  // Level 1-10
+  { name: "파란달팽이",    level: 2,   hp: 15,        wdef: 0,    mdef: 0,    exp: 3,    map: "빅토리아 아일랜드" },
+  { name: "노란달팽이",    level: 3,   hp: 30,        wdef: 0,    mdef: 0,    exp: 5,    map: "빅토리아 아일랜드" },
+  { name: "버섯",          level: 5,   hp: 50,        wdef: 0,    mdef: 0,    exp: 8,    map: "헤네시스" },
+  { name: "슬라임",        level: 6,   hp: 50,        wdef: 5,    mdef: 10,   exp: 10,   map: "엘리니아 숲" },
+  { name: "스텀프",        level: 7,   hp: 70,        wdef: 5,    mdef: 0,    exp: 12,   map: "헤네시스" },
+  { name: "초록버섯",      level: 7,   hp: 80,        wdef: 0,    mdef: 10,   exp: 14,   map: "헤네시스 사냥터" },
+  { name: "돼지",          level: 10,  hp: 150,       wdef: 15,   mdef: 10,   exp: 22,   map: "헤네시스" },
+  { name: "주황버섯",      level: 10,  hp: 100,       wdef: 0,    mdef: 10,   exp: 18,   map: "헤네시스 사냥터" },
   // Level 10-30
-  { name: "슬라임", level: 6, hp: 50, wdef: 5, mdef: 10, exp: 10, map: "엘리니아 숲" },
-  { name: "주황버섯", level: 8, hp: 80, wdef: 0, mdef: 10, exp: 15, map: "헤네시스 사냥터" },
-  { name: "리본돼지", level: 10, hp: 120, wdef: 10, mdef: 30, exp: 20, map: "남쪽 숲" },
+  { name: "뿔버섯",        level: 13,  hp: 160,       wdef: 25,   mdef: 10,   exp: 30,   map: "헤네시스 사냥터" },
+  { name: "리본돼지",      level: 15,  hp: 210,       wdef: 35,   mdef: 20,   exp: 46,   map: "남쪽 숲" },
+  { name: "발록새끼",      level: 18,  hp: 300,       wdef: 40,   mdef: 20,   exp: 52,   map: "슬리피우드" },
+  { name: "잭더래빗",      level: 20,  hp: 350,       wdef: 45,   mdef: 30,   exp: 58,   map: "케르닝 지하상가" },
+  { name: "좀비버섯",      level: 22,  hp: 400,       wdef: 50,   mdef: 40,   exp: 65,   map: "페리온" },
+  { name: "킬라",          level: 25,  hp: 500,       wdef: 55,   mdef: 50,   exp: 75,   map: "케르닝시티" },
+  { name: "투카",          level: 26,  hp: 580,       wdef: 58,   mdef: 52,   exp: 82,   map: "케르닝시티" },
+  { name: "주니어발록",    level: 28,  hp: 750,       wdef: 60,   mdef: 60,   exp: 95,   map: "슬리피우드" },
   // Level 30-50
-  { name: "주니어셀리온", level: 33, hp: 1100, wdef: 60, mdef: 80, exp: 65, map: "엘리니아" },
-  { name: "주니어페페", level: 35, hp: 1400, wdef: 110, mdef: 100, exp: 75, map: "엘나스" },
-  { name: "네펜데스", level: 42, hp: 2100, wdef: 120, mdef: 120, exp: 99, map: "빅토리아" },
-  { name: "코퍼드레이크", level: 45, hp: 2700, wdef: 100, mdef: 100, exp: 105, map: "슬리피우드" },
-  { name: "드레이크", level: 50, hp: 3200, wdef: 110, mdef: 150, exp: 135, map: "슬리피우드 깊은곳" },
+  { name: "찰지귀",        level: 30,  hp: 580,       wdef: 50,   mdef: 55,   exp: 58,   map: "케르닝시티" },
+  { name: "구울",          level: 32,  hp: 700,       wdef: 65,   mdef: 70,   exp: 65,   map: "페리온" },
+  { name: "주니어셀리온",  level: 33,  hp: 1100,      wdef: 60,   mdef: 80,   exp: 65,   map: "엘리니아" },
+  { name: "주니어페페",    level: 35,  hp: 1400,      wdef: 110,  mdef: 100,  exp: 75,   map: "엘나스" },
+  { name: "아이언호그",    level: 37,  hp: 1050,      wdef: 115,  mdef: 85,   exp: 85,   map: "로랑 광산" },
+  { name: "스트로너",      level: 39,  hp: 1300,      wdef: 120,  mdef: 90,   exp: 92,   map: "로랑" },
+  { name: "페어리",        level: 40,  hp: 1500,      wdef: 115,  mdef: 130,  exp: 95,   map: "엘리니아" },
+  { name: "네펜데스",      level: 42,  hp: 2100,      wdef: 120,  mdef: 120,  exp: 99,   map: "빅토리아" },
+  { name: "오크",          level: 43,  hp: 2400,      wdef: 130,  mdef: 110,  exp: 104,  map: "페리온" },
+  { name: "코퍼드레이크",  level: 45,  hp: 2700,      wdef: 100,  mdef: 100,  exp: 105,  map: "슬리피우드" },
+  { name: "그린드레이크",  level: 48,  hp: 2900,      wdef: 110,  mdef: 160,  exp: 120,  map: "슬리피우드" },
+  { name: "블록고렘",      level: 50,  hp: 3500,      wdef: 190,  mdef: 110,  exp: 140,  map: "로랑" },
+  { name: "드레이크",      level: 50,  hp: 3200,      wdef: 110,  mdef: 150,  exp: 135,  map: "슬리피우드 깊은곳" },
   // Level 50-70
-  { name: "주니어예티", level: 50, hp: 3700, wdef: 170, mdef: 180, exp: 135, map: "엘나스 산간" },
-  { name: "헥터", level: 55, hp: 4600, wdef: 120, mdef: 120, exp: 170, map: "오르비스" },
-  { name: "화이트팽", level: 58, hp: 5800, wdef: 200, mdef: 220, exp: 220, map: "엘나스" },
-  { name: "레드드레이크", level: 60, hp: 6000, wdef: 190, mdef: 220, exp: 220, map: "용의 둥지 입구" },
-  { name: "버피", level: 61, hp: 7400, wdef: 213, mdef: 213, exp: 230, map: "시계탑" },
-  { name: "아이스드레이크", level: 64, hp: 7700, wdef: 200, mdef: 230, exp: 250, map: "엘나스" },
-  // Level 70-90
-  { name: "예티", level: 65, hp: 11000, wdef: 170, mdef: 245, exp: 346, map: "엘나스" },
-  { name: "다크예티", level: 68, hp: 13000, wdef: 190, mdef: 270, exp: 409, map: "엘나스" },
-  { name: "타우로마시스", level: 70, hp: 15000, wdef: 250, mdef: 250, exp: 472, map: "미나르숲" },
-  { name: "클라크", level: 70, hp: 15000, wdef: 250, mdef: 250, exp: 270, map: "시계탑 최하층" },
-  { name: "버푼", level: 74, hp: 16000, wdef: 340, mdef: 340, exp: 340, map: "시계탑" },
-  { name: "타우로스피어", level: 75, hp: 18000, wdef: 550, mdef: 400, exp: 567, map: "미나르숲" },
-  { name: "다크클라크", level: 76, hp: 18000, wdef: 380, mdef: 380, exp: 370, map: "시계탑" },
-  { name: "라이칸스로프", level: 80, hp: 27000, wdef: 650, mdef: 520, exp: 850, map: "엘나스" },
-  // Level 90-120
-  { name: "해적", level: 83, hp: 30000, wdef: 710, mdef: 710, exp: 1100, map: "시계탑 최하층" },
-  { name: "듀얼해적", level: 87, hp: 35000, wdef: 775, mdef: 775, exp: 1500, map: "시계탑 최하층" },
-  { name: "블루켄타", level: 88, hp: 37000, wdef: 600, mdef: 600, exp: 1600, map: "리프레" },
-  { name: "파이어독", level: 90, hp: 45000, wdef: 835, mdef: 505, exp: 1800, map: "엘나스" },
-  { name: "레드드래곤터틀", level: 93, hp: 49000, wdef: 700, mdef: 700, exp: 2100, map: "미나르숲" },
-  { name: "레드와이번", level: 97, hp: 53000, wdef: 750, mdef: 750, exp: 2500, map: "리프레" },
-  { name: "블루와이번", level: 101, hp: 57000, wdef: 800, mdef: 800, exp: 3050, map: "리프레" },
-  { name: "다크와이번", level: 103, hp: 60000, wdef: 850, mdef: 850, exp: 3150, map: "리프레" },
-  { name: "스켈레곤", level: 110, hp: 80000, wdef: 900, mdef: 900, exp: 4500, map: "리프레" },
-  { name: "스켈로스", level: 113, hp: 85000, wdef: 950, mdef: 950, exp: 4750, map: "리프레" },
+  { name: "주니어예티",    level: 50,  hp: 3700,      wdef: 170,  mdef: 180,  exp: 135,  map: "엘나스 산간" },
+  { name: "다크드레이크",  level: 55,  hp: 5200,      wdef: 180,  mdef: 195,  exp: 185,  map: "슬리피우드" },
+  { name: "와일드보어",    level: 55,  hp: 5000,      wdef: 160,  mdef: 160,  exp: 180,  map: "로랑" },
+  { name: "헥터",          level: 55,  hp: 4600,      wdef: 120,  mdef: 120,  exp: 170,  map: "오르비스" },
+  { name: "화이트팽",      level: 58,  hp: 5800,      wdef: 200,  mdef: 220,  exp: 220,  map: "엘나스" },
+  { name: "레드드레이크",  level: 60,  hp: 6000,      wdef: 190,  mdef: 220,  exp: 220,  map: "용의 둥지 입구" },
+  { name: "버피",          level: 61,  hp: 7400,      wdef: 213,  mdef: 213,  exp: 230,  map: "시계탑" },
+  { name: "나이트고스트",  level: 62,  hp: 6800,      wdef: 210,  mdef: 230,  exp: 240,  map: "루디브리엄" },
+  { name: "아이스드레이크",level: 64,  hp: 7700,      wdef: 200,  mdef: 230,  exp: 250,  map: "엘나스" },
+  // Level 65-80
+  { name: "예티",          level: 65,  hp: 11000,     wdef: 170,  mdef: 245,  exp: 346,  map: "엘나스" },
+  { name: "루미네",        level: 66,  hp: 12000,     wdef: 260,  mdef: 260,  exp: 360,  map: "엘나스" },
+  { name: "다크로드",      level: 67,  hp: 12500,     wdef: 275,  mdef: 265,  exp: 370,  map: "루디브리엄" },
+  { name: "다크예티",      level: 68,  hp: 13000,     wdef: 190,  mdef: 270,  exp: 409,  map: "엘나스" },
+  { name: "타우로마시스",  level: 70,  hp: 15000,     wdef: 250,  mdef: 250,  exp: 472,  map: "미나르숲" },
+  { name: "클라크",        level: 70,  hp: 15000,     wdef: 250,  mdef: 250,  exp: 270,  map: "시계탑 최하층" },
+  { name: "아이스그림",    level: 72,  hp: 15500,     wdef: 270,  mdef: 265,  exp: 490,  map: "엘나스" },
+  { name: "설인",          level: 73,  hp: 16000,     wdef: 310,  mdef: 305,  exp: 510,  map: "엘나스" },
+  { name: "버푼",          level: 74,  hp: 16000,     wdef: 340,  mdef: 340,  exp: 340,  map: "시계탑" },
+  { name: "타우로스피어",  level: 75,  hp: 18000,     wdef: 550,  mdef: 400,  exp: 567,  map: "미나르숲" },
+  { name: "다크클라크",    level: 76,  hp: 18000,     wdef: 380,  mdef: 380,  exp: 370,  map: "시계탑" },
+  { name: "가고일",        level: 78,  hp: 24000,     wdef: 620,  mdef: 480,  exp: 750,  map: "루디브리엄" },
+  { name: "라이칸스로프",  level: 80,  hp: 27000,     wdef: 650,  mdef: 520,  exp: 850,  map: "엘나스" },
+  // Level 80-100
+  { name: "블랙라이칸스",  level: 82,  hp: 28500,     wdef: 670,  mdef: 540,  exp: 900,  map: "엘나스" },
+  { name: "해적",          level: 83,  hp: 30000,     wdef: 710,  mdef: 710,  exp: 1100, map: "시계탑 최하층" },
+  { name: "켄타우로스",    level: 86,  hp: 34000,     wdef: 585,  mdef: 585,  exp: 1450, map: "리프레" },
+  { name: "듀얼해적",      level: 87,  hp: 35000,     wdef: 775,  mdef: 775,  exp: 1500, map: "시계탑 최하층" },
+  { name: "블루켄타",      level: 88,  hp: 37000,     wdef: 600,  mdef: 600,  exp: 1600, map: "리프레" },
+  { name: "주니어와이번",  level: 90,  hp: 43000,     wdef: 800,  mdef: 800,  exp: 1750, map: "리프레" },
+  { name: "파이어독",      level: 90,  hp: 45000,     wdef: 835,  mdef: 505,  exp: 1800, map: "엘나스" },
+  { name: "다크켄타",      level: 92,  hp: 46000,     wdef: 695,  mdef: 695,  exp: 1920, map: "리프레" },
+  { name: "리자드맨",      level: 93,  hp: 47000,     wdef: 700,  mdef: 720,  exp: 2050, map: "리프레" },
+  { name: "레드드래곤터틀",level: 93,  hp: 49000,     wdef: 700,  mdef: 700,  exp: 2100, map: "미나르숲" },
+  { name: "리자드(레드)",  level: 95,  hp: 51000,     wdef: 720,  mdef: 720,  exp: 2250, map: "리프레" },
+  { name: "블루드래곤터틀",level: 96,  hp: 52000,     wdef: 730,  mdef: 730,  exp: 2400, map: "미나르숲" },
+  { name: "레드와이번",    level: 97,  hp: 53000,     wdef: 750,  mdef: 750,  exp: 2500, map: "리프레" },
+  // Level 100+
+  { name: "피아누스",      level: 100, hp: 2400000,   wdef: 800,  mdef: 800,  exp: 0,    map: "루디브리엄 궁전 (보스)" },
+  { name: "블루와이번",    level: 101, hp: 57000,     wdef: 800,  mdef: 800,  exp: 3050, map: "리프레" },
+  { name: "독수리",        level: 102, hp: 58000,     wdef: 840,  mdef: 840,  exp: 3100, map: "리프레" },
+  { name: "다크와이번",    level: 103, hp: 60000,     wdef: 850,  mdef: 850,  exp: 3150, map: "리프레" },
+  { name: "만티스",        level: 105, hp: 65000,     wdef: 870,  mdef: 870,  exp: 3600, map: "리프레" },
+  { name: "아이스드라코",  level: 108, hp: 75000,     wdef: 900,  mdef: 900,  exp: 4100, map: "리프레" },
+  { name: "스켈레곤",      level: 110, hp: 80000,     wdef: 900,  mdef: 900,  exp: 4500, map: "리프레" },
+  { name: "메카트로피",    level: 112, hp: 88000,     wdef: 970,  mdef: 940,  exp: 4800, map: "루디브리엄" },
+  { name: "스켈로스",      level: 113, hp: 85000,     wdef: 950,  mdef: 950,  exp: 4750, map: "리프레" },
+  { name: "파퀴",          level: 115, hp: 95000,     wdef: 1000, mdef: 980,  exp: 5000, map: "루디브리엄" },
+  { name: "핫샌드",        level: 116, hp: 100000,    wdef: 1000, mdef: 1000, exp: 5200, map: "리프레" },
+  { name: "만타",          level: 118, hp: 108000,    wdef: 1020, mdef: 1020, exp: 5600, map: "리프레" },
+  { name: "마리온에트",    level: 120, hp: 120000,    wdef: 1050, mdef: 1050, exp: 6200, map: "루디브리엄" },
+  { name: "리스크리",      level: 122, hp: 130000,    wdef: 1080, mdef: 1080, exp: 6800, map: "루디브리엄" },
+  // 보스
+  { name: "오르카",        level: 130, hp: 35000000,  wdef: 1200, mdef: 1200, exp: 0,    map: "빅마마 섬 (보스)" },
+  { name: "자쿰",          level: 140, hp: 128000000, wdef: 1500, mdef: 1500, exp: 0,    map: "자쿰 신전 (보스)" },
 ];
 
 // ─── 데미지 계산 ───
@@ -368,7 +410,8 @@ function calcPhysicalDamage(
   mainStat: number,
   subStat: number,
   atk: number,
-  weaponMult: number,
+  maxMult: number,
+  minMult: number,
   mastery: number,
   skillPct: number,
   hits: number,
@@ -380,13 +423,13 @@ function calcPhysicalDamage(
   const levelPenalty = 1 - 0.01 * D;
   const maxDmg =
     Math.max(
-      ((mainStat * weaponMult + subStat) * (atk / 100) * levelPenalty - wdef * 0.5) *
+      ((mainStat * maxMult + subStat) * (atk / 100) * levelPenalty - wdef * 0.5) *
         (skillPct / 100),
       1
     ) * hits;
   const minDmg =
     Math.max(
-      ((mainStat * weaponMult * 0.9 * mastery + subStat) * (atk / 100) * levelPenalty -
+      ((mainStat * minMult * 0.9 * mastery + subStat) * (atk / 100) * levelPenalty -
         wdef * 0.6) *
         (skillPct / 100),
       1
@@ -394,10 +437,11 @@ function calcPhysicalDamage(
   return { maxDmg, minDmg, avgDmg: (maxDmg + minDmg) / 2 };
 }
 
+// 법사 데미지: MAX=(INT+LUK)×MA/100, MIN=(INT+LUK×0.5)×MA/100
 function calcMagicDamage(
-  ma: number,
   int_: number,
-  mastery: number,
+  luk: number,
+  ma: number,
   skillPct: number,
   hits: number,
   charLevel: number,
@@ -406,10 +450,10 @@ function calcMagicDamage(
 ): DamageResult {
   const D = Math.max(monLevel - charLevel, 0);
   const defMult = 1 + 0.01 * D;
-  const maxMagic = ((ma * ma) / 1000 + ma) / 30 + int_ / 200;
-  const minMagic = ((ma * ma) / 1000 + ma * 0.9 * mastery) / 30 + int_ / 200;
-  const maxDmg = Math.max((maxMagic - mdef * 0.5 * defMult) * (skillPct / 100), 1) * hits;
-  const minDmg = Math.max((minMagic - mdef * 0.6 * defMult) * (skillPct / 100), 1) * hits;
+  const maxBase = (int_ + luk) * (ma / 100);
+  const minBase = (int_ + luk * 0.5) * (ma / 100);
+  const maxDmg = Math.max((maxBase * (skillPct / 100) - mdef * 0.5 * defMult), 1) * hits;
+  const minDmg = Math.max((minBase * (skillPct / 100) - mdef * 0.6 * defMult), 1) * hits;
   return { maxDmg, minDmg, avgDmg: (maxDmg + minDmg) / 2 };
 }
 
@@ -419,12 +463,12 @@ function calcNHit(hp: number, dmg: DamageResult): { nHitMax: number; nHitAvg: nu
   return { nHitMax, nHitAvg };
 }
 
-// 원킬컷 역산: physical ATK
+// 원킬컷 역산: physical ATK (maxMult 기준)
 function calcOneKillAtk(
   hp: number,
   mainStat: number,
   subStat: number,
-  weaponMult: number,
+  maxMult: number,
   skillPct: number,
   hits: number,
   charLevel: number,
@@ -434,14 +478,17 @@ function calcOneKillAtk(
   const D = Math.max(monLevel - charLevel, 0);
   const levelPenalty = 1 - 0.01 * D;
   const targetDmg = (hp / hits) / (skillPct / 100) + wdef * 0.5;
-  const baseAtk = targetDmg / (levelPenalty * ((mainStat * weaponMult + subStat) / 100));
+  const baseAtk = targetDmg / (levelPenalty * ((mainStat * maxMult + subStat) / 100));
   return Math.ceil(baseAtk);
 }
 
 // 원킬컷 역산: magic MA
+// (INT + LUK) × MA/100 × skill% - MDEF×0.5×defMult = HP/hits
+// → MA = (HP/hits / (skill%/100) + MDEF×0.5×defMult) × 100 / (INT + LUK)
 function calcOneKillMa(
   hp: number,
   int_: number,
+  luk: number,
   skillPct: number,
   hits: number,
   charLevel: number,
@@ -450,29 +497,12 @@ function calcOneKillMa(
 ): number {
   const D = Math.max(monLevel - charLevel, 0);
   const defMult = 1 + 0.01 * D;
-  const targetBase = (hp / hits) / (skillPct / 100) + mdef * 0.5 * defMult - int_ / 200;
-  const a = 1 / 1000;
-  const b = 1;
-  const c = -(targetBase * 30);
-  const disc = b * b - 4 * a * c;
-  if (disc < 0) return 0;
-  return Math.ceil((-b + Math.sqrt(disc)) / (2 * a));
+  const target = (hp / hits) / (skillPct / 100) + mdef * 0.5 * defMult;
+  const denom = (int_ + luk) / 100;
+  if (denom <= 0) return 0;
+  return Math.ceil(target / denom);
 }
 
-// HuntTab용 방어력 재조정 헬퍼 (기존 호환)
-function applyDefense(
-  base: DamageResult,
-  def: number,
-  isMagic: boolean,
-  monLevel: number,
-  charLevel: number
-): DamageResult {
-  // Re-derive a scaled result proportionally (simplified adjustment)
-  // The hunt tab uses dmgResult computed at the selected monster's defense.
-  // We approximate by scaling: this matches the original behavior.
-  void isMagic; void monLevel; void charLevel; void def;
-  return base;
-}
 
 // 공통 입력 컴포넌트
 function NumberInput({
@@ -535,6 +565,7 @@ export default function NHitPage() {
   const [atk, setAtk] = useState(80);
   const [ma, setMa] = useState(200);
   const [int_, setInt] = useState(300);
+  const [luk, setLuk] = useState(50);
   const [charLevel, setCharLevel] = useState(70);
 
   // 몬스터 선택
@@ -594,15 +625,19 @@ export default function NHitPage() {
     return m > 0 ? m : 50; // 패시브 없으면 50% 기본
   }, [passives, enabledPassives]);
 
-  // MA 보너스 (스펠 마스터리 atkBonus)
-  const effectiveMaBonus = useMemo(() => {
-    let bonus = 0;
+  // 크리티컬 정보 (나이트로드 등)
+  const effectiveCritRate = useMemo(() => {
     for (const p of passives) {
-      const key = p.name;
-      const isOn = enabledPassives[key] !== false;
-      if (isOn && p.atkBonus != null) bonus += p.atkBonus;
+      if (enabledPassives[p.name] !== false && p.critRate != null) return p.critRate;
     }
-    return bonus;
+    return 0;
+  }, [passives, enabledPassives]);
+
+  const effectiveCritDmg = useMemo(() => {
+    for (const p of passives) {
+      if (enabledPassives[p.name] !== false && p.critDmg != null) return p.critDmg;
+    }
+    return 0;
   }, [passives, enabledPassives]);
 
   const skillPct = selectedSkill?.damage ?? 100;
@@ -611,9 +646,9 @@ export default function NHitPage() {
   const dmgResult = useMemo<DamageResult>(() => {
     if (isMagic) {
       return calcMagicDamage(
-        ma + effectiveMaBonus,
         int_,
-        effectiveMastery / 100,
+        luk,
+        ma,
         skillPct,
         skillHits,
         charLevel,
@@ -625,7 +660,8 @@ export default function NHitPage() {
       mainStat,
       subStat,
       atk,
-      weaponInfo?.mult ?? 4.0,
+      weaponInfo?.maxMult ?? 4.0,
+      weaponInfo?.minMult ?? 4.0,
       effectiveMastery / 100,
       skillPct,
       skillHits,
@@ -634,19 +670,31 @@ export default function NHitPage() {
       monster.wdef
     );
   }, [
-    isMagic, ma, effectiveMaBonus, int_, effectiveMastery, skillPct, skillHits,
+    isMagic, ma, int_, luk, effectiveMastery, skillPct, skillHits,
     charLevel, mainStat, subStat, atk, weaponInfo, monster,
   ]);
 
+  // 크리티컬 데미지 결과
+  const critDmgResult = useMemo<DamageResult>(() => {
+    if (effectiveCritRate === 0) return dmgResult;
+    const factor = 1 + effectiveCritDmg / 100;
+    return {
+      maxDmg: dmgResult.maxDmg * factor,
+      minDmg: dmgResult.minDmg * factor,
+      avgDmg: dmgResult.avgDmg * factor,
+    };
+  }, [dmgResult, effectiveCritRate, effectiveCritDmg]);
+
   const { nHitMax, nHitAvg } = calcNHit(monster.hp, dmgResult);
+  const { nHitMax: critNHitMax, nHitAvg: critNHitAvg } = calcNHit(monster.hp, critDmgResult);
 
   const oneKillAtk = isMagic
-    ? calcOneKillMa(monster.hp, int_, skillPct, skillHits, charLevel, monster.level, monster.mdef)
+    ? calcOneKillMa(monster.hp, int_, luk, skillPct, skillHits, charLevel, monster.level, monster.mdef)
     : calcOneKillAtk(
         monster.hp,
         mainStat,
         subStat,
-        weaponInfo?.mult ?? 4.0,
+        weaponInfo?.maxMult ?? 4.0,
         skillPct,
         skillHits,
         charLevel,
@@ -707,6 +755,8 @@ export default function NHitPage() {
           setMa={setMa}
           int_={int_}
           setInt={setInt}
+          luk={luk}
+          setLuk={setLuk}
           charLevel={charLevel}
           setCharLevel={setCharLevel}
           usePreset={usePreset}
@@ -729,8 +779,11 @@ export default function NHitPage() {
           nHitAvg={nHitAvg}
           oneKillAtk={oneKillAtk}
           effectiveMastery={effectiveMastery}
-          effectiveMaBonus={effectiveMaBonus}
           weaponInfo={weaponInfo}
+          effectiveCritRate={effectiveCritRate}
+          effectiveCritDmg={effectiveCritDmg}
+          critNHitMax={critNHitMax}
+          critNHitAvg={critNHitAvg}
         />
       )}
       {activeTab === "hunt" && (
@@ -768,6 +821,8 @@ interface CalcTabProps {
   setMa: (v: number) => void;
   int_: number;
   setInt: (v: number) => void;
+  luk: number;
+  setLuk: (v: number) => void;
   charLevel: number;
   setCharLevel: (v: number) => void;
   usePreset: boolean;
@@ -790,8 +845,11 @@ interface CalcTabProps {
   nHitAvg: number;
   oneKillAtk: number;
   effectiveMastery: number;
-  effectiveMaBonus: number;
-  weaponInfo: { mult: number; mainStat: string; subStat: string; type: "melee" | "ranged" | "magic" } | undefined;
+  weaponInfo: { maxMult: number; minMult: number; mainStat: string; subStat: string; type: "melee" | "ranged" | "magic" } | undefined;
+  effectiveCritRate: number;
+  effectiveCritDmg: number;
+  critNHitMax: number;
+  critNHitAvg: number;
 }
 
 function CalcTab({
@@ -800,13 +858,14 @@ function CalcTab({
   selectedSkillIdx, setSelectedSkillIdx,
   enabledPassives, setEnabledPassives,
   mainStat, setMainStat, subStat, setSubStat, atk, setAtk,
-  ma, setMa, int_, setInt,
+  ma, setMa, int_, setInt, luk, setLuk,
   charLevel, setCharLevel,
   usePreset, setUsePreset, selectedMonster, setSelectedMonster,
   manualName, setManualName, manualLevel, setManualLevel,
   manualHp, setManualHp, manualWdef, setManualWdef, manualMdef, setManualMdef,
   monster, dmgResult, nHitMax, nHitAvg, oneKillAtk,
-  effectiveMastery, effectiveMaBonus, weaponInfo,
+  effectiveMastery, weaponInfo,
+  effectiveCritRate, effectiveCritDmg, critNHitMax, critNHitAvg,
 }: CalcTabProps) {
   const actives = jobData?.actives ?? [];
   const passives = jobData?.passives ?? [];
@@ -888,7 +947,7 @@ function CalcTab({
             >
               {jobData.weapons.map((w) => (
                 <option key={w} value={w}>
-                  {w} (배율 {WEAPON_MULTIPLIERS[w]?.mult})
+                  {w} (최대배율 {WEAPON_MULTIPLIERS[w]?.maxMult} / 최소배율 {WEAPON_MULTIPLIERS[w]?.minMult})
                 </option>
               ))}
             </select>
@@ -914,15 +973,9 @@ function CalcTab({
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <NumberInput label="마력 (MA)" value={ma} onChange={setMa} min={1} />
-            <NumberInput label="INT" value={int_} onChange={setInt} min={1} />
-            {effectiveMaBonus > 0 && (
-              <div className="flex items-end">
-                <span className="text-xs text-purple-600 bg-purple-50 border border-purple-200 rounded-lg px-3 py-2">
-                  스펠 마스터리 +{effectiveMaBonus} MA 적용 중
-                </span>
-              </div>
-            )}
+            <NumberInput label="지력 (INT)" value={int_} onChange={setInt} min={1} />
+            <NumberInput label="운 (LUK)" value={luk} onChange={setLuk} min={0} />
+            <NumberInput label="마법공격력 (MA)" value={ma} onChange={setMa} min={1} />
           </div>
         )}
 
@@ -1119,8 +1172,10 @@ function CalcTab({
           </div>
         </div>
 
-        <div className={`rounded-xl border p-4 mb-4 ${nHitBg(nHitAvg)}`}>
-          <p className="text-sm text-gray-500 mb-1">{monster.name} N방컷</p>
+        <div className={`rounded-xl border p-4 mb-3 ${nHitBg(nHitAvg)}`}>
+          <p className="text-sm text-gray-500 mb-1">
+            {monster.name} N방컷{effectiveCritRate > 0 ? " (노크리)" : ""}
+          </p>
           <p className={`text-3xl font-bold ${nHitColor(nHitAvg)}`}>
             평균 {nHitAvg}방컷
           </p>
@@ -1134,13 +1189,27 @@ function CalcTab({
           )}
         </div>
 
+        {effectiveCritRate > 0 && (
+          <div className="rounded-xl border bg-yellow-50 border-yellow-200 p-4 mb-3">
+            <p className="text-sm text-gray-500 mb-1">
+              {monster.name} N방컷 (크리 {effectiveCritRate}% 발동 시, +{effectiveCritDmg}%)
+            </p>
+            <p className={`text-3xl font-bold ${nHitColor(critNHitAvg)}`}>
+              크리 {critNHitAvg}방컷
+            </p>
+            <p className="text-sm text-gray-500 mt-1">
+              최대 기준: {critNHitMax}방컷 &nbsp;|&nbsp; 평균 기준: {critNHitAvg}방컷
+            </p>
+          </div>
+        )}
+
         <div className="bg-gray-50 rounded-xl p-4">
-          <p className="text-xs font-medium text-gray-500 mb-1">원킬컷 {isMagic ? "마력 (MA)" : "공격력 (ATK)"}</p>
+          <p className="text-xs font-medium text-gray-500 mb-1">원킬컷 {isMagic ? "마법공격력 (MA)" : "공격력 (ATK)"}</p>
           <p className="text-2xl font-bold text-orange-600">
             {oneKillAtk > 0 ? oneKillAtk.toLocaleString() : "계산 불가"}
           </p>
           <p className="text-xs text-gray-400 mt-1">
-            {monster.name}을 1방에 잡으려면 필요한 {isMagic ? "마력" : "공격력"}
+            {monster.name}을 1방에 잡으려면 필요한 {isMagic ? "마법공격력" : "공격력"}
           </p>
         </div>
       </div>
@@ -1150,16 +1219,15 @@ function CalcTab({
         <h2 className="font-bold mb-3 text-gray-700">데미지 공식 참고</h2>
         {!isMagic ? (
           <div className="text-xs text-gray-500 space-y-1 font-mono bg-gray-50 rounded-lg p-3">
-            <p>최대 = (주스탯 × 배율 + 부스탯) × ATK/100 × (1 - 0.01×D) - 물방×0.5) × 스킬% × 타수</p>
-            <p>최소 = (주스탯 × 배율 × 0.9 × 마스터리 + 부스탯) × ATK/100 × (1 - 0.01×D) - 물방×0.6) × 스킬% × 타수</p>
+            <p>최대 = (주스탯 × 최대배율 + 부스탯) × ATK/100 × (1 - 0.01×D) - 물방×0.5) × 스킬% × 타수</p>
+            <p>최소 = (주스탯 × 최소배율 × 0.9 × 마스터리 + 부스탯) × ATK/100 × (1 - 0.01×D) - 물방×0.6) × 스킬% × 타수</p>
             <p className="text-gray-400">D = max(몬스터레벨 - 캐릭터레벨, 0)</p>
           </div>
         ) : (
           <div className="text-xs text-gray-500 space-y-1 font-mono bg-gray-50 rounded-lg p-3">
-            <p>최대마법 = (MA² / 1000 + MA) / 30 + INT / 200</p>
-            <p>최소마법 = (MA² / 1000 + MA × 0.9 × 마스터리) / 30 + INT / 200</p>
-            <p>실제최대 = (최대마법 - 마방 × 0.5 × (1 + 0.01×D)) × 스킬% × 타수</p>
-            <p>실제최소 = (최소마법 - 마방 × 0.6 × (1 + 0.01×D)) × 스킬% × 타수</p>
+            <p>최대 = (INT + LUK) × MA/100 × 스킬% × 타수 − 마방×0.5×(1+0.01×D)</p>
+            <p>최소 = (INT + LUK×0.5) × MA/100 × 스킬% × 타수 − 마방×0.6×(1+0.01×D)</p>
+            <p className="text-gray-400">D = max(몬스터레벨 - 캐릭터레벨, 0)</p>
           </div>
         )}
       </div>
@@ -1191,7 +1259,6 @@ function HuntTab({ charLevel, isMagic, dmgResult }: HuntTabProps) {
       (m) =>
         m.level >= charLevel - levelRange && m.level <= charLevel + levelRange
     ).map((m) => {
-      void applyDefense;
       const { nHitMax, nHitAvg } = calcNHit(m.hp, dmgResult);
       const hpExp = m.exp > 0 ? Math.round(m.hp / m.exp) : 9999;
       const efficiency = m.exp > 0 ? Math.round(m.exp / nHitAvg) : 0;
