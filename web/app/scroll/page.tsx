@@ -525,7 +525,7 @@ function SimTab() {
     });
   }, [currentIdx, currentSlotPct, slots, scrollType, equipmentType]);
 
-  // 키보드: Space=바르기, F=리셋
+  // 키보드: Space=바르기, F=리셋, 1=100%, 7=70%, 6=60%, 3=30%, 0=10%
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement || e.target instanceof HTMLTextAreaElement) return;
@@ -537,6 +537,14 @@ function SimTab() {
       if (e.code === "KeyF") {
         e.preventDefault();
         reset();
+      }
+      // 주문서 확률 단축키
+      const pctMap: Record<string, number> = {
+        "Digit1": 100, "Digit7": 70, "Digit6": 60, "Digit3": 30, "Digit0": 10,
+      };
+      if (pctMap[e.code] && running) {
+        e.preventDefault();
+        setCurrentSlotPct(pctMap[e.code]);
       }
     };
     window.addEventListener("keydown", handler);
@@ -767,7 +775,7 @@ function SimTab() {
 
         {/* 키보드 안내 */}
         <p className="text-center text-xs text-gray-400 mt-3">
-          Space: 바르기 / F: 초기화
+          Space: 바르기 / F: 초기화 / 1·7·6·3·0: 주문서 선택 (100%·70%·60%·30%·10%)
         </p>
       </div>
 
