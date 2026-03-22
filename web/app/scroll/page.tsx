@@ -540,7 +540,7 @@ function SimTab() {
       }
       // 주문서 확률 단축키
       const pctMap: Record<string, number> = {
-        "Digit1": 100, "Digit7": 70, "Digit6": 60, "Digit3": 30, "Digit0": 10,
+        "KeyQ": 10, "KeyW": 30, "KeyE": 60, "KeyR": 70, "KeyT": 100,
       };
       if (pctMap[e.code] && running) {
         e.preventDefault();
@@ -775,7 +775,7 @@ function SimTab() {
 
         {/* 키보드 안내 */}
         <p className="text-center text-xs text-gray-400 mt-3">
-          Space: 바르기 / F: 초기화 / 1·7·6·3·0: 주문서 선택 (100%·70%·60%·30%·10%)
+          Space: 바르기 / F: 초기화 / Q·W·E·R·T: 주문서 선택 (10%·30%·60%·70%·100%)
         </p>
       </div>
 
