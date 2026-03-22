@@ -109,7 +109,7 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "차지블로우 (아이스)", damage: 280, hits: 1, mobs: 1, type: "active", element: "ice", minDamage: 140, maxLevel: 30 },
       { name: "차지블로우 (썬더)", damage: 280, hits: 1, mobs: 1, type: "active", element: "lightning", minDamage: 140, maxLevel: 30 },
       { name: "차지블로우 (홀리)", damage: 340, hits: 1, mobs: 1, type: "active", element: "holy", minDamage: 170, maxLevel: 30 },
-      { name: "블래스트", damage: 310, hits: 8, mobs: 1, type: "active", element: "holy", minDamage: 155, maxLevel: 30 },
+      { name: "블래스트", damage: 580, hits: 1, mobs: 1, type: "active", element: "holy", minDamage: 290, maxLevel: 30 },
     ],
     buffs: [
       {
@@ -159,7 +159,7 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "포이즌 브레스", damage: 200, hits: 1, type: "active", element: "poison", minDamage: 100, maxLevel: 30 },
       { name: "익스플로전", damage: 300, hits: 1, type: "active", element: "fire", minDamage: 150, maxLevel: 30 },
       { name: "페럴라이즈", damage: 261, hits: 6, mobs: 8, type: "active", element: "poison", minDamage: 145, maxLevel: 30 },
-      { name: "메테오", damage: 800, hits: 1, mobs: 15, type: "active", element: "fire", minDamage: 400, maxLevel: 30 },
+      { name: "메테오", damage: 620, hits: 1, mobs: 15, type: "active", element: "fire", minDamage: 310, maxLevel: 30 },
     ],
     buffs: [
       {
