@@ -147,7 +147,11 @@ export default function BimaePage() {
       <div className="flex items-center justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold">비매유저 박제 게시판</h1>
-          <p className="text-sm text-gray-500 mt-1">진짜 비매인지 투표해보세요</p>
+          <div className="flex items-center gap-2 mt-1">
+            <p className="text-sm text-gray-500">진짜 비매인지 투표해보세요</p>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/gadarojin.png" alt="가다로진 추억" className="h-10 w-auto" />
+          </div>
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
