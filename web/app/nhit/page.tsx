@@ -180,7 +180,7 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "썬더 볼트", damage: 165, hits: 1, type: "active", element: "lightning", minDamage: 82, maxLevel: 30 },
       { name: "아이스 스트라이크", damage: 210, hits: 1, type: "active", element: "ice", minDamage: 105, maxLevel: 30 },
       { name: "체인 라이트닝", damage: 300, hits: 1, mobs: 6, type: "active", element: "lightning", minDamage: 150, maxLevel: 30 },
-      { name: "블리자드", damage: 650, hits: 1, type: "active", element: "ice", minDamage: 325, maxLevel: 30 },
+      { name: "블리자드", damage: 600, hits: 1, mobs: 10, type: "active", element: "ice", minDamage: 330, maxLevel: 30 },
     ],
     buffs: [
       {
@@ -569,9 +569,10 @@ function calcOneKillAtk(
 ): number {
   const D = Math.max(monLevel - charLevel, 0);
   const levelPenalty = 1 - 0.01 * D;
-  const targetDmg = (hp / hits) / (skillPct / 100) + wdef * 0.5;
-  const baseAtk = targetDmg / (levelPenalty * ((mainStat * maxMult + subStat) / 100));
-  return Math.ceil(baseAtk);
+  const target = hp / hits + wdef * 0.5;
+  const base = (mainStat * maxMult + subStat) * levelPenalty * skillPct;
+  if (base <= 0) return 0;
+  return Math.ceil(target * 10000 / base);
 }
 
 // 원킬컷 역산: magic MA
@@ -587,10 +588,10 @@ function calcOneKillMa(
 ): number {
   const D = Math.max(monLevel - charLevel, 0);
   const defMult = 1 + 0.01 * D;
-  const target = (hp / hits) / (skillPct / 100) + mdef * 0.5 * defMult;
-  const denom = (int_ + luk) / 100;
-  if (denom <= 0) return 0;
-  return Math.ceil(target / denom);
+  const target = hp / hits + mdef * 0.5 * defMult;
+  const base = (int_ + luk) * skillPct;
+  if (base <= 0) return 0;
+  return Math.ceil(target * 10000 / base);
 }
 
 // ─── 몬테카를로 시뮬레이션 ───
@@ -1095,6 +1096,7 @@ export default function NHitPage() {
           charLevel={charLevel}
           isMagic={isMagic}
           dmgResult={dmgResult}
+          selectedSkill={selectedSkill}
         />
       )}
     </div>
@@ -1801,34 +1803,53 @@ interface HuntTabProps {
   charLevel: number;
   isMagic: boolean;
   dmgResult: DamageResult;
+  selectedSkill: ActiveSkill | undefined;
 }
 
 interface HuntRow {
   monster: Monster;
-  nHitMax: number;
   nHitAvg: number;
-  hpExp: number;
+  hitsPerKill: number;
+  secondsPerKill: number;
+  killsPer7Sec: number;
+  exp: number;
+  expPer7Sec: number;
   efficiency: number;
 }
 
-function HuntTab({ charLevel, isMagic, dmgResult }: HuntTabProps) {
-  const [levelRange, setLevelRange] = useState(20);
-  const [sortBy, setSortBy] = useState<"efficiency" | "level" | "nhit">("efficiency");
+function getSkillCastsPerSecond(skillName: string): number {
+  if (skillName === "폭풍의 시") return 8;
+  if (skillName === "래피드파이어") return 10;
+  return 1.5;
+}
+
+function HuntTab({ charLevel, isMagic, dmgResult, selectedSkill }: HuntTabProps) {
+  const [sortBy, setSortBy] = useState<"expPer7Sec" | "efficiency" | "level" | "nhit">("expPer7Sec");
+
+  const castsPerSecond = getSkillCastsPerSecond(selectedSkill?.name ?? "");
 
   const rows = useMemo<HuntRow[]>(() => {
-    return HUNTING_GROUNDS.filter(
-      (m) =>
-        m.level >= charLevel - levelRange && m.level <= charLevel + levelRange
-    ).map((m) => {
-      const { nHitMax, nHitAvg } = calcNHit(m.hp, dmgResult);
-      const hpExp = m.exp > 0 ? Math.round(m.hp / m.exp) : 9999;
-      const efficiency = m.exp > 0 ? Math.round(m.exp / nHitAvg) : 0;
-      return { monster: m, nHitMax, nHitAvg, hpExp, efficiency };
+    const filtered = HUNTING_GROUNDS.filter((m) => {
+      if (charLevel >= 110) {
+        return m.level >= 110;
+      }
+      return m.level >= charLevel - 5 && m.level <= charLevel + 10;
     });
-  }, [charLevel, levelRange, dmgResult]);
+    return filtered.map((m) => {
+      const { nHitAvg } = calcNHit(m.hp, dmgResult);
+      const dmgPerCast = dmgResult.avgDmg;
+      const hitsPerKill = Math.ceil(m.hp / dmgPerCast);
+      const secondsPerKill = hitsPerKill / castsPerSecond;
+      const killsPer7Sec = parseFloat((7 / secondsPerKill).toFixed(1));
+      const expPer7Sec = Math.round(killsPer7Sec * m.exp);
+      const efficiency = m.exp > 0 ? Math.round(m.exp / hitsPerKill) : 0;
+      return { monster: m, nHitAvg, hitsPerKill, secondsPerKill, killsPer7Sec, exp: m.exp, expPer7Sec, efficiency };
+    });
+  }, [charLevel, dmgResult, castsPerSecond]);
 
   const sorted = useMemo(() => {
     const copy = [...rows];
+    if (sortBy === "expPer7Sec") return copy.sort((a, b) => b.expPer7Sec - a.expPer7Sec);
     if (sortBy === "efficiency") return copy.sort((a, b) => b.efficiency - a.efficiency);
     if (sortBy === "level") return copy.sort((a, b) => a.monster.level - b.monster.level);
     return copy.sort((a, b) => a.nHitAvg - b.nHitAvg);
@@ -1851,60 +1872,41 @@ function HuntTab({ charLevel, isMagic, dmgResult }: HuntTabProps) {
   return (
     <div className="space-y-5">
       <div className="bg-white border border-gray-200 rounded-xl p-5">
-        <h2 className="font-bold text-lg mb-4">추천 설정</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
-              레벨 범위 (캐릭터 레벨 ± {levelRange})
-            </label>
-            <input
-              type="range"
-              min={5}
-              max={50}
-              step={5}
-              value={levelRange}
-              onChange={(e) => setLevelRange(Number(e.target.value))}
-              className="w-full accent-orange-500"
-            />
-            <div className="flex justify-between text-xs text-gray-400 mt-0.5">
-              <span>±5</span>
-              <span>±50</span>
-            </div>
-          </div>
-          <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">정렬 기준</label>
-            <div className="flex gap-1 flex-wrap">
-              {(
-                [
-                  { key: "efficiency" as const, label: "경험치 효율" },
-                  { key: "nhit" as const, label: "N방컷 순" },
-                  { key: "level" as const, label: "레벨순" },
-                ] as const
-              ).map((s) => (
-                <button
-                  key={s.key}
-                  onClick={() => setSortBy(s.key)}
-                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                    sortBy === s.key
-                      ? "bg-orange-500 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
-                >
-                  {s.label}
-                </button>
-              ))}
-            </div>
-          </div>
+        <h2 className="font-bold text-lg mb-3">추천 설정</h2>
+        <div className="flex gap-1 flex-wrap mb-3">
+          {(
+            [
+              { key: "expPer7Sec" as const, label: "7초경험치순" },
+              { key: "efficiency" as const, label: "경험치 효율" },
+              { key: "nhit" as const, label: "N방컷 순" },
+              { key: "level" as const, label: "레벨순" },
+            ] as const
+          ).map((s) => (
+            <button
+              key={s.key}
+              onClick={() => setSortBy(s.key)}
+              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                sortBy === s.key
+                  ? "bg-orange-500 text-white"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
+            >
+              {s.label}
+            </button>
+          ))}
         </div>
-        <p className="text-xs text-gray-400 mt-3">
-          캐릭터 레벨 {charLevel} 기준 · {isMagic ? "마법 데미지" : "물리 데미지"} 적용 ·
-          레벨 범위 {charLevel - levelRange}~{charLevel + levelRange}
+        <p className="text-xs text-gray-400">
+          캐릭터 레벨 {charLevel} 기준 · {isMagic ? "마법 데미지" : "물리 데미지"} 적용 ·{" "}
+          {charLevel >= 110
+            ? "Lv.110+ 모든 몬스터"
+            : `현재 레벨 -5~+10 범위 몬스터 (Lv.${charLevel - 5}~${charLevel + 10})`}
+          {selectedSkill && ` · ${selectedSkill.name} 기준 (${castsPerSecond}회/초)`}
         </p>
       </div>
 
       {sorted.length === 0 && (
         <div className="bg-white border border-gray-200 rounded-xl p-10 text-center text-gray-400">
-          해당 레벨 범위에 몬스터가 없습니다. 레벨 범위를 넓혀보세요.
+          해당 레벨 범위에 몬스터가 없습니다.
         </div>
       )}
 
@@ -1943,15 +1945,11 @@ function HuntTab({ charLevel, isMagic, dmgResult }: HuntTabProps) {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-gray-50 text-gray-500">
-                    <th className="text-left px-4 py-2.5 font-medium">몬스터</th>
-                    <th className="text-center px-3 py-2.5 font-medium">레벨</th>
-                    <th className="text-right px-3 py-2.5 font-medium">HP</th>
-                    <th className="text-right px-3 py-2.5 font-medium">방어력</th>
-                    <th className="text-right px-3 py-2.5 font-medium">경험치</th>
-                    <th className="text-right px-3 py-2.5 font-medium">체경비</th>
+                    <th className="text-left px-4 py-2.5 font-medium">몬스터(레벨)</th>
                     <th className="text-center px-3 py-2.5 font-medium">N방컷</th>
-                    <th className="text-right px-3 py-2.5 font-medium">효율(exp/타)</th>
-                    <th className="text-left px-4 py-2.5 font-medium">사냥터</th>
+                    <th className="text-right px-3 py-2.5 font-medium hidden sm:table-cell">7초 처치수</th>
+                    <th className="text-right px-3 py-2.5 font-medium">7초 경험치</th>
+                    <th className="text-left px-4 py-2.5 font-medium hidden sm:table-cell">위치</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1962,21 +1960,9 @@ function HuntTab({ charLevel, isMagic, dmgResult }: HuntTabProps) {
                         r.nHitAvg <= 2 ? "bg-green-50/30" : r.nHitAvg === 3 ? "bg-orange-50/30" : ""
                       }`}
                     >
-                      <td className="px-4 py-2.5 font-medium">{r.monster.name}</td>
-                      <td className="px-3 py-2.5 text-center text-gray-500">
-                        {r.monster.level}
-                      </td>
-                      <td className="px-3 py-2.5 text-right font-mono text-xs">
-                        {r.monster.hp.toLocaleString()}
-                      </td>
-                      <td className="px-3 py-2.5 text-right text-xs text-gray-500">
-                        {isMagic ? r.monster.mdef : r.monster.wdef}
-                      </td>
-                      <td className="px-3 py-2.5 text-right font-mono text-xs">
-                        {r.monster.exp.toLocaleString()}
-                      </td>
-                      <td className="px-3 py-2.5 text-right text-xs text-gray-500">
-                        {r.hpExp.toLocaleString()}
+                      <td className="px-4 py-2.5 font-medium">
+                        {r.monster.name}
+                        <span className="text-xs text-gray-400 ml-1">Lv.{r.monster.level}</span>
                       </td>
                       <td className="px-3 py-2.5 text-center">
                         <span
@@ -1985,10 +1971,13 @@ function HuntTab({ charLevel, isMagic, dmgResult }: HuntTabProps) {
                           {r.nHitAvg}방
                         </span>
                       </td>
-                      <td className={`px-3 py-2.5 text-right font-mono text-xs ${nHitColor(r.nHitAvg)}`}>
-                        {r.efficiency.toLocaleString()}
+                      <td className="px-3 py-2.5 text-right font-mono text-xs hidden sm:table-cell">
+                        {r.killsPer7Sec.toFixed(1)}
                       </td>
-                      <td className="px-4 py-2.5 text-xs text-gray-500">{r.monster.map}</td>
+                      <td className={`px-3 py-2.5 text-right font-mono text-xs ${nHitColor(r.nHitAvg)}`}>
+                        {r.expPer7Sec.toLocaleString()}
+                      </td>
+                      <td className="px-4 py-2.5 text-xs text-gray-500 hidden sm:table-cell">{r.monster.map}</td>
                     </tr>
                   ))}
                 </tbody>
