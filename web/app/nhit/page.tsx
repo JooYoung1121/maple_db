@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 
 // ─── 무기 배율 테이블 ───
 const WEAPON_MULTIPLIERS: Record<
@@ -26,6 +26,7 @@ interface ActiveSkill {
   name: string;
   damage: number;
   hits: number;
+  mobs?: number; // 동시 타격 마리수 (표시용, 엔방컷 계산은 단일 대상 기준)
   type: "active";
   element?: "fire" | "ice" | "lightning" | "holy" | "poison" | "dark";
 }
@@ -57,8 +58,9 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "파이널어택", type: "passive", description: "40% 확률로 150% 추가 타격" },
     ],
     actives: [
-      { name: "파워스트라이크", damage: 260, hits: 1, type: "active" },
-      { name: "슬래시블래스트", damage: 130, hits: 6, type: "active" },
+      { name: "파워스트라이크", damage: 260, hits: 1, mobs: 1, type: "active" },
+      { name: "슬래시블래스트", damage: 130, hits: 6, mobs: 1, type: "active" },
+      { name: "브랜디쉬", damage: 260, hits: 2, mobs: 3, type: "active" },
     ],
   },
   "팔라딘": {
@@ -69,12 +71,13 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "소드 마스터리", type: "passive", mastery: 60, description: "검 최소 데미지 보장 (60%)" },
     ],
     actives: [
-      { name: "파워스트라이크", damage: 260, hits: 1, type: "active" },
-      { name: "슬래시블래스트", damage: 130, hits: 6, type: "active" },
-      { name: "차지블로우 (파이어)", damage: 280, hits: 1, type: "active", element: "fire" },
-      { name: "차지블로우 (아이스)", damage: 280, hits: 1, type: "active", element: "ice" },
-      { name: "차지블로우 (썬더)", damage: 280, hits: 1, type: "active", element: "lightning" },
-      { name: "차지블로우 (홀리)", damage: 340, hits: 1, type: "active", element: "holy" },
+      { name: "파워스트라이크", damage: 260, hits: 1, mobs: 1, type: "active" },
+      { name: "슬래시블래스트", damage: 130, hits: 6, mobs: 1, type: "active" },
+      { name: "차지블로우 (파이어)", damage: 280, hits: 1, mobs: 1, type: "active", element: "fire" },
+      { name: "차지블로우 (아이스)", damage: 280, hits: 1, mobs: 1, type: "active", element: "ice" },
+      { name: "차지블로우 (썬더)", damage: 280, hits: 1, mobs: 1, type: "active", element: "lightning" },
+      { name: "차지블로우 (홀리)", damage: 340, hits: 1, mobs: 1, type: "active", element: "holy" },
+      { name: "블래스트", damage: 310, hits: 8, mobs: 1, type: "active", element: "holy" },
     ],
   },
   "다크나이트": {
@@ -86,9 +89,10 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "폴암 마스터리", type: "passive", mastery: 60, description: "폴암 최소 데미지 보장 (60%)" },
     ],
     actives: [
-      { name: "파워스트라이크", damage: 260, hits: 1, type: "active" },
-      { name: "스피어 보우건", damage: 200, hits: 3, type: "active" },
-      { name: "나이트메어", damage: 170, hits: 3, type: "active", element: "dark" },
+      { name: "파워스트라이크", damage: 260, hits: 1, mobs: 1, type: "active" },
+      { name: "드래곤 쓰레셔", damage: 250, hits: 1, mobs: 6, type: "active" },
+      { name: "드래곤버스터", damage: 220, hits: 2, mobs: 3, type: "active", element: "dark" },
+      { name: "드래곤로어", damage: 150, hits: 1, mobs: 15, type: "active", element: "dark" },
     ],
   },
   "불독(F/P)": {
@@ -100,7 +104,8 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "파이어 에로우", damage: 160, hits: 1, type: "active", element: "fire" },
       { name: "포이즌 브레스", damage: 200, hits: 1, type: "active", element: "poison" },
       { name: "익스플로전", damage: 300, hits: 1, type: "active", element: "fire" },
-      { name: "메테오", damage: 800, hits: 1, type: "active", element: "fire" },
+      { name: "페럴라이즈", damage: 261, hits: 6, mobs: 8, type: "active", element: "poison" },
+      { name: "메테오", damage: 800, hits: 1, mobs: 15, type: "active", element: "fire" },
     ],
   },
   "썬콜(I/L)": {
@@ -112,7 +117,7 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "콜드 빔", damage: 160, hits: 1, type: "active", element: "ice" },
       { name: "썬더 볼트", damage: 165, hits: 1, type: "active", element: "lightning" },
       { name: "아이스 스트라이크", damage: 210, hits: 1, type: "active", element: "ice" },
-      { name: "체인 라이트닝", damage: 230, hits: 1, type: "active", element: "lightning" },
+      { name: "체인 라이트닝", damage: 300, hits: 1, mobs: 6, type: "active", element: "lightning" },
       { name: "블리자드", damage: 650, hits: 1, type: "active", element: "ice" },
     ],
   },
@@ -125,6 +130,7 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "홀리 에로우", damage: 160, hits: 1, type: "active", element: "holy" },
       { name: "샤이닝 레이", damage: 220, hits: 1, type: "active", element: "holy" },
       { name: "엔젤레이", damage: 500, hits: 1, type: "active", element: "holy" },
+      { name: "제네시스", damage: 670, hits: 1, mobs: 15, type: "active", element: "holy" },
     ],
   },
   "보우마스터": {
@@ -136,9 +142,10 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "파이널어택", type: "passive", description: "40% 확률로 150% 추가 타격" },
     ],
     actives: [
-      { name: "더블샷", damage: 130, hits: 2, type: "active" },
-      { name: "애로우 봄", damage: 200, hits: 1, type: "active" },
-      { name: "허리케인", damage: 140, hits: 1, type: "active" },
+      { name: "더블샷", damage: 130, hits: 2, mobs: 1, type: "active" },
+      { name: "애로우 봄", damage: 200, hits: 1, mobs: 6, type: "active" },
+      { name: "스트레이프", damage: 100, hits: 4, mobs: 1, type: "active" },
+      { name: "폭풍의 시", damage: 100, hits: 1, mobs: 1, type: "active" },
     ],
   },
   "신궁": {
@@ -149,9 +156,10 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "석궁 마스터리", type: "passive", mastery: 60, description: "석궁 최소 데미지 보장 (60%)" },
     ],
     actives: [
-      { name: "더블샷", damage: 130, hits: 2, type: "active" },
-      { name: "아이언 에로우", damage: 200, hits: 1, type: "active" },
-      { name: "피어싱", damage: 300, hits: 1, type: "active" },
+      { name: "더블샷", damage: 130, hits: 2, mobs: 1, type: "active" },
+      { name: "아이언 에로우", damage: 200, hits: 1, mobs: 1, type: "active" },
+      { name: "스트레이프", damage: 100, hits: 4, mobs: 1, type: "active" },
+      { name: "피어싱 애로우", damage: 300, hits: 1, mobs: 1, type: "active" },
     ],
   },
   "나이트로드": {
@@ -163,9 +171,9 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "크리티컬 스로우", type: "passive", critRate: 50, critDmg: 100, description: "50% 확률로 크리 (+100%)" },
     ],
     actives: [
-      { name: "럭키세븐", damage: 250, hits: 2, type: "active" },
-      { name: "어벤져", damage: 300, hits: 1, type: "active" },
-      { name: "트리플 스로우", damage: 190, hits: 3, type: "active" },
+      { name: "럭키세븐", damage: 250, hits: 2, mobs: 1, type: "active" },
+      { name: "어벤져", damage: 300, hits: 1, mobs: 3, type: "active" },
+      { name: "트리플 스로우", damage: 150, hits: 3, mobs: 1, type: "active" },
     ],
   },
   "섀도어": {
@@ -176,9 +184,9 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "대거 마스터리", type: "passive", mastery: 60, description: "단검 최소 데미지 보장 (60%)" },
     ],
     actives: [
-      { name: "새비지블로우", damage: 120, hits: 6, type: "active" },
-      { name: "부메랑스텝", damage: 300, hits: 1, type: "active" },
-      { name: "어쌔시네이트", damage: 500, hits: 1, type: "active" },
+      { name: "새비지블로우", damage: 120, hits: 6, mobs: 1, type: "active" },
+      { name: "부메랑스텝", damage: 500, hits: 2, mobs: 4, type: "active" },
+      { name: "어쌔시네이트", damage: 120, hits: 4, mobs: 1, type: "active" },
     ],
   },
   "바이퍼": {
@@ -189,9 +197,10 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "너클 마스터리", type: "passive", mastery: 60, description: "너클 최소 데미지 보장 (60%)" },
     ],
     actives: [
-      { name: "더블어퍼", damage: 170, hits: 2, type: "active" },
-      { name: "백스텝블로우", damage: 250, hits: 1, type: "active" },
-      { name: "서프라이즈", damage: 300, hits: 1, type: "active" },
+      { name: "코크스크류 블로우", damage: 360, hits: 1, mobs: 3, type: "active", element: "lightning" },
+      { name: "에너지 블래스트", damage: 360, hits: 1, mobs: 3, type: "active" },
+      { name: "배럭", damage: 170, hits: 6, mobs: 1, type: "active" },
+      { name: "드래곤 스트라이크", damage: 810, hits: 1, mobs: 6, type: "active" },
     ],
   },
   "캡틴": {
@@ -202,66 +211,10 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "건 마스터리", type: "passive", mastery: 60, description: "건 최소 데미지 보장 (60%)" },
     ],
     actives: [
-      { name: "더블파이어", damage: 130, hits: 2, type: "active" },
-      { name: "래피드파이어", damage: 150, hits: 1, type: "active" },
-    ],
-  },
-  "소울마스터": {
-    label: "소울마스터",
-    weapons: ["한손검", "두손검"],
-    isMagic: false,
-    passives: [
-      { name: "소드 마스터리", type: "passive", mastery: 60, description: "검 최소 데미지 보장 (60%)" },
-    ],
-    actives: [
-      { name: "소울 블레이드", damage: 250, hits: 1, type: "active", element: "holy" },
-      { name: "파워스트라이크", damage: 260, hits: 1, type: "active" },
-    ],
-  },
-  "플레임위자드": {
-    label: "플레임위자드",
-    weapons: [],
-    isMagic: true,
-    passives: [],
-    actives: [
-      { name: "파이어 에로우", damage: 160, hits: 1, type: "active", element: "fire" },
-      { name: "파이어 필라", damage: 350, hits: 1, type: "active", element: "fire" },
-    ],
-  },
-  "윈드브레이커": {
-    label: "윈드브레이커",
-    weapons: ["활"],
-    isMagic: false,
-    passives: [
-      { name: "보우 마스터리", type: "passive", mastery: 60, description: "활 최소 데미지 보장 (60%)" },
-    ],
-    actives: [
-      { name: "윈드 피어싱", damage: 200, hits: 1, type: "active" },
-      { name: "더블샷", damage: 130, hits: 2, type: "active" },
-    ],
-  },
-  "나이트워커": {
-    label: "나이트워커",
-    weapons: ["아대/클로"],
-    isMagic: false,
-    passives: [
-      { name: "클로 마스터리", type: "passive", mastery: 60, description: "클로 최소 데미지 보장 (60%)" },
-    ],
-    actives: [
-      { name: "트리플 스로우", damage: 190, hits: 3, type: "active" },
-      { name: "어벤져", damage: 300, hits: 1, type: "active" },
-    ],
-  },
-  "스트라이커": {
-    label: "스트라이커",
-    weapons: ["너클"],
-    isMagic: false,
-    passives: [
-      { name: "너클 마스터리", type: "passive", mastery: 60, description: "너클 최소 데미지 보장 (60%)" },
-    ],
-    actives: [
-      { name: "에너지 버스트", damage: 300, hits: 1, type: "active" },
-      { name: "더블어퍼", damage: 170, hits: 2, type: "active" },
+      { name: "더블파이어", damage: 130, hits: 2, mobs: 1, type: "active" },
+      { name: "래피드파이어", damage: 150, hits: 1, mobs: 1, type: "active" },
+      { name: "배틀쉽 캐논", damage: 380, hits: 4, mobs: 1, type: "active" },
+      { name: "배틀쉽 토피도", damage: 780, hits: 6, mobs: 1, type: "active" },
     ],
   },
 };
@@ -273,7 +226,6 @@ const JOB_GROUPS: Record<string, string[]> = {
   "궁수": ["보우마스터", "신궁"],
   "도적": ["나이트로드", "섀도어"],
   "해적": ["바이퍼", "캡틴"],
-  "시그너스": ["소울마스터", "플레임위자드", "윈드브레이커", "나이트워커", "스트라이커"],
 };
 
 const JOB_GROUP_KEYS = Object.keys(JOB_GROUPS);
@@ -503,6 +455,61 @@ function calcOneKillMa(
   return Math.ceil(target / denom);
 }
 
+// ─── 몬테카를로 시뮬레이션 ───
+interface MonteCarloResult {
+  distribution: Record<number, number>; // { 1: 0.42, 2: 0.38, 3: 0.15, ... }
+  expectedHits: number;
+  median: number;
+  pOneHit: number;
+  pTwoHit: number;
+  pThreeHit: number;
+  pFourPlusHit: number;
+}
+
+function runMonteCarlo(
+  hp: number,
+  minDmg: number,
+  maxDmg: number,
+  critRate: number,   // 0-100
+  critMultiplier: number, // e.g., 2.0 for +100% crit dmg
+  simCount: number = 10000
+): MonteCarloResult {
+  const hitCounts: number[] = [];
+  for (let i = 0; i < simCount; i++) {
+    let remaining = hp;
+    let hits = 0;
+    while (remaining > 0) {
+      const rawDmg = minDmg + Math.random() * (maxDmg - minDmg);
+      const isCrit = critRate > 0 && Math.random() * 100 < critRate;
+      const dmg = isCrit ? rawDmg * critMultiplier : rawDmg;
+      remaining -= dmg;
+      hits++;
+      if (hits > 9999) break; // safety
+    }
+    hitCounts.push(hits);
+  }
+
+  // build distribution
+  const countMap: Record<number, number> = {};
+  for (const h of hitCounts) {
+    countMap[h] = (countMap[h] ?? 0) + 1;
+  }
+  const distribution: Record<number, number> = {};
+  for (const [k, v] of Object.entries(countMap)) {
+    distribution[Number(k)] = v / simCount;
+  }
+
+  hitCounts.sort((a, b) => a - b);
+  const expectedHits = hitCounts.reduce((s, v) => s + v, 0) / simCount;
+  const median = hitCounts[Math.floor(simCount / 2)];
+
+  const pOneHit = distribution[1] ?? 0;
+  const pTwoHit = distribution[2] ?? 0;
+  const pThreeHit = distribution[3] ?? 0;
+  const pFourPlusHit = 1 - pOneHit - pTwoHit - pThreeHit;
+
+  return { distribution, expectedHits, median, pOneHit, pTwoHit, pThreeHit, pFourPlusHit };
+}
 
 // 공통 입력 컴포넌트
 function NumberInput({
@@ -576,6 +583,10 @@ export default function NHitPage() {
   const [manualHp, setManualHp] = useState(15000);
   const [manualWdef, setManualWdef] = useState(250);
   const [manualMdef, setManualMdef] = useState(250);
+
+  // AI 분석
+  const [aiResult, setAiResult] = useState<{ claude: string; gemini: string } | null>(null);
+  const [aiLoading, setAiLoading] = useState(false);
 
   const monster: Monster = usePreset
     ? HUNTING_GROUNDS[selectedMonster]
@@ -702,6 +713,56 @@ export default function NHitPage() {
         monster.wdef
       );
 
+  // 몬테카를로 결과
+  const mcResult = useMemo<MonteCarloResult>(() => {
+    return runMonteCarlo(
+      monster.hp,
+      dmgResult.minDmg,
+      dmgResult.maxDmg,
+      effectiveCritRate,
+      effectiveCritRate > 0 ? 1 + effectiveCritDmg / 100 : 1
+    );
+  }, [monster.hp, dmgResult.minDmg, dmgResult.maxDmg, effectiveCritRate, effectiveCritDmg]);
+
+  // AI 분석 핸들러
+  const handleAiAnalyze = useCallback(async () => {
+    setAiLoading(true);
+    try {
+      const res = await fetch("/api/nhit-ai", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          jobName: subJob,
+          skillName: selectedSkill?.name ?? "",
+          skillDamage: selectedSkill?.damage ?? 0,
+          skillHits: selectedSkill?.hits ?? 1,
+          monsterName: monster.name,
+          monsterHp: monster.hp,
+          monsterLevel: monster.level,
+          charLevel,
+          mainStat,
+          subStat,
+          atk,
+          weaponType: weaponKey,
+          mcResult: {
+            pOneHit: mcResult.pOneHit,
+            pTwoHit: mcResult.pTwoHit,
+            pThreeHit: mcResult.pThreeHit,
+            pFourPlusHit: mcResult.pFourPlusHit,
+            expectedHits: mcResult.expectedHits,
+            median: mcResult.median,
+          },
+        }),
+      });
+      const data = await res.json();
+      setAiResult(data);
+    } catch {
+      setAiResult({ claude: "오류 발생", gemini: "오류 발생" });
+    } finally {
+      setAiLoading(false);
+    }
+  }, [subJob, selectedSkill, monster, charLevel, mainStat, subStat, atk, weaponKey, mcResult]);
+
   return (
     <div className="max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-1">엔방컷 계산기</h1>
@@ -784,6 +845,10 @@ export default function NHitPage() {
           effectiveCritDmg={effectiveCritDmg}
           critNHitMax={critNHitMax}
           critNHitAvg={critNHitAvg}
+          mcResult={mcResult}
+          aiResult={aiResult}
+          aiLoading={aiLoading}
+          onAiAnalyze={handleAiAnalyze}
         />
       )}
       {activeTab === "hunt" && (
@@ -850,6 +915,10 @@ interface CalcTabProps {
   effectiveCritDmg: number;
   critNHitMax: number;
   critNHitAvg: number;
+  mcResult: MonteCarloResult;
+  aiResult: { claude: string; gemini: string } | null;
+  aiLoading: boolean;
+  onAiAnalyze: () => void;
 }
 
 function CalcTab({
@@ -866,6 +935,7 @@ function CalcTab({
   monster, dmgResult, nHitMax, nHitAvg, oneKillAtk,
   effectiveMastery, weaponInfo,
   effectiveCritRate, effectiveCritDmg, critNHitMax, critNHitAvg,
+  mcResult, aiResult, aiLoading, onAiAnalyze,
 }: CalcTabProps) {
   const actives = jobData?.actives ?? [];
   const passives = jobData?.passives ?? [];
@@ -888,6 +958,34 @@ function CalcTab({
     if (n === 2) return "bg-blue-50 border-blue-200";
     if (n === 3) return "bg-orange-50 border-orange-200";
     return "bg-red-50 border-red-200";
+  };
+
+  // 확률 분포 카드 스타일 (Tailwind 동적 클래스 방지용 하드코딩)
+  const distCardStyle = (color: string) => {
+    if (color === "green") return {
+      card: "rounded-xl border p-3 text-center bg-green-50 border-green-200",
+      label: "text-xs text-green-500 mb-1",
+      value: "text-2xl font-bold text-green-700",
+      bar: "h-full bg-green-400 rounded-full",
+    };
+    if (color === "blue") return {
+      card: "rounded-xl border p-3 text-center bg-blue-50 border-blue-200",
+      label: "text-xs text-blue-500 mb-1",
+      value: "text-2xl font-bold text-blue-700",
+      bar: "h-full bg-blue-400 rounded-full",
+    };
+    if (color === "orange") return {
+      card: "rounded-xl border p-3 text-center bg-orange-50 border-orange-200",
+      label: "text-xs text-orange-500 mb-1",
+      value: "text-2xl font-bold text-orange-700",
+      bar: "h-full bg-orange-400 rounded-full",
+    };
+    return {
+      card: "rounded-xl border p-3 text-center bg-red-50 border-red-200",
+      label: "text-xs text-red-500 mb-1",
+      value: "text-2xl font-bold text-red-700",
+      bar: "h-full bg-red-400 rounded-full",
+    };
   };
 
   return (
@@ -1051,7 +1149,7 @@ function CalcTab({
                     </span>
                   )}
                 </div>
-                <div className="flex gap-4 text-sm text-orange-700">
+                <div className="flex gap-4 text-sm text-orange-700 flex-wrap">
                   <span>
                     <span className="text-orange-400 text-xs mr-1">데미지</span>
                     <span className="font-bold">{selectedSkill.damage}%</span>
@@ -1060,11 +1158,22 @@ function CalcTab({
                     <span className="text-orange-400 text-xs mr-1">타수</span>
                     <span className="font-bold">{selectedSkill.hits}타</span>
                   </span>
+                  {selectedSkill.mobs != null && selectedSkill.mobs > 1 && (
+                    <span>
+                      <span className="text-orange-400 text-xs mr-1">타격 마리수</span>
+                      <span className="font-bold">{selectedSkill.mobs}마리</span>
+                    </span>
+                  )}
                   <span>
                     <span className="text-orange-400 text-xs mr-1">1회 총 데미지</span>
                     <span className="font-bold">{selectedSkill.damage * selectedSkill.hits}%</span>
                   </span>
                 </div>
+                {selectedSkill.element && (
+                  <p className="text-xs text-orange-500 mt-2">
+                    속성 보정(약점 배율) 미포함 — 기본 데미지 기준
+                  </p>
+                )}
               </div>
             )}
           </>
@@ -1212,6 +1321,70 @@ function CalcTab({
             {monster.name}을 1방에 잡으려면 필요한 {isMagic ? "마법공격력" : "공격력"}
           </p>
         </div>
+      </div>
+
+      {/* 몬테카를로 확률 분포 */}
+      <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <div className="flex items-center gap-2 mb-4">
+          <h2 className="font-bold text-lg">확률 분포</h2>
+          <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">몬테카를로 10,000회</span>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+          {[
+            { label: "1방컷", value: mcResult.pOneHit, color: "green" },
+            { label: "2방컷", value: mcResult.pTwoHit, color: "blue" },
+            { label: "3방컷", value: mcResult.pThreeHit, color: "orange" },
+            { label: "4방+", value: mcResult.pFourPlusHit, color: "red" },
+          ].map(({ label, value, color }) => {
+            const style = distCardStyle(color);
+            return (
+              <div key={label} className={style.card}>
+                <div className={style.label}>{label}</div>
+                <div className={style.value}>{(value * 100).toFixed(1)}%</div>
+                <div className="mt-2 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                  <div className={style.bar} style={{ width: `${value * 100}%` }} />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div className="flex gap-4 text-sm text-gray-600">
+          <span>기댓값 <strong>{mcResult.expectedHits.toFixed(2)}방</strong></span>
+          <span>중앙값 <strong>{mcResult.median}방</strong></span>
+        </div>
+      </div>
+
+      {/* AI 분석 */}
+      <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="font-bold text-lg">AI 분석</h2>
+          <button
+            onClick={onAiAnalyze}
+            disabled={aiLoading}
+            className="px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white text-sm font-medium rounded-lg hover:from-purple-600 hover:to-blue-600 disabled:opacity-50 transition-all"
+          >
+            {aiLoading ? "분석 중..." : "Claude + Gemini 분석"}
+          </button>
+        </div>
+        {aiResult && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="bg-orange-50 border border-orange-200 rounded-xl p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xs font-bold text-orange-700 bg-orange-100 px-2 py-0.5 rounded-full">Claude</span>
+              </div>
+              <p className="text-sm text-gray-700 leading-relaxed">{aiResult.claude}</p>
+            </div>
+            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-xs font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full">Gemini</span>
+              </div>
+              <p className="text-sm text-gray-700 leading-relaxed">{aiResult.gemini}</p>
+            </div>
+          </div>
+        )}
+        {!aiResult && !aiLoading && (
+          <p className="text-sm text-gray-400 text-center py-4">버튼을 클릭하면 Claude와 Gemini가 현재 세팅을 분석해줍니다</p>
+        )}
       </div>
 
       {/* 공식 설명 */}

@@ -6,6 +6,10 @@ data/*.db-shm
 __pycache__/
 *.pyc
 .env
+.env.local
+web/.env.local
+web/.env*.local
+*.env.local
 node_modules/
 .next/
 web/out/
