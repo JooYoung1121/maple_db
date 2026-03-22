@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo } from "react";
 
 // ─── 무기 배율 테이블 ───
 const WEAPON_MULTIPLIERS: Record<
@@ -26,7 +26,7 @@ interface ActiveSkill {
   name: string;
   damage: number;
   hits: number;
-  mobs?: number; // 동시 타격 마리수 (표시용, 엔방컷 계산은 단일 대상 기준)
+  mobs?: number;
   type: "active";
   element?: "fire" | "ice" | "lightning" | "holy" | "poison" | "dark";
 }
@@ -435,8 +435,6 @@ function calcOneKillAtk(
 }
 
 // 원킬컷 역산: magic MA
-// (INT + LUK) × MA/100 × skill% - MDEF×0.5×defMult = HP/hits
-// → MA = (HP/hits / (skill%/100) + MDEF×0.5×defMult) × 100 / (INT + LUK)
 function calcOneKillMa(
   hp: number,
   int_: number,
@@ -457,7 +455,7 @@ function calcOneKillMa(
 
 // ─── 몬테카를로 시뮬레이션 ───
 interface MonteCarloResult {
-  distribution: Record<number, number>; // { 1: 0.42, 2: 0.38, 3: 0.15, ... }
+  distribution: Record<number, number>;
   expectedHits: number;
   median: number;
   pOneHit: number;
@@ -470,8 +468,8 @@ function runMonteCarlo(
   hp: number,
   minDmg: number,
   maxDmg: number,
-  critRate: number,   // 0-100
-  critMultiplier: number, // e.g., 2.0 for +100% crit dmg
+  critRate: number,
+  critMultiplier: number,
   simCount: number = 10000
 ): MonteCarloResult {
   const hitCounts: number[] = [];
@@ -484,12 +482,11 @@ function runMonteCarlo(
       const dmg = isCrit ? rawDmg * critMultiplier : rawDmg;
       remaining -= dmg;
       hits++;
-      if (hits > 9999) break; // safety
+      if (hits > 9999) break;
     }
     hitCounts.push(hits);
   }
 
-  // build distribution
   const countMap: Record<number, number> = {};
   for (const h of hitCounts) {
     countMap[h] = (countMap[h] ?? 0) + 1;
@@ -566,14 +563,30 @@ export default function NHitPage() {
   // 패시브 토글 (기본 true)
   const [enabledPassives, setEnabledPassives] = useState<Record<string, boolean>>({});
 
-  // 스탯 입력
+  // 물리 스탯 입력 (분리된 공격력)
   const [mainStat, setMainStat] = useState(120);
   const [subStat, setSubStat] = useState(50);
-  const [atk, setAtk] = useState(80);
+  const [weaponAtk, setWeaponAtk] = useState(80);
+  const [gloveAtk, setGloveAtk] = useState(0);
+  const [otherAtk, setOtherAtk] = useState(0);
+  const [buff1, setBuff1] = useState(0);
+  const [buff2, setBuff2] = useState(0);
+
+  // 법사 스탯 입력 (INT/LUK 분리)
+  const [pureInt, setPureInt] = useState(300);
+  const [bonusInt, setBonusInt] = useState(0);
+  const [pureLuk, setPureLuk] = useState(50);
+  const [bonusLuk, setBonusLuk] = useState(0);
   const [ma, setMa] = useState(200);
-  const [int_, setInt] = useState(300);
-  const [luk, setLuk] = useState(50);
+
   const [charLevel, setCharLevel] = useState(70);
+
+  // 총 공격력 (물리)
+  const totalAtk = weaponAtk + gloveAtk + otherAtk + buff1 + buff2;
+
+  // 총 INT / LUK (법사)
+  const totalInt = pureInt + bonusInt;
+  const totalLuk = pureLuk + bonusLuk;
 
   // 몬스터 선택
   const [usePreset, setUsePreset] = useState(true);
@@ -583,10 +596,6 @@ export default function NHitPage() {
   const [manualHp, setManualHp] = useState(15000);
   const [manualWdef, setManualWdef] = useState(250);
   const [manualMdef, setManualMdef] = useState(250);
-
-  // AI 분석
-  const [aiResult, setAiResult] = useState<{ claude: string; gemini: string } | null>(null);
-  const [aiLoading, setAiLoading] = useState(false);
 
   const monster: Monster = usePreset
     ? HUNTING_GROUNDS[selectedMonster]
@@ -623,20 +632,20 @@ export default function NHitPage() {
   const passives = jobData?.passives ?? [];
   const selectedSkill = actives[selectedSkillIdx] ?? actives[0];
 
-  // 마스터리: 활성화된 패시브 중 mastery 값 사용 (최대값)
+  // 마스터리
   const effectiveMastery = useMemo(() => {
     let m = 0;
     for (const p of passives) {
       const key = p.name;
-      const isOn = enabledPassives[key] !== false; // 기본 on
+      const isOn = enabledPassives[key] !== false;
       if (isOn && p.mastery != null && p.mastery > m) {
         m = p.mastery;
       }
     }
-    return m > 0 ? m : 50; // 패시브 없으면 50% 기본
+    return m > 0 ? m : 50;
   }, [passives, enabledPassives]);
 
-  // 크리티컬 정보 (나이트로드 등)
+  // 크리티컬 정보
   const effectiveCritRate = useMemo(() => {
     for (const p of passives) {
       if (enabledPassives[p.name] !== false && p.critRate != null) return p.critRate;
@@ -657,8 +666,8 @@ export default function NHitPage() {
   const dmgResult = useMemo<DamageResult>(() => {
     if (isMagic) {
       return calcMagicDamage(
-        int_,
-        luk,
+        totalInt,
+        totalLuk,
         ma,
         skillPct,
         skillHits,
@@ -670,7 +679,7 @@ export default function NHitPage() {
     return calcPhysicalDamage(
       mainStat,
       subStat,
-      atk,
+      totalAtk,
       weaponInfo?.maxMult ?? 4.0,
       weaponInfo?.minMult ?? 4.0,
       effectiveMastery / 100,
@@ -681,8 +690,8 @@ export default function NHitPage() {
       monster.wdef
     );
   }, [
-    isMagic, ma, int_, luk, effectiveMastery, skillPct, skillHits,
-    charLevel, mainStat, subStat, atk, weaponInfo, monster,
+    isMagic, ma, totalInt, totalLuk, effectiveMastery, skillPct, skillHits,
+    charLevel, mainStat, subStat, totalAtk, weaponInfo, monster,
   ]);
 
   // 크리티컬 데미지 결과
@@ -700,7 +709,7 @@ export default function NHitPage() {
   const { nHitMax: critNHitMax, nHitAvg: critNHitAvg } = calcNHit(monster.hp, critDmgResult);
 
   const oneKillAtk = isMagic
-    ? calcOneKillMa(monster.hp, int_, luk, skillPct, skillHits, charLevel, monster.level, monster.mdef)
+    ? calcOneKillMa(monster.hp, totalInt, totalLuk, skillPct, skillHits, charLevel, monster.level, monster.mdef)
     : calcOneKillAtk(
         monster.hp,
         mainStat,
@@ -724,44 +733,27 @@ export default function NHitPage() {
     );
   }, [monster.hp, dmgResult.minDmg, dmgResult.maxDmg, effectiveCritRate, effectiveCritDmg]);
 
-  // AI 분석 핸들러
-  const handleAiAnalyze = useCallback(async () => {
-    setAiLoading(true);
-    try {
-      const res = await fetch("/api/nhit-ai", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          jobName: subJob,
-          skillName: selectedSkill?.name ?? "",
-          skillDamage: selectedSkill?.damage ?? 0,
-          skillHits: selectedSkill?.hits ?? 1,
-          monsterName: monster.name,
-          monsterHp: monster.hp,
-          monsterLevel: monster.level,
-          charLevel,
-          mainStat,
-          subStat,
-          atk,
-          weaponType: weaponKey,
-          mcResult: {
-            pOneHit: mcResult.pOneHit,
-            pTwoHit: mcResult.pTwoHit,
-            pThreeHit: mcResult.pThreeHit,
-            pFourPlusHit: mcResult.pFourPlusHit,
-            expectedHits: mcResult.expectedHits,
-            median: mcResult.median,
-          },
-        }),
-      });
-      const data = await res.json();
-      setAiResult(data);
-    } catch {
-      setAiResult({ claude: "오류 발생", gemini: "오류 발생" });
-    } finally {
-      setAiLoading(false);
-    }
-  }, [subJob, selectedSkill, monster, charLevel, mainStat, subStat, atk, weaponKey, mcResult]);
+  // 스탯공격력 범위 (물리)
+  const statAtkMax = useMemo(() => {
+    if (isMagic) return 0;
+    return (mainStat * (weaponInfo?.maxMult ?? 4.0) + subStat) * totalAtk / 100;
+  }, [isMagic, mainStat, subStat, totalAtk, weaponInfo]);
+
+  const statAtkMin = useMemo(() => {
+    if (isMagic) return 0;
+    return (mainStat * (weaponInfo?.minMult ?? 4.0) * 0.9 * (effectiveMastery / 100) + subStat) * totalAtk / 100;
+  }, [isMagic, mainStat, subStat, totalAtk, weaponInfo, effectiveMastery]);
+
+  // 마법 데미지 범위 (법사, 스킬% 미포함 기준)
+  const magicDmgMax = useMemo(() => {
+    if (!isMagic) return 0;
+    return (totalInt + totalLuk) * ma / 100;
+  }, [isMagic, totalInt, totalLuk, ma]);
+
+  const magicDmgMin = useMemo(() => {
+    if (!isMagic) return 0;
+    return (totalInt + totalLuk * 0.5) * ma / 100;
+  }, [isMagic, totalInt, totalLuk, ma]);
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -810,14 +802,29 @@ export default function NHitPage() {
           setMainStat={setMainStat}
           subStat={subStat}
           setSubStat={setSubStat}
-          atk={atk}
-          setAtk={setAtk}
+          weaponAtk={weaponAtk}
+          setWeaponAtk={setWeaponAtk}
+          gloveAtk={gloveAtk}
+          setGloveAtk={setGloveAtk}
+          otherAtk={otherAtk}
+          setOtherAtk={setOtherAtk}
+          buff1={buff1}
+          setBuff1={setBuff1}
+          buff2={buff2}
+          setBuff2={setBuff2}
+          totalAtk={totalAtk}
+          pureInt={pureInt}
+          setPureInt={setPureInt}
+          bonusInt={bonusInt}
+          setBonusInt={setBonusInt}
+          pureLuk={pureLuk}
+          setPureLuk={setPureLuk}
+          bonusLuk={bonusLuk}
+          setBonusLuk={setBonusLuk}
+          totalInt={totalInt}
+          totalLuk={totalLuk}
           ma={ma}
           setMa={setMa}
-          int_={int_}
-          setInt={setInt}
-          luk={luk}
-          setLuk={setLuk}
           charLevel={charLevel}
           setCharLevel={setCharLevel}
           usePreset={usePreset}
@@ -846,9 +853,10 @@ export default function NHitPage() {
           critNHitMax={critNHitMax}
           critNHitAvg={critNHitAvg}
           mcResult={mcResult}
-          aiResult={aiResult}
-          aiLoading={aiLoading}
-          onAiAnalyze={handleAiAnalyze}
+          statAtkMax={statAtkMax}
+          statAtkMin={statAtkMin}
+          magicDmgMax={magicDmgMax}
+          magicDmgMin={magicDmgMin}
         />
       )}
       {activeTab === "hunt" && (
@@ -880,14 +888,29 @@ interface CalcTabProps {
   setMainStat: (v: number) => void;
   subStat: number;
   setSubStat: (v: number) => void;
-  atk: number;
-  setAtk: (v: number) => void;
+  weaponAtk: number;
+  setWeaponAtk: (v: number) => void;
+  gloveAtk: number;
+  setGloveAtk: (v: number) => void;
+  otherAtk: number;
+  setOtherAtk: (v: number) => void;
+  buff1: number;
+  setBuff1: (v: number) => void;
+  buff2: number;
+  setBuff2: (v: number) => void;
+  totalAtk: number;
+  pureInt: number;
+  setPureInt: (v: number) => void;
+  bonusInt: number;
+  setBonusInt: (v: number) => void;
+  pureLuk: number;
+  setPureLuk: (v: number) => void;
+  bonusLuk: number;
+  setBonusLuk: (v: number) => void;
+  totalInt: number;
+  totalLuk: number;
   ma: number;
   setMa: (v: number) => void;
-  int_: number;
-  setInt: (v: number) => void;
-  luk: number;
-  setLuk: (v: number) => void;
   charLevel: number;
   setCharLevel: (v: number) => void;
   usePreset: boolean;
@@ -916,9 +939,10 @@ interface CalcTabProps {
   critNHitMax: number;
   critNHitAvg: number;
   mcResult: MonteCarloResult;
-  aiResult: { claude: string; gemini: string } | null;
-  aiLoading: boolean;
-  onAiAnalyze: () => void;
+  statAtkMax: number;
+  statAtkMin: number;
+  magicDmgMax: number;
+  magicDmgMin: number;
 }
 
 function CalcTab({
@@ -926,8 +950,14 @@ function CalcTab({
   weaponKey, setWeaponKey, isMagic,
   selectedSkillIdx, setSelectedSkillIdx,
   enabledPassives, setEnabledPassives,
-  mainStat, setMainStat, subStat, setSubStat, atk, setAtk,
-  ma, setMa, int_, setInt, luk, setLuk,
+  mainStat, setMainStat, subStat, setSubStat,
+  weaponAtk, setWeaponAtk, gloveAtk, setGloveAtk,
+  otherAtk, setOtherAtk, buff1, setBuff1, buff2, setBuff2,
+  totalAtk,
+  pureInt, setPureInt, bonusInt, setBonusInt,
+  pureLuk, setPureLuk, bonusLuk, setBonusLuk,
+  totalInt, totalLuk,
+  ma, setMa,
   charLevel, setCharLevel,
   usePreset, setUsePreset, selectedMonster, setSelectedMonster,
   manualName, setManualName, manualLevel, setManualLevel,
@@ -935,7 +965,9 @@ function CalcTab({
   monster, dmgResult, nHitMax, nHitAvg, oneKillAtk,
   effectiveMastery, weaponInfo,
   effectiveCritRate, effectiveCritDmg, critNHitMax, critNHitAvg,
-  mcResult, aiResult, aiLoading, onAiAnalyze,
+  mcResult,
+  statAtkMax, statAtkMin,
+  magicDmgMax, magicDmgMin,
 }: CalcTabProps) {
   const actives = jobData?.actives ?? [];
   const passives = jobData?.passives ?? [];
@@ -960,7 +992,7 @@ function CalcTab({
     return "bg-red-50 border-red-200";
   };
 
-  // 확률 분포 카드 스타일 (Tailwind 동적 클래스 방지용 하드코딩)
+  // 확률 분포 카드 스타일
   const distCardStyle = (color: string) => {
     if (color === "green") return {
       card: "rounded-xl border p-3 text-center bg-green-50 border-green-200",
@@ -1054,36 +1086,75 @@ function CalcTab({
 
         {/* 스탯 입력 */}
         {!isMagic ? (
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <NumberInput
-              label={`주스탯 (${weaponInfo?.mainStat ?? "STR"})`}
-              value={mainStat}
-              onChange={setMainStat}
-              min={1}
-            />
-            <NumberInput
-              label={`부스탯 (${weaponInfo?.subStat ?? "DEX"})`}
-              value={subStat}
-              onChange={setSubStat}
-              min={0}
-            />
-            <NumberInput label="공격력 (ATK)" value={atk} onChange={setAtk} min={1} />
+          <div className="space-y-3">
+            {/* 주스탯 / 부스탯 */}
+            <div className="grid grid-cols-2 gap-3">
+              <NumberInput
+                label={`주스탯 (${weaponInfo?.mainStat ?? "STR"})`}
+                value={mainStat}
+                onChange={setMainStat}
+                min={1}
+              />
+              <NumberInput
+                label={`부스탯 (${weaponInfo?.subStat ?? "DEX"})`}
+                value={subStat}
+                onChange={setSubStat}
+                min={0}
+              />
+            </div>
+            {/* 공격력 분리 입력 */}
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+              <NumberInput label="무기 공격력" value={weaponAtk} onChange={setWeaponAtk} min={0} />
+              <NumberInput label="장갑 공격력" value={gloveAtk} onChange={setGloveAtk} min={0} />
+              <NumberInput label="기타 공격력" value={otherAtk} onChange={setOtherAtk} min={0} />
+              <NumberInput label="도핑1" value={buff1} onChange={setBuff1} min={0} />
+              <NumberInput label="도핑2" value={buff2} onChange={setBuff2} min={0} />
+            </div>
+            {/* 총 공격력 표시 */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
+                총 공격력: <span className="font-bold text-gray-800">{totalAtk.toLocaleString()}</span>
+              </span>
+            </div>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <NumberInput label="지력 (INT)" value={int_} onChange={setInt} min={1} />
-            <NumberInput label="운 (LUK)" value={luk} onChange={setLuk} min={0} />
-            <NumberInput label="마법공격력 (MA)" value={ma} onChange={setMa} min={1} />
+          <div className="space-y-3">
+            {/* INT 분리 */}
+            <div className="grid grid-cols-2 gap-3">
+              <NumberInput label="순수 INT" value={pureInt} onChange={setPureInt} min={1} />
+              <NumberInput label="추가 INT" value={bonusInt} onChange={setBonusInt} min={0} />
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
+                총 INT: <span className="font-bold text-gray-800">{totalInt.toLocaleString()}</span>
+              </span>
+            </div>
+            {/* LUK 분리 */}
+            <div className="grid grid-cols-2 gap-3">
+              <NumberInput label="순수 LUK" value={pureLuk} onChange={setPureLuk} min={0} />
+              <NumberInput label="추가 LUK" value={bonusLuk} onChange={setBonusLuk} min={0} />
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
+                총 LUK: <span className="font-bold text-gray-800">{totalLuk.toLocaleString()}</span>
+              </span>
+            </div>
+            {/* 마력 */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <NumberInput label="총 마력 (MA)" value={ma} onChange={setMa} min={1} />
+            </div>
           </div>
         )}
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
           <NumberInput label="캐릭터 레벨" value={charLevel} onChange={setCharLevel} min={1} max={200} />
-          <div className="flex items-end">
-            <span className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
-              마스터리 {effectiveMastery}% 적용 중
-            </span>
-          </div>
+          {!isMagic && (
+            <div className="flex items-end">
+              <span className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
+                마스터리 {effectiveMastery}% 적용 중
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
@@ -1266,6 +1337,61 @@ function CalcTab({
       <div className="bg-white border border-gray-200 rounded-xl p-5">
         <h2 className="font-bold text-lg mb-4">계산 결과</h2>
 
+        {/* 스탯공격력 / 마법 데미지 범위 */}
+        {!isMagic ? (
+          <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-4 mb-4">
+            <p className="text-xs font-medium text-indigo-500 mb-1">스탯공격력 범위</p>
+            <p className="text-xl font-bold text-indigo-700">
+              {Math.floor(statAtkMin).toLocaleString()} ~ {Math.floor(statAtkMax).toLocaleString()}
+            </p>
+            <p className="text-xs text-indigo-400 mt-1">
+              (주스탯 × 배율 + 부스탯) × 공격력/100 범위
+            </p>
+          </div>
+        ) : (
+          <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 mb-4">
+            <p className="text-xs font-medium text-purple-500 mb-1">마법 데미지 범위 (스킬% 미포함)</p>
+            <p className="text-xl font-bold text-purple-700">
+              {Math.floor(magicDmgMin).toLocaleString()} ~ {Math.floor(magicDmgMax).toLocaleString()}
+            </p>
+            <p className="text-xs text-purple-400 mt-1">
+              (INT + LUK×0.5 ~ INT + LUK) × MA/100
+            </p>
+          </div>
+        )}
+
+        {/* 확률 분포 — PRIMARY (최상단) */}
+        <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-4">
+          <div className="flex items-center gap-2 mb-3">
+            <span className="font-bold text-gray-800">확률 분포</span>
+            <span className="text-xs text-gray-400 bg-white border border-gray-200 px-2 py-0.5 rounded-full">몬테카를로 10,000회</span>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3">
+            {[
+              { label: "1방컷", value: mcResult.pOneHit, color: "green" },
+              { label: "2방컷", value: mcResult.pTwoHit, color: "blue" },
+              { label: "3방컷", value: mcResult.pThreeHit, color: "orange" },
+              { label: "4방+", value: mcResult.pFourPlusHit, color: "red" },
+            ].map(({ label, value, color }) => {
+              const style = distCardStyle(color);
+              return (
+                <div key={label} className={style.card}>
+                  <div className={style.label}>{label}</div>
+                  <div className={style.value}>{(value * 100).toFixed(1)}%</div>
+                  <div className="mt-2 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                    <div className={style.bar} style={{ width: `${value * 100}%` }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="flex gap-4 text-sm text-gray-600">
+            <span>기댓값 <strong>{mcResult.expectedHits.toFixed(2)}방</strong></span>
+            <span>중앙값 <strong>{mcResult.median}방</strong></span>
+          </div>
+        </div>
+
+        {/* 데미지 범위 */}
         <div className="grid grid-cols-3 gap-3 mb-4">
           <div className="bg-gray-50 rounded-xl p-3 text-center">
             <p className="text-xs text-gray-400 mb-1">최대 데미지</p>
@@ -1312,6 +1438,7 @@ function CalcTab({
           </div>
         )}
 
+        {/* 원킬컷 공격력 */}
         <div className="bg-gray-50 rounded-xl p-4">
           <p className="text-xs font-medium text-gray-500 mb-1">원킬컷 {isMagic ? "마법공격력 (MA)" : "공격력 (ATK)"}</p>
           <p className="text-2xl font-bold text-orange-600">
@@ -1321,70 +1448,6 @@ function CalcTab({
             {monster.name}을 1방에 잡으려면 필요한 {isMagic ? "마법공격력" : "공격력"}
           </p>
         </div>
-      </div>
-
-      {/* 몬테카를로 확률 분포 */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
-        <div className="flex items-center gap-2 mb-4">
-          <h2 className="font-bold text-lg">확률 분포</h2>
-          <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">몬테카를로 10,000회</span>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-          {[
-            { label: "1방컷", value: mcResult.pOneHit, color: "green" },
-            { label: "2방컷", value: mcResult.pTwoHit, color: "blue" },
-            { label: "3방컷", value: mcResult.pThreeHit, color: "orange" },
-            { label: "4방+", value: mcResult.pFourPlusHit, color: "red" },
-          ].map(({ label, value, color }) => {
-            const style = distCardStyle(color);
-            return (
-              <div key={label} className={style.card}>
-                <div className={style.label}>{label}</div>
-                <div className={style.value}>{(value * 100).toFixed(1)}%</div>
-                <div className="mt-2 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                  <div className={style.bar} style={{ width: `${value * 100}%` }} />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        <div className="flex gap-4 text-sm text-gray-600">
-          <span>기댓값 <strong>{mcResult.expectedHits.toFixed(2)}방</strong></span>
-          <span>중앙값 <strong>{mcResult.median}방</strong></span>
-        </div>
-      </div>
-
-      {/* AI 분석 */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-bold text-lg">AI 분석</h2>
-          <button
-            onClick={onAiAnalyze}
-            disabled={aiLoading}
-            className="px-4 py-2 bg-gradient-to-r from-purple-500 to-blue-500 text-white text-sm font-medium rounded-lg hover:from-purple-600 hover:to-blue-600 disabled:opacity-50 transition-all"
-          >
-            {aiLoading ? "분석 중..." : "Claude + Gemini 분석"}
-          </button>
-        </div>
-        {aiResult && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="bg-orange-50 border border-orange-200 rounded-xl p-4">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-xs font-bold text-orange-700 bg-orange-100 px-2 py-0.5 rounded-full">Claude</span>
-              </div>
-              <p className="text-sm text-gray-700 leading-relaxed">{aiResult.claude}</p>
-            </div>
-            <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-xs font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full">Gemini</span>
-              </div>
-              <p className="text-sm text-gray-700 leading-relaxed">{aiResult.gemini}</p>
-            </div>
-          </div>
-        )}
-        {!aiResult && !aiLoading && (
-          <p className="text-sm text-gray-400 text-center py-4">버튼을 클릭하면 Claude와 Gemini가 현재 세팅을 분석해줍니다</p>
-        )}
       </div>
 
       {/* 공식 설명 */}
