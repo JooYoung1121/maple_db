@@ -24,7 +24,7 @@ const columns: Column<ItemRow>[] = [
   { key: "job_req", label: "직업" },
 ];
 
-const DEFAULT_CATEGORY = "One-Handed Weapon,Two-Handed Weapon";
+const DEFAULT_CATEGORY = "";
 
 const sortOptions: SortOption[] = [
   { value: "", label: "기본" },
@@ -49,7 +49,8 @@ function ItemsPageContent() {
       .then((r) => r.json())
       .then((d) => {
         const cats: { value: string; label: string }[] = [
-          { value: DEFAULT_CATEGORY, label: "무기 전체" },
+          { value: "", label: "전체" },
+          { value: "One-Handed Weapon,Two-Handed Weapon", label: "무기 전체" },
         ];
         for (const c of d.categories || []) {
           cats.push({
