@@ -549,16 +549,18 @@ function calcPhysicalDamage(
   return { maxDmg, minDmg, avgDmg: (maxDmg + minDmg) / 2 };
 }
 
-// ─── 법사 데미지 공식 (Mapleland / MapleLegends 검증) ───
-// MIN = (skillPct/30000)×MA² + skillPct×0.018×MA + skillPct×INT/200 - mdef×0.6×defMult
-// MAX = MIN / MAGIC_MASTERY_RATIO  (≈63% → 80% 범위, 경험적으로 0.8이 가장 정확)
-const MAGIC_MASTERY_RATIO = 0.8;
+// ─── 법사 데미지 공식 (메이플랜드 공식 검증 완료) ───
+// MAX = ((MA²/1000 + MA) / 30 + INT/200) × skillPct × attrMult - mdef × 0.5 × defMult
+// MIN = ((MA²/1000 + MA×0.6×0.9) / 30 + INT/200) × skillPct × attrMult - mdef × 0.6 × defMult
+// attrMult는 방어 차감 전에 적용 (속성약점 ×1.5 포함)
+const MAGIC_MASTERY = 0.6;
 
 function calcMagicDamage(
   int_: number,
   _luk: number,
   ma: number,
   skillPct: number,
+  attrMult: number,
   hits: number,
   charLevel: number,
   monLevel: number,
@@ -566,14 +568,11 @@ function calcMagicDamage(
 ): DamageResult {
   const D = Math.max(monLevel - charLevel, 0);
   const defMult = 1 + 0.01 * D;
-  // Mapleland 법사 데미지 공식 (二次項 포함)
-  const minBase = (skillPct / 30000) * ma * ma
-    + skillPct * 0.018 * ma
-    + skillPct * int_ / 200
-    - mdef * 0.6 * defMult;
-  const maxBase = minBase / MAGIC_MASTERY_RATIO;
-  const minDmg = Math.max(minBase, 1) * hits;
-  const maxDmg = Math.max(maxBase, 1) * hits;
+  const maBase = ma * ma / 1000;
+  const maxPower = (maBase + ma) / 30 + int_ / 200;
+  const minPower = (maBase + ma * MAGIC_MASTERY * 0.9) / 30 + int_ / 200;
+  const maxDmg = Math.max(maxPower * skillPct * attrMult - mdef * 0.5 * defMult, 1) * hits;
+  const minDmg = Math.max(minPower * skillPct * attrMult - mdef * 0.6 * defMult, 1) * hits;
   return { maxDmg, minDmg, avgDmg: (maxDmg + minDmg) / 2 };
 }
 
@@ -604,12 +603,13 @@ function calcOneKillAtk(
 }
 
 // 원킬컷 역산: magic MA (이차방정식 풀이)
-// (skillPct/30000)×MA² + skillPct×0.018×MA + (skillPct×INT/200 - mdef×0.6 - hp/hits) = 0
+// 원킬컷 역산: MA² + 540×MA - 30000T = 0, T = (hp/hits + mdef×0.6×defMult)/(skillPct×attrMult) - INT/200
 function calcOneKillMa(
   hp: number,
   int_: number,
   _luk: number,
   skillPct: number,
+  attrMult: number,
   hits: number,
   charLevel: number,
   monLevel: number,
@@ -617,12 +617,12 @@ function calcOneKillMa(
 ): number {
   const D = Math.max(monLevel - charLevel, 0);
   const defMult = 1 + 0.01 * D;
-  const a = skillPct / 30000;
-  const b = skillPct * 0.018;
-  const c = skillPct * int_ / 200 - mdef * 0.6 * defMult - hp / hits;
-  const disc = b * b - 4 * a * c;
-  if (disc < 0 || a <= 0) return 0;
-  return Math.ceil((-b + Math.sqrt(disc)) / (2 * a));
+  const divisor = skillPct * attrMult;
+  if (divisor <= 0) return 0;
+  const T = (hp / hits + mdef * 0.6 * defMult) / divisor - int_ / 200;
+  const disc = 540 * 540 + 4 * 30000 * T;
+  if (disc < 0) return 0;
+  return Math.ceil((-540 + Math.sqrt(disc)) / 2);
 }
 
 // ─── 몬테카를로 시뮬레이션 ───
@@ -963,13 +963,17 @@ export default function NHitPage() {
   const effectiveTotalLuk = totalLuk * activeStatMultiplier;
 
   const dmgResult = useMemo<DamageResult>(() => {
+    // 속성 약점 배율
+    const attrMult = (selectedSkill?.element && monster.weakness === selectedSkill.element) ? 1.5 : 1.0;
     let result: DamageResult;
     if (isMagic) {
+      // 법사: attrMult를 공식 내부에서 방어 차감 전에 적용
       result = calcMagicDamage(
         effectiveTotalInt,
         effectiveTotalLuk,
         ma,
         skillPct,
+        attrMult,
         skillHits,
         charLevel,
         monster.level,
@@ -992,12 +996,12 @@ export default function NHitPage() {
     }
     // damageMultiplier (버서크) 및 comboBonus 적용
     const totalMult = activeDamageMultiplier * (1 + activeComboBonus);
-    // 속성 약점 배율 (스킬 속성 === 몬스터 약점이면 ×1.5)
-    const attrMult = (selectedSkill?.element && monster.weakness === selectedSkill.element) ? 1.5 : 1.0;
+    // 물리직업: attrMult 외부 적용 / 법사: 이미 내부 적용됨
+    const externalAttrMult = isMagic ? 1.0 : attrMult;
     return {
-      maxDmg: result.maxDmg * totalMult * attrMult,
-      minDmg: result.minDmg * totalMult * attrMult,
-      avgDmg: result.avgDmg * totalMult * attrMult,
+      maxDmg: result.maxDmg * totalMult * externalAttrMult,
+      minDmg: result.minDmg * totalMult * externalAttrMult,
+      avgDmg: result.avgDmg * totalMult * externalAttrMult,
     };
   }, [
     isMagic, ma, effectiveTotalInt, effectiveTotalLuk, effectiveMastery, skillPct, skillHits,
@@ -1027,7 +1031,7 @@ export default function NHitPage() {
   const { nHitMax: critNHitMax, nHitAvg: critNHitAvg } = calcNHit(monster.hp, critDmgResult);
 
   const oneKillAtk = isMagic
-    ? calcOneKillMa(monster.hp, effectiveTotalInt, effectiveTotalLuk, skillPct, skillHits, charLevel, monster.level, monster.mdef)
+    ? calcOneKillMa(monster.hp, effectiveTotalInt, effectiveTotalLuk, skillPct, isAttrWeakness ? 1.5 : 1.0, skillHits, charLevel, monster.level, monster.mdef)
     : calcOneKillAtk(
         monster.hp,
         effectiveMainStat,
@@ -1062,14 +1066,18 @@ export default function NHitPage() {
     return (effectiveMainStat * (weaponInfo?.minMult ?? 4.0) * 0.9 * (effectiveMastery / 100) + effectiveSubStat) * totalAtk / 100;
   }, [isMagic, effectiveMainStat, effectiveSubStat, totalAtk, weaponInfo, effectiveMastery]);
 
-  // 마법 기본 파워 (스킬% 1 기준, 방어 미포함) — 새 공식: MA²/30000 + 0.018×MA + INT/200
-  const magicBasePerPct = useMemo(() => {
+  // 마법 기본 파워 (스킬% 1 기준, 방어/속성 미포함)
+  // MAX power = (MA²/1000 + MA) / 30 + INT/200
+  // MIN power = (MA²/1000 + MA×0.54) / 30 + INT/200
+  const magicDmgMax = useMemo(() => {
     if (!isMagic) return 0;
-    return (ma * ma / 30000) + 0.018 * ma + effectiveTotalInt / 200;
+    return (ma * ma / 1000 + ma) / 30 + effectiveTotalInt / 200;
   }, [isMagic, effectiveTotalInt, ma]);
 
-  const magicDmgMax = magicBasePerPct; // MAX = base (MIN/0.8)
-  const magicDmgMin = magicBasePerPct * MAGIC_MASTERY_RATIO; // MIN = base × 0.8
+  const magicDmgMin = useMemo(() => {
+    if (!isMagic) return 0;
+    return (ma * ma / 1000 + ma * MAGIC_MASTERY * 0.9) / 30 + effectiveTotalInt / 200;
+  }, [isMagic, effectiveTotalInt, ma]);
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -1821,7 +1829,7 @@ function CalcTab({
               {Math.floor(magicDmgMin).toLocaleString()} ~ {Math.floor(magicDmgMax).toLocaleString()}
             </p>
             <p className="text-xs text-purple-400 mt-1">
-              스킬 1%당 기본 파워: MA²/30000 + 0.018×MA + INT/200 (MAX~MIN ×0.8)
+              스킬 1%당 파워 MAX=(MA²/1000+MA)/30+INT/200 · MIN=(MA²/1000+MA×0.54)/30+INT/200
             </p>
           </div>
         )}
