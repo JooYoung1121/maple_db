@@ -175,6 +175,23 @@ CREATE TABLE IF NOT EXISTS scroll_rankings (
     scroll_detail TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS community_polls (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    question TEXT NOT NULL,
+    options_json TEXT NOT NULL,
+    vote_counts_json TEXT NOT NULL,
+    created_at TEXT DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS community_poll_votes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    poll_id INTEGER NOT NULL,
+    option_index INTEGER NOT NULL,
+    voter_ip TEXT NOT NULL,
+    created_at TEXT DEFAULT (datetime('now')),
+    UNIQUE(poll_id, voter_ip)
+);
 """
 
 FTS_SCHEMA = """

@@ -41,6 +41,7 @@ const NAV_CATEGORIES: NavCategory[] = [
     label: "커뮤니티",
     items: [
       { href: "/bimae", label: "비매박제" },
+      { href: "/community", label: "투표 / 룰렛" },
     ],
   },
 ];

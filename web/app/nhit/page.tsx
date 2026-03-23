@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 // ─── 무기 배율 테이블 ───
 const WEAPON_MULTIPLIERS: Record<
@@ -178,8 +178,8 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
     actives: [
       { name: "콜드 빔", damage: 160, hits: 1, type: "active", element: "ice", minDamage: 80, maxLevel: 30 },
       { name: "썬더 볼트", damage: 165, hits: 1, type: "active", element: "lightning", minDamage: 82, maxLevel: 30 },
-      { name: "아이스 스트라이크", damage: 210, hits: 1, type: "active", element: "ice", minDamage: 105, maxLevel: 30 },
-      { name: "체인 라이트닝", damage: 300, hits: 1, mobs: 6, type: "active", element: "lightning", minDamage: 150, maxLevel: 30 },
+      { name: "아이스 스트라이크", damage: 90, hits: 1, type: "active", element: "ice", minDamage: 32, maxLevel: 30 },
+      { name: "체인 라이트닝", damage: 210, hits: 1, mobs: 6, type: "active", element: "lightning", minDamage: 104, maxLevel: 30 },
       { name: "블리자드", damage: 600, hits: 1, mobs: 10, type: "active", element: "ice", minDamage: 330, maxLevel: 30 },
     ],
     buffs: [
@@ -200,7 +200,7 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "홀리 에로우", damage: 160, hits: 1, type: "active", element: "holy", minDamage: 80, maxLevel: 30 },
       { name: "샤이닝 레이", damage: 220, hits: 1, type: "active", element: "holy", minDamage: 110, maxLevel: 30 },
       { name: "엔젤레이", damage: 500, hits: 1, type: "active", element: "holy", minDamage: 250, maxLevel: 30 },
-      { name: "제네시스", damage: 670, hits: 1, mobs: 15, type: "active", element: "holy", minDamage: 335, maxLevel: 30 },
+      { name: "제네시스", damage: 650, hits: 1, mobs: 10, type: "active", element: "holy", minDamage: 325, maxLevel: 30 },
     ],
     buffs: [
       {
@@ -217,6 +217,7 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
     isMagic: false,
     passives: [
       { name: "보우 마스터리", type: "passive", mastery: 60, description: "활 최소 데미지 보장 (60%)" },
+      { name: "크리티컬샷", type: "passive", critRate: 40, description: "크리티컬 확률 +40%" },
       { name: "파이널어택", type: "passive", description: "40% 확률로 150% 추가 타격" },
     ],
     actives: [
@@ -247,6 +248,7 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
     isMagic: false,
     passives: [
       { name: "석궁 마스터리", type: "passive", mastery: 60, description: "석궁 최소 데미지 보장 (60%)" },
+      { name: "크리티컬샷", type: "passive", critRate: 40, description: "크리티컬 확률 +40%" },
     ],
     actives: [
       { name: "더블샷", damage: 130, hits: 2, mobs: 1, type: "active", minDamage: 65, maxLevel: 30 },
@@ -369,6 +371,23 @@ const JOB_GROUPS: Record<string, string[]> = {
 };
 
 const JOB_GROUP_KEYS = Object.keys(JOB_GROUPS);
+
+// ─── 직업별 레벨 스탯 기본값 ───
+// mainStat = level × 5, subStat = 아래 고정값
+const JOB_STAT_DEFAULTS: Record<string, { subStatDefault: number }> = {
+  "히어로":     { subStatDefault: 25 },  // DEX 25 고정
+  "팔라딘":     { subStatDefault: 25 },  // DEX 25 고정
+  "다크나이트": { subStatDefault: 25 },  // DEX 25 고정
+  "불독(F/P)":  { subStatDefault: 20 },  // LUK 20 고정
+  "썬콜(I/L)":  { subStatDefault: 20 },  // LUK 20 고정
+  "비숍":       { subStatDefault: 20 },  // LUK 20 고정
+  "보우마스터": { subStatDefault: 25 },  // STR 25 고정
+  "신궁":       { subStatDefault: 25 },  // STR 25 고정
+  "나이트로드": { subStatDefault: 29 },  // STR+DEX 29 고정 (STR 4 + DEX 25)
+  "섀도어":     { subStatDefault: 29 },  // STR+DEX 29 고정
+  "바이퍼":     { subStatDefault: 25 },  // DEX 25 고정
+  "캡틴":       { subStatDefault: 25 },  // STR 25 고정
+};
 
 // 속성 뱃지 색상
 const ELEMENT_COLORS: Record<string, string> = {
@@ -649,7 +668,7 @@ function runMonteCarlo(
   return { distribution, expectedHits, median, pOneHit, pTwoHit, pThreeHit, pFourPlusHit };
 }
 
-// 공통 입력 컴포넌트
+// 공통 입력 컴포넌트 (백스페이스 편집 가능)
 function NumberInput({
   label,
   value,
@@ -663,13 +682,44 @@ function NumberInput({
   min?: number;
   max?: number;
 }) {
+  const [inputVal, setInputVal] = useState(String(value));
+
+  // 외부 value 변경 시 동기화 (포커스 중이 아닐 때)
+  useEffect(() => {
+    setInputVal(String(value));
+  }, [value]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value;
+    setInputVal(raw);
+    const n = Number(raw);
+    if (raw !== "" && !isNaN(n)) {
+      onChange(n);
+    }
+  };
+
+  const handleBlur = () => {
+    const n = parseFloat(inputVal);
+    if (inputVal === "" || isNaN(n)) {
+      const fallback = min ?? 0;
+      setInputVal(String(fallback));
+      onChange(fallback);
+    } else {
+      const clamped = min !== undefined ? Math.max(min, n) : n;
+      const clampedMax = max !== undefined ? Math.min(max, clamped) : clamped;
+      setInputVal(String(clampedMax));
+      onChange(clampedMax);
+    }
+  };
+
   return (
     <div>
       <label className="block text-xs font-medium text-gray-500 mb-1">{label}</label>
       <input
         type="number"
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
+        value={inputVal}
+        onChange={handleChange}
+        onBlur={handleBlur}
         min={min}
         max={max}
         className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
@@ -727,6 +777,30 @@ export default function NHitPage() {
 
   const [charLevel, setCharLevel] = useState(70);
 
+  // 레벨 기준 스탯 자동 계산
+  const [autoStatEnabled, setAutoStatEnabled] = useState(true);
+
+  const applyLevelStats = (level: number, job: string) => {
+    const defaults = JOB_STAT_DEFAULTS[job];
+    if (!defaults) return;
+    const jobInfo = JOB_SKILL_DATA[job];
+    const autoMain = level * 5;
+    if (jobInfo?.isMagic) {
+      setPureInt(autoMain);
+      setBonusInt(0);
+      setPureLuk(defaults.subStatDefault);
+      setBonusLuk(0);
+    } else {
+      setMainStat(autoMain);
+      setSubStat(defaults.subStatDefault);
+    }
+  };
+
+  const handleCharLevelChange = (level: number) => {
+    setCharLevel(level);
+    if (autoStatEnabled) applyLevelStats(level, subJob);
+  };
+
   // 총 공격력 (물리)
   const totalAtk = weaponAtk + gloveAtk + otherAtk + buff1 + buff2;
 
@@ -763,8 +837,10 @@ export default function NHitPage() {
     setSelectedSkillIdx(0);
     setSkillLevel(30);
     setEnabledBuffs({});
+    setEnabledPassives({});
     const firstWeapon = JOB_SKILL_DATA[firstSub]?.weapons[0];
     if (firstWeapon) setWeaponKey(firstWeapon);
+    if (autoStatEnabled) applyLevelStats(charLevel, firstSub);
   };
 
   // 세부 직업 변경
@@ -773,8 +849,10 @@ export default function NHitPage() {
     setSelectedSkillIdx(0);
     setSkillLevel(30);
     setEnabledBuffs({});
+    setEnabledPassives({});
     const firstWeapon = JOB_SKILL_DATA[sub]?.weapons[0];
     if (firstWeapon) setWeaponKey(firstWeapon);
+    if (autoStatEnabled) applyLevelStats(charLevel, sub);
   };
 
   // 현재 스킬 정보
@@ -1054,7 +1132,9 @@ export default function NHitPage() {
           ma={ma}
           setMa={setMa}
           charLevel={charLevel}
-          setCharLevel={setCharLevel}
+          setCharLevel={handleCharLevelChange}
+          autoStatEnabled={autoStatEnabled}
+          setAutoStatEnabled={setAutoStatEnabled}
           usePreset={usePreset}
           setUsePreset={setUsePreset}
           selectedMonster={selectedMonster}
@@ -1153,6 +1233,8 @@ interface CalcTabProps {
   setMa: (v: number) => void;
   charLevel: number;
   setCharLevel: (v: number) => void;
+  autoStatEnabled: boolean;
+  setAutoStatEnabled: (v: boolean) => void;
   usePreset: boolean;
   setUsePreset: (v: boolean) => void;
   selectedMonster: number;
@@ -1205,7 +1287,7 @@ function CalcTab({
   pureLuk, setPureLuk, bonusLuk, setBonusLuk,
   totalInt, totalLuk,
   ma, setMa,
-  charLevel, setCharLevel,
+  charLevel, setCharLevel, autoStatEnabled, setAutoStatEnabled,
   usePreset, setUsePreset, selectedMonster, setSelectedMonster,
   manualName, setManualName, manualLevel, setManualLevel,
   manualHp, setManualHp, manualWdef, setManualWdef, manualMdef, setManualMdef,
@@ -1403,13 +1485,22 @@ function CalcTab({
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
           <NumberInput label="캐릭터 레벨" value={charLevel} onChange={setCharLevel} min={1} max={200} />
-          {!isMagic && (
-            <div className="flex items-end">
+          <div className="flex items-end gap-3 flex-wrap">
+            <label className="flex items-center gap-1.5 cursor-pointer select-none text-xs text-gray-600 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
+              <input
+                type="checkbox"
+                checked={autoStatEnabled}
+                onChange={(e) => setAutoStatEnabled(e.target.checked)}
+                className="accent-orange-500 w-3.5 h-3.5"
+              />
+              레벨 기준 스탯 자동 계산
+            </label>
+            {!isMagic && (
               <span className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
                 마스터리 {effectiveMastery}% 적용 중
               </span>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
@@ -1826,26 +1917,37 @@ function getSkillCastsPerSecond(skillName: string): number {
 function HuntTab({ charLevel, isMagic, dmgResult, selectedSkill }: HuntTabProps) {
   const [sortBy, setSortBy] = useState<"expPer7Sec" | "efficiency" | "level" | "nhit">("expPer7Sec");
 
+  // 사냥터 탭 자체 캐릭터 설정 (계산기 탭 값을 초기값으로, 독립 편집 가능)
+  const [localLevel, setLocalLevel] = useState(charLevel);
+  const [localAvgDmg, setLocalAvgDmg] = useState(Math.max(1, Math.round(dmgResult.avgDmg)));
+
+  const syncFromCalc = () => {
+    setLocalLevel(charLevel);
+    setLocalAvgDmg(Math.max(1, Math.round(dmgResult.avgDmg)));
+  };
+
   const castsPerSecond = getSkillCastsPerSecond(selectedSkill?.name ?? "");
 
   const rows = useMemo<HuntRow[]>(() => {
+    const localDmg: DamageResult = {
+      maxDmg: localAvgDmg * 1.2,
+      minDmg: localAvgDmg * 0.8,
+      avgDmg: localAvgDmg,
+    };
     const filtered = HUNTING_GROUNDS.filter((m) => {
-      if (charLevel >= 110) {
-        return m.level >= 110;
-      }
-      return m.level >= charLevel - 5 && m.level <= charLevel + 10;
+      if (localLevel >= 110) return m.level >= 110;
+      return m.level >= localLevel - 5 && m.level <= localLevel + 10;
     });
     return filtered.map((m) => {
-      const { nHitAvg } = calcNHit(m.hp, dmgResult);
-      const dmgPerCast = dmgResult.avgDmg;
-      const hitsPerKill = Math.ceil(m.hp / dmgPerCast);
+      const { nHitAvg } = calcNHit(m.hp, localDmg);
+      const hitsPerKill = Math.ceil(m.hp / localAvgDmg);
       const secondsPerKill = hitsPerKill / castsPerSecond;
       const killsPer7Sec = parseFloat((7 / secondsPerKill).toFixed(1));
       const expPer7Sec = Math.round(killsPer7Sec * m.exp);
       const efficiency = m.exp > 0 ? Math.round(m.exp / hitsPerKill) : 0;
       return { monster: m, nHitAvg, hitsPerKill, secondsPerKill, killsPer7Sec, exp: m.exp, expPer7Sec, efficiency };
     });
-  }, [charLevel, dmgResult, castsPerSecond]);
+  }, [localLevel, localAvgDmg, castsPerSecond]);
 
   const sorted = useMemo(() => {
     const copy = [...rows];
@@ -1871,6 +1973,47 @@ function HuntTab({ charLevel, isMagic, dmgResult, selectedSkill }: HuntTabProps)
 
   return (
     <div className="space-y-5">
+      {/* 캐릭터 설정 */}
+      <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="font-bold text-lg">캐릭터 정보</h2>
+          <button
+            onClick={syncFromCalc}
+            className="text-xs text-orange-500 border border-orange-300 bg-orange-50 hover:bg-orange-100 px-3 py-1.5 rounded-lg transition-colors"
+          >
+            계산기 탭 값으로 불러오기
+          </button>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">캐릭터 레벨</label>
+            <input
+              type="number"
+              value={localLevel}
+              onChange={(e) => setLocalLevel(Math.max(1, Number(e.target.value)))}
+              min={1} max={200}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">
+              평균 데미지 ({isMagic ? "마법" : "물리"})
+            </label>
+            <input
+              type="number"
+              value={localAvgDmg}
+              onChange={(e) => setLocalAvgDmg(Math.max(1, Number(e.target.value)))}
+              min={1}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+            />
+          </div>
+        </div>
+        <p className="text-xs text-gray-400 mt-2">
+          {isMagic ? "법사: 스탯공격력 × 스킬% 기준 값 입력" : "물리: (주스탯 × 배율 + 부스탯) × 공격력/100 × 스킬% 기준 값 입력"}
+          {selectedSkill && ` · 스킬: ${selectedSkill.name} (${castsPerSecond}회/초)`}
+        </p>
+      </div>
+
       <div className="bg-white border border-gray-200 rounded-xl p-5">
         <h2 className="font-bold text-lg mb-3">추천 설정</h2>
         <div className="flex gap-1 flex-wrap mb-3">
@@ -1896,11 +2039,10 @@ function HuntTab({ charLevel, isMagic, dmgResult, selectedSkill }: HuntTabProps)
           ))}
         </div>
         <p className="text-xs text-gray-400">
-          캐릭터 레벨 {charLevel} 기준 · {isMagic ? "마법 데미지" : "물리 데미지"} 적용 ·{" "}
-          {charLevel >= 110
+          레벨 {localLevel} 기준 ·{" "}
+          {localLevel >= 110
             ? "Lv.110+ 모든 몬스터"
-            : `현재 레벨 -5~+10 범위 몬스터 (Lv.${charLevel - 5}~${charLevel + 10})`}
-          {selectedSkill && ` · ${selectedSkill.name} 기준 (${castsPerSecond}회/초)`}
+            : `Lv.${localLevel - 5}~${localLevel + 10} 범위 몬스터`}
         </p>
       </div>
 
