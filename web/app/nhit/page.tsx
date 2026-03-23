@@ -541,7 +541,7 @@ function calcPhysicalDamage(
     ) * hits;
   const minDmg =
     Math.max(
-      ((mainStat * minMult * 0.9 * mastery + subStat) * (atk / 100) * levelPenalty -
+      ((mainStat * minMult * mastery + subStat) * (atk / 100) * levelPenalty -
         wdef * 0.6) *
         (skillPct / 100),
       1
