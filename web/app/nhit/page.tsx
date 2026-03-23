@@ -549,12 +549,14 @@ function calcPhysicalDamage(
   return { maxDmg, minDmg, avgDmg: (maxDmg + minDmg) / 2 };
 }
 
-// 법사 데미지: MAX=(INT+LUK)×MA/100, MIN=(INT×mastery+LUK)×MA/100 (숙련도 60% 적용)
-const MAGIC_MASTERY = 0.6; // 법사 4차 숙련도 60%
+// ─── 법사 데미지 공식 (Mapleland / MapleLegends 검증) ───
+// MIN = (skillPct/30000)×MA² + skillPct×0.018×MA + skillPct×INT/200 - mdef×0.6×defMult
+// MAX = MIN / MAGIC_MASTERY_RATIO  (≈63% → 80% 범위, 경험적으로 0.8이 가장 정확)
+const MAGIC_MASTERY_RATIO = 0.8;
 
 function calcMagicDamage(
   int_: number,
-  luk: number,
+  _luk: number,
   ma: number,
   skillPct: number,
   hits: number,
@@ -564,10 +566,14 @@ function calcMagicDamage(
 ): DamageResult {
   const D = Math.max(monLevel - charLevel, 0);
   const defMult = 1 + 0.01 * D;
-  const maxBase = (int_ + luk) * (ma / 100);
-  const minBase = (int_ * MAGIC_MASTERY + luk) * (ma / 100);
-  const maxDmg = Math.max((maxBase * (skillPct / 100) - mdef * 0.5 * defMult), 1) * hits;
-  const minDmg = Math.max((minBase * (skillPct / 100) - mdef * 0.5 * defMult), 1) * hits;
+  // Mapleland 법사 데미지 공식 (二次項 포함)
+  const minBase = (skillPct / 30000) * ma * ma
+    + skillPct * 0.018 * ma
+    + skillPct * int_ / 200
+    - mdef * 0.6 * defMult;
+  const maxBase = minBase / MAGIC_MASTERY_RATIO;
+  const minDmg = Math.max(minBase, 1) * hits;
+  const maxDmg = Math.max(maxBase, 1) * hits;
   return { maxDmg, minDmg, avgDmg: (maxDmg + minDmg) / 2 };
 }
 
@@ -597,11 +603,12 @@ function calcOneKillAtk(
   return Math.ceil(target * 10000 / base);
 }
 
-// 원킬컷 역산: magic MA
+// 원킬컷 역산: magic MA (이차방정식 풀이)
+// (skillPct/30000)×MA² + skillPct×0.018×MA + (skillPct×INT/200 - mdef×0.6 - hp/hits) = 0
 function calcOneKillMa(
   hp: number,
   int_: number,
-  luk: number,
+  _luk: number,
   skillPct: number,
   hits: number,
   charLevel: number,
@@ -610,10 +617,12 @@ function calcOneKillMa(
 ): number {
   const D = Math.max(monLevel - charLevel, 0);
   const defMult = 1 + 0.01 * D;
-  const target = hp / hits + mdef * 0.5 * defMult;
-  const base = (int_ + luk) * skillPct;
-  if (base <= 0) return 0;
-  return Math.ceil(target * 10000 / base);
+  const a = skillPct / 30000;
+  const b = skillPct * 0.018;
+  const c = skillPct * int_ / 200 - mdef * 0.6 * defMult - hp / hits;
+  const disc = b * b - 4 * a * c;
+  if (disc < 0 || a <= 0) return 0;
+  return Math.ceil((-b + Math.sqrt(disc)) / (2 * a));
 }
 
 // ─── 몬테카를로 시뮬레이션 ───
@@ -1053,16 +1062,14 @@ export default function NHitPage() {
     return (effectiveMainStat * (weaponInfo?.minMult ?? 4.0) * 0.9 * (effectiveMastery / 100) + effectiveSubStat) * totalAtk / 100;
   }, [isMagic, effectiveMainStat, effectiveSubStat, totalAtk, weaponInfo, effectiveMastery]);
 
-  // 마법 데미지 범위 (법사, 스킬% 미포함 기준)
-  const magicDmgMax = useMemo(() => {
+  // 마법 기본 파워 (스킬% 1 기준, 방어 미포함) — 새 공식: MA²/30000 + 0.018×MA + INT/200
+  const magicBasePerPct = useMemo(() => {
     if (!isMagic) return 0;
-    return (effectiveTotalInt + effectiveTotalLuk) * ma / 100;
-  }, [isMagic, effectiveTotalInt, effectiveTotalLuk, ma]);
+    return (ma * ma / 30000) + 0.018 * ma + effectiveTotalInt / 200;
+  }, [isMagic, effectiveTotalInt, ma]);
 
-  const magicDmgMin = useMemo(() => {
-    if (!isMagic) return 0;
-    return (effectiveTotalInt + effectiveTotalLuk * 0.5) * ma / 100;
-  }, [isMagic, effectiveTotalInt, effectiveTotalLuk, ma]);
+  const magicDmgMax = magicBasePerPct; // MAX = base (MIN/0.8)
+  const magicDmgMin = magicBasePerPct * MAGIC_MASTERY_RATIO; // MIN = base × 0.8
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -1190,6 +1197,8 @@ export default function NHitPage() {
           isMagic={isMagic}
           dmgResult={dmgResult}
           selectedSkill={selectedSkill}
+          jobGroup={jobGroup}
+          subJob={subJob}
         />
       )}
     </div>
@@ -1812,7 +1821,7 @@ function CalcTab({
               {Math.floor(magicDmgMin).toLocaleString()} ~ {Math.floor(magicDmgMax).toLocaleString()}
             </p>
             <p className="text-xs text-purple-400 mt-1">
-              (INT + LUK×0.5 ~ INT + LUK) × MA/100
+              스킬 1%당 기본 파워: MA²/30000 + 0.018×MA + INT/200 (MAX~MIN ×0.8)
             </p>
           </div>
         )}
@@ -1934,6 +1943,8 @@ interface HuntTabProps {
   isMagic: boolean;
   dmgResult: DamageResult;
   selectedSkill: ActiveSkill | undefined;
+  jobGroup: string;
+  subJob: string;
 }
 
 interface HuntRow {
@@ -1953,19 +1964,44 @@ function getSkillCastsPerSecond(skillName: string): number {
   return 1.5;
 }
 
-function HuntTab({ charLevel, isMagic, dmgResult, selectedSkill }: HuntTabProps) {
+function HuntTab({ charLevel, isMagic, dmgResult, selectedSkill, jobGroup: initJobGroup, subJob: initSubJob }: HuntTabProps) {
   const [sortBy, setSortBy] = useState<"expPer7Sec" | "efficiency" | "level" | "nhit">("expPer7Sec");
 
-  // 사냥터 탭 자체 캐릭터 설정 (계산기 탭 값을 초기값으로, 독립 편집 가능)
+  // 사냥터 탭 자체 캐릭터 설정
   const [localLevel, setLocalLevel] = useState(charLevel);
   const [localAvgDmg, setLocalAvgDmg] = useState(Math.max(1, Math.round(dmgResult.avgDmg)));
+  const [localJobGroup, setLocalJobGroup] = useState(initJobGroup);
+  const [localSubJob, setLocalSubJob] = useState(initSubJob);
+  const [localSkillIdx, setLocalSkillIdx] = useState(() => {
+    const idx = (JOB_SKILL_DATA[initSubJob]?.actives ?? []).findIndex(
+      (s) => s.name === selectedSkill?.name
+    );
+    return idx >= 0 ? idx : 0;
+  });
+
+  const localJobData = JOB_SKILL_DATA[localSubJob];
+  const localActives = localJobData?.actives ?? [];
+  const localSkill = localActives[localSkillIdx] ?? localActives[0];
 
   const syncFromCalc = () => {
     setLocalLevel(charLevel);
     setLocalAvgDmg(Math.max(1, Math.round(dmgResult.avgDmg)));
+    setLocalJobGroup(initJobGroup);
+    setLocalSubJob(initSubJob);
+    const idx = (JOB_SKILL_DATA[initSubJob]?.actives ?? []).findIndex(
+      (s) => s.name === selectedSkill?.name
+    );
+    setLocalSkillIdx(idx >= 0 ? idx : 0);
   };
 
-  const castsPerSecond = getSkillCastsPerSecond(selectedSkill?.name ?? "");
+  const handleJobGroupChange = (g: string) => {
+    setLocalJobGroup(g);
+    const firstSub = JOB_GROUPS[g][0];
+    setLocalSubJob(firstSub);
+    setLocalSkillIdx(0);
+  };
+
+  const castsPerSecond = getSkillCastsPerSecond(localSkill?.name ?? "");
 
   const rows = useMemo<HuntRow[]>(() => {
     const localDmg: DamageResult = {
@@ -2023,6 +2059,76 @@ function HuntTab({ charLevel, isMagic, dmgResult, selectedSkill }: HuntTabProps)
             계산기 탭 값으로 불러오기
           </button>
         </div>
+
+        {/* 직업 계열 */}
+        <div className="mb-3">
+          <label className="block text-xs font-medium text-gray-500 mb-1">직업 계열</label>
+          <div className="flex gap-1 flex-wrap">
+            {JOB_GROUP_KEYS.map((g) => (
+              <button
+                key={g}
+                onClick={() => handleJobGroupChange(g)}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                  localJobGroup === g
+                    ? "bg-orange-500 text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                {g}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* 세부 직업 */}
+        <div className="mb-3">
+          <label className="block text-xs font-medium text-gray-500 mb-1">직업</label>
+          <div className="flex gap-1 flex-wrap">
+            {(JOB_GROUPS[localJobGroup] ?? []).map((s) => (
+              <button
+                key={s}
+                onClick={() => { setLocalSubJob(s); setLocalSkillIdx(0); }}
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border ${
+                  localSubJob === s
+                    ? "bg-orange-100 text-orange-700 border-orange-300"
+                    : "bg-gray-50 text-gray-600 hover:bg-gray-100 border-gray-200"
+                }`}
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* 주 활용 스킬 */}
+        {localActives.length > 0 && (
+          <div className="mb-4">
+            <label className="block text-xs font-medium text-gray-500 mb-1">주 활용 스킬</label>
+            <div className="flex gap-1 flex-wrap">
+              {localActives.map((sk, idx) => (
+                <button
+                  key={sk.name}
+                  onClick={() => setLocalSkillIdx(idx)}
+                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border ${
+                    localSkillIdx === idx
+                      ? "bg-orange-500 text-white border-orange-500"
+                      : "bg-gray-50 text-gray-600 hover:bg-gray-100 border-gray-200"
+                  }`}
+                >
+                  {sk.name}
+                </button>
+              ))}
+            </div>
+            {localSkill && (
+              <p className="text-xs text-gray-400 mt-1">
+                {localSkill.name} · {castsPerSecond}회/초
+                {localSkill.mobs && localSkill.mobs > 1 ? ` · ${localSkill.mobs}마리 광역` : ""}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* 레벨 / 평균 데미지 */}
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="block text-xs font-medium text-gray-500 mb-1">캐릭터 레벨</label>
@@ -2036,7 +2142,7 @@ function HuntTab({ charLevel, isMagic, dmgResult, selectedSkill }: HuntTabProps)
           </div>
           <div>
             <label className="block text-xs font-medium text-gray-500 mb-1">
-              평균 데미지 ({isMagic ? "마법" : "물리"})
+              평균 데미지 ({localJobData?.isMagic ? "마법" : "물리"})
             </label>
             <input
               type="number"
@@ -2047,10 +2153,6 @@ function HuntTab({ charLevel, isMagic, dmgResult, selectedSkill }: HuntTabProps)
             />
           </div>
         </div>
-        <p className="text-xs text-gray-400 mt-2">
-          {isMagic ? "법사: 스탯공격력 × 스킬% 기준 값 입력" : "물리: (주스탯 × 배율 + 부스탯) × 공격력/100 × 스킬% 기준 값 입력"}
-          {selectedSkill && ` · 스킬: ${selectedSkill.name} (${castsPerSecond}회/초)`}
-        </p>
       </div>
 
       <div className="bg-white border border-gray-200 rounded-xl p-5">
