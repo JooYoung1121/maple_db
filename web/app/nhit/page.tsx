@@ -417,6 +417,7 @@ interface Monster {
   mdef: number;
   exp: number;
   map: string;
+  weakness?: "fire" | "ice" | "lightning" | "holy" | "poison" | "dark";
 }
 
 const HUNTING_GROUNDS: Monster[] = [
@@ -432,15 +433,15 @@ const HUNTING_GROUNDS: Monster[] = [
   // Level 10-30
   { name: "뿔버섯",        level: 13,  hp: 160,       wdef: 25,   mdef: 10,   exp: 30,   map: "헤네시스 사냥터" },
   { name: "리본돼지",      level: 15,  hp: 210,       wdef: 35,   mdef: 20,   exp: 46,   map: "남쪽 숲" },
-  { name: "발록새끼",      level: 18,  hp: 300,       wdef: 40,   mdef: 20,   exp: 52,   map: "슬리피우드" },
+  { name: "발록새끼",      level: 18,  hp: 300,       wdef: 40,   mdef: 20,   exp: 52,   map: "슬리피우드",    weakness: "holy" },
   { name: "잭더래빗",      level: 20,  hp: 350,       wdef: 45,   mdef: 30,   exp: 58,   map: "케르닝 지하상가" },
-  { name: "좀비버섯",      level: 22,  hp: 400,       wdef: 50,   mdef: 40,   exp: 65,   map: "페리온" },
+  { name: "좀비버섯",      level: 22,  hp: 400,       wdef: 50,   mdef: 40,   exp: 65,   map: "페리온",        weakness: "holy" },
   { name: "킬라",          level: 25,  hp: 500,       wdef: 55,   mdef: 50,   exp: 75,   map: "케르닝시티" },
   { name: "투카",          level: 26,  hp: 580,       wdef: 58,   mdef: 52,   exp: 82,   map: "케르닝시티" },
-  { name: "주니어발록",    level: 28,  hp: 750,       wdef: 60,   mdef: 60,   exp: 95,   map: "슬리피우드" },
+  { name: "주니어발록",    level: 28,  hp: 750,       wdef: 60,   mdef: 60,   exp: 95,   map: "슬리피우드",    weakness: "holy" },
   // Level 30-50
   { name: "찰지귀",        level: 30,  hp: 580,       wdef: 50,   mdef: 55,   exp: 58,   map: "케르닝시티" },
-  { name: "구울",          level: 32,  hp: 700,       wdef: 65,   mdef: 70,   exp: 65,   map: "페리온" },
+  { name: "구울",          level: 32,  hp: 700,       wdef: 65,   mdef: 70,   exp: 65,   map: "페리온",        weakness: "holy" },
   { name: "주니어셀리온",  level: 33,  hp: 1100,      wdef: 60,   mdef: 80,   exp: 65,   map: "엘리니아" },
   { name: "주니어페페",    level: 35,  hp: 1400,      wdef: 110,  mdef: 100,  exp: 75,   map: "엘나스" },
   { name: "아이언호그",    level: 37,  hp: 1050,      wdef: 115,  mdef: 85,   exp: 85,   map: "로랑 광산" },
@@ -460,8 +461,8 @@ const HUNTING_GROUNDS: Monster[] = [
   { name: "화이트팽",      level: 58,  hp: 5800,      wdef: 200,  mdef: 220,  exp: 220,  map: "엘나스" },
   { name: "레드드레이크",  level: 60,  hp: 6000,      wdef: 190,  mdef: 220,  exp: 220,  map: "용의 둥지 입구" },
   { name: "버피",          level: 61,  hp: 7400,      wdef: 213,  mdef: 213,  exp: 230,  map: "시계탑" },
-  { name: "나이트고스트",  level: 62,  hp: 6800,      wdef: 210,  mdef: 230,  exp: 240,  map: "루디브리엄" },
-  { name: "아이스드레이크",level: 64,  hp: 7700,      wdef: 200,  mdef: 230,  exp: 250,  map: "엘나스" },
+  { name: "나이트고스트",  level: 62,  hp: 6800,      wdef: 210,  mdef: 230,  exp: 240,  map: "루디브리엄",    weakness: "holy" },
+  { name: "아이스드레이크",level: 64,  hp: 7700,      wdef: 200,  mdef: 230,  exp: 250,  map: "엘나스",        weakness: "fire" },
   // Level 65-80
   { name: "예티",          level: 65,  hp: 11000,     wdef: 170,  mdef: 245,  exp: 346,  map: "엘나스" },
   { name: "루미네",        level: 66,  hp: 12000,     wdef: 260,  mdef: 260,  exp: 360,  map: "엘나스" },
@@ -469,7 +470,7 @@ const HUNTING_GROUNDS: Monster[] = [
   { name: "다크예티",      level: 68,  hp: 13000,     wdef: 190,  mdef: 270,  exp: 409,  map: "엘나스" },
   { name: "타우로마시스",  level: 70,  hp: 15000,     wdef: 250,  mdef: 250,  exp: 472,  map: "미나르숲" },
   { name: "클라크",        level: 70,  hp: 15000,     wdef: 250,  mdef: 250,  exp: 270,  map: "시계탑 최하층" },
-  { name: "아이스그림",    level: 72,  hp: 15500,     wdef: 270,  mdef: 265,  exp: 490,  map: "엘나스" },
+  { name: "아이스그림",    level: 72,  hp: 15500,     wdef: 270,  mdef: 265,  exp: 490,  map: "엘나스",        weakness: "fire" },
   { name: "설인",          level: 73,  hp: 16000,     wdef: 310,  mdef: 305,  exp: 510,  map: "엘나스" },
   { name: "버푼",          level: 74,  hp: 16000,     wdef: 340,  mdef: 340,  exp: 340,  map: "시계탑" },
   { name: "타우로스피어",  level: 75,  hp: 18000,     wdef: 550,  mdef: 400,  exp: 567,  map: "미나르숲" },
@@ -483,7 +484,7 @@ const HUNTING_GROUNDS: Monster[] = [
   { name: "듀얼해적",      level: 87,  hp: 35000,     wdef: 775,  mdef: 775,  exp: 1500, map: "시계탑 최하층" },
   { name: "블루켄타",      level: 88,  hp: 37000,     wdef: 600,  mdef: 600,  exp: 1600, map: "리프레" },
   { name: "주니어와이번",  level: 90,  hp: 43000,     wdef: 800,  mdef: 800,  exp: 1750, map: "리프레" },
-  { name: "파이어독",      level: 90,  hp: 45000,     wdef: 835,  mdef: 505,  exp: 1800, map: "엘나스" },
+  { name: "파이어독",      level: 90,  hp: 45000,     wdef: 835,  mdef: 505,  exp: 1800, map: "엘나스",        weakness: "ice" },
   { name: "다크켄타",      level: 92,  hp: 46000,     wdef: 695,  mdef: 695,  exp: 1920, map: "리프레" },
   { name: "리자드맨",      level: 93,  hp: 47000,     wdef: 700,  mdef: 720,  exp: 2050, map: "리프레" },
   { name: "레드드래곤터틀",level: 93,  hp: 49000,     wdef: 700,  mdef: 700,  exp: 2100, map: "미나르숲" },
@@ -496,10 +497,10 @@ const HUNTING_GROUNDS: Monster[] = [
   { name: "독수리",        level: 102, hp: 58000,     wdef: 840,  mdef: 840,  exp: 3100, map: "리프레" },
   { name: "다크와이번",    level: 103, hp: 60000,     wdef: 850,  mdef: 850,  exp: 3150, map: "리프레" },
   { name: "만티스",        level: 105, hp: 65000,     wdef: 870,  mdef: 870,  exp: 3600, map: "리프레" },
-  { name: "아이스드라코",  level: 108, hp: 75000,     wdef: 900,  mdef: 900,  exp: 4100, map: "리프레" },
-  { name: "스켈레곤",      level: 110, hp: 80000,     wdef: 900,  mdef: 900,  exp: 4500, map: "리프레" },
+  { name: "아이스드라코",  level: 108, hp: 75000,     wdef: 900,  mdef: 900,  exp: 4100, map: "리프레",        weakness: "fire" },
+  { name: "스켈레곤",      level: 110, hp: 80000,     wdef: 900,  mdef: 900,  exp: 4500, map: "리프레",        weakness: "holy" },
   { name: "메카트로피",    level: 112, hp: 88000,     wdef: 970,  mdef: 940,  exp: 4800, map: "루디브리엄" },
-  { name: "스켈로스",      level: 113, hp: 85000,     wdef: 810,  mdef: 710,  exp: 4750, map: "리프레" },
+  { name: "스켈로스",      level: 113, hp: 85000,     wdef: 810,  mdef: 710,  exp: 4750, map: "리프레",        weakness: "holy" },
   { name: "파퀴",          level: 115, hp: 95000,     wdef: 1000, mdef: 980,  exp: 5000, map: "루디브리엄" },
   { name: "핫샌드",        level: 116, hp: 100000,    wdef: 1000, mdef: 1000, exp: 5200, map: "리프레" },
   { name: "만타",          level: 118, hp: 108000,    wdef: 1020, mdef: 1020, exp: 5600, map: "리프레" },
@@ -818,6 +819,7 @@ export default function NHitPage() {
   const [manualHp, setManualHp] = useState(15000);
   const [manualWdef, setManualWdef] = useState(250);
   const [manualMdef, setManualMdef] = useState(250);
+  const [manualWeakness, setManualWeakness] = useState<string>("");
 
   const monster: Monster = usePreset
     ? HUNTING_GROUNDS[selectedMonster]
@@ -829,6 +831,7 @@ export default function NHitPage() {
         mdef: manualMdef,
         exp: 0,
         map: "-",
+        weakness: (manualWeakness as Monster["weakness"]) || undefined,
       };
 
   // 직업 그룹 변경 시 세부 직업 초기화
@@ -980,16 +983,21 @@ export default function NHitPage() {
     }
     // damageMultiplier (버서크) 및 comboBonus 적용
     const totalMult = activeDamageMultiplier * (1 + activeComboBonus);
+    // 속성 약점 배율 (스킬 속성 === 몬스터 약점이면 ×1.5)
+    const attrMult = (selectedSkill?.element && monster.weakness === selectedSkill.element) ? 1.5 : 1.0;
     return {
-      maxDmg: result.maxDmg * totalMult,
-      minDmg: result.minDmg * totalMult,
-      avgDmg: result.avgDmg * totalMult,
+      maxDmg: result.maxDmg * totalMult * attrMult,
+      minDmg: result.minDmg * totalMult * attrMult,
+      avgDmg: result.avgDmg * totalMult * attrMult,
     };
   }, [
     isMagic, ma, effectiveTotalInt, effectiveTotalLuk, effectiveMastery, skillPct, skillHits,
     charLevel, effectiveMainStat, effectiveSubStat, totalAtk, weaponInfo, monster,
-    activeDamageMultiplier, activeComboBonus,
+    activeDamageMultiplier, activeComboBonus, selectedSkill,
   ]);
+
+  // 속성 약점 여부 (UI 표시용)
+  const isAttrWeakness = !!(selectedSkill?.element && monster.weakness === selectedSkill.element);
 
   // 크리티컬 정보 (버프 보너스 포함)
   const totalCritRate = effectiveCritRate + buffCritRateBonus;
@@ -1151,6 +1159,9 @@ export default function NHitPage() {
           setManualWdef={setManualWdef}
           manualMdef={manualMdef}
           setManualMdef={setManualMdef}
+          manualWeakness={manualWeakness}
+          setManualWeakness={setManualWeakness}
+          isAttrWeakness={isAttrWeakness}
           monster={monster}
           dmgResult={dmgResult}
           nHitMax={nHitMax}
@@ -1251,6 +1262,9 @@ interface CalcTabProps {
   setManualWdef: (v: number) => void;
   manualMdef: number;
   setManualMdef: (v: number) => void;
+  manualWeakness: string;
+  setManualWeakness: (v: string) => void;
+  isAttrWeakness: boolean;
   monster: Monster;
   dmgResult: DamageResult;
   nHitMax: number;
@@ -1293,6 +1307,7 @@ function CalcTab({
   usePreset, setUsePreset, selectedMonster, setSelectedMonster,
   manualName, setManualName, manualLevel, setManualLevel,
   manualHp, setManualHp, manualWdef, setManualWdef, manualMdef, setManualMdef,
+  manualWeakness, setManualWeakness, isAttrWeakness,
   monster, dmgResult, nHitMax, nHitAvg, oneKillAtk,
   effectiveMastery, weaponInfo,
   effectiveCritRate, effectiveCritDmg,
@@ -1724,6 +1739,22 @@ function CalcTab({
             <NumberInput label="HP" value={manualHp} onChange={setManualHp} min={1} />
             <NumberInput label="물리방어 (WDEF)" value={manualWdef} onChange={setManualWdef} min={0} />
             <NumberInput label="마법방어 (MDEF)" value={manualMdef} onChange={setManualMdef} min={0} />
+            <div>
+              <label className="block text-xs font-medium text-gray-500 mb-1">속성 약점</label>
+              <select
+                value={manualWeakness}
+                onChange={(e) => setManualWeakness(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              >
+                <option value="">없음</option>
+                <option value="fire">불</option>
+                <option value="ice">얼음</option>
+                <option value="lightning">번개</option>
+                <option value="holy">신성</option>
+                <option value="poison">독</option>
+                <option value="dark">암흑</option>
+              </select>
+            </div>
           </div>
         )}
 
@@ -1744,6 +1775,12 @@ function CalcTab({
             <span className="text-gray-400 text-xs mr-1">물방/마방</span>
             <span className="font-medium">{monster.wdef}/{monster.mdef}</span>
           </span>
+          {monster.weakness && (
+            <span className="bg-yellow-50 border border-yellow-200 rounded-lg px-3 py-1.5">
+              <span className="text-yellow-500 text-xs mr-1">속성 약점</span>
+              <span className="font-medium text-yellow-700">{ELEMENT_LABEL[monster.weakness]} ({isAttrWeakness ? "✓ 적용 ×1.5" : "스킬 속성 불일치"})</span>
+            </span>
+          )}
           {monster.exp > 0 && (
             <span className="bg-gray-50 rounded-lg px-3 py-1.5">
               <span className="text-gray-400 text-xs mr-1">경험치</span>
