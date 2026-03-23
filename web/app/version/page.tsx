@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "1.1.0";
+const VERSION = "1.1.1";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,21 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "1.1.1",
+    date: "2026-03-23",
+    type: "patch",
+    title: "법사 데미지 공식 수정 및 몬스터 데이터 보정",
+    features: [
+      {
+        category: "버그 수정",
+        items: [
+          "법사 MIN 데미지 공식: (INT+LUK×0.5) → (INT×숙련도(60%)+LUK) 로 수정 — 숙련도 개념 올바르게 반영",
+          "스켈로스 방어 데이터 수정: 물방 950→810, 마방 950→710 (메이플랜드 실제값)",
+        ],
+      },
+    ],
+  },
   {
     version: "1.1.0",
     date: "2026-03-23",
