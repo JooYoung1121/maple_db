@@ -499,7 +499,7 @@ const HUNTING_GROUNDS: Monster[] = [
   { name: "아이스드라코",  level: 108, hp: 75000,     wdef: 900,  mdef: 900,  exp: 4100, map: "리프레" },
   { name: "스켈레곤",      level: 110, hp: 80000,     wdef: 900,  mdef: 900,  exp: 4500, map: "리프레" },
   { name: "메카트로피",    level: 112, hp: 88000,     wdef: 970,  mdef: 940,  exp: 4800, map: "루디브리엄" },
-  { name: "스켈로스",      level: 113, hp: 85000,     wdef: 950,  mdef: 950,  exp: 4750, map: "리프레" },
+  { name: "스켈로스",      level: 113, hp: 85000,     wdef: 810,  mdef: 710,  exp: 4750, map: "리프레" },
   { name: "파퀴",          level: 115, hp: 95000,     wdef: 1000, mdef: 980,  exp: 5000, map: "루디브리엄" },
   { name: "핫샌드",        level: 116, hp: 100000,    wdef: 1000, mdef: 1000, exp: 5200, map: "리프레" },
   { name: "만타",          level: 118, hp: 108000,    wdef: 1020, mdef: 1020, exp: 5600, map: "리프레" },
@@ -548,7 +548,9 @@ function calcPhysicalDamage(
   return { maxDmg, minDmg, avgDmg: (maxDmg + minDmg) / 2 };
 }
 
-// 법사 데미지: MAX=(INT+LUK)×MA/100, MIN=(INT+LUK×0.5)×MA/100
+// 법사 데미지: MAX=(INT+LUK)×MA/100, MIN=(INT×mastery+LUK)×MA/100 (숙련도 60% 적용)
+const MAGIC_MASTERY = 0.6; // 법사 4차 숙련도 60%
+
 function calcMagicDamage(
   int_: number,
   luk: number,
@@ -562,9 +564,9 @@ function calcMagicDamage(
   const D = Math.max(monLevel - charLevel, 0);
   const defMult = 1 + 0.01 * D;
   const maxBase = (int_ + luk) * (ma / 100);
-  const minBase = (int_ + luk * 0.5) * (ma / 100);
+  const minBase = (int_ * MAGIC_MASTERY + luk) * (ma / 100);
   const maxDmg = Math.max((maxBase * (skillPct / 100) - mdef * 0.5 * defMult), 1) * hits;
-  const minDmg = Math.max((minBase * (skillPct / 100) - mdef * 0.6 * defMult), 1) * hits;
+  const minDmg = Math.max((minBase * (skillPct / 100) - mdef * 0.5 * defMult), 1) * hits;
   return { maxDmg, minDmg, avgDmg: (maxDmg + minDmg) / 2 };
 }
 
