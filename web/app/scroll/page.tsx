@@ -4,11 +4,11 @@ import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 
 // ─── 주문서 데이터 ───
 const SCROLL_TYPES = [
-  { pct: 100, label: "100%", desc: "안전하지만 낮은 능력치", color: "green" },
-  { pct: 70, label: "70%", desc: "준수한 확률과 능력치", color: "blue" },
-  { pct: 60, label: "60%", desc: "가장 가성비가 좋음", color: "orange" },
-  { pct: 30, label: "30%", desc: "높은 능력치, 낮은 확률", color: "purple" },
   { pct: 10, label: "10%", desc: "최고 능력치, 최저 확률", color: "red" },
+  { pct: 30, label: "30%", desc: "높은 능력치, 낮은 확률", color: "purple" },
+  { pct: 60, label: "60%", desc: "가장 가성비가 좋음", color: "orange" },
+  { pct: 70, label: "70%", desc: "준수한 확률과 능력치", color: "blue" },
+  { pct: 100, label: "100%", desc: "안전하지만 낮은 능력치", color: "green" },
 ] as const;
 
 // 무기 종류별 업그레이드 횟수

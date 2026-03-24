@@ -2099,28 +2099,76 @@ function calcNHitCut(
   }
 }
 
+// 물리직업: 기준 스탯공격력으로 몇 방컷인지 역산
+function calcHitsNeeded(
+  monster: HuntSpot["monster"],
+  job: string,
+  statAtk: number,
+  charLevel: number
+): number {
+  const jobData = JOB_SKILL_DATA[job];
+  if (!jobData || jobData.isMagic) return 0;
+  const skillName = JOB_BEST_SKILL[job];
+  const skill = jobData.actives.find((s) => s.name === skillName) ?? jobData.actives[0];
+  if (!skill) return 0;
+
+  const weaponKey = jobData.weapons[0];
+  const wInfo = WEAPON_MULTIPLIERS[weaponKey];
+  const mainStat = charLevel * 5;
+  const subStat = JOB_STAT_DEFAULTS[job]?.subStatDefault ?? 25;
+  const statFactor = mainStat * (wInfo?.maxMult ?? 4.0) + subStat;
+  if (statFactor <= 0) return 0;
+
+  const weaponATK = (statAtk * 100) / statFactor;
+  const D = Math.max(monster.level - charLevel, 0);
+  const levelPenalty = 1 - 0.01 * D;
+  const isWeakness = !!(skill.element && monster.weakness === skill.element);
+  const attrMult = isWeakness ? 1.5 : 1.0;
+
+  const dmgPerCast = Math.max(
+    (statFactor * (weaponATK / 100) * levelPenalty - monster.wdef * 0.5) *
+      (skill.damage / 100) *
+      (skill.hits ?? 1) *
+      attrMult,
+    1
+  );
+  return Math.ceil(monster.hp / dmgPerCast);
+}
+
 // ─── 사냥터 카드 컴포넌트 ───
 function HuntSpotCard({
   spot,
   jobs,
   charLevel,
+  refStatAtk,
 }: {
   spot: HuntSpot;
   jobs: string[];
   charLevel: number;
+  refStatAtk: number;
 }) {
   const thresholds = useMemo(
     () =>
       jobs.map((job) => {
         const isMagic = JOB_SKILL_DATA[job]?.isMagic ?? false;
-        const label = isMagic ? "마력" : "스공";
         const skillName = JOB_BEST_SKILL[job] ?? "-";
-        const one = calcNHitCut(spot.monster, job, 1, charLevel);
-        const two = calcNHitCut(spot.monster, job, 2, charLevel);
-        const three = calcNHitCut(spot.monster, job, 3, charLevel);
-        return { job, isMagic, label, skillName, one, two, three };
+        if (isMagic) {
+          return {
+            job, isMagic, skillName,
+            one: calcNHitCut(spot.monster, job, 1, charLevel),
+            two: calcNHitCut(spot.monster, job, 2, charLevel),
+            three: calcNHitCut(spot.monster, job, 3, charLevel),
+            hits: 0,
+          };
+        } else {
+          return {
+            job, isMagic, skillName,
+            one: 0, two: 0, three: 0,
+            hits: calcHitsNeeded(spot.monster, job, refStatAtk, charLevel),
+          };
+        }
       }),
-    [spot, jobs, charLevel]
+    [spot, jobs, charLevel, refStatAtk]
   );
 
   return (
@@ -2166,9 +2214,11 @@ function HuntSpotCard({
             <tr className="bg-gray-50 text-gray-500 text-xs">
               <th className="text-left px-4 py-2 font-medium">직업</th>
               <th className="text-left px-3 py-2 font-medium hidden sm:table-cell">추천 스킬</th>
-              <th className="text-right px-3 py-2 font-medium text-green-600">1방컷</th>
-              <th className="text-right px-3 py-2 font-medium text-blue-600">2방컷</th>
-              <th className="text-right px-3 py-2 font-medium text-orange-500">3방컷</th>
+              <th className="text-right px-3 py-2 font-medium text-green-600">1방컷 (마력)</th>
+              <th className="text-right px-3 py-2 font-medium text-blue-600">2방컷 (마력)</th>
+              <th className="text-right px-3 py-2 font-medium text-gray-500">
+                스탯공격력 기준 방컷
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -2181,21 +2231,35 @@ function HuntSpotCard({
                 <td className="px-3 py-2.5 text-xs text-gray-400 hidden sm:table-cell">
                   {t.skillName}
                 </td>
-                <td className="px-3 py-2.5 text-right">
-                  <span className="text-green-700 font-mono text-xs font-semibold">
-                    {t.label} {t.one > 0 ? t.one.toLocaleString() : "-"}
-                  </span>
-                </td>
-                <td className="px-3 py-2.5 text-right">
-                  <span className="text-blue-700 font-mono text-xs font-semibold">
-                    {t.label} {t.two > 0 ? t.two.toLocaleString() : "-"}
-                  </span>
-                </td>
-                <td className="px-3 py-2.5 text-right">
-                  <span className="text-orange-600 font-mono text-xs font-semibold">
-                    {t.label} {t.three > 0 ? t.three.toLocaleString() : "-"}
-                  </span>
-                </td>
+                {t.isMagic ? (
+                  <>
+                    <td className="px-3 py-2.5 text-right">
+                      <span className="text-green-700 font-mono text-xs font-semibold">
+                        {t.one > 0 ? t.one.toLocaleString() : "-"}
+                      </span>
+                    </td>
+                    <td className="px-3 py-2.5 text-right">
+                      <span className="text-blue-700 font-mono text-xs font-semibold">
+                        {t.two > 0 ? t.two.toLocaleString() : "-"}
+                      </span>
+                    </td>
+                    <td className="px-3 py-2.5 text-right text-xs text-gray-300">—</td>
+                  </>
+                ) : (
+                  <>
+                    <td className="px-3 py-2.5 text-right text-xs text-gray-300">—</td>
+                    <td className="px-3 py-2.5 text-right text-xs text-gray-300">—</td>
+                    <td className="px-3 py-2.5 text-right">
+                      <span className={`font-mono text-xs font-semibold ${
+                        t.hits <= 3 ? "text-green-600" :
+                        t.hits <= 7 ? "text-blue-600" :
+                        t.hits <= 15 ? "text-orange-500" : "text-red-500"
+                      }`}>
+                        {t.hits}방컷
+                      </span>
+                    </td>
+                  </>
+                )}
               </tr>
             ))}
           </tbody>
@@ -2232,6 +2296,7 @@ function HuntSpotCard({
 // ─── 사냥터 젠컷 정보 탭 (메인) ───
 function HuntTab() {
   const [charLevel, setCharLevel] = useState(120);
+  const [refStatAtk, setRefStatAtk] = useState(5000);
   const [jobGroupFilter, setJobGroupFilter] = useState<string>("전체");
   const [zoneFilter, setZoneFilter] = useState<string>("전체");
 
@@ -2256,30 +2321,44 @@ function HuntTab() {
       <div className="bg-white border border-gray-200 rounded-xl p-5">
         <h2 className="font-bold text-lg mb-1">사냥터 젠컷 정보</h2>
         <p className="text-xs text-gray-500 mb-4">
-          각 사냥터에서 직업별로 1방/2방/3방컷에 필요한 스공·마력 기준입니다.
-          계산은 <strong>레벨×5 기본 주스탯</strong>을 가정합니다.
-          커뮤니티 검증 수치는 별도 표시됩니다.
+          마법직업: 1방/2방컷에 필요한 <strong>마력(MA)</strong> 기준 표시.
+          물리직업: 입력한 <strong>스탯공격력 기준 방컷 수</strong> 표시.
+          계산은 레벨×5 기본 주스탯 가정. 커뮤니티 검증 수치는 별도 표시.
         </p>
 
-        {/* 기준 레벨 */}
-        <div className="mb-4">
-          <label className="block text-xs font-medium text-gray-500 mb-1">
-            내 캐릭터 레벨 (사냥터 필터 + 데미지 계산 기준)
-          </label>
-          <div className="flex items-center gap-3">
+        {/* 기준 레벨 + 스탯공격력 */}
+        <div className="grid grid-cols-2 gap-3 mb-4">
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">
+              내 캐릭터 레벨
+            </label>
             <input
               type="number"
               value={charLevel}
               onChange={(e) => setCharLevel(Math.max(1, Math.min(200, Number(e.target.value))))}
               min={1}
               max={200}
-              className="w-28 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             />
-            <span className="text-xs text-gray-400">
-              Lv.{Math.max(1, charLevel - 20)} ~ Lv.{Math.min(200, charLevel + 30)} 범위 사냥터 표시
-            </span>
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">
+              물리직업 기준 스탯공격력
+              <span className="ml-1 text-gray-400 font-normal">(스탯×배율×ATK/100)</span>
+            </label>
+            <input
+              type="number"
+              value={refStatAtk}
+              onChange={(e) => setRefStatAtk(Math.max(100, Number(e.target.value)))}
+              min={100}
+              step={500}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+            />
           </div>
         </div>
+        <p className="text-xs text-gray-400 mb-4">
+          Lv.{Math.max(1, charLevel - 20)} ~ Lv.{Math.min(200, charLevel + 30)} 범위 사냥터 표시
+        </p>
 
         {/* 직업 필터 */}
         <div className="mb-3">
@@ -2324,17 +2403,22 @@ function HuntTab() {
 
       {/* 범례 */}
       <div className="flex gap-4 text-xs text-gray-500 flex-wrap px-1">
+        <span className="font-medium text-gray-600">물리직업 방컷 수:</span>
         <span className="flex items-center gap-1.5">
           <span className="w-3 h-3 rounded bg-green-500 inline-block" />
-          1방컷 (원킬)
+          1~3방 (매우 좋음)
         </span>
         <span className="flex items-center gap-1.5">
           <span className="w-3 h-3 rounded bg-blue-500 inline-block" />
-          2방컷
+          4~7방
         </span>
         <span className="flex items-center gap-1.5">
           <span className="w-3 h-3 rounded bg-orange-400 inline-block" />
-          3방컷
+          8~15방
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="w-3 h-3 rounded bg-red-400 inline-block" />
+          16방+
         </span>
         <span className="flex items-center gap-1.5">
           <span className="w-3 h-3 rounded bg-amber-300 inline-block" />
@@ -2353,6 +2437,7 @@ function HuntTab() {
             spot={spot}
             jobs={filteredJobs}
             charLevel={charLevel}
+            refStatAtk={refStatAtk}
           />
         ))
       )}
