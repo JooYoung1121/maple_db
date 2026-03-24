@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "1.1.1";
+const VERSION = "1.2.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,31 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "1.2.0",
+    date: "2026-03-24",
+    type: "minor",
+    title: "사냥터 젠컷 정보 페이지 개편 + 주문서 UI 개선",
+    features: [
+      {
+        category: "사냥터 탭 전면 개편",
+        items: [
+          "직업별 스탯 입력 방식 → 사냥터별 젠컷 기준 참조 테이블로 변경",
+          "마법직업: 1방/2방컷에 필요한 마력(MA) 임계값 자동 계산 표시",
+          "물리직업: 기준 스탯공격력 입력 시 몇 방컷인지 역산 표시",
+          "커뮤니티 검증 데이터 별도 표시 (비숍 남둥 마력 885~910, 보마 망용둥 스공 5400 등)",
+          "11개 주요 사냥터 수록 (미나르숲 타우로마시스 ~ 망가진 용의 둥지)",
+          "레벨·직업계열·지역 필터 지원",
+        ],
+      },
+      {
+        category: "주문서 시뮬레이션 UI",
+        items: [
+          "주문서 확률 버튼 순서 변경: 100→10% → 10→100% (qwert 키보드 순서 대응)",
+        ],
+      },
+    ],
+  },
   {
     version: "1.1.1",
     date: "2026-03-23",
