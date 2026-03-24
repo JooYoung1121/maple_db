@@ -1199,16 +1199,7 @@ export default function NHitPage() {
           activeComboBonus={activeComboBonus}
         />
       )}
-      {activeTab === "hunt" && (
-        <HuntTab
-          charLevel={charLevel}
-          isMagic={isMagic}
-          dmgResult={dmgResult}
-          selectedSkill={selectedSkill}
-          jobGroup={jobGroup}
-          subJob={subJob}
-        />
-      )}
+      {activeTab === "hunt" && <HuntTab />}
     </div>
   );
 }
@@ -1945,139 +1936,361 @@ function CalcTab({
   );
 }
 
-// ─── 사냥터 추천 탭 ───
-interface HuntTabProps {
-  charLevel: number;
-  isMagic: boolean;
-  dmgResult: DamageResult;
-  selectedSkill: ActiveSkill | undefined;
-  jobGroup: string;
-  subJob: string;
+// ─── 사냥터 젠컷 정보 데이터 ───
+interface HuntSpot {
+  name: string;
+  alias?: string;
+  zone: string;
+  levelRange: [number, number];
+  monster: {
+    name: string;
+    level: number;
+    hp: number;
+    wdef: number;
+    mdef: number;
+    weakness?: "fire" | "ice" | "lightning" | "holy" | "poison" | "dark";
+    spawns?: number;
+  };
+  communityData?: {
+    job: string;
+    skill: string;
+    note: string;
+  }[];
+  notes?: string;
 }
 
-interface HuntRow {
-  monster: Monster;
-  nHitAvg: number;
-  hitsPerKill: number;
-  secondsPerKill: number;
-  killsPer7Sec: number;
-  exp: number;
-  expPer7Sec: number;
-  efficiency: number;
-}
+const HUNT_SPOTS: HuntSpot[] = [
+  {
+    name: "미나르숲 (타우로마시스)",
+    zone: "미나르숲",
+    levelRange: [65, 80],
+    monster: { name: "타우로마시스", level: 70, hp: 15000, wdef: 250, mdef: 250 },
+  },
+  {
+    name: "미나르숲 (타우로스피어)",
+    zone: "미나르숲",
+    levelRange: [70, 85],
+    monster: { name: "타우로스피어", level: 75, hp: 18000, wdef: 550, mdef: 400 },
+  },
+  {
+    name: "리프레 (켄타우로스 계열)",
+    zone: "리프레",
+    levelRange: [80, 100],
+    monster: { name: "켄타우로스", level: 86, hp: 34000, wdef: 585, mdef: 585 },
+  },
+  {
+    name: "리프레 (주니어와이번)",
+    zone: "리프레",
+    levelRange: [85, 110],
+    monster: { name: "주니어와이번", level: 90, hp: 43000, wdef: 800, mdef: 800 },
+  },
+  {
+    name: "리프레 (다크와이번)",
+    zone: "리프레",
+    levelRange: [95, 120],
+    monster: { name: "다크와이번", level: 103, hp: 60000, wdef: 850, mdef: 850 },
+  },
+  {
+    name: "리프레 (아이스드라코)",
+    zone: "리프레",
+    levelRange: [100, 125],
+    monster: { name: "아이스드라코", level: 108, hp: 75000, wdef: 900, mdef: 900, weakness: "fire" },
+    notes: "불 속성 약점. 불독(F/P) 파이어 에로우/익스플로전 효과적.",
+  },
+  {
+    name: "죽은 용의 둥지 (스켈레곤)",
+    alias: "죽둥",
+    zone: "리프레",
+    levelRange: [105, 140],
+    monster: { name: "스켈레곤", level: 110, hp: 80000, wdef: 900, mdef: 900, weakness: "holy" },
+    notes: "성 속성 약점. 비숍·팔라딘 홀리 스킬 효과적.",
+  },
+  {
+    name: "남겨진/위험한 용의 둥지 (스켈로스)",
+    alias: "남둥/위용둥",
+    zone: "리프레",
+    levelRange: [110, 200],
+    monster: { name: "스켈로스", level: 113, hp: 85000, wdef: 810, mdef: 710, weakness: "holy" },
+    communityData: [
+      { job: "비숍", skill: "제네시스", note: "2확컷 마력 885~910 · 1확컷 마력 1,295+ (커뮤니티)" },
+      { job: "나이트로드", skill: "트리플 스로우", note: "위용둥 좌1 스공 2,600+ (트스10 · 메용20 제외)" },
+      { job: "나이트로드", skill: "트리플 스로우", note: "최대 5젠컷 한계" },
+      { job: "신궁", skill: "피어싱 애로우", note: "5.5젠컷 가능" },
+    ],
+    notes: "성 속성 약점. 비숍 제네시스 × 1.5 적용. 메이플랜드 최고 인기 사냥터.",
+  },
+  {
+    name: "루디브리엄 (마리온에트)",
+    zone: "루디브리엄",
+    levelRange: [115, 140],
+    monster: { name: "마리온에트", level: 120, hp: 120000, wdef: 1050, mdef: 1050 },
+  },
+  {
+    name: "루디브리엄 (리스크리)",
+    zone: "루디브리엄",
+    levelRange: [120, 145],
+    monster: { name: "리스크리", level: 122, hp: 130000, wdef: 1080, mdef: 1080 },
+  },
+  {
+    name: "망가진 용의 둥지 (뉴트주니어)",
+    alias: "망용둥",
+    zone: "미나르숲",
+    levelRange: [140, 200],
+    monster: { name: "뉴트주니어", level: 105, hp: 68000, wdef: 850, mdef: 700, spawns: 8 },
+    communityData: [
+      { job: "보우마스터", skill: "폭풍의 시", note: "스공 5,400+ → 옥상 6젠컷 (Lv.167+)" },
+      { job: "보우마스터", skill: "폭풍의 시", note: "스공 4,400~4,700 → 2층 5젠컷" },
+      { job: "나이트로드", skill: "트리플 스로우", note: "스공 3,800~4,000 → 5젠컷" },
+      { job: "나이트로드", skill: "트리플 스로우", note: "스공 4,500+ → 5.5젠컷" },
+    ],
+    notes: "메이플랜드 최고 경험치 사냥터. 자릿값 매우 높음.",
+  },
+];
 
-function getSkillCastsPerSecond(skillName: string): number {
-  if (skillName === "폭풍의 시") return 8;
-  if (skillName === "래피드파이어") return 10;
-  return 1.5;
-}
+// 직업별 추천 스킬 (젠컷 계산 기준)
+const JOB_BEST_SKILL: Record<string, string> = {
+  "히어로": "브랜디쉬",
+  "팔라딘": "블래스트",
+  "다크나이트": "드래곤 쓰레셔",
+  "불독(F/P)": "메테오",
+  "썬콜(I/L)": "블리자드",
+  "비숍": "제네시스",
+  "보우마스터": "폭풍의 시",
+  "신궁": "피어싱 애로우",
+  "나이트로드": "트리플 스로우",
+  "섀도어": "부메랑스텝",
+  "바이퍼": "드래곤 스트라이크",
+  "캡틴": "배틀쉽 토피도",
+};
 
-function HuntTab({ charLevel, isMagic, dmgResult, selectedSkill, jobGroup: initJobGroup, subJob: initSubJob }: HuntTabProps) {
-  const [sortBy, setSortBy] = useState<"expPer7Sec" | "efficiency" | "level" | "nhit">("expPer7Sec");
+// N방컷 역산: 해당 직업이 이 몬스터를 nHit방에 잡으려면 필요한 스공/마력
+function calcNHitCut(
+  monster: HuntSpot["monster"],
+  job: string,
+  nHit: number,
+  charLevel: number
+): number {
+  const jobData = JOB_SKILL_DATA[job];
+  if (!jobData) return 0;
+  const skillName = JOB_BEST_SKILL[job];
+  const skill = jobData.actives.find((s) => s.name === skillName) ?? jobData.actives[0];
+  if (!skill) return 0;
 
-  // 사냥터 탭 자체 캐릭터 설정
-  const [localLevel, setLocalLevel] = useState(charLevel);
-  const [localAvgDmg, setLocalAvgDmg] = useState(Math.max(1, Math.round(dmgResult.avgDmg)));
-  const [localJobGroup, setLocalJobGroup] = useState(initJobGroup);
-  const [localSubJob, setLocalSubJob] = useState(initSubJob);
-  const [localSkillIdx, setLocalSkillIdx] = useState(() => {
-    const idx = (JOB_SKILL_DATA[initSubJob]?.actives ?? []).findIndex(
-      (s) => s.name === selectedSkill?.name
+  const isWeakness = !!(skill.element && monster.weakness === skill.element);
+  const attrMult = isWeakness ? 1.5 : 1.0;
+  const hpPerHit = monster.hp / nHit;
+
+  if (jobData.isMagic) {
+    const int_ = charLevel * 5;
+    const luk = JOB_STAT_DEFAULTS[job]?.subStatDefault ?? 20;
+    return calcOneKillMa(
+      hpPerHit, int_, luk, skill.damage, attrMult,
+      skill.hits ?? 1, charLevel, monster.level, monster.mdef
     );
-    return idx >= 0 ? idx : 0;
+  } else {
+    const weaponKey = jobData.weapons[0];
+    const wInfo = WEAPON_MULTIPLIERS[weaponKey];
+    const mainStat = charLevel * 5;
+    const subStat = JOB_STAT_DEFAULTS[job]?.subStatDefault ?? 25;
+    return calcOneKillAtk(
+      hpPerHit, mainStat, subStat, wInfo?.maxMult ?? 4.0,
+      skill.damage, skill.hits ?? 1, charLevel, monster.level, monster.wdef
+    );
+  }
+}
+
+// ─── 사냥터 카드 컴포넌트 ───
+function HuntSpotCard({
+  spot,
+  jobs,
+  charLevel,
+}: {
+  spot: HuntSpot;
+  jobs: string[];
+  charLevel: number;
+}) {
+  const thresholds = useMemo(
+    () =>
+      jobs.map((job) => {
+        const isMagic = JOB_SKILL_DATA[job]?.isMagic ?? false;
+        const label = isMagic ? "마력" : "스공";
+        const skillName = JOB_BEST_SKILL[job] ?? "-";
+        const one = calcNHitCut(spot.monster, job, 1, charLevel);
+        const two = calcNHitCut(spot.monster, job, 2, charLevel);
+        const three = calcNHitCut(spot.monster, job, 3, charLevel);
+        return { job, isMagic, label, skillName, one, two, three };
+      }),
+    [spot, jobs, charLevel]
+  );
+
+  return (
+    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+      {/* 헤더 */}
+      <div className="px-5 py-4 border-b border-gray-100 bg-gray-50/50">
+        <div className="flex items-center gap-2 flex-wrap mb-1">
+          <h3 className="font-bold text-gray-800">{spot.name}</h3>
+          {spot.alias && (
+            <span className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full">
+              {spot.alias}
+            </span>
+          )}
+          <span className="text-xs bg-blue-50 text-blue-600 border border-blue-200 px-2 py-0.5 rounded-full">
+            추천 Lv.{spot.levelRange[0]}~{spot.levelRange[1]}
+          </span>
+        </div>
+        <div className="flex items-center gap-3 flex-wrap text-xs text-gray-500">
+          <span>
+            {spot.monster.name} · Lv.{spot.monster.level} · HP{" "}
+            {spot.monster.hp.toLocaleString()}
+          </span>
+          <span>물방 {spot.monster.wdef} / 마방 {spot.monster.mdef}</span>
+          {spot.monster.weakness && (
+            <span
+              className={`px-1.5 py-0.5 rounded text-xs ${
+                ELEMENT_COLORS[spot.monster.weakness]
+              }`}
+            >
+              {ELEMENT_LABEL[spot.monster.weakness]} 약점
+            </span>
+          )}
+          {spot.monster.spawns && (
+            <span className="text-gray-400">최대 {spot.monster.spawns}젠</span>
+          )}
+        </div>
+      </div>
+
+      {/* 직업별 컷 테이블 */}
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="bg-gray-50 text-gray-500 text-xs">
+              <th className="text-left px-4 py-2 font-medium">직업</th>
+              <th className="text-left px-3 py-2 font-medium hidden sm:table-cell">추천 스킬</th>
+              <th className="text-right px-3 py-2 font-medium text-green-600">1방컷</th>
+              <th className="text-right px-3 py-2 font-medium text-blue-600">2방컷</th>
+              <th className="text-right px-3 py-2 font-medium text-orange-500">3방컷</th>
+            </tr>
+          </thead>
+          <tbody>
+            {thresholds.map((t) => (
+              <tr
+                key={t.job}
+                className="border-t border-gray-50 hover:bg-gray-50/40 transition-colors"
+              >
+                <td className="px-4 py-2.5 font-medium text-gray-800 text-sm">{t.job}</td>
+                <td className="px-3 py-2.5 text-xs text-gray-400 hidden sm:table-cell">
+                  {t.skillName}
+                </td>
+                <td className="px-3 py-2.5 text-right">
+                  <span className="text-green-700 font-mono text-xs font-semibold">
+                    {t.label} {t.one > 0 ? t.one.toLocaleString() : "-"}
+                  </span>
+                </td>
+                <td className="px-3 py-2.5 text-right">
+                  <span className="text-blue-700 font-mono text-xs font-semibold">
+                    {t.label} {t.two > 0 ? t.two.toLocaleString() : "-"}
+                  </span>
+                </td>
+                <td className="px-3 py-2.5 text-right">
+                  <span className="text-orange-600 font-mono text-xs font-semibold">
+                    {t.label} {t.three > 0 ? t.three.toLocaleString() : "-"}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* 커뮤니티 확인 데이터 */}
+      {spot.communityData && spot.communityData.length > 0 && (
+        <div className="px-5 py-3 bg-amber-50 border-t border-amber-100">
+          <p className="text-xs font-semibold text-amber-700 mb-1.5">
+            💬 커뮤니티 확인 데이터
+          </p>
+          <div className="space-y-1">
+            {spot.communityData.map((d, i) => (
+              <p key={i} className="text-xs text-amber-700">
+                <strong>{d.job}</strong>{" "}
+                <span className="text-amber-500">({d.skill})</span>: {d.note}
+              </p>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 노트 */}
+      {spot.notes && (
+        <div className="px-5 py-2 bg-gray-50 border-t border-gray-100">
+          <p className="text-xs text-gray-400">{spot.notes}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── 사냥터 젠컷 정보 탭 (메인) ───
+function HuntTab() {
+  const [charLevel, setCharLevel] = useState(120);
+  const [jobGroupFilter, setJobGroupFilter] = useState<string>("전체");
+  const [zoneFilter, setZoneFilter] = useState<string>("전체");
+
+  const zones = ["전체", ...Array.from(new Set(HUNT_SPOTS.map((s) => s.zone)))];
+
+  const filteredSpots = HUNT_SPOTS.filter((spot) => {
+    const inLevel =
+      charLevel >= spot.levelRange[0] - 20 &&
+      charLevel <= spot.levelRange[1] + 30;
+    const inZone = zoneFilter === "전체" || spot.zone === zoneFilter;
+    return inLevel && inZone;
   });
 
-  const localJobData = JOB_SKILL_DATA[localSubJob];
-  const localActives = localJobData?.actives ?? [];
-  const localSkill = localActives[localSkillIdx] ?? localActives[0];
-
-  const syncFromCalc = () => {
-    setLocalLevel(charLevel);
-    setLocalAvgDmg(Math.max(1, Math.round(dmgResult.avgDmg)));
-    setLocalJobGroup(initJobGroup);
-    setLocalSubJob(initSubJob);
-    const idx = (JOB_SKILL_DATA[initSubJob]?.actives ?? []).findIndex(
-      (s) => s.name === selectedSkill?.name
-    );
-    setLocalSkillIdx(idx >= 0 ? idx : 0);
-  };
-
-  const handleJobGroupChange = (g: string) => {
-    setLocalJobGroup(g);
-    const firstSub = JOB_GROUPS[g][0];
-    setLocalSubJob(firstSub);
-    setLocalSkillIdx(0);
-  };
-
-  const castsPerSecond = getSkillCastsPerSecond(localSkill?.name ?? "");
-
-  const rows = useMemo<HuntRow[]>(() => {
-    const localDmg: DamageResult = {
-      maxDmg: localAvgDmg * 1.2,
-      minDmg: localAvgDmg * 0.8,
-      avgDmg: localAvgDmg,
-    };
-    const filtered = HUNTING_GROUNDS.filter((m) => {
-      if (localLevel >= 110) return m.level >= 110;
-      return m.level >= localLevel - 5 && m.level <= localLevel + 10;
-    });
-    return filtered.map((m) => {
-      const { nHitAvg } = calcNHit(m.hp, localDmg);
-      const hitsPerKill = Math.ceil(m.hp / localAvgDmg);
-      const secondsPerKill = hitsPerKill / castsPerSecond;
-      const killsPer7Sec = parseFloat((7 / secondsPerKill).toFixed(1));
-      const expPer7Sec = Math.round(killsPer7Sec * m.exp);
-      const efficiency = m.exp > 0 ? Math.round(m.exp / hitsPerKill) : 0;
-      return { monster: m, nHitAvg, hitsPerKill, secondsPerKill, killsPer7Sec, exp: m.exp, expPer7Sec, efficiency };
-    });
-  }, [localLevel, localAvgDmg, castsPerSecond]);
-
-  const sorted = useMemo(() => {
-    const copy = [...rows];
-    if (sortBy === "expPer7Sec") return copy.sort((a, b) => b.expPer7Sec - a.expPer7Sec);
-    if (sortBy === "efficiency") return copy.sort((a, b) => b.efficiency - a.efficiency);
-    if (sortBy === "level") return copy.sort((a, b) => a.monster.level - b.monster.level);
-    return copy.sort((a, b) => a.nHitAvg - b.nHitAvg);
-  }, [rows, sortBy]);
-
-  const nHitColor = (n: number) => {
-    if (n === 1) return "text-green-600 font-bold";
-    if (n === 2) return "text-blue-600 font-bold";
-    if (n === 3) return "text-orange-500 font-bold";
-    return "text-red-500";
-  };
-
-  const nHitBadge = (n: number) => {
-    if (n === 1) return "bg-green-100 text-green-700";
-    if (n === 2) return "bg-blue-100 text-blue-700";
-    if (n === 3) return "bg-orange-100 text-orange-700";
-    return "bg-red-100 text-red-600";
-  };
+  const filteredJobs =
+    jobGroupFilter === "전체"
+      ? Object.values(JOB_GROUPS).flat()
+      : JOB_GROUPS[jobGroupFilter] ?? Object.values(JOB_GROUPS).flat();
 
   return (
     <div className="space-y-5">
-      {/* 캐릭터 설정 */}
+      {/* 설명 + 필터 */}
       <div className="bg-white border border-gray-200 rounded-xl p-5">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-bold text-lg">캐릭터 정보</h2>
-          <button
-            onClick={syncFromCalc}
-            className="text-xs text-orange-500 border border-orange-300 bg-orange-50 hover:bg-orange-100 px-3 py-1.5 rounded-lg transition-colors"
-          >
-            계산기 탭 값으로 불러오기
-          </button>
+        <h2 className="font-bold text-lg mb-1">사냥터 젠컷 정보</h2>
+        <p className="text-xs text-gray-500 mb-4">
+          각 사냥터에서 직업별로 1방/2방/3방컷에 필요한 스공·마력 기준입니다.
+          계산은 <strong>레벨×5 기본 주스탯</strong>을 가정합니다.
+          커뮤니티 검증 수치는 별도 표시됩니다.
+        </p>
+
+        {/* 기준 레벨 */}
+        <div className="mb-4">
+          <label className="block text-xs font-medium text-gray-500 mb-1">
+            내 캐릭터 레벨 (사냥터 필터 + 데미지 계산 기준)
+          </label>
+          <div className="flex items-center gap-3">
+            <input
+              type="number"
+              value={charLevel}
+              onChange={(e) => setCharLevel(Math.max(1, Math.min(200, Number(e.target.value))))}
+              min={1}
+              max={200}
+              className="w-28 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+            />
+            <span className="text-xs text-gray-400">
+              Lv.{Math.max(1, charLevel - 20)} ~ Lv.{Math.min(200, charLevel + 30)} 범위 사냥터 표시
+            </span>
+          </div>
         </div>
 
-        {/* 직업 계열 */}
+        {/* 직업 필터 */}
         <div className="mb-3">
-          <label className="block text-xs font-medium text-gray-500 mb-1">직업 계열</label>
+          <label className="block text-xs font-medium text-gray-500 mb-1">직업 계열 필터</label>
           <div className="flex gap-1 flex-wrap">
-            {JOB_GROUP_KEYS.map((g) => (
+            {["전체", ...JOB_GROUP_KEYS].map((g) => (
               <button
                 key={g}
-                onClick={() => handleJobGroupChange(g)}
+                onClick={() => setJobGroupFilter(g)}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                  localJobGroup === g
+                  jobGroupFilter === g
                     ? "bg-orange-500 text-white"
                     : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                 }`}
@@ -2088,214 +2301,65 @@ function HuntTab({ charLevel, isMagic, dmgResult, selectedSkill, jobGroup: initJ
           </div>
         </div>
 
-        {/* 세부 직업 */}
-        <div className="mb-3">
-          <label className="block text-xs font-medium text-gray-500 mb-1">직업</label>
+        {/* 지역 필터 */}
+        <div>
+          <label className="block text-xs font-medium text-gray-500 mb-1">지역 필터</label>
           <div className="flex gap-1 flex-wrap">
-            {(JOB_GROUPS[localJobGroup] ?? []).map((s) => (
+            {zones.map((z) => (
               <button
-                key={s}
-                onClick={() => { setLocalSubJob(s); setLocalSkillIdx(0); }}
+                key={z}
+                onClick={() => setZoneFilter(z)}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border ${
-                  localSubJob === s
-                    ? "bg-orange-100 text-orange-700 border-orange-300"
+                  zoneFilter === z
+                    ? "bg-blue-500 text-white border-blue-500"
                     : "bg-gray-50 text-gray-600 hover:bg-gray-100 border-gray-200"
                 }`}
               >
-                {s}
+                {z}
               </button>
             ))}
           </div>
         </div>
-
-        {/* 주 활용 스킬 */}
-        {localActives.length > 0 && (
-          <div className="mb-4">
-            <label className="block text-xs font-medium text-gray-500 mb-1">주 활용 스킬</label>
-            <div className="flex gap-1 flex-wrap">
-              {localActives.map((sk, idx) => (
-                <button
-                  key={sk.name}
-                  onClick={() => setLocalSkillIdx(idx)}
-                  className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border ${
-                    localSkillIdx === idx
-                      ? "bg-orange-500 text-white border-orange-500"
-                      : "bg-gray-50 text-gray-600 hover:bg-gray-100 border-gray-200"
-                  }`}
-                >
-                  {sk.name}
-                </button>
-              ))}
-            </div>
-            {localSkill && (
-              <p className="text-xs text-gray-400 mt-1">
-                {localSkill.name} · {castsPerSecond}회/초
-                {localSkill.mobs && localSkill.mobs > 1 ? ` · ${localSkill.mobs}마리 광역` : ""}
-              </p>
-            )}
-          </div>
-        )}
-
-        {/* 레벨 / 평균 데미지 */}
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">캐릭터 레벨</label>
-            <input
-              type="number"
-              value={localLevel}
-              onChange={(e) => setLocalLevel(Math.max(1, Number(e.target.value)))}
-              min={1} max={200}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
-            />
-          </div>
-          <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
-              평균 데미지 ({localJobData?.isMagic ? "마법" : "물리"})
-            </label>
-            <input
-              type="number"
-              value={localAvgDmg}
-              onChange={(e) => setLocalAvgDmg(Math.max(1, Number(e.target.value)))}
-              min={1}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
-            />
-          </div>
-        </div>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
-        <h2 className="font-bold text-lg mb-3">추천 설정</h2>
-        <div className="flex gap-1 flex-wrap mb-3">
-          {(
-            [
-              { key: "expPer7Sec" as const, label: "7초경험치순" },
-              { key: "efficiency" as const, label: "경험치 효율" },
-              { key: "nhit" as const, label: "N방컷 순" },
-              { key: "level" as const, label: "레벨순" },
-            ] as const
-          ).map((s) => (
-            <button
-              key={s.key}
-              onClick={() => setSortBy(s.key)}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                sortBy === s.key
-                  ? "bg-orange-500 text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
-            >
-              {s.label}
-            </button>
-          ))}
-        </div>
-        <p className="text-xs text-gray-400">
-          레벨 {localLevel} 기준 ·{" "}
-          {localLevel >= 110
-            ? "Lv.110+ 모든 몬스터"
-            : `Lv.${localLevel - 5}~${localLevel + 10} 범위 몬스터`}
-        </p>
+      {/* 범례 */}
+      <div className="flex gap-4 text-xs text-gray-500 flex-wrap px-1">
+        <span className="flex items-center gap-1.5">
+          <span className="w-3 h-3 rounded bg-green-500 inline-block" />
+          1방컷 (원킬)
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="w-3 h-3 rounded bg-blue-500 inline-block" />
+          2방컷
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="w-3 h-3 rounded bg-orange-400 inline-block" />
+          3방컷
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="w-3 h-3 rounded bg-amber-300 inline-block" />
+          커뮤니티 확인 데이터
+        </span>
       </div>
 
-      {sorted.length === 0 && (
+      {filteredSpots.length === 0 ? (
         <div className="bg-white border border-gray-200 rounded-xl p-10 text-center text-gray-400">
-          해당 레벨 범위에 몬스터가 없습니다.
+          해당 레벨·지역 범위에 사냥터가 없습니다.
         </div>
+      ) : (
+        filteredSpots.map((spot) => (
+          <HuntSpotCard
+            key={spot.name}
+            spot={spot}
+            jobs={filteredJobs}
+            charLevel={charLevel}
+          />
+        ))
       )}
 
-      {sorted.length > 0 && (
-        <>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {sorted
-              .filter((r) => r.nHitAvg <= 3)
-              .slice(0, 3)
-              .map((r) => (
-                <div
-                  key={r.monster.name}
-                  className="bg-orange-50 border border-orange-200 rounded-xl p-4"
-                >
-                  <div className="flex items-start justify-between mb-2">
-                    <span className="font-bold text-gray-800">{r.monster.name}</span>
-                    <span
-                      className={`text-xs px-2 py-0.5 rounded-full ${nHitBadge(r.nHitAvg)}`}
-                    >
-                      {r.nHitAvg}방컷
-                    </span>
-                  </div>
-                  <p className="text-xs text-gray-500">Lv.{r.monster.level} · {r.monster.map}</p>
-                  <p className="text-xs text-gray-500">
-                    경험치 효율 {r.efficiency.toLocaleString()} exp/타
-                  </p>
-                </div>
-              ))}
-          </div>
-
-          <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-            <div className="px-5 py-3 border-b border-gray-100">
-              <h2 className="font-bold">전체 사냥터 목록</h2>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-gray-50 text-gray-500">
-                    <th className="text-left px-4 py-2.5 font-medium">몬스터(레벨)</th>
-                    <th className="text-center px-3 py-2.5 font-medium">N방컷</th>
-                    <th className="text-right px-3 py-2.5 font-medium hidden sm:table-cell">7초 처치수</th>
-                    <th className="text-right px-3 py-2.5 font-medium">7초 경험치</th>
-                    <th className="text-left px-4 py-2.5 font-medium hidden sm:table-cell">위치</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sorted.map((r) => (
-                    <tr
-                      key={r.monster.name}
-                      className={`border-t border-gray-50 ${
-                        r.nHitAvg <= 2 ? "bg-green-50/30" : r.nHitAvg === 3 ? "bg-orange-50/30" : ""
-                      }`}
-                    >
-                      <td className="px-4 py-2.5 font-medium">
-                        {r.monster.name}
-                        <span className="text-xs text-gray-400 ml-1">Lv.{r.monster.level}</span>
-                      </td>
-                      <td className="px-3 py-2.5 text-center">
-                        <span
-                          className={`inline-flex items-center justify-center w-8 h-6 rounded text-xs ${nHitBadge(r.nHitAvg)}`}
-                        >
-                          {r.nHitAvg}방
-                        </span>
-                      </td>
-                      <td className="px-3 py-2.5 text-right font-mono text-xs hidden sm:table-cell">
-                        {r.killsPer7Sec.toFixed(1)}
-                      </td>
-                      <td className={`px-3 py-2.5 text-right font-mono text-xs ${nHitColor(r.nHitAvg)}`}>
-                        {r.expPer7Sec.toLocaleString()}
-                      </td>
-                      <td className="px-4 py-2.5 text-xs text-gray-500 hidden sm:table-cell">{r.monster.map}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <div className="flex gap-3 text-xs text-gray-500 flex-wrap">
-            <span className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded bg-green-400 inline-block" />
-              1방컷
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded bg-blue-400 inline-block" />
-              2방컷
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded bg-orange-400 inline-block" />
-              3방컷
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded bg-red-400 inline-block" />
-              4방컷 이상
-            </span>
-          </div>
-        </>
-      )}
+      <p className="text-xs text-gray-300 text-center pb-2">
+        * 수치는 레벨×5 기본 주스탯 가정. 실제 스펙·버프에 따라 차이 있음.
+      </p>
     </div>
   );
 }
