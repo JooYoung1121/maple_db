@@ -41,6 +41,18 @@ async def lifespan(app: FastAPI):
         init_db()
     except Exception as e:
         print(f"[startup] DB init warning: {e}")
+    # 날짜 형식 정규화 (구 파서 버그: YYYY.MM.DDN,NNN 형식 수정)
+    try:
+        conn = get_connection()
+        conn.execute("""
+            UPDATE maple_land_posts
+            SET published_at = SUBSTR(published_at, 1, 10)
+            WHERE published_at IS NOT NULL AND LENGTH(published_at) > 10
+        """)
+        conn.commit()
+        conn.close()
+    except Exception as e:
+        print(f"[startup] date normalize warning: {e}")
     task = asyncio.create_task(_maple_land_crawl_job())
     yield
     task.cancel()
