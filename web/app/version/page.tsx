@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "1.3.0";
+const VERSION = "1.3.1";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,36 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "1.3.1",
+    date: "2026-03-26",
+    type: "patch",
+    title: "룰렛·주문서 UI 개선 및 주사위 기능 추가",
+    features: [
+      {
+        category: "커뮤니티 — 주사위",
+        items: [
+          "주사위 탭 추가: 닉네임 등록 후 주사위 굴리기 대결",
+          "주사위 수 선택 (1~6개), 개별 결과 및 합산 표시",
+          "합산 높은 순 자동 정렬, 1위 트로피 표시",
+        ],
+      },
+      {
+        category: "커뮤니티 — 룰렛",
+        items: [
+          "공평 모드 / 불공평 모드 버튼 분리 (단일 토글 → 두 버튼)",
+          "불공평 모드 클릭 시마다 가중치 재랜덤 적용",
+        ],
+      },
+      {
+        category: "주문서 시뮬레이션",
+        items: [
+          "주문서 버튼의 (+N) 스탯 표시 제거 → [Q/W/E/R/T] 단축키 표시로 변경",
+          "아이템 이름 검색으로 장비 종류 자동 설정 (영웅의 글라디우스 등 25종)",
+        ],
+      },
+    ],
+  },
   {
     version: "1.3.0",
     date: "2026-03-26",
