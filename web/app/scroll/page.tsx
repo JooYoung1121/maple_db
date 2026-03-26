@@ -11,6 +11,8 @@ const SCROLL_TYPES = [
   { pct: 100, label: "100%", desc: "안전하지만 낮은 능력치", color: "green" },
 ] as const;
 
+const SCROLL_SHORTCUTS: Record<number, string> = { 10: "Q", 30: "W", 60: "E", 70: "R", 100: "T" };
+
 // 무기 종류별 업그레이드 횟수
 const WEAPON_SLOTS: Record<string, number> = {
   "한손검": 7,
@@ -41,6 +43,36 @@ const WEAPON_SLOTS: Record<string, number> = {
   "얼굴장식": 3,
   "눈장식": 3,
 };
+
+// 아이템 이름 → 장비 종류 매핑 (검색용)
+const NAMED_ITEMS: { name: string; type: string }[] = [
+  { name: "영웅의 글라디우스", type: "한손검" },
+  { name: "드래곤 크리스탈 소드", type: "한손검" },
+  { name: "이졌소 하이글래스", type: "한손검" },
+  { name: "올림피아 소드", type: "두손검" },
+  { name: "드래곤 바스타드 소드", type: "두손검" },
+  { name: "천둥의 지팡이", type: "스태프" },
+  { name: "서펜트 완드", type: "완드" },
+  { name: "파이어로드", type: "완드" },
+  { name: "에레나의 활", type: "활" },
+  { name: "드래곤 양궁", type: "활" },
+  { name: "마제스토", type: "석궁" },
+  { name: "파우더 글로브", type: "장갑" },
+  { name: "크랙 글로브", type: "장갑" },
+  { name: "어둠의 장갑", type: "장갑" },
+  { name: "카이저 너클", type: "아대" },
+  { name: "드래곤 실드", type: "방패" },
+  { name: "하이드 알텍", type: "상의" },
+  { name: "워리어 알텍", type: "상의" },
+  { name: "메이지 알텍", type: "상의" },
+  { name: "아처 알텍", type: "상의" },
+  { name: "시프 알텍", type: "상의" },
+  { name: "피파니 슈즈", type: "신발" },
+  { name: "빠른 장화", type: "신발" },
+  { name: "워크 부츠", type: "신발" },
+  { name: "드래곤 모자", type: "모자" },
+  { name: "비전의 두건", type: "모자" },
+];
 
 // 주문서 스탯 데이터 (공격력/마력 기준)
 const SCROLL_STATS: {
@@ -603,6 +635,23 @@ function SimTab() {
       {/* 설정 */}
       <div className="bg-white border border-gray-200 rounded-xl p-5">
         <h2 className="font-bold text-lg mb-4">설정</h2>
+        <div className="mb-4">
+          <label className="block text-xs font-medium text-gray-500 mb-1">아이템 이름 검색 (선택 시 자동 적용)</label>
+          <input
+            list="sim-item-list"
+            placeholder="예: 영웅의 글라디우스, 파우더 글로브..."
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+            onChange={(e) => {
+              const found = NAMED_ITEMS.find((i) => i.name === e.target.value);
+              if (found) setEquipmentType(found.type);
+            }}
+          />
+          <datalist id="sim-item-list">
+            {NAMED_ITEMS.map((item) => (
+              <option key={item.name} value={item.name} />
+            ))}
+          </datalist>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-xs font-medium text-gray-500 mb-1">장비 종류</label>
@@ -704,11 +753,7 @@ function SimTab() {
                   }`}
                 >
                   {s.label}
-                  {getStatGain(scrollType, s.pct, equipmentType) > 0 && (
-                    <span className="ml-1 text-xs opacity-75">
-                      (+{getStatGain(scrollType, s.pct, equipmentType)})
-                    </span>
-                  )}
+                  <span className="ml-1 text-[10px] opacity-60">[{SCROLL_SHORTCUTS[s.pct]}]</span>
                 </button>
               ))}
             </div>

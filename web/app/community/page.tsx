@@ -16,7 +16,7 @@ interface Poll {
   created_at: string;
 }
 
-type Tab = "vote" | "roulette";
+type Tab = "vote" | "roulette" | "dice";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -309,6 +309,189 @@ function VoteTab() {
 }
 
 // ---------------------------------------------------------------------------
+// Dice Tab
+// ---------------------------------------------------------------------------
+
+interface DiceParticipant {
+  id: number;
+  name: string;
+  dice: number[];
+  total: number;
+}
+
+let diceNextId = 1;
+
+function DiceTab() {
+  const [diceCount, setDiceCount] = useState(1);
+  const [nameInput, setNameInput] = useState("");
+  const [participants, setParticipants] = useState<DiceParticipant[]>([]);
+  const [rolled, setRolled] = useState(false);
+
+  const addParticipant = () => {
+    const name = nameInput.trim();
+    if (!name) return;
+    setParticipants((prev) => [...prev, { id: diceNextId++, name, dice: [], total: 0 }]);
+    setNameInput("");
+    setRolled(false);
+  };
+
+  const removeParticipant = (id: number) => {
+    setParticipants((prev) => prev.filter((p) => p.id !== id));
+    setRolled(false);
+  };
+
+  const rollDice = () => {
+    if (participants.length === 0) return;
+    setParticipants((prev) =>
+      prev.map((p) => {
+        const dice = Array.from({ length: diceCount }, () => Math.floor(Math.random() * 6) + 1);
+        return { ...p, dice, total: dice.reduce((a, b) => a + b, 0) };
+      })
+    );
+    setRolled(true);
+  };
+
+  const sorted = rolled
+    ? [...participants].sort((a, b) => b.total - a.total)
+    : participants;
+
+  return (
+    <div className="space-y-6">
+      {/* 참가자 입력 */}
+      <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">참가자 관리</h2>
+        <div className="flex gap-2 mb-4">
+          <input
+            type="text"
+            value={nameInput}
+            onChange={(e) => setNameInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && addParticipant()}
+            placeholder="닉네임 입력"
+            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+          />
+          <button
+            onClick={addParticipant}
+            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors"
+          >
+            추가
+          </button>
+        </div>
+
+        {participants.length > 0 ? (
+          <ul className="space-y-1.5 mb-4">
+            {participants.map((p) => (
+              <li
+                key={p.id}
+                className="flex items-center justify-between bg-gray-50 rounded-lg px-3 py-1.5"
+              >
+                <span className="text-sm font-medium text-gray-700">{p.name}</span>
+                <button
+                  onClick={() => removeParticipant(p.id)}
+                  className="text-gray-400 hover:text-red-500 text-lg leading-none transition-colors"
+                >
+                  ×
+                </button>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-gray-400 text-center py-3 mb-4">참가자를 추가해주세요.</p>
+        )}
+
+        {/* 주사위 수 선택 */}
+        <div>
+          <label className="text-sm font-medium text-gray-700 block mb-2">
+            주사위 수 (최대 6개)
+          </label>
+          <div className="flex gap-2">
+            {[1, 2, 3, 4, 5, 6].map((n) => (
+              <button
+                key={n}
+                onClick={() => setDiceCount(n)}
+                className={`w-10 h-10 rounded-lg text-sm font-bold border-2 transition-colors ${
+                  diceCount === n
+                    ? "bg-orange-500 text-white border-orange-500"
+                    : "bg-white text-gray-600 border-gray-300 hover:border-orange-300"
+                }`}
+              >
+                {n}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* 굴리기 버튼 */}
+      <div className="flex gap-3">
+        <button
+          onClick={rollDice}
+          disabled={participants.length === 0}
+          className="flex-1 bg-orange-500 hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 rounded-xl text-base transition-colors shadow-md"
+        >
+          🎲 주사위 굴리기
+        </button>
+        {participants.length > 0 && (
+          <button
+            onClick={() => {
+              setParticipants([]);
+              setRolled(false);
+            }}
+            className="px-4 py-3 bg-gray-100 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-200 transition-colors"
+          >
+            초기화
+          </button>
+        )}
+      </div>
+
+      {/* 결과 */}
+      {rolled && (
+        <div className="space-y-3">
+          <h2 className="text-base font-bold text-gray-800">
+            결과 <span className="text-sm font-normal text-gray-400">— 합산 높은 순</span>
+          </h2>
+          {sorted.map((p, idx) => (
+            <div
+              key={p.id}
+              className={`bg-white rounded-xl border-2 p-4 transition-all ${
+                idx === 0 ? "border-orange-400 bg-orange-50" : "border-gray-200"
+              }`}
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  {idx === 0 && <span className="text-lg">🏆</span>}
+                  <span className="font-bold text-gray-800">{p.name}</span>
+                </div>
+                <span
+                  className={`text-xl font-bold ${
+                    idx === 0 ? "text-orange-600" : "text-gray-700"
+                  }`}
+                >
+                  합계 {p.total}
+                </span>
+              </div>
+              <div className="flex gap-2 flex-wrap">
+                {p.dice.map((d, i) => (
+                  <div
+                    key={i}
+                    className={`w-11 h-11 rounded-lg border-2 flex items-center justify-center font-bold text-lg ${
+                      idx === 0
+                        ? "bg-orange-100 border-orange-300 text-orange-700"
+                        : "bg-gray-50 border-gray-300 text-gray-700"
+                    }`}
+                  >
+                    {d}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Roulette Tab
 // ---------------------------------------------------------------------------
 
@@ -494,22 +677,36 @@ function RouletteTab() {
       <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-gray-800">룰렛</h2>
-          <button
-            onClick={() => {
-              if (!isFair) {
-                // Already unfair: re-randomize
-                rerandomizeWeights();
-              }
-              toggleFair();
-            }}
-            className={`text-sm px-3 py-1.5 rounded-lg font-medium transition-colors ${
-              isFair
-                ? "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                : "bg-purple-100 text-purple-700 hover:bg-purple-200"
-            }`}
-          >
-            {isFair ? "🎲 불공평 모드" : "🎲 불공평 모드 (ON)"}
-          </button>
+          <div className="flex gap-2">
+            <button
+              onClick={() => {
+                setIsFair(true);
+                setParticipants((ps) => ps.map((p) => ({ ...p, weight: 1 })));
+              }}
+              className={`text-sm px-3 py-1.5 rounded-lg font-medium transition-colors ${
+                isFair
+                  ? "bg-blue-100 text-blue-700"
+                  : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+              }`}
+            >
+              공평 모드
+            </button>
+            <button
+              onClick={() => {
+                setIsFair(false);
+                setParticipants((ps) =>
+                  ps.map((p) => ({ ...p, weight: Math.floor(Math.random() * 10) + 1 }))
+                );
+              }}
+              className={`text-sm px-3 py-1.5 rounded-lg font-medium transition-colors ${
+                !isFair
+                  ? "bg-purple-100 text-purple-700"
+                  : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+              }`}
+            >
+              불공평 모드
+            </button>
+          </div>
         </div>
 
         {/* SVG Pie chart */}
@@ -629,8 +826,8 @@ export default function CommunityPage() {
 
       {/* Tab buttons */}
       <div className="flex gap-2 mb-6 border-b border-gray-200">
-        {(["vote", "roulette"] as Tab[]).map((tab) => {
-          const label = tab === "vote" ? "투표" : "룰렛";
+        {(["vote", "roulette", "dice"] as Tab[]).map((tab) => {
+          const label = tab === "vote" ? "투표" : tab === "roulette" ? "룰렛" : "주사위";
           const isActive = activeTab === tab;
           return (
             <button
@@ -650,6 +847,7 @@ export default function CommunityPage() {
 
       {activeTab === "vote" && <VoteTab />}
       {activeTab === "roulette" && <RouletteTab />}
+      {activeTab === "dice" && <DiceTab />}
     </div>
   );
 }
