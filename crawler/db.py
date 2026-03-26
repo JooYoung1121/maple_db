@@ -192,6 +192,20 @@ CREATE TABLE IF NOT EXISTS community_poll_votes (
     created_at TEXT DEFAULT (datetime('now')),
     UNIQUE(poll_id, voter_ip)
 );
+
+CREATE TABLE IF NOT EXISTS maple_land_posts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    post_id TEXT UNIQUE,
+    board TEXT NOT NULL,
+    category TEXT,
+    title TEXT NOT NULL,
+    content TEXT,
+    content_html TEXT,
+    url TEXT UNIQUE,
+    published_at TEXT,
+    last_crawled_at TEXT,
+    created_at TEXT DEFAULT (datetime('now'))
+);
 """
 
 FTS_SCHEMA = """
@@ -314,5 +328,10 @@ def rebuild_search_index(conn: sqlite3.Connection):
             COALESCE(job_class,'') || ' ' || COALESCE(job_branch,'') || ' '
             || COALESCE(description,'')
         FROM skills
+    """)
+    conn.execute("""
+        INSERT INTO search_index(entity_type, entity_id, name, content)
+        SELECT 'news', id, title, COALESCE(content,'')
+        FROM maple_land_posts
     """)
     conn.commit()

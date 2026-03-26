@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-400">
             <span>추억길드 전용 메이플랜드 정보 사이트</span>
             <a href="/version" className="font-mono hover:text-orange-500 transition-colors">
-              v1.1.1
+              v1.3.0
             </a>
           </div>
         </footer>

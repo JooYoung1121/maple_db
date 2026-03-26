@@ -156,3 +156,16 @@ export interface PaginatedResponse<T> {
   page: number;
   per_page: number;
 }
+
+export interface MapleLandPost {
+  id: number;
+  post_id: string;
+  board: string;
+  category: string | null;
+  title: string;
+  content: string | null;
+  content_html: string | null;
+  url: string | null;
+  published_at: string | null;
+  created_at: string;
+}

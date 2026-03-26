@@ -157,3 +157,25 @@ export async function deleteAdminMob(id: number) {
   if (!res.ok) throw new Error(`API error: ${res.status}`);
   return res.json();
 }
+
+export async function getNews(params: {
+  board?: string;
+  category?: string;
+  q?: string;
+  page?: number;
+  per_page?: number;
+} = {}) {
+  return fetchJSON<{ posts: import("./types").MapleLandPost[]; total: number; page: number; per_page: number }>(
+    `/api/news?${qs(params as Record<string, string | number>)}`
+  );
+}
+
+export async function getNewsPost(postId: string) {
+  return fetchJSON<{ post: import("./types").MapleLandPost }>(`/api/news/${postId}`);
+}
+
+export async function getNewsRecentCount(since?: string) {
+  return fetchJSON<{ count: number }>(
+    `/api/news/recent-count${since ? `?since=${encodeURIComponent(since)}` : ""}`
+  );
+}

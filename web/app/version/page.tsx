@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "1.2.0";
+const VERSION = "1.3.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,31 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "1.3.0",
+    date: "2026-03-26",
+    type: "minor",
+    title: "메이플랜드 공식 공지 자동 수집 및 검색",
+    features: [
+      {
+        category: "공지 페이지 (/news)",
+        items: [
+          "maple.land 공지사항·이벤트 자동 크롤링 (30분마다 신규 수집)",
+          "카테고리 필터: 업데이트 / 점검 / 안내 / 이벤트 / 제재",
+          "제목·내용 키워드 검색",
+          "클릭 시 본문 인라인 펼침 + 원문 링크 제공",
+          "검색 키워드 가이드 (패치노트, 버그 수정, 이벤트 등 주제별 분류)",
+        ],
+      },
+      {
+        category: "네비게이션",
+        items: [
+          "상단 메뉴에 '공지' 링크 추가",
+          "마지막 방문 이후 새 공지 수를 빨간 뱃지로 표시",
+        ],
+      },
+    ],
+  },
   {
     version: "1.2.0",
     date: "2026-03-24",

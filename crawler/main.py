@@ -43,6 +43,7 @@ _TABLE_MAP = {
 
 # 확장된 크롤 타입 목록
 ALL_CRAWL_TYPES = ENTITY_TYPES + [
+    "maple-land",
     "tistory",
     "maplestory-io-kms",
     "maplestory-io",
@@ -345,7 +346,14 @@ def crawl(entity_type: str | None, crawl_all: bool, force: bool):
         types_to_crawl = [entity_type]
 
     for t in types_to_crawl:
-        if t == "tistory":
+        if t == "maple-land":
+            from .parsers.maple_land import crawl_maple_land
+            async def _run_maple_land():
+                async with ThrottledClient() as client:
+                    n = await crawl_maple_land(conn, client, force=force)
+                    print(f"[maple-land] 완료: 신규 {n}건")
+            asyncio.run(_run_maple_land())
+        elif t == "tistory":
             asyncio.run(_crawl_tistory(conn, force))
         elif t == "maplestory-io-kms":
             asyncio.run(_crawl_maplestory_io_kms(conn, force))
