@@ -44,89 +44,156 @@ const WEAPON_SLOTS: Record<string, number> = {
   "눈장식": 3,
 };
 
-// 아이템 이름 → 장비 종류 매핑 (DB 실제 데이터 기반)
-const NAMED_ITEMS: { name: string; type: string }[] = [
-  // 한손검 (Lv100+)
-  { name: "타임리스 엑서큐서너스", type: "한손검" },
-  { name: "리버스 엑서큐서너스", type: "한손검" },
-  { name: "드래곤 카라벨라", type: "한손검" },
-  { name: "스파타", type: "한손검" },
+// 아이템 이름 → 장비 종류 + 아이콘 매핑 (DB 실제 데이터)
+const NAMED_ITEMS: { name: string; type: string; icon: string }[] = [
+  // 한손검
+  { name: "타임리스 엑서큐서너스", type: "한손검", icon: "https://maplestory.io/api/gms/92/item/1302081/icon" },
+  { name: "리버스 엑서큐서너스", type: "한손검", icon: "https://maplestory.io/api/gms/92/item/1302086/icon" },
+  { name: "드래곤 카라벨라", type: "한손검", icon: "https://maplestory.io/api/gms/92/item/1302059/icon" },
+  { name: "스파타", type: "한손검", icon: "https://maplestory.io/api/gms/92/item/1302056/icon" },
   // 두손검
-  { name: "타임리스 니플하임", type: "두손검" },
-  { name: "리버스 니플하임", type: "두손검" },
-  { name: "드래곤 클레이모어", type: "두손검" },
-  { name: "아스카론", type: "두손검" },
+  { name: "타임리스 니플하임", type: "두손검", icon: "https://maplestory.io/api/gms/92/item/1402046/icon" },
+  { name: "리버스 니플하임", type: "두손검", icon: "https://maplestory.io/api/gms/92/item/1402047/icon" },
+  { name: "드래곤 클레이모어", type: "두손검", icon: "https://maplestory.io/api/gms/92/item/1402036/icon" },
+  { name: "아스카론", type: "두손검", icon: "https://maplestory.io/api/gms/92/item/1402073/icon" },
+  { name: "참화도", type: "두손검", icon: "https://maplestory.io/api/gms/92/item/1402035/icon" },
   // 한손도끼
-  { name: "타임리스 버디슈", type: "한손도끼" },
-  { name: "드래곤 엑스", type: "한손도끼" },
+  { name: "타임리스 버디슈", type: "한손도끼", icon: "https://maplestory.io/api/gms/92/item/1312037/icon" },
+  { name: "리버스 버디슈", type: "한손도끼", icon: "https://maplestory.io/api/gms/92/item/1312038/icon" },
+  { name: "드래곤 엑스", type: "한손도끼", icon: "https://maplestory.io/api/gms/92/item/1312031/icon" },
+  { name: "토마호크", type: "한손도끼", icon: "https://maplestory.io/api/gms/92/item/1312030/icon" },
   // 두손도끼
-  { name: "타임리스 타바르진", type: "두손도끼" },
-  { name: "드래곤 배틀엑스", type: "두손도끼" },
+  { name: "타임리스 타바르진", type: "두손도끼", icon: "https://maplestory.io/api/gms/92/item/1412033/icon" },
+  { name: "리버스 타바르진", type: "두손도끼", icon: "https://maplestory.io/api/gms/92/item/1412034/icon" },
+  { name: "드래곤 배틀엑스", type: "두손도끼", icon: "https://maplestory.io/api/gms/92/item/1412026/icon" },
+  { name: "타바르", type: "두손도끼", icon: "https://maplestory.io/api/gms/92/item/1412021/icon" },
   // 한손둔기
-  { name: "타임리스 알라르간도", type: "한손둔기" },
-  { name: "드래곤 메이스", type: "한손둔기" },
+  { name: "타임리스 알라르간도", type: "한손둔기", icon: "https://maplestory.io/api/gms/92/item/1322060/icon" },
+  { name: "리버스 알라르간도", type: "한손둔기", icon: "https://maplestory.io/api/gms/92/item/1322061/icon" },
+  { name: "드래곤 메이스", type: "한손둔기", icon: "https://maplestory.io/api/gms/92/item/1322052/icon" },
+  { name: "배틀해머", type: "한손둔기", icon: "https://maplestory.io/api/gms/92/item/1322045/icon" },
   // 두손둔기
-  { name: "타임리스 벨로체", type: "두손둔기" },
-  { name: "드래곤 플레임", type: "두손둔기" },
-  // 단검
-  { name: "타임리스 페스카즈", type: "단검" },
-  { name: "타임리스 킬릭", type: "단검" },
-  { name: "리버스 페스카즈", type: "단검" },
-  { name: "리버스 킬릭", type: "단검" },
-  // 완드
-  { name: "타임리스 엔릴 티어", type: "완드" },
-  { name: "리버스 엔릴 티어", type: "완드" },
-  { name: "드래곤 완드", type: "완드" },
-  // 스태프
-  { name: "타임리스 에아스 핸드", type: "스태프" },
-  { name: "리버스 에아스 핸드", type: "스태프" },
-  { name: "드래곤 스태프", type: "스태프" },
-  { name: "레바테인", type: "스태프" },
-  // 활
-  { name: "타임리스 엔가우", type: "활" },
-  { name: "리버스 엔가우", type: "활" },
-  { name: "드래곤 샤인보우", type: "활" },
-  { name: "바리사다", type: "활" },
-  // 석궁
-  { name: "타임리스 블랙뷰티", type: "석궁" },
-  { name: "리버스 블랙뷰티", type: "석궁" },
-  { name: "드래곤 샤인크로스", type: "석궁" },
-  { name: "인페르나", type: "석궁" },
-  // 클로
-  { name: "타임리스 람피온", type: "클로" },
-  { name: "리버스 람피온", type: "클로" },
-  { name: "드래곤 그린 슬레브", type: "클로" },
-  { name: "드래곤 퍼플 슬레브", type: "클로" },
+  { name: "타임리스 벨로체", type: "두손둔기", icon: "https://maplestory.io/api/gms/92/item/1422037/icon" },
+  { name: "리버스 벨로체", type: "두손둔기", icon: "https://maplestory.io/api/gms/92/item/1422038/icon" },
+  { name: "드래곤 플레임", type: "두손둔기", icon: "https://maplestory.io/api/gms/92/item/1422028/icon" },
+  { name: "골든 스미스해머", type: "두손둔기", icon: "https://maplestory.io/api/gms/92/item/1422027/icon" },
   // 창
-  { name: "타임리스 알슈피스", type: "창" },
-  { name: "드래곤 팔티잔", type: "창" },
+  { name: "타임리스 알슈피스", type: "창", icon: "https://maplestory.io/api/gms/92/item/1432047/icon" },
+  { name: "리버스 알슈피스", type: "창", icon: "https://maplestory.io/api/gms/92/item/1432049/icon" },
+  { name: "드래곤 팔티잔", type: "창", icon: "https://maplestory.io/api/gms/92/item/1432038/icon" },
+  { name: "벨룸 스피어", type: "창", icon: "https://maplestory.io/api/gms/92/item/1432066/icon" },
+  { name: "피나카", type: "창", icon: "https://maplestory.io/api/gms/92/item/1432030/icon" },
   // 폴암
-  { name: "커터문", type: "폴암" },
-  { name: "타임리스 디에스이라에", type: "폴암" },
-  { name: "드래곤 핼버드", type: "폴암" },
+  { name: "커터문", type: "폴암", icon: "https://maplestory.io/api/gms/92/item/1442002/icon" },
+  { name: "타임리스 디에스이라에", type: "폴암", icon: "https://maplestory.io/api/gms/92/item/1442063/icon" },
+  { name: "리버스 디에스이라에", type: "폴암", icon: "https://maplestory.io/api/gms/92/item/1442067/icon" },
+  { name: "드래곤 핼버드", type: "폴암", icon: "https://maplestory.io/api/gms/92/item/1442045/icon" },
+  { name: "모글레이", type: "폴암", icon: "https://maplestory.io/api/gms/92/item/1442090/icon" },
+  { name: "제드버그", type: "폴암", icon: "https://maplestory.io/api/gms/92/item/1442044/icon" },
+  // 단검
+  { name: "타임리스 페스카즈", type: "단검", icon: "https://maplestory.io/api/gms/92/item/1332073/icon" },
+  { name: "타임리스 킬릭", type: "단검", icon: "https://maplestory.io/api/gms/92/item/1332074/icon" },
+  { name: "리버스 페스카즈", type: "단검", icon: "https://maplestory.io/api/gms/92/item/1332075/icon" },
+  { name: "리버스 킬릭", type: "단검", icon: "https://maplestory.io/api/gms/92/item/1332076/icon" },
+  { name: "드래곤 칸자르", type: "단검", icon: "https://maplestory.io/api/gms/92/item/1332049/icon" },
+  { name: "드래곤 크리스", type: "단검", icon: "https://maplestory.io/api/gms/92/item/1332050/icon" },
+  // 아대 (카타라)
+  { name: "타임리스 코션", type: "아대", icon: "https://maplestory.io/api/gms/92/item/1342011/icon" },
+  { name: "리버스 코션", type: "아대", icon: "https://maplestory.io/api/gms/92/item/1342012/icon" },
+  { name: "청월도", type: "아대", icon: "https://maplestory.io/api/gms/92/item/1342010/icon" },
+  { name: "용연도", type: "아대", icon: "https://maplestory.io/api/gms/92/item/1342009/icon" },
+  { name: "유성도", type: "아대", icon: "https://maplestory.io/api/gms/92/item/1342008/icon" },
+  // 클로
+  { name: "타임리스 람피온", type: "클로", icon: "https://maplestory.io/api/gms/92/item/1472068/icon" },
+  { name: "리버스 람피온", type: "클로", icon: "https://maplestory.io/api/gms/92/item/1472071/icon" },
+  { name: "드래곤 그린 슬레브", type: "클로", icon: "https://maplestory.io/api/gms/92/item/1472051/icon" },
+  { name: "드래곤 퍼플 슬레브", type: "클로", icon: "https://maplestory.io/api/gms/92/item/1472052/icon" },
+  { name: "클립토", type: "클로", icon: "https://maplestory.io/api/gms/92/item/1472069/icon" },
+  { name: "레드 크리븐", type: "클로", icon: "https://maplestory.io/api/gms/92/item/1472053/icon" },
+  // 아대 (너클)
+  { name: "용아주조", type: "아대", icon: "https://maplestory.io/api/gms/92/item/1482013/icon" },
+  { name: "크루시오", type: "아대", icon: "https://maplestory.io/api/gms/92/item/1482051/icon" },
+  { name: "킹 센트", type: "아대", icon: "https://maplestory.io/api/gms/92/item/1482012/icon" },
+  // 완드
+  { name: "타임리스 엔릴 티어", type: "완드", icon: "https://maplestory.io/api/gms/92/item/1372044/icon" },
+  { name: "리버스 엔릴 티어", type: "완드", icon: "https://maplestory.io/api/gms/92/item/1372045/icon" },
+  { name: "드래곤 완드", type: "완드", icon: "https://maplestory.io/api/gms/92/item/1372032/icon" },
+  // 스태프
+  { name: "타임리스 에아스 핸드", type: "스태프", icon: "https://maplestory.io/api/gms/92/item/1382057/icon" },
+  { name: "리버스 에아스 핸드", type: "스태프", icon: "https://maplestory.io/api/gms/92/item/1382059/icon" },
+  { name: "드래곤 스태프", type: "스태프", icon: "https://maplestory.io/api/gms/92/item/1382036/icon" },
+  { name: "레바테인", type: "스태프", icon: "https://maplestory.io/api/gms/92/item/1382058/icon" },
+  // 활
+  { name: "타임리스 엔가우", type: "활", icon: "https://maplestory.io/api/gms/92/item/1452057/icon" },
+  { name: "리버스 엔가우", type: "활", icon: "https://maplestory.io/api/gms/92/item/1452059/icon" },
+  { name: "드래곤 샤인보우", type: "활", icon: "https://maplestory.io/api/gms/92/item/1452044/icon" },
+  { name: "바리사다", type: "활", icon: "https://maplestory.io/api/gms/92/item/1452058/icon" },
+  { name: "화이트 니스록", type: "활", icon: "https://maplestory.io/api/gms/92/item/1452019/icon" },
+  { name: "골든 니스록", type: "활", icon: "https://maplestory.io/api/gms/92/item/1452020/icon" },
+  // 석궁
+  { name: "타임리스 블랙뷰티", type: "석궁", icon: "https://maplestory.io/api/gms/92/item/1462050/icon" },
+  { name: "리버스 블랙뷰티", type: "석궁", icon: "https://maplestory.io/api/gms/92/item/1462051/icon" },
+  { name: "드래곤 샤인크로스", type: "석궁", icon: "https://maplestory.io/api/gms/92/item/1462039/icon" },
+  { name: "인페르나", type: "석궁", icon: "https://maplestory.io/api/gms/92/item/1462076/icon" },
+  { name: "화이트 네쉐르", type: "석궁", icon: "https://maplestory.io/api/gms/92/item/1462015/icon" },
+  { name: "골든 네쉐르", type: "석궁", icon: "https://maplestory.io/api/gms/92/item/1462016/icon" },
+  // 총
+  { name: "드래곤 세인트", type: "총", icon: "https://maplestory.io/api/gms/92/item/1492013/icon" },
+  { name: "템페스트", type: "총", icon: "https://maplestory.io/api/gms/92/item/1492024/icon" },
+  { name: "콘체르토", type: "총", icon: "https://maplestory.io/api/gms/92/item/1492012/icon" },
   // 모자
-  { name: "타임리스 휀넬", type: "모자" },
-  { name: "타임리스 코럴", type: "모자" },
-  { name: "타임리스 라피드", type: "모자" },
-  { name: "타임리스 차이브", type: "모자" },
+  { name: "타임리스 휀넬", type: "모자", icon: "https://maplestory.io/api/gms/92/item/1002776/icon" },
+  { name: "타임리스 코럴", type: "모자", icon: "https://maplestory.io/api/gms/92/item/1002777/icon" },
+  { name: "타임리스 라피드", type: "모자", icon: "https://maplestory.io/api/gms/92/item/1002778/icon" },
+  { name: "타임리스 차이브", type: "모자", icon: "https://maplestory.io/api/gms/92/item/1002779/icon" },
+  { name: "리버스 휀넬", type: "모자", icon: "https://maplestory.io/api/gms/92/item/1002790/icon" },
+  { name: "리버스 코럴", type: "모자", icon: "https://maplestory.io/api/gms/92/item/1002791/icon" },
   // 상의
-  { name: "그린 네오스", type: "상의" },
-  { name: "블루 네오스", type: "상의" },
-  { name: "블랙 네오스", type: "상의" },
+  { name: "그린 네오스", type: "상의", icon: "https://maplestory.io/api/gms/92/item/1040120/icon" },
+  { name: "블루 네오스", type: "상의", icon: "https://maplestory.io/api/gms/92/item/1040121/icon" },
+  { name: "블랙 네오스", type: "상의", icon: "https://maplestory.io/api/gms/92/item/1040122/icon" },
+  { name: "그린 엘소르", type: "상의", icon: "https://maplestory.io/api/gms/92/item/1041122/icon" },
+  { name: "퍼플 엘소르", type: "상의", icon: "https://maplestory.io/api/gms/92/item/1041123/icon" },
+  { name: "다크 엘소르", type: "상의", icon: "https://maplestory.io/api/gms/92/item/1041124/icon" },
+  // 전신
+  { name: "타임리스 타라곤", type: "전신", icon: "https://maplestory.io/api/gms/92/item/1052155/icon" },
+  { name: "타임리스 에버뉴", type: "전신", icon: "https://maplestory.io/api/gms/92/item/1052157/icon" },
+  { name: "타임리스 프린지드", type: "전신", icon: "https://maplestory.io/api/gms/92/item/1052158/icon" },
+  { name: "타임리스 부르군트", type: "전신", icon: "https://maplestory.io/api/gms/92/item/1052159/icon" },
+  { name: "리버스 타라곤", type: "전신", icon: "https://maplestory.io/api/gms/92/item/1052160/icon" },
+  { name: "리버스 에버뉴", type: "전신", icon: "https://maplestory.io/api/gms/92/item/1052162/icon" },
+  // 하의
+  { name: "그린 네오스 바지", type: "하의", icon: "https://maplestory.io/api/gms/92/item/1060109/icon" },
+  { name: "블루 네오스 바지", type: "하의", icon: "https://maplestory.io/api/gms/92/item/1060110/icon" },
+  { name: "블랙 네오스 바지", type: "하의", icon: "https://maplestory.io/api/gms/92/item/1060111/icon" },
+  { name: "그린 엘소르 치마", type: "하의", icon: "https://maplestory.io/api/gms/92/item/1061121/icon" },
+  { name: "퍼플 엘소르 치마", type: "하의", icon: "https://maplestory.io/api/gms/92/item/1061122/icon" },
+  { name: "다크 엘소르 치마", type: "하의", icon: "https://maplestory.io/api/gms/92/item/1061123/icon" },
   // 장갑
-  { name: "타임리스 베르가못", type: "장갑" },
-  { name: "타임리스 프레스토", type: "장갑" },
-  { name: "타임리스 루바브", type: "장갑" },
-  { name: "타임리스 차알스톤", type: "장갑" },
+  { name: "타임리스 베르가못", type: "장갑", icon: "https://maplestory.io/api/gms/92/item/1082234/icon" },
+  { name: "타임리스 프레스토", type: "장갑", icon: "https://maplestory.io/api/gms/92/item/1082236/icon" },
+  { name: "타임리스 루바브", type: "장갑", icon: "https://maplestory.io/api/gms/92/item/1082237/icon" },
+  { name: "타임리스 차알스톤", type: "장갑", icon: "https://maplestory.io/api/gms/92/item/1082238/icon" },
+  { name: "리버스 베르가못", type: "장갑", icon: "https://maplestory.io/api/gms/92/item/1082239/icon" },
+  { name: "리버스 프레스토", type: "장갑", icon: "https://maplestory.io/api/gms/92/item/1082241/icon" },
   // 신발
-  { name: "타임리스 그라베", type: "신발" },
-  { name: "타임리스 카바티나", type: "신발" },
-  { name: "타임리스 론타노", type: "신발" },
-  { name: "타임리스 문스티드", type: "신발" },
+  { name: "타임리스 그라베", type: "신발", icon: "https://maplestory.io/api/gms/92/item/1072355/icon" },
+  { name: "타임리스 카바티나", type: "신발", icon: "https://maplestory.io/api/gms/92/item/1072356/icon" },
+  { name: "타임리스 론타노", type: "신발", icon: "https://maplestory.io/api/gms/92/item/1072357/icon" },
+  { name: "타임리스 문스티드", type: "신발", icon: "https://maplestory.io/api/gms/92/item/1072358/icon" },
+  { name: "타임리스 파라온", type: "신발", icon: "https://maplestory.io/api/gms/92/item/1072359/icon" },
+  { name: "리버스 그라베", type: "신발", icon: "https://maplestory.io/api/gms/92/item/1072361/icon" },
   // 방패
-  { name: "타임리스 프렐류드", type: "방패" },
-  { name: "타임리스 카이트 실드", type: "방패" },
-  { name: "겔러해드 실드", type: "방패" },
+  { name: "스킬 습득용 방패", type: "방패", icon: "https://maplestory.io/api/gms/92/item/1092041/icon" },
+  { name: "겔러해드 실드", type: "방패", icon: "https://maplestory.io/api/gms/92/item/1092042/icon" },
+  { name: "타임리스 프렐류드", type: "방패", icon: "https://maplestory.io/api/gms/92/item/1092057/icon" },
+  { name: "타임리스 카이트 실드", type: "방패", icon: "https://maplestory.io/api/gms/92/item/1092058/icon" },
+  { name: "타임리스 리스트", type: "방패", icon: "https://maplestory.io/api/gms/92/item/1092059/icon" },
+  { name: "블루 드래곤 실드", type: "방패", icon: "https://maplestory.io/api/gms/92/item/1092060/icon" },
+  // 망토
+  { name: "타임리스 문라이트", type: "망토", icon: "https://maplestory.io/api/gms/92/item/1102172/icon" },
+  { name: "시리우스 망토", type: "망토", icon: "https://maplestory.io/api/gms/92/item/1102231/icon" },
+  { name: "루디브리엄 망토", type: "망토", icon: "https://maplestory.io/api/gms/92/item/1102057/icon" },
 ];
 
 // 주문서 스탯 데이터 (공격력/마력 기준)
@@ -528,6 +595,93 @@ function getStatGain(scrollName: string, pct: number, equipmentType: string): nu
   return 0;
 }
 
+// ─── 아이템 검색 컴포넌트 ───
+type NamedItem = typeof NAMED_ITEMS[0];
+
+function ItemSearch({ onSelect }: { onSelect: (item: NamedItem) => void }) {
+  const [query, setQuery] = useState("");
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<NamedItem | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const filtered = query.length >= 1
+    ? NAMED_ITEMS.filter((i) => i.name.includes(query) || i.type.includes(query)).slice(0, 10)
+    : [];
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  return (
+    <div ref={containerRef} className="relative">
+      <label className="block text-xs font-medium text-gray-500 mb-1">
+        아이템 검색 (선택 시 장비 종류 자동 적용)
+      </label>
+      <div className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2 bg-white focus-within:ring-1 focus-within:ring-orange-400">
+        {selected && (
+          <img
+            src={selected.icon}
+            alt={selected.name}
+            className="w-7 h-7 object-contain shrink-0"
+          />
+        )}
+        <input
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setSelected(null);
+            setOpen(true);
+          }}
+          onFocus={() => setOpen(true)}
+          placeholder="예: 타임리스, 드래곤, 엔가우..."
+          className="flex-1 text-sm focus:outline-none bg-transparent"
+        />
+        {query && (
+          <button
+            onClick={() => { setQuery(""); setSelected(null); }}
+            className="text-gray-400 hover:text-gray-600 text-base leading-none"
+          >
+            ×
+          </button>
+        )}
+      </div>
+      {open && filtered.length > 0 && (
+        <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto">
+          {filtered.map((item) => (
+            <button
+              key={item.name}
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => {
+                setQuery(item.name);
+                setSelected(item);
+                setOpen(false);
+                onSelect(item);
+              }}
+              className="w-full flex items-center gap-3 px-3 py-2 hover:bg-orange-50 text-left transition-colors"
+            >
+              <img
+                src={item.icon}
+                alt={item.name}
+                className="w-8 h-8 object-contain shrink-0"
+              />
+              <div>
+                <p className="text-sm font-medium text-gray-800">{item.name}</p>
+                <p className="text-xs text-gray-400">{item.type}</p>
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function SimTab() {
   const [equipmentType, setEquipmentType] = useState("한손검");
   const [scrollType, setScrollType] = useState("공격력 주문서");
@@ -691,21 +845,7 @@ function SimTab() {
       <div className="bg-white border border-gray-200 rounded-xl p-5">
         <h2 className="font-bold text-lg mb-4">설정</h2>
         <div className="mb-4">
-          <label className="block text-xs font-medium text-gray-500 mb-1">아이템 이름 검색 (선택 시 자동 적용)</label>
-          <input
-            list="sim-item-list"
-            placeholder="예: 영웅의 글라디우스, 파우더 글로브..."
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
-            onChange={(e) => {
-              const found = NAMED_ITEMS.find((i) => i.name === e.target.value);
-              if (found) setEquipmentType(found.type);
-            }}
-          />
-          <datalist id="sim-item-list">
-            {NAMED_ITEMS.map((item) => (
-              <option key={item.name} value={item.name} />
-            ))}
-          </datalist>
+          <ItemSearch onSelect={(item) => setEquipmentType(item.type)} />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
