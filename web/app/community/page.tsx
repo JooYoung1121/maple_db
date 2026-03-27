@@ -309,6 +309,110 @@ function VoteTab() {
 }
 
 // ---------------------------------------------------------------------------
+// 3D 주사위
+// ---------------------------------------------------------------------------
+
+// 각 주사위 면의 점 패턴 (% 기준 [left, top])
+const DICE_DOTS: Record<number, [string, string][]> = {
+  1: [["50%", "50%"]],
+  2: [["28%", "28%"], ["72%", "72%"]],
+  3: [["28%", "28%"], ["50%", "50%"], ["72%", "72%"]],
+  4: [["28%", "28%"], ["72%", "28%"], ["28%", "72%"], ["72%", "72%"]],
+  5: [["28%", "28%"], ["72%", "28%"], ["50%", "50%"], ["28%", "72%"], ["72%", "72%"]],
+  6: [["28%", "20%"], ["28%", "50%"], ["28%", "80%"], ["72%", "20%"], ["72%", "50%"], ["72%", "80%"]],
+};
+
+// 각 숫자를 앞면으로 보이게 하는 큐브 회전각
+const FACE_ROTATION: Record<number, { x: number; y: number }> = {
+  1: { x: 0, y: 0 },
+  2: { x: 90, y: 0 },
+  3: { x: 0, y: -90 },
+  4: { x: 0, y: 90 },
+  5: { x: -90, y: 0 },
+  6: { x: 0, y: 180 },
+};
+
+// 큐브 6면 위치 (face value → CSS transform)
+const FACE_POS = [
+  { v: 1, t: "rotateY(0deg) translateZ(30px)" },
+  { v: 6, t: "rotateY(180deg) translateZ(30px)" },
+  { v: 3, t: "rotateY(90deg) translateZ(30px)" },
+  { v: 4, t: "rotateY(-90deg) translateZ(30px)" },
+  { v: 2, t: "rotateX(-90deg) translateZ(30px)" },
+  { v: 5, t: "rotateX(90deg) translateZ(30px)" },
+];
+
+function DiceDots({ value }: { value: number }) {
+  return (
+    <div className="relative w-full h-full">
+      {(DICE_DOTS[value] ?? []).map(([left, top], i) => (
+        <div
+          key={i}
+          className="absolute rounded-full bg-gray-800"
+          style={{
+            left,
+            top,
+            width: "22%",
+            height: "22%",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+function Die3D({ value, rollKey }: { value: number; rollKey: number }) {
+  const [cubeStyle, setCubeStyle] = useState<React.CSSProperties>({
+    transform: "rotateX(0deg) rotateY(0deg)",
+    transition: "none",
+  });
+
+  useEffect(() => {
+    if (rollKey === 0) return;
+    setCubeStyle({ transform: "rotateX(0deg) rotateY(0deg)", transition: "none" });
+    const tid = setTimeout(() => {
+      const { x, y } = FACE_ROTATION[value] ?? { x: 0, y: 0 };
+      setCubeStyle({
+        transform: `rotateX(${x + 1800}deg) rotateY(${y + 1800}deg)`,
+        transition: "transform 1.6s cubic-bezier(0.15, 0.85, 0.2, 1)",
+      });
+    }, 30);
+    return () => clearTimeout(tid);
+  }, [rollKey, value]);
+
+  return (
+    <div style={{ perspective: "150px", width: 60, height: 60 }}>
+      <div
+        style={{
+          width: 60,
+          height: 60,
+          position: "relative",
+          transformStyle: "preserve-3d",
+          ...cubeStyle,
+        }}
+      >
+        {FACE_POS.map((face) => (
+          <div
+            key={face.v}
+            style={{
+              position: "absolute",
+              width: 60,
+              height: 60,
+              transform: face.t,
+              backfaceVisibility: "hidden",
+            }}
+            className="bg-white border-2 border-gray-200 rounded-xl shadow p-1.5"
+          >
+            <DiceDots value={face.v} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Dice Tab
 // ---------------------------------------------------------------------------
 
@@ -326,6 +430,8 @@ function DiceTab() {
   const [nameInput, setNameInput] = useState("");
   const [participants, setParticipants] = useState<DiceParticipant[]>([]);
   const [rolled, setRolled] = useState(false);
+  const [rollKey, setRollKey] = useState(0);
+  const [animating, setAnimating] = useState(false);
 
   const addParticipant = () => {
     const name = nameInput.trim();
@@ -341,19 +447,27 @@ function DiceTab() {
   };
 
   const rollDice = () => {
-    if (participants.length === 0) return;
+    if (participants.length === 0 || animating) return;
+    setAnimating(true);
+    setRolled(false);
     setParticipants((prev) =>
       prev.map((p) => {
         const dice = Array.from({ length: diceCount }, () => Math.floor(Math.random() * 6) + 1);
         return { ...p, dice, total: dice.reduce((a, b) => a + b, 0) };
       })
     );
-    setRolled(true);
+    setRollKey((k) => k + 1);
+    setTimeout(() => {
+      setAnimating(false);
+      setRolled(true);
+    }, 1800);
   };
 
   const sorted = rolled
     ? [...participants].sort((a, b) => b.total - a.total)
     : participants;
+
+  const displayList = animating ? participants : sorted;
 
   return (
     <div className="space-y-6">
@@ -425,10 +539,10 @@ function DiceTab() {
       <div className="flex gap-3">
         <button
           onClick={rollDice}
-          disabled={participants.length === 0}
+          disabled={participants.length === 0 || animating}
           className="flex-1 bg-orange-500 hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-3 rounded-xl text-base transition-colors shadow-md"
         >
-          🎲 주사위 굴리기
+          {animating ? "🎲 굴리는 중..." : "🎲 주사위 굴리기"}
         </button>
         {participants.length > 0 && (
           <button
@@ -444,43 +558,36 @@ function DiceTab() {
       </div>
 
       {/* 결과 */}
-      {rolled && (
+      {(rolled || animating) && (
         <div className="space-y-3">
           <h2 className="text-base font-bold text-gray-800">
             결과 <span className="text-sm font-normal text-gray-400">— 합산 높은 순</span>
           </h2>
-          {sorted.map((p, idx) => (
+          {displayList.map((p, idx) => (
             <div
               key={p.id}
               className={`bg-white rounded-xl border-2 p-4 transition-all ${
-                idx === 0 ? "border-orange-400 bg-orange-50" : "border-gray-200"
+                !animating && idx === 0 ? "border-orange-400 bg-orange-50" : "border-gray-200"
               }`}
             >
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  {idx === 0 && <span className="text-lg">🏆</span>}
+                  {!animating && idx === 0 && <span className="text-lg">🏆</span>}
                   <span className="font-bold text-gray-800">{p.name}</span>
                 </div>
-                <span
-                  className={`text-xl font-bold ${
-                    idx === 0 ? "text-orange-600" : "text-gray-700"
-                  }`}
-                >
-                  합계 {p.total}
-                </span>
-              </div>
-              <div className="flex gap-2 flex-wrap">
-                {p.dice.map((d, i) => (
-                  <div
-                    key={i}
-                    className={`w-11 h-11 rounded-lg border-2 flex items-center justify-center font-bold text-lg ${
-                      idx === 0
-                        ? "bg-orange-100 border-orange-300 text-orange-700"
-                        : "bg-gray-50 border-gray-300 text-gray-700"
+                {!animating && (
+                  <span
+                    className={`text-xl font-bold ${
+                      idx === 0 ? "text-orange-600" : "text-gray-700"
                     }`}
                   >
-                    {d}
-                  </div>
+                    합계 {p.total}
+                  </span>
+                )}
+              </div>
+              <div className="flex gap-3 flex-wrap">
+                {p.dice.map((d, i) => (
+                  <Die3D key={i} value={d} rollKey={rollKey} />
                 ))}
               </div>
             </div>
