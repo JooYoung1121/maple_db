@@ -16,6 +16,7 @@ from api.routes import search, items, mobs, maps, npcs, quests, export, skills, 
 from api.routes import maple_land
 from api.routes import game_results
 from api.routes import guild
+from api.routes import guild_members
 
 
 async def _maple_land_crawl_job():
@@ -89,6 +90,7 @@ app.include_router(community.router, prefix="/api")
 app.include_router(maple_land.router, prefix="/api")
 app.include_router(game_results.router, prefix="/api")
 app.include_router(guild.router, prefix="/api")
+app.include_router(guild_members.router, prefix="/api")
 
 
 @app.get("/api/health")

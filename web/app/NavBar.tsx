@@ -56,6 +56,7 @@ const NAV_CATEGORIES: NavCategory[] = [
     label: "추억길드",
     items: [
       { href: "/guild", label: "공지 · 이벤트" },
+      { href: "/guild/members", label: "길드원 명단" },
     ],
   },
 ];
@@ -179,7 +180,7 @@ export default function NavBar() {
                 : "text-gray-600 hover:text-orange-600 hover:bg-gray-50"
             }`}
           >
-            공지
+            메랜 공홈 공지
             {newsBadge > 0 && (
               <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
                 {newsBadge > 99 ? "99+" : newsBadge}
@@ -219,7 +220,7 @@ export default function NavBar() {
               isActive("/news") ? "bg-orange-50 text-orange-600" : "text-gray-600"
             }`}
           >
-            <span>공지</span>
+            <span>메랜 공홈 공지</span>
             {newsBadge > 0 && (
               <span className="min-w-[18px] h-[18px] px-1 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
                 {newsBadge > 99 ? "99+" : newsBadge}

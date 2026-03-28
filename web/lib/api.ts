@@ -174,6 +174,58 @@ export async function getNewsPost(postId: string) {
   return fetchJSON<{ post: import("./types").MapleLandPost }>(`/api/news/${postId}`);
 }
 
+export interface GuildMember {
+  id: number;
+  nickname: string;
+  job: string;
+  level: number;
+  rank: string;
+  note: string | null;
+  updated_at: string;
+}
+
+export async function getGuildMembers(params: { rank?: string; sort?: string; page?: number; per_page?: number } = {}) {
+  return fetchJSON<{ members: GuildMember[]; total: number; page: number; per_page: number }>(
+    `/api/guild/members?${qs(params as Record<string, string | number>)}`
+  );
+}
+
+export async function createGuildMember(
+  data: { nickname: string; job: string; level: number; rank: string; note?: string },
+  password: string
+) {
+  const res = await fetch(`${API_BASE}/api/guild/members`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Admin-Password": password },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<GuildMember>;
+}
+
+export async function updateGuildMember(
+  id: number,
+  data: Partial<{ nickname: string; job: string; level: number; rank: string; note: string }>,
+  password: string
+) {
+  const res = await fetch(`${API_BASE}/api/guild/members/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", "X-Admin-Password": password },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<GuildMember>;
+}
+
+export async function deleteGuildMember(id: number, password: string) {
+  const res = await fetch(`${API_BASE}/api/guild/members/${id}`, {
+    method: "DELETE",
+    headers: { "X-Admin-Password": password },
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json();
+}
+
 export async function getNewsRecentCount(since?: string) {
   return fetchJSON<{ count: number }>(
     `/api/news/recent-count${since ? `?since=${encodeURIComponent(since)}` : ""}`

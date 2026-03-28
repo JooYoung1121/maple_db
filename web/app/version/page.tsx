@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.1.1";
+const VERSION = "2.2.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,32 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.2.0",
+    date: "2026-03-28",
+    type: "minor",
+    title: "길드원 명단 페이지 추가 + 내비 공지 텍스트 변경",
+    features: [
+      {
+        category: "신규 — 길드원 명단 (/guild/members)",
+        items: [
+          "124명 초기 데이터 적재 (마스터 1 · 부마스터 7 · 길드원 84 · 부캐릭 31 · 새싹 1)",
+          "직책별 필터 탭 (전체 / 마스터 / 부마스터 / 길드원 / 부캐릭 / 새싹)",
+          "레벨 내림차순 / 닉네임 정렬 지원",
+          "직책 배지 색상 구분 (마스터: 오렌지, 부마스터: 파랑, 길드원: 그레이, 부캐릭: 연보라, 새싹: 초록)",
+          "통계 카드: 전체 인원, 직책별 수, 평균 레벨",
+          "관리자 모드: 추가 / 수정 / 삭제 (비밀번호 보호)",
+        ],
+      },
+      {
+        category: "변경 — 내비게이션",
+        items: [
+          "'공지' 링크 텍스트 → '메랜 공홈 공지'로 변경",
+          "추억길드 메뉴에 '길드원 명단' 링크 추가",
+        ],
+      },
+    ],
+  },
   {
     version: "2.1.1",
     date: "2026-03-28",
