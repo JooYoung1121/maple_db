@@ -215,6 +215,15 @@ CREATE TABLE IF NOT EXISTS game_results (
     result_json TEXT,
     created_at TEXT DEFAULT (datetime('now'))
 );
+
+CREATE TABLE IF NOT EXISTS guild_posts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    post_type TEXT NOT NULL,
+    title TEXT NOT NULL,
+    content TEXT,
+    author TEXT DEFAULT '추억길드',
+    created_at TEXT DEFAULT (datetime('now'))
+);
 """
 
 FTS_SCHEMA = """

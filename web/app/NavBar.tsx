@@ -52,6 +52,12 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/lotto", label: "로또" },
     ],
   },
+  {
+    label: "추억길드",
+    items: [
+      { href: "/guild", label: "공지 · 이벤트" },
+    ],
+  },
 ];
 
 function DropdownMenu({ category, isActive, closeMobileMenu }: {

@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.0.0";
+const VERSION = "2.1.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,24 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.1.0",
+    date: "2026-03-28",
+    type: "minor",
+    title: "추억길드 전용 게시판 추가",
+    features: [
+      {
+        category: "신규 — 추억길드 페이지 (/guild)",
+        items: [
+          "디스코드 초대 버튼 (링크 추가 예정)",
+          "공지사항 / 이벤트 탭 분리",
+          "관리자 비밀번호로 글쓰기/삭제 가능",
+          "제목·내용·작성자 입력, 클릭으로 내용 펼치기",
+          "KST 타임존 적용",
+        ],
+      },
+    ],
+  },
   {
     version: "2.0.0",
     date: "2026-03-28",
