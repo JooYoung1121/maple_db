@@ -56,7 +56,7 @@ def list_game_results(
 
 @router.post("/game-results")
 def create_game_result(body: GameResultCreate):
-    if body.game_type not in ("roulette", "dice", "plinko", "ladder"):
+    if body.game_type not in ("roulette", "dice", "plinko", "ladder", "race"):
         raise HTTPException(status_code=400, detail="game_type이 올바르지 않습니다.")
     if not body.winner.strip():
         raise HTTPException(status_code=400, detail="당첨자 이름을 입력하세요.")

@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "1.6.0";
+const VERSION = "1.7.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,31 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "1.7.0",
+    date: "2026-03-28",
+    type: "minor",
+    title: "공뽑기 개편 (높이 3배) + 공경주 추가",
+    features: [
+      {
+        category: "변경 — 공뽑기 (구 핀볼)",
+        items: [
+          "이름 변경: 핀볼 → 공뽑기",
+          "캔버스 높이 3배 (520 → 1560px), 페그 24행으로 확장",
+          "낙하 중 공을 따라 자동 스크롤",
+        ],
+      },
+      {
+        category: "신규 — 공경주 (멀티볼 레이스)",
+        items: [
+          "참가자별 공이 동시에 낙하 — 먼저 FINISH 라인에 닿는 순서로 순위 결정",
+          "공끼리 충돌 물리 적용 (예측 불가능한 결과)",
+          "실시간 순위 현황 표시 (🥇🥈🥉)",
+          "순수 물리 시뮬레이션 — 편향 없는 공정한 레이스",
+        ],
+      },
+    ],
+  },
   {
     version: "1.6.0",
     date: "2026-03-28",
