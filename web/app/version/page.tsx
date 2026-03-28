@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "1.9.1";
+const VERSION = "1.9.2";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,21 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "1.9.2",
+    date: "2026-03-28",
+    type: "patch",
+    title: "게임 기록 수동 저장 + 서울 타임존 적용",
+    features: [
+      {
+        category: "변경 — 게임 기록",
+        items: [
+          "룰렛·주사위·사다리: 게임 종료 후 '📋 기록 저장' 버튼 노출, 누를 때만 저장",
+          "서버 타임존 UTC → KST(서울) 적용",
+        ],
+      },
+    ],
+  },
   {
     version: "1.9.1",
     date: "2026-03-28",

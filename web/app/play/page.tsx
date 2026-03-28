@@ -121,18 +121,19 @@ function DiceTab({ onResult }: { onResult: (participants: string[], winner: stri
   const [rolled, setRolled] = useState(false);
   const [rollKey, setRollKey] = useState(0);
   const [animating, setAnimating] = useState(false);
-  const savedRef = useRef(false);
+  const [pendingResult, setPendingResult] = useState<{ participants: string[]; winner: string; result: Record<string, unknown> } | null>(null);
+  const [resultSaved, setResultSaved] = useState(false);
 
   const addParticipant = () => {
     const name = nameInput.trim();
     if (!name) return;
     setParticipants((prev) => [...prev, { id: diceNextId++, name, dice: [], total: 0 }]);
-    setNameInput(""); setRolled(false); savedRef.current = false;
+    setNameInput(""); setRolled(false); setPendingResult(null); setResultSaved(false);
   };
-  const removeParticipant = (id: number) => { setParticipants((prev) => prev.filter((p) => p.id !== id)); setRolled(false); savedRef.current = false; };
+  const removeParticipant = (id: number) => { setParticipants((prev) => prev.filter((p) => p.id !== id)); setRolled(false); setPendingResult(null); setResultSaved(false); };
   const rollDice = () => {
     if (participants.length === 0 || animating) return;
-    setAnimating(true); setRolled(false); savedRef.current = false;
+    setAnimating(true); setRolled(false); setPendingResult(null); setResultSaved(false);
     const newParticipants = participants.map((p) => {
       const dice = Array.from({ length: diceCount }, () => Math.floor(Math.random() * 6) + 1);
       return { ...p, dice, total: dice.reduce((a, b) => a + b, 0) };
@@ -141,12 +142,11 @@ function DiceTab({ onResult }: { onResult: (participants: string[], winner: stri
     setRollKey((k) => k + 1);
     setTimeout(() => {
       setAnimating(false); setRolled(true);
-      if (!savedRef.current && newParticipants.length >= 2) {
-        savedRef.current = true;
+      if (newParticipants.length >= 2) {
         const sorted = [...newParticipants].sort((a, b) => b.total - a.total);
         const scores: Record<string, number> = {};
         newParticipants.forEach((p) => { scores[p.name] = p.total; });
-        onResult(newParticipants.map((p) => p.name), sorted[0].name, { scores });
+        setPendingResult({ participants: newParticipants.map((p) => p.name), winner: sorted[0].name, result: { scores } });
       }
     }, 1800);
   };
@@ -192,7 +192,7 @@ function DiceTab({ onResult }: { onResult: (participants: string[], winner: stri
           {animating ? "🎲 굴리는 중..." : "🎲 주사위 굴리기"}
         </button>
         {participants.length > 0 && (
-          <button onClick={() => { setParticipants([]); setRolled(false); savedRef.current = false; }}
+          <button onClick={() => { setParticipants([]); setRolled(false); setPendingResult(null); setResultSaved(false); }}
             className="px-4 py-3 bg-gray-100 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-200 transition-colors">초기화</button>
         )}
       </div>
@@ -213,6 +213,13 @@ function DiceTab({ onResult }: { onResult: (participants: string[], winner: stri
               </div>
             </div>
           ))}
+          {pendingResult && !animating && !resultSaved && (
+            <button onClick={() => { onResult(pendingResult.participants, pendingResult.winner, pendingResult.result); setResultSaved(true); }}
+              className="w-full py-2 rounded-xl border-2 border-orange-400 text-orange-600 text-sm font-semibold hover:bg-orange-50 transition-colors">
+              📋 기록 저장
+            </button>
+          )}
+          {resultSaved && !animating && <p className="text-sm text-center text-green-600 font-medium">✓ 저장됨</p>}
         </div>
       )}
     </div>
@@ -235,6 +242,8 @@ function RouletteTab({ onResult }: { onResult: (participants: string[], winner: 
   const rotationRef = useRef(0);
   const [displayRotation, setDisplayRotation] = useState(0);
   const [transitioning, setTransitioning] = useState(false);
+  const [pendingResult, setPendingResult] = useState<{ participants: string[]; winner: string } | null>(null);
+  const [resultSaved, setResultSaved] = useState(false);
   const totalWeight = participants.reduce((s, p) => s + p.weight, 0);
 
   const addParticipant = () => {
@@ -265,7 +274,7 @@ function RouletteTab({ onResult }: { onResult: (participants: string[], winner: 
 
   const spinRoulette = () => {
     if (spinning || participants.length < 2) return;
-    setSpinning(true); setWinners([]);
+    setSpinning(true); setWinners([]); setPendingResult(null); setResultSaved(false);
     const winner = pickWinner(participants);
     const winnerSlice = slices.find((s) => s.participant.id === winner.id);
     if (!winnerSlice) { setSpinning(false); return; }
@@ -274,7 +283,10 @@ function RouletteTab({ onResult }: { onResult: (participants: string[], winner: 
     const targetRot = rotationRef.current + 10 * 360 + baseExtra + (360 - (rotationRef.current % 360));
     rotationRef.current = targetRot;
     setTransitioning(true); setDisplayRotation(targetRot);
-    setTimeout(() => { setWinners([winner.name]); setSpinning(false); setTransitioning(false); onResult(participants.map((p) => p.name), winner.name); }, 10000);
+    setTimeout(() => {
+      setWinners([winner.name]); setSpinning(false); setTransitioning(false);
+      setPendingResult({ participants: participants.map((p) => p.name), winner: winner.name });
+    }, 10000);
   };
 
   const cx = 100, cy = 100, r = 90;
@@ -337,12 +349,19 @@ function RouletteTab({ onResult }: { onResult: (participants: string[], winner: 
             {spinning ? "돌아가는 중..." : "🎰 룰렛 돌리기"}
           </button>
           {winners.length > 0 && !spinning && (
-            <div className="w-full max-w-sm">
+            <div className="w-full max-w-sm space-y-2">
               <div className="bg-gradient-to-br from-orange-50 to-yellow-50 border-2 border-orange-300 rounded-2xl p-6 text-center shadow-md">
                 <div className="text-3xl mb-2">🎉</div>
                 <p className="text-sm text-orange-600 font-medium mb-1">당첨!</p>
                 {winners.map((w, i) => <p key={i} className="text-2xl font-bold text-orange-700">{w}</p>)}
               </div>
+              {pendingResult && !resultSaved && (
+                <button onClick={() => { onResult(pendingResult.participants, pendingResult.winner); setResultSaved(true); }}
+                  className="w-full py-2 rounded-xl border-2 border-orange-400 text-orange-600 text-sm font-semibold hover:bg-orange-50 transition-colors">
+                  📋 기록 저장
+                </button>
+              )}
+              {resultSaved && <p className="text-sm text-center text-green-600 font-medium">✓ 저장됨</p>}
             </div>
           )}
         </div>
@@ -539,6 +558,8 @@ function LadderTab({ onResult }: { onResult: (participants: string[], winner: st
   const [resultMap, setResultMap] = useState<Record<string, string>>({});
   const [winnerName, setWinnerName] = useState("");
   const [seed, setSeed] = useState(0);
+  const [pendingResult, setPendingResult] = useState<{ participants: string[]; winner: string; result: Record<string, unknown> } | null>(null);
+  const [resultSaved, setResultSaved] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animRef = useRef(0);
   const ladderRef = useRef<LadderState | null>(null);
@@ -578,7 +599,8 @@ function LadderTab({ onResult }: { onResult: (participants: string[], winner: st
       else {
         drawLadder(ctx, n, participants, prizes, colX, rowY, bridges, null, paths, winnerBottomCol);
         const map: Record<string, string> = {}; participants.forEach((name, i) => { map[name] = prizes[paths[i].endCol]; });
-        setResultMap(map); setWinnerName(wName); setRunning(false); setDone(true); onResult(participants, wName, { mapping: map });
+        setResultMap(map); setWinnerName(wName); setRunning(false); setDone(true);
+        setPendingResult({ participants, winner: wName, result: { mapping: map } }); setResultSaved(false);
       }
     };
     animRef.current = requestAnimationFrame(frame);
@@ -652,6 +674,13 @@ function LadderTab({ onResult }: { onResult: (participants: string[], winner: st
                 ))}
               </div>
             </div>
+            {pendingResult && !resultSaved && (
+              <button onClick={() => { onResult(pendingResult.participants, pendingResult.winner, pendingResult.result); setResultSaved(true); }}
+                className="w-full py-2 rounded-xl border-2 border-orange-400 text-orange-600 text-sm font-semibold hover:bg-orange-50 transition-colors">
+                📋 기록 저장
+              </button>
+            )}
+            {resultSaved && <p className="text-sm text-center text-green-600 font-medium">✓ 저장됨</p>}
           </div>
         )}
       </div>

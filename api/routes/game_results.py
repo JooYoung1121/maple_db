@@ -1,9 +1,12 @@
 """게임 결과 저장 API"""
 import json
 import os
+from datetime import datetime, timezone, timedelta
 from fastapi import APIRouter, Query, HTTPException, Request
 from pydantic import BaseModel
 from typing import Optional
+
+KST = timezone(timedelta(hours=9))
 
 from crawler.db import get_connection
 
@@ -56,22 +59,23 @@ def list_game_results(
 
 @router.post("/game-results")
 def create_game_result(body: GameResultCreate):
-    if body.game_type not in ("roulette", "dice", "plinko", "ladder", "race"):
+    if body.game_type not in ("roulette", "dice", "plinko", "ladder"):
         raise HTTPException(status_code=400, detail="game_type이 올바르지 않습니다.")
     if not body.winner.strip():
         raise HTTPException(status_code=400, detail="당첨자 이름을 입력하세요.")
-    if len(body.participants) < 2:
+    if body.game_type != "plinko" and len(body.participants) < 2:
         raise HTTPException(status_code=400, detail="참가자가 2명 이상 필요합니다.")
 
     try:
         conn = get_connection()
         cur = conn.execute(
-            "INSERT INTO game_results (game_type, participants_json, winner, result_json) VALUES (?, ?, ?, ?)",
+            "INSERT INTO game_results (game_type, participants_json, winner, result_json, created_at) VALUES (?, ?, ?, ?, ?)",
             [
                 body.game_type,
                 json.dumps(body.participants, ensure_ascii=False),
                 body.winner.strip(),
                 json.dumps(body.result, ensure_ascii=False) if body.result is not None else None,
+                datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S"),
             ],
         )
         conn.commit()
