@@ -13,12 +13,49 @@ const TYPE_LABELS: Record<string, string> = {
 const TYPE_PATHS: Record<string, string> = {
   item: "/items", mob: "/mobs", map: "/maps", npc: "/npcs", quest: "/quests",
 };
-const CATEGORIES = [
-  { href: "/items", label: "아이템", icon: "🗡️", desc: "무기, 방어구, 소비, 기타" },
-  { href: "/mobs", label: "몬스터", icon: "👾", desc: "일반 몬스터, 보스" },
-  { href: "/maps", label: "맵", icon: "🗺️", desc: "사냥터, 마을, 던전" },
-  { href: "/npcs", label: "NPC", icon: "🧑", desc: "상점, 퀘스트 NPC" },
-  { href: "/quests", label: "퀘스트", icon: "📜", desc: "메인, 서브 퀘스트" },
+
+const SECTION_GROUPS = [
+  {
+    label: "정보",
+    items: [
+      { href: "/items", label: "아이템", icon: "🗡️", desc: "무기, 방어구, 소비" },
+      { href: "/mobs", label: "몬스터", icon: "👾", desc: "일반 몬스터, 보스" },
+      { href: "/bosses", label: "보스", icon: "💀", desc: "보스 공략 정보" },
+      { href: "/maps", label: "맵", icon: "🗺️", desc: "사냥터, 마을, 던전" },
+      { href: "/npcs", label: "NPC", icon: "🧑", desc: "상점, 퀘스트 NPC" },
+      { href: "/quests", label: "퀘스트", icon: "📜", desc: "메인, 서브 퀘스트" },
+      { href: "/skills", label: "스킬", icon: "✨", desc: "직업별 스킬 정보" },
+    ],
+  },
+  {
+    label: "계산기",
+    items: [
+      { href: "/scroll", label: "주문서", icon: "📖", desc: "강화 시뮬레이터" },
+      { href: "/exp", label: "경험치", icon: "📈", desc: "레벨업 계산" },
+      { href: "/nhit", label: "엔방컷", icon: "⚔️", desc: "젠컷 계산" },
+      { href: "/fee", label: "수수료", icon: "💰", desc: "거래 수수료" },
+    ],
+  },
+  {
+    label: "가이드",
+    items: [
+      { href: "/pq", label: "파티퀘스트", icon: "🏰", desc: "PQ 공략 및 보상" },
+    ],
+  },
+  {
+    label: "커뮤니티",
+    items: [
+      { href: "/bimae", label: "비매박제", icon: "🚫", desc: "비매 유저 신고" },
+      { href: "/community", label: "투표", icon: "🗳️", desc: "유저 투표 참여" },
+    ],
+  },
+  {
+    label: "놀이터",
+    items: [
+      { href: "/play", label: "룰렛 · 주사위", icon: "🎰", desc: "룰렛, 주사위 굴리기" },
+      { href: "/lotto", label: "로또", icon: "🎱", desc: "랜덤 번호 생성" },
+    ],
+  },
 ];
 
 function HomeContent() {
@@ -88,18 +125,27 @@ function HomeContent() {
           )}
         </section>
       ) : (
-        /* Category cards */
-        <section className="max-w-3xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-          {CATEGORIES.map((c) => (
-            <Link
-              key={c.href}
-              href={c.href}
-              className="bg-white border border-gray-200 rounded-xl p-4 text-center hover:border-orange-300 hover:shadow-sm transition"
-            >
-              <div className="text-3xl mb-2">{c.icon}</div>
-              <div className="font-semibold text-gray-800">{c.label}</div>
-              <div className="text-xs text-gray-400 mt-1">{c.desc}</div>
-            </Link>
+        /* Section groups */
+        <section className="max-w-3xl mx-auto space-y-8">
+          {SECTION_GROUPS.map((group) => (
+            <div key={group.label}>
+              <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3 px-1">
+                {group.label}
+              </h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                {group.items.map((c) => (
+                  <Link
+                    key={c.href}
+                    href={c.href}
+                    className="bg-white border border-gray-200 rounded-xl p-4 text-center hover:border-orange-300 hover:shadow-sm transition"
+                  >
+                    <div className="text-3xl mb-2">{c.icon}</div>
+                    <div className="font-semibold text-gray-800 text-sm">{c.label}</div>
+                    <div className="text-xs text-gray-400 mt-1">{c.desc}</div>
+                  </Link>
+                ))}
+              </div>
+            </div>
           ))}
         </section>
       )}

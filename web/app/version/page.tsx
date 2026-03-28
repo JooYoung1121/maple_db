@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "1.3.1";
+const VERSION = "1.4.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,37 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "1.4.0",
+    date: "2026-03-28",
+    type: "minor",
+    title: "로또 생성기 추가 및 홈·커뮤니티 구조 개편",
+    features: [
+      {
+        category: "신규 — 로또 번호 생성기",
+        items: [
+          "1~45 중 6개 + 보너스 번호 랜덤 추첨",
+          "한국 로또 공식 색상 구슬 UI (노랑/파랑/빨강/회색/초록)",
+          "1·3·5개 세트 동시 생성 가능",
+        ],
+      },
+      {
+        category: "구조 개편 — 커뮤니티 / 놀이터 분리",
+        items: [
+          "커뮤니티: 비매박제, 투표 (유저 생성 콘텐츠)",
+          "놀이터: 룰렛·주사위(/play), 로또(/lotto) (랜덤 툴)",
+          "기존 /community는 투표 전용으로 분리",
+        ],
+      },
+      {
+        category: "홈 화면 개편",
+        items: [
+          "5개 카드 → 정보·계산기·가이드·커뮤니티·놀이터 섹션 구조화",
+          "보스, 스킬, 수수료, 파티퀘스트, 비매박제 등 누락 항목 추가",
+        ],
+      },
+    ],
+  },
   {
     version: "1.3.1",
     date: "2026-03-26",
