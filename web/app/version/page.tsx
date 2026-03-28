@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.1.0";
+const VERSION = "2.1.1";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,25 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.1.1",
+    date: "2026-03-28",
+    type: "patch",
+    title: "디스코드 링크 + 핀볼 사용 안내 개선",
+    features: [
+      {
+        category: "추억길드",
+        items: ["디스코드 초대 링크 연결 (discord.gg/2T7DNt54D)"],
+      },
+      {
+        category: "핀볼",
+        items: [
+          "결과 저장 사용 안내 박스 추가 (슬롯 미리 추가 방법 설명)",
+          "N명 빠른 설정 드롭다운 추가 (2~8명 선택 시 슬롯 자동 생성)",
+        ],
+      },
+    ],
+  },
   {
     version: "2.1.0",
     date: "2026-03-28",

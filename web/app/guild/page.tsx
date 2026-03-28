@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
-const DISCORD_INVITE = ""; // TODO: 디스코드 초대 링크 추가
+const DISCORD_INVITE = "https://discord.gg/2T7DNt54D";
 
 // ---------------------------------------------------------------------------
 // Types

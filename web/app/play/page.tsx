@@ -472,7 +472,11 @@ function PinballTab({ onResult }: { onResult: (participants: string[], winner: s
           <p className="text-sm font-semibold text-gray-700">📋 결과 저장</p>
           <button onClick={() => { setRankings([""]); setSaved(false); }} className="text-xs text-gray-400 hover:text-gray-600 transition-colors">초기화</button>
         </div>
-        <p className="text-xs text-gray-400 mb-3">게임 완료 시 순위가 자동 입력됩니다. 직접 수정도 가능합니다.</p>
+        <p className="text-xs text-gray-400 mb-1">게임 완료 시 순위가 자동 입력됩니다. 직접 수정도 가능합니다.</p>
+        <div className="bg-blue-50 border border-blue-100 rounded-lg px-3 py-2 mb-3">
+          <p className="text-xs text-blue-600 font-medium">💡 자동 입력 사용법</p>
+          <p className="text-xs text-blue-500 mt-0.5">참가자 수만큼 슬롯을 미리 추가하세요. 예) 5명 참가 → '+ 순위 추가'를 4번 눌러 5칸 만들기 → 게임 시작 → 공이 도착할 때마다 위에서부터 자동 입력</p>
+        </div>
         <div className="space-y-2 mb-3">
           {rankings.map((name, i) => (
             <div key={i} className="flex items-center gap-2">
@@ -498,6 +502,21 @@ function PinballTab({ onResult }: { onResult: (participants: string[], winner: s
           >
             + 순위 추가
           </button>
+          <select
+            onChange={(e) => {
+              const n = parseInt(e.target.value);
+              if (!n) return;
+              setRankings(Array.from({ length: n }, () => ""));
+              setSaved(false);
+              e.target.value = "";
+            }}
+            defaultValue=""
+            className="px-2 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm border-none focus:outline-none focus:ring-2 focus:ring-orange-400 shrink-0"
+            title="참가자 수 빠른 설정"
+          >
+            <option value="" disabled>N명</option>
+            {[2,3,4,5,6,7,8].map(n => <option key={n} value={n}>{n}명</option>)}
+          </select>
           <button
             onClick={handleSave}
             disabled={!rankings[0]?.trim() || saved}
