@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "1.7.0";
+const VERSION = "1.8.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,23 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "1.8.0",
+    date: "2026-03-28",
+    type: "minor",
+    title: "공뽑기 box2d-wasm 물리 엔진으로 교체",
+    features: [
+      {
+        category: "변경 — 공뽑기",
+        items: [
+          "수제 물리 → lazygyu/roulette (box2d-wasm) iframe 교체",
+          "업계 최고 수준 2D 강체 물리 엔진 적용",
+          "멀티볼, 스킬(밀쳐내기), 다양한 맵 등 풍부한 기능 지원",
+          "게임 내에서 직접 참가자 입력 (이름/가중치, 이름*중복 문법)",
+        ],
+      },
+    ],
+  },
   {
     version: "1.7.0",
     date: "2026-03-28",

@@ -363,196 +363,25 @@ function RouletteTab({ onResult }: { onResult: (participants: string[], winner: 
 }
 
 // ---------------------------------------------------------------------------
-// 공뽑기 (Plinko - 3x height, single ball guided)
+// 공뽑기 (lazygyu/roulette — box2d-wasm 고품질 물리 엔진)
 // ---------------------------------------------------------------------------
 
-const CANVAS_W = 400;
-const CANVAS_H = 1560; // 3x
-const BALL_R = 10;
-const PEG_R = 5;
-const GRAVITY = 0.4;
-const SLOT_H = 40;
-
-// 24 rows of pegs (3x original 8)
-const PEGS: { x: number; y: number }[] = (() => {
-  const pegs: { x: number; y: number }[] = [];
-  for (let row = 0; row < 24; row++) {
-    const y = 80 + row * 58;
-    if (row % 2 === 0) {
-      for (let i = 0; i < 5; i++) pegs.push({ x: 70 + i * 60, y });
-    } else {
-      for (let i = 0; i < 6; i++) pegs.push({ x: 40 + i * 60, y });
-    }
-  }
-  return pegs;
-})();
-
-function drawPlinkoFrame(ctx: CanvasRenderingContext2D, bx: number, by: number, parts: string[], wIdx: number, showBall: boolean) {
-  ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
-  ctx.fillStyle = "#f8fafc";
-  ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
-  const n = parts.length;
-  if (n > 0) {
-    const slotW = CANVAS_W / n;
-    const slotY = CANVAS_H - SLOT_H;
-    parts.forEach((name, i) => {
-      ctx.fillStyle = i === wIdx ? "#f97316" : COLORS[i % COLORS.length];
-      ctx.fillRect(i * slotW + 1, slotY, slotW - 2, SLOT_H);
-      ctx.fillStyle = "white";
-      ctx.font = `bold ${n > 6 ? 9 : 11}px sans-serif`;
-      ctx.textAlign = "center"; ctx.textBaseline = "middle";
-      ctx.fillText(name.length > 5 ? name.slice(0, 5) + "…" : name, (i + 0.5) * slotW, slotY + SLOT_H / 2);
-    });
-  }
-  PEGS.forEach((peg) => {
-    ctx.beginPath(); ctx.arc(peg.x, peg.y, PEG_R, 0, Math.PI * 2); ctx.fillStyle = "#94a3b8"; ctx.fill();
-    ctx.beginPath(); ctx.arc(peg.x - 1.5, peg.y - 1.5, 2, 0, Math.PI * 2); ctx.fillStyle = "#cbd5e1"; ctx.fill();
-  });
-  if (showBall) {
-    ctx.beginPath(); ctx.arc(bx, by, BALL_R, 0, Math.PI * 2);
-    const g = ctx.createRadialGradient(bx - 3, by - 3, 1, bx, by, BALL_R);
-    g.addColorStop(0, "#fca5a5"); g.addColorStop(1, "#ef4444");
-    ctx.fillStyle = g; ctx.fill();
-    ctx.strokeStyle = "#dc2626"; ctx.lineWidth = 1; ctx.stroke();
-  }
-}
-
-function GonbbagiTab({ onResult }: { onResult: (participants: string[], winner: string) => void }) {
-  const [participants, setParticipants] = useState<string[]>([]);
-  const [nameInput, setNameInput] = useState("");
-  const [dropping, setDropping] = useState(false);
-  const [winner, setWinner] = useState<string | null>(null);
-  const [winnerIdx, setWinnerIdx] = useState(-1);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const animRef = useRef(0);
-
-  const addParticipant = () => {
-    const name = nameInput.trim();
-    if (!name || participants.length >= 10) return;
-    setParticipants((prev) => [...prev, name]);
-    setNameInput(""); setWinner(null); setWinnerIdx(-1);
-  };
-  const removeParticipant = (idx: number) => { setParticipants((prev) => prev.filter((_, i) => i !== idx)); setWinner(null); setWinnerIdx(-1); };
-
-  const redrawStatic = useCallback(() => {
-    const canvas = canvasRef.current; if (!canvas) return;
-    const ctx = canvas.getContext("2d"); if (!ctx) return;
-    drawPlinkoFrame(ctx, CANVAS_W / 2, BALL_R + 5, participants, winnerIdx, participants.length >= 2);
-  }, [participants, winnerIdx]);
-
-  useEffect(() => { redrawStatic(); }, [redrawStatic]);
-
-  const drop = () => {
-    if (dropping || participants.length < 2) return;
-    cancelAnimationFrame(animRef.current);
-    const parts = [...participants];
-    const wIdx = Math.floor(Math.random() * parts.length);
-    setWinner(null); setWinnerIdx(-1); setDropping(true);
-
-    const slotW = CANVAS_W / parts.length;
-    const targetX = (wIdx + 0.5) * slotW;
-    const floorY = CANVAS_H - SLOT_H - BALL_R;
-
-    let bx = CANVAS_W / 2 + (Math.random() - 0.5) * 20;
-    let by = BALL_R;
-    let vx = (Math.random() - 0.5) * 1.5;
-    let vy = 1.5;
-    let settled = 0;
-
-    const canvas = canvasRef.current; if (!canvas) return;
-    const ctx = canvas.getContext("2d"); if (!ctx) return;
-
-    const frame = () => {
-      vy += GRAVITY;
-      const speed = Math.sqrt(vx * vx + vy * vy);
-      if (speed > 14) { vx = (vx / speed) * 14; vy = (vy / speed) * 14; }
-      bx += vx; by += vy;
-
-      for (const peg of PEGS) {
-        const dx = bx - peg.x, dy = by - peg.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        const minD = BALL_R + PEG_R + 0.5;
-        if (dist < minD && dist > 0.01) {
-          const nx = dx / dist, ny = dy / dist;
-          const dot = vx * nx + vy * ny;
-          vx = (vx - 2 * dot * nx) * 0.55; vy = (vy - 2 * dot * ny) * 0.55;
-          if (vy < 0.5) vy = 0.5;
-          bx = peg.x + nx * minD; by = peg.y + ny * minD;
-          const prog = Math.min(by / (CANVAS_H - SLOT_H), 1);
-          vx += ((targetX - bx) / CANVAS_W) * prog * 1.2;
-        }
-      }
-      if (bx < BALL_R) { bx = BALL_R; vx = Math.abs(vx) * 0.7; }
-      if (bx > CANVAS_W - BALL_R) { bx = CANVAS_W - BALL_R; vx = -Math.abs(vx) * 0.7; }
-
-      if (by >= floorY) {
-        by = floorY; vy *= -0.38; vx *= 0.88; vx += (targetX - bx) * 0.04;
-        if (Math.abs(vy) < 0.4 && Math.abs(bx - targetX) < 8) {
-          if (++settled > 8) {
-            bx = targetX; by = floorY;
-            drawPlinkoFrame(ctx, bx, by, parts, wIdx, true);
-            setDropping(false); setWinner(parts[wIdx]); setWinnerIdx(wIdx);
-            onResult(parts, parts[wIdx]); return;
-          }
-        } else { settled = 0; }
-      }
-
-      // Auto-scroll to follow ball
-      const container = containerRef.current;
-      if (container) {
-        const target = by - container.clientHeight * 0.45;
-        container.scrollTop = Math.max(0, target);
-      }
-
-      drawPlinkoFrame(ctx, bx, by, parts, wIdx, true);
-      animRef.current = requestAnimationFrame(frame);
-    };
-    animRef.current = requestAnimationFrame(frame);
-  };
-
-  useEffect(() => () => cancelAnimationFrame(animRef.current), []);
-
+function GonbbagiTab() {
   return (
-    <div className="space-y-6">
-      <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">참가자 관리 <span className="text-sm font-normal text-gray-400">(최대 10명)</span></h2>
-        <div className="flex gap-2 mb-4">
-          <input type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && addParticipant()} placeholder="참가자 이름 입력"
-            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
-          <button onClick={addParticipant} disabled={participants.length >= 10}
-            className="bg-orange-500 hover:bg-orange-600 disabled:opacity-40 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors">추가</button>
-        </div>
-        {participants.length > 0 ? (
-          <ul className="space-y-1.5">
-            {participants.map((name, i) => (
-              <li key={i} className="flex items-center justify-between bg-gray-50 rounded-lg px-3 py-1.5">
-                <div className="flex items-center gap-2">
-                  <span className="inline-block w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
-                  <span className="text-sm font-medium text-gray-700">{name}</span>
-                </div>
-                <button onClick={() => removeParticipant(i)} className="text-gray-400 hover:text-red-500 text-lg leading-none transition-colors">×</button>
-              </li>
-            ))}
-          </ul>
-        ) : <p className="text-sm text-gray-400 text-center py-3">참가자를 추가해주세요.</p>}
+    <div className="flex flex-col items-center gap-4">
+      <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm w-full">
+        <p className="text-sm text-gray-600 font-medium mb-1">🎯 고품질 물리 엔진 (box2d-wasm)</p>
+        <p className="text-xs text-gray-400">게임 내에서 참가자 이름을 직접 입력하세요. 이름/숫자로 가중치, 이름*숫자로 중복 설정 가능.</p>
       </div>
-      <div className="flex flex-col items-center gap-4">
-        <div ref={containerRef} className="overflow-y-auto rounded-xl border border-gray-200 shadow-sm w-full" style={{ maxHeight: "72vh", maxWidth: CANVAS_W }}>
-          <canvas ref={canvasRef} width={CANVAS_W} height={CANVAS_H} style={{ display: "block" }} />
-        </div>
-        <button onClick={drop} disabled={participants.length < 2 || dropping}
-          className="bg-orange-500 hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold px-8 py-3 rounded-xl text-base transition-colors shadow-md">
-          {dropping ? "🎯 낙하 중..." : "🎯 공 떨어뜨리기"}
-        </button>
-        {winner && !dropping && (
-          <div className="bg-gradient-to-br from-orange-50 to-yellow-50 border-2 border-orange-300 rounded-2xl p-6 text-center shadow-md w-full max-w-sm">
-            <div className="text-3xl mb-2">🎉</div>
-            <p className="text-sm text-orange-600 font-medium mb-1">당첨!</p>
-            <p className="text-2xl font-bold text-orange-700">{winner}</p>
-          </div>
-        )}
+      <div className="overflow-hidden rounded-xl border border-gray-200 shadow-sm" style={{ width: "100%", maxWidth: 480 }}>
+        <iframe
+          src="https://lazygyu.github.io/roulette/"
+          width="480"
+          height="720"
+          style={{ display: "block", width: "100%", border: "none" }}
+          allow="autoplay"
+          title="구슬 공뽑기"
+        />
       </div>
     </div>
   );
@@ -1095,7 +924,7 @@ export default function PlayPage() {
       </div>
       {activeTab === "roulette" && <RouletteTab onResult={(p, w) => saveResult("roulette", p, w)} />}
       {activeTab === "dice" && <DiceTab onResult={(p, w, r) => saveResult("dice", p, w, r)} />}
-      {activeTab === "gonbbaegi" && <GonbbagiTab onResult={(p, w) => saveResult("plinko", p, w)} />}
+      {activeTab === "gonbbaegi" && <GonbbagiTab />}
       {activeTab === "ladder" && <LadderTab onResult={(p, w, r) => saveResult("ladder", p, w, r)} />}
       {activeTab === "race" && <RaceTab onResult={(p, w) => saveResult("race", p, w)} />}
       <GameRecords refreshKey={recordsKey} />
