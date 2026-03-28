@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "1.4.0";
+const VERSION = "1.6.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,52 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "1.6.0",
+    date: "2026-03-28",
+    type: "minor",
+    title: "사다리 타기 추가",
+    features: [
+      {
+        category: "신규 — 사다리 타기",
+        items: [
+          "Canvas 기반 사다리 그래픽: 참가자 최대 8명",
+          "당첨자 뽑기 모드 (당첨/꽝) / 순서 정하기 모드 (1등~N등)",
+          "사다리 미리 보기 후 시작 → 2.4초 애니메이션으로 경로 표시",
+          "'새 사다리' 버튼으로 사다리 재생성 가능",
+          "전체 결과 테이블 표시 (참가자별 결과)",
+          "게임 기록 자동 저장",
+        ],
+      },
+    ],
+  },
+  {
+    version: "1.5.0",
+    date: "2026-03-28",
+    type: "minor",
+    title: "핀볼(Plinko) 추가 및 게임 기록 저장",
+    features: [
+      {
+        category: "신규 — 핀볼 (Plinko)",
+        items: [
+          "Canvas 기반 물리 시뮬레이션: 공이 핀을 튕기며 낙하",
+          "참가자 최대 10명 슬롯 등분, 공이 당첨 슬롯으로 자연스럽게 수렴",
+          "8행 삼각 핀 배열, 중력·반사·마찰 물리 파라미터 적용",
+          "당첨 슬롯 오렌지 하이라이트 + 당첨자 발표 카드",
+        ],
+      },
+      {
+        category: "신규 — 게임 기록 저장",
+        items: [
+          "룰렛·주사위·핀볼 결과를 서버에 자동 저장",
+          "놀이터 하단 '최근 기록' 섹션 (접기/펼치기)",
+          "주사위 기록에 합계 점수 표시",
+          "비밀번호 보호 삭제: 관리자 비밀번호 입력 모달",
+          "환경변수 GAME_ADMIN_PASSWORD 로 비밀번호 관리 (Railway)",
+        ],
+      },
+    ],
+  },
   {
     version: "1.4.0",
     date: "2026-03-28",

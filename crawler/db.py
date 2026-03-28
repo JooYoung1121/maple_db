@@ -206,6 +206,15 @@ CREATE TABLE IF NOT EXISTS maple_land_posts (
     last_crawled_at TEXT,
     created_at TEXT DEFAULT (datetime('now'))
 );
+
+CREATE TABLE IF NOT EXISTS game_results (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    game_type TEXT NOT NULL,
+    participants_json TEXT NOT NULL,
+    winner TEXT NOT NULL,
+    result_json TEXT,
+    created_at TEXT DEFAULT (datetime('now'))
+);
 """
 
 FTS_SCHEMA = """

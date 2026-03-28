@@ -14,6 +14,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from crawler.db import init_db, get_connection
 from api.routes import search, items, mobs, maps, npcs, quests, export, skills, admin, bimae, scroll_rankings, community
 from api.routes import maple_land
+from api.routes import game_results
 
 
 async def _maple_land_crawl_job():
@@ -85,6 +86,7 @@ app.include_router(bimae.router, prefix="/api")
 app.include_router(scroll_rankings.router, prefix="/api")
 app.include_router(community.router, prefix="/api")
 app.include_router(maple_land.router, prefix="/api")
+app.include_router(game_results.router, prefix="/api")
 
 
 @app.get("/api/health")
