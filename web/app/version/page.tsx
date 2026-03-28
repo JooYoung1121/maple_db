@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "1.9.2";
+const VERSION = "1.9.3";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,22 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "1.9.3",
+    date: "2026-03-28",
+    type: "patch",
+    title: "핀볼 순위 다중 입력",
+    features: [
+      {
+        category: "핀볼",
+        items: [
+          "결과 저장: 우승자 1명 → 순위별 전체 입력으로 변경",
+          "1등~N등 순서대로 이름 입력, '+ 순위 추가' 버튼으로 확장",
+          "1등만 입력해도 저장 가능",
+        ],
+      },
+    ],
+  },
   {
     version: "1.9.2",
     date: "2026-03-28",

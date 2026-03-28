@@ -385,8 +385,8 @@ function RouletteTab({ onResult }: { onResult: (participants: string[], winner: 
 // 핀볼 (lazygyu/roulette — box2d-wasm 고품질 물리 엔진)
 // ---------------------------------------------------------------------------
 
-function PinballTab({ onResult }: { onResult: (participants: string[], winner: string) => void }) {
-  const [winnerInput, setWinnerInput] = useState("");
+function PinballTab({ onResult }: { onResult: (participants: string[], winner: string, result: Record<string, unknown>) => void }) {
+  const [rankings, setRankings] = useState<string[]>([""]);
   const [saved, setSaved] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -398,19 +398,22 @@ function PinballTab({ onResult }: { onResult: (participants: string[], winner: s
   }, []);
 
   const toggleFullscreen = () => {
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
-    } else {
-      containerRef.current?.requestFullscreen();
-    }
+    if (document.fullscreenElement) document.exitFullscreen();
+    else containerRef.current?.requestFullscreen();
   };
 
+  const updateRank = (i: number, val: string) => {
+    setSaved(false);
+    setRankings((r) => r.map((v, idx) => (idx === i ? val : v)));
+  };
+  const addRank = () => setRankings((r) => [...r, ""]);
+  const removeRank = (i: number) => setRankings((r) => r.filter((_, idx) => idx !== i));
+
   const handleSave = () => {
-    const name = winnerInput.trim();
-    if (!name) return;
-    onResult([], name);
+    const filled = rankings.map((r) => r.trim()).filter(Boolean);
+    if (!filled[0]) return;
+    onResult(filled, filled[0], { rankings: filled });
     setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
   };
 
   return (
@@ -441,38 +444,50 @@ function PinballTab({ onResult }: { onResult: (participants: string[], winner: s
         </button>
         <iframe
           src="https://lazygyu.github.io/roulette/"
-          style={{
-            display: "block",
-            width: "100%",
-            height: isFullscreen ? "100vh" : "720px",
-            border: "none",
-          }}
+          style={{ display: "block", width: "100%", height: isFullscreen ? "100vh" : "720px", border: "none" }}
           allow="autoplay"
           title="핀볼"
         />
       </div>
 
-      {/* 수동 결과 저장 */}
+      {/* 순위 입력 + 저장 */}
       <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm w-full" style={{ maxWidth: 480 }}>
         <p className="text-sm font-semibold text-gray-700 mb-1">📋 결과 저장</p>
-        <p className="text-xs text-gray-400 mb-3">게임 결과 확인 후 우승자 이름을 입력해 기록에 저장하세요.</p>
+        <p className="text-xs text-gray-400 mb-3">게임 확인 후 순위대로 이름을 입력하세요. 1등만 입력해도 됩니다.</p>
+        <div className="space-y-2 mb-3">
+          {rankings.map((name, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <span className="text-xs font-bold text-gray-400 w-7 text-right shrink-0">{i + 1}등</span>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => updateRank(i, e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && i === rankings.length - 1 && addRank()}
+                placeholder={`${i + 1}등 이름`}
+                className="flex-1 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+              />
+              {rankings.length > 1 && (
+                <button onClick={() => removeRank(i)} className="text-gray-400 hover:text-red-500 text-lg leading-none shrink-0">×</button>
+              )}
+            </div>
+          ))}
+        </div>
         <div className="flex gap-2">
-          <input
-            type="text"
-            value={winnerInput}
-            onChange={(e) => { setWinnerInput(e.target.value); setSaved(false); }}
-            onKeyDown={(e) => e.key === "Enter" && handleSave()}
-            placeholder="우승자 이름 입력"
-            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
-          />
+          <button
+            onClick={addRank}
+            className="px-3 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors shrink-0"
+          >
+            + 순위 추가
+          </button>
           <button
             onClick={handleSave}
-            disabled={!winnerInput.trim() || saved}
-            className="bg-orange-500 hover:bg-orange-600 disabled:opacity-40 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors min-w-[70px]"
+            disabled={!rankings[0]?.trim() || saved}
+            className="flex-1 bg-orange-500 hover:bg-orange-600 disabled:opacity-40 text-white font-semibold py-2 rounded-lg text-sm transition-colors"
           >
             {saved ? "✓ 저장됨" : "저장"}
           </button>
         </div>
+        {saved && <p className="text-xs text-green-600 font-medium mt-2 text-center">✓ 저장됨 — 새 게임 후 다시 입력하세요</p>}
       </div>
     </div>
   );
@@ -1023,7 +1038,7 @@ export default function PlayPage() {
       </div>
       {activeTab === "roulette" && <RouletteTab onResult={(p, w) => saveResult("roulette", p, w)} />}
       {activeTab === "dice" && <DiceTab onResult={(p, w, r) => saveResult("dice", p, w, r)} />}
-      {activeTab === "pinball" && <PinballTab onResult={(p, w) => saveResult("plinko", p, w)} />}
+      {activeTab === "pinball" && <PinballTab onResult={(p, w, r) => saveResult("plinko", p, w, r)} />}
       {activeTab === "ladder" && <LadderTab onResult={(p, w, r) => saveResult("ladder", p, w, r)} />}
       <GameRecords refreshKey={recordsKey} />
     </div>
