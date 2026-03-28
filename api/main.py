@@ -10,6 +10,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from crawler.db import init_db, get_connection
 from api.routes import search, items, mobs, maps, npcs, quests, export, skills, admin, bimae, scroll_rankings, community
@@ -92,3 +93,9 @@ app.include_router(game_results.router, prefix="/api")
 @app.get("/api/health")
 def health():
     return {"status": "ok"}
+
+
+# lazygyu/roulette 정적 파일 서빙 (MIT 라이선스)
+_roulette_dist = Path(__file__).resolve().parent.parent / "roulette_dist"
+if _roulette_dist.exists():
+    app.mount("/roulette", StaticFiles(directory=str(_roulette_dist), html=True), name="roulette")

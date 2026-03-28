@@ -391,6 +391,22 @@ function PinballTab({ onResult }: { onResult: (participants: string[], winner: s
   const [isFullscreen, setIsFullscreen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // 핀볼 goal 이벤트 자동 수신 (patched postMessage)
+  useEffect(() => {
+    const goalHandler = (event: MessageEvent) => {
+      if (event.data?.type !== "plinko_goal") return;
+      const winner = String(event.data.winner ?? "");
+      if (!winner) return;
+      setSaved(false);
+      setRankings((prev) => {
+        const filled = prev.filter((r) => r.trim());
+        return [...filled, winner];
+      });
+    };
+    window.addEventListener("message", goalHandler);
+    return () => window.removeEventListener("message", goalHandler);
+  }, []);
+
   useEffect(() => {
     const handler = () => setIsFullscreen(!!document.fullscreenElement);
     document.addEventListener("fullscreenchange", handler);
@@ -443,7 +459,7 @@ function PinballTab({ onResult }: { onResult: (participants: string[], winner: s
           {isFullscreen ? "✕ 닫기" : "⛶ 전체화면"}
         </button>
         <iframe
-          src="https://lazygyu.github.io/roulette/"
+          src="/roulette/"
           style={{ display: "block", width: "100%", height: isFullscreen ? "100vh" : "720px", border: "none" }}
           allow="autoplay"
           title="핀볼"
@@ -452,8 +468,11 @@ function PinballTab({ onResult }: { onResult: (participants: string[], winner: s
 
       {/* 순위 입력 + 저장 */}
       <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm w-full" style={{ maxWidth: 480 }}>
-        <p className="text-sm font-semibold text-gray-700 mb-1">📋 결과 저장</p>
-        <p className="text-xs text-gray-400 mb-3">게임 확인 후 순위대로 이름을 입력하세요. 1등만 입력해도 됩니다.</p>
+        <div className="flex items-center justify-between mb-1">
+          <p className="text-sm font-semibold text-gray-700">📋 결과 저장</p>
+          <button onClick={() => { setRankings([""]); setSaved(false); }} className="text-xs text-gray-400 hover:text-gray-600 transition-colors">초기화</button>
+        </div>
+        <p className="text-xs text-gray-400 mb-3">게임 완료 시 순위가 자동 입력됩니다. 직접 수정도 가능합니다.</p>
         <div className="space-y-2 mb-3">
           {rankings.map((name, i) => (
             <div key={i} className="flex items-center gap-2">

@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "1.9.3";
+const VERSION = "2.0.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,23 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.0.0",
+    date: "2026-03-28",
+    type: "major",
+    title: "핀볼 자동 순위 추출 (자체 호스팅)",
+    features: [
+      {
+        category: "핀볼 — 자동 순위 수집",
+        items: [
+          "lazygyu/roulette 소스를 자체 서버에서 직접 서빙 (/roulette/)",
+          "JS 번들에 postMessage 패치 → 공이 목표에 닿을 때마다 순위 자동 입력",
+          "게임 종료 후 결과창에 1등, 2등... 자동 매핑, 직접 수정 가능",
+          "'초기화' 버튼으로 새 게임 전 결과 리셋",
+        ],
+      },
+    ],
+  },
   {
     version: "1.9.3",
     date: "2026-03-28",
