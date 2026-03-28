@@ -131,6 +131,33 @@ def update_member(member_id: int, body: MemberUpdate, request: Request):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+class LevelUpdate(BaseModel):
+    level: int
+
+
+@router.patch("/guild/members/{member_id}/level")
+def update_level(member_id: int, body: LevelUpdate):
+    """레벨 변경 — 비밀번호 불필요, 누구나 수정 가능."""
+    if body.level < 1:
+        raise HTTPException(status_code=400, detail="레벨은 1 이상이어야 합니다.")
+    try:
+        conn = get_connection()
+        if not conn.execute("SELECT id FROM guild_members WHERE id = ?", [member_id]).fetchone():
+            raise HTTPException(status_code=404, detail="해당 길드원을 찾을 수 없습니다.")
+        conn.execute(
+            "UPDATE guild_members SET level = ?, updated_at = ? WHERE id = ?",
+            [body.level, datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S"), member_id],
+        )
+        conn.commit()
+        row = conn.execute("SELECT * FROM guild_members WHERE id = ?", [member_id]).fetchone()
+        conn.close()
+        return dict(row)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 class AliasUpdate(BaseModel):
     alias: str
 

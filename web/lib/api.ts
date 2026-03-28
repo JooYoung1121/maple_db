@@ -218,6 +218,16 @@ export async function updateGuildMember(
   return res.json() as Promise<GuildMember>;
 }
 
+export async function updateGuildMemberLevel(id: number, level: number) {
+  const res = await fetch(`${API_BASE}/api/guild/members/${id}/level`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ level }),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<GuildMember>;
+}
+
 export async function updateGuildMemberAlias(id: number, alias: string) {
   const res = await fetch(`${API_BASE}/api/guild/members/${id}/alias`, {
     method: "PATCH",

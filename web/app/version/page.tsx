@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.2.0";
+const VERSION = "2.2.1";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,21 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.2.1",
+    date: "2026-03-28",
+    type: "patch",
+    title: "길드원 레벨 인라인 수정 추가",
+    features: [
+      {
+        category: "길드원 명단",
+        items: [
+          "레벨 셀 클릭 → 인라인 수정 (비밀번호 불필요, 누구나 가능)",
+          "Enter 저장 / Escape 취소 / 포커스 이탈 시 자동 저장",
+        ],
+      },
+    ],
+  },
   {
     version: "2.2.0",
     date: "2026-03-28",

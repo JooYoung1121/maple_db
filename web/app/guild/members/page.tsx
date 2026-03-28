@@ -5,6 +5,7 @@ import {
   getGuildMembers,
   createGuildMember,
   updateGuildMember,
+  updateGuildMemberLevel,
   updateGuildMemberAlias,
   deleteGuildMember,
   GuildMember,
@@ -54,6 +55,11 @@ export default function GuildMembersPage() {
   const [saving, setSaving] = useState(false);
   const [modalError, setModalError] = useState("");
 
+  // level inline edit
+  const [editingLevel, setEditingLevel] = useState<{ id: number; value: string } | null>(null);
+  const [savingLevel, setSavingLevel] = useState(false);
+  const levelInputRef = useRef<HTMLInputElement>(null);
+
   // alias inline edit
   const [editingAlias, setEditingAlias] = useState<{ id: number; value: string } | null>(null);
   const [savingAlias, setSavingAlias] = useState(false);
@@ -72,6 +78,10 @@ export default function GuildMembersPage() {
   }, []);
 
   useEffect(() => { load(); }, [load]);
+
+  useEffect(() => {
+    if (editingLevel) levelInputRef.current?.focus();
+  }, [editingLevel]);
 
   useEffect(() => {
     if (editingAlias) aliasInputRef.current?.focus();
@@ -119,6 +129,23 @@ export default function GuildMembersPage() {
   const avgLevel = allMembers.length
     ? Math.round(allMembers.reduce((s, m) => s + m.level, 0) / allMembers.length)
     : 0;
+
+  // level save
+  async function saveLevel() {
+    if (!editingLevel) return;
+    const num = parseInt(editingLevel.value, 10);
+    if (isNaN(num) || num < 1) { setEditingLevel(null); return; }
+    setSavingLevel(true);
+    try {
+      const updated = await updateGuildMemberLevel(editingLevel.id, num);
+      setAllMembers((prev) => prev.map((m) => (m.id === updated.id ? updated : m)));
+    } catch {
+      // silently ignore
+    } finally {
+      setSavingLevel(false);
+      setEditingLevel(null);
+    }
+  }
 
   // alias save
   async function saveAlias() {
@@ -380,7 +407,30 @@ export default function GuildMembersPage() {
                     {/* 직업 */}
                     <td className="px-4 py-2.5 text-gray-600">{m.job}</td>
                     {/* 레벨 */}
-                    <td className="px-4 py-2.5 text-right font-mono text-gray-800">{m.level}</td>
+                    <td className="px-4 py-2.5 text-right">
+                      {editingLevel?.id === m.id ? (
+                        <input
+                          ref={levelInputRef}
+                          type="number"
+                          value={editingLevel.value}
+                          onChange={(e) => setEditingLevel({ id: m.id, value: e.target.value })}
+                          onBlur={saveLevel}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter") saveLevel();
+                            if (e.key === "Escape") setEditingLevel(null);
+                          }}
+                          disabled={savingLevel}
+                          className="w-16 text-right border border-orange-300 rounded px-1.5 py-0.5 text-sm font-mono outline-none focus:ring-1 focus:ring-orange-400"
+                        />
+                      ) : (
+                        <button
+                          onClick={() => setEditingLevel({ id: m.id, value: String(m.level) })}
+                          className="font-mono text-gray-800 hover:text-orange-500 hover:underline"
+                        >
+                          {m.level}
+                        </button>
+                      )}
+                    </td>
                     {/* 닉네임 */}
                     <td className="px-4 py-2.5 text-right font-medium text-gray-900">
                       {m.nickname}
