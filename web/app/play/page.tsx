@@ -366,23 +366,94 @@ function RouletteTab({ onResult }: { onResult: (participants: string[], winner: 
 // 핀볼 (lazygyu/roulette — box2d-wasm 고품질 물리 엔진)
 // ---------------------------------------------------------------------------
 
-function PinballTab() {
+function PinballTab({ onResult }: { onResult: (participants: string[], winner: string) => void }) {
+  const [winnerInput, setWinnerInput] = useState("");
+  const [saved, setSaved] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handler = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener("fullscreenchange", handler);
+    return () => document.removeEventListener("fullscreenchange", handler);
+  }, []);
+
+  const toggleFullscreen = () => {
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    } else {
+      containerRef.current?.requestFullscreen();
+    }
+  };
+
+  const handleSave = () => {
+    const name = winnerInput.trim();
+    if (!name) return;
+    onResult([], name);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
+  };
+
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm w-full">
         <p className="text-sm text-gray-600 font-medium mb-1">🎯 고품질 물리 엔진 (box2d-wasm)</p>
         <p className="text-xs text-gray-400">게임 내에서 참가자 이름을 직접 입력하세요. 이름/숫자로 가중치, 이름*숫자로 중복 설정 가능.</p>
-        <p className="text-xs text-gray-300 mt-1">Powered by <a href="https://github.com/lazygyu/roulette" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-400">lazygyu/roulette</a> (MIT)</p>
+        <p className="text-xs text-gray-300 mt-1">
+          Powered by{" "}
+          <a href="https://github.com/lazygyu/roulette" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-400">
+            lazygyu/roulette
+          </a>{" "}
+          (MIT)
+        </p>
       </div>
-      <div className="overflow-hidden rounded-xl border border-gray-200 shadow-sm" style={{ width: "100%", maxWidth: 480 }}>
+
+      {/* iframe + 전체화면 wrapper */}
+      <div
+        ref={containerRef}
+        className="relative overflow-hidden rounded-xl border border-gray-200 shadow-sm bg-black"
+        style={{ width: "100%", maxWidth: isFullscreen ? "none" : 480 }}
+      >
+        <button
+          onClick={toggleFullscreen}
+          className="absolute top-2 right-2 z-10 bg-black/50 hover:bg-black/70 text-white rounded-lg px-2.5 py-1 text-xs font-medium transition-colors select-none"
+        >
+          {isFullscreen ? "✕ 닫기" : "⛶ 전체화면"}
+        </button>
         <iframe
           src="https://lazygyu.github.io/roulette/"
-          width="480"
-          height="720"
-          style={{ display: "block", width: "100%", border: "none" }}
+          style={{
+            display: "block",
+            width: "100%",
+            height: isFullscreen ? "100vh" : "720px",
+            border: "none",
+          }}
           allow="autoplay"
           title="핀볼"
         />
+      </div>
+
+      {/* 수동 결과 저장 */}
+      <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm w-full" style={{ maxWidth: 480 }}>
+        <p className="text-sm font-semibold text-gray-700 mb-1">📋 결과 저장</p>
+        <p className="text-xs text-gray-400 mb-3">게임 결과 확인 후 우승자 이름을 입력해 기록에 저장하세요.</p>
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={winnerInput}
+            onChange={(e) => { setWinnerInput(e.target.value); setSaved(false); }}
+            onKeyDown={(e) => e.key === "Enter" && handleSave()}
+            placeholder="우승자 이름 입력"
+            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+          />
+          <button
+            onClick={handleSave}
+            disabled={!winnerInput.trim() || saved}
+            className="bg-orange-500 hover:bg-orange-600 disabled:opacity-40 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors min-w-[70px]"
+          >
+            {saved ? "✓ 저장됨" : "저장"}
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -923,7 +994,7 @@ export default function PlayPage() {
       </div>
       {activeTab === "roulette" && <RouletteTab onResult={(p, w) => saveResult("roulette", p, w)} />}
       {activeTab === "dice" && <DiceTab onResult={(p, w, r) => saveResult("dice", p, w, r)} />}
-      {activeTab === "pinball" && <PinballTab />}
+      {activeTab === "pinball" && <PinballTab onResult={(p, w) => saveResult("plinko", p, w)} />}
       {activeTab === "ladder" && <LadderTab onResult={(p, w, r) => saveResult("ladder", p, w, r)} />}
       <GameRecords refreshKey={recordsKey} />
     </div>

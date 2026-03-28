@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "1.9.0";
+const VERSION = "1.9.1";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,21 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "1.9.1",
+    date: "2026-03-28",
+    type: "patch",
+    title: "핀볼 전체화면 + 결과 수동 저장",
+    features: [
+      {
+        category: "핀볼",
+        items: [
+          "전체화면 버튼 추가 (⛶) — iframe 전체화면 토글",
+          "결과 저장 폼 추가 — 우승자 이름 직접 입력 후 기록 저장",
+        ],
+      },
+    ],
+  },
   {
     version: "1.9.0",
     date: "2026-03-28",
