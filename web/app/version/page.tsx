@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "1.8.0";
+const VERSION = "1.9.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,22 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "1.9.0",
+    date: "2026-03-28",
+    type: "patch",
+    title: "핀볼 이름 복구 + 공경주 탭 제거",
+    features: [
+      {
+        category: "변경",
+        items: [
+          "공뽑기 → 핀볼로 이름 복구 (🎯 핀볼)",
+          "공경주 탭 제거",
+          "MIT 라이선스 출처 표기 추가 (lazygyu/roulette)",
+        ],
+      },
+    ],
+  },
   {
     version: "1.8.0",
     date: "2026-03-28",

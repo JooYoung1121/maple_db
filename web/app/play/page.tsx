@@ -26,8 +26,8 @@ function describeSlice(cx: number, cy: number, r: number, startAngle: number, en
   return [`M ${cx} ${cy}`, `L ${start.x} ${start.y}`, `A ${r} ${r} 0 ${largeArc} 0 ${end.x} ${end.y}`, "Z"].join(" ");
 }
 
-type Tab = "roulette" | "dice" | "gonbbaegi" | "ladder" | "race";
-type GameType = "roulette" | "dice" | "plinko" | "ladder" | "race";
+type Tab = "roulette" | "dice" | "pinball" | "ladder";
+type GameType = "roulette" | "dice" | "plinko" | "ladder";
 
 interface GameRecord {
   id: number;
@@ -363,15 +363,16 @@ function RouletteTab({ onResult }: { onResult: (participants: string[], winner: 
 }
 
 // ---------------------------------------------------------------------------
-// 공뽑기 (lazygyu/roulette — box2d-wasm 고품질 물리 엔진)
+// 핀볼 (lazygyu/roulette — box2d-wasm 고품질 물리 엔진)
 // ---------------------------------------------------------------------------
 
-function GonbbagiTab() {
+function PinballTab() {
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm w-full">
         <p className="text-sm text-gray-600 font-medium mb-1">🎯 고품질 물리 엔진 (box2d-wasm)</p>
         <p className="text-xs text-gray-400">게임 내에서 참가자 이름을 직접 입력하세요. 이름/숫자로 가중치, 이름*숫자로 중복 설정 가능.</p>
+        <p className="text-xs text-gray-300 mt-1">Powered by <a href="https://github.com/lazygyu/roulette" target="_blank" rel="noopener noreferrer" className="underline hover:text-gray-400">lazygyu/roulette</a> (MIT)</p>
       </div>
       <div className="overflow-hidden rounded-xl border border-gray-200 shadow-sm" style={{ width: "100%", maxWidth: 480 }}>
         <iframe
@@ -380,7 +381,7 @@ function GonbbagiTab() {
           height="720"
           style={{ display: "block", width: "100%", border: "none" }}
           allow="autoplay"
-          title="구슬 공뽑기"
+          title="핀볼"
         />
       </div>
     </div>
@@ -587,9 +588,7 @@ function LadderTab({ onResult }: { onResult: (participants: string[], winner: st
   );
 }
 
-// ---------------------------------------------------------------------------
-// 공경주 (Multi-ball race - pure physics, no bias)
-// ---------------------------------------------------------------------------
+// (공경주 탭 제거됨)
 
 const RACE_W = 400; const RACE_H = 680; const RACE_PEG_R = 5; const RACE_BALL_R = 11; const RACE_GRAVITY = 0.32;
 const RACE_FLOOR_Y = RACE_H - 22;
@@ -814,7 +813,7 @@ function RaceTab({ onResult }: { onResult: (participants: string[], winner: stri
 // 게임 기록
 // ---------------------------------------------------------------------------
 
-const GAME_LABELS: Record<string, string> = { roulette: "🎰 룰렛", dice: "🎲 주사위", plinko: "🎯 공뽑기", ladder: "🪜 사다리", race: "🏁 공경주" };
+const GAME_LABELS: Record<string, string> = { roulette: "🎰 룰렛", dice: "🎲 주사위", plinko: "🎯 핀볼", ladder: "🪜 사다리" };
 
 function formatDate(s: string) { return s.replace("T", " ").slice(0, 16); }
 
@@ -900,7 +899,7 @@ function GameRecords({ refreshKey }: { refreshKey: number }) {
 // Page
 // ---------------------------------------------------------------------------
 
-const TAB_LABELS: Record<Tab, string> = { roulette: "🎰 룰렛", dice: "🎲 주사위", gonbbaegi: "🎯 공뽑기", ladder: "🪜 사다리", race: "🏁 공경주" };
+const TAB_LABELS: Record<Tab, string> = { roulette: "🎰 룰렛", dice: "🎲 주사위", pinball: "🎯 핀볼", ladder: "🪜 사다리" };
 
 export default function PlayPage() {
   const [activeTab, setActiveTab] = useState<Tab>("roulette");
@@ -915,7 +914,7 @@ export default function PlayPage() {
     <div className="max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-6 text-gray-900">놀이터</h1>
       <div className="flex gap-1 mb-6 border-b border-gray-200 flex-wrap">
-        {(["roulette", "dice", "gonbbaegi", "ladder", "race"] as Tab[]).map((tab) => (
+        {(["roulette", "dice", "pinball", "ladder"] as Tab[]).map((tab) => (
           <button key={tab} onClick={() => setActiveTab(tab)}
             className={`px-4 py-2.5 text-sm font-semibold rounded-t-lg transition-colors border-b-2 -mb-px ${activeTab === tab ? "border-orange-500 text-orange-600 bg-white" : "border-transparent text-gray-500 hover:text-gray-700"}`}>
             {TAB_LABELS[tab]}
@@ -924,9 +923,8 @@ export default function PlayPage() {
       </div>
       {activeTab === "roulette" && <RouletteTab onResult={(p, w) => saveResult("roulette", p, w)} />}
       {activeTab === "dice" && <DiceTab onResult={(p, w, r) => saveResult("dice", p, w, r)} />}
-      {activeTab === "gonbbaegi" && <GonbbagiTab />}
+      {activeTab === "pinball" && <PinballTab />}
       {activeTab === "ladder" && <LadderTab onResult={(p, w, r) => saveResult("ladder", p, w, r)} />}
-      {activeTab === "race" && <RaceTab onResult={(p, w) => saveResult("race", p, w)} />}
       <GameRecords refreshKey={recordsKey} />
     </div>
   );
