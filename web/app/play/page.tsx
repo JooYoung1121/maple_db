@@ -459,7 +459,7 @@ function PinballTab({ onResult }: { onResult: (participants: string[], winner: s
           {isFullscreen ? "✕ 닫기" : "⛶ 전체화면"}
         </button>
         <iframe
-          src="/roulette/"
+          src="/roulette/index.html"
           style={{ display: "block", width: "100%", height: isFullscreen ? "100vh" : "720px", border: "none" }}
           allow="autoplay"
           title="핀볼"
