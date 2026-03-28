@@ -231,6 +231,7 @@ CREATE TABLE IF NOT EXISTS guild_members (
   job TEXT NOT NULL,
   level INTEGER NOT NULL,
   rank TEXT NOT NULL,
+  alias TEXT,
   note TEXT,
   updated_at TEXT DEFAULT (datetime('now'))
 );
@@ -269,6 +270,7 @@ def migrate_db(conn: sqlite3.Connection) -> None:
         ("npcs", "dialogue", "TEXT"),
         ("npcs", "related_quests", "TEXT"),
         ("npcs", "found_at", "TEXT"),
+        ("guild_members", "alias", "TEXT"),
     ]
     for table, column, col_type in migrations:
         try:

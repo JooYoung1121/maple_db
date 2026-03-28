@@ -131,6 +131,31 @@ def update_member(member_id: int, body: MemberUpdate, request: Request):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+class AliasUpdate(BaseModel):
+    alias: str
+
+
+@router.patch("/guild/members/{member_id}/alias")
+def update_alias(member_id: int, body: AliasUpdate):
+    """별명 변경 — 비밀번호 불필요, 누구나 수정 가능."""
+    try:
+        conn = get_connection()
+        if not conn.execute("SELECT id FROM guild_members WHERE id = ?", [member_id]).fetchone():
+            raise HTTPException(status_code=404, detail="해당 길드원을 찾을 수 없습니다.")
+        conn.execute(
+            "UPDATE guild_members SET alias = ?, updated_at = ? WHERE id = ?",
+            [body.alias.strip() or None, datetime.now(KST).strftime("%Y-%m-%d %H:%M:%S"), member_id],
+        )
+        conn.commit()
+        row = conn.execute("SELECT * FROM guild_members WHERE id = ?", [member_id]).fetchone()
+        conn.close()
+        return dict(row)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.delete("/guild/members/{member_id}")
 def delete_member(member_id: int, request: Request):
     _check_admin(request)

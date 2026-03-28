@@ -15,3 +15,4 @@ node_modules/
 web/out/
 .omc/
 .claude/
+.venv/

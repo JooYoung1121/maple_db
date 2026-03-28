@@ -180,6 +180,7 @@ export interface GuildMember {
   job: string;
   level: number;
   rank: string;
+  alias: string | null;
   note: string | null;
   updated_at: string;
 }
@@ -212,6 +213,16 @@ export async function updateGuildMember(
     method: "PUT",
     headers: { "Content-Type": "application/json", "X-Admin-Password": password },
     body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<GuildMember>;
+}
+
+export async function updateGuildMemberAlias(id: number, alias: string) {
+  const res = await fetch(`${API_BASE}/api/guild/members/${id}/alias`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ alias }),
   });
   if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
   return res.json() as Promise<GuildMember>;
