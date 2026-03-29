@@ -29,7 +29,6 @@ const RANK_BADGE: Record<string, string> = {
 };
 
 const EMPTY_FORM = { nickname: "", job: "", level: 1, rank: "길드원", note: "" };
-
 const DEFAULT_SORT: { field: SortField; dir: SortDir } = { field: "level", dir: "desc" };
 
 function SortIcon({ field, sortField, sortDir }: { field: SortField; sortField: SortField; sortDir: SortDir }) {
@@ -37,163 +36,21 @@ function SortIcon({ field, sortField, sortDir }: { field: SortField; sortField: 
   return <span className="text-orange-500 ml-0.5">{sortDir === "asc" ? "↑" : "↓"}</span>;
 }
 
-export default function GuildMembersPage() {
-  const [allMembers, setAllMembers] = useState<GuildMember[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [rankFilter, setRankFilter] = useState<RankFilter>("전체");
-  const [sortField, setSortField] = useState<SortField>(DEFAULT_SORT.field);
-  const [sortDir, setSortDir] = useState<SortDir>(DEFAULT_SORT.dir);
+// ── FormModal을 최상위 컴포넌트로 분리 (내부 정의 시 리렌더마다 언마운트되어 포커스 유실) ──
+interface FormModalProps {
+  title: string;
+  form: typeof EMPTY_FORM;
+  setForm: React.Dispatch<React.SetStateAction<typeof EMPTY_FORM>>;
+  password: string;
+  setPassword: (v: string) => void;
+  saving: boolean;
+  error: string;
+  onSave: () => void;
+  onClose: () => void;
+}
 
-  // admin
-  const [adminMode, setAdminMode] = useState(false);
-  const [password, setPassword] = useState("");
-
-  // modals
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [editTarget, setEditTarget] = useState<GuildMember | null>(null);
-  const [form, setForm] = useState({ ...EMPTY_FORM });
-  const [saving, setSaving] = useState(false);
-  const [modalError, setModalError] = useState("");
-
-  // level inline edit
-  const [editingLevel, setEditingLevel] = useState<{ id: number; value: string } | null>(null);
-  const [savingLevel, setSavingLevel] = useState(false);
-  const levelInputRef = useRef<HTMLInputElement>(null);
-
-  // alias inline edit
-  const [editingAlias, setEditingAlias] = useState<{ id: number; value: string } | null>(null);
-  const [savingAlias, setSavingAlias] = useState(false);
-  const aliasInputRef = useRef<HTMLInputElement>(null);
-
-  const load = useCallback(async () => {
-    setLoading(true);
-    try {
-      const res = await getGuildMembers({ per_page: 500 });
-      setAllMembers(res.members);
-    } catch {
-      setAllMembers([]);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => { load(); }, [load]);
-
-  useEffect(() => {
-    if (editingLevel) levelInputRef.current?.focus();
-  }, [editingLevel]);
-
-  useEffect(() => {
-    if (editingAlias) aliasInputRef.current?.focus();
-  }, [editingAlias]);
-
-  // column header sort: asc → desc → default
-  function handleColumnSort(field: SortField) {
-    if (sortField === field) {
-      if (sortDir === "asc") {
-        setSortDir("desc");
-      } else {
-        setSortField(DEFAULT_SORT.field);
-        setSortDir(DEFAULT_SORT.dir);
-      }
-    } else {
-      setSortField(field);
-      setSortDir("asc");
-    }
-  }
-
-  // quick sort buttons
-  const QUICK_SORTS: { label: string; field: SortField; dir: SortDir }[] = [
-    { label: "레벨순", field: "level", dir: "desc" },
-    { label: "닉네임순", field: "nickname", dir: "asc" },
-    { label: "직책순", field: "rank", dir: "asc" },
-    { label: "직업순", field: "job", dir: "asc" },
-  ];
-
-  // filtered + sorted
-  const filtered = allMembers.filter((m) => rankFilter === "전체" || m.rank === rankFilter);
-  const sorted = [...filtered].sort((a, b) => {
-    let cmp = 0;
-    if (sortField === "rank") cmp = (RANK_ORDER[a.rank] ?? 99) - (RANK_ORDER[b.rank] ?? 99);
-    else if (sortField === "level") cmp = a.level - b.level;
-    else if (sortField === "nickname") cmp = a.nickname.localeCompare(b.nickname, "ko");
-    else if (sortField === "job") cmp = a.job.localeCompare(b.job, "ko");
-    return sortDir === "asc" ? cmp : -cmp;
-  });
-
-  // stats
-  const rankCounts = RANKS.slice(1).reduce<Record<string, number>>((acc, r) => {
-    acc[r] = allMembers.filter((m) => m.rank === r).length;
-    return acc;
-  }, {});
-  const avgLevel = allMembers.length
-    ? Math.round(allMembers.reduce((s, m) => s + m.level, 0) / allMembers.length)
-    : 0;
-
-  // level save
-  async function saveLevel() {
-    if (!editingLevel) return;
-    const num = parseInt(editingLevel.value, 10);
-    if (isNaN(num) || num < 1) { setEditingLevel(null); return; }
-    setSavingLevel(true);
-    try {
-      const updated = await updateGuildMemberLevel(editingLevel.id, num);
-      setAllMembers((prev) => prev.map((m) => (m.id === updated.id ? updated : m)));
-    } catch {
-      // silently ignore
-    } finally {
-      setSavingLevel(false);
-      setEditingLevel(null);
-    }
-  }
-
-  // alias save
-  async function saveAlias() {
-    if (!editingAlias) return;
-    setSavingAlias(true);
-    try {
-      const updated = await updateGuildMemberAlias(editingAlias.id, editingAlias.value);
-      setAllMembers((prev) => prev.map((m) => (m.id === updated.id ? updated : m)));
-    } catch {
-      // silently ignore
-    } finally {
-      setSavingAlias(false);
-      setEditingAlias(null);
-    }
-  }
-
-  // modal save
-  async function handleSave() {
-    setModalError("");
-    setSaving(true);
-    try {
-      if (editTarget) {
-        const updated = await updateGuildMember(editTarget.id, { ...form, level: Number(form.level) }, password);
-        setAllMembers((prev) => prev.map((m) => (m.id === updated.id ? updated : m)));
-        setEditTarget(null);
-      } else {
-        const created = await createGuildMember({ ...form, level: Number(form.level) }, password);
-        setAllMembers((prev) => [...prev, created]);
-        setShowAddModal(false);
-      }
-    } catch (e: unknown) {
-      setModalError(e instanceof Error ? e.message : "오류가 발생했습니다.");
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  async function handleDelete(m: GuildMember) {
-    if (!confirm(`${m.nickname}을(를) 명단에서 삭제할까요?`)) return;
-    try {
-      await deleteGuildMember(m.id, password);
-      setAllMembers((prev) => prev.filter((x) => x.id !== m.id));
-    } catch (e: unknown) {
-      alert(e instanceof Error ? e.message : "삭제 실패");
-    }
-  }
-
-  const FormModal = ({ title, onClose }: { title: string; onClose: () => void }) => (
+function FormModal({ title, form, setForm, password, setPassword, saving, error, onSave, onClose }: FormModalProps) {
+  return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4">
         <div className="flex items-center justify-between">
@@ -249,14 +106,14 @@ export default function GuildMembersPage() {
           />
         </div>
 
-        {modalError && <p className="text-red-500 text-xs">{modalError}</p>}
+        {error && <p className="text-red-500 text-xs">{error}</p>}
 
         <div className="flex gap-2 pt-1">
           <button onClick={onClose} className="flex-1 py-2 rounded-lg border border-gray-200 text-sm text-gray-600 hover:bg-gray-50">
             취소
           </button>
           <button
-            onClick={handleSave}
+            onClick={onSave}
             disabled={saving}
             className="flex-1 py-2 rounded-lg bg-orange-500 text-white text-sm font-medium hover:bg-orange-600 disabled:opacity-50"
           >
@@ -266,6 +123,152 @@ export default function GuildMembersPage() {
       </div>
     </div>
   );
+}
+
+// ────────────────────────────────────────────────────────────────
+
+export default function GuildMembersPage() {
+  const [allMembers, setAllMembers] = useState<GuildMember[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [rankFilter, setRankFilter] = useState<RankFilter>("전체");
+  const [sortField, setSortField] = useState<SortField>(DEFAULT_SORT.field);
+  const [sortDir, setSortDir] = useState<SortDir>(DEFAULT_SORT.dir);
+
+  // admin
+  const [adminMode, setAdminMode] = useState(false);
+  const [password, setPassword] = useState("");
+
+  // modals
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [editTarget, setEditTarget] = useState<GuildMember | null>(null);
+  const [form, setForm] = useState({ ...EMPTY_FORM });
+  const [saving, setSaving] = useState(false);
+  const [modalError, setModalError] = useState("");
+
+  // level inline edit
+  const [editingLevel, setEditingLevel] = useState<{ id: number; value: string } | null>(null);
+  const [savingLevel, setSavingLevel] = useState(false);
+  const levelInputRef = useRef<HTMLInputElement>(null);
+
+  // alias inline edit
+  const [editingAlias, setEditingAlias] = useState<{ id: number; value: string } | null>(null);
+  const [savingAlias, setSavingAlias] = useState(false);
+  const aliasInputRef = useRef<HTMLInputElement>(null);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await getGuildMembers({ per_page: 500 });
+      setAllMembers(res.members);
+    } catch {
+      setAllMembers([]);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { load(); }, [load]);
+
+  useEffect(() => {
+    if (editingLevel) levelInputRef.current?.focus();
+  }, [editingLevel]);
+
+  useEffect(() => {
+    if (editingAlias) aliasInputRef.current?.focus();
+  }, [editingAlias]);
+
+  function handleColumnSort(field: SortField) {
+    if (sortField === field) {
+      if (sortDir === "asc") setSortDir("desc");
+      else { setSortField(DEFAULT_SORT.field); setSortDir(DEFAULT_SORT.dir); }
+    } else {
+      setSortField(field);
+      setSortDir("asc");
+    }
+  }
+
+  const QUICK_SORTS: { label: string; field: SortField; dir: SortDir }[] = [
+    { label: "레벨순", field: "level", dir: "desc" },
+    { label: "닉네임순", field: "nickname", dir: "asc" },
+    { label: "직책순", field: "rank", dir: "asc" },
+    { label: "직업순", field: "job", dir: "asc" },
+  ];
+
+  const filtered = allMembers.filter((m) => rankFilter === "전체" || m.rank === rankFilter);
+  const sorted = [...filtered].sort((a, b) => {
+    let cmp = 0;
+    if (sortField === "rank") cmp = (RANK_ORDER[a.rank] ?? 99) - (RANK_ORDER[b.rank] ?? 99);
+    else if (sortField === "level") cmp = a.level - b.level;
+    else if (sortField === "nickname") cmp = a.nickname.localeCompare(b.nickname, "ko");
+    else if (sortField === "job") cmp = a.job.localeCompare(b.job, "ko");
+    return sortDir === "asc" ? cmp : -cmp;
+  });
+
+  const rankCounts = RANKS.slice(1).reduce<Record<string, number>>((acc, r) => {
+    acc[r] = allMembers.filter((m) => m.rank === r).length;
+    return acc;
+  }, {});
+  const avgLevel = allMembers.length
+    ? Math.round(allMembers.reduce((s, m) => s + m.level, 0) / allMembers.length)
+    : 0;
+
+  async function saveLevel() {
+    if (!editingLevel) return;
+    const num = parseInt(editingLevel.value, 10);
+    if (isNaN(num) || num < 1) { setEditingLevel(null); return; }
+    setSavingLevel(true);
+    try {
+      const updated = await updateGuildMemberLevel(editingLevel.id, num);
+      setAllMembers((prev) => prev.map((m) => (m.id === updated.id ? updated : m)));
+    } catch { /* silent */ } finally {
+      setSavingLevel(false);
+      setEditingLevel(null);
+    }
+  }
+
+  async function saveAlias() {
+    if (!editingAlias) return;
+    setSavingAlias(true);
+    try {
+      const updated = await updateGuildMemberAlias(editingAlias.id, editingAlias.value);
+      setAllMembers((prev) => prev.map((m) => (m.id === updated.id ? updated : m)));
+    } catch { /* silent */ } finally {
+      setSavingAlias(false);
+      setEditingAlias(null);
+    }
+  }
+
+  async function handleSave() {
+    setModalError("");
+    setSaving(true);
+    try {
+      if (editTarget) {
+        const updated = await updateGuildMember(editTarget.id, { ...form, level: Number(form.level) }, password);
+        setAllMembers((prev) => prev.map((m) => (m.id === updated.id ? updated : m)));
+        setEditTarget(null);
+      } else {
+        const created = await createGuildMember({ ...form, level: Number(form.level) }, password);
+        setAllMembers((prev) => [...prev, created]);
+        setShowAddModal(false);
+      }
+    } catch (e: unknown) {
+      setModalError(e instanceof Error ? e.message : "오류가 발생했습니다.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function handleDelete(m: GuildMember) {
+    if (!confirm(`${m.nickname}을(를) 명단에서 삭제할까요?`)) return;
+    try {
+      await deleteGuildMember(m.id, password);
+      setAllMembers((prev) => prev.filter((x) => x.id !== m.id));
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : "삭제 실패");
+    }
+  }
+
+  const modalCommonProps = { form, setForm, password, setPassword, saving, error: modalError, onSave: handleSave };
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 space-y-6">
@@ -398,15 +401,12 @@ export default function GuildMembersPage() {
               <tbody className="divide-y divide-gray-50">
                 {sorted.map((m) => (
                   <tr key={m.id} className="hover:bg-gray-50 transition-colors">
-                    {/* 직책 */}
                     <td className="px-4 py-2.5">
                       <span className={`inline-block text-xs px-2 py-0.5 rounded-full font-medium ${RANK_BADGE[m.rank] ?? "bg-gray-100 text-gray-600"}`}>
                         {m.rank}
                       </span>
                     </td>
-                    {/* 직업 */}
                     <td className="px-4 py-2.5 text-gray-600">{m.job}</td>
-                    {/* 레벨 */}
                     <td className="px-4 py-2.5 text-right">
                       {editingLevel?.id === m.id ? (
                         <input
@@ -431,12 +431,10 @@ export default function GuildMembersPage() {
                         </button>
                       )}
                     </td>
-                    {/* 닉네임 */}
                     <td className="px-4 py-2.5 text-right font-medium text-gray-900">
                       {m.nickname}
                       {m.note && <span className="ml-1 text-xs text-gray-400">({m.note})</span>}
                     </td>
-                    {/* 별명 */}
                     <td className="px-4 py-2.5">
                       {editingAlias?.id === m.id ? (
                         <input
@@ -461,7 +459,6 @@ export default function GuildMembersPage() {
                         </button>
                       )}
                     </td>
-                    {/* 관리 */}
                     {adminMode && (
                       <td className="px-4 py-2.5 text-right">
                         <div className="flex items-center justify-end gap-1">
@@ -493,14 +490,22 @@ export default function GuildMembersPage() {
       </div>
 
       <p className="text-xs text-gray-400 text-center">
-        메이플랜드 공식 API 미제공으로 스크린샷 기반 수동 업데이트됩니다. · 별명은 누구나 수정 가능합니다.
+        메이플랜드 공식 API 미제공으로 스크린샷 기반 수동 업데이트됩니다. · 별명/레벨은 누구나 수정 가능합니다.
       </p>
 
       {showAddModal && (
-        <FormModal title="길드원 추가" onClose={() => { setShowAddModal(false); setModalError(""); }} />
+        <FormModal
+          {...modalCommonProps}
+          title="길드원 추가"
+          onClose={() => { setShowAddModal(false); setModalError(""); }}
+        />
       )}
       {editTarget && (
-        <FormModal title={`${editTarget.nickname} 수정`} onClose={() => { setEditTarget(null); setModalError(""); }} />
+        <FormModal
+          {...modalCommonProps}
+          title={`${editTarget.nickname} 수정`}
+          onClose={() => { setEditTarget(null); setModalError(""); }}
+        />
       )}
     </div>
   );
