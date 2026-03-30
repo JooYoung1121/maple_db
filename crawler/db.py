@@ -272,6 +272,32 @@ CREATE TABLE IF NOT EXISTS bot_settings (
   key TEXT PRIMARY KEY,
   value TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS free_board_posts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  nickname TEXT NOT NULL,
+  title TEXT NOT NULL,
+  content TEXT,
+  created_at TEXT DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS free_board_comments (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  post_id INTEGER NOT NULL,
+  nickname TEXT NOT NULL,
+  content TEXT NOT NULL,
+  upvotes INTEGER DEFAULT 0,
+  created_at TEXT DEFAULT (datetime('now')),
+  FOREIGN KEY (post_id) REFERENCES free_board_posts(id)
+);
+
+CREATE TABLE IF NOT EXISTS free_board_comment_votes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  comment_id INTEGER NOT NULL,
+  voter_ip TEXT NOT NULL,
+  UNIQUE(comment_id, voter_ip),
+  FOREIGN KEY (comment_id) REFERENCES free_board_comments(id)
+);
 """
 
 FTS_SCHEMA = """
@@ -308,6 +334,9 @@ def migrate_db(conn: sqlite3.Connection) -> None:
         ("npcs", "related_quests", "TEXT"),
         ("npcs", "found_at", "TEXT"),
         ("guild_members", "alias", "TEXT"),
+        ("community_polls", "allow_user_options", "INTEGER DEFAULT 0"),
+        ("community_polls", "allow_multiple", "INTEGER DEFAULT 0"),
+        ("community_polls", "deadline", "TEXT"),
     ]
     for table, column, col_type in migrations:
         try:
@@ -315,6 +344,40 @@ def migrate_db(conn: sqlite3.Connection) -> None:
         except Exception:
             pass  # Column already exists
     conn.commit()
+
+    # community_poll_votes UNIQUE 제약 변경: (poll_id, voter_ip) → (poll_id, voter_ip, option_index)
+    try:
+        # 기존 테이블에 UNIQUE(poll_id, voter_ip)만 있는지 확인
+        info = conn.execute("PRAGMA table_info(community_poll_votes)").fetchall()
+        col_names = [r[1] for r in info]
+        if "option_index" in col_names:
+            # 이미 option_index 컬럼 존재 → UNIQUE 제약 확인
+            idx_info = conn.execute("PRAGMA index_list(community_poll_votes)").fetchall()
+            needs_migrate = False
+            for idx in idx_info:
+                idx_cols = conn.execute(f"PRAGMA index_info({idx[1]})").fetchall()
+                col_count = len(idx_cols)
+                # UNIQUE(poll_id, voter_ip) = 2 columns 인 인덱스가 있으면 마이그레이션 필요
+                if col_count == 2:
+                    needs_migrate = True
+                    break
+            if needs_migrate:
+                conn.executescript("""
+                    CREATE TABLE IF NOT EXISTS community_poll_votes_new (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        poll_id INTEGER NOT NULL,
+                        option_index INTEGER NOT NULL,
+                        voter_ip TEXT NOT NULL,
+                        created_at TEXT DEFAULT (datetime('now')),
+                        UNIQUE(poll_id, voter_ip, option_index)
+                    );
+                    INSERT OR IGNORE INTO community_poll_votes_new (id, poll_id, option_index, voter_ip, created_at)
+                        SELECT id, poll_id, option_index, voter_ip, created_at FROM community_poll_votes;
+                    DROP TABLE community_poll_votes;
+                    ALTER TABLE community_poll_votes_new RENAME TO community_poll_votes;
+                """)
+    except Exception:
+        pass  # 마이그레이션 이미 완료 또는 불필요
 
 
 def get_connection() -> sqlite3.Connection:

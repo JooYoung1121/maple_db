@@ -20,6 +20,7 @@ from api.routes import guild_members
 from api.routes import guild_boss
 from api.routes import fee_records
 from api.routes import discord_admin
+from api.routes import free_board
 from api.discord_bot import start_bot, get_bot
 
 
@@ -121,6 +122,7 @@ app.include_router(guild_members.router, prefix="/api")
 app.include_router(guild_boss.router, prefix="/api")
 app.include_router(fee_records.router, prefix="/api")
 app.include_router(discord_admin.router, prefix="/api")
+app.include_router(free_board.router, prefix="/api")
 
 
 @app.get("/api/health")

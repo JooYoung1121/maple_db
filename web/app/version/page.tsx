@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.4.0";
+const VERSION = "2.5.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,39 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.5.0",
+    date: "2026-03-30",
+    type: "minor",
+    title: "자유게시판 + 투표 기능 강화",
+    features: [
+      {
+        category: "신규 — 자유게시판 (/guild/board)",
+        items: [
+          "자유게시판: 글쓰기 (닉네임/제목/내용)",
+          "댓글 작성 + 추천(IP 중복 방지)",
+          "댓글 정렬: 최신순/추천순 토글",
+          "관리자 비밀번호 보호 글/댓글 삭제",
+          "글 목록 페이지네이션, 댓글 수 표시",
+        ],
+      },
+      {
+        category: "개선 — 투표 (/community)",
+        items: [
+          "복수투표 허용 옵션 (선택지별 개별 투표)",
+          "사용자 선택지 추가 허용 옵션 (최대 20개)",
+          "마감일 설정 (datetime-local) + '마감됨' 배지 표시",
+          "마감 후 투표/선택지 추가 불가",
+        ],
+      },
+      {
+        category: "변경 — 내비게이션",
+        items: [
+          "추억길드 메뉴에 '자유게시판' 링크 추가",
+        ],
+      },
+    ],
+  },
   {
     version: "2.4.0",
     date: "2026-03-30",
