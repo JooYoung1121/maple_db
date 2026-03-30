@@ -78,3 +78,24 @@ async def send_discord_notify(body: ManualNotify, request: Request):
 
     await bot.send_manual(body.message.strip())
     return {"ok": True}
+
+
+@router.post("/discord/notify/guild-post/{post_id}")
+async def send_guild_post_notify(post_id: int, request: Request):
+    """길드 게시글을 디스코드로 전송"""
+    _check_admin(request)
+
+    conn = get_connection()
+    row = conn.execute("SELECT * FROM guild_posts WHERE id = ?", [post_id]).fetchone()
+    conn.close()
+    if not row:
+        raise HTTPException(status_code=404, detail="게시글을 찾을 수 없습니다.")
+
+    bot = get_bot()
+    if not bot or not bot.is_ready():
+        raise HTTPException(status_code=503, detail="봇이 오프라인 상태입니다.")
+
+    await bot.send_guild_post_detail(
+        row["post_type"], row["title"], row["content"], row["author"],
+    )
+    return {"ok": True}

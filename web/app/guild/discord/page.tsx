@@ -6,7 +6,19 @@ import {
   getDiscordSettings,
   updateDiscordSettings,
   sendDiscordNotify,
+  sendDiscordGuildPost,
 } from "@/lib/api";
+
+interface GuildPost {
+  id: number;
+  post_type: string;
+  title: string;
+  content: string | null;
+  author: string;
+  created_at: string;
+}
+
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
 export default function DiscordBotPage() {
   const [pw, setPw] = useState("");
@@ -28,7 +40,12 @@ export default function DiscordBotPage() {
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
 
-  // 봇 상태는 비밀번호 없이 조회
+  // 길드 게시글 전송
+  const [guildPosts, setGuildPosts] = useState<GuildPost[]>([]);
+  const [expandedId, setExpandedId] = useState<number | null>(null);
+  const [sendingPostId, setSendingPostId] = useState<number | null>(null);
+  const [sentPostId, setSentPostId] = useState<number | null>(null);
+
   const fetchStatus = useCallback(() => {
     getDiscordStatus()
       .then((d) => {
@@ -38,15 +55,21 @@ export default function DiscordBotPage() {
       .catch(() => {});
   }, []);
 
+  const fetchGuildPosts = useCallback(() => {
+    fetch(`${API_BASE}/api/guild/posts?per_page=50`)
+      .then((r) => r.json())
+      .then((d) => setGuildPosts(d.posts ?? []))
+      .catch(() => {});
+  }, []);
+
   useEffect(() => {
     const saved = localStorage.getItem("admin_pw");
-    if (saved) {
-      setPw(saved);
-    }
+    if (saved) setPw(saved);
     fetchStatus();
+    fetchGuildPosts();
     const iv = setInterval(fetchStatus, 30_000);
     return () => clearInterval(iv);
-  }, [fetchStatus]);
+  }, [fetchStatus, fetchGuildPosts]);
 
   const handleAuth = async () => {
     setError("");
@@ -95,6 +118,26 @@ export default function DiscordBotPage() {
       setSending(false);
     }
   };
+
+  const handleSendGuildPost = async (postId: number) => {
+    setSendingPostId(postId);
+    setSentPostId(null);
+    try {
+      await sendDiscordGuildPost(postId, pw);
+      setSentPostId(postId);
+      setTimeout(() => setSentPostId(null), 3000);
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : "전송 실패");
+    } finally {
+      setSendingPostId(null);
+    }
+  };
+
+  const typeLabel = (t: string) => (t === "announcement" ? "공지" : "이벤트");
+  const typeBadge = (t: string) =>
+    t === "announcement"
+      ? "bg-orange-100 text-orange-700"
+      : "bg-purple-100 text-purple-700";
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
@@ -193,7 +236,66 @@ export default function DiscordBotPage() {
             </button>
           </div>
 
-          {/* 수동 알림 */}
+          {/* 길드 게시글 전송 */}
+          <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-3">
+            <h2 className="text-base font-semibold text-gray-800">길드 게시글 전송</h2>
+            <p className="text-xs text-gray-500">게시글을 선택하면 내용을 확인할 수 있고, 디스코드 채널로 전송할 수 있습니다.</p>
+
+            {guildPosts.length === 0 ? (
+              <p className="text-sm text-gray-400 py-4 text-center">등록된 게시글이 없습니다.</p>
+            ) : (
+              <div className="divide-y divide-gray-100 border border-gray-200 rounded-lg overflow-hidden max-h-[400px] overflow-y-auto">
+                {guildPosts.map((post) => (
+                  <div key={post.id}>
+                    {/* 제목 행 — 클릭으로 펼치기 */}
+                    <button
+                      onClick={() => setExpandedId(expandedId === post.id ? null : post.id)}
+                      className={`w-full flex items-center gap-2 px-3 py-2.5 text-left hover:bg-gray-50 transition-colors ${
+                        expandedId === post.id ? "bg-gray-50" : ""
+                      }`}
+                    >
+                      <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded ${typeBadge(post.post_type)}`}>
+                        {typeLabel(post.post_type)}
+                      </span>
+                      <span className="text-sm text-gray-800 flex-1 truncate">{post.title}</span>
+                      <svg
+                        className={`w-4 h-4 text-gray-400 shrink-0 transition-transform ${
+                          expandedId === post.id ? "rotate-180" : ""
+                        }`}
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+
+                    {/* 펼침 — 내용 + 전송 버튼 */}
+                    {expandedId === post.id && (
+                      <div className="px-3 pb-3 bg-gray-50 space-y-2">
+                        <div className="text-xs text-gray-500 space-y-1 bg-white rounded-lg p-3 border border-gray-100">
+                          <p><span className="font-medium text-gray-600">제목</span> : {post.title}</p>
+                          <p><span className="font-medium text-gray-600">내용</span> : {post.content || "(내용 없음)"}</p>
+                          <p><span className="font-medium text-gray-600">작성자</span> : {post.author}</p>
+                        </div>
+                        <button
+                          onClick={() => handleSendGuildPost(post.id)}
+                          disabled={!online || sendingPostId === post.id}
+                          className="w-full bg-blue-600 text-white py-1.5 rounded-lg text-xs font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {sentPostId === post.id
+                            ? "전송 완료!"
+                            : sendingPostId === post.id
+                            ? "전송 중..."
+                            : "디스코드로 전송"}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* 수동 알림 (자유 텍스트) */}
           <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-3">
             <h2 className="text-base font-semibold text-gray-800">수동 알림 전송</h2>
             <textarea

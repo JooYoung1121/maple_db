@@ -425,3 +425,12 @@ export async function sendDiscordNotify(message: string, pw: string) {
   if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
   return res.json();
 }
+
+export async function sendDiscordGuildPost(postId: number, pw: string) {
+  const res = await fetch(`${API_BASE}/api/discord/notify/guild-post/${postId}`, {
+    method: "POST",
+    headers: { "X-Admin-Password": pw },
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json();
+}
