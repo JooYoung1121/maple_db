@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.5.0";
+const VERSION = "2.5.1";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,24 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.5.1",
+    date: "2026-03-30",
+    type: "patch",
+    title: "수수료 계산기 탭 통합",
+    features: [
+      {
+        category: "개선 — 수수료 계산기 (/fee)",
+        items: [
+          "수수료 계산 + 최적 분할 탭을 하나로 통합 (3탭 → 2탭)",
+          "금액 입력 시 단건 수수료 + 분할 비교 테이블 동시 표시",
+          "분할 단위별(499만/999만/2499만/9999만) 수수료·절약액 비교",
+          "자동 최적 분할 추천 행 하이라이트",
+          "직접거래 또는 10만 미만 시 분할 비교 섹션 자동 숨김",
+        ],
+      },
+    ],
+  },
   {
     version: "2.5.0",
     date: "2026-03-30",

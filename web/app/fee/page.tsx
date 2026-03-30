@@ -63,15 +63,6 @@ interface SplitResult {
   feeRate: number;
 }
 
-// 사용자가 선택 가능한 분할 단위
-const SPLIT_OPTIONS = [
-  { maxChunk: 99_999_999, label: "9999만 (1억 미만)" },
-  { maxChunk: 24_999_999, label: "2499만 (2500만 미만)" },
-  { maxChunk: 9_999_999, label: "999만 (1000만 미만)" },
-  { maxChunk: 4_999_999, label: "499만 (500만 미만)" },
-  { maxChunk: 999_999, label: "99만 (100만 미만)" },
-  { maxChunk: 99_999, label: "9만 (10만 미만)" },
-];
 
 function calcSplitWithChunk(amount: number, type: TradeType, maxChunk: number): SplitResult {
   if (type === "direct") {
@@ -144,7 +135,7 @@ function calcItemFee(item: RaidItem): number {
   return result.totalFee;
 }
 
-type Tab = "calc" | "split" | "raid";
+type Tab = "calc" | "raid";
 
 // ─── 숫자 포맷 ───
 function formatMeso(n: number): string {
@@ -165,13 +156,12 @@ export default function FeePage() {
     <div className="max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-1">수수료 계산기</h1>
       <p className="text-sm text-gray-500 mb-6">
-        거래 수수료 계산, 최적 분할, 공대 분배금 계산
+        거래 수수료 계산 · 공대 분배금 계산
       </p>
 
       <div className="flex gap-1 mb-6 bg-gray-100 p-1 rounded-xl w-fit">
         {([
           { key: "calc" as Tab, label: "수수료 계산" },
-          { key: "split" as Tab, label: "최적 분할" },
           { key: "raid" as Tab, label: "공대 분배" },
         ]).map((t) => (
           <button
@@ -189,7 +179,6 @@ export default function FeePage() {
       </div>
 
       {activeTab === "calc" && <CalcTab onSaved={onSaved} />}
-      {activeTab === "split" && <SplitTab onSaved={onSaved} />}
       {activeTab === "raid" && <RaidTab onSaved={onSaved} />}
 
       <FeeRecordsSection refreshKey={recordsRefresh} />
@@ -209,12 +198,78 @@ function CalcTab({ onSaved }: { onSaved: () => void }) {
   const fee = calcFee(price, tradeType);
   const net = price - fee;
 
+  // 분할 비교: 직접거래가 아니고 10만 이상일 때만
+  const showSplit = tradeType !== "direct" && price >= 100_000;
+
+  const splitComparisons = useMemo(() => {
+    if (!showSplit) return [];
+    const optimal = calcOptimalSplit(price, tradeType);
+    const rows: { label: string; maxChunk: number; chunks: number; totalFee: number; savings: number; isOptimal: boolean; isAuto: boolean }[] = [];
+
+    // 자동 최적 행
+    if (optimal.totalFee < fee) {
+      rows.push({
+        label: "자동 최적",
+        maxChunk: 0,
+        chunks: optimal.chunks.length,
+        totalFee: optimal.totalFee,
+        savings: fee - optimal.totalFee,
+        isOptimal: true,
+        isAuto: true,
+      });
+    }
+
+    // 각 분할 단위별 결과
+    const units = [
+      { maxChunk: 4_999_999, label: "499만" },
+      { maxChunk: 9_999_999, label: "999만" },
+      { maxChunk: 24_999_999, label: "2499만" },
+      { maxChunk: 99_999_999, label: "9999만" },
+    ];
+
+    let bestManualFee = fee;
+    const manualRows: typeof rows = [];
+    for (const u of units) {
+      if (u.maxChunk >= price) continue; // 분할 의미 없음
+      const result = calcSplitWithChunk(price, tradeType, u.maxChunk);
+      if (result.totalFee >= fee) continue; // 절약 안 되면 생략
+      if (result.totalFee < bestManualFee) bestManualFee = result.totalFee;
+      manualRows.push({
+        label: u.label,
+        maxChunk: u.maxChunk,
+        chunks: result.chunks.length,
+        totalFee: result.totalFee,
+        savings: fee - result.totalFee,
+        isOptimal: false,
+        isAuto: false,
+      });
+    }
+
+    // 최적 수동 행 하이라이트
+    for (const r of manualRows) {
+      if (r.totalFee === bestManualFee) r.isOptimal = true;
+    }
+
+    return [...rows, ...manualRows];
+  }, [price, tradeType, fee, showSplit]);
+
+  const optimalResult = useMemo(() => {
+    if (!showSplit) return null;
+    return calcOptimalSplit(price, tradeType);
+  }, [price, tradeType, showSplit]);
+
   const handleSave = async () => {
     try {
+      const resultData: Record<string, unknown> = { fee, net, rate, bracket: bracketLabel };
+      if (optimalResult && optimalResult.totalFee < fee) {
+        resultData.optimalSplitFee = optimalResult.totalFee;
+        resultData.optimalSplitChunks = optimalResult.chunks.length;
+        resultData.savings = fee - optimalResult.totalFee;
+      }
       await createFeeRecord({
         calc_type: "단건",
         input_json: JSON.stringify({ amount: price, tradeType }),
-        result_json: JSON.stringify({ fee, net, rate, bracket: bracketLabel }),
+        result_json: JSON.stringify(resultData),
       });
       onSaved();
       alert("기록 저장 완료");
@@ -263,6 +318,7 @@ function CalcTab({ onSaved }: { onSaved: () => void }) {
 
       {price > 0 && (
         <>
+          {/* ① 단건 수수료 결과 */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <ResultCard label="거래 금액" value={`${formatMeso(price)}`} />
             <ResultCard label="수수료 구간" value={bracketLabel} />
@@ -273,6 +329,63 @@ function CalcTab({ onSaved }: { onSaved: () => void }) {
             />
             <ResultCard label="실수령액" value={formatMeso(net)} highlight />
           </div>
+
+          {/* ② 수수료작 비교 섹션 */}
+          {splitComparisons.length > 0 && (
+            <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+              <div className="px-5 py-3 border-b border-gray-100">
+                <h3 className="font-bold text-sm">수수료작 비교</h3>
+                <p className="text-xs text-gray-400 mt-0.5">분할 거래 시 절약 가능한 수수료를 비교합니다</p>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-gray-50 text-gray-500">
+                      <th className="text-left px-5 py-2.5 font-medium">분할 단위</th>
+                      <th className="text-right px-5 py-2.5 font-medium">분할 건수</th>
+                      <th className="text-right px-5 py-2.5 font-medium">총 수수료</th>
+                      <th className="text-right px-5 py-2.5 font-medium">절약액</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {splitComparisons.map((row) => (
+                      <tr
+                        key={row.label}
+                        className={`border-t border-gray-50 ${
+                          row.isOptimal ? "bg-orange-50" : ""
+                        }`}
+                      >
+                        <td className="px-5 py-2.5">
+                          <span className={row.isOptimal ? "font-bold text-orange-600" : ""}>
+                            {row.label}
+                          </span>
+                          {row.isOptimal && !row.isAuto && (
+                            <span className="ml-1.5 text-[10px] px-1.5 py-0.5 rounded-full bg-orange-100 text-orange-600 font-medium">
+                              최적
+                            </span>
+                          )}
+                          {row.isAuto && (
+                            <span className="ml-1.5 text-[10px] px-1.5 py-0.5 rounded-full bg-orange-100 text-orange-600 font-medium">
+                              추천
+                            </span>
+                          )}
+                        </td>
+                        <td className="px-5 py-2.5 text-right font-mono">{row.chunks}건</td>
+                        <td className="px-5 py-2.5 text-right font-mono text-red-500">
+                          -{formatMeso(row.totalFee)}
+                        </td>
+                        <td className="px-5 py-2.5 text-right font-mono text-green-600 font-bold">
+                          +{formatMeso(row.savings)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* ③ 기록 저장 */}
           <button
             onClick={handleSave}
             className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors"
@@ -322,224 +435,6 @@ function FeeTable({
             ))}
         </tbody>
       </table>
-    </div>
-  );
-}
-
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  최적 분할 탭
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function SplitTab({ onSaved }: { onSaved: () => void }) {
-  const [amount, setAmount] = useState("");
-  const [tradeType, setTradeType] = useState<TradeType>("normal");
-  const [splitMode, setSplitMode] = useState<"auto" | "manual">("auto");
-  const [manualChunk, setManualChunk] = useState(4_999_999);
-
-  const price = parseMeso(amount);
-
-  const noSplit = useMemo(() => {
-    if (price <= 0) return null;
-    const fee = calcFee(price, tradeType);
-    return { fee, net: price - fee };
-  }, [price, tradeType]);
-
-  const optimal = useMemo(() => {
-    if (price <= 0) return null;
-    if (splitMode === "manual") {
-      return calcSplitWithChunk(price, tradeType, manualChunk);
-    }
-    return calcOptimalSplit(price, tradeType);
-  }, [price, tradeType, splitMode, manualChunk]);
-
-  const savings = noSplit && optimal ? noSplit.fee - optimal.totalFee : 0;
-
-  const handleSave = async () => {
-    if (!optimal || !noSplit) return;
-    try {
-      await createFeeRecord({
-        calc_type: "분할",
-        input_json: JSON.stringify({ amount: price, tradeType, splitMode, manualChunk }),
-        result_json: JSON.stringify({ noSplitFee: noSplit.fee, splitFee: optimal.totalFee, savings, chunks: optimal.chunks.length }),
-      });
-      onSaved();
-      alert("기록 저장 완료");
-    } catch (e: unknown) {
-      alert(e instanceof Error ? e.message : "저장 실패");
-    }
-  };
-
-  return (
-    <div className="space-y-6">
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">총 거래 금액 (메소)</label>
-            <input
-              type="text"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value.replace(/[^0-9]/g, ""))}
-              placeholder="금액 입력"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
-            />
-            {price > 0 && (
-              <p className="text-xs text-gray-400 mt-1">{formatMeso(price)} 메소</p>
-            )}
-          </div>
-          <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">거래 방식</label>
-            <div className="flex gap-2">
-              {(["normal", "delivery"] as TradeType[]).map((t) => (
-                <button
-                  key={t}
-                  onClick={() => setTradeType(t)}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    tradeType === t
-                      ? "bg-orange-500 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
-                >
-                  {TRADE_LABELS[t]}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* 분할 단위 선택 */}
-        <div className="mt-4">
-          <label className="block text-xs font-medium text-gray-500 mb-2">분할 방식</label>
-          <div className="flex gap-2 mb-2">
-            <button
-              onClick={() => setSplitMode("auto")}
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                splitMode === "auto"
-                  ? "bg-orange-500 text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
-            >
-              자동 최적화
-            </button>
-            <button
-              onClick={() => setSplitMode("manual")}
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                splitMode === "manual"
-                  ? "bg-orange-500 text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-              }`}
-            >
-              직접 선택
-            </button>
-          </div>
-          {splitMode === "manual" && (
-            <div className="flex gap-1 flex-wrap">
-              {SPLIT_OPTIONS.map((opt) => (
-                <button
-                  key={opt.maxChunk}
-                  onClick={() => setManualChunk(opt.maxChunk)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                    manualChunk === opt.maxChunk
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {price > 0 && noSplit && optimal && (
-        <>
-          {/* 비교 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="bg-white border border-gray-200 rounded-xl p-5">
-              <h3 className="text-sm text-gray-500 mb-2">분할 안 할 때</h3>
-              <p className="text-xl font-bold text-red-500">-{formatMeso(noSplit.fee)} 메소</p>
-              <p className="text-sm text-gray-500 mt-1">
-                실수령: {formatMeso(noSplit.net)} 메소
-              </p>
-              <p className="text-xs text-gray-400 mt-1">
-                수수료율: {((noSplit.fee / price) * 100).toFixed(2)}%
-              </p>
-            </div>
-            <div className="bg-orange-50 border border-orange-200 rounded-xl p-5">
-              <h3 className="text-sm text-orange-600 mb-2">최적 분할</h3>
-              <p className="text-xl font-bold text-orange-600">
-                -{formatMeso(optimal.totalFee)} 메소
-              </p>
-              <p className="text-sm text-gray-600 mt-1">
-                실수령: {formatMeso(price - optimal.totalFee)} 메소
-              </p>
-              <p className="text-xs text-gray-500 mt-1">
-                수수료율: {(optimal.feeRate * 100).toFixed(2)}% · {optimal.chunks.length}건 분할
-              </p>
-            </div>
-          </div>
-
-          {savings > 0 && (
-            <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
-              <p className="text-sm text-green-700">
-                분할 시 <span className="font-bold text-lg">{formatMeso(savings)} 메소</span> 절약!
-              </p>
-            </div>
-          )}
-
-          <button
-            onClick={handleSave}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors"
-          >
-            기록 저장
-          </button>
-
-          {/* 분할 상세 */}
-          {optimal.chunks.length > 1 && (
-            <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-              <div className="px-5 py-3 border-b border-gray-100">
-                <h3 className="font-bold">분할 상세</h3>
-              </div>
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-gray-50 text-gray-500">
-                    <th className="text-left px-5 py-2.5 font-medium">#</th>
-                    <th className="text-right px-5 py-2.5 font-medium">금액</th>
-                    <th className="text-right px-5 py-2.5 font-medium">수수료</th>
-                    <th className="text-right px-5 py-2.5 font-medium">실수령</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {optimal.chunks.map((chunk, i) => {
-                    const fee = calcFee(chunk, tradeType);
-                    return (
-                      <tr key={i} className="border-t border-gray-50">
-                        <td className="px-5 py-2">{i + 1}건</td>
-                        <td className="px-5 py-2 text-right font-mono">{formatMeso(chunk)}</td>
-                        <td className="px-5 py-2 text-right font-mono text-red-500">
-                          -{formatMeso(fee)}
-                        </td>
-                        <td className="px-5 py-2 text-right font-mono">
-                          {formatMeso(chunk - fee)}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                  <tr className="border-t-2 border-gray-200 font-bold">
-                    <td className="px-5 py-2.5">합계</td>
-                    <td className="px-5 py-2.5 text-right font-mono">{formatMeso(price)}</td>
-                    <td className="px-5 py-2.5 text-right font-mono text-red-500">
-                      -{formatMeso(optimal.totalFee)}
-                    </td>
-                    <td className="px-5 py-2.5 text-right font-mono text-orange-600">
-                      {formatMeso(price - optimal.totalFee)}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          )}
-        </>
-      )}
     </div>
   );
 }
