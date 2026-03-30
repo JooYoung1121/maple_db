@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.2.1";
+const VERSION = "2.3.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,37 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.3.0",
+    date: "2026-03-30",
+    type: "minor",
+    title: "보스 관리 페이지 + 수수료 기록 저장",
+    features: [
+      {
+        category: "신규 — 보스 관리 (/guild/boss)",
+        items: [
+          "쿨타이머 탭: 보스별 클리어 기록 등록, 남은시간 실시간 카운트다운",
+          "구인 탭: 보스 구인글 작성, 참가/취소, 인원 마감 자동 처리",
+          "드롭 기록 탭: 보스별 드롭 아이템 기록 관리",
+          "자쿰 / 혼테일 / 피아누스 / 파풀라투스 / 크림슨파퀘 5종 지원",
+        ],
+      },
+      {
+        category: "개선 — 수수료 계산기",
+        items: [
+          "각 탭 (단건/분할/공대) 계산 결과 기록 저장 기능 추가",
+          "하단 '최근 기록' 접기/펼치기 섹션 (유형별 요약 표시)",
+          "관리자 비밀번호 보호 삭제",
+        ],
+      },
+      {
+        category: "변경 — 내비게이션",
+        items: [
+          "추억길드 메뉴에 '보스' 링크 추가",
+        ],
+      },
+    ],
+  },
   {
     version: "2.2.1",
     date: "2026-03-28",

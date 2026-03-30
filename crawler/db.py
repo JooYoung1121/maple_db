@@ -235,6 +235,38 @@ CREATE TABLE IF NOT EXISTS guild_members (
   note TEXT,
   updated_at TEXT DEFAULT (datetime('now'))
 );
+
+CREATE TABLE IF NOT EXISTS boss_runs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  boss_name TEXT NOT NULL,
+  character_name TEXT NOT NULL,
+  try_number INTEGER NOT NULL DEFAULT 1,
+  cleared_at TEXT NOT NULL,
+  drops TEXT,
+  note TEXT,
+  created_at TEXT DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS boss_recruitments (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  boss_name TEXT NOT NULL,
+  author TEXT NOT NULL,
+  message TEXT,
+  scheduled_at TEXT,
+  max_members INTEGER DEFAULT 6,
+  participants_json TEXT DEFAULT '[]',
+  status TEXT DEFAULT 'open',
+  created_at TEXT DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS fee_records (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  calc_type TEXT NOT NULL,
+  input_json TEXT NOT NULL,
+  result_json TEXT NOT NULL,
+  note TEXT,
+  created_at TEXT DEFAULT (datetime('now'))
+);
 """
 
 FTS_SCHEMA = """

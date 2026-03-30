@@ -17,6 +17,8 @@ from api.routes import maple_land
 from api.routes import game_results
 from api.routes import guild
 from api.routes import guild_members
+from api.routes import guild_boss
+from api.routes import fee_records
 
 
 async def _maple_land_crawl_job():
@@ -91,6 +93,8 @@ app.include_router(maple_land.router, prefix="/api")
 app.include_router(game_results.router, prefix="/api")
 app.include_router(guild.router, prefix="/api")
 app.include_router(guild_members.router, prefix="/api")
+app.include_router(guild_boss.router, prefix="/api")
+app.include_router(fee_records.router, prefix="/api")
 
 
 @app.get("/api/health")

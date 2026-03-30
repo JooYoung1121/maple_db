@@ -252,3 +252,142 @@ export async function getNewsRecentCount(since?: string) {
     `/api/news/recent-count${since ? `?since=${encodeURIComponent(since)}` : ""}`
   );
 }
+
+// ── 보스 클리어 기록 ──
+
+export interface BossRun {
+  id: number;
+  boss_name: string;
+  character_name: string;
+  try_number: number;
+  cleared_at: string;
+  drops: string | null;
+  note: string | null;
+  created_at: string;
+}
+
+export async function getBossRuns(params: { boss_name?: string; page?: number; per_page?: number } = {}) {
+  return fetchJSON<{ items: BossRun[]; total: number; page: number; per_page: number }>(
+    `/api/guild/boss/runs?${qs(params as Record<string, string | number>)}`
+  );
+}
+
+export async function createBossRun(data: {
+  boss_name: string; character_name: string; try_number: number; cleared_at: string; drops?: string; note?: string;
+}) {
+  const res = await fetch(`${API_BASE}/api/guild/boss/runs`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<BossRun>;
+}
+
+export async function deleteBossRun(id: number, password: string) {
+  const res = await fetch(`${API_BASE}/api/guild/boss/runs/${id}`, {
+    method: "DELETE",
+    headers: { "X-Admin-Password": password },
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json();
+}
+
+// ── 보스 구인 ──
+
+export interface BossRecruitment {
+  id: number;
+  boss_name: string;
+  author: string;
+  message: string | null;
+  scheduled_at: string | null;
+  max_members: number;
+  participants_json: string;
+  status: string;
+  created_at: string;
+}
+
+export async function getBossRecruits(params: { boss_name?: string; status?: string; page?: number; per_page?: number } = {}) {
+  return fetchJSON<{ items: BossRecruitment[]; total: number; page: number; per_page: number }>(
+    `/api/guild/boss/recruit?${qs(params as Record<string, string | number>)}`
+  );
+}
+
+export async function createBossRecruit(data: {
+  boss_name: string; author: string; message?: string; scheduled_at?: string; max_members: number;
+}) {
+  const res = await fetch(`${API_BASE}/api/guild/boss/recruit`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<BossRecruitment>;
+}
+
+export async function joinBossRecruit(id: number, nickname: string) {
+  const res = await fetch(`${API_BASE}/api/guild/boss/recruit/${id}/join`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nickname }),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<BossRecruitment>;
+}
+
+export async function leaveBossRecruit(id: number, nickname: string) {
+  const res = await fetch(`${API_BASE}/api/guild/boss/recruit/${id}/leave`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nickname }),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<BossRecruitment>;
+}
+
+export async function deleteBossRecruit(id: number, password: string) {
+  const res = await fetch(`${API_BASE}/api/guild/boss/recruit/${id}`, {
+    method: "DELETE",
+    headers: { "X-Admin-Password": password },
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json();
+}
+
+// ── 수수료 기록 ──
+
+export interface FeeRecord {
+  id: number;
+  calc_type: string;
+  input_json: string;
+  result_json: string;
+  note: string | null;
+  created_at: string;
+}
+
+export async function getFeeRecords(params: { calc_type?: string; page?: number; per_page?: number } = {}) {
+  return fetchJSON<{ items: FeeRecord[]; total: number; page: number; per_page: number }>(
+    `/api/fee/records?${qs(params as Record<string, string | number>)}`
+  );
+}
+
+export async function createFeeRecord(data: {
+  calc_type: string; input_json: string; result_json: string; note?: string;
+}) {
+  const res = await fetch(`${API_BASE}/api/fee/records`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<FeeRecord>;
+}
+
+export async function deleteFeeRecord(id: number, password: string) {
+  const res = await fetch(`${API_BASE}/api/fee/records/${id}`, {
+    method: "DELETE",
+    headers: { "X-Admin-Password": password },
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json();
+}

@@ -57,6 +57,7 @@ const NAV_CATEGORIES: NavCategory[] = [
     items: [
       { href: "/guild", label: "공지 · 이벤트" },
       { href: "/guild/members", label: "길드원 명단" },
+      { href: "/guild/boss", label: "보스" },
     ],
   },
 ];

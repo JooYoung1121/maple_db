@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
+import { getFeeRecords, createFeeRecord, deleteFeeRecord, type FeeRecord } from "@/lib/api";
 
 // ─── 수수료 구간 ───
 const NORMAL_FEE_BRACKETS = [
@@ -156,6 +157,9 @@ function parseMeso(s: string): number {
 
 export default function FeePage() {
   const [activeTab, setActiveTab] = useState<Tab>("calc");
+  const [recordsRefresh, setRecordsRefresh] = useState(0);
+
+  const onSaved = () => setRecordsRefresh((n) => n + 1);
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -184,9 +188,11 @@ export default function FeePage() {
         ))}
       </div>
 
-      {activeTab === "calc" && <CalcTab />}
-      {activeTab === "split" && <SplitTab />}
-      {activeTab === "raid" && <RaidTab />}
+      {activeTab === "calc" && <CalcTab onSaved={onSaved} />}
+      {activeTab === "split" && <SplitTab onSaved={onSaved} />}
+      {activeTab === "raid" && <RaidTab onSaved={onSaved} />}
+
+      <FeeRecordsSection refreshKey={recordsRefresh} />
     </div>
   );
 }
@@ -194,7 +200,7 @@ export default function FeePage() {
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  수수료 계산 탭
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function CalcTab() {
+function CalcTab({ onSaved }: { onSaved: () => void }) {
   const [amount, setAmount] = useState("");
   const [tradeType, setTradeType] = useState<TradeType>("normal");
 
@@ -202,6 +208,20 @@ function CalcTab() {
   const { rate, label: bracketLabel } = getFeeRate(price, tradeType);
   const fee = calcFee(price, tradeType);
   const net = price - fee;
+
+  const handleSave = async () => {
+    try {
+      await createFeeRecord({
+        calc_type: "단건",
+        input_json: JSON.stringify({ amount: price, tradeType }),
+        result_json: JSON.stringify({ fee, net, rate, bracket: bracketLabel }),
+      });
+      onSaved();
+      alert("기록 저장 완료");
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : "저장 실패");
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -242,16 +262,24 @@ function CalcTab() {
       </div>
 
       {price > 0 && (
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <ResultCard label="거래 금액" value={`${formatMeso(price)}`} />
-          <ResultCard label="수수료 구간" value={bracketLabel} />
-          <ResultCard
-            label={`수수료 (${(rate * 100).toFixed(1)}%)`}
-            value={`-${formatMeso(fee)}`}
-            negative
-          />
-          <ResultCard label="실수령액" value={formatMeso(net)} highlight />
-        </div>
+        <>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <ResultCard label="거래 금액" value={`${formatMeso(price)}`} />
+            <ResultCard label="수수료 구간" value={bracketLabel} />
+            <ResultCard
+              label={`수수료 (${(rate * 100).toFixed(1)}%)`}
+              value={`-${formatMeso(fee)}`}
+              negative
+            />
+            <ResultCard label="실수령액" value={formatMeso(net)} highlight />
+          </div>
+          <button
+            onClick={handleSave}
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors"
+          >
+            기록 저장
+          </button>
+        </>
       )}
 
       {/* 수수료 참고표 */}
@@ -301,7 +329,7 @@ function FeeTable({
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  최적 분할 탭
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-function SplitTab() {
+function SplitTab({ onSaved }: { onSaved: () => void }) {
   const [amount, setAmount] = useState("");
   const [tradeType, setTradeType] = useState<TradeType>("normal");
   const [splitMode, setSplitMode] = useState<"auto" | "manual">("auto");
@@ -324,6 +352,21 @@ function SplitTab() {
   }, [price, tradeType, splitMode, manualChunk]);
 
   const savings = noSplit && optimal ? noSplit.fee - optimal.totalFee : 0;
+
+  const handleSave = async () => {
+    if (!optimal || !noSplit) return;
+    try {
+      await createFeeRecord({
+        calc_type: "분할",
+        input_json: JSON.stringify({ amount: price, tradeType, splitMode, manualChunk }),
+        result_json: JSON.stringify({ noSplitFee: noSplit.fee, splitFee: optimal.totalFee, savings, chunks: optimal.chunks.length }),
+      });
+      onSaved();
+      alert("기록 저장 완료");
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : "저장 실패");
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -443,6 +486,13 @@ function SplitTab() {
             </div>
           )}
 
+          <button
+            onClick={handleSave}
+            className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors"
+          >
+            기록 저장
+          </button>
+
           {/* 분할 상세 */}
           {optimal.chunks.length > 1 && (
             <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
@@ -503,7 +553,7 @@ interface ExtraCost {
   amount: string;
 }
 
-function RaidTab() {
+function RaidTab({ onSaved }: { onSaved: () => void }) {
   const [items, setItems] = useState<RaidItem[]>([]);
   const [members, setMembers] = useState(6);
   const [extraCosts, setExtraCosts] = useState<ExtraCost[]>([
@@ -843,9 +893,115 @@ function RaidTab() {
         </div>
       )}
 
+      {items.length > 0 && (
+        <button
+          onClick={async () => {
+            try {
+              await createFeeRecord({
+                calc_type: "공대",
+                input_json: JSON.stringify({ members, items: items.map((i) => ({ name: i.name, price: i.price, tradeType: i.tradeType })), extraCosts: extraCosts.filter((c) => parseMeso(c.amount) > 0).map((c) => ({ label: c.label, amount: parseMeso(c.amount) })) }),
+                result_json: JSON.stringify({ totalGross: totals.totalGross, totalFee: totals.totalFee, totalNet: totals.totalNet, afterExtra: totals.afterExtra, perPerson: totals.perPerson }),
+              });
+              onSaved();
+              alert("기록 저장 완료");
+            } catch (e: unknown) {
+              alert(e instanceof Error ? e.message : "저장 실패");
+            }
+          }}
+          className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors"
+        >
+          기록 저장
+        </button>
+      )}
+
       {items.length === 0 && (
         <div className="text-center py-12 text-gray-400 bg-white border border-gray-200 rounded-xl">
           물품을 등록하면 수수료와 분배금이 자동 계산됩니다
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── 수수료 기록 섹션 ───
+function FeeRecordsSection({ refreshKey }: { refreshKey: number }) {
+  const [records, setRecords] = useState<FeeRecord[]>([]);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    getFeeRecords({ per_page: 20 })
+      .then((d) => setRecords(d.items))
+      .catch(() => {});
+  }, [open, refreshKey]);
+
+  const handleDelete = async (id: number) => {
+    const pw = prompt("관리자 비밀번호");
+    if (!pw) return;
+    try {
+      await deleteFeeRecord(id, pw);
+      setRecords((prev) => prev.filter((r) => r.id !== id));
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : "삭제 실패");
+    }
+  };
+
+  const CALC_TYPE_LABELS: Record<string, string> = { "단건": "단건", "분할": "분할", "공대": "공대" };
+
+  return (
+    <div className="mt-8">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-orange-600 transition-colors"
+      >
+        <svg
+          className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`}
+          fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+        최근 기록 ({records.length > 0 || !open ? "" : "불러오는 중..."})
+      </button>
+
+      {open && (
+        <div className="mt-3 space-y-2">
+          {records.length === 0 && (
+            <p className="text-sm text-gray-400 py-4 text-center">저장된 기록이 없습니다</p>
+          )}
+          {records.map((r) => {
+            const result = JSON.parse(r.result_json);
+            return (
+              <div key={r.id} className="bg-white border border-gray-200 rounded-xl p-4 flex items-center justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-medium">
+                      {CALC_TYPE_LABELS[r.calc_type] || r.calc_type}
+                    </span>
+                    <span className="text-xs text-gray-400">{r.created_at}</span>
+                  </div>
+                  <div className="text-sm text-gray-700">
+                    {r.calc_type === "단건" && (
+                      <>금액: {formatMeso(result.fee + result.net)} · 수수료: -{formatMeso(result.fee)} · 실수령: {formatMeso(result.net)}</>
+                    )}
+                    {r.calc_type === "분할" && (
+                      <>원래 수수료: -{formatMeso(result.noSplitFee)} · 분할 수수료: -{formatMeso(result.splitFee)} · 절약: {formatMeso(result.savings)}</>
+                    )}
+                    {r.calc_type === "공대" && (
+                      <>총판매: {formatMeso(result.totalNet)} · 1인당: {formatMeso(result.perPerson)}</>
+                    )}
+                  </div>
+                </div>
+                <button
+                  onClick={() => handleDelete(r.id)}
+                  className="text-gray-300 hover:text-red-500 transition-colors shrink-0"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
