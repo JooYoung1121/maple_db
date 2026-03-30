@@ -26,16 +26,22 @@ class MapleBot(discord.Client):
         conn.close()
         return row[0] == "true" if row else False
 
-    async def _get_channel(self):
+    async def _get_channel(self, raise_on_error: bool = False):
         """fetch_channel로 채널 조회 (캐시 미스 방지)."""
         ch_id = self.get_channel_id()
         if not ch_id:
-            print("[discord] channel_id 미설정")
+            msg = "channel_id 미설정"
+            print(f"[discord] {msg}")
+            if raise_on_error:
+                raise RuntimeError(msg)
             return None
         try:
             return await self.fetch_channel(ch_id)
         except Exception as e:
-            print(f"[discord] 채널 조회 실패 ({ch_id}): {e}")
+            msg = f"채널 조회 실패 ({ch_id}): {e}"
+            print(f"[discord] {msg}")
+            if raise_on_error:
+                raise RuntimeError(msg)
             return None
 
     async def send_maple_land_embed(self, title: str, url: str, category: str | None, board: str):
@@ -66,20 +72,16 @@ class MapleBot(discord.Client):
         await ch.send(embed=embed)
 
     async def send_manual(self, message: str):
-        """관리자 수동 알림"""
-        ch = await self._get_channel()
-        if not ch:
-            return
+        """관리자 수동 알림 — 에러 시 예외 발생."""
+        ch = await self._get_channel(raise_on_error=True)
         embed = discord.Embed(
             title="추억길드 공지", description=message, color=0xF39C12
         )
         await ch.send(embed=embed)
 
     async def send_guild_post_detail(self, post_type: str, title: str, content: str | None, author: str):
-        """길드 게시판 글 상세 전송 (제목 + 내용)"""
-        ch = await self._get_channel()
-        if not ch:
-            return
+        """길드 게시판 글 상세 전송 — 에러 시 예외 발생."""
+        ch = await self._get_channel(raise_on_error=True)
         color = 0xE67E22 if post_type == "announcement" else 0x9B59B6
         label = "공지" if post_type == "announcement" else "이벤트"
         desc = f"**제목** : {title}\n**내용** : {content or '(내용 없음)'}"

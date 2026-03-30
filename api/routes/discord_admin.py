@@ -20,13 +20,26 @@ def _check_admin(request: Request):
 
 
 @router.get("/discord/status")
-def discord_status():
+async def discord_status():
     bot = get_bot()
     online = bot is not None and bot.is_ready()
-    return {
+    result: dict = {
         "online": online,
         "user": str(bot.user) if online and bot else None,
     }
+    # 채널 접근 테스트
+    if online and bot:
+        ch_id = bot.get_channel_id()
+        result["channel_id"] = str(ch_id) if ch_id else None
+        if ch_id:
+            try:
+                ch = await bot.fetch_channel(ch_id)
+                result["channel_name"] = ch.name
+                result["channel_ok"] = True
+            except Exception as e:
+                result["channel_error"] = str(e)
+                result["channel_ok"] = False
+    return result
 
 
 @router.get("/discord/settings")
@@ -76,7 +89,10 @@ async def send_discord_notify(body: ManualNotify, request: Request):
     if not bot or not bot.is_ready():
         raise HTTPException(status_code=503, detail="봇이 오프라인 상태입니다.")
 
-    await bot.send_manual(body.message.strip())
+    try:
+        await bot.send_manual(body.message.strip())
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"디스코드 전송 실패: {e}")
     return {"ok": True}
 
 
@@ -95,7 +111,10 @@ async def send_guild_post_notify(post_id: int, request: Request):
     if not bot or not bot.is_ready():
         raise HTTPException(status_code=503, detail="봇이 오프라인 상태입니다.")
 
-    await bot.send_guild_post_detail(
-        row["post_type"], row["title"], row["content"], row["author"],
-    )
+    try:
+        await bot.send_guild_post_detail(
+            row["post_type"], row["title"], row["content"], row["author"],
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"디스코드 전송 실패: {e}")
     return {"ok": True}
