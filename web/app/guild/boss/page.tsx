@@ -28,7 +28,7 @@ const BOSSES: BossInfo[] = [
   { name: "혼테일", cooldownHours: 24, maxTry: 1, cooldownType: "simple", note: "1트만 가능, 24시간 쿨", timeLabel: "클리어 시각" },
   { name: "피아누스", cooldownHours: 168, maxTry: 1, cooldownType: "simple", note: "비늘 수령 시점 기준 7일 쿨 (비늘 소모 후 퀘 재활성화)", timeLabel: "비늘 수령 시각" },
   { name: "파풀라투스", cooldownHours: 24, maxTry: 2, cooldownType: "shared", note: "1트 시작 기준 24시간 쿨 (2트 포함)", timeLabel: "1트 시작 시각" },
-  { name: "크림슨파퀘", cooldownHours: 24, maxTry: 2, cooldownType: "independent", note: "1트·2트 각각 개별 24시간 쿨", timeLabel: "입장 시각" },
+  { name: "크림슨파퀘", cooldownHours: 168, maxTry: 2, cooldownType: "independent", note: "1트·2트 각각 개별 1주일 쿨", timeLabel: "입장 시각" },
 ];
 
 const BOSS_NAMES = BOSSES.map((b) => b.name);
