@@ -212,20 +212,17 @@ function CalcTab({ onSaved }: { onSaved: () => void }) {
     totalFee: number;
     totalNet: number;
     isOptimal: boolean;
-    isAuto: boolean;
   }
 
   const splitComparisons = useMemo(() => {
     if (!showSplit) return [];
-    const optimal = calcOptimalSplit(price, tradeType);
     const rows: SplitRow[] = [];
 
-    // 각 분할 단위별 결과
     const units = [
+      { maxChunk: 999_999, label: "99만" },
       { maxChunk: 4_999_999, label: "499만" },
       { maxChunk: 9_999_999, label: "999만" },
       { maxChunk: 24_999_999, label: "2499만" },
-      { maxChunk: 99_999_999, label: "9999만" },
     ];
 
     let bestFee = fee;
@@ -245,33 +242,11 @@ function CalcTab({ onSaved }: { onSaved: () => void }) {
         totalFee: result.totalFee,
         totalNet: price - result.totalFee,
         isOptimal: false,
-        isAuto: false,
       });
     }
 
     for (const r of rows) {
       if (r.totalFee === bestFee) r.isOptimal = true;
-    }
-
-    // 자동 최적 행 (수동 행과 다를 때만)
-    if (optimal.totalFee < fee) {
-      const alreadyBest = rows.find((r) => r.totalFee === optimal.totalFee);
-      if (!alreadyBest) {
-        const autoChunk = optimal.chunks[0];
-        const autoChunkFee = calcFee(autoChunk, tradeType);
-        rows.unshift({
-          key: "auto",
-          label: "자동 최적",
-          maxChunk: autoChunk,
-          chunks: optimal.chunks.length,
-          chunkFee: autoChunkFee,
-          chunkNet: autoChunk - autoChunkFee,
-          totalFee: optimal.totalFee,
-          totalNet: price - optimal.totalFee,
-          isOptimal: true,
-          isAuto: true,
-        });
-      }
     }
 
     return rows;
@@ -280,14 +255,10 @@ function CalcTab({ onSaved }: { onSaved: () => void }) {
   // 선택된 분할 기준 실수령액 계산
   const selectedResult = useMemo(() => {
     if (selectedSplit === "none" || !showSplit) return null;
-    if (selectedSplit === "auto") {
-      const opt = calcOptimalSplit(price, tradeType);
-      return { totalFee: opt.totalFee, totalNet: price - opt.totalFee, chunks: opt.chunks.length, label: "자동 최적" };
-    }
     const row = splitComparisons.find((r) => r.key === selectedSplit);
     if (!row) return null;
     return { totalFee: row.totalFee, totalNet: row.totalNet, chunks: row.chunks, label: row.label };
-  }, [selectedSplit, price, tradeType, showSplit, splitComparisons]);
+  }, [selectedSplit, showSplit, splitComparisons]);
 
   const handleSave = async () => {
     try {
@@ -428,12 +399,7 @@ function CalcTab({ onSaved }: { onSaved: () => void }) {
                             <span className={row.isOptimal ? "font-bold text-orange-600" : ""}>
                               {row.label}
                             </span>
-                            {row.isAuto && (
-                              <span className="ml-1.5 text-[10px] px-1.5 py-0.5 rounded-full bg-orange-100 text-orange-600 font-medium">
-                                추천
-                              </span>
-                            )}
-                            {row.isOptimal && !row.isAuto && (
+                            {row.isOptimal && (
                               <span className="ml-1.5 text-[10px] px-1.5 py-0.5 rounded-full bg-orange-100 text-orange-600 font-medium">
                                 최적
                               </span>

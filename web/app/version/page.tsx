@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.5.2";
+const VERSION = "2.5.3";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,20 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.5.3",
+    date: "2026-03-30",
+    type: "patch",
+    title: "수수료작 비교 정리",
+    features: [
+      {
+        category: "개선 — 수수료 계산기 (/fee)",
+        items: [
+          "자동 최적 / 9999만 분할 제거, 99만~2499만 단위만 표시",
+        ],
+      },
+    ],
+  },
   {
     version: "2.5.2",
     date: "2026-03-30",
