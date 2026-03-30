@@ -148,7 +148,9 @@ export default function NavBar() {
 
   function isActive(href: string) {
     if (href === "/") return pathname === "/";
-    return pathname.startsWith(href);
+    // /guild 와 /guild/members, /guild/boss 등이 겹치지 않도록
+    // 정확히 일치하거나, href/ 로 시작해야 자식 경로로 판정
+    return pathname === href || pathname.startsWith(href + "/");
   }
 
   return (
