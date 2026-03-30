@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.5.1";
+const VERSION = "2.5.2";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,22 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.5.2",
+    date: "2026-03-30",
+    type: "patch",
+    title: "수수료 계산기 UX 개선",
+    features: [
+      {
+        category: "개선 — 수수료 계산기 (/fee)",
+        items: [
+          "수수료작 비교 테이블: 건당 수수료·실수령액 표시 (건당 얼마 빠지는지 확인 가능)",
+          "분할 행 클릭 시 해당 기준 실수령액 카드 표시",
+          "기록 저장 시 선택한 분할 기준으로 저장 (노수작/499만/999만 등)",
+        ],
+      },
+    ],
+  },
   {
     version: "2.5.1",
     date: "2026-03-30",
