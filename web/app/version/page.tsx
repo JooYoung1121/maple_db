@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.3.1";
+const VERSION = "2.4.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,30 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.4.0",
+    date: "2026-03-30",
+    type: "minor",
+    title: "디스코드 봇 통합",
+    features: [
+      {
+        category: "신규 — 디스코드 봇 연동",
+        items: [
+          "maple.land 신규 공지/이벤트 자동 디스코드 알림",
+          "길드 게시판(공지·이벤트) 작성 시 자동 디스코드 알림",
+          "관리자 수동 알림(공지) 전송 기능",
+          "웹 관리 페이지(/guild/discord)에서 봇 설정 관리 (채널 ID, 알림 on/off)",
+          "봇 온라인/오프라인 상태 실시간 표시",
+        ],
+      },
+      {
+        category: "변경 — 내비게이션",
+        items: [
+          "추억길드 메뉴에 '디스코드 봇' 링크 추가",
+        ],
+      },
+    ],
+  },
   {
     version: "2.3.1",
     date: "2026-03-30",

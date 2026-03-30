@@ -1,0 +1,91 @@
+"""디스코드 봇 — maple.land 알림 / 길드 게시판 알림 / 수동 알림"""
+import os
+import discord
+from crawler.db import get_connection
+
+bot_instance: discord.Client | None = None
+
+
+class MapleBot(discord.Client):
+    async def on_ready(self):
+        print(f"[discord] 로그인: {self.user}")
+
+    def get_channel_id(self) -> int | None:
+        conn = get_connection()
+        row = conn.execute(
+            "SELECT value FROM bot_settings WHERE key='channel_id'"
+        ).fetchone()
+        conn.close()
+        return int(row[0]) if row else None
+
+    def is_enabled(self, key: str) -> bool:
+        conn = get_connection()
+        row = conn.execute(
+            "SELECT value FROM bot_settings WHERE key=?", [key]
+        ).fetchone()
+        conn.close()
+        return row[0] == "true" if row else False
+
+    async def send_maple_land_embed(self, title: str, url: str, category: str | None, board: str):
+        """maple.land 신규 포스트 알림"""
+        if not self.is_enabled("notify_maple_land"):
+            return
+        ch_id = self.get_channel_id()
+        if not ch_id:
+            return
+        ch = self.get_channel(ch_id)
+        if not ch:
+            return
+        color = 0x2ECC71 if board == "events" else 0x3498DB
+        embed = discord.Embed(title=title, url=url, color=color)
+        embed.set_author(name=f"메랜 공홈 {'이벤트' if board == 'events' else '공지'}")
+        if category:
+            embed.add_field(name="카테고리", value=category)
+        await ch.send(embed=embed)
+
+    async def send_guild_post_embed(self, post_type: str, title: str, author: str):
+        """길드 게시판 작성 알림"""
+        if not self.is_enabled("notify_guild_post"):
+            return
+        ch_id = self.get_channel_id()
+        if not ch_id:
+            return
+        ch = self.get_channel(ch_id)
+        if not ch:
+            return
+        color = 0xE67E22 if post_type == "announcement" else 0x9B59B6
+        label = "공지" if post_type == "announcement" else "이벤트"
+        embed = discord.Embed(title=f"[길드 {label}] {title}", color=color)
+        embed.add_field(name="작성자", value=author)
+        await ch.send(embed=embed)
+
+    async def send_manual(self, message: str):
+        """관리자 수동 알림"""
+        ch_id = self.get_channel_id()
+        if not ch_id:
+            return
+        ch = self.get_channel(ch_id)
+        if not ch:
+            return
+        embed = discord.Embed(
+            title="추억길드 공지", description=message, color=0xF39C12
+        )
+        await ch.send(embed=embed)
+
+
+async def start_bot():
+    global bot_instance
+    token = os.environ.get("DISCORD_BOT_TOKEN")
+    if not token:
+        print("[discord] DISCORD_BOT_TOKEN 미설정, 봇 비활성화")
+        return
+    intents = discord.Intents.default()
+    bot_instance = MapleBot(intents=intents)
+    try:
+        await bot_instance.start(token)
+    except Exception as e:
+        print(f"[discord] 봇 오류: {e}")
+
+
+def get_bot() -> MapleBot | None:
+    return bot_instance

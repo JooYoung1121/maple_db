@@ -391,3 +391,37 @@ export async function deleteFeeRecord(id: number, password: string) {
   if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
   return res.json();
 }
+
+// ── 디스코드 봇 ──
+
+export async function getDiscordStatus() {
+  return fetchJSON<{ online: boolean; user: string | null }>(`/api/discord/status`);
+}
+
+export async function getDiscordSettings(pw: string) {
+  const res = await fetch(`${API_BASE}/api/discord/settings`, {
+    headers: { "X-Admin-Password": pw },
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<Record<string, string>>;
+}
+
+export async function updateDiscordSettings(settings: Record<string, string>, pw: string) {
+  const res = await fetch(`${API_BASE}/api/discord/settings`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json", "X-Admin-Password": pw },
+    body: JSON.stringify(settings),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json();
+}
+
+export async function sendDiscordNotify(message: string, pw: string) {
+  const res = await fetch(`${API_BASE}/api/discord/notify`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Admin-Password": pw },
+    body: JSON.stringify({ message }),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json();
+}

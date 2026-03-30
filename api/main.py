@@ -19,6 +19,8 @@ from api.routes import guild
 from api.routes import guild_members
 from api.routes import guild_boss
 from api.routes import fee_records
+from api.routes import discord_admin
+from api.discord_bot import start_bot, get_bot
 
 
 async def _maple_land_crawl_job():
@@ -29,10 +31,31 @@ async def _maple_land_crawl_job():
             from crawler.parsers.maple_land import crawl_maple_land
             from crawler.client import ThrottledClient
             conn = get_connection()
+            # 크롤링 전 기존 post_id 목록 스냅샷
+            existing_ids = {
+                r[0] for r in conn.execute("SELECT post_id FROM maple_land_posts").fetchall()
+            }
             async with ThrottledClient() as client:
                 n = await crawl_maple_land(conn, client, force=False)
                 if n:
                     print(f"[scheduler] maple-land 신규 {n}건 저장")
+                    # 신규 포스트에 대해 디스코드 알림
+                    bot = get_bot()
+                    if bot and bot.is_ready():
+                        new_posts = conn.execute(
+                            "SELECT title, url, category, board FROM maple_land_posts WHERE post_id NOT IN ({})".format(
+                                ",".join("?" for _ in existing_ids)
+                            ) if existing_ids else "SELECT title, url, category, board FROM maple_land_posts",
+                            list(existing_ids) if existing_ids else [],
+                        ).fetchall()
+                        for post in new_posts:
+                            try:
+                                await bot.send_maple_land_embed(
+                                    post["title"], post["url"],
+                                    post["category"], post["board"],
+                                )
+                            except Exception as be:
+                                print(f"[discord] 알림 오류: {be}")
             conn.close()
         except Exception as e:
             print(f"[scheduler] maple-land 크롤링 오류: {e}")
@@ -58,9 +81,11 @@ async def lifespan(app: FastAPI):
         conn.close()
     except Exception as e:
         print(f"[startup] date normalize warning: {e}")
-    task = asyncio.create_task(_maple_land_crawl_job())
+    crawl_task = asyncio.create_task(_maple_land_crawl_job())
+    bot_task = asyncio.create_task(start_bot())
     yield
-    task.cancel()
+    crawl_task.cancel()
+    bot_task.cancel()
 
 
 app = FastAPI(
@@ -95,6 +120,7 @@ app.include_router(guild.router, prefix="/api")
 app.include_router(guild_members.router, prefix="/api")
 app.include_router(guild_boss.router, prefix="/api")
 app.include_router(fee_records.router, prefix="/api")
+app.include_router(discord_admin.router, prefix="/api")
 
 
 @app.get("/api/health")

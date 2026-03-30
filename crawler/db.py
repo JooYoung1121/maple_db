@@ -267,6 +267,11 @@ CREATE TABLE IF NOT EXISTS fee_records (
   note TEXT,
   created_at TEXT DEFAULT (datetime('now'))
 );
+
+CREATE TABLE IF NOT EXISTS bot_settings (
+  key TEXT PRIMARY KEY,
+  value TEXT NOT NULL
+);
 """
 
 FTS_SCHEMA = """
@@ -462,6 +467,21 @@ def seed_guild_members(conn: sqlite3.Connection) -> None:
     conn.commit()
 
 
+def seed_bot_settings(conn: sqlite3.Connection) -> None:
+    """bot_settings 테이블 초기 시드."""
+    defaults = [
+        ("channel_id", "1302092927257804921"),
+        ("notify_maple_land", "true"),
+        ("notify_guild_post", "true"),
+    ]
+    for key, value in defaults:
+        conn.execute(
+            "INSERT OR IGNORE INTO bot_settings (key, value) VALUES (?, ?)",
+            (key, value),
+        )
+    conn.commit()
+
+
 def init_db() -> sqlite3.Connection:
     conn = get_connection()
     conn.executescript(SCHEMA)
@@ -469,6 +489,7 @@ def init_db() -> sqlite3.Connection:
     conn.commit()
     migrate_db(conn)
     seed_guild_members(conn)
+    seed_bot_settings(conn)
     return conn
 
 

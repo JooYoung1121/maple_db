@@ -1,11 +1,13 @@
 """추억길드 전용 게시판 API"""
 import os
+import asyncio
 from datetime import datetime, timezone, timedelta
 from fastapi import APIRouter, Query, HTTPException, Request
 from pydantic import BaseModel
 from typing import Optional
 
 from crawler.db import get_connection
+from api.discord_bot import get_bot
 
 router = APIRouter()
 KST = timezone(timedelta(hours=9))
@@ -67,6 +69,14 @@ def create_guild_post(body: GuildPostCreate, request: Request):
         conn.commit()
         new_id = cur.lastrowid
         conn.close()
+        # 디스코드 봇 알림
+        bot = get_bot()
+        if bot and bot.is_ready():
+            asyncio.create_task(
+                bot.send_guild_post_embed(
+                    body.post_type, body.title, body.author or "추억길드"
+                )
+            )
         return {"id": new_id, "post_type": body.post_type, "title": body.title}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
