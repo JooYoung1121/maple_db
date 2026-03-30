@@ -79,7 +79,7 @@ class MapleBot(discord.Client):
         )
         await ch.send(embed=embed)
 
-    async def send_guild_post_detail(self, post_type: str, title: str, content: str | None, author: str):
+    async def send_guild_post_detail(self, post_type: str, title: str, content: str | None, author: str, url: str | None = None):
         """길드 게시판 글 상세 전송 — 에러 시 예외 발생."""
         ch = await self._get_channel(raise_on_error=True)
         color = 0xE67E22 if post_type == "announcement" else 0x9B59B6
@@ -87,6 +87,7 @@ class MapleBot(discord.Client):
         desc = f"**제목** : {title}\n**내용** : {content or '(내용 없음)'}"
         embed = discord.Embed(
             title=f"[길드 {label}]",
+            url=url or None,
             description=desc,
             color=color,
         )

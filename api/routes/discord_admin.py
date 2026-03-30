@@ -111,9 +111,16 @@ async def send_guild_post_notify(post_id: int, request: Request):
     if not bot or not bot.is_ready():
         raise HTTPException(status_code=503, detail="봇이 오프라인 상태입니다.")
 
+    # 요청 Origin에서 사이트 URL 추출
+    origin = request.headers.get("origin") or request.headers.get("referer", "")
+    if origin.endswith("/"):
+        origin = origin.rstrip("/")
+    post_url = f"{origin}/guild" if origin else None
+
     try:
         await bot.send_guild_post_detail(
             row["post_type"], row["title"], row["content"], row["author"],
+            url=post_url,
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"디스코드 전송 실패: {e}")
