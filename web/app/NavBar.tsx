@@ -148,8 +148,11 @@ export default function NavBar() {
 
   function isActive(href: string) {
     if (href === "/") return pathname === "/";
-    // /guild 와 /guild/members, /guild/boss 등이 겹치지 않도록
-    // 정확히 일치하거나, href/ 로 시작해야 자식 경로로 판정
+    // 같은 카테고리 내 형제 링크와 겹치지 않도록
+    // 해당 href보다 더 구체적인 형제가 있으면 정확 일치만 허용
+    const allHrefs = NAV_CATEGORIES.flatMap((c) => c.items.map((i) => i.href));
+    const hasDeeperSibling = allHrefs.some((h) => h !== href && h.startsWith(href + "/"));
+    if (hasDeeperSibling) return pathname === href;
     return pathname === href || pathname.startsWith(href + "/");
   }
 
