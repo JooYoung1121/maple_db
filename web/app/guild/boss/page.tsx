@@ -8,33 +8,126 @@ import {
 } from "@/lib/api";
 
 // ── 보스 상수 ──
-const BOSSES = [
-  { name: "자쿰", cooldownHours: 24, maxTry: 2 },
-  { name: "혼테일", cooldownHours: 24, maxTry: 2 },
-  { name: "피아누스", cooldownHours: 24, maxTry: 2 },
-  { name: "파풀라투스", cooldownHours: 24, maxTry: 2 },
-  { name: "크림슨파퀘", cooldownHours: 168, maxTry: 2 },
+// cooldownType:
+//   "shared"      → 1트 시작 기준으로 모든 트라이 쿨이 돌아감 (자쿰, 파풀라투스)
+//   "independent"  → 각 트라이별로 쿨이 따로 돌아감 (크림슨파퀘)
+//   "simple"      → 1트만 가능, 단순 쿨 (혼테일, 피아누스)
+type CooldownType = "shared" | "independent" | "simple";
+
+interface BossInfo {
+  name: string;
+  cooldownHours: number;
+  maxTry: number;
+  cooldownType: CooldownType;
+  note: string;
+  timeLabel: string; // 폼에서 시각 입력 라벨
+}
+
+const BOSSES: BossInfo[] = [
+  { name: "자쿰", cooldownHours: 24, maxTry: 2, cooldownType: "shared", note: "1트 시작 기준 24시간 쿨 (2트 포함)", timeLabel: "1트 시작 시각" },
+  { name: "혼테일", cooldownHours: 24, maxTry: 1, cooldownType: "simple", note: "1트만 가능, 24시간 쿨", timeLabel: "클리어 시각" },
+  { name: "피아누스", cooldownHours: 168, maxTry: 1, cooldownType: "simple", note: "비늘 수령 시점 기준 7일 쿨 (비늘 소모 후 퀘 재활성화)", timeLabel: "비늘 수령 시각" },
+  { name: "파풀라투스", cooldownHours: 24, maxTry: 2, cooldownType: "shared", note: "1트 시작 기준 24시간 쿨 (2트 포함)", timeLabel: "1트 시작 시각" },
+  { name: "크림슨파퀘", cooldownHours: 24, maxTry: 2, cooldownType: "independent", note: "1트·2트 각각 개별 24시간 쿨", timeLabel: "입장 시각" },
 ];
 
 const BOSS_NAMES = BOSSES.map((b) => b.name);
 
-type Tab = "cooldown" | "recruit" | "drops";
-
-function getBossCooldown(bossName: string): number {
-  return BOSSES.find((b) => b.name === bossName)?.cooldownHours ?? 24;
+function getBossInfo(name: string): BossInfo {
+  return BOSSES.find((b) => b.name === name) ?? BOSSES[0];
 }
 
-function getRemainingMs(clearedAt: string, bossName: string): number {
-  const cleared = new Date(clearedAt).getTime();
-  const cooldownMs = getBossCooldown(bossName) * 3600 * 1000;
-  return cleared + cooldownMs - Date.now();
+type Tab = "cooldown" | "recruit" | "drops";
+
+// ── 쿨타임 표시용 가공 ──
+interface CooldownEntry {
+  ids: number[];           // 소속 run id들 (삭제용)
+  bossName: string;
+  characterName: string;
+  cooldownType: CooldownType;
+  // shared: 1트 시간 기준, independent: 해당 트라이 시간, simple: 클리어 시간
+  referenceTime: string;
+  cooldownHours: number;
+  tryLabel: string;        // "1트+2트", "1트", "2트" 등
+  note: string;
+}
+
+function buildCooldownEntries(runs: BossRun[]): CooldownEntry[] {
+  const entries: CooldownEntry[] = [];
+
+  // 캐릭터+보스별로 그룹핑
+  const grouped = new Map<string, BossRun[]>();
+  for (const r of runs) {
+    const key = `${r.character_name}|${r.boss_name}`;
+    if (!grouped.has(key)) grouped.set(key, []);
+    grouped.get(key)!.push(r);
+  }
+
+  for (const [, group] of grouped) {
+    const boss = getBossInfo(group[0].boss_name);
+
+    if (boss.cooldownType === "shared") {
+      // 자쿰, 파풀: 1트 시간 기준으로 전체 쿨
+      const sorted = [...group].sort((a, b) => a.try_number - b.try_number);
+      const firstTry = sorted[0];
+      const tries = sorted.map((r) => `${r.try_number}트`).join("+");
+      entries.push({
+        ids: sorted.map((r) => r.id),
+        bossName: boss.name,
+        characterName: firstTry.character_name,
+        cooldownType: boss.cooldownType,
+        referenceTime: firstTry.cleared_at, // 1트 시간 기준
+        cooldownHours: boss.cooldownHours,
+        tryLabel: tries,
+        note: boss.note,
+      });
+    } else if (boss.cooldownType === "independent") {
+      // 크림슨파퀘: 각 트라이별 개별 쿨
+      for (const r of group) {
+        entries.push({
+          ids: [r.id],
+          bossName: boss.name,
+          characterName: r.character_name,
+          cooldownType: boss.cooldownType,
+          referenceTime: r.cleared_at,
+          cooldownHours: boss.cooldownHours,
+          tryLabel: `${r.try_number}트`,
+          note: boss.note,
+        });
+      }
+    } else {
+      // simple (혼테일, 피아누스): 1트만
+      for (const r of group) {
+        entries.push({
+          ids: [r.id],
+          bossName: boss.name,
+          characterName: r.character_name,
+          cooldownType: boss.cooldownType,
+          referenceTime: r.cleared_at,
+          cooldownHours: boss.cooldownHours,
+          tryLabel: `${r.try_number}트`,
+          note: boss.note,
+        });
+      }
+    }
+  }
+
+  return entries;
+}
+
+function getRemainingMs(referenceTime: string, cooldownHours: number): number {
+  const ref = new Date(referenceTime).getTime();
+  const cooldownMs = cooldownHours * 3600 * 1000;
+  return ref + cooldownMs - Date.now();
 }
 
 function formatCountdown(ms: number): string {
   if (ms <= 0) return "입장 가능";
-  const h = Math.floor(ms / 3600000);
+  const d = Math.floor(ms / 86400000);
+  const h = Math.floor((ms % 86400000) / 3600000);
   const m = Math.floor((ms % 3600000) / 60000);
   const s = Math.floor((ms % 60000) / 1000);
+  if (d > 0) return `${d}일 ${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")} 남음`;
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")} 남음`;
 }
 
@@ -88,6 +181,8 @@ function CooldownTab() {
   const [tryNum, setTryNum] = useState(1);
   const [clearedAt, setClearedAt] = useState("");
 
+  const selectedBoss = getBossInfo(bossName);
+
   const load = useCallback(async () => {
     try {
       const params: { boss_name?: string; per_page: number } = { per_page: 100 };
@@ -105,6 +200,11 @@ function CooldownTab() {
     return () => clearInterval(iv);
   }, []);
 
+  // 보스 선택 시 트라이 번호 리셋
+  useEffect(() => {
+    setTryNum(1);
+  }, [bossName]);
+
   const handleAdd = async () => {
     if (!charName.trim() || !clearedAt) return;
     try {
@@ -116,23 +216,34 @@ function CooldownTab() {
     }
   };
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (ids: number[]) => {
     const pw = prompt("관리자 비밀번호");
     if (!pw) return;
     try {
-      await deleteBossRun(id, pw);
+      for (const id of ids) await deleteBossRun(id, pw);
       load();
     } catch (e: unknown) {
       alert(e instanceof Error ? e.message : "삭제 실패");
     }
   };
 
-  // separate active/expired
-  const active = runs.filter((r) => getRemainingMs(r.cleared_at, r.boss_name) > 0);
-  const expired = runs.filter((r) => getRemainingMs(r.cleared_at, r.boss_name) <= 0);
+  // 쿨타임 엔트리 가공
+  const entries = buildCooldownEntries(runs);
+  const active = entries.filter((e) => getRemainingMs(e.referenceTime, e.cooldownHours) > 0);
+  const expired = entries.filter((e) => getRemainingMs(e.referenceTime, e.cooldownHours) <= 0);
 
   return (
     <div className="space-y-4">
+      {/* 보스별 쿨 규칙 안내 */}
+      <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 space-y-1">
+        <p className="text-xs font-semibold text-blue-700 mb-1">보스별 쿨타임 규칙</p>
+        {BOSSES.map((b) => (
+          <p key={b.name} className="text-xs text-blue-600">
+            <span className="font-medium">{b.name}</span>: {b.note}
+          </p>
+        ))}
+      </div>
+
       {/* Boss filter */}
       <div className="flex gap-1 flex-wrap">
         {["전체", ...BOSS_NAMES].map((b) => (
@@ -180,19 +291,22 @@ function CooldownTab() {
                 {BOSS_NAMES.map((b) => <option key={b} value={b}>{b}</option>)}
               </select>
             </div>
+            {selectedBoss.maxTry > 1 && (
+              <div>
+                <label className="block text-xs font-medium text-gray-500 mb-1">트라이</label>
+                <select
+                  value={tryNum}
+                  onChange={(e) => setTryNum(Number(e.target.value))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                >
+                  {Array.from({ length: selectedBoss.maxTry }, (_, i) => i + 1).map((n) => (
+                    <option key={n} value={n}>{n}트</option>
+                  ))}
+                </select>
+              </div>
+            )}
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">트라이</label>
-              <select
-                value={tryNum}
-                onChange={(e) => setTryNum(Number(e.target.value))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
-              >
-                <option value={1}>1트</option>
-                <option value={2}>2트</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">클리어 시각</label>
+              <label className="block text-xs font-medium text-gray-500 mb-1">{selectedBoss.timeLabel}</label>
               <input
                 type="datetime-local"
                 value={clearedAt}
@@ -201,6 +315,8 @@ function CooldownTab() {
               />
             </div>
           </div>
+          {/* 보스별 안내 메시지 */}
+          <p className="text-xs text-gray-400">{selectedBoss.note}</p>
           <button
             onClick={handleAdd}
             disabled={!charName.trim() || !clearedAt}
@@ -221,27 +337,27 @@ function CooldownTab() {
                   <th className="text-left px-4 py-2.5 font-medium">캐릭터</th>
                   <th className="text-left px-4 py-2.5 font-medium">보스</th>
                   <th className="text-center px-4 py-2.5 font-medium">트라이</th>
-                  <th className="text-left px-4 py-2.5 font-medium">클리어 시각</th>
+                  <th className="text-left px-4 py-2.5 font-medium">기준 시각</th>
                   <th className="text-center px-4 py-2.5 font-medium">상태</th>
                   <th className="px-2 py-2.5 w-8"></th>
                 </tr>
               </thead>
               <tbody>
-                {active.map((r) => {
-                  const remaining = getRemainingMs(r.cleared_at, r.boss_name);
+                {active.map((e, i) => {
+                  const remaining = getRemainingMs(e.referenceTime, e.cooldownHours);
                   return (
-                    <tr key={r.id} className="border-t border-gray-50">
-                      <td className="px-4 py-2 font-medium">{r.character_name}</td>
-                      <td className="px-4 py-2">{r.boss_name}</td>
-                      <td className="px-4 py-2 text-center">{r.try_number}트</td>
-                      <td className="px-4 py-2 text-xs text-gray-500">{r.cleared_at}</td>
+                    <tr key={i} className="border-t border-gray-50">
+                      <td className="px-4 py-2 font-medium">{e.characterName}</td>
+                      <td className="px-4 py-2">{e.bossName}</td>
+                      <td className="px-4 py-2 text-center">{e.tryLabel}</td>
+                      <td className="px-4 py-2 text-xs text-gray-500">{e.referenceTime}</td>
                       <td className="px-4 py-2 text-center">
                         <span className="inline-block text-xs px-2 py-0.5 rounded-full font-medium bg-red-100 text-red-700 border border-red-200">
                           {formatCountdown(remaining)}
                         </span>
                       </td>
                       <td className="px-2 py-2">
-                        <button onClick={() => handleDelete(r.id)} className="text-gray-300 hover:text-red-500">
+                        <button onClick={() => handleDelete(e.ids)} className="text-gray-300 hover:text-red-500">
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                           </svg>
@@ -263,19 +379,19 @@ function CooldownTab() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <tbody>
-                {expired.map((r) => (
-                  <tr key={r.id} className="border-t border-gray-50">
-                    <td className="px-4 py-2 font-medium">{r.character_name}</td>
-                    <td className="px-4 py-2">{r.boss_name}</td>
-                    <td className="px-4 py-2 text-center">{r.try_number}트</td>
-                    <td className="px-4 py-2 text-xs text-gray-500">{r.cleared_at}</td>
+                {expired.map((e, i) => (
+                  <tr key={i} className="border-t border-gray-50">
+                    <td className="px-4 py-2 font-medium">{e.characterName}</td>
+                    <td className="px-4 py-2">{e.bossName}</td>
+                    <td className="px-4 py-2 text-center">{e.tryLabel}</td>
+                    <td className="px-4 py-2 text-xs text-gray-500">{e.referenceTime}</td>
                     <td className="px-4 py-2 text-center">
                       <span className="inline-block text-xs px-2 py-0.5 rounded-full font-medium bg-green-100 text-green-700 border border-green-200">
                         입장 가능
                       </span>
                     </td>
                     <td className="px-2 py-2">
-                      <button onClick={() => handleDelete(r.id)} className="text-gray-300 hover:text-red-500">
+                      <button onClick={() => handleDelete(e.ids)} className="text-gray-300 hover:text-red-500">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                         </svg>
@@ -289,7 +405,7 @@ function CooldownTab() {
         </div>
       )}
 
-      {runs.length === 0 && (
+      {entries.length === 0 && (
         <div className="text-center py-12 text-gray-400 bg-white border border-gray-200 rounded-xl">
           등록된 쿨타임이 없습니다
         </div>
@@ -531,6 +647,8 @@ function DropsTab() {
   const [drops, setDrops] = useState("");
   const [note, setNote] = useState("");
 
+  const selectedBoss = getBossInfo(bossName);
+
   const load = useCallback(async () => {
     try {
       const params: { boss_name?: string; per_page: number } = { per_page: 100 };
@@ -623,17 +741,20 @@ function DropsTab() {
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
             </div>
-            <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">트라이</label>
-              <select
-                value={tryNum}
-                onChange={(e) => setTryNum(Number(e.target.value))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
-              >
-                <option value={1}>1트</option>
-                <option value={2}>2트</option>
-              </select>
-            </div>
+            {selectedBoss.maxTry > 1 && (
+              <div>
+                <label className="block text-xs font-medium text-gray-500 mb-1">트라이</label>
+                <select
+                  value={tryNum}
+                  onChange={(e) => setTryNum(Number(e.target.value))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                >
+                  {Array.from({ length: selectedBoss.maxTry }, (_, i) => i + 1).map((n) => (
+                    <option key={n} value={n}>{n}트</option>
+                  ))}
+                </select>
+              </div>
+            )}
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">날짜/시각</label>
               <input

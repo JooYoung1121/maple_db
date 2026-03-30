@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.3.0";
+const VERSION = "2.3.1";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,27 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.3.1",
+    date: "2026-03-30",
+    type: "patch",
+    title: "보스별 쿨타임 규칙 정확 반영",
+    features: [
+      {
+        category: "보스 쿨타이머",
+        items: [
+          "자쿰/파풀: 1트 시작 기준 24시간 쿨 (2트 시간과 무관하게 1트 기준으로 전체 리셋)",
+          "혼테일: 1트만 가능, 24시간 쿨",
+          "피아누스: 비늘 수령 시점 기준 7일 쿨 (비늘 소모 후 퀘 재활성화)",
+          "크림슨파퀘: 1트·2트 각각 개별 24시간 쿨 (따로 계산)",
+          "보스별 쿨 규칙 안내 박스 추가",
+          "폼 시각 라벨 보스별 분기 (1트 시작 시각/비늘 수령 시각/입장 시각)",
+          "1트만 가능한 보스는 트라이 선택 숨김",
+          "7일 쿨 카운트다운에 일(day) 단위 표시",
+        ],
+      },
+    ],
+  },
   {
     version: "2.3.0",
     date: "2026-03-30",
