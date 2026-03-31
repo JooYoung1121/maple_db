@@ -163,6 +163,7 @@ export default function DiscordBotPage() {
           <div className="flex gap-2">
             <input
               type="password"
+              autoComplete="off"
               value={pw}
               onChange={(e) => setPw(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleAuth()}

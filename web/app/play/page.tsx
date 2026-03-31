@@ -1033,7 +1033,7 @@ function GameRecords({ refreshKey }: { refreshKey: number }) {
           <div className="bg-white rounded-xl p-6 shadow-xl max-w-sm w-full mx-4 space-y-4" onClick={(e) => e.stopPropagation()}>
             <h3 className="text-base font-bold text-gray-800">기록 삭제</h3>
             <p className="text-sm text-gray-500">관리자 비밀번호를 입력하세요.</p>
-            <input type="password" value={deleteState.password} onChange={(e) => setDeleteState((s) => s ? { ...s, password: e.target.value } : s)}
+            <input type="password" autoComplete="off" value={deleteState.password} onChange={(e) => setDeleteState((s) => s ? { ...s, password: e.target.value } : s)}
               onKeyDown={(e) => e.key === "Enter" && handleDelete()} placeholder="비밀번호"
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" autoFocus />
             {deleteState.error && <p className="text-sm text-red-500">{deleteState.error}</p>}

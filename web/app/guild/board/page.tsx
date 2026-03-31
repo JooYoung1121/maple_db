@@ -278,6 +278,7 @@ export default function FreeBoardPage() {
                     <div className="flex gap-1 items-center">
                       <input
                         type="password"
+                        autoComplete="off"
                         value={adminPw}
                         onChange={(e) => setAdminPw(e.target.value)}
                         placeholder="비밀번호"
@@ -346,6 +347,7 @@ export default function FreeBoardPage() {
                             <div className="flex gap-1 items-center">
                               <input
                                 type="password"
+                                autoComplete="off"
                                 value={adminPw}
                                 onChange={(e) => setAdminPw(e.target.value)}
                                 placeholder="PW"

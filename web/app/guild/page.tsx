@@ -170,6 +170,7 @@ function WriteModal({
         />
         <input
           type="password"
+          autoComplete="off"
           value={state.password}
           onChange={(e) => update("password", e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && onSubmit()}
@@ -218,6 +219,7 @@ function DeleteModal({
         <h3 className="text-base font-bold text-gray-800">게시글 삭제</h3>
         <input
           type="password"
+          autoComplete="off"
           value={state.password}
           onChange={(e) => setState((s) => s ? { ...s, password: e.target.value, error: "" } : s)}
           onKeyDown={(e) => e.key === "Enter" && onSubmit()}

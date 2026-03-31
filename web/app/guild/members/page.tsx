@@ -100,6 +100,7 @@ function FormModal({ title, form, setForm, password, setPassword, saving, error,
           <label className="block text-xs font-medium text-gray-500 mb-1">관리자 비밀번호</label>
           <input
             type="password"
+            autoComplete="off"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
@@ -304,6 +305,7 @@ export default function GuildMembersPage() {
           <span className="text-xs text-orange-700 font-medium shrink-0">관리자 비밀번호</span>
           <input
             type="password"
+            autoComplete="off"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="비밀번호 입력"
