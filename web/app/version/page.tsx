@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.6.0";
+const VERSION = "2.6.1";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,22 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.6.1",
+    date: "2026-03-31",
+    type: "patch",
+    title: "AI 요약 톤 개선",
+    features: [
+      {
+        category: "개선 — AI 요약 (/news)",
+        items: [
+          "요약 말투를 딱딱한 보고서 → 편하고 읽기 쉬운 톤으로 변경",
+          "요약 카드 디자인 리뉴얼 (TL;DR 라벨, 오렌지 테마)",
+          "기존 요약 전체 재생성",
+        ],
+      },
+    ],
+  },
   {
     version: "2.6.0",
     date: "2026-03-31",

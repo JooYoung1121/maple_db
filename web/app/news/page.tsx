@@ -91,8 +91,10 @@ function PostContent({ postId }: { postId: string }) {
   }
 
   const summaryCard = post.summary ? (
-    <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4">
-      <p className="text-xs font-semibold text-blue-600 mb-2">AI 요약</p>
+    <div className="bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200 rounded-xl p-4 mb-4">
+      <p className="text-xs font-bold text-orange-500 mb-2 tracking-wide">
+        TL;DR
+      </p>
       <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
         {post.summary}
       </div>

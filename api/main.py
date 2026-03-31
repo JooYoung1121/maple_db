@@ -82,6 +82,18 @@ async def lifespan(app: FastAPI):
         conn.close()
     except Exception as e:
         print(f"[startup] date normalize warning: {e}")
+    # v2.6.1 — AI 요약 프롬프트 변경으로 기존 요약 재생성 (1회성, 다음 배포 시 제거)
+    try:
+        conn = get_connection()
+        cleared = conn.execute(
+            "UPDATE maple_land_posts SET summary = NULL WHERE summary IS NOT NULL"
+        ).rowcount
+        conn.commit()
+        conn.close()
+        if cleared:
+            print(f"[startup] AI 요약 초기화 {cleared}건 — 백필에서 재생성 예정")
+    except Exception as e:
+        print(f"[startup] summary reset warning: {e}")
     crawl_task = asyncio.create_task(_maple_land_crawl_job())
     bot_task = asyncio.create_task(start_bot())
     yield
