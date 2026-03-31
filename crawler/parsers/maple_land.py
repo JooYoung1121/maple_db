@@ -183,7 +183,7 @@ class MapleLandParser(BaseParser):
         conn.commit()
 
 
-SUMMARY_CATEGORIES = {"업데이트", "이벤트"}
+SUMMARY_CATEGORIES = {"업데이트", "이벤트", "진행중", "종료", "안내"}
 
 
 async def crawl_maple_land(conn: sqlite3.Connection, client, force: bool = False) -> int:
@@ -194,7 +194,7 @@ async def crawl_maple_land(conn: sqlite3.Connection, client, force: bool = False
     # 기존 게시글 중 summary가 없는 업데이트/이벤트 백필
     backfill_rows = conn.execute(
         "SELECT post_id, title, content FROM maple_land_posts "
-        "WHERE summary IS NULL AND category IN ('업데이트','이벤트') AND content IS NOT NULL AND content != ''"
+        "WHERE summary IS NULL AND category IN ('업데이트','이벤트','진행중','종료','안내') AND content IS NOT NULL AND content != ''"
     ).fetchall()
     if backfill_rows:
         print(f"[maple-land] AI 요약 백필 대상 {len(backfill_rows)}건")
