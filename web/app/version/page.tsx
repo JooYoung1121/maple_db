@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.5.3";
+const VERSION = "2.6.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
@@ -15,6 +15,22 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.6.0",
+    date: "2026-03-31",
+    type: "minor",
+    title: "공지 AI 요약 기능",
+    features: [
+      {
+        category: "신규 — 공지 AI 요약 (/news)",
+        items: [
+          "업데이트/이벤트 공지에 Gemini AI 요약 카드 표시",
+          "게시글 펼침 시 본문 상단에 핵심 내용 요약 제공",
+          "기존 게시글 자동 백필 (크롤링 시 요약 생성)",
+        ],
+      },
+    ],
+  },
   {
     version: "2.5.3",
     date: "2026-03-30",

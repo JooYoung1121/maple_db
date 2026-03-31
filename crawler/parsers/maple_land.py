@@ -6,6 +6,7 @@ import sqlite3
 from datetime import datetime, timezone
 
 from .base import BaseParser
+from .summarizer import summarize_post
 
 BASE_URL = "https://maple.land"
 BOARDS = ["notices", "events"]
@@ -154,16 +155,17 @@ class MapleLandParser(BaseParser):
         conn.execute(
             """
             INSERT INTO maple_land_posts
-                (post_id, board, category, title, content, content_html, url, published_at, last_crawled_at)
+                (post_id, board, category, title, content, content_html, url, published_at, last_crawled_at, summary)
             VALUES
-                (:post_id, :board, :category, :title, :content, :content_html, :url, :published_at, :last_crawled_at)
+                (:post_id, :board, :category, :title, :content, :content_html, :url, :published_at, :last_crawled_at, :summary)
             ON CONFLICT(post_id) DO UPDATE SET
                 category = excluded.category,
                 title = excluded.title,
                 content = excluded.content,
                 content_html = excluded.content_html,
                 published_at = excluded.published_at,
-                last_crawled_at = excluded.last_crawled_at
+                last_crawled_at = excluded.last_crawled_at,
+                summary = COALESCE(excluded.summary, maple_land_posts.summary)
             """,
             {
                 "post_id": data.get("post_id"),
@@ -175,15 +177,39 @@ class MapleLandParser(BaseParser):
                 "url": data.get("url"),
                 "published_at": data.get("published_at"),
                 "last_crawled_at": data.get("last_crawled_at"),
+                "summary": data.get("summary"),
             },
         )
         conn.commit()
+
+
+SUMMARY_CATEGORIES = {"업데이트", "이벤트"}
 
 
 async def crawl_maple_land(conn: sqlite3.Connection, client, force: bool = False) -> int:
     """maple.land 공지사항 + 이벤트 크롤링. 신규/수정 건수 반환."""
     parser = MapleLandParser()
     new_count = 0
+
+    # 기존 게시글 중 summary가 없는 업데이트/이벤트 백필
+    backfill_rows = conn.execute(
+        "SELECT post_id, title, content FROM maple_land_posts "
+        "WHERE summary IS NULL AND category IN ('업데이트','이벤트') AND content IS NOT NULL AND content != ''"
+    ).fetchall()
+    if backfill_rows:
+        print(f"[maple-land] AI 요약 백필 대상 {len(backfill_rows)}건")
+        for row in backfill_rows:
+            try:
+                summary = await summarize_post(row["title"], row["content"])
+                if summary:
+                    conn.execute(
+                        "UPDATE maple_land_posts SET summary = ? WHERE post_id = ?",
+                        (summary, row["post_id"]),
+                    )
+                    conn.commit()
+                    print(f"[maple-land] 요약 백필: {row['title'][:40]}")
+            except Exception as e:
+                print(f"[maple-land] 요약 백필 오류 {row['post_id']}: {e}")
 
     # 본문 없는 기존 포스트 재크롤링 (파서 수정 후 자동 보정)
     empty_posts = conn.execute(
@@ -255,16 +281,26 @@ async def crawl_maple_land(conn: sqlite3.Connection, client, force: bool = False
                         use_cache=not force,
                     )
                     detail = parser.parse_detail(detail_html, 0)
+                    cat = entry.get("category") or detail.get("category")
+                    title = entry.get("title") or detail.get("title", "")
+                    content = detail.get("content", "")
+
+                    # 업데이트/이벤트 카테고리만 AI 요약 생성
+                    summary = None
+                    if cat in SUMMARY_CATEGORIES and content:
+                        summary = await summarize_post(title, content)
+
                     merged = {
                         "post_id": entry["post_id"],
                         "board": board,
                         "url": entry["url"],
-                        "title": entry.get("title") or detail.get("title", ""),
-                        "category": entry.get("category") or detail.get("category"),
+                        "title": title,
+                        "category": cat,
                         "published_at": entry.get("published_at") or detail.get("published_at"),
-                        "content": detail.get("content", ""),
+                        "content": content,
                         "content_html": detail.get("content_html", ""),
                         "last_crawled_at": detail["last_crawled_at"],
+                        "summary": summary,
                     }
                     parser.save(conn, merged)
                     new_count += 1

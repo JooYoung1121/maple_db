@@ -337,6 +337,7 @@ def migrate_db(conn: sqlite3.Connection) -> None:
         ("community_polls", "allow_user_options", "INTEGER DEFAULT 0"),
         ("community_polls", "allow_multiple", "INTEGER DEFAULT 0"),
         ("community_polls", "deadline", "TEXT"),
+        ("maple_land_posts", "summary", "TEXT"),
     ]
     for table, column, col_type in migrations:
         try:

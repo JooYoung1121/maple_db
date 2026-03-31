@@ -168,4 +168,5 @@ export interface MapleLandPost {
   url: string | null;
   published_at: string | null;
   created_at: string;
+  summary: string | null;
 }

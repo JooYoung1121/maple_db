@@ -62,7 +62,7 @@ def list_news(
         offset = (page - 1) * per_page
         rows = conn.execute(
             f"""
-            SELECT id, post_id, board, category, title, published_at, created_at, url
+            SELECT id, post_id, board, category, title, published_at, created_at, url, summary
             FROM maple_land_posts
             {where}
             ORDER BY

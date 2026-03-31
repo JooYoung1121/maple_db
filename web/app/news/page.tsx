@@ -90,20 +90,35 @@ function PostContent({ postId }: { postId: string }) {
     return <p className="text-sm text-gray-400 py-4">내용을 불러올 수 없습니다.</p>;
   }
 
+  const summaryCard = post.summary ? (
+    <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-4">
+      <p className="text-xs font-semibold text-blue-600 mb-2">AI 요약</p>
+      <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
+        {post.summary}
+      </div>
+    </div>
+  ) : null;
+
   if (post.content_html) {
     return (
-      <div
-        className="news-content text-sm text-gray-700 leading-relaxed"
-        dangerouslySetInnerHTML={{ __html: post.content_html }}
-      />
+      <>
+        {summaryCard}
+        <div
+          className="news-content text-sm text-gray-700 leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: post.content_html }}
+        />
+      </>
     );
   }
 
   if (post.content) {
     return (
-      <pre className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap font-sans">
-        {post.content}
-      </pre>
+      <>
+        {summaryCard}
+        <pre className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap font-sans">
+          {post.content}
+        </pre>
+      </>
     );
   }
 
