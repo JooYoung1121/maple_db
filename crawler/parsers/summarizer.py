@@ -1,6 +1,7 @@
 """Gemini API를 사용한 게시글 요약 모듈"""
 from __future__ import annotations
 
+import asyncio
 import os
 
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY", "")
@@ -31,16 +32,15 @@ async def summarize_post(title: str, content: str) -> str | None:
     try:
         import google.generativeai as genai
 
-        genai.configure(api_key=GOOGLE_API_KEY)
-        model = genai.GenerativeModel("gemini-2.0-flash")
+        def _sync_generate() -> str | None:
+            genai.configure(api_key=GOOGLE_API_KEY)
+            model = genai.GenerativeModel("gemini-2.0-flash")
+            truncated = content[:8000] if len(content) > 8000 else content
+            prompt = PROMPT_TEMPLATE.format(title=title, content=truncated)
+            response = model.generate_content(prompt)
+            return response.text.strip() if response.text else None
 
-        # 본문이 너무 길면 앞부분만 사용
-        truncated = content[:8000] if len(content) > 8000 else content
-        prompt = PROMPT_TEMPLATE.format(title=title, content=truncated)
-
-        response = model.generate_content(prompt)
-        text = response.text.strip() if response.text else None
-        return text
+        return await asyncio.to_thread(_sync_generate)
     except Exception as e:
         print(f"[summarizer] 요약 실패: {e}")
         return None
