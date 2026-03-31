@@ -56,7 +56,7 @@ class MapleBot(discord.Client):
         embed.set_author(name=f"메랜 공홈 {'이벤트' if board == 'events' else '공지'}")
         if category:
             embed.add_field(name="카테고리", value=category)
-        await ch.send(embed=embed)
+        await ch.send(content="@everyone", embed=embed)
 
     async def send_guild_post_embed(self, post_type: str, title: str, author: str):
         """길드 게시판 작성 알림"""
@@ -69,7 +69,7 @@ class MapleBot(discord.Client):
         label = "공지" if post_type == "announcement" else "이벤트"
         embed = discord.Embed(title=f"[길드 {label}] {title}", color=color)
         embed.add_field(name="작성자", value=author)
-        await ch.send(embed=embed)
+        await ch.send(content="@everyone", embed=embed)
 
     async def send_manual(self, message: str):
         """관리자 수동 알림 — 에러 시 예외 발생."""
@@ -77,7 +77,7 @@ class MapleBot(discord.Client):
         embed = discord.Embed(
             title="추억길드 공지", description=message, color=0xF39C12
         )
-        await ch.send(embed=embed)
+        await ch.send(content="@everyone", embed=embed)
 
     async def send_guild_post_detail(self, post_type: str, title: str, content: str | None, author: str, url: str | None = None):
         """길드 게시판 글 상세 전송 — 에러 시 예외 발생."""
@@ -92,7 +92,7 @@ class MapleBot(discord.Client):
             color=color,
         )
         embed.set_footer(text=f"작성자: {author}")
-        await ch.send(embed=embed)
+        await ch.send(content="@everyone", embed=embed)
 
 
 async def start_bot():
