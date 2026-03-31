@@ -9,7 +9,7 @@ from api.discord_bot import get_bot
 
 router = APIRouter()
 
-ALLOWED_KEYS = {"channel_id", "notify_maple_land", "notify_guild_post"}
+ALLOWED_KEYS = {"channel_id", "notify_maple_land", "notify_guild_post", "mention_type", "mention_role_id"}
 
 
 def _check_admin(request: Request):
@@ -55,6 +55,8 @@ class SettingsUpdate(BaseModel):
     channel_id: Optional[str] = None
     notify_maple_land: Optional[str] = None
     notify_guild_post: Optional[str] = None
+    mention_type: Optional[str] = None
+    mention_role_id: Optional[str] = None
 
 
 @router.patch("/discord/settings")

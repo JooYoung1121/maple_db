@@ -33,6 +33,8 @@ export default function DiscordBotPage() {
   const [channelId, setChannelId] = useState("");
   const [notifyMapleLand, setNotifyMapleLand] = useState(true);
   const [notifyGuildPost, setNotifyGuildPost] = useState(true);
+  const [mentionType, setMentionType] = useState("none");
+  const [mentionRoleId, setMentionRoleId] = useState("");
   const [settingsSaved, setSettingsSaved] = useState(false);
 
   // 수동 알림
@@ -78,6 +80,8 @@ export default function DiscordBotPage() {
       setChannelId(s.channel_id ?? "");
       setNotifyMapleLand(s.notify_maple_land === "true");
       setNotifyGuildPost(s.notify_guild_post === "true");
+      setMentionType(s.mention_type ?? "none");
+      setMentionRoleId(s.mention_role_id ?? "");
       setAuthed(true);
       localStorage.setItem("admin_pw", pw);
     } catch {
@@ -93,6 +97,8 @@ export default function DiscordBotPage() {
           channel_id: channelId,
           notify_maple_land: notifyMapleLand ? "true" : "false",
           notify_guild_post: notifyGuildPost ? "true" : "false",
+          mention_type: mentionType,
+          mention_role_id: mentionRoleId,
         },
         pw,
       );
@@ -227,6 +233,42 @@ export default function DiscordBotPage() {
                   }`}
                 />
               </button>
+            </div>
+
+            <div className="border-t border-gray-100 pt-4 space-y-3">
+              <div>
+                <label className="block text-xs font-medium text-gray-500 mb-1">
+                  알림 멘션
+                </label>
+                <select
+                  value={mentionType}
+                  onChange={(e) => setMentionType(e.target.value)}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-300 outline-none bg-white"
+                >
+                  <option value="none">멘션 없음</option>
+                  <option value="everyone">@everyone (전체)</option>
+                  <option value="here">@here (온라인)</option>
+                  <option value="role">특정 역할 멘션</option>
+                </select>
+              </div>
+
+              {mentionType === "role" && (
+                <div>
+                  <label className="block text-xs font-medium text-gray-500 mb-1">
+                    역할 ID
+                  </label>
+                  <input
+                    type="text"
+                    value={mentionRoleId}
+                    onChange={(e) => setMentionRoleId(e.target.value)}
+                    placeholder="디스코드 역할 ID 입력"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-orange-300 outline-none"
+                  />
+                  <p className="text-[11px] text-gray-400 mt-1">
+                    서버 설정 → 역할 → 우클릭 → ID 복사
+                  </p>
+                </div>
+              )}
             </div>
 
             <button
