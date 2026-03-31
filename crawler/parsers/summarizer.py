@@ -34,7 +34,7 @@ async def summarize_post(title: str, content: str) -> str | None:
 
         def _sync_generate() -> str | None:
             genai.configure(api_key=GOOGLE_API_KEY)
-            model = genai.GenerativeModel("gemini-2.0-flash")
+            model = genai.GenerativeModel("gemini-2.5-flash-lite")
             truncated = content[:8000] if len(content) > 8000 else content
             prompt = PROMPT_TEMPLATE.format(title=title, content=truncated)
             response = model.generate_content(prompt)
