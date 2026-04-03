@@ -74,8 +74,8 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "파이널어택", type: "passive", description: "40% 확률로 150% 추가 타격" },
     ],
     actives: [
-      { name: "파워스트라이크", damage: 260, hits: 1, mobs: 1, type: "active", minDamage: 130, maxLevel: 30 },
-      { name: "슬래시블래스트", damage: 130, hits: 6, mobs: 1, type: "active", minDamage: 65, maxLevel: 30 },
+      { name: "파워스트라이크", damage: 260, hits: 1, mobs: 1, type: "active", minDamage: 165, maxLevel: 20 },
+      { name: "슬래시블래스트", damage: 130, hits: 1, mobs: 6, type: "active", minDamage: 72, maxLevel: 20 },
       { name: "브랜디쉬", damage: 260, hits: 2, mobs: 3, type: "active", minDamage: 135, maxLevel: 30 },
     ],
     buffs: [
@@ -103,13 +103,14 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "소드 마스터리", type: "passive", mastery: 60, description: "검 최소 데미지 보장 (60%)" },
     ],
     actives: [
-      { name: "파워스트라이크", damage: 260, hits: 1, mobs: 1, type: "active", minDamage: 130, maxLevel: 30 },
-      { name: "슬래시블래스트", damage: 130, hits: 6, mobs: 1, type: "active", minDamage: 65, maxLevel: 30 },
-      { name: "차지블로우 (파이어)", damage: 280, hits: 1, mobs: 1, type: "active", element: "fire", minDamage: 140, maxLevel: 30 },
-      { name: "차지블로우 (아이스)", damage: 280, hits: 1, mobs: 1, type: "active", element: "ice", minDamage: 140, maxLevel: 30 },
-      { name: "차지블로우 (썬더)", damage: 280, hits: 1, mobs: 1, type: "active", element: "lightning", minDamage: 140, maxLevel: 30 },
-      { name: "차지블로우 (홀리)", damage: 340, hits: 1, mobs: 1, type: "active", element: "holy", minDamage: 170, maxLevel: 30 },
-      { name: "블래스트", damage: 580, hits: 1, mobs: 1, type: "active", element: "holy", minDamage: 290, maxLevel: 30 },
+      { name: "파워스트라이크", damage: 260, hits: 1, mobs: 1, type: "active", minDamage: 165, maxLevel: 20 },
+      { name: "슬래시블래스트", damage: 130, hits: 1, mobs: 6, type: "active", minDamage: 72, maxLevel: 20 },
+      { name: "차지블로우 (파이어)", damage: 120, hits: 1, mobs: 6, type: "active", element: "fire", minDamage: 102, maxLevel: 30 },
+      { name: "차지블로우 (아이스)", damage: 110, hits: 1, mobs: 6, type: "active", element: "ice", minDamage: 100, maxLevel: 30 },
+      { name: "차지블로우 (썬더)", damage: 110, hits: 1, mobs: 6, type: "active", element: "lightning", minDamage: 100, maxLevel: 30 },
+      { name: "차지블로우 (홀리)", damage: 120, hits: 1, mobs: 6, type: "active", element: "holy", minDamage: 102, maxLevel: 30 },
+      { name: "블래스트", damage: 550, hits: 1, mobs: 1, type: "active", element: "holy", minDamage: 170, maxLevel: 30 },
+      { name: "헤븐즈 해머", damage: 900, hits: 1, mobs: 15, type: "active", element: "holy", minDamage: 420, maxLevel: 30 },
     ],
     buffs: [
       {
@@ -129,10 +130,10 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "폴암 마스터리", type: "passive", mastery: 60, description: "폴암 최소 데미지 보장 (60%)" },
     ],
     actives: [
-      { name: "파워스트라이크", damage: 260, hits: 1, mobs: 1, type: "active", minDamage: 130, maxLevel: 30 },
-      { name: "드래곤 쓰레셔", damage: 250, hits: 1, mobs: 6, type: "active", minDamage: 125, maxLevel: 30 },
-      { name: "드래곤버스터", damage: 220, hits: 2, mobs: 3, type: "active", element: "dark", minDamage: 110, maxLevel: 30 },
-      { name: "드래곤로어", damage: 150, hits: 1, mobs: 15, type: "active", element: "dark", minDamage: 75, maxLevel: 30 },
+      { name: "파워스트라이크", damage: 260, hits: 1, mobs: 1, type: "active", minDamage: 165, maxLevel: 20 },
+      { name: "드래곤 퓨리(폴암)", damage: 250, hits: 1, mobs: 6, type: "active", minDamage: 80, maxLevel: 30 },
+      { name: "스피어 크러셔", damage: 170, hits: 3, mobs: 3, type: "active", element: "dark", minDamage: 55, maxLevel: 30 },
+      { name: "드래곤로어", damage: 240, hits: 1, mobs: 15, type: "active", element: "dark", minDamage: 96, maxLevel: 30 },
     ],
     buffs: [
       {
@@ -155,11 +156,10 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
     isMagic: true,
     passives: [],
     actives: [
-      { name: "파이어 에로우", damage: 160, hits: 1, type: "active", element: "fire", minDamage: 80, maxLevel: 30 },
-      { name: "포이즌 브레스", damage: 200, hits: 1, type: "active", element: "poison", minDamage: 100, maxLevel: 30 },
-      { name: "익스플로전", damage: 300, hits: 1, type: "active", element: "fire", minDamage: 150, maxLevel: 30 },
-      { name: "페럴라이즈", damage: 261, hits: 6, mobs: 8, type: "active", element: "poison", minDamage: 145, maxLevel: 30 },
-      { name: "메테오", damage: 620, hits: 1, mobs: 15, type: "active", element: "fire", minDamage: 310, maxLevel: 30 },
+      { name: "파이어 에로우", damage: 120, hits: 1, type: "active", element: "fire", minDamage: 33, maxLevel: 30 },
+      { name: "익스플로전", damage: 120, hits: 1, mobs: 6, type: "active", element: "fire", minDamage: 60, maxLevel: 30 },
+      { name: "페럴라이즈", damage: 210, hits: 1, mobs: 1, type: "active", element: "poison", minDamage: 105, maxLevel: 30 },
+      { name: "메테오", damage: 570, hits: 1, mobs: 15, type: "active", element: "fire", minDamage: 330, maxLevel: 30 },
     ],
     buffs: [
       {
@@ -176,11 +176,11 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
     isMagic: true,
     passives: [],
     actives: [
-      { name: "콜드 빔", damage: 160, hits: 1, type: "active", element: "ice", minDamage: 80, maxLevel: 30 },
-      { name: "썬더 볼트", damage: 165, hits: 1, type: "active", element: "lightning", minDamage: 82, maxLevel: 30 },
-      { name: "아이스 스트라이크", damage: 90, hits: 1, type: "active", element: "ice", minDamage: 32, maxLevel: 30 },
-      { name: "체인 라이트닝", damage: 210, hits: 1, mobs: 6, type: "active", element: "lightning", minDamage: 104, maxLevel: 30 },
-      { name: "블리자드", damage: 600, hits: 1, mobs: 10, type: "active", element: "ice", minDamage: 330, maxLevel: 30 },
+      { name: "콜드 빔", damage: 100, hits: 1, type: "active", element: "ice", minDamage: 13, maxLevel: 30 },
+      { name: "썬더 볼트", damage: 60, hits: 1, mobs: 6, type: "active", element: "lightning", minDamage: 2, maxLevel: 30 },
+      { name: "아이스 스트라이크", damage: 90, hits: 1, mobs: 6, type: "active", element: "ice", minDamage: 32, maxLevel: 30 },
+      { name: "체인 라이트닝", damage: 180, hits: 1, mobs: 6, type: "active", element: "lightning", minDamage: 103, maxLevel: 30 },
+      { name: "블리자드", damage: 570, hits: 1, mobs: 15, type: "active", element: "ice", minDamage: 330, maxLevel: 30 },
     ],
     buffs: [
       {
@@ -197,10 +197,10 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
     isMagic: true,
     passives: [],
     actives: [
-      { name: "홀리 에로우", damage: 160, hits: 1, type: "active", element: "holy", minDamage: 80, maxLevel: 30 },
-      { name: "샤이닝 레이", damage: 220, hits: 1, type: "active", element: "holy", minDamage: 110, maxLevel: 30 },
-      { name: "엔젤레이", damage: 500, hits: 1, type: "active", element: "holy", minDamage: 250, maxLevel: 30 },
-      { name: "제네시스", damage: 650, hits: 1, mobs: 10, type: "active", element: "holy", minDamage: 325, maxLevel: 30 },
+      { name: "홀리 에로우", damage: 80, hits: 1, type: "active", element: "holy", minDamage: 22, maxLevel: 20 },
+      { name: "샤이닝 레이", damage: 105, hits: 1, mobs: 6, type: "active", element: "holy", minDamage: 60, maxLevel: 30 },
+      { name: "엔젤레이", damage: 450, hits: 1, mobs: 6, type: "active", element: "holy", minDamage: 160, maxLevel: 30 },
+      { name: "제네시스", damage: 670, hits: 1, mobs: 15, type: "active", element: "holy", minDamage: 430, maxLevel: 30 },
     ],
     buffs: [
       {
@@ -221,10 +221,10 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "파이널어택", type: "passive", description: "40% 확률로 150% 추가 타격" },
     ],
     actives: [
-      { name: "더블샷", damage: 130, hits: 2, mobs: 1, type: "active", minDamage: 65, maxLevel: 30 },
-      { name: "애로우 봄", damage: 200, hits: 1, mobs: 6, type: "active", minDamage: 100, maxLevel: 30 },
+      { name: "더블샷", damage: 130, hits: 2, mobs: 1, type: "active", minDamage: 92, maxLevel: 20 },
+      { name: "애로우 봄", damage: 150, hits: 1, mobs: 6, type: "active", element: "fire", minDamage: 50, maxLevel: 30 },
       { name: "스트레이프", damage: 100, hits: 4, mobs: 1, type: "active", minDamage: 50, maxLevel: 30 },
-      { name: "폭풍의 시", damage: 100, hits: 1, mobs: 1, type: "active", minDamage: 51, maxLevel: 30 },
+      { name: "허리케인", damage: 100, hits: 1, mobs: 1, type: "active", minDamage: 51, maxLevel: 30 },
     ],
     buffs: [
       {
@@ -251,10 +251,10 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "크리티컬샷", type: "passive", critRate: 40, description: "크리티컬 확률 +40%" },
     ],
     actives: [
-      { name: "더블샷", damage: 130, hits: 2, mobs: 1, type: "active", minDamage: 65, maxLevel: 30 },
-      { name: "아이언 에로우", damage: 200, hits: 1, mobs: 1, type: "active", minDamage: 100, maxLevel: 30 },
+      { name: "더블샷", damage: 130, hits: 2, mobs: 1, type: "active", minDamage: 92, maxLevel: 20 },
+      { name: "블리자드(석궁)", damage: 140, hits: 1, mobs: 6, type: "active", element: "ice", minDamage: 100, maxLevel: 30 },
       { name: "스트레이프", damage: 100, hits: 4, mobs: 1, type: "active", minDamage: 50, maxLevel: 30 },
-      { name: "피어싱 애로우", damage: 300, hits: 1, mobs: 1, type: "active", minDamage: 150, maxLevel: 30 },
+      { name: "피어싱 애로우", damage: 850, hits: 1, mobs: 6, type: "active", minDamage: 320, maxLevel: 30 },
     ],
     buffs: [
       {
@@ -281,8 +281,8 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "크리티컬 스로우", type: "passive", critRate: 50, critDmg: 100, description: "50% 확률로 크리 (+100%)" },
     ],
     actives: [
-      { name: "럭키세븐", damage: 250, hits: 2, mobs: 1, type: "active", minDamage: 125, maxLevel: 30 },
-      { name: "어벤져", damage: 300, hits: 1, mobs: 3, type: "active", minDamage: 150, maxLevel: 30 },
+      { name: "럭키세븐", damage: 150, hits: 2, mobs: 1, type: "active", minDamage: 58, maxLevel: 20 },
+      { name: "어벤져", damage: 180, hits: 1, mobs: 6, type: "active", minDamage: 65, maxLevel: 30 },
       { name: "트리플 스로우", damage: 150, hits: 3, mobs: 1, type: "active", minDamage: 102, maxLevel: 30 },
     ],
     buffs: [
@@ -302,9 +302,9 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "대거 마스터리", type: "passive", mastery: 60, description: "단검 최소 데미지 보장 (60%)" },
     ],
     actives: [
-      { name: "새비지블로우", damage: 120, hits: 6, mobs: 1, type: "active", minDamage: 60, maxLevel: 30 },
-      { name: "부메랑스텝", damage: 500, hits: 2, mobs: 4, type: "active", minDamage: 250, maxLevel: 30 },
-      { name: "어쌔시네이트", damage: 120, hits: 4, mobs: 1, type: "active", minDamage: 60, maxLevel: 30 },
+      { name: "새비지블로우", damage: 80, hits: 6, mobs: 1, type: "active", minDamage: 40, maxLevel: 30 },
+      { name: "부메랑스텝", damage: 500, hits: 2, mobs: 4, type: "active", minDamage: 260, maxLevel: 30 },
+      { name: "어쌔시네이트", damage: 600, hits: 3, mobs: 1, type: "active", minDamage: 170, maxLevel: 30 },
     ],
     buffs: [
       {
@@ -323,10 +323,9 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "너클 마스터리", type: "passive", mastery: 60, description: "너클 최소 데미지 보장 (60%)" },
     ],
     actives: [
-      { name: "코크스크류 블로우", damage: 360, hits: 1, mobs: 3, type: "active", element: "lightning", minDamage: 180, maxLevel: 30 },
-      { name: "에너지 블래스트", damage: 360, hits: 1, mobs: 3, type: "active", minDamage: 180, maxLevel: 30 },
-      { name: "배럭", damage: 170, hits: 6, mobs: 1, type: "active", minDamage: 85, maxLevel: 30 },
-      { name: "드래곤 스트라이크", damage: 810, hits: 1, mobs: 6, type: "active", minDamage: 405, maxLevel: 30 },
+      { name: "코크스크류 블로우", damage: 420, hits: 1, mobs: 3, type: "active", minDamage: 135, maxLevel: 20 },
+      { name: "쇼크웨이브", damage: 700, hits: 1, mobs: 6, type: "active", minDamage: 265, maxLevel: 30 },
+      { name: "드래곤 스트라이크", damage: 810, hits: 1, mobs: 6, type: "active", minDamage: 275, maxLevel: 30 },
     ],
     buffs: [
       {
@@ -345,10 +344,10 @@ const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       { name: "건 마스터리", type: "passive", mastery: 60, description: "건 최소 데미지 보장 (60%)" },
     ],
     actives: [
-      { name: "더블파이어", damage: 130, hits: 2, mobs: 1, type: "active", minDamage: 65, maxLevel: 30 },
-      { name: "래피드파이어", damage: 150, hits: 1, mobs: 1, type: "active", minDamage: 75, maxLevel: 30 },
-      { name: "배틀쉽 캐논", damage: 380, hits: 4, mobs: 1, type: "active", minDamage: 190, maxLevel: 30 },
-      { name: "배틀쉽 토피도", damage: 780, hits: 6, mobs: 1, type: "active", minDamage: 390, maxLevel: 30 },
+      { name: "인비저블샷", damage: 170, hits: 1, mobs: 3, type: "active", minDamage: 75, maxLevel: 20 },
+      { name: "래피드파이어", damage: 170, hits: 1, mobs: 1, type: "active", minDamage: 102, maxLevel: 30 },
+      { name: "배틀쉽 캐논", damage: 380, hits: 1, mobs: 1, type: "active", minDamage: 205, maxLevel: 30 },
+      { name: "배틀쉽 토피도", damage: 780, hits: 1, mobs: 6, type: "active", minDamage: 390, maxLevel: 30 },
     ],
     buffs: [
       {
@@ -740,7 +739,80 @@ function NumberInput({
   );
 }
 
-type Tab = "calc" | "hunt";
+type Tab = "calc" | "hunt" | "taken";
+
+// ─── 피격뎀 계산 공식 (mapleland.st 참조, WZ 데이터 검증) ───
+// 직업별 레벨 기본 방어력 테이블
+const JOB_BASE_DEF: Record<string, Record<number, number>> = {
+  "전사": { 1:7, 10:54, 20:103, 30:154, 40:207, 50:261, 60:310, 70:359, 80:405, 90:450, 100:494, 110:535, 120:577, 130:618, 140:658, 150:699, 160:739, 170:779, 180:819, 190:859, 200:900 },
+  "마법사": { 1:7, 10:31, 20:53, 30:75, 40:103, 50:131, 60:157, 70:184, 80:209, 90:237, 100:266, 110:292, 120:319, 130:346, 140:374, 150:401, 160:427, 170:455, 180:483, 190:510, 200:537 },
+  "궁수": { 1:7, 10:32, 20:63, 30:95, 40:121, 50:145, 60:175, 70:206, 80:233, 90:265, 100:298, 110:327, 120:356, 130:386, 140:416, 150:445, 160:476, 170:507, 180:537, 190:568, 200:598 },
+  "도적": { 1:7, 10:42, 20:79, 30:115, 40:148, 50:184, 60:221, 70:257, 80:288, 90:318, 100:331, 110:346, 120:360, 130:374, 140:389, 150:403, 160:418, 170:432, 180:446, 190:461, 200:475 },
+  "해적": { 1:7, 10:24, 20:52, 30:82, 40:114, 50:146, 60:177, 70:207, 80:241, 90:275, 100:309, 110:341, 120:373, 130:405, 140:437, 150:469, 160:501, 170:533, 180:565, 190:597, 200:629 },
+};
+
+function getJobBaseDef(jobGroup: string, level: number): number {
+  const table = JOB_BASE_DEF[jobGroup];
+  if (!table) return 7;
+  const levels = Object.keys(table).map(Number).sort((a, b) => a - b);
+  let lower = levels[0], upper = levels[0];
+  for (let i = 0; i < levels.length - 1; i++) {
+    if (level >= levels[i] && level <= levels[i + 1]) {
+      lower = levels[i];
+      upper = levels[i + 1];
+      break;
+    }
+    if (level > levels[i]) { lower = levels[i]; upper = levels[i]; }
+  }
+  if (lower === upper) return table[lower];
+  const ratio = (level - lower) / (upper - lower);
+  return Math.round(table[lower] + ratio * (table[upper] - table[lower]));
+}
+
+// 물리 피격뎀 계산
+function calcPhysDamageTaken(
+  mobAtk: number, playerPDef: number, jobBaseDef: number,
+  playerLevel: number, mobLevel: number, isWarrior: boolean,
+  str: number, dex: number, int_: number, luk: number
+): { min: number; max: number } {
+  const statDef = isWarrior
+    ? str / 2800 + dex / 3200 + int_ / 7200 + luk / 3200
+    : str / 2000 + dex / 2800 + int_ / 7200 + luk / 3200;
+  const primaryFactor = statDef + 0.28;
+
+  let secondaryFactor: number;
+  if (playerPDef >= jobBaseDef) {
+    secondaryFactor = statDef * 28 / 45 + playerLevel * 7 / 13000 + 0.196;
+  } else {
+    const levelPenalty = playerLevel >= mobLevel
+      ? 13 / (13 + playerLevel - mobLevel)
+      : 1.3;
+    secondaryFactor = levelPenalty * (statDef + playerLevel / 550 + 0.28);
+  }
+
+  const rawMin = mobAtk * mobAtk * 0.008;
+  const rawMax = mobAtk * mobAtk * 0.0085;
+  const defReduction = playerPDef * primaryFactor + (playerPDef - jobBaseDef) * secondaryFactor;
+
+  return {
+    min: Math.max(1, Math.floor(rawMin - defReduction)),
+    max: Math.max(1, Math.floor(rawMax - defReduction)),
+  };
+}
+
+// 마법 피격뎀 계산
+function calcMagicDamageTaken(
+  mobMatk: number, playerMDef: number, isMagician: boolean,
+  str: number, dex: number, luk: number
+): { min: number; max: number } {
+  const magicBonus = isMagician ? 1.2 : 1.0;
+  const defReduction = (playerMDef / 4 + str / 28 + dex / 24 + luk / 20) * magicBonus;
+
+  return {
+    min: Math.max(1, Math.floor(mobMatk * mobMatk * 0.0075 - defReduction)),
+    max: Math.max(1, Math.floor(mobMatk * mobMatk * 0.008 - defReduction)),
+  };
+}
 
 // ─── 메인 컴포넌트 ───
 export default function NHitPage() {
@@ -1091,6 +1163,7 @@ export default function NHitPage() {
         {(
           [
             { key: "calc" as Tab, label: "엔방컷 계산기" },
+            { key: "taken" as Tab, label: "피격뎀 계산기" },
             { key: "hunt" as Tab, label: "사냥터 추천" },
           ] as const
         ).map((t) => (
@@ -1199,6 +1272,7 @@ export default function NHitPage() {
           activeComboBonus={activeComboBonus}
         />
       )}
+      {activeTab === "taken" && <DamageTakenTab />}
       {activeTab === "hunt" && <HuntTab />}
     </div>
   );
@@ -2445,6 +2519,240 @@ function HuntTab() {
       <p className="text-xs text-gray-300 text-center pb-2">
         * 수치는 레벨×5 기본 주스탯 가정. 실제 스펙·버프에 따라 차이 있음.
       </p>
+    </div>
+  );
+}
+
+// ─── 피격뎀 계산기 탭 ───
+function DamageTakenTab() {
+  const [jobGroup, setJobGroup] = useState("전사");
+  const [charLevel, setCharLevel] = useState(70);
+  const [totalStr, setTotalStr] = useState(350);
+  const [totalDex, setTotalDex] = useState(50);
+  const [totalInt, setTotalInt] = useState(4);
+  const [totalLuk, setTotalLuk] = useState(4);
+  const [playerPDef, setPlayerPDef] = useState(300);
+  const [playerMDef, setPlayerMDef] = useState(200);
+  const [playerMaxHp, setPlayerMaxHp] = useState(5000);
+
+  const [mobName, setMobName] = useState("호문쿨루");
+  const [mobLevel, setMobLevel] = useState(92);
+  const [mobPAtk, setMobPAtk] = useState(460);
+  const [mobMAtk, setMobMAtk] = useState(510);
+
+  const [usePreset, setUsePreset] = useState(true);
+  const [selectedMob, setSelectedMob] = useState(0);
+
+  const MOB_PRESETS = useMemo(() => [
+    { name: "주니어 부기", level: 13, pAtk: 38, mAtk: 0 },
+    { name: "스톤골렘", level: 55, pAtk: 180, mAtk: 0 },
+    { name: "스켈레톤 사병", level: 72, pAtk: 290, mAtk: 320 },
+    { name: "예티", level: 76, pAtk: 310, mAtk: 350 },
+    { name: "주니어 발록", level: 80, pAtk: 335, mAtk: 360 },
+    { name: "호문쿨루", level: 92, pAtk: 460, mAtk: 510 },
+    { name: "트리플 루모", level: 95, pAtk: 480, mAtk: 500 },
+    { name: "우드마스크", level: 97, pAtk: 490, mAtk: 480 },
+    { name: "스켈로사우르스", level: 100, pAtk: 520, mAtk: 540 },
+    { name: "네카드", level: 105, pAtk: 550, mAtk: 580 },
+    { name: "스켈레곤", level: 110, pAtk: 590, mAtk: 610 },
+    { name: "마리온에트", level: 120, pAtk: 650, mAtk: 670 },
+    { name: "자쿰", level: 140, pAtk: 2000, mAtk: 2500 },
+    { name: "혼테일", level: 160, pAtk: 2900, mAtk: 3400 },
+    { name: "핑크빈", level: 180, pAtk: 4000, mAtk: 4800 },
+  ], []);
+
+  useEffect(() => {
+    if (usePreset && MOB_PRESETS[selectedMob]) {
+      const m = MOB_PRESETS[selectedMob];
+      setMobName(m.name);
+      setMobLevel(m.level);
+      setMobPAtk(m.pAtk);
+      setMobMAtk(m.mAtk);
+    }
+  }, [selectedMob, usePreset, MOB_PRESETS]);
+
+  const isWarrior = jobGroup === "전사";
+  const isMagician = jobGroup === "마법사";
+  const jobBaseDef = getJobBaseDef(jobGroup, charLevel);
+
+  const physDmg = useMemo(() =>
+    calcPhysDamageTaken(mobPAtk, playerPDef, jobBaseDef, charLevel, mobLevel, isWarrior, totalStr, totalDex, totalInt, totalLuk),
+    [mobPAtk, playerPDef, jobBaseDef, charLevel, mobLevel, isWarrior, totalStr, totalDex, totalInt, totalLuk]
+  );
+
+  const magicDmg = useMemo(() =>
+    calcMagicDamageTaken(mobMAtk, playerMDef, isMagician, totalStr, totalDex, totalLuk),
+    [mobMAtk, playerMDef, isMagician, totalStr, totalDex, totalLuk]
+  );
+
+  const physHitsToKill = playerMaxHp > 0 ? Math.ceil(playerMaxHp / physDmg.max) : 0;
+  const magicHitsToKill = playerMaxHp > 0 ? Math.ceil(playerMaxHp / magicDmg.max) : 0;
+
+  const dmgColor = (dmg: number) => {
+    const ratio = playerMaxHp > 0 ? dmg / playerMaxHp : 0;
+    if (ratio >= 1) return "text-red-600";
+    if (ratio >= 0.5) return "text-orange-500";
+    if (ratio >= 0.25) return "text-yellow-600";
+    return "text-green-600";
+  };
+
+  return (
+    <div className="space-y-4">
+      <div className="bg-white border border-gray-200 rounded-xl p-4 space-y-4">
+        <h3 className="font-bold text-sm">캐릭터 설정</h3>
+        <div className="flex gap-1 flex-wrap">
+          {Object.keys(JOB_BASE_DEF).map((j) => (
+            <button key={j} onClick={() => setJobGroup(j)}
+              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                jobGroup === j ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>
+              {j}
+            </button>
+          ))}
+        </div>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <NumberInput label="캐릭터 레벨" value={charLevel} onChange={setCharLevel} min={1} max={200} />
+          <NumberInput label="최대 HP" value={playerMaxHp} onChange={setPlayerMaxHp} min={1} />
+          <NumberInput label="물리 방어력 (WDEF)" value={playerPDef} onChange={setPlayerPDef} min={0} />
+          <NumberInput label="마법 방어력 (MDEF)" value={playerMDef} onChange={setPlayerMDef} min={0} />
+        </div>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <NumberInput label="STR" value={totalStr} onChange={setTotalStr} min={4} />
+          <NumberInput label="DEX" value={totalDex} onChange={setTotalDex} min={4} />
+          <NumberInput label="INT" value={totalInt} onChange={setTotalInt} min={4} />
+          <NumberInput label="LUK" value={totalLuk} onChange={setTotalLuk} min={4} />
+        </div>
+        <p className="text-xs text-gray-400">
+          직업 기본 방어력 (Lv{charLevel} {jobGroup}): <span className="font-medium text-gray-600">{jobBaseDef}</span>
+          {playerPDef < jobBaseDef && <span className="text-red-500 ml-2">( 기본 방어력 미달 - 피격뎀 증가!)</span>}
+        </p>
+      </div>
+
+      <div className="bg-white border border-gray-200 rounded-xl p-4 space-y-4">
+        <h3 className="font-bold text-sm">몬스터 설정</h3>
+        <div className="flex gap-2 mb-2">
+          <button onClick={() => setUsePreset(true)}
+            className={`px-3 py-1.5 rounded-lg text-sm ${usePreset ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-600"}`}>
+            프리셋
+          </button>
+          <button onClick={() => setUsePreset(false)}
+            className={`px-3 py-1.5 rounded-lg text-sm ${!usePreset ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-600"}`}>
+            직접 입력
+          </button>
+        </div>
+        {usePreset ? (
+          <select value={selectedMob} onChange={(e) => setSelectedMob(Number(e.target.value))}
+            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            {MOB_PRESETS.map((m, i) => (
+              <option key={i} value={i}>Lv{m.level} {m.name} (물공:{m.pAtk} / 마공:{m.mAtk})</option>
+            ))}
+          </select>
+        ) : (
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <div>
+              <label className="block text-xs font-medium text-gray-500 mb-1">몬스터 이름</label>
+              <input value={mobName} onChange={(e) => setMobName(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" />
+            </div>
+            <NumberInput label="몬스터 레벨" value={mobLevel} onChange={setMobLevel} min={1} />
+            <NumberInput label="물리 공격력" value={mobPAtk} onChange={setMobPAtk} min={0} />
+            <NumberInput label="마법 공격력" value={mobMAtk} onChange={setMobMAtk} min={0} />
+          </div>
+        )}
+      </div>
+
+      <div className="bg-white border border-gray-200 rounded-xl p-4">
+        <h3 className="font-bold text-sm mb-4">{mobName} 피격 시 예상 데미지</h3>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* 물리 피격 */}
+          <div className="bg-gray-50 rounded-xl p-4 space-y-3">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">&#9876;</span>
+              <span className="font-bold text-sm">물리 피격</span>
+            </div>
+            <div className="space-y-1">
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-500">최소 데미지</span>
+                <span className={`font-bold ${dmgColor(physDmg.min)}`}>{physDmg.min.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-500">최대 데미지</span>
+                <span className={`font-bold ${dmgColor(physDmg.max)}`}>{physDmg.max.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-500">HP 대비</span>
+                <span className={`font-bold ${dmgColor(physDmg.max)}`}>
+                  {playerMaxHp > 0 ? ((physDmg.max / playerMaxHp) * 100).toFixed(1) : 0}%
+                </span>
+              </div>
+              <div className="flex justify-between text-sm border-t pt-2 mt-2">
+                <span className="text-gray-500">생존 가능 타수</span>
+                <span className="font-bold text-gray-800">{physHitsToKill}회</span>
+              </div>
+            </div>
+            {/* HP 바 */}
+            <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+              <div className="h-full rounded-full transition-all"
+                style={{
+                  width: `${Math.min(100, playerMaxHp > 0 ? (physDmg.max / playerMaxHp) * 100 : 0)}%`,
+                  backgroundColor: physDmg.max >= playerMaxHp ? '#ef4444' : physDmg.max >= playerMaxHp * 0.5 ? '#f97316' : '#22c55e',
+                }} />
+            </div>
+          </div>
+
+          {/* 마법 피격 */}
+          <div className="bg-gray-50 rounded-xl p-4 space-y-3">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">&#10024;</span>
+              <span className="font-bold text-sm">마법 피격</span>
+            </div>
+            <div className="space-y-1">
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-500">최소 데미지</span>
+                <span className={`font-bold ${dmgColor(magicDmg.min)}`}>{magicDmg.min.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-500">최대 데미지</span>
+                <span className={`font-bold ${dmgColor(magicDmg.max)}`}>{magicDmg.max.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-500">HP 대비</span>
+                <span className={`font-bold ${dmgColor(magicDmg.max)}`}>
+                  {playerMaxHp > 0 ? ((magicDmg.max / playerMaxHp) * 100).toFixed(1) : 0}%
+                </span>
+              </div>
+              <div className="flex justify-between text-sm border-t pt-2 mt-2">
+                <span className="text-gray-500">생존 가능 타수</span>
+                <span className="font-bold text-gray-800">{magicHitsToKill}회</span>
+              </div>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+              <div className="h-full rounded-full transition-all"
+                style={{
+                  width: `${Math.min(100, playerMaxHp > 0 ? (magicDmg.max / playerMaxHp) * 100 : 0)}%`,
+                  backgroundColor: magicDmg.max >= playerMaxHp ? '#ef4444' : magicDmg.max >= playerMaxHp * 0.5 ? '#f97316' : '#22c55e',
+                }} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 공식 레퍼런스 */}
+      <details className="bg-white border border-gray-200 rounded-xl p-4">
+        <summary className="font-bold text-sm cursor-pointer">피격뎀 계산 공식</summary>
+        <div className="mt-3 text-xs text-gray-600 space-y-2 font-mono">
+          <p className="font-bold text-gray-800">물리 피격 데미지:</p>
+          <p>rawDmg = mobATK^2 x 0.008 ~ 0.0085</p>
+          <p>statDef = {isWarrior ? "STR/2800 + DEX/3200 + INT/7200 + LUK/3200 (전사)" : "STR/2000 + DEX/2800 + INT/7200 + LUK/3200"}</p>
+          <p>defReduction = WDEF x (statDef + 0.28) + (WDEF - jobBaseDef) x secondaryFactor</p>
+          <p>finalDmg = max(1, rawDmg - defReduction)</p>
+          <hr className="my-2" />
+          <p className="font-bold text-gray-800">마법 피격 데미지:</p>
+          <p>rawDmg = mobMATK^2 x 0.0075 ~ 0.008</p>
+          <p>defReduction = (MDEF/4 + STR/28 + DEX/24 + LUK/20) x {isMagician ? "1.2 (마법사)" : "1.0"}</p>
+          <p>finalDmg = max(1, rawDmg - defReduction)</p>
+        </div>
+      </details>
     </div>
   );
 }
