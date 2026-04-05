@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.8.1";
+const VERSION = "2.9.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,26 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.9.0",
+    date: "2026-04-05",
+    type: "minor",
+    title: "함정 타이머 (두더지 알리미)",
+    features: [
+      {
+        category: "신규 — 함정 타이머 (/trap)",
+        items: [
+          "리프레 두더지 31초 사이클 타이머 (스페이스바 동기화)",
+          "5가지 UI 모드: 그라데이션 바 / 컴팩트 / 알림음+진동 / 다중 타이머 / PiP 오버레이",
+          "Document PiP API 원클릭 오버레이 (게임 위 항상 표시)",
+          "Web Audio API 경고음 (5초 전, 3초 전, 출몰 시)",
+          "다중 타이머: 채널별 독립 타이머 + 임박순 자동 정렬",
+          "오버레이 설정 가이드 (PiP / PowerToys / 수동 배치)",
+          "맵 함정 종합 정보 (두더지/떨어지는 돌/증기/가시 등 5종)",
+        ],
+      },
+    ],
+  },
   {
     version: "2.8.1",
     date: "2026-04-05",

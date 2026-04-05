@@ -40,6 +40,7 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/pq", label: "파티퀘스트" },
       { href: "/hunt", label: "사냥터 추천" },
       { href: "/ship", label: "배 시간표" },
+      { href: "/trap", label: "함정 타이머" },
     ],
   },
   {
