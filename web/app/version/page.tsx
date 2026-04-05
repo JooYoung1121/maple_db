@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.6.1";
+const VERSION = "2.7.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,56 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.7.0",
+    date: "2026-04-05",
+    type: "minor",
+    title: "다크모드 + 사냥터 추천 + 배 시간표 + 보안 강화",
+    features: [
+      {
+        category: "신규 — 다크모드",
+        items: [
+          "전체 사이트 다크모드 지원 (NavBar 토글 버튼)",
+          "시스템 설정 자동 감지 + localStorage 저장",
+          "30개+ 페이지 및 공통 컴포넌트 dark: 스타일 적용",
+        ],
+      },
+      {
+        category: "신규 — 사냥터 추천 (/hunt)",
+        items: [
+          "레벨/직업/1타 데미지 기반 최적 사냥터 추천",
+          "16개 큐레이션 사냥터 (레벨 1~200 커버)",
+          "시간당 예상 경험치, 몬스터 테이블, 팁 표시",
+        ],
+      },
+      {
+        category: "신규 — 배 시간표 (/ship)",
+        items: [
+          "12개 항로 (빅토리아↔오르비스, 오르비스↔기타 지역)",
+          "실시간 다음 출발 카운트다운 타이머",
+          "곧 출발/대기 중 색상 상태 배지",
+        ],
+      },
+      {
+        category: "보안 — 취약점 수정",
+        items: [
+          "비매/투표 삭제 API에 관리자 인증 추가",
+          "뉴스 HTML 렌더링 XSS 방지 (DOMPurify 적용)",
+          "관리자 페이지 비밀번호 인증 게이트 추가",
+          "게시판 삭제 비밀번호 헤더 전송으로 변경 (URL 노출 방지)",
+        ],
+      },
+      {
+        category: "개선 — 버그 수정",
+        items: [
+          "푸터 버전 표시 동기화 (v2.5.0 → v2.7.0)",
+          "숫자 포맷 toLocaleString() 전체 페이지 통일",
+          "투표 쿨다운 메모리 누수 수정",
+          "community.py DB 연결 이중 해제 수정",
+        ],
+      },
+    ],
+  },
   {
     version: "2.6.1",
     date: "2026-03-31",
