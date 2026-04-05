@@ -166,7 +166,7 @@ export default function FreeBoardPage() {
   const handleDeletePost = async (postId: number) => {
     if (!adminPw) return;
     try {
-      const res = await fetch(`${API_BASE}/api/guild/board/posts/${postId}?password=${encodeURIComponent(adminPw)}`, { method: "DELETE" });
+      const res = await fetch(`${API_BASE}/api/guild/board/posts/${postId}`, { method: "DELETE", headers: { "X-Admin-Password": adminPw } });
       if (res.status === 403) {
         setMsg("비밀번호가 틀립니다.");
         setTimeout(() => setMsg(""), 2000);
@@ -183,7 +183,7 @@ export default function FreeBoardPage() {
   const handleDeleteComment = async (commentId: number) => {
     if (!adminPw) return;
     try {
-      const res = await fetch(`${API_BASE}/api/guild/board/comments/${commentId}?password=${encodeURIComponent(adminPw)}`, { method: "DELETE" });
+      const res = await fetch(`${API_BASE}/api/guild/board/comments/${commentId}`, { method: "DELETE", headers: { "X-Admin-Password": adminPw } });
       if (res.status === 403) {
         setMsg("비밀번호가 틀립니다.");
         setTimeout(() => setMsg(""), 2000);

@@ -110,7 +110,8 @@ def get_post(
 
 # ── 글 삭제 (Admin) ──────────────────────────────────────
 @router.delete("/guild/board/posts/{post_id}")
-def delete_post(post_id: int, password: str = Query(...)):
+def delete_post(post_id: int, request: Request):
+    password = request.headers.get("X-Admin-Password", "")
     if password != ADMIN_PW:
         raise HTTPException(status_code=403, detail="비밀번호가 틀립니다.")
 
@@ -162,7 +163,8 @@ def create_comment(post_id: int, body: CommentCreate):
 
 # ── 댓글 삭제 (Admin) ────────────────────────────────────
 @router.delete("/guild/board/comments/{comment_id}")
-def delete_comment(comment_id: int, password: str = Query(...)):
+def delete_comment(comment_id: int, request: Request):
+    password = request.headers.get("X-Admin-Password", "")
     if password != ADMIN_PW:
         raise HTTPException(status_code=403, detail="비밀번호가 틀립니다.")
 

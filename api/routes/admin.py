@@ -1,11 +1,21 @@
 """Admin routes for data management"""
-from fastapi import APIRouter, Query, HTTPException
+import os
+from fastapi import APIRouter, Query, HTTPException, Request
 from pydantic import BaseModel
 from typing import Optional
 
 from crawler.db import get_connection
 
 router = APIRouter()
+
+
+@router.post("/admin/verify")
+def admin_verify(request: Request):
+    """관리자 비밀번호 확인용 엔드포인트"""
+    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "1004")
+    if request.headers.get("X-Admin-Password", "") != admin_pw:
+        raise HTTPException(status_code=403, detail="비밀번호가 틀립니다.")
+    return {"ok": True}
 
 
 class MobUpdate(BaseModel):

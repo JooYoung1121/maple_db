@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import DOMPurify from "dompurify";
 import { getNews, getNewsPost } from "@/lib/api";
 import type { MapleLandPost } from "@/lib/types";
 
@@ -107,7 +108,7 @@ function PostContent({ postId }: { postId: string }) {
         {summaryCard}
         <div
           className="news-content text-sm text-gray-700 leading-relaxed"
-          dangerouslySetInnerHTML={{ __html: post.content_html }}
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content_html) }}
         />
       </>
     );

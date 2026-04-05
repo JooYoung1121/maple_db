@@ -1,6 +1,7 @@
 """비매유저 박제 게시판 API"""
+import os
 import time
-from fastapi import APIRouter, Query, HTTPException, Request
+from fastapi import APIRouter, Query, HTTPException, Request, Header
 from pydantic import BaseModel
 from typing import Optional
 
@@ -11,6 +12,14 @@ router = APIRouter()
 # IP 기반 투표 쿨다운 (5초)
 _vote_cooldowns: dict[str, float] = {}
 VOTE_COOLDOWN_SEC = 5
+
+
+def _purge_expired_cooldowns() -> None:
+    """만료된 쿨다운 항목을 제거하여 메모리 누수를 방지한다."""
+    now = time.time()
+    expired = [k for k, v in _vote_cooldowns.items() if now - v >= VOTE_COOLDOWN_SEC]
+    for k in expired:
+        del _vote_cooldowns[k]
 
 
 class BimaePostCreate(BaseModel):
@@ -99,6 +108,9 @@ def vote_bimae(post_id: int, vote: BimaeVote, request: Request):
     if vote.vote not in ("up", "down"):
         raise HTTPException(status_code=400, detail="vote는 'up' 또는 'down'")
 
+    # 만료된 쿨다운 항목 정리 (메모리 누수 방지)
+    _purge_expired_cooldowns()
+
     # IP 기반 쿨다운 체크
     client_ip = request.client.host if request.client else "unknown"
     cooldown_key = f"{client_ip}:{post_id}"
@@ -130,7 +142,10 @@ def vote_bimae(post_id: int, vote: BimaeVote, request: Request):
 
 
 @router.delete("/bimae/{post_id}")
-def delete_bimae(post_id: int):
+def delete_bimae(post_id: int, request: Request):
+    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "1004")
+    if request.headers.get("X-Admin-Password", "") != admin_pw:
+        raise HTTPException(status_code=403, detail="비밀번호가 틀립니다.")
     try:
         conn = get_connection()
     except Exception:

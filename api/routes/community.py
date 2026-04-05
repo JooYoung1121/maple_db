@@ -1,5 +1,6 @@
 """커뮤니티 기능 API — 투표(poll) + 사용자 선택지 추가/복수투표/마감일"""
 import json
+import os
 from datetime import datetime, timezone, timedelta
 from fastapi import APIRouter, Query, HTTPException, Request
 from pydantic import BaseModel
@@ -226,7 +227,6 @@ def add_poll_option(poll_id: int, body: PollAddOption):
             [json.dumps(options, ensure_ascii=False), json.dumps(vote_counts), poll_id],
         )
         conn.commit()
-        conn.close()
         return {"poll_id": poll_id, "options": options, "vote_counts": vote_counts}
     except HTTPException:
         raise
@@ -240,13 +240,21 @@ def add_poll_option(poll_id: int, body: PollAddOption):
 
 
 @router.delete("/polls/{poll_id}")
-def delete_poll(poll_id: int):
+def delete_poll(poll_id: int, request: Request):
+    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "1004")
+    if request.headers.get("X-Admin-Password", "") != admin_pw:
+        raise HTTPException(status_code=403, detail="비밀번호가 틀립니다.")
+
     try:
         conn = get_connection()
         conn.execute("DELETE FROM community_poll_votes WHERE poll_id = ?", [poll_id])
         conn.execute("DELETE FROM community_polls WHERE id = ?", [poll_id])
         conn.commit()
-        conn.close()
         return {"ok": True}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        try:
+            conn.close()
+        except Exception:
+            pass

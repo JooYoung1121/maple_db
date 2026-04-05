@@ -16,6 +16,10 @@ interface Stats {
 }
 
 export default function AdminPage() {
+  const [authenticated, setAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
+  const [authError, setAuthError] = useState("");
+
   const [stats, setStats] = useState<Stats | null>(null);
   const [mobs, setMobs] = useState<AdminMob[]>([]);
   const [total, setTotal] = useState(0);
@@ -39,8 +43,8 @@ export default function AdminPage() {
       .finally(() => setLoading(false));
   }, [page, q, isHidden, isBoss]);
 
-  useEffect(() => { loadStats(); }, [loadStats]);
-  useEffect(() => { loadMobs(); }, [loadMobs]);
+  useEffect(() => { if (authenticated) loadStats(); }, [loadStats, authenticated]);
+  useEffect(() => { if (authenticated) loadMobs(); }, [loadMobs, authenticated]);
 
   const handleToggleHidden = async (mob: AdminMob) => {
     setActionLoading(mob.id);
@@ -75,6 +79,48 @@ export default function AdminPage() {
       setActionLoading(null);
     }
   };
+
+  const handleLogin = async () => {
+    setAuthError("");
+    try {
+      const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
+      const res = await fetch(`${API_BASE}/api/admin/verify`, {
+        method: "POST",
+        headers: { "X-Admin-Password": passwordInput },
+      });
+      if (res.ok) {
+        setAuthenticated(true);
+      } else {
+        setAuthError("비밀번호가 틀립니다.");
+      }
+    } catch {
+      setAuthError("서버 연결에 실패했습니다.");
+    }
+  };
+
+  if (!authenticated) {
+    return (
+      <div className="max-w-sm mx-auto mt-24 p-6 bg-white rounded-xl border border-gray-200 shadow-sm">
+        <h1 className="text-xl font-bold text-gray-900 mb-4">관리자 인증</h1>
+        <input
+          type="password"
+          autoComplete="off"
+          value={passwordInput}
+          onChange={(e) => setPasswordInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+          placeholder="관리자 비밀번호"
+          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 mb-3"
+        />
+        {authError && <p className="text-sm text-red-500 mb-3">{authError}</p>}
+        <button
+          onClick={handleLogin}
+          className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 rounded-lg transition-colors"
+        >
+          로그인
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
