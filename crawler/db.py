@@ -164,6 +164,11 @@ CREATE TABLE IF NOT EXISTS bimae_posts (
     downvotes INTEGER DEFAULT 0
 );
 
+-- bimae_posts 정렬 성능 인덱스
+CREATE INDEX IF NOT EXISTS idx_bimae_created_at ON bimae_posts(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_bimae_upvotes ON bimae_posts(upvotes DESC);
+CREATE INDEX IF NOT EXISTS idx_bimae_downvotes ON bimae_posts(downvotes DESC);
+
 CREATE TABLE IF NOT EXISTS scroll_rankings (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nickname TEXT NOT NULL,
@@ -381,11 +386,17 @@ def migrate_db(conn: sqlite3.Connection) -> None:
         pass  # 마이그레이션 이미 완료 또는 불필요
 
 
+_wal_initialized = False
+
+
 def get_connection() -> sqlite3.Connection:
+    global _wal_initialized
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(str(DB_PATH))
     conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA journal_mode=WAL")
+    if not _wal_initialized:
+        conn.execute("PRAGMA journal_mode=WAL")
+        _wal_initialized = True
     conn.execute("PRAGMA foreign_keys=ON")
     return conn
 

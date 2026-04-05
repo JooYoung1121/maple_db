@@ -56,10 +56,11 @@ def list_bimae(
     except Exception:
         return {"posts": [], "total": 0, "page": page, "per_page": per_page}
 
+    _COLUMNS = "id, nickname, job_class, level, reason, image_url, author, created_at, upvotes, downvotes"
     try:
         total = conn.execute("SELECT COUNT(*) FROM bimae_posts").fetchone()[0]
         rows = conn.execute(
-            f"SELECT * FROM bimae_posts ORDER BY {order} LIMIT ? OFFSET ?",
+            f"SELECT {_COLUMNS} FROM bimae_posts ORDER BY {order} LIMIT ? OFFSET ?",
             [per_page, offset],
         ).fetchall()
         posts = [dict(r) for r in rows]
