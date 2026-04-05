@@ -2,140 +2,177 @@
 
 import { useState, useEffect, useMemo } from "react";
 
-// ─── 노선 데이터 ───
+// ─── 정기 노선 (타이머 적용) ───
 interface ShipRoute {
   id: string;
-  routeName: string;
   from: string;
   to: string;
-  intervalMinutes: number; // 배 출발 간격(분)
-  durationMinutes: number; // 소요 시간(분)
+  intervalMinutes: number;
+  durationMinutes: number;
   cost: string;
+  vehicle: string;
+  note?: string;
   group: "victoria-orbis" | "orbis-other";
+}
+
+// ─── 즉시 이동 수단 ───
+interface InstantRoute {
+  id: string;
+  from: string;
+  to: string;
+  cost: string;
+  vehicle: string;
+  note?: string;
 }
 
 const SHIP_ROUTES: ShipRoute[] = [
   // 빅토리아 <-> 오르비스
   {
     id: "ellinia-orbis",
-    routeName: "빅토리아 -> 오르비스",
     from: "엘리니아",
     to: "오르비스",
     intervalMinutes: 15,
     durationMinutes: 10,
-    cost: "무료",
+    cost: "5,000 메소 (티켓)",
+    vehicle: "배",
+    note: "탑승 시작: 출발 10분 전 / 출발 1분 전 마감 / 크림슨 발록 출현 가능",
     group: "victoria-orbis",
   },
   {
     id: "orbis-ellinia",
-    routeName: "오르비스 -> 빅토리아",
     from: "오르비스",
     to: "엘리니아",
     intervalMinutes: 15,
     durationMinutes: 10,
-    cost: "무료",
+    cost: "5,000 메소 (티켓)",
+    vehicle: "배",
+    note: "탑승 시작: 출발 10분 전 / 출발 1분 전 마감 / 크림슨 발록 출현 가능",
     group: "victoria-orbis",
   },
   // 오르비스 <-> 기타 지역
   {
-    id: "orbis-aquarium",
-    routeName: "오르비스 -> 아쿠아리움",
-    from: "오르비스",
-    to: "아쿠아리움",
-    intervalMinutes: 15,
-    durationMinutes: 5,
-    cost: "무료",
-    group: "orbis-other",
-  },
-  {
-    id: "aquarium-orbis",
-    routeName: "아쿠아리움 -> 오르비스",
-    from: "아쿠아리움",
-    to: "오르비스",
-    intervalMinutes: 15,
-    durationMinutes: 5,
-    cost: "무료",
-    group: "orbis-other",
-  },
-  {
     id: "orbis-leafre",
-    routeName: "오르비스 -> 리프레",
     from: "오르비스",
     to: "리프레",
     intervalMinutes: 10,
     durationMinutes: 5,
-    cost: "무료",
+    cost: "6,000 메소 (티켓)",
+    vehicle: "배",
+    note: "Lv.15 이상 탑승 가능",
     group: "orbis-other",
   },
   {
     id: "leafre-orbis",
-    routeName: "리프레 -> 오르비스",
     from: "리프레",
     to: "오르비스",
     intervalMinutes: 10,
     durationMinutes: 5,
-    cost: "무료",
+    cost: "6,000 메소 (티켓)",
+    vehicle: "배",
     group: "orbis-other",
   },
   {
     id: "orbis-ludi",
-    routeName: "오르비스 -> 루디브리엄",
     from: "오르비스",
     to: "루디브리엄",
     intervalMinutes: 10,
     durationMinutes: 5,
-    cost: "무료",
+    cost: "6,000 메소 (티켓)",
+    vehicle: "장난감 열차",
     group: "orbis-other",
   },
   {
     id: "ludi-orbis",
-    routeName: "루디브리엄 -> 오르비스",
     from: "루디브리엄",
     to: "오르비스",
     intervalMinutes: 10,
     durationMinutes: 5,
-    cost: "무료",
-    group: "orbis-other",
-  },
-  {
-    id: "orbis-mureung",
-    routeName: "오르비스 -> 무릉/백초",
-    from: "오르비스",
-    to: "무릉",
-    intervalMinutes: 10,
-    durationMinutes: 5,
-    cost: "무료",
-    group: "orbis-other",
-  },
-  {
-    id: "mureung-orbis",
-    routeName: "무릉 -> 오르비스",
-    from: "무릉",
-    to: "오르비스",
-    intervalMinutes: 10,
-    durationMinutes: 5,
-    cost: "무료",
+    cost: "6,000 메소 (티켓)",
+    vehicle: "장난감 열차",
     group: "orbis-other",
   },
   {
     id: "orbis-ariant",
-    routeName: "오르비스 -> 아리안트",
     from: "오르비스",
     to: "아리안트",
     intervalMinutes: 10,
     durationMinutes: 5,
-    cost: "무료",
+    cost: "6,000 메소 (티켓)",
+    vehicle: "배",
+    note: "Lv.10 이상 탑승 가능",
     group: "orbis-other",
   },
   {
     id: "ariant-orbis",
-    routeName: "아리안트 -> 오르비스",
     from: "아리안트",
     to: "오르비스",
     intervalMinutes: 10,
     durationMinutes: 5,
-    cost: "무료",
+    cost: "6,000 메소 (티켓)",
+    vehicle: "배",
     group: "orbis-other",
+  },
+];
+
+const INSTANT_ROUTES: InstantRoute[] = [
+  {
+    id: "orbis-mureung",
+    from: "오르비스",
+    to: "무릉",
+    cost: "6,000 메소",
+    vehicle: "학 (鶴)",
+    note: "NPC에게 말 걸면 즉시 이동",
+  },
+  {
+    id: "mureung-orbis",
+    from: "무릉",
+    to: "오르비스",
+    cost: "6,000 메소",
+    vehicle: "학 (鶴)",
+    note: "NPC에게 말 걸면 즉시 이동",
+  },
+  {
+    id: "mureung-herbtown",
+    from: "무릉",
+    to: "백초마을",
+    cost: "500 메소",
+    vehicle: "학 (鶴)",
+  },
+  {
+    id: "herbtown-mureung",
+    from: "백초마을",
+    to: "무릉",
+    cost: "500 메소",
+    vehicle: "학 (鶴)",
+  },
+  {
+    id: "herbtown-aquarium",
+    from: "백초마을",
+    to: "아쿠아리움",
+    cost: "10,000 메소",
+    vehicle: "돌고래 택시",
+    note: "아쿠아리움 가는 유일한 루트",
+  },
+  {
+    id: "aquarium-herbtown",
+    from: "아쿠아리움",
+    to: "백초마을",
+    cost: "10,000 메소",
+    vehicle: "돌고래 택시",
+  },
+  {
+    id: "ariant-magatia",
+    from: "아리안트",
+    to: "마가티아",
+    cost: "1,500 메소",
+    vehicle: "낙타 택시",
+  },
+  {
+    id: "magatia-ariant",
+    from: "마가티아",
+    to: "아리안트",
+    cost: "1,500 메소",
+    vehicle: "낙타 택시",
   },
 ];
 
@@ -157,23 +194,15 @@ function getNextDeparture(intervalMinutes: number): { minutesLeft: number; secon
 
 function getStatusColor(minutesLeft: number): { bg: string; text: string; label: string } {
   if (minutesLeft < 2) {
-    return { bg: "bg-green-100", text: "text-green-700", label: "곧 출발" };
+    return { bg: "bg-green-100 dark:bg-green-900/40", text: "text-green-700 dark:text-green-400", label: "곧 출발" };
   }
   if (minutesLeft < 5) {
-    return { bg: "bg-yellow-100", text: "text-yellow-700", label: "대기 중" };
+    return { bg: "bg-yellow-100 dark:bg-yellow-900/40", text: "text-yellow-700 dark:text-yellow-400", label: "대기 중" };
   }
   return { bg: "bg-gray-100 dark:bg-gray-700", text: "text-gray-600 dark:text-gray-400", label: "대기 중" };
 }
 
-function getDepartureTimesStr(interval: number): string {
-  const times: string[] = [];
-  for (let m = 0; m < 60; m += interval) {
-    times.push(`:${m.toString().padStart(2, "0")}`);
-  }
-  return `매 ${interval}분 (${times.join(", ")})`;
-}
-
-// ─── 타이머 행 컴포넌트 ───
+// ─── 정기 노선 행 ───
 function RouteRow({ route }: { route: ShipRoute }) {
   const [timer, setTimer] = useState(() => getNextDeparture(route.intervalMinutes));
 
@@ -187,7 +216,7 @@ function RouteRow({ route }: { route: ShipRoute }) {
   const status = getStatusColor(timer.minutesLeft);
 
   return (
-    <tr className="border-t border-gray-50 hover:bg-gray-50 dark:bg-gray-900 transition-colors">
+    <tr className="border-t border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
       <td className="px-4 py-3">
         <div className="font-medium text-sm">{route.from}</div>
       </td>
@@ -198,6 +227,9 @@ function RouteRow({ route }: { route: ShipRoute }) {
       </td>
       <td className="px-4 py-3">
         <div className="font-medium text-sm">{route.to}</div>
+      </td>
+      <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400 hidden sm:table-cell">
+        {route.vehicle}
       </td>
       <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400 hidden sm:table-cell">
         매 {route.intervalMinutes}분
@@ -222,7 +254,7 @@ function RouteRow({ route }: { route: ShipRoute }) {
   );
 }
 
-// ─── 모바일 카드 ───
+// ─── 정기 노선 모바일 카드 ───
 function RouteCard({ route }: { route: ShipRoute }) {
   const [timer, setTimer] = useState(() => getNextDeparture(route.intervalMinutes));
 
@@ -251,12 +283,15 @@ function RouteCard({ route }: { route: ShipRoute }) {
       </div>
       <div className="flex items-center justify-between">
         <div className="text-xs text-gray-500 dark:text-gray-400">
-          매 {route.intervalMinutes}분 / 소요 약 {route.durationMinutes}분 / {route.cost}
+          {route.vehicle} / 매 {route.intervalMinutes}분 / 약 {route.durationMinutes}분 / {route.cost}
         </div>
         <div className="text-lg font-mono font-bold text-orange-600">
           {timer.minutesLeft}:{timer.secondsLeft.toString().padStart(2, "0")}
         </div>
       </div>
+      {route.note && (
+        <p className="text-xs text-orange-500 dark:text-orange-400 mt-1.5">{route.note}</p>
+      )}
     </div>
   );
 }
@@ -298,26 +333,109 @@ export default function ShipPage() {
       </div>
 
       {/* 빅토리아 <-> 오르비스 */}
-      <RouteGroup title="빅토리아 아일랜드 <-> 오르비스" routes={victoriaRoutes} />
+      <ScheduledRouteGroup title="빅토리아 아일랜드 ↔ 오르비스" routes={victoriaRoutes} />
 
       {/* 오르비스 <-> 기타 */}
-      <RouteGroup title="오르비스 <-> 기타 지역" routes={otherRoutes} />
+      <ScheduledRouteGroup title="오르비스 ↔ 기타 지역" routes={otherRoutes} />
+
+      {/* 즉시 이동수단 */}
+      <div className="mb-6">
+        <h2 className="font-bold text-lg mb-3">즉시 이동수단 (대기 없음)</h2>
+
+        {/* Desktop table */}
+        <div className="hidden sm:block bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 text-xs">
+                <th className="text-left px-4 py-2.5 font-medium">출발지</th>
+                <th className="px-2 py-2.5" />
+                <th className="text-left px-4 py-2.5 font-medium">도착지</th>
+                <th className="text-left px-4 py-2.5 font-medium">이동수단</th>
+                <th className="text-left px-4 py-2.5 font-medium">비용</th>
+                <th className="text-left px-4 py-2.5 font-medium">비고</th>
+              </tr>
+            </thead>
+            <tbody>
+              {INSTANT_ROUTES.map((route) => (
+                <tr key={route.id} className="border-t border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                  <td className="px-4 py-3 font-medium text-sm">{route.from}</td>
+                  <td className="px-2 py-3 text-center text-gray-400">
+                    <svg className="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </td>
+                  <td className="px-4 py-3 font-medium text-sm">{route.to}</td>
+                  <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">{route.vehicle}</td>
+                  <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">{route.cost}</td>
+                  <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">{route.note || "-"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Mobile cards */}
+        <div className="sm:hidden space-y-2">
+          {INSTANT_ROUTES.map((route) => (
+            <div key={route.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="font-medium text-sm">{route.from}</span>
+                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+                <span className="font-medium text-sm">{route.to}</span>
+                <span className="ml-auto text-xs px-2 py-0.5 rounded font-medium bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400">
+                  즉시
+                </span>
+              </div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">
+                {route.vehicle} / {route.cost}
+              </div>
+              {route.note && (
+                <p className="text-xs text-orange-500 dark:text-orange-400 mt-1">{route.note}</p>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* 아쿠아리움 가는 법 안내 */}
+      <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-5 mb-6">
+        <h3 className="font-bold text-blue-800 dark:text-blue-300 mb-2">아쿠아리움 가는 방법</h3>
+        <p className="text-sm text-blue-700 dark:text-blue-400 mb-2">
+          오르비스에서 아쿠아리움으로 가는 직행 배편은 없습니다. 다음 경로를 이용하세요:
+        </p>
+        <div className="flex flex-wrap items-center gap-1.5 text-sm font-medium text-blue-800 dark:text-blue-300">
+          <span className="bg-blue-100 dark:bg-blue-800/50 px-2 py-0.5 rounded">오르비스</span>
+          <span className="text-blue-400">→ 학 6,000메소 →</span>
+          <span className="bg-blue-100 dark:bg-blue-800/50 px-2 py-0.5 rounded">무릉</span>
+          <span className="text-blue-400">→ 학 500메소 →</span>
+          <span className="bg-blue-100 dark:bg-blue-800/50 px-2 py-0.5 rounded">백초마을</span>
+          <span className="text-blue-400">→ 돌고래 10,000메소 →</span>
+          <span className="bg-blue-100 dark:bg-blue-800/50 px-2 py-0.5 rounded">아쿠아리움</span>
+        </div>
+        <p className="text-xs text-blue-600 dark:text-blue-500 mt-2">총 비용: 16,500 메소 / 모두 즉시 이동 (대기 없음)</p>
+      </div>
 
       {/* 참고사항 */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 mt-6">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
         <h2 className="font-bold mb-3">참고사항</h2>
         <ul className="space-y-1.5">
           <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
             <span className="text-orange-400 flex-shrink-0">-</span>
-            시간표는 v83 기준 대략적인 값이며, 메이플랜드 서버에서는 다를 수 있습니다.
+            엘리니아↔오르비스 배 탑승 중 <strong className="text-red-500">크림슨 발록</strong>이 출현할 수 있습니다 (출발 후 약 1분 뒤, 미출현 시 해당 회차 없음).
           </li>
           <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
             <span className="text-orange-400 flex-shrink-0">-</span>
-            배 탑승 시 발리록 등 몬스터가 출현할 수 있으니 주의하세요.
+            정기 노선은 출발 시간 전에 탑승장에 도착해야 합니다. 출발 후에는 탑승 불가합니다.
           </li>
           <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
             <span className="text-orange-400 flex-shrink-0">-</span>
-            출발 직전에 탑승장에 도착해야 합니다. 출발 후에는 탑승 불가합니다.
+            티켓은 각 탑승장 근처 NPC에서 구매할 수 있습니다.
+          </li>
+          <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
+            <span className="text-orange-400 flex-shrink-0">-</span>
+            비용은 메이플랜드 기준이며, 실제 게임 내 가격과 다를 수 있습니다.
           </li>
           <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
             <span className="text-orange-400 flex-shrink-0">-</span>
@@ -325,6 +443,7 @@ export default function ShipPage() {
               <span className="w-2 h-2 rounded-full bg-green-500 inline-block" /> 곧 출발 (2분 이내)
               <span className="w-2 h-2 rounded-full bg-yellow-500 inline-block ml-2" /> 대기 중 (2~5분)
               <span className="w-2 h-2 rounded-full bg-gray-400 inline-block ml-2" /> 대기 중 (5분+)
+              <span className="w-2 h-2 rounded-full bg-blue-500 inline-block ml-2" /> 즉시 이동
             </span>
           </li>
         </ul>
@@ -333,8 +452,8 @@ export default function ShipPage() {
   );
 }
 
-// ─── 그룹 컴포넌트 ───
-function RouteGroup({ title, routes }: { title: string; routes: ShipRoute[] }) {
+// ─── 정기 노선 그룹 ───
+function ScheduledRouteGroup({ title, routes }: { title: string; routes: ShipRoute[] }) {
   return (
     <div className="mb-6">
       <h2 className="font-bold text-lg mb-3">{title}</h2>
@@ -347,6 +466,7 @@ function RouteGroup({ title, routes }: { title: string; routes: ShipRoute[] }) {
               <th className="text-left px-4 py-2.5 font-medium">출발지</th>
               <th className="px-2 py-2.5" />
               <th className="text-left px-4 py-2.5 font-medium">도착지</th>
+              <th className="text-left px-4 py-2.5 font-medium hidden sm:table-cell">이동수단</th>
               <th className="text-left px-4 py-2.5 font-medium hidden sm:table-cell">간격</th>
               <th className="text-left px-4 py-2.5 font-medium hidden sm:table-cell">소요</th>
               <th className="text-left px-4 py-2.5 font-medium hidden md:table-cell">비용</th>
