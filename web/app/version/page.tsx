@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.7.0";
+const VERSION = "2.8.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,45 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.8.0",
+    date: "2026-04-05",
+    type: "minor",
+    title: "메팁 시세 연동 + 시세 조회 페이지",
+    features: [
+      {
+        category: "신규 — 시세 조회 (/market)",
+        items: [
+          "메팁(matip.kr) 시세 데이터 연동 (프록시 API)",
+          "아이템 검색 + 자동완성 (~1,200개 아이템)",
+          "시세 차트: 매도/매수 라인 + min/max 영역 (Recharts)",
+          "시간별/일별/월별 해상도 토글",
+          "인기 아이템 퀵선택 (주문서/장비/소비)",
+          "주문서 시세 비교 테이블 (100%/60%/10% 기대값 계산)",
+        ],
+      },
+      {
+        category: "신규 — 아이템 상세 시세",
+        items: [
+          "아이템 상세 페이지(/items/[id])에 실시간 시세 차트 추가",
+          "매도/매수 평균가, 최저/최고가, 거래량 요약 카드",
+        ],
+      },
+      {
+        category: "개선 — 사냥터 추천 (/hunt)",
+        items: [
+          "빅뱅전(v62~v83) 데이터 30개로 전면 교체",
+          "레벨 입력 필드 비우기 허용 (UX 개선)",
+        ],
+      },
+      {
+        category: "개선 — 성능",
+        items: [
+          "비매 박제 DB 쿼리 최적화 (인덱스 추가, WAL 중복 실행 제거)",
+        ],
+      },
+    ],
+  },
   {
     version: "2.7.0",
     date: "2026-04-05",
