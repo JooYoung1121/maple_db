@@ -14,6 +14,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from crawler.db import init_db, get_connection
 from api.routes import search, items, mobs, maps, npcs, quests, export, skills, admin, bimae, scroll_rankings, community
 from api.routes import maple_land
+from api.routes import matip
 from api.routes import game_results
 from api.routes import guild
 from api.routes import guild_members
@@ -135,6 +136,7 @@ app.include_router(guild_boss.router, prefix="/api")
 app.include_router(fee_records.router, prefix="/api")
 app.include_router(discord_admin.router, prefix="/api")
 app.include_router(free_board.router, prefix="/api")
+app.include_router(matip.router, prefix="/api")
 
 
 @app.get("/api/health")

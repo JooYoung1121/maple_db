@@ -22,6 +22,7 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/npcs", label: "NPC" },
       { href: "/quests", label: "퀘스트" },
       { href: "/skills", label: "스킬" },
+      { href: "/market", label: "시세 조회" },
     ],
   },
   {
