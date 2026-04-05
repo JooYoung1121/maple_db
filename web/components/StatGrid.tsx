@@ -47,7 +47,7 @@ const CATEGORY_META: Record<string, { label: string; color: string; bgColor: str
   attack: { label: "공격", color: "text-red-700", bgColor: "bg-red-50" },
   defense: { label: "방어", color: "text-blue-700", bgColor: "bg-blue-50" },
   stat: { label: "스탯", color: "text-green-700", bgColor: "bg-green-50" },
-  other: { label: "기타", color: "text-gray-700", bgColor: "bg-gray-50" },
+  other: { label: "기타", color: "text-gray-700 dark:text-gray-300", bgColor: "bg-gray-50 dark:bg-gray-900" },
 };
 
 const CATEGORY_ORDER = ["attack", "defense", "stat", "other"] as const;
@@ -78,7 +78,7 @@ export default function StatGrid({ stats, title = "스탯" }: Props) {
 
   return (
     <div className="mt-4">
-      <span className="text-sm font-semibold text-gray-700">{title}</span>
+      <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">{title}</span>
       <div className="mt-2 space-y-3">
         {CATEGORY_ORDER.filter((cat) => grouped.has(cat)).map((cat) => {
           const meta = CATEGORY_META[cat];

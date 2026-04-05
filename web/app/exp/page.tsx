@@ -56,11 +56,11 @@ export default function ExpPage() {
   return (
     <div className="max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-1">경험치 계산기</h1>
-      <p className="text-sm text-gray-500 mb-6">
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
         레벨별 경험치 표, 한타임 사냥 계산기, 목표 레벨 계산
       </p>
 
-      <div className="flex gap-1 mb-6 bg-gray-100 p-1 rounded-xl w-fit">
+      <div className="flex gap-1 mb-6 bg-gray-100 dark:bg-gray-700 p-1 rounded-xl w-fit">
         {([
           { key: "hunt" as Tab, label: "한타임 사냥" },
           { key: "goal" as Tab, label: "목표 레벨" },
@@ -71,8 +71,8 @@ export default function ExpPage() {
             onClick={() => setActiveTab(t.key)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               activeTab === t.key
-                ? "bg-white text-orange-600 shadow-sm"
-                : "text-gray-500 hover:text-gray-700"
+                ? "bg-white dark:bg-gray-800 text-orange-600 shadow-sm"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-300"
             }`}
           >
             {t.label}
@@ -265,7 +265,7 @@ function HuntTab() {
   return (
     <div className="space-y-6">
       {/* 타이머 */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-bold text-lg">사냥 타이머</h2>
           {!timerRunning && !timerDone && (
@@ -273,7 +273,7 @@ function HuntTab() {
               <select
                 value={timerMinutes}
                 onChange={(e) => setTimerMinutes(Number(e.target.value))}
-                className="px-2 py-1 border border-gray-300 rounded-lg text-sm"
+                className="px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-lg text-sm"
               >
                 <option value={30}>30분</option>
                 <option value={60}>1시간</option>
@@ -323,7 +323,7 @@ function HuntTab() {
             {timerDone && (
               <button
                 onClick={() => setTimerDone(false)}
-                className="px-6 py-2.5 bg-gray-200 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-300 transition-colors"
+                className="px-6 py-2.5 bg-gray-200 text-gray-600 dark:text-gray-400 rounded-lg text-sm font-medium hover:bg-gray-300 transition-colors"
               >
                 알람 끄기
               </button>
@@ -335,12 +335,12 @@ function HuntTab() {
       {/* 사냥 전/후 입력 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {/* 사냥 전 */}
-        <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
           <h3 className="font-bold text-sm text-blue-600 mb-3">사냥 전</h3>
           <div className="space-y-3">
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="block text-xs text-gray-500 mb-1">레벨</label>
+                <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">레벨</label>
                 <input
                   type="number"
                   min={1}
@@ -348,11 +348,11 @@ function HuntTab() {
                   value={startLevel}
                   onChange={(e) => setStartLevel(e.target.value)}
                   placeholder="레벨"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">경험치 %</label>
+                <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">경험치 %</label>
                 <input
                   type="number"
                   min={0}
@@ -361,40 +361,40 @@ function HuntTab() {
                   value={startExpPct}
                   onChange={(e) => setStartExpPct(e.target.value)}
                   placeholder="0.00"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-xs text-gray-500 mb-1">보유 메소</label>
+              <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">보유 메소</label>
               <input
                 type="text"
                 value={startMeso}
                 onChange={(e) => setStartMeso(e.target.value.replace(/[^0-9]/g, ""))}
                 placeholder="메소"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-500 mb-1">물약 보유 메소 (약값)</label>
+              <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">물약 보유 메소 (약값)</label>
               <input
                 type="text"
                 value={startPotionMeso}
                 onChange={(e) => setStartPotionMeso(e.target.value.replace(/[^0-9]/g, ""))}
                 placeholder="물약 메소"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
             </div>
           </div>
         </div>
 
         {/* 사냥 후 */}
-        <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
           <h3 className="font-bold text-sm text-orange-600 mb-3">사냥 후</h3>
           <div className="space-y-3">
             <div className="grid grid-cols-2 gap-2">
               <div>
-                <label className="block text-xs text-gray-500 mb-1">레벨</label>
+                <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">레벨</label>
                 <input
                   type="number"
                   min={1}
@@ -402,11 +402,11 @@ function HuntTab() {
                   value={endLevel}
                   onChange={(e) => setEndLevel(e.target.value)}
                   placeholder="레벨"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">경험치 %</label>
+                <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">경험치 %</label>
                 <input
                   type="number"
                   min={0}
@@ -415,28 +415,28 @@ function HuntTab() {
                   value={endExpPct}
                   onChange={(e) => setEndExpPct(e.target.value)}
                   placeholder="0.00"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
                 />
               </div>
             </div>
             <div>
-              <label className="block text-xs text-gray-500 mb-1">보유 메소</label>
+              <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">보유 메소</label>
               <input
                 type="text"
                 value={endMeso}
                 onChange={(e) => setEndMeso(e.target.value.replace(/[^0-9]/g, ""))}
                 placeholder="메소"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-500 mb-1">물약 보유 메소 (약값)</label>
+              <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">물약 보유 메소 (약값)</label>
               <input
                 type="text"
                 value={endPotionMeso}
                 onChange={(e) => setEndPotionMeso(e.target.value.replace(/[^0-9]/g, ""))}
                 placeholder="물약 메소"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
             </div>
           </div>
@@ -455,7 +455,7 @@ function HuntTab() {
         {showResult && (
           <button
             onClick={resetForm}
-            className="px-6 py-2.5 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
+            className="px-6 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
           >
             다음 타임 준비
           </button>
@@ -464,7 +464,7 @@ function HuntTab() {
 
       {/* 결과 */}
       {showResult && lastRecord && (
-        <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
           <h3 className="font-bold text-lg mb-4">사냥 결과</h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
             <StatCard
@@ -491,20 +491,20 @@ function HuntTab() {
             />
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
-            <div className="bg-gray-50 rounded-lg p-3">
-              <p className="text-xs text-gray-500">레벨 변화</p>
+            <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
+              <p className="text-xs text-gray-500 dark:text-gray-400">레벨 변화</p>
               <p className="font-bold">
                 Lv.{lastRecord.startLevel} ({lastRecord.startExpPct}%) → Lv.{lastRecord.endLevel} ({lastRecord.endExpPct}%)
               </p>
             </div>
-            <div className="bg-gray-50 rounded-lg p-3">
-              <p className="text-xs text-gray-500">시간당 경험치</p>
+            <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
+              <p className="text-xs text-gray-500 dark:text-gray-400">시간당 경험치</p>
               <p className="font-bold">
                 {formatExpShort(Math.floor(lastRecord.expGained / (lastRecord.duration / 60)))} /시간
               </p>
             </div>
-            <div className="bg-gray-50 rounded-lg p-3">
-              <p className="text-xs text-gray-500">시간당 순수익</p>
+            <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
+              <p className="text-xs text-gray-500 dark:text-gray-400">시간당 순수익</p>
               <p className="font-bold">
                 {formatNumber(Math.floor(lastRecord.netMeso / (lastRecord.duration / 60)))} 메소/시간
               </p>
@@ -515,12 +515,12 @@ function HuntTab() {
 
       {/* 사냥 기록 */}
       {records.length > 1 && (
-        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
           <div className="px-5 py-3 border-b border-gray-100 flex items-center justify-between">
             <h3 className="font-bold">사냥 기록</h3>
             <button
               onClick={() => setRecords([])}
-              className="text-xs text-gray-400 hover:text-gray-600"
+              className="text-xs text-gray-400 hover:text-gray-600 dark:text-gray-400"
             >
               기록 초기화
             </button>
@@ -528,7 +528,7 @@ function HuntTab() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-gray-50 text-gray-500">
+                <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
                   <th className="text-left px-4 py-2 font-medium">시간</th>
                   <th className="text-left px-4 py-2 font-medium">레벨</th>
                   <th className="text-right px-4 py-2 font-medium">획득 경험치</th>
@@ -538,7 +538,7 @@ function HuntTab() {
               <tbody>
                 {records.map((r) => (
                   <tr key={r.id} className="border-t border-gray-50">
-                    <td className="px-4 py-2 text-gray-500">
+                    <td className="px-4 py-2 text-gray-500 dark:text-gray-400">
                       {r.startTime}~{r.endTime}
                     </td>
                     <td className="px-4 py-2">
@@ -558,14 +558,14 @@ function HuntTab() {
             </table>
           </div>
           {records.length >= 2 && (
-            <div className="px-5 py-3 border-t border-gray-200 bg-gray-50 text-sm">
-              <span className="text-gray-500">
+            <div className="px-5 py-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-sm">
+              <span className="text-gray-500 dark:text-gray-400">
                 총 {records.length}타임 · 총 경험치{" "}
-                <span className="font-bold text-gray-700">
+                <span className="font-bold text-gray-700 dark:text-gray-300">
                   {formatExpShort(records.reduce((a, r) => a + r.expGained, 0))}
                 </span>{" "}
                 · 총 순수익{" "}
-                <span className="font-bold text-gray-700">
+                <span className="font-bold text-gray-700 dark:text-gray-300">
                   {formatNumber(records.reduce((a, r) => a + r.netMeso, 0))} 메소
                 </span>
               </span>
@@ -599,10 +599,10 @@ function StatCard({
   return (
     <div
       className={`rounded-xl p-4 ${
-        highlight ? `border ${colorMap[color]}` : "bg-white border border-gray-200"
+        highlight ? `border ${colorMap[color]}` : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
       }`}
     >
-      <p className="text-xs text-gray-500 mb-1">{label}</p>
+      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{label}</p>
       <p className={`text-lg font-bold font-mono ${colorMap[color]?.split(" ").pop()}`}>
         {value}
       </p>
@@ -638,11 +638,11 @@ function GoalTab() {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
         <h2 className="font-bold text-lg mb-4">목표 레벨까지 남은 경험치</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">현재 레벨</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">현재 레벨</label>
             <div className="grid grid-cols-2 gap-2">
               <input
                 type="number"
@@ -651,7 +651,7 @@ function GoalTab() {
                 value={currentLevel}
                 onChange={(e) => setCurrentLevel(e.target.value)}
                 placeholder="레벨"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
               <input
                 type="number"
@@ -661,12 +661,12 @@ function GoalTab() {
                 value={currentPct}
                 onChange={(e) => setCurrentPct(e.target.value)}
                 placeholder="경험치 %"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
             </div>
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">목표 레벨</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">목표 레벨</label>
             <input
               type="number"
               min={2}
@@ -674,11 +674,11 @@ function GoalTab() {
               value={targetLevel}
               onChange={(e) => setTargetLevel(e.target.value)}
               placeholder="목표 레벨"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             />
           </div>
           <div className="sm:col-span-2">
-            <label className="block text-xs font-medium text-gray-500 mb-1">
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
               시간당 경험치 (선택 - 예상 소요시간 계산용)
             </label>
             <input
@@ -686,7 +686,7 @@ function GoalTab() {
               value={expPerHour}
               onChange={(e) => setExpPerHour(e.target.value.replace(/[^0-9]/g, ""))}
               placeholder="한타임 사냥 결과를 참고하세요"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             />
           </div>
         </div>
@@ -699,7 +699,7 @@ function GoalTab() {
             <p className="text-2xl font-bold text-orange-600 font-mono">
               {formatExpShort(result.remaining)}
             </p>
-            <p className="text-xs text-gray-500 mt-1">{formatNumber(result.remaining)} EXP</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{formatNumber(result.remaining)} EXP</p>
           </div>
           {result.hours > 0 && (
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-5">
@@ -709,7 +709,7 @@ function GoalTab() {
                   ? `${Math.floor(result.hours / 24)}일 ${Math.floor(result.hours % 24)}시간`
                   : `${Math.floor(result.hours)}시간 ${Math.floor((result.hours % 1) * 60)}분`}
               </p>
-              <p className="text-xs text-gray-500 mt-1">
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 약 {Math.ceil(result.hours)}타임 (1시간 기준)
               </p>
             </div>
@@ -759,7 +759,7 @@ function TableTab() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="레벨 검색"
-          className="w-24 px-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+          className="w-24 px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
         />
         {ranges.map((r) => (
           <button
@@ -771,7 +771,7 @@ function TableTab() {
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
               rangeStart === r.start && !search
                 ? "bg-orange-500 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200"
             }`}
           >
             {r.label}
@@ -779,11 +779,11 @@ function TableTab() {
         ))}
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-gray-50 text-gray-500">
+              <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
                 <th className="text-left px-5 py-2.5 font-medium">레벨</th>
                 <th className="text-right px-5 py-2.5 font-medium">필요 경험치</th>
                 <th className="text-right px-5 py-2.5 font-medium">누적 경험치</th>
@@ -806,7 +806,7 @@ function TableTab() {
                   <td className="px-5 py-2 text-right font-mono">
                     {formatNumber(EXP_TABLE[lv] || 0)}
                   </td>
-                  <td className="px-5 py-2 text-right font-mono text-gray-500">
+                  <td className="px-5 py-2 text-right font-mono text-gray-500 dark:text-gray-400">
                     {formatNumber(getCumulativeExp(lv))}
                   </td>
                 </tr>

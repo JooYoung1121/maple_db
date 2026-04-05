@@ -202,39 +202,39 @@ export default function FreeBoardPage() {
   if (view === "write") {
     return (
       <div className="max-w-3xl mx-auto">
-        <button onClick={() => setView("list")} className="text-sm text-gray-500 hover:text-orange-500 mb-4">&larr; 목록으로</button>
-        <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm space-y-4">
-          <h2 className="text-lg font-bold text-gray-900">글쓰기</h2>
+        <button onClick={() => setView("list")} className="text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 mb-4">&larr; 목록으로</button>
+        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm space-y-4">
+          <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">글쓰기</h2>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">닉네임</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">닉네임</label>
             <input
               type="text"
               value={nickname}
               onChange={(e) => setNickname(e.target.value)}
               placeholder="닉네임"
               maxLength={20}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">제목</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">제목</label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="제목을 입력하세요"
               maxLength={100}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">내용</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">내용</label>
             <textarea
               value={content}
               onChange={(e) => setContent(e.target.value)}
               placeholder="내용을 입력하세요"
               rows={8}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none"
+              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none"
             />
           </div>
           {writeError && <p className="text-red-500 text-sm">{writeError}</p>}
@@ -254,7 +254,7 @@ export default function FreeBoardPage() {
   if (view === "detail") {
     return (
       <div className="max-w-3xl mx-auto">
-        <button onClick={() => setView("list")} className="text-sm text-gray-500 hover:text-orange-500 mb-4">&larr; 목록으로</button>
+        <button onClick={() => setView("list")} className="text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 mb-4">&larr; 목록으로</button>
 
         {msg && (
           <div className="mb-3 text-sm text-red-500 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{msg}</div>
@@ -267,10 +267,10 @@ export default function FreeBoardPage() {
         ) : (
           <div className="space-y-4">
             {/* 글 내용 */}
-            <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
               <div className="flex items-start justify-between gap-3 mb-3">
                 <div>
-                  <h2 className="text-lg font-bold text-gray-900">{detail.title}</h2>
+                  <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">{detail.title}</h2>
                   <p className="text-xs text-gray-400 mt-1">{detail.nickname} · {new Date(detail.created_at).toLocaleDateString("ko-KR")}</p>
                 </div>
                 <div className="shrink-0">
@@ -282,7 +282,7 @@ export default function FreeBoardPage() {
                         value={adminPw}
                         onChange={(e) => setAdminPw(e.target.value)}
                         placeholder="비밀번호"
-                        className="border border-gray-300 rounded px-2 py-1 text-xs w-20"
+                        className="border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-xs w-20"
                         onKeyDown={(e) => e.key === "Enter" && handleDeletePost(detail.id)}
                       />
                       <button onClick={() => handleDeletePost(detail.id)} className="text-xs text-red-500 hover:text-red-700">확인</button>
@@ -293,23 +293,23 @@ export default function FreeBoardPage() {
                   )}
                 </div>
               </div>
-              <div className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{detail.content}</div>
+              <div className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">{detail.content}</div>
             </div>
 
             {/* 댓글 섹션 */}
-            <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm space-y-4">
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="font-semibold text-gray-800">댓글 ({detail.comments.length})</h3>
+                <h3 className="font-semibold text-gray-800 dark:text-gray-200">댓글 ({detail.comments.length})</h3>
                 <div className="flex gap-1">
                   <button
                     onClick={() => handleSortChange("newest")}
-                    className={`text-xs px-2.5 py-1 rounded-full ${commentSort === "newest" ? "bg-orange-100 text-orange-600 font-medium" : "text-gray-400 hover:text-gray-600"}`}
+                    className={`text-xs px-2.5 py-1 rounded-full ${commentSort === "newest" ? "bg-orange-100 text-orange-600 font-medium" : "text-gray-400 hover:text-gray-600 dark:text-gray-400"}`}
                   >
                     최신순
                   </button>
                   <button
                     onClick={() => handleSortChange("upvotes")}
-                    className={`text-xs px-2.5 py-1 rounded-full ${commentSort === "upvotes" ? "bg-orange-100 text-orange-600 font-medium" : "text-gray-400 hover:text-gray-600"}`}
+                    className={`text-xs px-2.5 py-1 rounded-full ${commentSort === "upvotes" ? "bg-orange-100 text-orange-600 font-medium" : "text-gray-400 hover:text-gray-600 dark:text-gray-400"}`}
                   >
                     추천순
                   </button>
@@ -326,10 +326,10 @@ export default function FreeBoardPage() {
                       <div className="flex items-start justify-between gap-2">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="text-sm font-medium text-gray-800">{c.nickname}</span>
+                            <span className="text-sm font-medium text-gray-800 dark:text-gray-200">{c.nickname}</span>
                             <span className="text-xs text-gray-400">{new Date(c.created_at).toLocaleDateString("ko-KR")}</span>
                           </div>
-                          <p className="text-sm text-gray-700 whitespace-pre-wrap">{c.content}</p>
+                          <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{c.content}</p>
                           <div className="flex items-center gap-3 mt-1.5">
                             <button
                               onClick={() => handleUpvote(c.id)}
@@ -351,7 +351,7 @@ export default function FreeBoardPage() {
                                 value={adminPw}
                                 onChange={(e) => setAdminPw(e.target.value)}
                                 placeholder="PW"
-                                className="border border-gray-300 rounded px-2 py-1 text-xs w-16"
+                                className="border border-gray-300 dark:border-gray-600 rounded px-2 py-1 text-xs w-16"
                                 onKeyDown={(e) => e.key === "Enter" && handleDeleteComment(c.id)}
                               />
                               <button onClick={() => handleDeleteComment(c.id)} className="text-xs text-red-500">확인</button>
@@ -375,7 +375,7 @@ export default function FreeBoardPage() {
                   onChange={(e) => setCommentNickname(e.target.value)}
                   placeholder="닉네임"
                   maxLength={20}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
                 />
                 <div className="flex gap-2">
                   <textarea
@@ -383,7 +383,7 @@ export default function FreeBoardPage() {
                     onChange={(e) => setCommentContent(e.target.value)}
                     placeholder="댓글을 입력하세요"
                     rows={2}
-                    className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none"
+                    className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none"
                   />
                   <button
                     onClick={handleComment}
@@ -405,7 +405,7 @@ export default function FreeBoardPage() {
   return (
     <div className="max-w-3xl mx-auto">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">자유게시판</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">자유게시판</h1>
         <button
           onClick={() => setView("write")}
           className="text-sm px-4 py-2 rounded-lg bg-orange-500 text-white hover:bg-orange-600 transition-colors font-medium"
@@ -428,11 +428,11 @@ export default function FreeBoardPage() {
             <button
               key={post.id}
               onClick={() => openDetail(post.id)}
-              className="w-full text-left bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:border-orange-300 transition-colors"
+              className="w-full text-left bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm hover:border-orange-300 transition-colors"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-gray-800 truncate">{post.title}</h3>
+                  <h3 className="font-semibold text-gray-800 dark:text-gray-200 truncate">{post.title}</h3>
                   <p className="text-xs text-gray-400 mt-1">
                     {post.nickname} · {new Date(post.created_at).toLocaleDateString("ko-KR")}
                     {post.comment_count > 0 && (
@@ -450,15 +450,15 @@ export default function FreeBoardPage() {
               <button
                 onClick={() => setPage(Math.max(1, page - 1))}
                 disabled={page <= 1}
-                className="px-3 py-1.5 text-sm rounded-lg border border-gray-200 disabled:opacity-30 hover:bg-gray-50"
+                className="px-3 py-1.5 text-sm rounded-lg border border-gray-200 dark:border-gray-700 disabled:opacity-30 hover:bg-gray-50 dark:bg-gray-900"
               >
                 이전
               </button>
-              <span className="text-sm text-gray-500">{page} / {totalPages}</span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">{page} / {totalPages}</span>
               <button
                 onClick={() => setPage(Math.min(totalPages, page + 1))}
                 disabled={page >= totalPages}
-                className="px-3 py-1.5 text-sm rounded-lg border border-gray-200 disabled:opacity-30 hover:bg-gray-50"
+                className="px-3 py-1.5 text-sm rounded-lg border border-gray-200 dark:border-gray-700 disabled:opacity-30 hover:bg-gray-50 dark:bg-gray-900"
               >
                 다음
               </button>

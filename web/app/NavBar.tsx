@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { getNewsRecentCount } from "@/lib/api";
+import ThemeToggle from "@/components/ThemeToggle";
 
 interface NavCategory {
   label: string;
@@ -36,6 +37,8 @@ const NAV_CATEGORIES: NavCategory[] = [
     label: "가이드",
     items: [
       { href: "/pq", label: "파티퀘스트" },
+      { href: "/hunt", label: "사냥터 추천" },
+      { href: "/ship", label: "배 시간표" },
     ],
   },
   {
@@ -90,8 +93,8 @@ function DropdownMenu({ category, isActive, closeMobileMenu }: {
         onClick={() => setOpen(!open)}
         className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
           hasActiveChild
-            ? "bg-orange-50 text-orange-600"
-            : "text-gray-600 hover:text-orange-600 hover:bg-gray-50"
+            ? "bg-orange-50 dark:bg-orange-900/30 text-orange-600"
+            : "text-gray-600 dark:text-gray-300 hover:text-orange-600 hover:bg-gray-50 dark:hover:bg-gray-700"
         }`}
       >
         {category.label}
@@ -105,7 +108,7 @@ function DropdownMenu({ category, isActive, closeMobileMenu }: {
         </svg>
       </button>
       {open && (
-        <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg py-1 min-w-[160px] z-50">
+        <div className="absolute top-full left-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg py-1 min-w-[160px] z-50">
           {category.items.map((item) => (
             <Link
               key={item.href}
@@ -116,8 +119,8 @@ function DropdownMenu({ category, isActive, closeMobileMenu }: {
               }}
               className={`block px-4 py-2.5 text-sm transition-colors ${
                 isActive(item.href)
-                  ? "bg-orange-50 text-orange-600 font-medium"
-                  : "text-gray-600 hover:bg-gray-50 hover:text-orange-600"
+                  ? "bg-orange-50 dark:bg-orange-900/30 text-orange-600 font-medium"
+                  : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-orange-600"
               }`}
             >
               {item.label}
@@ -159,7 +162,7 @@ export default function NavBar() {
   }
 
   return (
-    <nav className="bg-white border-b border-gray-200 sticky top-0 z-40">
+    <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-14">
         <Link href="/" className="text-lg font-bold text-orange-500 shrink-0">
           추억길드 메랜 정보
@@ -171,8 +174,8 @@ export default function NavBar() {
             href="/"
             className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
               isActive("/") && pathname === "/"
-                ? "bg-orange-50 text-orange-600"
-                : "text-gray-600 hover:text-orange-600 hover:bg-gray-50"
+                ? "bg-orange-50 dark:bg-orange-900/30 text-orange-600"
+                : "text-gray-600 dark:text-gray-300 hover:text-orange-600 hover:bg-gray-50 dark:hover:bg-gray-700"
             }`}
           >
             홈
@@ -184,8 +187,8 @@ export default function NavBar() {
             href="/news"
             className={`relative px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
               isActive("/news")
-                ? "bg-orange-50 text-orange-600"
-                : "text-gray-600 hover:text-orange-600 hover:bg-gray-50"
+                ? "bg-orange-50 dark:bg-orange-900/30 text-orange-600"
+                : "text-gray-600 dark:text-gray-300 hover:text-orange-600 hover:bg-gray-50 dark:hover:bg-gray-700"
             }`}
           >
             메랜 공홈 공지
@@ -195,28 +198,32 @@ export default function NavBar() {
               </span>
             )}
           </Link>
+          <ThemeToggle />
         </div>
 
         {/* Mobile hamburger */}
-        <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden p-2">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            {menuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            )}
-          </svg>
-        </button>
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeToggle />
+          <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 text-gray-600 dark:text-gray-300">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {menuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden border-t border-gray-100 bg-white max-h-[80vh] overflow-y-auto">
+        <div className="md:hidden border-t border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 max-h-[80vh] overflow-y-auto">
           <Link
             href="/"
             onClick={() => setMenuOpen(false)}
             className={`block px-4 py-3 text-sm font-medium ${
-              pathname === "/" ? "bg-orange-50 text-orange-600" : "text-gray-600"
+              pathname === "/" ? "bg-orange-50 dark:bg-orange-900/30 text-orange-600" : "text-gray-600 dark:text-gray-300"
             }`}
           >
             홈
@@ -224,8 +231,8 @@ export default function NavBar() {
           <Link
             href="/news"
             onClick={() => setMenuOpen(false)}
-            className={`flex items-center justify-between px-4 py-3 text-sm font-medium border-t border-gray-50 ${
-              isActive("/news") ? "bg-orange-50 text-orange-600" : "text-gray-600"
+            className={`flex items-center justify-between px-4 py-3 text-sm font-medium border-t border-gray-50 dark:border-gray-700 ${
+              isActive("/news") ? "bg-orange-50 dark:bg-orange-900/30 text-orange-600" : "text-gray-600 dark:text-gray-300"
             }`}
           >
             <span>메랜 공홈 공지</span>
@@ -236,7 +243,7 @@ export default function NavBar() {
             )}
           </Link>
           {NAV_CATEGORIES.map((cat) => (
-            <div key={cat.label} className="border-t border-gray-50">
+            <div key={cat.label} className="border-t border-gray-50 dark:border-gray-700">
               <button
                 onClick={() =>
                   setMobileExpanded(mobileExpanded === cat.label ? null : cat.label)
@@ -244,7 +251,7 @@ export default function NavBar() {
                 className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium ${
                   cat.items.some((i) => isActive(i.href))
                     ? "text-orange-600"
-                    : "text-gray-700"
+                    : "text-gray-700 dark:text-gray-300"
                 }`}
               >
                 <span>{cat.label}</span>
@@ -260,7 +267,7 @@ export default function NavBar() {
                 </svg>
               </button>
               {mobileExpanded === cat.label && (
-                <div className="bg-gray-50">
+                <div className="bg-gray-50 dark:bg-gray-900">
                   {cat.items.map((item) => (
                     <Link
                       key={item.href}
@@ -269,7 +276,7 @@ export default function NavBar() {
                       className={`block px-8 py-2.5 text-sm ${
                         isActive(item.href)
                           ? "text-orange-600 font-medium"
-                          : "text-gray-600"
+                          : "text-gray-600 dark:text-gray-400"
                       }`}
                     >
                       {item.label}

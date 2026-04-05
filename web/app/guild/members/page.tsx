@@ -23,7 +23,7 @@ const RANK_ORDER: Record<string, number> = {
 const RANK_BADGE: Record<string, string> = {
   마스터: "bg-orange-100 text-orange-700 border border-orange-300",
   부마스터: "bg-blue-100 text-blue-700 border border-blue-300",
-  길드원: "bg-gray-100 text-gray-600 border border-gray-300",
+  길드원: "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-600",
   부캐릭: "bg-purple-100 text-purple-600 border border-purple-200 italic",
   새싹: "bg-green-100 text-green-700 border border-green-300",
 };
@@ -52,10 +52,10 @@ interface FormModalProps {
 function FormModal({ title, form, setForm, password, setPassword, saving, error, onSave, onClose }: FormModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-md p-6 space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="font-bold text-gray-900">{title}</h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 text-xl leading-none">&times;</button>
+          <h3 className="font-bold text-gray-900 dark:text-gray-100">{title}</h3>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:text-gray-400 text-xl leading-none">&times;</button>
         </div>
 
         {([
@@ -64,53 +64,53 @@ function FormModal({ title, form, setForm, password, setPassword, saving, error,
           { label: "레벨", key: "level", type: "number" },
         ] as const).map(({ label, key, type }) => (
           <div key={key}>
-            <label className="block text-xs font-medium text-gray-500 mb-1">{label}</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">{label}</label>
             <input
               type={type}
               value={form[key]}
               onChange={(e) => setForm((f) => ({ ...f, [key]: e.target.value }))}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
+              className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
             />
           </div>
         ))}
 
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">직책</label>
+          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">직책</label>
           <select
             value={form.rank}
             onChange={(e) => setForm((f) => ({ ...f, rank: e.target.value }))}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
+            className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
           >
             {RANKS.slice(1).map((r) => <option key={r} value={r}>{r}</option>)}
           </select>
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">메모 (선택)</label>
+          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">메모 (선택)</label>
           <input
             type="text"
             value={form.note}
             onChange={(e) => setForm((f) => ({ ...f, note: e.target.value }))}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
+            className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
             placeholder="선택 입력"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">관리자 비밀번호</label>
+          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">관리자 비밀번호</label>
           <input
             type="password"
             autoComplete="off"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
+            className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
           />
         </div>
 
         {error && <p className="text-red-500 text-xs">{error}</p>}
 
         <div className="flex gap-2 pt-1">
-          <button onClick={onClose} className="flex-1 py-2 rounded-lg border border-gray-200 text-sm text-gray-600 hover:bg-gray-50">
+          <button onClick={onClose} className="flex-1 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-900">
             취소
           </button>
           <button
@@ -276,14 +276,14 @@ export default function GuildMembersPage() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">추억길드 길드원 명단</h1>
-          <p className="text-sm text-gray-500 mt-0.5">총 {allMembers.length}명</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">추억길드 길드원 명단</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">총 {allMembers.length}명</p>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={() => setAdminMode((v) => !v)}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
-              adminMode ? "bg-orange-500 text-white border-orange-500" : "text-gray-500 border-gray-200 hover:bg-gray-50"
+              adminMode ? "bg-orange-500 text-white border-orange-500" : "text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:bg-gray-900"
             }`}
           >
             {adminMode ? "관리자 모드 ON" : "관리자 모드"}
@@ -316,18 +316,18 @@ export default function GuildMembersPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 text-center">
           <p className="text-2xl font-bold text-orange-500">{allMembers.length}</p>
-          <p className="text-xs text-gray-500 mt-0.5">전체</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">전체</p>
         </div>
-        <div className="bg-white border border-gray-200 rounded-xl p-4 text-center">
-          <p className="text-2xl font-bold text-gray-800">{avgLevel}</p>
-          <p className="text-xs text-gray-500 mt-0.5">평균 레벨</p>
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 text-center">
+          <p className="text-2xl font-bold text-gray-800 dark:text-gray-200">{avgLevel}</p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">평균 레벨</p>
         </div>
-        <div className="bg-white border border-gray-200 rounded-xl p-4 col-span-2">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 col-span-2">
           <div className="flex flex-wrap gap-x-3 gap-y-1 justify-center h-full items-center">
             {RANKS.slice(1).map((r) => (
-              <span key={r} className="text-xs text-gray-600">
+              <span key={r} className="text-xs text-gray-600 dark:text-gray-400">
                 <span className="font-semibold">{r}</span> {rankCounts[r] ?? 0}명
               </span>
             ))}
@@ -342,7 +342,7 @@ export default function GuildMembersPage() {
             key={r}
             onClick={() => setRankFilter(r)}
             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-              rankFilter === r ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              rankFilter === r ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200"
             }`}
           >
             {r} ({r === "전체" ? allMembers.length : (rankCounts[r] ?? 0)})
@@ -357,7 +357,7 @@ export default function GuildMembersPage() {
               className={`px-2.5 py-1 rounded-lg text-xs font-medium transition-colors ${
                 sortField === field && sortDir === dir
                   ? "bg-gray-800 text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200"
               }`}
             >
               {label}
@@ -367,7 +367,7 @@ export default function GuildMembersPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
         {loading ? (
           <div className="text-center py-16 text-gray-400 text-sm">불러오는 중...</div>
         ) : sorted.length === 0 ? (
@@ -376,14 +376,14 @@ export default function GuildMembersPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-gray-50 border-b border-gray-100">
+                <tr className="bg-gray-50 dark:bg-gray-900 border-b border-gray-100">
                   {(["rank", "job", "level", "nickname"] as SortField[]).map((field) => {
                     const labels: Record<SortField, string> = { rank: "직책", job: "직업", level: "레벨", nickname: "닉네임" };
                     return (
                       <th
                         key={field}
                         onClick={() => handleColumnSort(field)}
-                        className={`px-4 py-3 text-xs font-semibold text-gray-500 cursor-pointer select-none hover:text-gray-700 hover:bg-gray-100 transition-colors ${
+                        className={`px-4 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 cursor-pointer select-none hover:text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:bg-gray-700 transition-colors ${
                           field === "level" || field === "nickname" ? "text-right" : "text-left"
                         }`}
                       >
@@ -392,23 +392,23 @@ export default function GuildMembersPage() {
                       </th>
                     );
                   })}
-                  <th className="px-4 py-3 text-xs font-semibold text-gray-500 text-left">
+                  <th className="px-4 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 text-left">
                     별명 <span className="font-normal text-gray-400">(클릭해서 수정)</span>
                   </th>
                   {adminMode && (
-                    <th className="px-4 py-3 text-xs font-semibold text-gray-500 text-right">관리</th>
+                    <th className="px-4 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 text-right">관리</th>
                   )}
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {sorted.map((m) => (
-                  <tr key={m.id} className="hover:bg-gray-50 transition-colors">
+                  <tr key={m.id} className="hover:bg-gray-50 dark:bg-gray-900 transition-colors">
                     <td className="px-4 py-2.5">
-                      <span className={`inline-block text-xs px-2 py-0.5 rounded-full font-medium ${RANK_BADGE[m.rank] ?? "bg-gray-100 text-gray-600"}`}>
+                      <span className={`inline-block text-xs px-2 py-0.5 rounded-full font-medium ${RANK_BADGE[m.rank] ?? "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400"}`}>
                         {m.rank}
                       </span>
                     </td>
-                    <td className="px-4 py-2.5 text-gray-600">{m.job}</td>
+                    <td className="px-4 py-2.5 text-gray-600 dark:text-gray-400">{m.job}</td>
                     <td className="px-4 py-2.5 text-right">
                       {editingLevel?.id === m.id ? (
                         <input
@@ -427,13 +427,13 @@ export default function GuildMembersPage() {
                       ) : (
                         <button
                           onClick={() => setEditingLevel({ id: m.id, value: String(m.level) })}
-                          className="font-mono text-gray-800 hover:text-orange-500 hover:underline"
+                          className="font-mono text-gray-800 dark:text-gray-200 hover:text-orange-500 hover:underline"
                         >
                           {m.level}
                         </button>
                       )}
                     </td>
-                    <td className="px-4 py-2.5 text-right font-medium text-gray-900">
+                    <td className="px-4 py-2.5 text-right font-medium text-gray-900 dark:text-gray-100">
                       {m.nickname}
                       {m.note && <span className="ml-1 text-xs text-gray-400">({m.note})</span>}
                     </td>
@@ -455,7 +455,7 @@ export default function GuildMembersPage() {
                       ) : (
                         <button
                           onClick={() => setEditingAlias({ id: m.id, value: m.alias ?? "" })}
-                          className="text-left text-sm text-gray-500 hover:text-orange-500 hover:underline min-w-[60px]"
+                          className="text-left text-sm text-gray-500 dark:text-gray-400 hover:text-orange-500 hover:underline min-w-[60px]"
                         >
                           {m.alias ?? <span className="text-gray-300">—</span>}
                         </button>

@@ -99,7 +99,7 @@ function ItemsPageContent() {
           <div className="text-center py-12 text-gray-400">로딩 중...</div>
         ) : (
           <>
-            <p className="text-sm text-gray-500 mb-2">총 {total.toLocaleString()}건</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">총 {total.toLocaleString()}건</p>
             <DataTable columns={columns} data={items} onRowClick={(row) => router.push(`/items/${row.id}`)} />
             <Pagination page={page} totalPages={Math.ceil(total / perPage)} onChange={setPage} />
           </>

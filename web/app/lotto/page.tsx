@@ -71,13 +71,13 @@ export default function LottoPage() {
 
   return (
     <div className="max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-1 text-gray-900">로또 번호 생성기</h1>
-      <p className="text-sm text-gray-500 mb-6">1~45 중 무작위로 6개 + 보너스 번호를 추첨합니다.</p>
+      <h1 className="text-2xl font-bold mb-1 text-gray-900 dark:text-gray-100">로또 번호 생성기</h1>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">1~45 중 무작위로 6개 + 보너스 번호를 추첨합니다.</p>
 
       {/* Controls */}
-      <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm mb-6">
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm mb-6">
         <div className="flex items-center gap-4 mb-5">
-          <span className="text-sm font-medium text-gray-700">생성 개수</span>
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">생성 개수</span>
           <div className="flex gap-2">
             {[1, 3, 5].map((n) => (
               <button
@@ -86,7 +86,7 @@ export default function LottoPage() {
                 className={`w-10 h-10 rounded-lg text-sm font-bold border-2 transition-colors ${
                   count === n
                     ? "bg-orange-500 text-white border-orange-500"
-                    : "bg-white text-gray-600 border-gray-300 hover:border-orange-300"
+                    : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-600 hover:border-orange-300"
                 }`}
               >
                 {n}
@@ -106,7 +106,7 @@ export default function LottoPage() {
       {results.length > 0 && (
         <div className="space-y-3 mb-6">
           {results.map((r, i) => (
-            <div key={r.id} className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+            <div key={r.id} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
               {count > 1 && (
                 <p className="text-xs font-semibold text-gray-400 mb-3">{i + 1}번 게임</p>
               )}
@@ -126,11 +126,11 @@ export default function LottoPage() {
       )}
 
       {/* Legend */}
-      <div className="bg-gray-50 rounded-xl p-4">
-        <p className="text-xs font-semibold text-gray-500 mb-2">번호별 색상</p>
+      <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-4">
+        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">번호별 색상</p>
         <div className="flex flex-wrap gap-3">
           {LEGEND.map(({ range, color }) => (
-            <div key={range} className="flex items-center gap-1.5 text-xs text-gray-600">
+            <div key={range} className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-400">
               <span className="inline-block w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: color }} />
               {range}
             </div>

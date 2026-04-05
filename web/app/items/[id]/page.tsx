@@ -46,7 +46,7 @@ export default function ItemDetailPage() {
   return (
     <div className="max-w-3xl mx-auto">
       <Link href="/items" className="text-sm text-orange-500 hover:underline">&larr; 아이템 목록</Link>
-      <div className="bg-white border border-gray-200 rounded-xl p-6 mt-3">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 mt-3">
         <div className="flex items-start gap-4">
           {item.icon_url && <img src={item.icon_url} alt={item.name} className="w-16 h-16 object-contain" />}
           <div>
@@ -54,35 +54,35 @@ export default function ItemDetailPage() {
               {(() => {
                 const kr = item.names_en?.find(n => n.source === "kms");
                 return kr ? (
-                  <>{kr.name_en} <span className="text-lg font-normal text-gray-500">({item.name})</span></>
+                  <>{kr.name_en} <span className="text-lg font-normal text-gray-500 dark:text-gray-400">({item.name})</span></>
                 ) : item.name;
               })()}
             </h1>
             <div className="flex gap-2 mt-1 flex-wrap">
-              {item.category && <span className="text-xs px-2 py-0.5 bg-gray-100 rounded">{toCategoryKr(item.category)}</span>}
-              {item.subcategory && <span className="text-xs px-2 py-0.5 bg-gray-100 rounded">{toSubcategoryKr(item.subcategory)}</span>}
+              {item.category && <span className="text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded">{toCategoryKr(item.category)}</span>}
+              {item.subcategory && <span className="text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded">{toSubcategoryKr(item.subcategory)}</span>}
             </div>
           </div>
         </div>
 
         {/* 요구 사항 */}
         <div className="mt-6">
-          <span className="text-sm font-semibold text-gray-700">요구 사항</span>
+          <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">요구 사항</span>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2">
-            <div className="bg-gray-50 rounded-lg p-3">
-              <span className="text-xs text-gray-500">레벨</span>
-              <p className="font-medium text-gray-800">{item.level_req || "-"}</p>
+            <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
+              <span className="text-xs text-gray-500 dark:text-gray-400">레벨</span>
+              <p className="font-medium text-gray-800 dark:text-gray-200">{item.level_req || "-"}</p>
             </div>
-            <div className="bg-gray-50 rounded-lg p-3">
-              <span className="text-xs text-gray-500">직업</span>
-              <p className="font-medium text-gray-800">{item.job_req || "공용"}</p>
+            <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
+              <span className="text-xs text-gray-500 dark:text-gray-400">직업</span>
+              <p className="font-medium text-gray-800 dark:text-gray-200">{item.job_req || "공용"}</p>
             </div>
             {Object.keys(reqStats).length > 0 && Object.entries(reqStats).map(([k, v]) => {
               const labels: Record<string, string> = { reqSTR: "힘(STR)", reqDEX: "민첩(DEX)", reqINT: "지능(INT)", reqLUK: "행운(LUK)" };
               return (
-                <div key={k} className="bg-gray-50 rounded-lg p-3">
-                  <span className="text-xs text-gray-500">{labels[k] || k}</span>
-                  <p className="font-medium text-gray-800">{v}</p>
+                <div key={k} className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
+                  <span className="text-xs text-gray-500 dark:text-gray-400">{labels[k] || k}</span>
+                  <p className="font-medium text-gray-800 dark:text-gray-200">{v}</p>
                 </div>
               );
             })}
@@ -92,24 +92,24 @@ export default function ItemDetailPage() {
         {/* 장비 정보 */}
         {(item.attack_speed || item.upgrade_slots || item.price) && (
           <div className="mt-6">
-            <span className="text-sm font-semibold text-gray-700">장비 정보</span>
+            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">장비 정보</span>
             <div className="grid grid-cols-3 gap-4 mt-2">
               {item.attack_speed && (
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <span className="text-xs text-gray-500">공격속도</span>
-                  <p className="font-medium text-gray-800">{item.attack_speed}</p>
+                <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
+                  <span className="text-xs text-gray-500 dark:text-gray-400">공격속도</span>
+                  <p className="font-medium text-gray-800 dark:text-gray-200">{item.attack_speed}</p>
                 </div>
               )}
               {item.upgrade_slots != null && item.upgrade_slots > 0 && (
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <span className="text-xs text-gray-500">업그레이드 슬롯</span>
-                  <p className="font-medium text-gray-800">{item.upgrade_slots}</p>
+                <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
+                  <span className="text-xs text-gray-500 dark:text-gray-400">업그레이드 슬롯</span>
+                  <p className="font-medium text-gray-800 dark:text-gray-200">{item.upgrade_slots}</p>
                 </div>
               )}
               {item.price != null && item.price > 0 && (
-                <div className="bg-gray-50 rounded-lg p-3">
-                  <span className="text-xs text-gray-500">가격</span>
-                  <p className="font-medium text-gray-800">{item.price.toLocaleString()} 메소</p>
+                <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
+                  <span className="text-xs text-gray-500 dark:text-gray-400">가격</span>
+                  <p className="font-medium text-gray-800 dark:text-gray-200">{item.price.toLocaleString()} 메소</p>
                 </div>
               )}
             </div>
@@ -118,8 +118,8 @@ export default function ItemDetailPage() {
 
         {item.description && (
           <div className="mt-6">
-            <span className="text-sm font-semibold text-gray-700">설명</span>
-            <p className="mt-1 text-gray-600">{item.description}</p>
+            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">설명</span>
+            <p className="mt-1 text-gray-600 dark:text-gray-400">{item.description}</p>
           </div>
         )}
 
@@ -132,7 +132,7 @@ export default function ItemDetailPage() {
       {droppedBy.length > 0 && (
         <div className="mt-6">
           <h2 className="text-lg font-semibold mb-3">드롭 몬스터</h2>
-          <div className="bg-white border border-gray-200 rounded-xl divide-y divide-gray-100">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl divide-y divide-gray-100">
             {droppedBy.map((m) => (
               <Link key={m.mob_id} href={`/mobs/${m.mob_id}`} className="flex items-center justify-between px-4 py-3 hover:bg-orange-50">
                 <span className="font-medium">{m.mob_name}</span>

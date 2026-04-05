@@ -102,7 +102,7 @@ function Die3D({ value, rollKey }: { value: number; rollKey: number }) {
       <div style={{ width: 60, height: 60, position: "relative", transformStyle: "preserve-3d", ...cubeStyle }}>
         {FACE_POS.map((face) => (
           <div key={face.v} style={{ position: "absolute", width: 60, height: 60, transform: face.t, backfaceVisibility: "hidden" }}
-            className="bg-white border-2 border-gray-200 rounded-xl shadow p-1.5">
+            className="bg-white dark:bg-gray-800 border-2 border-gray-200 dark:border-gray-700 rounded-xl shadow p-1.5">
             <DiceDots value={face.v} />
           </div>
         ))}
@@ -156,30 +156,30 @@ function DiceTab({ onResult }: { onResult: (participants: string[], winner: stri
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">참가자 관리</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">참가자 관리</h2>
         <div className="flex gap-2 mb-4">
           <input type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && addParticipant()} placeholder="닉네임 입력"
-            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
+            className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
           <button onClick={addParticipant} className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors">추가</button>
         </div>
         {participants.length > 0 ? (
           <ul className="space-y-1.5 mb-4">
             {participants.map((p) => (
-              <li key={p.id} className="flex items-center justify-between bg-gray-50 rounded-lg px-3 py-1.5">
-                <span className="text-sm font-medium text-gray-700">{p.name}</span>
+              <li key={p.id} className="flex items-center justify-between bg-gray-50 dark:bg-gray-900 rounded-lg px-3 py-1.5">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{p.name}</span>
                 <button onClick={() => removeParticipant(p.id)} className="text-gray-400 hover:text-red-500 text-lg leading-none transition-colors">×</button>
               </li>
             ))}
           </ul>
         ) : <p className="text-sm text-gray-400 text-center py-3 mb-4">참가자를 추가해주세요.</p>}
         <div>
-          <label className="text-sm font-medium text-gray-700 block mb-2">주사위 수 (최대 6개)</label>
+          <label className="text-sm font-medium text-gray-700 dark:text-gray-300 block mb-2">주사위 수 (최대 6개)</label>
           <div className="flex gap-2">
             {[1, 2, 3, 4, 5, 6].map((n) => (
               <button key={n} onClick={() => setDiceCount(n)}
-                className={`w-10 h-10 rounded-lg text-sm font-bold border-2 transition-colors ${diceCount === n ? "bg-orange-500 text-white border-orange-500" : "bg-white text-gray-600 border-gray-300 hover:border-orange-300"}`}>
+                className={`w-10 h-10 rounded-lg text-sm font-bold border-2 transition-colors ${diceCount === n ? "bg-orange-500 text-white border-orange-500" : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-600 hover:border-orange-300"}`}>
                 {n}
               </button>
             ))}
@@ -193,20 +193,20 @@ function DiceTab({ onResult }: { onResult: (participants: string[], winner: stri
         </button>
         {participants.length > 0 && (
           <button onClick={() => { setParticipants([]); setRolled(false); setPendingResult(null); setResultSaved(false); }}
-            className="px-4 py-3 bg-gray-100 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-200 transition-colors">초기화</button>
+            className="px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-xl text-sm font-medium hover:bg-gray-200 transition-colors">초기화</button>
         )}
       </div>
       {(rolled || animating) && (
         <div className="space-y-3">
-          <h2 className="text-base font-bold text-gray-800">결과 <span className="text-sm font-normal text-gray-400">— 합산 높은 순</span></h2>
+          <h2 className="text-base font-bold text-gray-800 dark:text-gray-200">결과 <span className="text-sm font-normal text-gray-400">— 합산 높은 순</span></h2>
           {displayList.map((p, idx) => (
-            <div key={p.id} className={`bg-white rounded-xl border-2 p-4 transition-all ${!animating && idx === 0 ? "border-orange-400 bg-orange-50" : "border-gray-200"}`}>
+            <div key={p.id} className={`bg-white dark:bg-gray-800 rounded-xl border-2 p-4 transition-all ${!animating && idx === 0 ? "border-orange-400 bg-orange-50" : "border-gray-200 dark:border-gray-700"}`}>
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
                   {!animating && idx === 0 && <span className="text-lg">🏆</span>}
-                  <span className="font-bold text-gray-800">{p.name}</span>
+                  <span className="font-bold text-gray-800 dark:text-gray-200">{p.name}</span>
                 </div>
-                {!animating && <span className={`text-xl font-bold ${idx === 0 ? "text-orange-600" : "text-gray-700"}`}>합계 {p.total}</span>}
+                {!animating && <span className={`text-xl font-bold ${idx === 0 ? "text-orange-600" : "text-gray-700 dark:text-gray-300"}`}>합계 {p.total}</span>}
               </div>
               <div className="flex gap-3 flex-wrap">
                 {p.dice.map((d, i) => <Die3D key={i} value={d} rollKey={rollKey} />)}
@@ -292,19 +292,19 @@ function RouletteTab({ onResult }: { onResult: (participants: string[], winner: 
   const cx = 100, cy = 100, r = 90;
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">참가자 관리</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">참가자 관리</h2>
         <div className="flex gap-2 mb-4">
           <input type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && addParticipant()} placeholder="참가자 이름 입력"
-            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
+            className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
           <button onClick={addParticipant} className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors">추가</button>
         </div>
         {participants.length > 0 ? (
           <ul className="space-y-1.5">
             {participants.map((p) => (
-              <li key={p.id} className="flex items-center justify-between bg-gray-50 rounded-lg px-3 py-1.5">
-                <span className="text-sm text-gray-700 font-medium">{p.name}</span>
+              <li key={p.id} className="flex items-center justify-between bg-gray-50 dark:bg-gray-900 rounded-lg px-3 py-1.5">
+                <span className="text-sm text-gray-700 dark:text-gray-300 font-medium">{p.name}</span>
                 <div className="flex items-center gap-3">
                   {!isFair && <span className="text-xs text-orange-500 font-semibold">가중치: {p.weight}</span>}
                   <button onClick={() => removeParticipant(p.id)} className="text-gray-400 hover:text-red-500 text-lg leading-none transition-colors">×</button>
@@ -314,14 +314,14 @@ function RouletteTab({ onResult }: { onResult: (participants: string[], winner: 
           </ul>
         ) : <p className="text-sm text-gray-400 text-center py-3">참가자를 추가해주세요.</p>}
       </div>
-      <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-800">룰렛</h2>
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">룰렛</h2>
           <div className="flex gap-2">
             <button onClick={() => { setIsFair(true); setParticipants((ps) => ps.map((p) => ({ ...p, weight: 1 }))); }}
-              className={`text-sm px-3 py-1.5 rounded-lg font-medium transition-colors ${isFair ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>공평 모드</button>
+              className={`text-sm px-3 py-1.5 rounded-lg font-medium transition-colors ${isFair ? "bg-blue-100 text-blue-700" : "bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-200"}`}>공평 모드</button>
             <button onClick={() => { setIsFair(false); setParticipants((ps) => ps.map((p) => ({ ...p, weight: Math.floor(Math.random() * 10) + 1 }))); }}
-              className={`text-sm px-3 py-1.5 rounded-lg font-medium transition-colors ${!isFair ? "bg-purple-100 text-purple-700" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>불공평 모드</button>
+              className={`text-sm px-3 py-1.5 rounded-lg font-medium transition-colors ${!isFair ? "bg-purple-100 text-purple-700" : "bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-200"}`}>불공평 모드</button>
           </div>
         </div>
         <div className="flex flex-col items-center gap-4">
@@ -368,7 +368,7 @@ function RouletteTab({ onResult }: { onResult: (participants: string[], winner: 
         {participants.length > 0 && (
           <div className="mt-4 flex flex-wrap gap-2 justify-center">
             {participants.map((p, i) => (
-              <div key={p.id} className="flex items-center gap-1.5 text-xs text-gray-600">
+              <div key={p.id} className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-400">
                 <span className="inline-block w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
                 <span>{p.name}</span>
                 {!isFair && <span className="text-gray-400">({p.weight})</span>}
@@ -434,8 +434,8 @@ function PinballTab({ onResult }: { onResult: (participants: string[], winner: s
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm w-full">
-        <p className="text-sm text-gray-600 font-medium mb-1">🎯 고품질 물리 엔진 (box2d-wasm)</p>
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm w-full">
+        <p className="text-sm text-gray-600 dark:text-gray-400 font-medium mb-1">🎯 고품질 물리 엔진 (box2d-wasm)</p>
         <p className="text-xs text-gray-400">게임 내에서 참가자 이름을 직접 입력하세요. 이름/숫자로 가중치, 이름*숫자로 중복 설정 가능.</p>
         <p className="text-xs text-gray-300 mt-1">
           Powered by{" "}
@@ -449,7 +449,7 @@ function PinballTab({ onResult }: { onResult: (participants: string[], winner: s
       {/* iframe + 전체화면 wrapper */}
       <div
         ref={containerRef}
-        className="relative overflow-hidden rounded-xl border border-gray-200 shadow-sm bg-black"
+        className="relative overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm bg-black"
         style={{ width: "100%", maxWidth: isFullscreen ? "none" : 480 }}
       >
         <button
@@ -467,10 +467,10 @@ function PinballTab({ onResult }: { onResult: (participants: string[], winner: s
       </div>
 
       {/* 순위 입력 + 저장 */}
-      <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm w-full" style={{ maxWidth: 480 }}>
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm w-full" style={{ maxWidth: 480 }}>
         <div className="flex items-center justify-between mb-1">
-          <p className="text-sm font-semibold text-gray-700">📋 결과 저장</p>
-          <button onClick={() => { setRankings([""]); setSaved(false); }} className="text-xs text-gray-400 hover:text-gray-600 transition-colors">초기화</button>
+          <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">📋 결과 저장</p>
+          <button onClick={() => { setRankings([""]); setSaved(false); }} className="text-xs text-gray-400 hover:text-gray-600 dark:text-gray-400 transition-colors">초기화</button>
         </div>
         <p className="text-xs text-gray-400 mb-1">게임 완료 시 순위가 자동 입력됩니다. 직접 수정도 가능합니다.</p>
         <div className="bg-blue-50 border border-blue-100 rounded-lg px-3 py-2 mb-3">
@@ -487,7 +487,7 @@ function PinballTab({ onResult }: { onResult: (participants: string[], winner: s
                 onChange={(e) => updateRank(i, e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && i === rankings.length - 1 && addRank()}
                 placeholder={`${i + 1}등 이름`}
-                className="flex-1 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
               />
               {rankings.length > 1 && (
                 <button onClick={() => removeRank(i)} className="text-gray-400 hover:text-red-500 text-lg leading-none shrink-0">×</button>
@@ -498,7 +498,7 @@ function PinballTab({ onResult }: { onResult: (participants: string[], winner: s
         <div className="flex gap-2">
           <button
             onClick={addRank}
-            className="px-3 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors shrink-0"
+            className="px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors shrink-0"
           >
             + 순위 추가
           </button>
@@ -511,7 +511,7 @@ function PinballTab({ onResult }: { onResult: (participants: string[], winner: s
               e.target.value = "";
             }}
             defaultValue=""
-            className="px-2 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm border-none focus:outline-none focus:ring-2 focus:ring-orange-400 shrink-0"
+            className="px-2 py-2 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-lg text-sm border-none focus:outline-none focus:ring-2 focus:ring-orange-400 shrink-0"
             title="참가자 수 빠른 설정"
           >
             <option value="" disabled>N명</option>
@@ -663,22 +663,22 @@ function LadderTab({ onResult }: { onResult: (participants: string[], winner: st
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-        <h2 className="text-lg font-semibold text-gray-800 mb-4">참가자 관리 <span className="text-sm font-normal text-gray-400">(최대 8명)</span></h2>
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">참가자 관리 <span className="text-sm font-normal text-gray-400">(최대 8명)</span></h2>
         <div className="flex gap-2 mb-4">
           <input type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && addParticipant()} placeholder="참가자 이름 입력"
-            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
+            className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
           <button onClick={addParticipant} disabled={participants.length >= 8}
             className="bg-orange-500 hover:bg-orange-600 disabled:opacity-40 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors">추가</button>
         </div>
         {participants.length > 0 ? (
           <ul className="space-y-1.5 mb-4">
             {participants.map((name, i) => (
-              <li key={i} className="flex items-center justify-between bg-gray-50 rounded-lg px-3 py-1.5">
+              <li key={i} className="flex items-center justify-between bg-gray-50 dark:bg-gray-900 rounded-lg px-3 py-1.5">
                 <div className="flex items-center gap-2">
                   <span className="inline-block w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
-                  <span className="text-sm font-medium text-gray-700">{name}</span>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{name}</span>
                 </div>
                 <button onClick={() => removeParticipant(i)} className="text-gray-400 hover:text-red-500 text-lg leading-none transition-colors">×</button>
               </li>
@@ -686,16 +686,16 @@ function LadderTab({ onResult }: { onResult: (participants: string[], winner: st
           </ul>
         ) : <p className="text-sm text-gray-400 text-center py-3 mb-4">참가자를 추가해주세요.</p>}
         <div>
-          <p className="text-sm font-medium text-gray-700 mb-2">모드</p>
+          <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">모드</p>
           <div className="flex gap-2">
-            <button onClick={() => setMode("winner")} className={`text-sm px-3 py-1.5 rounded-lg font-medium transition-colors ${mode === "winner" ? "bg-orange-100 text-orange-700" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>당첨자 뽑기</button>
-            <button onClick={() => setMode("order")} className={`text-sm px-3 py-1.5 rounded-lg font-medium transition-colors ${mode === "order" ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-500 hover:bg-gray-200"}`}>순서 정하기</button>
+            <button onClick={() => setMode("winner")} className={`text-sm px-3 py-1.5 rounded-lg font-medium transition-colors ${mode === "winner" ? "bg-orange-100 text-orange-700" : "bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-200"}`}>당첨자 뽑기</button>
+            <button onClick={() => setMode("order")} className={`text-sm px-3 py-1.5 rounded-lg font-medium transition-colors ${mode === "order" ? "bg-blue-100 text-blue-700" : "bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-200"}`}>순서 정하기</button>
           </div>
         </div>
       </div>
       <div className="flex flex-col items-center gap-4">
         <div className="overflow-x-auto w-full flex justify-center">
-          <canvas ref={canvasRef} width={LADDER_W} height={LADDER_H} className="rounded-xl border border-gray-200 shadow-sm" style={{ maxWidth: LADDER_W }} />
+          <canvas ref={canvasRef} width={LADDER_W} height={LADDER_H} className="rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm" style={{ maxWidth: LADDER_W }} />
         </div>
         <div className="flex gap-3 w-full max-w-xs">
           <button onClick={startLadder} disabled={participants.length < 2 || running}
@@ -703,7 +703,7 @@ function LadderTab({ onResult }: { onResult: (participants: string[], winner: st
             {running ? "🪜 타는 중..." : "🪜 사다리 타기"}
           </button>
           {participants.length >= 2 && !running && (
-            <button onClick={() => setSeed((s) => s + 1)} className="px-4 py-3 bg-gray-100 text-gray-600 rounded-xl text-sm font-medium hover:bg-gray-200 transition-colors">새 사다리</button>
+            <button onClick={() => setSeed((s) => s + 1)} className="px-4 py-3 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-xl text-sm font-medium hover:bg-gray-200 transition-colors">새 사다리</button>
           )}
         </div>
         {done && (
@@ -713,16 +713,16 @@ function LadderTab({ onResult }: { onResult: (participants: string[], winner: st
               <p className="text-sm text-orange-600 font-medium mb-1">{mode === "winner" ? "당첨자" : "1등"}</p>
               <p className="text-2xl font-bold text-orange-700">{winnerName}</p>
             </div>
-            <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm">
-              <p className="text-xs font-semibold text-gray-500 mb-2">전체 결과</p>
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
+              <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">전체 결과</p>
               <div className="space-y-1.5">
                 {participants.map((name, i) => (
                   <div key={i} className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-2">
                       <span className="inline-block w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
-                      <span className="text-gray-700">{name}</span>
+                      <span className="text-gray-700 dark:text-gray-300">{name}</span>
                     </div>
-                    <span className={`font-bold ${resultMap[name] === "당첨" || resultMap[name] === "1등" ? "text-orange-600" : "text-gray-500"}`}>{resultMap[name]}</span>
+                    <span className={`font-bold ${resultMap[name] === "당첨" || resultMap[name] === "1등" ? "text-orange-600" : "text-gray-500 dark:text-gray-400"}`}>{resultMap[name]}</span>
                   </div>
                 ))}
               </div>
@@ -911,23 +911,23 @@ function RaceTab({ onResult }: { onResult: (participants: string[], winner: stri
 
   return (
     <div className="space-y-6">
-      <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-        <h2 className="text-lg font-semibold text-gray-800 mb-1">참가자 관리 <span className="text-sm font-normal text-gray-400">(최대 8명)</span></h2>
+      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-1">참가자 관리 <span className="text-sm font-normal text-gray-400">(최대 8명)</span></h2>
         <p className="text-xs text-gray-400 mb-4">공이 동시에 낙하 — 먼저 FINISH 라인에 닿는 순서가 순위!</p>
         <div className="flex gap-2 mb-4">
           <input type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && addParticipant()} placeholder="참가자 이름 입력"
-            className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
+            className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
           <button onClick={addParticipant} disabled={participants.length >= 8}
             className="bg-orange-500 hover:bg-orange-600 disabled:opacity-40 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors">추가</button>
         </div>
         {participants.length > 0 ? (
           <ul className="space-y-1.5">
             {participants.map((name, i) => (
-              <li key={i} className="flex items-center justify-between bg-gray-50 rounded-lg px-3 py-1.5">
+              <li key={i} className="flex items-center justify-between bg-gray-50 dark:bg-gray-900 rounded-lg px-3 py-1.5">
                 <div className="flex items-center gap-2">
                   <span className="inline-block w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
-                  <span className="text-sm font-medium text-gray-700">{name}</span>
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{name}</span>
                 </div>
                 <button onClick={() => removeParticipant(i)} className="text-gray-400 hover:text-red-500 text-lg leading-none transition-colors">×</button>
               </li>
@@ -938,20 +938,20 @@ function RaceTab({ onResult }: { onResult: (participants: string[], winner: stri
 
       <div className="flex flex-col items-center gap-4">
         <div className="overflow-x-auto w-full flex justify-center">
-          <canvas ref={canvasRef} width={RACE_W} height={RACE_H} className="rounded-xl border border-gray-200 shadow-sm" style={{ maxWidth: RACE_W }} />
+          <canvas ref={canvasRef} width={RACE_W} height={RACE_H} className="rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm" style={{ maxWidth: RACE_W }} />
         </div>
         <button onClick={startRace} disabled={participants.length < 2 || running}
           className="bg-orange-500 hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold px-8 py-3 rounded-xl text-base transition-colors shadow-md">
           {running ? "🏁 레이스 중..." : "🏁 레이스 시작!"}
         </button>
         {rankList.length > 0 && (
-          <div className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm w-full max-w-sm">
-            <p className="text-xs font-semibold text-gray-500 mb-2">순위 현황 {running && <span className="text-orange-500">(진행 중)</span>}</p>
+          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm w-full max-w-sm">
+            <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">순위 현황 {running && <span className="text-orange-500">(진행 중)</span>}</p>
             <ol className="space-y-1.5">
               {rankList.map((name, i) => (
                 <li key={i} className="flex items-center gap-2 text-sm">
                   <span className="text-base w-6">{RANK_MEDAL[i] ?? `${i + 1}위`}</span>
-                  <span className={`font-bold ${i === 0 ? "text-orange-600" : "text-gray-700"}`}>{name}</span>
+                  <span className={`font-bold ${i === 0 ? "text-orange-600" : "text-gray-700 dark:text-gray-300"}`}>{name}</span>
                 </li>
               ))}
             </ol>
@@ -998,8 +998,8 @@ function GameRecords({ refreshKey }: { refreshKey: number }) {
   };
 
   return (
-    <div className="mt-8 bg-white rounded-xl border border-gray-200 shadow-sm">
-      <button onClick={() => setOpen((o) => !o)} className="w-full flex items-center justify-between px-5 py-4 text-sm font-semibold text-gray-700 hover:bg-gray-50 rounded-xl transition-colors">
+    <div className="mt-8 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+      <button onClick={() => setOpen((o) => !o)} className="w-full flex items-center justify-between px-5 py-4 text-sm font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:bg-gray-900 rounded-xl transition-colors">
         <span>📋 최근 기록</span><span className="text-gray-400">{open ? "▲" : "▾"}</span>
       </button>
       {open && (
@@ -1014,7 +1014,7 @@ function GameRecords({ refreshKey }: { refreshKey: number }) {
                     <li key={r.id} className="py-3 flex items-start justify-between gap-3">
                       <div className="min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-xs font-semibold text-gray-500">{GAME_LABELS[r.game_type] ?? r.game_type}</span>
+                          <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">{GAME_LABELS[r.game_type] ?? r.game_type}</span>
                           <span className="text-sm font-bold text-orange-600">{r.winner} 당첨</span>
                           {scores && scores[r.winner] !== undefined && <span className="text-xs text-gray-400">(합계 {scores[r.winner]})</span>}
                         </div>
@@ -1030,16 +1030,16 @@ function GameRecords({ refreshKey }: { refreshKey: number }) {
       )}
       {deleteState && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setDeleteState(null)}>
-          <div className="bg-white rounded-xl p-6 shadow-xl max-w-sm w-full mx-4 space-y-4" onClick={(e) => e.stopPropagation()}>
-            <h3 className="text-base font-bold text-gray-800">기록 삭제</h3>
-            <p className="text-sm text-gray-500">관리자 비밀번호를 입력하세요.</p>
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-xl max-w-sm w-full mx-4 space-y-4" onClick={(e) => e.stopPropagation()}>
+            <h3 className="text-base font-bold text-gray-800 dark:text-gray-200">기록 삭제</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">관리자 비밀번호를 입력하세요.</p>
             <input type="password" autoComplete="off" value={deleteState.password} onChange={(e) => setDeleteState((s) => s ? { ...s, password: e.target.value } : s)}
               onKeyDown={(e) => e.key === "Enter" && handleDelete()} placeholder="비밀번호"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" autoFocus />
+              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" autoFocus />
             {deleteState.error && <p className="text-sm text-red-500">{deleteState.error}</p>}
             <div className="flex gap-2">
               <button onClick={handleDelete} disabled={deleteState.loading} className="flex-1 bg-red-500 hover:bg-red-600 disabled:opacity-50 text-white font-semibold py-2 rounded-lg text-sm transition-colors">{deleteState.loading ? "확인 중..." : "삭제"}</button>
-              <button onClick={() => setDeleteState(null)} className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 rounded-lg text-sm transition-colors">취소</button>
+              <button onClick={() => setDeleteState(null)} className="flex-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 text-gray-700 dark:text-gray-300 font-semibold py-2 rounded-lg text-sm transition-colors">취소</button>
             </div>
           </div>
         </div>
@@ -1065,11 +1065,11 @@ export default function PlayPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6 text-gray-900">놀이터</h1>
-      <div className="flex gap-1 mb-6 border-b border-gray-200 flex-wrap">
+      <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">놀이터</h1>
+      <div className="flex gap-1 mb-6 border-b border-gray-200 dark:border-gray-700 flex-wrap">
         {(["roulette", "dice", "pinball", "ladder"] as Tab[]).map((tab) => (
           <button key={tab} onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2.5 text-sm font-semibold rounded-t-lg transition-colors border-b-2 -mb-px ${activeTab === tab ? "border-orange-500 text-orange-600 bg-white" : "border-transparent text-gray-500 hover:text-gray-700"}`}>
+            className={`px-4 py-2.5 text-sm font-semibold rounded-t-lg transition-colors border-b-2 -mb-px ${activeTab === tab ? "border-orange-500 text-orange-600 bg-white dark:bg-gray-800" : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-300"}`}>
             {TAB_LABELS[tab]}
           </button>
         ))}

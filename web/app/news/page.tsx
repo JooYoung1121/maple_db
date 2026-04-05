@@ -23,11 +23,11 @@ const CATEGORIES = [
 const CATEGORY_COLORS: Record<string, string> = {
   업데이트: "bg-blue-100 text-blue-700",
   점검: "bg-yellow-100 text-yellow-700",
-  안내: "bg-gray-100 text-gray-600",
+  안내: "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400",
   이벤트: "bg-green-100 text-green-700",
   제재: "bg-red-100 text-red-600",
   진행중: "bg-green-100 text-green-700",
-  종료: "bg-gray-100 text-gray-500",
+  종료: "bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400",
 };
 
 const KEYWORD_GUIDE = [
@@ -59,7 +59,7 @@ const KEYWORD_GUIDE = [
 
 function CategoryBadge({ category }: { category: string | null }) {
   if (!category) return null;
-  const color = CATEGORY_COLORS[category] ?? "bg-gray-100 text-gray-600";
+  const color = CATEGORY_COLORS[category] ?? "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400";
   return (
     <span className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full shrink-0 ${color}`}>
       {category}
@@ -81,7 +81,7 @@ function PostContent({ postId }: { postId: string }) {
   if (loading) {
     return (
       <div className="flex items-center gap-2 py-6 text-gray-400 text-sm">
-        <div className="w-4 h-4 border-2 border-gray-300 border-t-orange-400 rounded-full animate-spin" />
+        <div className="w-4 h-4 border-2 border-gray-300 dark:border-gray-600 border-t-orange-400 rounded-full animate-spin" />
         불러오는 중...
       </div>
     );
@@ -96,7 +96,7 @@ function PostContent({ postId }: { postId: string }) {
       <p className="text-xs font-bold text-orange-500 mb-2 tracking-wide">
         TL;DR
       </p>
-      <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
+      <div className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
         {post.summary}
       </div>
     </div>
@@ -107,7 +107,7 @@ function PostContent({ postId }: { postId: string }) {
       <>
         {summaryCard}
         <div
-          className="news-content text-sm text-gray-700 leading-relaxed"
+          className="news-content text-sm text-gray-700 dark:text-gray-300 leading-relaxed"
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content_html) }}
         />
       </>
@@ -118,7 +118,7 @@ function PostContent({ postId }: { postId: string }) {
     return (
       <>
         {summaryCard}
-        <pre className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap font-sans">
+        <pre className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap font-sans">
           {post.content}
         </pre>
       </>
@@ -141,13 +141,13 @@ function PostItem({ post }: { post: MapleLandPost }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="border border-gray-200 rounded-xl bg-white overflow-hidden">
+    <div className="border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 overflow-hidden">
       <button
         onClick={() => setExpanded((v) => !v)}
-        className="w-full text-left px-4 py-3.5 flex items-start gap-3 hover:bg-gray-50 transition-colors"
+        className="w-full text-left px-4 py-3.5 flex items-start gap-3 hover:bg-gray-50 dark:bg-gray-900 transition-colors"
       >
         <CategoryBadge category={post.category} />
-        <span className="flex-1 text-sm font-medium text-gray-800 leading-snug">{post.title}</span>
+        <span className="flex-1 text-sm font-medium text-gray-800 dark:text-gray-200 leading-snug">{post.title}</span>
         <span className="text-xs text-gray-400 shrink-0 mt-0.5">{post.published_at ?? ""}</span>
         <svg
           className={`w-4 h-4 text-gray-400 shrink-0 mt-0.5 transition-transform ${expanded ? "rotate-180" : ""}`}
@@ -239,8 +239,8 @@ export default function NewsPage() {
     <div className="max-w-3xl mx-auto space-y-5">
       {/* 헤더 */}
       <div>
-        <h1 className="text-xl font-bold text-gray-900">메이플랜드 공식 공지</h1>
-        <p className="text-sm text-gray-500 mt-1">
+        <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">메이플랜드 공식 공지</h1>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
           maple.land 공지사항 · 이벤트를 자동으로 수집합니다.
         </p>
       </div>
@@ -251,7 +251,7 @@ export default function NewsPage() {
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value)}
           placeholder="제목 · 내용 검색..."
-          className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
+          className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
         />
         <button
           type="submit"
@@ -263,7 +263,7 @@ export default function NewsPage() {
           <button
             type="button"
             onClick={() => { setQuery(""); setInputVal(""); setPage(1); }}
-            className="px-3 py-2 text-sm text-gray-500 border border-gray-300 rounded-lg hover:bg-gray-50"
+            className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:bg-gray-900"
           >
             초기화
           </button>
@@ -279,7 +279,7 @@ export default function NewsPage() {
             className={`px-3 py-1.5 text-sm rounded-lg font-medium transition-colors ${
               board === b.value
                 ? "bg-orange-500 text-white"
-                : "bg-white border border-gray-200 text-gray-600 hover:border-orange-300"
+                : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-orange-300"
             }`}
           >
             {b.label}
@@ -293,7 +293,7 @@ export default function NewsPage() {
             className={`px-3 py-1.5 text-sm rounded-lg font-medium transition-colors ${
               category === c.value
                 ? "bg-orange-500 text-white"
-                : "bg-white border border-gray-200 text-gray-600 hover:border-orange-300"
+                : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-orange-300"
             }`}
           >
             {c.label}
@@ -302,7 +302,7 @@ export default function NewsPage() {
       </div>
 
       {/* 결과 수 */}
-      <div className="flex items-center justify-between text-sm text-gray-500">
+      <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
         <span>총 {total.toLocaleString()}건</span>
         <button
           onClick={() => setShowKeywordGuide((v) => !v)}
@@ -319,7 +319,7 @@ export default function NewsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {KEYWORD_GUIDE.map((group) => (
               <div key={group.label}>
-                <p className="text-xs font-semibold text-gray-500 mb-1">{group.label}</p>
+                <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">{group.label}</p>
                 <div className="flex flex-wrap gap-1.5">
                   {group.keywords.map((kw) => (
                     <button
@@ -330,7 +330,7 @@ export default function NewsPage() {
                         setPage(1);
                         setShowKeywordGuide(false);
                       }}
-                      className="text-xs px-2 py-0.5 bg-white border border-orange-200 text-orange-600 rounded-full hover:bg-orange-100 transition-colors"
+                      className="text-xs px-2 py-0.5 bg-white dark:bg-gray-800 border border-orange-200 text-orange-600 rounded-full hover:bg-orange-100 transition-colors"
                     >
                       {kw}
                     </button>
@@ -345,7 +345,7 @@ export default function NewsPage() {
       {/* 포스트 목록 */}
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="w-6 h-6 border-2 border-gray-300 border-t-orange-400 rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-gray-300 dark:border-gray-600 border-t-orange-400 rounded-full animate-spin" />
         </div>
       ) : posts.length === 0 ? (
         <div className="text-center py-12 text-gray-400 text-sm">
@@ -365,14 +365,14 @@ export default function NewsPage() {
           <button
             onClick={() => setPage(1)}
             disabled={page === 1}
-            className="px-2 py-1 text-sm text-gray-500 disabled:opacity-30 hover:text-orange-500"
+            className="px-2 py-1 text-sm text-gray-500 dark:text-gray-400 disabled:opacity-30 hover:text-orange-500"
           >
             «
           </button>
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="px-2 py-1 text-sm text-gray-500 disabled:opacity-30 hover:text-orange-500"
+            className="px-2 py-1 text-sm text-gray-500 dark:text-gray-400 disabled:opacity-30 hover:text-orange-500"
           >
             ‹
           </button>
@@ -384,7 +384,7 @@ export default function NewsPage() {
                 key={p}
                 onClick={() => setPage(p)}
                 className={`px-3 py-1 text-sm rounded-lg ${
-                  p === page ? "bg-orange-500 text-white font-medium" : "text-gray-600 hover:bg-gray-100"
+                  p === page ? "bg-orange-500 text-white font-medium" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:bg-gray-700"
                 }`}
               >
                 {p}
@@ -394,14 +394,14 @@ export default function NewsPage() {
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="px-2 py-1 text-sm text-gray-500 disabled:opacity-30 hover:text-orange-500"
+            className="px-2 py-1 text-sm text-gray-500 dark:text-gray-400 disabled:opacity-30 hover:text-orange-500"
           >
             ›
           </button>
           <button
             onClick={() => setPage(totalPages)}
             disabled={page === totalPages}
-            className="px-2 py-1 text-sm text-gray-500 disabled:opacity-30 hover:text-orange-500"
+            className="px-2 py-1 text-sm text-gray-500 dark:text-gray-400 disabled:opacity-30 hover:text-orange-500"
           >
             »
           </button>

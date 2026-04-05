@@ -28,7 +28,7 @@ const TYPE_COLORS: Record<string, { bg: string; text: string }> = {
   map: { bg: "bg-green-100", text: "text-green-700" },
   npc: { bg: "bg-purple-100", text: "text-purple-700" },
   quest: { bg: "bg-yellow-100", text: "text-yellow-700" },
-  blog: { bg: "bg-gray-100", text: "text-gray-700" },
+  blog: { bg: "bg-gray-100 dark:bg-gray-700", text: "text-gray-700 dark:text-gray-300" },
 };
 
 interface GroupedSuggestions {
@@ -148,14 +148,14 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
             onFocus={() => suggestions.length > 0 && setOpen(true)}
             onKeyDown={handleKeyDown}
             placeholder="아이템, 몬스터, 맵, NPC, 퀘스트 검색..."
-            className={`w-full pl-12 pr-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent ${large ? "py-4 text-lg" : "py-2.5 text-sm"}`}
+            className={`w-full pl-12 pr-4 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent ${large ? "py-4 text-lg" : "py-2.5 text-sm"}`}
           />
         </div>
       </form>
       {open && grouped.length > 0 && (
-        <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg max-h-96 overflow-y-auto">
+        <div className="absolute z-50 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg max-h-96 overflow-y-auto">
           {grouped.map((group) => {
-            const colors = TYPE_COLORS[group.type] || { bg: "bg-gray-100", text: "text-gray-700" };
+            const colors = TYPE_COLORS[group.type] || { bg: "bg-gray-100 dark:bg-gray-700", text: "text-gray-700 dark:text-gray-300" };
             return (
               <div key={group.type}>
                 <div className={`px-4 py-1.5 text-xs font-semibold ${colors.text} ${colors.bg} sticky top-0`}>
@@ -169,13 +169,13 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
                       key={`${s.entity_type}-${s.entity_id}`}
                       onClick={() => goTo(s)}
                       onMouseEnter={() => setActiveIndex(currentIdx)}
-                      className={`w-full text-left px-4 py-2.5 flex items-center gap-3 border-b border-gray-50 last:border-0 transition-colors ${isActive ? "bg-orange-50" : "hover:bg-orange-50"}`}
+                      className={`w-full text-left px-4 py-2.5 flex items-center gap-3 border-b border-gray-50 dark:border-gray-700 last:border-0 transition-colors ${isActive ? "bg-orange-50 dark:bg-orange-900/20" : "hover:bg-orange-50 dark:hover:bg-orange-900/20"}`}
                     >
                       {s.icon_url && (
                         <img src={s.icon_url} alt="" className="w-8 h-8 object-contain flex-shrink-0" />
                       )}
                       <div className="min-w-0 flex-1">
-                        <span className="font-medium text-gray-800 block truncate">
+                        <span className="font-medium text-gray-800 dark:text-gray-200 block truncate">
                           {s.name_kr || s.name}
                         </span>
                         {s.name_kr && s.name_kr !== s.name && (

@@ -320,12 +320,12 @@ export default function ScrollPage() {
   return (
     <div className="max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-1">주문서 확률 계산기</h1>
-      <p className="text-sm text-gray-500 mb-6">
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
         주문서 성공 확률 계산, 시뮬레이션, 스탯 참고표, 랭킹
       </p>
 
       {/* 탭 */}
-      <div className="flex gap-1 mb-6 bg-gray-100 p-1 rounded-xl w-fit">
+      <div className="flex gap-1 mb-6 bg-gray-100 dark:bg-gray-700 p-1 rounded-xl w-fit">
         {([
           { key: "calc" as Tab, label: "확률 계산" },
           { key: "sim" as Tab, label: "시뮬레이션" },
@@ -337,8 +337,8 @@ export default function ScrollPage() {
             onClick={() => setActiveTab(t.key)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               activeTab === t.key
-                ? "bg-white text-orange-600 shadow-sm"
-                : "text-gray-500 hover:text-gray-700"
+                ? "bg-white dark:bg-gray-800 text-orange-600 shadow-sm"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-300"
             }`}
           >
             {t.label}
@@ -388,15 +388,15 @@ function CalcTab() {
   return (
     <div className="space-y-6">
       {/* 설정 */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
         <h2 className="font-bold text-lg mb-4">설정</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">장비 종류</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">장비 종류</label>
             <select
               value={weaponType}
               onChange={(e) => handleWeaponChange(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             >
               <option value="">직접 입력</option>
               {Object.entries(WEAPON_SLOTS).map(([name, s]) => (
@@ -407,7 +407,7 @@ function CalcTab() {
             </select>
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
               업그레이드 횟수 (슬롯)
             </label>
             <input
@@ -419,11 +419,11 @@ function CalcTab() {
                 setSlots(Math.max(1, Math.min(15, Number(e.target.value))));
                 setWeaponType("");
               }}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">주문서 확률</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">주문서 확률</label>
             <div className="flex gap-1 flex-wrap">
               {SCROLL_TYPES.map((s) => (
                 <button
@@ -432,7 +432,7 @@ function CalcTab() {
                   className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     scrollPct === s.pct
                       ? "bg-orange-500 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                      : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200"
                   }`}
                 >
                   {s.label}
@@ -458,14 +458,14 @@ function CalcTab() {
       </div>
 
       {/* 확률 테이블 */}
-      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
         <div className="px-5 py-3 border-b border-gray-100">
           <h2 className="font-bold">성공 횟수별 확률</h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-gray-50 text-gray-500">
+              <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
                 <th className="text-left px-5 py-2.5 font-medium">성공 횟수</th>
                 <th className="text-right px-5 py-2.5 font-medium">정확히 N작 확률</th>
                 <th className="text-right px-5 py-2.5 font-medium">N작 이상 확률</th>
@@ -496,7 +496,7 @@ function CalcTab() {
                     {formatPct(r.atLeast)}
                   </td>
                   <td className="px-5 py-2.5">
-                    <div className="h-4 bg-gray-100 rounded-full overflow-hidden w-full max-w-[200px]">
+                    <div className="h-4 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden w-full max-w-[200px]">
                       <div
                         className={`h-full rounded-full transition-all ${
                           r.k === slots ? "bg-orange-400" : "bg-blue-400"
@@ -529,13 +529,13 @@ function SummaryCard({
       className={`rounded-xl p-4 ${
         highlight
           ? "bg-orange-50 border border-orange-200"
-          : "bg-white border border-gray-200"
+          : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
       }`}
     >
-      <p className="text-xs text-gray-500 mb-1">{label}</p>
+      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{label}</p>
       <p
         className={`text-lg font-bold ${
-          highlight ? "text-orange-600" : "text-gray-800"
+          highlight ? "text-orange-600" : "text-gray-800 dark:text-gray-200"
         }`}
       >
         {value}
@@ -620,10 +620,10 @@ function ItemSearch({ onSelect }: { onSelect: (item: NamedItem) => void }) {
 
   return (
     <div ref={containerRef} className="relative">
-      <label className="block text-xs font-medium text-gray-500 mb-1">
+      <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
         아이템 검색 (선택 시 장비 종류 자동 적용)
       </label>
-      <div className="flex items-center gap-2 border border-gray-300 rounded-lg px-3 py-2 bg-white focus-within:ring-1 focus-within:ring-orange-400">
+      <div className="flex items-center gap-2 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 bg-white dark:bg-gray-800 focus-within:ring-1 focus-within:ring-orange-400">
         {selected && (
           <img
             src={selected.icon}
@@ -645,14 +645,14 @@ function ItemSearch({ onSelect }: { onSelect: (item: NamedItem) => void }) {
         {query && (
           <button
             onClick={() => { setQuery(""); setSelected(null); }}
-            className="text-gray-400 hover:text-gray-600 text-base leading-none"
+            className="text-gray-400 hover:text-gray-600 dark:text-gray-400 text-base leading-none"
           >
             ×
           </button>
         )}
       </div>
       {open && filtered.length > 0 && (
-        <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto">
+        <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg max-h-60 overflow-y-auto">
           {filtered.map((item) => (
             <button
               key={item.name}
@@ -671,7 +671,7 @@ function ItemSearch({ onSelect }: { onSelect: (item: NamedItem) => void }) {
                 className="w-8 h-8 object-contain shrink-0"
               />
               <div>
-                <p className="text-sm font-medium text-gray-800">{item.name}</p>
+                <p className="text-sm font-medium text-gray-800 dark:text-gray-200">{item.name}</p>
                 <p className="text-xs text-gray-400">{item.type}</p>
               </div>
             </button>
@@ -842,18 +842,18 @@ function SimTab() {
   return (
     <div className="space-y-6">
       {/* 설정 */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
         <h2 className="font-bold text-lg mb-4">설정</h2>
         <div className="mb-4">
           <ItemSearch onSelect={(item) => setEquipmentType(item.type)} />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">장비 종류</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">장비 종류</label>
             <select
               value={equipmentType}
               onChange={(e) => setEquipmentType(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             >
               {Object.entries(WEAPON_SLOTS).map(([name, s]) => (
                 <option key={name} value={name}>
@@ -863,11 +863,11 @@ function SimTab() {
             </select>
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">주문서 종류</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">주문서 종류</label>
             <select
               value={scrollType}
               onChange={(e) => setScrollType(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             >
               {availableScrolls.map((s) => (
                 <option key={s} value={s}>{s}</option>
@@ -878,7 +878,7 @@ function SimTab() {
       </div>
 
       {/* 슬롯 시각화 */}
-      <div className="bg-white border border-gray-200 rounded-xl p-6">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-bold text-lg">
             {done
@@ -887,7 +887,7 @@ function SimTab() {
                 : `${successes}작 완료`
               : `${equipmentType} 주문서 시뮬레이션`}
           </h2>
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-gray-500 dark:text-gray-400">
             <span className="text-green-600 font-bold">{successes}</span>
             <span className="text-gray-300 mx-1">/</span>
             <span className="text-red-500 font-bold">{fails}</span>
@@ -908,7 +908,7 @@ function SimTab() {
                   ? "bg-red-100 border-red-300 text-red-500"
                   : i === currentIdx && running
                   ? "bg-orange-50 border-orange-400 text-orange-500 animate-pulse"
-                  : "bg-gray-50 border-gray-200 text-gray-300"
+                  : "bg-gray-50 dark:bg-gray-900 border-gray-200 dark:border-gray-700 text-gray-300"
               }`}
             >
               <span className="text-base leading-none">
@@ -933,7 +933,7 @@ function SimTab() {
         {/* 현재 슬롯 주문서 % 선택 */}
         {running && (
           <div className="mb-5">
-            <p className="text-xs text-gray-500 mb-2 text-center">
+            <p className="text-xs text-gray-500 dark:text-gray-400 mb-2 text-center">
               슬롯 {currentIdx + 1} / {slots} — 바를 주문서 확률 선택
             </p>
             <div className="flex gap-2 justify-center flex-wrap">
@@ -944,7 +944,7 @@ function SimTab() {
                   className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     currentSlotPct === s.pct
                       ? "bg-orange-500 text-white shadow-sm"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                      : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200"
                   }`}
                 >
                   {s.label}
@@ -996,7 +996,7 @@ function SimTab() {
           )}
           <button
             onClick={reset}
-            className="px-6 py-2.5 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
+            className="px-6 py-2.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
           >
             초기화 (F)
           </button>
@@ -1021,9 +1021,9 @@ function SimTab() {
 
       {/* 결과 등록 모달 */}
       {showRegister && !registerDone && (
-        <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
           <h3 className="font-bold mb-3">랭킹에 결과 등록</h3>
-          <div className="space-y-3 mb-4 text-sm text-gray-600">
+          <div className="space-y-3 mb-4 text-sm text-gray-600 dark:text-gray-400">
             <div className="flex gap-4 flex-wrap">
               <span>장비: <strong>{equipmentType}</strong></span>
               <span>주문서: <strong>{scrollType}</strong></span>
@@ -1040,7 +1040,7 @@ function SimTab() {
               value={registerNickname}
               onChange={(e) => setRegisterNickname(e.target.value)}
               onKeyDown={(e) => { if (e.key === "Enter") handleRegister(); }}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               maxLength={20}
             />
             <button
@@ -1052,7 +1052,7 @@ function SimTab() {
             </button>
             <button
               onClick={() => setShowRegister(false)}
-              className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
+              className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
             >
               취소
             </button>
@@ -1062,12 +1062,12 @@ function SimTab() {
 
       {/* 시뮬 히스토리 */}
       {history.length > 0 && (
-        <div className="bg-white border border-gray-200 rounded-xl p-5">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
           <div className="flex items-center justify-between mb-3">
             <h2 className="font-bold">시뮬레이션 기록</h2>
             <button
               onClick={() => setHistory([])}
-              className="text-xs text-gray-400 hover:text-gray-600"
+              className="text-xs text-gray-400 hover:text-gray-600 dark:text-gray-400"
             >
               기록 초기화
             </button>
@@ -1093,9 +1093,9 @@ function SimTab() {
               </div>
             ))}
           </div>
-          <div className="text-sm text-gray-500">
+          <div className="text-sm text-gray-500 dark:text-gray-400">
             총 {history.length}회 · 평균{" "}
-            <span className="font-bold text-gray-700">{histAvg.toFixed(1)}작</span> ·
+            <span className="font-bold text-gray-700 dark:text-gray-300">{histAvg.toFixed(1)}작</span> ·
             올작{" "}
             <span className="font-bold text-orange-600">
               {history.filter((h) => h.successCount === h.totalSlots).length}회
@@ -1113,9 +1113,9 @@ function SimTab() {
 function RefTab() {
   return (
     <div className="space-y-6">
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
         <h2 className="font-bold text-lg mb-1">주문서 확률별 설명</h2>
-        <p className="text-sm text-gray-500 mb-4">
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
           각 확률별 주문서의 특성을 비교해보세요
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -1135,21 +1135,21 @@ function RefTab() {
               }`}
             >
               <p className="text-2xl font-bold mb-1">{s.label}</p>
-              <p className="text-sm text-gray-600">{s.desc}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">{s.desc}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* 장비별 업그레이드 횟수 */}
-      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
         <div className="px-5 py-3 border-b border-gray-100">
           <h2 className="font-bold">장비별 업그레이드 횟수</h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-gray-50 text-gray-500">
+              <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
                 <th className="text-left px-5 py-2.5 font-medium">장비</th>
                 <th className="text-right px-5 py-2.5 font-medium">업그레이드 횟수</th>
               </tr>
@@ -1170,7 +1170,7 @@ function RefTab() {
       {SCROLL_STATS.map((cat) => (
         <div
           key={cat.category}
-          className="bg-white border border-gray-200 rounded-xl overflow-hidden"
+          className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden"
         >
           <div className="px-5 py-3 border-b border-gray-100">
             <h2 className="font-bold">{cat.category}</h2>
@@ -1178,7 +1178,7 @@ function RefTab() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-gray-50 text-gray-500">
+                <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
                   <th className="text-left px-5 py-2.5 font-medium">주문서</th>
                   {SCROLL_TYPES.map((s) => (
                     <th key={s.pct} className="text-center px-3 py-2.5 font-medium">
@@ -1250,14 +1250,14 @@ function RankingTab() {
   return (
     <div className="space-y-6">
       {/* 필터 */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
         <div className="flex items-center gap-4 flex-wrap">
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">장비 종류 필터</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">장비 종류 필터</label>
             <select
               value={filterEquipment}
               onChange={(e) => setFilterEquipment(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             >
               <option value="">전체</option>
               {Object.keys(WEAPON_SLOTS).map((name) => (
@@ -1267,7 +1267,7 @@ function RankingTab() {
           </div>
           <button
             onClick={() => fetchRankings(filterEquipment)}
-            className="mt-5 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
+            className="mt-5 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors"
           >
             새로고침
           </button>
@@ -1276,7 +1276,7 @@ function RankingTab() {
       </div>
 
       {/* 랭킹 테이블 */}
-      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
         <div className="px-5 py-3 border-b border-gray-100">
           <h2 className="font-bold">시뮬레이션 랭킹</h2>
           <p className="text-xs text-gray-400 mt-0.5">성공 횟수 기준 내림차순</p>
@@ -1291,7 +1291,7 @@ function RankingTab() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-gray-50 text-gray-500">
+                <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
                   <th className="text-center px-3 py-2.5 font-medium w-12">순위</th>
                   <th className="text-left px-4 py-2.5 font-medium">닉네임</th>
                   <th className="text-left px-4 py-2.5 font-medium">장비</th>
@@ -1317,12 +1317,12 @@ function RankingTab() {
                         ) : idx + 1 === 3 ? (
                           <span className="text-orange-400">3</span>
                         ) : (
-                          <span className="text-gray-500">{idx + 1}</span>
+                          <span className="text-gray-500 dark:text-gray-400">{idx + 1}</span>
                         )}
                       </td>
                       <td className="px-4 py-2.5 font-medium">{r.nickname}</td>
-                      <td className="px-4 py-2.5 text-gray-600">{r.equipment_type}</td>
-                      <td className="px-4 py-2.5 text-gray-600">{r.scroll_type}</td>
+                      <td className="px-4 py-2.5 text-gray-600 dark:text-gray-400">{r.equipment_type}</td>
+                      <td className="px-4 py-2.5 text-gray-600 dark:text-gray-400">{r.scroll_type}</td>
                       <td className="px-4 py-2.5 text-center">
                         <span
                           className={`inline-block px-2 py-0.5 rounded-md font-bold text-xs ${
@@ -1339,7 +1339,7 @@ function RankingTab() {
                           {isAllSuccess && " 올작"}
                         </span>
                       </td>
-                      <td className="px-4 py-2.5 text-center font-mono text-gray-700">
+                      <td className="px-4 py-2.5 text-center font-mono text-gray-700 dark:text-gray-300">
                         {r.total_stat_gain ?? "-"}
                       </td>
                       <td className="px-4 py-2.5 text-center text-gray-400 text-xs">

@@ -28,25 +28,25 @@ export default function MapDetailPage() {
   return (
     <div className="max-w-3xl mx-auto">
       <Link href="/maps" className="text-sm text-orange-500 hover:underline">&larr; 맵 목록</Link>
-      <div className="bg-white border border-gray-200 rounded-xl p-6 mt-3">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 mt-3">
         <h1 className="text-2xl font-bold">
           {(() => {
             const kr = map.names_en?.find(n => n.source === "kms");
             return kr ? (
-              <>{kr.name_en} <span className="text-lg font-normal text-gray-500">({map.name})</span></>
+              <>{kr.name_en} <span className="text-lg font-normal text-gray-500 dark:text-gray-400">({map.name})</span></>
             ) : map.name;
           })()}
         </h1>
         {map.is_town === 1 && <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded mt-2 inline-block">마을</span>}
         <div className="grid grid-cols-2 gap-4 mt-4">
-          <div><span className="text-sm text-gray-500">거리명</span><p className="font-medium">{map.street_name || "-"}</p></div>
-          <div><span className="text-sm text-gray-500">지역</span><p className="font-medium">{map.area || "-"}</p></div>
+          <div><span className="text-sm text-gray-500 dark:text-gray-400">거리명</span><p className="font-medium">{map.street_name || "-"}</p></div>
+          <div><span className="text-sm text-gray-500 dark:text-gray-400">지역</span><p className="font-medium">{map.area || "-"}</p></div>
         </div>
 
         {map.portals && map.portals.length > 0 && (
           <div className="mt-6">
             <h2 className="text-lg font-semibold mb-3">포탈</h2>
-            <div className="bg-white border border-gray-200 rounded-xl divide-y divide-gray-100">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl divide-y divide-gray-100">
               {map.portals.filter(p => p.toMap && p.toMap !== 999999999).map((p, i) => (
                 <Link key={i} href={`/maps/${p.toMap}`} className="flex items-center justify-between px-4 py-3 hover:bg-orange-50">
                   <span className="font-medium">{p.portalName || `포탈 ${i + 1}`}</span>
@@ -61,7 +61,7 @@ export default function MapDetailPage() {
       {monsters.length > 0 && (
         <div className="mt-6">
           <h2 className="text-lg font-semibold mb-3">출현 몬스터</h2>
-          <div className="bg-white border border-gray-200 rounded-xl divide-y divide-gray-100">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl divide-y divide-gray-100">
             {monsters.map((m) => (
               <Link key={m.mob_id} href={`/mobs/${m.mob_id}`} className="flex items-center justify-between px-4 py-3 hover:bg-orange-50">
                 <span className="font-medium">{m.mob_name}</span>
@@ -75,7 +75,7 @@ export default function MapDetailPage() {
       {npcs.length > 0 && (
         <div className="mt-6">
           <h2 className="text-lg font-semibold mb-3">NPC</h2>
-          <div className="bg-white border border-gray-200 rounded-xl divide-y divide-gray-100">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl divide-y divide-gray-100">
             {npcs.map((n) => (
               <Link key={n.id} href={`/npcs/${n.id}`} className="block px-4 py-3 hover:bg-orange-50 font-medium">
                 {n.name}

@@ -137,9 +137,9 @@ export default function BossPage() {
   return (
     <div className="max-w-5xl mx-auto">
       <h1 className="text-2xl font-bold mb-1">보스 관리</h1>
-      <p className="text-sm text-gray-500 mb-6">쿨타이머 · 구인 · 드롭 기록</p>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">쿨타이머 · 구인 · 드롭 기록</p>
 
-      <div className="flex gap-1 mb-6 bg-gray-100 p-1 rounded-xl w-fit">
+      <div className="flex gap-1 mb-6 bg-gray-100 dark:bg-gray-700 p-1 rounded-xl w-fit">
         {([
           { key: "cooldown" as Tab, label: "쿨타이머" },
           { key: "recruit" as Tab, label: "구인" },
@@ -150,8 +150,8 @@ export default function BossPage() {
             onClick={() => setActiveTab(t.key)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               activeTab === t.key
-                ? "bg-white text-orange-600 shadow-sm"
-                : "text-gray-500 hover:text-gray-700"
+                ? "bg-white dark:bg-gray-800 text-orange-600 shadow-sm"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-300"
             }`}
           >
             {t.label}
@@ -251,7 +251,7 @@ function CooldownTab() {
             key={b}
             onClick={() => setFilter(b)}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-              filter === b ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              filter === b ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200"
             }`}
           >
             {b}
@@ -269,35 +269,35 @@ function CooldownTab() {
 
       {/* Form */}
       {showForm && (
-        <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-3">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 space-y-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">캐릭터명</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">캐릭터명</label>
               <input
                 type="text"
                 value={charName}
                 onChange={(e) => setCharName(e.target.value)}
                 placeholder="캐릭터명"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">보스</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">보스</label>
               <select
                 value={bossName}
                 onChange={(e) => setBossName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               >
                 {BOSS_NAMES.map((b) => <option key={b} value={b}>{b}</option>)}
               </select>
             </div>
             {selectedBoss.maxTry > 1 && (
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1">트라이</label>
+                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">트라이</label>
                 <select
                   value={tryNum}
                   onChange={(e) => setTryNum(Number(e.target.value))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
                 >
                   {Array.from({ length: selectedBoss.maxTry }, (_, i) => i + 1).map((n) => (
                     <option key={n} value={n}>{n}트</option>
@@ -306,12 +306,12 @@ function CooldownTab() {
               </div>
             )}
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">{selectedBoss.timeLabel}</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">{selectedBoss.timeLabel}</label>
               <input
                 type="datetime-local"
                 value={clearedAt}
                 onChange={(e) => setClearedAt(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
             </div>
           </div>
@@ -329,11 +329,11 @@ function CooldownTab() {
 
       {/* Active cooldowns */}
       {active.length > 0 && (
-        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-gray-50 text-gray-500">
+                <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
                   <th className="text-left px-4 py-2.5 font-medium">캐릭터</th>
                   <th className="text-left px-4 py-2.5 font-medium">보스</th>
                   <th className="text-center px-4 py-2.5 font-medium">트라이</th>
@@ -350,7 +350,7 @@ function CooldownTab() {
                       <td className="px-4 py-2 font-medium">{e.characterName}</td>
                       <td className="px-4 py-2">{e.bossName}</td>
                       <td className="px-4 py-2 text-center">{e.tryLabel}</td>
-                      <td className="px-4 py-2 text-xs text-gray-500">{e.referenceTime}</td>
+                      <td className="px-4 py-2 text-xs text-gray-500 dark:text-gray-400">{e.referenceTime}</td>
                       <td className="px-4 py-2 text-center">
                         <span className="inline-block text-xs px-2 py-0.5 rounded-full font-medium bg-red-100 text-red-700 border border-red-200">
                           {formatCountdown(remaining)}
@@ -374,7 +374,7 @@ function CooldownTab() {
 
       {/* Expired */}
       {expired.length > 0 && (
-        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden opacity-60">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden opacity-60">
           <div className="px-4 py-2 border-b border-gray-100 text-xs font-medium text-gray-400">만료된 쿨타임</div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -384,7 +384,7 @@ function CooldownTab() {
                     <td className="px-4 py-2 font-medium">{e.characterName}</td>
                     <td className="px-4 py-2">{e.bossName}</td>
                     <td className="px-4 py-2 text-center">{e.tryLabel}</td>
-                    <td className="px-4 py-2 text-xs text-gray-500">{e.referenceTime}</td>
+                    <td className="px-4 py-2 text-xs text-gray-500 dark:text-gray-400">{e.referenceTime}</td>
                     <td className="px-4 py-2 text-center">
                       <span className="inline-block text-xs px-2 py-0.5 rounded-full font-medium bg-green-100 text-green-700 border border-green-200">
                         입장 가능
@@ -406,7 +406,7 @@ function CooldownTab() {
       )}
 
       {entries.length === 0 && (
-        <div className="text-center py-12 text-gray-400 bg-white border border-gray-200 rounded-xl">
+        <div className="text-center py-12 text-gray-400 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
           등록된 쿨타임이 없습니다
         </div>
       )}
@@ -494,57 +494,57 @@ function RecruitTab() {
       </button>
 
       {showForm && (
-        <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-3">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 space-y-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">보스</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">보스</label>
               <select
                 value={boss}
                 onChange={(e) => setBoss(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               >
                 {BOSS_NAMES.map((b) => <option key={b} value={b}>{b}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">작성자 닉네임</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">작성자 닉네임</label>
               <input
                 type="text"
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
                 placeholder="닉네임"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">예정 시각</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">예정 시각</label>
               <input
                 type="datetime-local"
                 value={scheduledAt}
                 onChange={(e) => setScheduledAt(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">최대 인원 (2~6)</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">최대 인원 (2~6)</label>
               <input
                 type="number"
                 min={2}
                 max={6}
                 value={maxMembers}
                 onChange={(e) => setMaxMembers(Math.max(2, Math.min(6, Number(e.target.value))))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
             </div>
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">메시지</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">메시지</label>
             <input
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="예: 비숍 1명 구합니다"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             />
           </div>
           <button
@@ -563,7 +563,7 @@ function RecruitTab() {
           const participants: string[] = JSON.parse(r.participants_json || "[]");
           const isClosed = r.status === "closed";
           return (
-            <div key={r.id} className={`bg-white border rounded-xl p-5 ${isClosed ? "border-gray-300 opacity-70" : "border-gray-200"}`}>
+            <div key={r.id} className={`bg-white dark:bg-gray-800 border rounded-xl p-5 ${isClosed ? "border-gray-300 dark:border-gray-600 opacity-70" : "border-gray-200 dark:border-gray-700"}`}>
               <div className="flex items-center gap-2 mb-2 flex-wrap">
                 <span className="font-bold text-lg">{r.boss_name}</span>
                 <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
@@ -575,7 +575,7 @@ function RecruitTab() {
                   <span className="text-xs text-gray-400 ml-auto">{r.scheduled_at}</span>
                 )}
               </div>
-              {r.message && <p className="text-sm text-gray-600 mb-2">{r.message}</p>}
+              {r.message && <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{r.message}</p>}
               <p className="text-xs text-gray-400 mb-3">작성자: {r.author}</p>
 
               {/* Participant slots */}
@@ -586,7 +586,7 @@ function RecruitTab() {
                     className={`px-3 py-1.5 rounded-lg text-sm font-medium ${
                       participants[i]
                         ? "bg-orange-100 text-orange-700 border border-orange-200"
-                        : "bg-gray-50 text-gray-300 border border-dashed border-gray-200"
+                        : "bg-gray-50 dark:bg-gray-900 text-gray-300 border border-dashed border-gray-200 dark:border-gray-700"
                     }`}
                   >
                     {participants[i] || "빈 슬롯"}
@@ -606,13 +606,13 @@ function RecruitTab() {
                 )}
                 <button
                   onClick={() => handleLeave(r.id)}
-                  className="px-3 py-1.5 bg-gray-100 text-gray-600 rounded-lg text-xs font-medium hover:bg-gray-200 transition-colors"
+                  className="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-lg text-xs font-medium hover:bg-gray-200 transition-colors"
                 >
                   참가 취소
                 </button>
                 <button
                   onClick={() => handleDelete(r.id)}
-                  className="px-3 py-1.5 bg-gray-100 text-red-500 rounded-lg text-xs font-medium hover:bg-red-50 transition-colors ml-auto"
+                  className="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 text-red-500 rounded-lg text-xs font-medium hover:bg-red-50 transition-colors ml-auto"
                 >
                   삭제
                 </button>
@@ -623,7 +623,7 @@ function RecruitTab() {
       </div>
 
       {recruits.length === 0 && (
-        <div className="text-center py-12 text-gray-400 bg-white border border-gray-200 rounded-xl">
+        <div className="text-center py-12 text-gray-400 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
           구인글이 없습니다
         </div>
       )}
@@ -703,7 +703,7 @@ function DropsTab() {
             key={b}
             onClick={() => setFilter(b)}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-              filter === b ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              filter === b ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200"
             }`}
           >
             {b}
@@ -719,35 +719,35 @@ function DropsTab() {
       </button>
 
       {showForm && (
-        <div className="bg-white border border-gray-200 rounded-xl p-5 space-y-3">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 space-y-3">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">보스</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">보스</label>
               <select
                 value={bossName}
                 onChange={(e) => setBossName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               >
                 {BOSS_NAMES.map((b) => <option key={b} value={b}>{b}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">캐릭터명</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">캐릭터명</label>
               <input
                 type="text"
                 value={charName}
                 onChange={(e) => setCharName(e.target.value)}
                 placeholder="캐릭터명"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
             </div>
             {selectedBoss.maxTry > 1 && (
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1">트라이</label>
+                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">트라이</label>
                 <select
                   value={tryNum}
                   onChange={(e) => setTryNum(Number(e.target.value))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
                 >
                   {Array.from({ length: selectedBoss.maxTry }, (_, i) => i + 1).map((n) => (
                     <option key={n} value={n}>{n}트</option>
@@ -756,33 +756,33 @@ function DropsTab() {
               </div>
             )}
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">날짜/시각</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">날짜/시각</label>
               <input
                 type="datetime-local"
                 value={clearedAt}
                 onChange={(e) => setClearedAt(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
             </div>
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">드롭 아이템 (콤마 구분)</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">드롭 아이템 (콤마 구분)</label>
             <input
               type="text"
               value={drops}
               onChange={(e) => setDrops(e.target.value)}
               placeholder="예: 자쿰 투구, 혼수 목걸이"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">메모</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">메모</label>
             <input
               type="text"
               value={note}
               onChange={(e) => setNote(e.target.value)}
               placeholder="메모 (선택)"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             />
           </div>
           <button
@@ -797,11 +797,11 @@ function DropsTab() {
 
       {/* Drops table */}
       {runs.length > 0 && (
-        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-gray-50 text-gray-500">
+                <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
                   <th className="text-left px-4 py-2.5 font-medium">날짜</th>
                   <th className="text-left px-4 py-2.5 font-medium">보스</th>
                   <th className="text-left px-4 py-2.5 font-medium">캐릭터</th>
@@ -814,7 +814,7 @@ function DropsTab() {
               <tbody>
                 {runs.map((r) => (
                   <tr key={r.id} className="border-t border-gray-50">
-                    <td className="px-4 py-2 text-xs text-gray-500">{r.cleared_at?.slice(0, 10)}</td>
+                    <td className="px-4 py-2 text-xs text-gray-500 dark:text-gray-400">{r.cleared_at?.slice(0, 10)}</td>
                     <td className="px-4 py-2">{r.boss_name}</td>
                     <td className="px-4 py-2 font-medium">{r.character_name}</td>
                     <td className="px-4 py-2 text-center">{r.try_number}트</td>
@@ -827,7 +827,7 @@ function DropsTab() {
                         ))}
                       </div>
                     </td>
-                    <td className="px-4 py-2 text-xs text-gray-500">{r.note || "-"}</td>
+                    <td className="px-4 py-2 text-xs text-gray-500 dark:text-gray-400">{r.note || "-"}</td>
                     <td className="px-2 py-2">
                       <button onClick={() => handleDelete(r.id)} className="text-gray-300 hover:text-red-500">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -844,7 +844,7 @@ function DropsTab() {
       )}
 
       {runs.length === 0 && (
-        <div className="text-center py-12 text-gray-400 bg-white border border-gray-200 rounded-xl">
+        <div className="text-center py-12 text-gray-400 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
           드롭 기록이 없습니다
         </div>
       )}

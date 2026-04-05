@@ -725,7 +725,7 @@ function NumberInput({
 
   return (
     <div>
-      <label className="block text-xs font-medium text-gray-500 mb-1">{label}</label>
+      <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">{label}</label>
       <input
         type="number"
         value={inputVal}
@@ -733,7 +733,7 @@ function NumberInput({
         onBlur={handleBlur}
         min={min}
         max={max}
-        className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
       />
     </div>
   );
@@ -1154,12 +1154,12 @@ export default function NHitPage() {
   return (
     <div className="max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-1">엔방컷 계산기</h1>
-      <p className="text-sm text-gray-500 mb-6">
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
         데미지를 계산하고 몬스터 N방컷을 확인하세요
       </p>
 
       {/* 탭 */}
-      <div className="flex gap-1 mb-6 bg-gray-100 p-1 rounded-xl w-fit">
+      <div className="flex gap-1 mb-6 bg-gray-100 dark:bg-gray-700 p-1 rounded-xl w-fit">
         {(
           [
             { key: "calc" as Tab, label: "엔방컷 계산기" },
@@ -1172,8 +1172,8 @@ export default function NHitPage() {
             onClick={() => setActiveTab(t.key)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               activeTab === t.key
-                ? "bg-white text-orange-600 shadow-sm"
-                : "text-gray-500 hover:text-gray-700"
+                ? "bg-white dark:bg-gray-800 text-orange-600 shadow-sm"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-300"
             }`}
           >
             {t.label}
@@ -1459,12 +1459,12 @@ function CalcTab({
   return (
     <div className="space-y-5">
       {/* 캐릭터 설정 */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
         <h2 className="font-bold text-lg mb-4">캐릭터 설정</h2>
 
         {/* 직업 그룹 선택 */}
         <div className="mb-3">
-          <label className="block text-xs font-medium text-gray-500 mb-1">직업 계열</label>
+          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">직업 계열</label>
           <div className="flex gap-1 flex-wrap">
             {JOB_GROUP_KEYS.map((g) => (
               <button
@@ -1473,7 +1473,7 @@ function CalcTab({
                 className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                   jobGroup === g
                     ? "bg-orange-500 text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200"
                 }`}
               >
                 {g}
@@ -1484,7 +1484,7 @@ function CalcTab({
 
         {/* 세부 직업 선택 */}
         <div className="mb-4">
-          <label className="block text-xs font-medium text-gray-500 mb-1">세부 직업</label>
+          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">세부 직업</label>
           <div className="flex gap-1 flex-wrap">
             {JOB_GROUPS[jobGroup].map((s) => (
               <button
@@ -1493,7 +1493,7 @@ function CalcTab({
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                   subJob === s
                     ? "bg-orange-100 text-orange-700 border border-orange-300"
-                    : "bg-gray-50 text-gray-600 hover:bg-gray-100 border border-gray-200"
+                    : "bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-700"
                 }`}
               >
                 {s}
@@ -1505,11 +1505,11 @@ function CalcTab({
         {/* 무기 선택 (물리 직업만) */}
         {!isMagic && jobData?.weapons.length > 0 && (
           <div className="mb-4">
-            <label className="block text-xs font-medium text-gray-500 mb-1">무기 종류</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">무기 종류</label>
             <select
               value={weaponKey}
               onChange={(e) => setWeaponKey(e.target.value)}
-              className="w-full sm:w-64 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="w-full sm:w-64 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             >
               {jobData.weapons.map((w) => (
                 <option key={w} value={w}>
@@ -1548,8 +1548,8 @@ function CalcTab({
             </div>
             {/* 총 공격력 표시 */}
             <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
-                총 공격력: <span className="font-bold text-gray-800">{totalAtk.toLocaleString()}</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2">
+                총 공격력: <span className="font-bold text-gray-800 dark:text-gray-200">{totalAtk.toLocaleString()}</span>
               </span>
             </div>
           </div>
@@ -1561,8 +1561,8 @@ function CalcTab({
               <NumberInput label="추가 INT" value={bonusInt} onChange={setBonusInt} min={0} />
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
-                총 INT: <span className="font-bold text-gray-800">{totalInt.toLocaleString()}</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2">
+                총 INT: <span className="font-bold text-gray-800 dark:text-gray-200">{totalInt.toLocaleString()}</span>
               </span>
             </div>
             {/* LUK 분리 */}
@@ -1571,8 +1571,8 @@ function CalcTab({
               <NumberInput label="추가 LUK" value={bonusLuk} onChange={setBonusLuk} min={0} />
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
-                총 LUK: <span className="font-bold text-gray-800">{totalLuk.toLocaleString()}</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2">
+                총 LUK: <span className="font-bold text-gray-800 dark:text-gray-200">{totalLuk.toLocaleString()}</span>
               </span>
             </div>
             {/* 마력 */}
@@ -1585,7 +1585,7 @@ function CalcTab({
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
           <NumberInput label="캐릭터 레벨" value={charLevel} onChange={setCharLevel} min={1} max={200} />
           <div className="flex items-end gap-3 flex-wrap">
-            <label className="flex items-center gap-1.5 cursor-pointer select-none text-xs text-gray-600 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
+            <label className="flex items-center gap-1.5 cursor-pointer select-none text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2">
               <input
                 type="checkbox"
                 checked={autoStatEnabled}
@@ -1595,7 +1595,7 @@ function CalcTab({
               레벨 기준 스탯 자동 계산
             </label>
             {!isMagic && (
-              <span className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
+              <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2">
                 마스터리 {effectiveMastery}% 적용 중
               </span>
             )}
@@ -1604,13 +1604,13 @@ function CalcTab({
       </div>
 
       {/* 스킬 선택 */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
         <h2 className="font-bold text-lg mb-4">스킬 선택</h2>
 
         {/* 패시브 스킬 토글 */}
         {passives.length > 0 && (
           <div className="mb-4">
-            <label className="block text-xs font-medium text-gray-500 mb-2">패시브 스킬</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">패시브 스킬</label>
             <div className="flex flex-wrap gap-2">
               {passives.map((p) => {
                 const isOn = enabledPassives[p.name] !== false;
@@ -1622,7 +1622,7 @@ function CalcTab({
                     className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors border ${
                       isOn
                         ? "bg-indigo-100 text-indigo-700 border-indigo-300"
-                        : "bg-gray-50 text-gray-400 border-gray-200"
+                        : "bg-gray-50 dark:bg-gray-900 text-gray-400 border-gray-200 dark:border-gray-700"
                     }`}
                   >
                     {isOn ? "✓ " : ""}{p.name}
@@ -1637,7 +1637,7 @@ function CalcTab({
         {/* 버프 스킬 토글 */}
         {buffs.length > 0 && (
           <div className="mb-4">
-            <label className="block text-xs font-medium text-gray-500 mb-2">버프 스킬</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">버프 스킬</label>
             <div className="flex flex-wrap gap-2">
               {buffs.map((b) => {
                 const isOn = !!enabledBuffs[b.name];
@@ -1649,7 +1649,7 @@ function CalcTab({
                       className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors border ${
                         isOn
                           ? "bg-emerald-100 text-emerald-700 border-emerald-300"
-                          : "bg-gray-50 text-gray-400 border-gray-200"
+                          : "bg-gray-50 dark:bg-gray-900 text-gray-400 border-gray-200 dark:border-gray-700"
                       }`}
                     >
                       {isOn ? "✓ " : ""}{b.name}
@@ -1680,7 +1680,7 @@ function CalcTab({
         {/* 액티브 스킬 선택 */}
         {actives.length > 0 ? (
           <>
-            <label className="block text-xs font-medium text-gray-500 mb-2">공격 스킬</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">공격 스킬</label>
             <div className="flex flex-wrap gap-2 mb-4">
               {actives.map((skill, idx) => (
                 <button
@@ -1689,7 +1689,7 @@ function CalcTab({
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border ${
                     selectedSkillIdx === idx
                       ? "bg-orange-500 text-white border-orange-500"
-                      : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
+                      : "bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:bg-gray-700"
                   }`}
                 >
                   {skill.name}
@@ -1771,14 +1771,14 @@ function CalcTab({
       </div>
 
       {/* 몬스터 선택 */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-bold text-lg">대상 몬스터</h2>
           <div className="flex gap-1">
             <button
               onClick={() => setUsePreset(true)}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                usePreset ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                usePreset ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200"
               }`}
             >
               목록 선택
@@ -1786,7 +1786,7 @@ function CalcTab({
             <button
               onClick={() => setUsePreset(false)}
               className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                !usePreset ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                !usePreset ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200"
               }`}
             >
               직접 입력
@@ -1798,7 +1798,7 @@ function CalcTab({
           <select
             value={selectedMonster}
             onChange={(e) => setSelectedMonster(Number(e.target.value))}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
           >
             {HUNTING_GROUNDS.map((m, i) => (
               <option key={i} value={i}>
@@ -1809,12 +1809,12 @@ function CalcTab({
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
             <div className="sm:col-span-2">
-              <label className="block text-xs font-medium text-gray-500 mb-1">몬스터 이름</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">몬스터 이름</label>
               <input
                 type="text"
                 value={manualName}
                 onChange={(e) => setManualName(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
             </div>
             <NumberInput label="레벨" value={manualLevel} onChange={setManualLevel} min={1} max={200} />
@@ -1822,11 +1822,11 @@ function CalcTab({
             <NumberInput label="물리방어 (WDEF)" value={manualWdef} onChange={setManualWdef} min={0} />
             <NumberInput label="마법방어 (MDEF)" value={manualMdef} onChange={setManualMdef} min={0} />
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">속성 약점</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">속성 약점</label>
               <select
                 value={manualWeakness}
                 onChange={(e) => setManualWeakness(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               >
                 <option value="">없음</option>
                 <option value="fire">불</option>
@@ -1840,20 +1840,20 @@ function CalcTab({
           </div>
         )}
 
-        <div className="mt-3 flex flex-wrap gap-3 text-sm text-gray-600">
-          <span className="bg-gray-50 rounded-lg px-3 py-1.5">
+        <div className="mt-3 flex flex-wrap gap-3 text-sm text-gray-600 dark:text-gray-400">
+          <span className="bg-gray-50 dark:bg-gray-900 rounded-lg px-3 py-1.5">
             <span className="text-gray-400 text-xs mr-1">몬스터</span>
             <span className="font-medium">{monster.name}</span>
           </span>
-          <span className="bg-gray-50 rounded-lg px-3 py-1.5">
+          <span className="bg-gray-50 dark:bg-gray-900 rounded-lg px-3 py-1.5">
             <span className="text-gray-400 text-xs mr-1">레벨</span>
             <span className="font-medium">Lv.{monster.level}</span>
           </span>
-          <span className="bg-gray-50 rounded-lg px-3 py-1.5">
+          <span className="bg-gray-50 dark:bg-gray-900 rounded-lg px-3 py-1.5">
             <span className="text-gray-400 text-xs mr-1">HP</span>
             <span className="font-medium">{monster.hp.toLocaleString()}</span>
           </span>
-          <span className="bg-gray-50 rounded-lg px-3 py-1.5">
+          <span className="bg-gray-50 dark:bg-gray-900 rounded-lg px-3 py-1.5">
             <span className="text-gray-400 text-xs mr-1">물방/마방</span>
             <span className="font-medium">{monster.wdef}/{monster.mdef}</span>
           </span>
@@ -1864,7 +1864,7 @@ function CalcTab({
             </span>
           )}
           {monster.exp > 0 && (
-            <span className="bg-gray-50 rounded-lg px-3 py-1.5">
+            <span className="bg-gray-50 dark:bg-gray-900 rounded-lg px-3 py-1.5">
               <span className="text-gray-400 text-xs mr-1">경험치</span>
               <span className="font-medium">{monster.exp.toLocaleString()}</span>
             </span>
@@ -1873,7 +1873,7 @@ function CalcTab({
       </div>
 
       {/* 결과 */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
         <h2 className="font-bold text-lg mb-4">계산 결과</h2>
 
         {/* 스탯공격력 / 마법 데미지 범위 */}
@@ -1900,10 +1900,10 @@ function CalcTab({
         )}
 
         {/* 확률 분포 — PRIMARY (최상단) */}
-        <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 mb-4">
+        <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl p-4 mb-4">
           <div className="flex items-center gap-2 mb-3">
-            <span className="font-bold text-gray-800">확률 분포</span>
-            <span className="text-xs text-gray-400 bg-white border border-gray-200 px-2 py-0.5 rounded-full">몬테카를로 10,000회</span>
+            <span className="font-bold text-gray-800 dark:text-gray-200">확률 분포</span>
+            <span className="text-xs text-gray-400 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 px-2 py-0.5 rounded-full">몬테카를로 10,000회</span>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3">
             {[
@@ -1924,7 +1924,7 @@ function CalcTab({
               );
             })}
           </div>
-          <div className="flex gap-4 text-sm text-gray-600">
+          <div className="flex gap-4 text-sm text-gray-600 dark:text-gray-400">
             <span>기댓값 <strong>{mcResult.expectedHits.toFixed(2)}방</strong></span>
             <span>중앙값 <strong>{mcResult.median}방</strong></span>
           </div>
@@ -1932,28 +1932,28 @@ function CalcTab({
 
         {/* 데미지 범위 */}
         <div className="grid grid-cols-3 gap-3 mb-4">
-          <div className="bg-gray-50 rounded-xl p-3 text-center">
+          <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-3 text-center">
             <p className="text-xs text-gray-400 mb-1">최대 데미지</p>
-            <p className="font-bold text-gray-800">{Math.floor(dmgResult.maxDmg).toLocaleString()}</p>
+            <p className="font-bold text-gray-800 dark:text-gray-200">{Math.floor(dmgResult.maxDmg).toLocaleString()}</p>
           </div>
-          <div className="bg-gray-50 rounded-xl p-3 text-center">
+          <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-3 text-center">
             <p className="text-xs text-gray-400 mb-1">평균 데미지</p>
-            <p className="font-bold text-gray-800">{Math.floor(dmgResult.avgDmg).toLocaleString()}</p>
+            <p className="font-bold text-gray-800 dark:text-gray-200">{Math.floor(dmgResult.avgDmg).toLocaleString()}</p>
           </div>
-          <div className="bg-gray-50 rounded-xl p-3 text-center">
+          <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-3 text-center">
             <p className="text-xs text-gray-400 mb-1">최소 데미지</p>
-            <p className="font-bold text-gray-800">{Math.floor(dmgResult.minDmg).toLocaleString()}</p>
+            <p className="font-bold text-gray-800 dark:text-gray-200">{Math.floor(dmgResult.minDmg).toLocaleString()}</p>
           </div>
         </div>
 
         <div className={`rounded-xl border p-4 mb-3 ${nHitBg(nHitAvg)}`}>
-          <p className="text-sm text-gray-500 mb-1">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
             {monster.name} N방컷{totalCritRate > 0 ? " (노크리)" : ""}
           </p>
           <p className={`text-3xl font-bold ${nHitColor(nHitAvg)}`}>
             평균 {nHitAvg}방컷
           </p>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
             최대 데미지 기준: {nHitMax}방컷 &nbsp;|&nbsp; 평균 데미지 기준: {nHitAvg}방컷
           </p>
           {selectedSkill && selectedSkill.hits > 1 && (
@@ -1965,21 +1965,21 @@ function CalcTab({
 
         {totalCritRate > 0 && (
           <div className="rounded-xl border bg-yellow-50 border-yellow-200 p-4 mb-3">
-            <p className="text-sm text-gray-500 mb-1">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
               {monster.name} N방컷 (크리 {totalCritRate}% 발동 시, +{totalCritDmg}%)
             </p>
             <p className={`text-3xl font-bold ${nHitColor(critNHitAvg)}`}>
               크리 {critNHitAvg}방컷
             </p>
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
               최대 기준: {critNHitMax}방컷 &nbsp;|&nbsp; 평균 기준: {critNHitAvg}방컷
             </p>
           </div>
         )}
 
         {/* 원킬컷 공격력 */}
-        <div className="bg-gray-50 rounded-xl p-4">
-          <p className="text-xs font-medium text-gray-500 mb-1">원킬컷 {isMagic ? "마법공격력 (MA)" : "공격력 (ATK)"}</p>
+        <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-4">
+          <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">원킬컷 {isMagic ? "마법공격력 (MA)" : "공격력 (ATK)"}</p>
           <p className="text-2xl font-bold text-orange-600">
             {oneKillAtk > 0 ? oneKillAtk.toLocaleString() : "계산 불가"}
           </p>
@@ -1990,16 +1990,16 @@ function CalcTab({
       </div>
 
       {/* 공식 설명 */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
-        <h2 className="font-bold mb-3 text-gray-700">데미지 공식 참고</h2>
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
+        <h2 className="font-bold mb-3 text-gray-700 dark:text-gray-300">데미지 공식 참고</h2>
         {!isMagic ? (
-          <div className="text-xs text-gray-500 space-y-1 font-mono bg-gray-50 rounded-lg p-3">
+          <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1 font-mono bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
             <p>최대 = (주스탯 × 최대배율 + 부스탯) × ATK/100 × (1 - 0.01×D) - 물방×0.5) × 스킬% × 타수</p>
             <p>최소 = (주스탯 × 최소배율 × 0.9 × 마스터리 + 부스탯) × ATK/100 × (1 - 0.01×D) - 물방×0.6) × 스킬% × 타수</p>
             <p className="text-gray-400">D = max(몬스터레벨 - 캐릭터레벨, 0)</p>
           </div>
         ) : (
-          <div className="text-xs text-gray-500 space-y-1 font-mono bg-gray-50 rounded-lg p-3">
+          <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1 font-mono bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
             <p>최대 = (INT + LUK) × MA/100 × 스킬% × 타수 − 마방×0.5×(1+0.01×D)</p>
             <p>최소 = (INT + LUK×0.5) × MA/100 × 스킬% × 타수 − 마방×0.6×(1+0.01×D)</p>
             <p className="text-gray-400">D = max(몬스터레벨 - 캐릭터레벨, 0)</p>
@@ -2246,13 +2246,13 @@ function HuntSpotCard({
   );
 
   return (
-    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
       {/* 헤더 */}
-      <div className="px-5 py-4 border-b border-gray-100 bg-gray-50/50">
+      <div className="px-5 py-4 border-b border-gray-100 bg-gray-50 dark:bg-gray-900/50">
         <div className="flex items-center gap-2 flex-wrap mb-1">
-          <h3 className="font-bold text-gray-800">{spot.name}</h3>
+          <h3 className="font-bold text-gray-800 dark:text-gray-200">{spot.name}</h3>
           {spot.alias && (
-            <span className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full">
+            <span className="text-xs bg-gray-200 text-gray-600 dark:text-gray-400 px-2 py-0.5 rounded-full">
               {spot.alias}
             </span>
           )}
@@ -2260,7 +2260,7 @@ function HuntSpotCard({
             추천 Lv.{spot.levelRange[0]}~{spot.levelRange[1]}
           </span>
         </div>
-        <div className="flex items-center gap-3 flex-wrap text-xs text-gray-500">
+        <div className="flex items-center gap-3 flex-wrap text-xs text-gray-500 dark:text-gray-400">
           <span>
             {spot.monster.name} · Lv.{spot.monster.level} · HP{" "}
             {spot.monster.hp.toLocaleString()}
@@ -2285,12 +2285,12 @@ function HuntSpotCard({
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="bg-gray-50 text-gray-500 text-xs">
+            <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 text-xs">
               <th className="text-left px-4 py-2 font-medium">직업</th>
               <th className="text-left px-3 py-2 font-medium hidden sm:table-cell">추천 스킬</th>
               <th className="text-right px-3 py-2 font-medium text-green-600">1방컷 (마력)</th>
               <th className="text-right px-3 py-2 font-medium text-blue-600">2방컷 (마력)</th>
-              <th className="text-right px-3 py-2 font-medium text-gray-500">
+              <th className="text-right px-3 py-2 font-medium text-gray-500 dark:text-gray-400">
                 스탯공격력 기준 방컷
               </th>
             </tr>
@@ -2299,9 +2299,9 @@ function HuntSpotCard({
             {thresholds.map((t) => (
               <tr
                 key={t.job}
-                className="border-t border-gray-50 hover:bg-gray-50/40 transition-colors"
+                className="border-t border-gray-50 hover:bg-gray-50 dark:bg-gray-900/40 transition-colors"
               >
-                <td className="px-4 py-2.5 font-medium text-gray-800 text-sm">{t.job}</td>
+                <td className="px-4 py-2.5 font-medium text-gray-800 dark:text-gray-200 text-sm">{t.job}</td>
                 <td className="px-3 py-2.5 text-xs text-gray-400 hidden sm:table-cell">
                   {t.skillName}
                 </td>
@@ -2359,7 +2359,7 @@ function HuntSpotCard({
 
       {/* 노트 */}
       {spot.notes && (
-        <div className="px-5 py-2 bg-gray-50 border-t border-gray-100">
+        <div className="px-5 py-2 bg-gray-50 dark:bg-gray-900 border-t border-gray-100">
           <p className="text-xs text-gray-400">{spot.notes}</p>
         </div>
       )}
@@ -2392,9 +2392,9 @@ function HuntTab() {
   return (
     <div className="space-y-5">
       {/* 설명 + 필터 */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
         <h2 className="font-bold text-lg mb-1">사냥터 젠컷 정보</h2>
-        <p className="text-xs text-gray-500 mb-4">
+        <p className="text-xs text-gray-500 dark:text-gray-400 mb-4">
           마법직업: 1방/2방컷에 필요한 <strong>마력(MA)</strong> 기준 표시.
           물리직업: 입력한 <strong>스탯공격력 기준 방컷 수</strong> 표시.
           계산은 레벨×5 기본 주스탯 가정. 커뮤니티 검증 수치는 별도 표시.
@@ -2403,7 +2403,7 @@ function HuntTab() {
         {/* 기준 레벨 + 스탯공격력 */}
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
               내 캐릭터 레벨
             </label>
             <input
@@ -2412,11 +2412,11 @@ function HuntTab() {
               onChange={(e) => setCharLevel(Math.max(1, Math.min(200, Number(e.target.value))))}
               min={1}
               max={200}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
               물리직업 기준 스탯공격력
               <span className="ml-1 text-gray-400 font-normal">(스탯×배율×ATK/100)</span>
             </label>
@@ -2426,7 +2426,7 @@ function HuntTab() {
               onChange={(e) => setRefStatAtk(Math.max(100, Number(e.target.value)))}
               min={100}
               step={500}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             />
           </div>
         </div>
@@ -2436,7 +2436,7 @@ function HuntTab() {
 
         {/* 직업 필터 */}
         <div className="mb-3">
-          <label className="block text-xs font-medium text-gray-500 mb-1">직업 계열 필터</label>
+          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">직업 계열 필터</label>
           <div className="flex gap-1 flex-wrap">
             {["전체", ...JOB_GROUP_KEYS].map((g) => (
               <button
@@ -2445,7 +2445,7 @@ function HuntTab() {
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
                   jobGroupFilter === g
                     ? "bg-orange-500 text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200"
                 }`}
               >
                 {g}
@@ -2456,7 +2456,7 @@ function HuntTab() {
 
         {/* 지역 필터 */}
         <div>
-          <label className="block text-xs font-medium text-gray-500 mb-1">지역 필터</label>
+          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">지역 필터</label>
           <div className="flex gap-1 flex-wrap">
             {zones.map((z) => (
               <button
@@ -2465,7 +2465,7 @@ function HuntTab() {
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border ${
                   zoneFilter === z
                     ? "bg-blue-500 text-white border-blue-500"
-                    : "bg-gray-50 text-gray-600 hover:bg-gray-100 border-gray-200"
+                    : "bg-gray-50 dark:bg-gray-900 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:bg-gray-700 border-gray-200 dark:border-gray-700"
                 }`}
               >
                 {z}
@@ -2476,8 +2476,8 @@ function HuntTab() {
       </div>
 
       {/* 범례 */}
-      <div className="flex gap-4 text-xs text-gray-500 flex-wrap px-1">
-        <span className="font-medium text-gray-600">물리직업 방컷 수:</span>
+      <div className="flex gap-4 text-xs text-gray-500 dark:text-gray-400 flex-wrap px-1">
+        <span className="font-medium text-gray-600 dark:text-gray-400">물리직업 방컷 수:</span>
         <span className="flex items-center gap-1.5">
           <span className="w-3 h-3 rounded bg-green-500 inline-block" />
           1~3방 (매우 좋음)
@@ -2501,7 +2501,7 @@ function HuntTab() {
       </div>
 
       {filteredSpots.length === 0 ? (
-        <div className="bg-white border border-gray-200 rounded-xl p-10 text-center text-gray-400">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-10 text-center text-gray-400">
           해당 레벨·지역 범위에 사냥터가 없습니다.
         </div>
       ) : (
@@ -2598,13 +2598,13 @@ function DamageTakenTab() {
 
   return (
     <div className="space-y-4">
-      <div className="bg-white border border-gray-200 rounded-xl p-4 space-y-4">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 space-y-4">
         <h3 className="font-bold text-sm">캐릭터 설정</h3>
         <div className="flex gap-1 flex-wrap">
           {Object.keys(JOB_BASE_DEF).map((j) => (
             <button key={j} onClick={() => setJobGroup(j)}
               className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                jobGroup === j ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>
+                jobGroup === j ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200"}`}>
               {j}
             </button>
           ))}
@@ -2622,26 +2622,26 @@ function DamageTakenTab() {
           <NumberInput label="LUK" value={totalLuk} onChange={setTotalLuk} min={4} />
         </div>
         <p className="text-xs text-gray-400">
-          직업 기본 방어력 (Lv{charLevel} {jobGroup}): <span className="font-medium text-gray-600">{jobBaseDef}</span>
+          직업 기본 방어력 (Lv{charLevel} {jobGroup}): <span className="font-medium text-gray-600 dark:text-gray-400">{jobBaseDef}</span>
           {playerPDef < jobBaseDef && <span className="text-red-500 ml-2">( 기본 방어력 미달 - 피격뎀 증가!)</span>}
         </p>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-xl p-4 space-y-4">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 space-y-4">
         <h3 className="font-bold text-sm">몬스터 설정</h3>
         <div className="flex gap-2 mb-2">
           <button onClick={() => setUsePreset(true)}
-            className={`px-3 py-1.5 rounded-lg text-sm ${usePreset ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-600"}`}>
+            className={`px-3 py-1.5 rounded-lg text-sm ${usePreset ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400"}`}>
             프리셋
           </button>
           <button onClick={() => setUsePreset(false)}
-            className={`px-3 py-1.5 rounded-lg text-sm ${!usePreset ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-600"}`}>
+            className={`px-3 py-1.5 rounded-lg text-sm ${!usePreset ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400"}`}>
             직접 입력
           </button>
         </div>
         {usePreset ? (
           <select value={selectedMob} onChange={(e) => setSelectedMob(Number(e.target.value))}
-            className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm">
             {MOB_PRESETS.map((m, i) => (
               <option key={i} value={i}>Lv{m.level} {m.name} (물공:{m.pAtk} / 마공:{m.mAtk})</option>
             ))}
@@ -2649,9 +2649,9 @@ function DamageTakenTab() {
         ) : (
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">몬스터 이름</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">몬스터 이름</label>
               <input value={mobName} onChange={(e) => setMobName(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" />
+                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm" />
             </div>
             <NumberInput label="몬스터 레벨" value={mobLevel} onChange={setMobLevel} min={1} />
             <NumberInput label="물리 공격력" value={mobPAtk} onChange={setMobPAtk} min={0} />
@@ -2660,34 +2660,34 @@ function DamageTakenTab() {
         )}
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-xl p-4">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
         <h3 className="font-bold text-sm mb-4">{mobName} 피격 시 예상 데미지</h3>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* 물리 피격 */}
-          <div className="bg-gray-50 rounded-xl p-4 space-y-3">
+          <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-4 space-y-3">
             <div className="flex items-center gap-2">
               <span className="text-lg">&#9876;</span>
               <span className="font-bold text-sm">물리 피격</span>
             </div>
             <div className="space-y-1">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">최소 데미지</span>
+                <span className="text-gray-500 dark:text-gray-400">최소 데미지</span>
                 <span className={`font-bold ${dmgColor(physDmg.min)}`}>{physDmg.min.toLocaleString()}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">최대 데미지</span>
+                <span className="text-gray-500 dark:text-gray-400">최대 데미지</span>
                 <span className={`font-bold ${dmgColor(physDmg.max)}`}>{physDmg.max.toLocaleString()}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">HP 대비</span>
+                <span className="text-gray-500 dark:text-gray-400">HP 대비</span>
                 <span className={`font-bold ${dmgColor(physDmg.max)}`}>
                   {playerMaxHp > 0 ? ((physDmg.max / playerMaxHp) * 100).toFixed(1) : 0}%
                 </span>
               </div>
               <div className="flex justify-between text-sm border-t pt-2 mt-2">
-                <span className="text-gray-500">생존 가능 타수</span>
-                <span className="font-bold text-gray-800">{physHitsToKill}회</span>
+                <span className="text-gray-500 dark:text-gray-400">생존 가능 타수</span>
+                <span className="font-bold text-gray-800 dark:text-gray-200">{physHitsToKill}회</span>
               </div>
             </div>
             {/* HP 바 */}
@@ -2701,29 +2701,29 @@ function DamageTakenTab() {
           </div>
 
           {/* 마법 피격 */}
-          <div className="bg-gray-50 rounded-xl p-4 space-y-3">
+          <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-4 space-y-3">
             <div className="flex items-center gap-2">
               <span className="text-lg">&#10024;</span>
               <span className="font-bold text-sm">마법 피격</span>
             </div>
             <div className="space-y-1">
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">최소 데미지</span>
+                <span className="text-gray-500 dark:text-gray-400">최소 데미지</span>
                 <span className={`font-bold ${dmgColor(magicDmg.min)}`}>{magicDmg.min.toLocaleString()}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">최대 데미지</span>
+                <span className="text-gray-500 dark:text-gray-400">최대 데미지</span>
                 <span className={`font-bold ${dmgColor(magicDmg.max)}`}>{magicDmg.max.toLocaleString()}</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-gray-500">HP 대비</span>
+                <span className="text-gray-500 dark:text-gray-400">HP 대비</span>
                 <span className={`font-bold ${dmgColor(magicDmg.max)}`}>
                   {playerMaxHp > 0 ? ((magicDmg.max / playerMaxHp) * 100).toFixed(1) : 0}%
                 </span>
               </div>
               <div className="flex justify-between text-sm border-t pt-2 mt-2">
-                <span className="text-gray-500">생존 가능 타수</span>
-                <span className="font-bold text-gray-800">{magicHitsToKill}회</span>
+                <span className="text-gray-500 dark:text-gray-400">생존 가능 타수</span>
+                <span className="font-bold text-gray-800 dark:text-gray-200">{magicHitsToKill}회</span>
               </div>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
@@ -2738,16 +2738,16 @@ function DamageTakenTab() {
       </div>
 
       {/* 공식 레퍼런스 */}
-      <details className="bg-white border border-gray-200 rounded-xl p-4">
+      <details className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
         <summary className="font-bold text-sm cursor-pointer">피격뎀 계산 공식</summary>
-        <div className="mt-3 text-xs text-gray-600 space-y-2 font-mono">
-          <p className="font-bold text-gray-800">물리 피격 데미지:</p>
+        <div className="mt-3 text-xs text-gray-600 dark:text-gray-400 space-y-2 font-mono">
+          <p className="font-bold text-gray-800 dark:text-gray-200">물리 피격 데미지:</p>
           <p>rawDmg = mobATK^2 x 0.008 ~ 0.0085</p>
           <p>statDef = {isWarrior ? "STR/2800 + DEX/3200 + INT/7200 + LUK/3200 (전사)" : "STR/2000 + DEX/2800 + INT/7200 + LUK/3200"}</p>
           <p>defReduction = WDEF x (statDef + 0.28) + (WDEF - jobBaseDef) x secondaryFactor</p>
           <p>finalDmg = max(1, rawDmg - defReduction)</p>
           <hr className="my-2" />
-          <p className="font-bold text-gray-800">마법 피격 데미지:</p>
+          <p className="font-bold text-gray-800 dark:text-gray-200">마법 피격 데미지:</p>
           <p>rawDmg = mobMATK^2 x 0.0075 ~ 0.008</p>
           <p>defReduction = (MDEF/4 + STR/28 + DEX/24 + LUK/20) x {isMagician ? "1.2 (마법사)" : "1.0"}</p>
           <p>finalDmg = max(1, rawDmg - defReduction)</p>

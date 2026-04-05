@@ -59,10 +59,10 @@ function PostCard({
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+    <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
       <button
         onClick={() => setExpanded((e) => !e)}
-        className="w-full text-left px-5 py-4 hover:bg-gray-50 transition-colors"
+        className="w-full text-left px-5 py-4 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
       >
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
@@ -76,7 +76,7 @@ function PostCard({
               >
                 {post.post_type === "announcement" ? "공지" : "이벤트"}
               </span>
-              <span className="text-sm font-semibold text-gray-800 truncate">{post.title}</span>
+              <span className="text-sm font-semibold text-gray-800 dark:text-gray-200 dark:text-gray-200 truncate">{post.title}</span>
             </div>
             <div className="text-xs text-gray-400">
               {post.author} · {formatDate(post.created_at)}
@@ -86,9 +86,9 @@ function PostCard({
         </div>
       </button>
       {expanded && (
-        <div className="border-t border-gray-100 px-5 py-4">
+        <div className="border-t border-gray-100 dark:border-gray-700 px-5 py-4">
           {post.content ? (
-            <p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{post.content}</p>
+            <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">{post.content}</p>
           ) : (
             <p className="text-sm text-gray-400 italic">내용 없음</p>
           )}
@@ -126,8 +126,8 @@ function WriteModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={onClose}>
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-lg space-y-4 p-6" onClick={(e) => e.stopPropagation()}>
-        <h3 className="text-base font-bold text-gray-800">글 작성</h3>
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-lg space-y-4 p-6" onClick={(e) => e.stopPropagation()}>
+        <h3 className="text-base font-bold text-gray-800 dark:text-gray-200">글 작성</h3>
 
         <div className="flex gap-2">
           {(["announcement", "event"] as PostType[]).map((t) => (
@@ -139,7 +139,7 @@ function WriteModal({
                   ? t === "announcement"
                     ? "bg-orange-100 text-orange-700"
                     : "bg-blue-100 text-blue-700"
-                  : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                  : "bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-200"
               }`}
             >
               {t === "announcement" ? "📢 공지사항" : "🎉 이벤트"}
@@ -152,21 +152,21 @@ function WriteModal({
           value={state.title}
           onChange={(e) => update("title", e.target.value)}
           placeholder="제목"
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+          className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
         />
         <textarea
           value={state.content}
           onChange={(e) => update("content", e.target.value)}
           placeholder="내용 (선택)"
           rows={5}
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none"
+          className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none"
         />
         <input
           type="text"
           value={state.author}
           onChange={(e) => update("author", e.target.value)}
           placeholder="작성자 (기본: 추억길드)"
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+          className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
         />
         <input
           type="password"
@@ -175,7 +175,7 @@ function WriteModal({
           onChange={(e) => update("password", e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && onSubmit()}
           placeholder="관리자 비밀번호"
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+          className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
         />
         {state.error && <p className="text-sm text-red-500">{state.error}</p>}
         <div className="flex gap-2">
@@ -188,7 +188,7 @@ function WriteModal({
           </button>
           <button
             onClick={onClose}
-            className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 rounded-lg text-sm transition-colors"
+            className="flex-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 text-gray-700 dark:text-gray-300 font-semibold py-2 rounded-lg text-sm transition-colors"
           >
             취소
           </button>
@@ -215,8 +215,8 @@ function DeleteModal({
 }) {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={onClose}>
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-sm space-y-4 p-6" onClick={(e) => e.stopPropagation()}>
-        <h3 className="text-base font-bold text-gray-800">게시글 삭제</h3>
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-sm space-y-4 p-6" onClick={(e) => e.stopPropagation()}>
+        <h3 className="text-base font-bold text-gray-800 dark:text-gray-200">게시글 삭제</h3>
         <input
           type="password"
           autoComplete="off"
@@ -224,7 +224,7 @@ function DeleteModal({
           onChange={(e) => setState((s) => s ? { ...s, password: e.target.value, error: "" } : s)}
           onKeyDown={(e) => e.key === "Enter" && onSubmit()}
           placeholder="관리자 비밀번호"
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+          className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
           autoFocus
         />
         {state.error && <p className="text-sm text-red-500">{state.error}</p>}
@@ -236,7 +236,7 @@ function DeleteModal({
           >
             {state.loading ? "삭제 중..." : "삭제"}
           </button>
-          <button onClick={onClose} className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 rounded-lg text-sm transition-colors">취소</button>
+          <button onClick={onClose} className="flex-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 text-gray-700 dark:text-gray-300 font-semibold py-2 rounded-lg text-sm transition-colors">취소</button>
         </div>
       </div>
     </div>
@@ -330,8 +330,8 @@ export default function GuildPage() {
     <div className="max-w-3xl mx-auto">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">추억길드</h1>
-        <p className="text-sm text-gray-500">메이플랜드 추억길드 전용 공간입니다.</p>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">추억길드</h1>
+        <p className="text-sm text-gray-500 dark:text-gray-400">메이플랜드 추억길드 전용 공간입니다.</p>
       </div>
 
       {/* Discord + 글쓰기 */}
@@ -369,13 +369,13 @@ export default function GuildPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-5 border-b border-gray-200">
+      <div className="flex gap-1 mb-5 border-b border-gray-200 dark:border-gray-700">
         {([["announcement", "📢 공지사항"], ["event", "🎉 이벤트"]] as [PostType, string][]).map(([type, label]) => (
           <button
             key={type}
             onClick={() => setActiveTab(type)}
             className={`px-5 py-2.5 text-sm font-semibold rounded-t-lg transition-colors border-b-2 -mb-px ${
-              activeTab === type ? "border-orange-500 text-orange-600 bg-white" : "border-transparent text-gray-500 hover:text-gray-700"
+              activeTab === type ? "border-orange-500 text-orange-600 bg-white dark:bg-gray-800" : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-300"
             }`}
           >
             {label}

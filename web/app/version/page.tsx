@@ -3,7 +3,7 @@
 const VERSION = "2.6.1";
 
 const SEMVER_EXPLANATION = [
-  { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 text-gray-700" },
+  { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
   { label: "마이너 (1.X.0)", desc: "새로운 기능 추가", color: "bg-blue-50 text-blue-700" },
   { label: "메이저 (X.0.0)", desc: "대규모 변경", color: "bg-orange-50 text-orange-700" },
 ];
@@ -720,7 +720,7 @@ const CHANGELOG: {
 const TYPE_BADGE: Record<"major" | "minor" | "patch", string> = {
   major: "bg-orange-100 text-orange-700 border border-orange-200",
   minor: "bg-blue-50 text-blue-700 border border-blue-200",
-  patch: "bg-gray-100 text-gray-600 border border-gray-200",
+  patch: "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700",
 };
 
 const TYPE_LABEL: Record<"major" | "minor" | "patch", string> = {
@@ -737,13 +737,13 @@ export default function VersionPage() {
         <span className="inline-block bg-orange-500 text-white text-2xl font-bold px-6 py-2 rounded-full tracking-wide">
           v{VERSION}
         </span>
-        <h1 className="text-3xl font-bold text-gray-900">버전 정보 / 변경 이력</h1>
-        <p className="text-gray-500 text-sm">추억길드 전용 메랜 정보 사이트</p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">버전 정보 / 변경 이력</h1>
+        <p className="text-gray-500 dark:text-gray-400 text-sm">추억길드 전용 메랜 정보 사이트</p>
       </div>
 
       {/* Semver explanation */}
-      <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-3">
-        <h2 className="text-base font-semibold text-gray-700">시맨틱 버전 안내</h2>
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 space-y-3">
+        <h2 className="text-base font-semibold text-gray-700 dark:text-gray-300">시맨틱 버전 안내</h2>
         <div className="flex flex-col sm:flex-row gap-3">
           {SEMVER_EXPLANATION.map((s) => (
             <div key={s.label} className={`flex-1 rounded-lg px-4 py-3 ${s.color}`}>
@@ -756,7 +756,7 @@ export default function VersionPage() {
 
       {/* Changelog timeline */}
       <div className="space-y-4">
-        <h2 className="text-lg font-bold text-gray-800">변경 이력</h2>
+        <h2 className="text-lg font-bold text-gray-800 dark:text-gray-200">변경 이력</h2>
 
         {CHANGELOG.map((entry) => (
           <div key={entry.version} className="flex gap-4">
@@ -767,10 +767,10 @@ export default function VersionPage() {
             </div>
 
             {/* Card */}
-            <div className="bg-white border border-gray-200 rounded-xl p-5 mb-6 flex-1 space-y-4">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 mb-6 flex-1 space-y-4">
               {/* Version header */}
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-lg font-bold text-gray-900">v{entry.version}</span>
+                <span className="text-lg font-bold text-gray-900 dark:text-gray-100">v{entry.version}</span>
                 <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${TYPE_BADGE[entry.type]}`}>
                   {TYPE_LABEL[entry.type]}
                 </span>
@@ -782,12 +782,12 @@ export default function VersionPage() {
               <div className="space-y-4">
                 {entry.features.map((cat) => (
                   <div key={cat.category}>
-                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">
+                    <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">
                       {cat.category}
                     </p>
                     <ul className="space-y-1">
                       {cat.items.map((item) => (
-                        <li key={item} className="flex items-start gap-2 text-sm text-gray-700">
+                        <li key={item} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
                           <span className="text-orange-400 mt-0.5 shrink-0">•</span>
                           {item}
                         </li>

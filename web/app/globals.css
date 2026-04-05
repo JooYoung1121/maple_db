@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* 메이플랜드 공지 본문 스타일 */
 .news-content h2 {
   font-size: 0.95rem;
@@ -38,4 +40,16 @@
 .news-content a {
   color: #f97316;
   text-decoration: underline;
+}
+
+/* Dark mode overrides for news content */
+.dark .news-content h2 {
+  color: #e5e7eb;
+  border-bottom-color: #374151;
+}
+.dark .news-content h3 {
+  color: #d1d5db;
+}
+.dark .news-content a {
+  color: #fb923c;
 }

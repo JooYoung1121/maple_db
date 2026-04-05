@@ -155,11 +155,11 @@ export default function FeePage() {
   return (
     <div className="max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-1">수수료 계산기</h1>
-      <p className="text-sm text-gray-500 mb-6">
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
         거래 수수료 계산 · 공대 분배금 계산
       </p>
 
-      <div className="flex gap-1 mb-6 bg-gray-100 p-1 rounded-xl w-fit">
+      <div className="flex gap-1 mb-6 bg-gray-100 dark:bg-gray-700 p-1 rounded-xl w-fit">
         {([
           { key: "calc" as Tab, label: "수수료 계산" },
           { key: "raid" as Tab, label: "공대 분배" },
@@ -169,8 +169,8 @@ export default function FeePage() {
             onClick={() => setActiveTab(t.key)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               activeTab === t.key
-                ? "bg-white text-orange-600 shadow-sm"
-                : "text-gray-500 hover:text-gray-700"
+                ? "bg-white dark:bg-gray-800 text-orange-600 shadow-sm"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-300"
             }`}
           >
             {t.label}
@@ -291,23 +291,23 @@ function CalcTab({ onSaved }: { onSaved: () => void }) {
 
   return (
     <div className="space-y-6">
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">거래 금액 (메소)</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">거래 금액 (메소)</label>
             <input
               type="text"
               value={amount}
               onChange={(e) => setAmount(e.target.value.replace(/[^0-9]/g, ""))}
               placeholder="금액 입력"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             />
             {price > 0 && (
               <p className="text-xs text-gray-400 mt-1">{formatMeso(price)} 메소</p>
             )}
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">거래 방식</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">거래 방식</label>
             <div className="flex gap-2">
               {(["direct", "normal", "delivery"] as TradeType[]).map((t) => (
                 <button
@@ -316,7 +316,7 @@ function CalcTab({ onSaved }: { onSaved: () => void }) {
                   className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     tradeType === t
                       ? "bg-orange-500 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                      : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200"
                   }`}
                 >
                   {TRADE_LABELS[t]}
@@ -347,7 +347,7 @@ function CalcTab({ onSaved }: { onSaved: () => void }) {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xs text-orange-600 font-medium">{selectedResult.label} 수수료작 ({selectedResult.chunks}건)</p>
-                  <p className="text-sm text-gray-600 mt-0.5">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-0.5">
                     수수료 <span className="font-mono text-red-500">-{formatMeso(selectedResult.totalFee)}</span>
                     {selectedResult.totalFee < fee && (
                       <span className="ml-2 text-green-600 font-medium">({formatMeso(fee - selectedResult.totalFee)} 절약)</span>
@@ -355,7 +355,7 @@ function CalcTab({ onSaved }: { onSaved: () => void }) {
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-xs text-gray-500">실수령액</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">실수령액</p>
                   <p className="text-xl font-bold font-mono text-orange-600">{formatMeso(selectedResult.totalNet)}</p>
                 </div>
               </div>
@@ -364,7 +364,7 @@ function CalcTab({ onSaved }: { onSaved: () => void }) {
 
           {/* ② 수수료작 비교 섹션 */}
           {splitComparisons.length > 0 && (
-            <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
               <div className="px-5 py-3 border-b border-gray-100">
                 <h3 className="font-bold text-sm">수수료작 비교</h3>
                 <p className="text-xs text-gray-400 mt-0.5">행을 클릭하면 해당 분할로 기록을 저장할 수 있습니다</p>
@@ -372,7 +372,7 @@ function CalcTab({ onSaved }: { onSaved: () => void }) {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="bg-gray-50 text-gray-500">
+                    <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
                       <th className="text-left px-5 py-2.5 font-medium">분할 단위</th>
                       <th className="text-right px-5 py-2.5 font-medium">건수</th>
                       <th className="text-right px-5 py-2.5 font-medium">건당 수수료</th>
@@ -392,7 +392,7 @@ function CalcTab({ onSaved }: { onSaved: () => void }) {
                               ? "bg-orange-100"
                               : row.isOptimal
                                 ? "bg-orange-50 hover:bg-orange-100"
-                                : "hover:bg-gray-50"
+                                : "hover:bg-gray-50 dark:bg-gray-900"
                           }`}
                         >
                           <td className="px-5 py-2.5">
@@ -454,13 +454,13 @@ function FeeTable({
   brackets: { min: number; rate: number; label: string }[];
 }) {
   return (
-    <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
       <div className="px-4 py-3 border-b border-gray-100">
         <h3 className="font-bold text-sm">{title}</h3>
       </div>
       <table className="w-full text-sm">
         <thead>
-          <tr className="bg-gray-50 text-gray-500">
+          <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
             <th className="text-left px-4 py-2 font-medium">금액 구간</th>
             <th className="text-right px-4 py-2 font-medium">수수료</th>
           </tr>
@@ -565,22 +565,22 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
   return (
     <div className="space-y-6">
       {/* 설정 */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
         <h2 className="font-bold text-lg mb-4">공대 설정</h2>
         <div className="mb-4">
-          <label className="block text-xs font-medium text-gray-500 mb-1">트라이 인원</label>
+          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">트라이 인원</label>
           <input
             type="number"
             min={1}
             max={30}
             value={members}
             onChange={(e) => setMembers(Math.max(1, Number(e.target.value)))}
-            className="w-32 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+            className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
           />
         </div>
 
         <div className="flex items-center justify-between mb-2">
-          <label className="text-xs font-medium text-gray-500">공제 항목</label>
+          <label className="text-xs font-medium text-gray-500 dark:text-gray-400">공제 항목</label>
           <button
             onClick={addExtraCost}
             className="text-xs px-2 py-1 text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
@@ -596,14 +596,14 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
                 value={cost.label}
                 onChange={(e) => updateExtraCost(cost.id, "label", e.target.value)}
                 placeholder="항목명 (예: 숍지원비)"
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
               <input
                 type="text"
                 value={cost.amount}
                 onChange={(e) => updateExtraCost(cost.id, "amount", e.target.value)}
                 placeholder="금액"
-                className="w-36 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-36 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
               <button
                 onClick={() => removeExtraCost(cost.id)}
@@ -622,35 +622,35 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
       </div>
 
       {/* 아이템 추가 폼 */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
         <h2 className="font-bold text-lg mb-4">물품 등록</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">품목명</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">품목명</label>
             <input
               type="text"
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               placeholder="예: 시야 타오"
               onKeyDown={(e) => e.key === "Enter" && addItem()}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">가격 (메소)</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">가격 (메소)</label>
             <input
               type="text"
               value={newPrice}
               onChange={(e) => setNewPrice(e.target.value.replace(/[^0-9]/g, ""))}
               placeholder="금액 입력"
               onKeyDown={(e) => e.key === "Enter" && addItem()}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             />
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">거래 방식</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">거래 방식</label>
             <select
               value={newType}
               onChange={(e) => {
@@ -658,7 +658,7 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
                 setNewType(v);
                 if (v === "direct") setNewFeeMode("no-split");
               }}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
             >
               <option value="direct">판매 (수수료 없음)</option>
               <option value="normal">일반 거래</option>
@@ -667,7 +667,7 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
           </div>
           {newType !== "direct" && (
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">수수료작</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">수수료작</label>
               <select
                 value={newFeeMode === "no-split" ? "no-split" : String(newSplitChunk)}
                 onChange={(e) => {
@@ -678,7 +678,7 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
                     setNewSplitChunk(Number(e.target.value));
                   }
                 }}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               >
                 <option value="no-split">노수작 (그대로)</option>
                 <option value="4999999">499만 수작</option>
@@ -700,11 +700,11 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
 
       {/* 물품 테이블 */}
       {items.length > 0 && (
-        <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-gray-50 text-gray-500">
+                <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
                   <th className="text-left px-3 py-2.5 font-medium">품목</th>
                   <th className="text-right px-3 py-2.5 font-medium">가격</th>
                   <th className="text-center px-3 py-2.5 font-medium">거래</th>
@@ -724,7 +724,7 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
                         type="text"
                         value={origItem.name}
                         onChange={(e) => updateItem(row.id, { name: e.target.value })}
-                        className="w-full px-1.5 py-1 border border-transparent hover:border-gray-300 focus:border-orange-400 rounded text-sm focus:outline-none"
+                        className="w-full px-1.5 py-1 border border-transparent hover:border-gray-300 dark:border-gray-600 focus:border-orange-400 rounded text-sm focus:outline-none"
                       />
                     </td>
                     <td className="px-3 py-1.5">
@@ -732,7 +732,7 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
                         type="text"
                         value={formatMeso(origItem.price)}
                         onChange={(e) => updateItem(row.id, { price: parseMeso(e.target.value) })}
-                        className="w-24 px-1.5 py-1 border border-transparent hover:border-gray-300 focus:border-orange-400 rounded text-sm text-right font-mono focus:outline-none"
+                        className="w-24 px-1.5 py-1 border border-transparent hover:border-gray-300 dark:border-gray-600 focus:border-orange-400 rounded text-sm text-right font-mono focus:outline-none"
                       />
                     </td>
                     <td className="px-3 py-1.5 text-center">
@@ -745,7 +745,7 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
                             feeMode: tt === "direct" ? "no-split" : origItem.feeMode,
                           });
                         }}
-                        className="px-1.5 py-1 border border-transparent hover:border-gray-300 focus:border-orange-400 rounded text-xs focus:outline-none"
+                        className="px-1.5 py-1 border border-transparent hover:border-gray-300 dark:border-gray-600 focus:border-orange-400 rounded text-xs focus:outline-none"
                       >
                         <option value="direct">판매</option>
                         <option value="normal">일반</option>
@@ -763,7 +763,7 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
                               updateItem(row.id, { feeMode: "split", splitChunk: Number(e.target.value) });
                             }
                           }}
-                          className="px-1.5 py-1 border border-transparent hover:border-gray-300 focus:border-orange-400 rounded text-xs focus:outline-none"
+                          className="px-1.5 py-1 border border-transparent hover:border-gray-300 dark:border-gray-600 focus:border-orange-400 rounded text-xs focus:outline-none"
                         >
                           <option value="no-split">노수작</option>
                           <option value="4999999">499만</option>
@@ -797,9 +797,9 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
           </div>
 
           {/* 합계 */}
-          <div className="border-t-2 border-gray-200 bg-gray-50 px-4 py-3 space-y-2">
+          <div className="border-t-2 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 px-4 py-3 space-y-2">
             <div className="flex justify-between text-sm">
-              <span className="text-gray-500">총 판매금</span>
+              <span className="text-gray-500 dark:text-gray-400">총 판매금</span>
               <span className="font-mono font-bold">{formatMeso(totals.totalNet)}</span>
             </div>
             {extraCosts.map((cost) => {
@@ -807,20 +807,20 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
               if (amt <= 0) return null;
               return (
                 <div key={cost.id} className="flex justify-between text-sm">
-                  <span className="text-gray-500">{cost.label || "공제"}</span>
+                  <span className="text-gray-500 dark:text-gray-400">{cost.label || "공제"}</span>
                   <span className="font-mono text-red-500">-{formatMeso(amt)}</span>
                 </div>
               );
             })}
             <div className="flex justify-between text-sm">
-              <span className="text-gray-500">합산</span>
+              <span className="text-gray-500 dark:text-gray-400">합산</span>
               <span className="font-mono font-bold">{formatMeso(totals.afterExtra)}</span>
             </div>
             <div className="flex justify-between text-sm">
-              <span className="text-gray-500">트라이 인원</span>
+              <span className="text-gray-500 dark:text-gray-400">트라이 인원</span>
               <span className="font-mono">{members}명</span>
             </div>
-            <div className="flex justify-between text-base border-t border-gray-200 pt-2 mt-2">
+            <div className="flex justify-between text-base border-t border-gray-200 dark:border-gray-700 pt-2 mt-2">
               <span className="font-bold text-orange-600">1인당 분배금</span>
               <span className="font-mono font-bold text-orange-600 text-lg">
                 {formatMeso(totals.perPerson)} 메소
@@ -852,7 +852,7 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
       )}
 
       {items.length === 0 && (
-        <div className="text-center py-12 text-gray-400 bg-white border border-gray-200 rounded-xl">
+        <div className="text-center py-12 text-gray-400 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl">
           물품을 등록하면 수수료와 분배금이 자동 계산됩니다
         </div>
       )}
@@ -889,7 +889,7 @@ function FeeRecordsSection({ refreshKey }: { refreshKey: number }) {
     <div className="mt-8">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-orange-600 transition-colors"
+        className="flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-orange-600 transition-colors"
       >
         <svg
           className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`}
@@ -908,7 +908,7 @@ function FeeRecordsSection({ refreshKey }: { refreshKey: number }) {
           {records.map((r) => {
             const result = JSON.parse(r.result_json);
             return (
-              <div key={r.id} className="bg-white border border-gray-200 rounded-xl p-4 flex items-center justify-between gap-4">
+              <div key={r.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 flex items-center justify-between gap-4">
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-medium">
@@ -916,7 +916,7 @@ function FeeRecordsSection({ refreshKey }: { refreshKey: number }) {
                     </span>
                     <span className="text-xs text-gray-400">{r.created_at}</span>
                   </div>
-                  <div className="text-sm text-gray-700">
+                  <div className="text-sm text-gray-700 dark:text-gray-300">
                     {r.calc_type === "단건" && (
                       <>금액: {formatMeso(result.fee + result.net)} · 수수료: -{formatMeso(result.fee)} · 실수령: {formatMeso(result.net)}</>
                     )}
@@ -962,13 +962,13 @@ function ResultCard({
       className={`rounded-xl p-4 ${
         highlight
           ? "bg-orange-50 border border-orange-200"
-          : "bg-white border border-gray-200"
+          : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
       }`}
     >
-      <p className="text-xs text-gray-500 mb-1">{label}</p>
+      <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">{label}</p>
       <p
         className={`text-lg font-bold font-mono ${
-          highlight ? "text-orange-600" : negative ? "text-red-500" : "text-gray-800"
+          highlight ? "text-orange-600" : negative ? "text-red-500" : "text-gray-800 dark:text-gray-200"
         }`}
       >
         {value}

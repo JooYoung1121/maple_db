@@ -71,7 +71,7 @@ function SkillsPageContent() {
             className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
               activeTab === tab
                 ? "bg-orange-500 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200"
             }`}
           >
             {tab}
@@ -84,7 +84,7 @@ function SkillsPageContent() {
           <div className="text-center py-12 text-gray-400">로딩 중...</div>
         ) : (
           <>
-            <p className="text-sm text-gray-500 mb-2">총 {total.toLocaleString()}건</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">총 {total.toLocaleString()}건</p>
             <DataTable columns={columns} data={skills} onRowClick={(row) => router.push(`/skills/${row.id}`)} />
             <Pagination page={page} totalPages={Math.ceil(total / perPage)} onChange={setPage} />
           </>

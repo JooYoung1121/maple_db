@@ -20,11 +20,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ko">
-      <body className={`${notoSansKR.variable} font-sans bg-gray-50 text-gray-900 min-h-screen flex flex-col`}>
+    <html lang="ko" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.classList.add("dark")}}catch(e){}})()`,
+          }}
+        />
+      </head>
+      <body className={`${notoSansKR.variable} font-sans bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex flex-col`}>
         <NavBar />
         <main className="max-w-7xl mx-auto px-4 py-6 flex-1 w-full">{children}</main>
-        <footer className="border-t border-gray-200 bg-white mt-auto">
+        <footer className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 mt-auto">
           <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-400">
             <span>추억길드 전용 메이플랜드 정보 사이트</span>
             <a href="/version" className="font-mono hover:text-orange-500 transition-colors">

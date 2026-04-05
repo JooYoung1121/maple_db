@@ -148,7 +148,7 @@ export default function BimaePage() {
         <div>
           <h1 className="text-2xl font-bold">비매유저 박제 게시판</h1>
           <div className="flex items-center gap-2 mt-1">
-            <p className="text-sm text-gray-500">진짜 비매인지 투표해보세요</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">진짜 비매인지 투표해보세요</p>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/gadarojin.png" alt="가다로진 추억" className="h-10 w-auto" />
           </div>
@@ -163,25 +163,25 @@ export default function BimaePage() {
 
       {/* 등록 폼 */}
       {showForm && (
-        <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-xl p-5 mb-6">
+        <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 mb-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">캐릭터 닉네임 *</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">캐릭터 닉네임 *</label>
               <input
                 type="text"
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
                 placeholder="박제할 캐릭터명"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
                 required
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">직업</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">직업</label>
               <select
                 value={jobClass}
                 onChange={(e) => setJobClass(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               >
                 <option value="">선택 안함</option>
                 {JOB_GROUPS.map((g) => (
@@ -194,34 +194,34 @@ export default function BimaePage() {
               </select>
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">레벨</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">레벨</label>
               <input
                 type="number"
                 value={level}
                 onChange={(e) => setLevel(e.target.value)}
                 placeholder="ex) 135"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">작성자</label>
+              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">작성자</label>
               <input
                 type="text"
                 value={author}
                 onChange={(e) => setAuthor(e.target.value)}
                 placeholder="익명"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
             </div>
           </div>
           <div className="mt-4">
-            <label className="block text-xs font-medium text-gray-500 mb-1">비매 의심 사유</label>
+            <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">비매 의심 사유</label>
             <textarea
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               placeholder="왜 비매라고 생각하시나요? (장비, 메소, 행동 등)"
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400 resize-none"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400 resize-none"
             />
           </div>
           <div className="mt-4 flex justify-end">
@@ -245,7 +245,7 @@ export default function BimaePage() {
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
               sort === o.value
                 ? "bg-orange-500 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200"
             }`}
           >
             {o.label}
@@ -266,20 +266,20 @@ export default function BimaePage() {
             const total = post.upvotes + post.downvotes;
             const ratio = total > 0 ? Math.round((post.upvotes / total) * 100) : 0;
             return (
-              <div key={post.id} className="bg-white border border-gray-200 rounded-xl p-4">
+              <div key={post.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-lg font-bold text-gray-800">{post.nickname}</span>
+                      <span className="text-lg font-bold text-gray-800 dark:text-gray-200">{post.nickname}</span>
                       {post.job_class && (
                         <span className="text-xs px-2 py-0.5 bg-orange-100 text-orange-700 rounded">{post.job_class}</span>
                       )}
                       {post.level && (
-                        <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded">Lv.{post.level}</span>
+                        <span className="text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">Lv.{post.level}</span>
                       )}
                     </div>
                     {post.reason && (
-                      <p className="text-sm text-gray-600 mt-2 whitespace-pre-wrap">{post.reason}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 whitespace-pre-wrap">{post.reason}</p>
                     )}
                     <div className="flex items-center gap-3 mt-3 text-xs text-gray-400">
                       <span>{post.author}</span>
@@ -290,7 +290,7 @@ export default function BimaePage() {
                   {/* 투표 영역 */}
                   <div className="flex flex-col items-center gap-1 ml-4 min-w-[80px]">
                     {voteCooldowns[post.id] ? (
-                      <div className="w-full text-center px-3 py-3 rounded-lg text-xs font-medium bg-gray-100 text-gray-400">
+                      <div className="w-full text-center px-3 py-3 rounded-lg text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-400">
                         {voteCooldowns[post.id]}초 후 재투표
                       </div>
                     ) : (
@@ -338,17 +338,17 @@ export default function BimaePage() {
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page <= 1}
-            className="px-3 py-1.5 rounded-lg text-sm bg-gray-100 hover:bg-gray-200 disabled:opacity-50"
+            className="px-3 py-1.5 rounded-lg text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 disabled:opacity-50"
           >
             이전
           </button>
-          <span className="px-3 py-1.5 text-sm text-gray-600">
+          <span className="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400">
             {page} / {totalPages}
           </span>
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page >= totalPages}
-            className="px-3 py-1.5 rounded-lg text-sm bg-gray-100 hover:bg-gray-200 disabled:opacity-50"
+            className="px-3 py-1.5 rounded-lg text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 disabled:opacity-50"
           >
             다음
           </button>

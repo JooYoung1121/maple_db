@@ -172,11 +172,11 @@ export default function PQPage() {
   return (
     <div className="max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-1">파티퀘스트 가이드</h1>
-      <p className="text-sm text-gray-500 mb-6">
+      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
         PQ 가이드, 재입장 타이머, 보상 비교
       </p>
 
-      <div className="flex gap-1 mb-6 bg-gray-100 p-1 rounded-xl w-fit">
+      <div className="flex gap-1 mb-6 bg-gray-100 dark:bg-gray-700 p-1 rounded-xl w-fit">
         {([
           { key: "guide" as Tab, label: "PQ 가이드" },
           { key: "timer" as Tab, label: "재입장 타이머" },
@@ -187,8 +187,8 @@ export default function PQPage() {
             onClick={() => setActiveTab(t.key)}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               activeTab === t.key
-                ? "bg-white text-orange-600 shadow-sm"
-                : "text-gray-500 hover:text-gray-700"
+                ? "bg-white dark:bg-gray-800 text-orange-600 shadow-sm"
+                : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-300"
             }`}
           >
             {t.label}
@@ -212,16 +212,16 @@ function GuideTab() {
   return (
     <div className="space-y-3">
       {PQ_LIST.map((pq) => (
-        <div key={pq.id} className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+        <div key={pq.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
           {/* 헤더 */}
           <button
             onClick={() => setOpenPQ(openPQ === pq.id ? null : pq.id)}
-            className="w-full px-5 py-4 flex items-center justify-between hover:bg-gray-50 transition-colors"
+            className="w-full px-5 py-4 flex items-center justify-between hover:bg-gray-50 dark:bg-gray-900 transition-colors"
           >
             <div className="flex items-center gap-3">
               <div>
                 <h3 className="font-bold text-left">{pq.name}</h3>
-                <p className="text-xs text-gray-500 text-left">{pq.nameEn}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 text-left">{pq.nameEn}</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -258,11 +258,11 @@ function GuideTab() {
               </div>
 
               <div className="text-sm space-y-1 mb-4">
-                <p><span className="text-gray-500">위치:</span> {pq.location}</p>
-                <p><span className="text-gray-500">NPC:</span> {pq.npc}</p>
+                <p><span className="text-gray-500 dark:text-gray-400">위치:</span> {pq.location}</p>
+                <p><span className="text-gray-500 dark:text-gray-400">NPC:</span> {pq.npc}</p>
                 {pq.requiredJobs.length > 0 && (
                   <p>
-                    <span className="text-gray-500">필수 직업:</span>{" "}
+                    <span className="text-gray-500 dark:text-gray-400">필수 직업:</span>{" "}
                     {pq.requiredJobs.map((j, i) => (
                       <span key={i} className="inline-block text-xs px-2 py-0.5 bg-red-50 text-red-600 rounded mr-1">
                         {j}
@@ -282,7 +282,7 @@ function GuideTab() {
                     </div>
                     <div>
                       <p className="text-sm font-medium">{stage.name}</p>
-                      <p className="text-xs text-gray-500">{stage.desc}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">{stage.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -307,7 +307,7 @@ function GuideTab() {
               <h4 className="font-bold text-sm mb-2">팁</h4>
               <ul className="space-y-1">
                 {pq.tips.map((tip, i) => (
-                  <li key={i} className="text-sm text-gray-600 flex gap-2">
+                  <li key={i} className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
                     <span className="text-orange-400 flex-shrink-0">-</span>
                     {tip}
                   </li>
@@ -323,8 +323,8 @@ function GuideTab() {
 
 function InfoBadge({ label, value }: { label: string; value: string }) {
   return (
-    <div className="bg-gray-50 rounded-lg p-2 text-center">
-      <p className="text-xs text-gray-500">{label}</p>
+    <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-2 text-center">
+      <p className="text-xs text-gray-500 dark:text-gray-400">{label}</p>
       <p className="text-sm font-bold">{value}</p>
     </div>
   );
@@ -420,8 +420,8 @@ function TimerTab() {
   return (
     <div className="space-y-6">
       {/* 자정 타이머 */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5 text-center">
-        <p className="text-sm text-gray-500 mb-1">일일 초기화까지</p>
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 text-center">
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">일일 초기화까지</p>
         <p className="text-3xl font-mono font-bold text-orange-500">{timeLeft}</p>
         <p className="text-xs text-gray-400 mt-1">자정(00:00)에 모든 PQ 입장 횟수가 초기화됩니다</p>
       </div>
@@ -435,11 +435,11 @@ function TimerTab() {
           const remaining = pq.dailyLimit - count;
 
           return (
-            <div key={pq.id} className="bg-white border border-gray-200 rounded-xl p-4">
+            <div key={pq.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-bold text-sm">{pq.name}</h3>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
                     Lv.{pq.levelMin}~{pq.levelMax} · {pq.members}명
                   </p>
                 </div>
@@ -452,7 +452,7 @@ function TimerTab() {
                         className={`w-5 h-5 rounded-full border-2 transition-colors ${
                           i < count
                             ? "bg-orange-500 border-orange-500"
-                            : "bg-white border-gray-300"
+                            : "bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600"
                         }`}
                       />
                     ))}
@@ -471,7 +471,7 @@ function TimerTab() {
                     <button
                       onClick={() => decrement(pq.id)}
                       disabled={count <= 0}
-                      className="w-8 h-8 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-30 flex items-center justify-center text-sm font-bold"
+                      className="w-8 h-8 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 disabled:opacity-30 flex items-center justify-center text-sm font-bold"
                     >
                       -
                     </button>
@@ -497,7 +497,7 @@ function TimerTab() {
       <div className="text-center">
         <button
           onClick={resetAll}
-          className="text-xs text-gray-400 hover:text-gray-600"
+          className="text-xs text-gray-400 hover:text-gray-600 dark:text-gray-400"
         >
           전체 초기화
         </button>
@@ -513,14 +513,14 @@ function CompareTab() {
   return (
     <div className="space-y-6">
       {/* 효율 비교 테이블 */}
-      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
         <div className="px-5 py-3 border-b border-gray-100">
           <h2 className="font-bold">PQ 효율 비교</h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-gray-50 text-gray-500">
+              <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
                 <th className="text-left px-4 py-2.5 font-medium">PQ</th>
                 <th className="text-left px-4 py-2.5 font-medium">레벨</th>
                 <th className="text-left px-4 py-2.5 font-medium">1회 경험치</th>
@@ -559,14 +559,14 @@ function CompareTab() {
       </div>
 
       {/* 주요 드랍 아이템 */}
-      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
         <div className="px-5 py-3 border-b border-gray-100">
           <h2 className="font-bold">주요 드랍 아이템</h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-gray-50 text-gray-500">
+              <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400">
                 <th className="text-left px-4 py-2.5 font-medium">PQ</th>
                 <th className="text-left px-4 py-2.5 font-medium">주요 드랍</th>
                 <th className="text-left px-4 py-2.5 font-medium">상세 보상</th>
@@ -586,7 +586,7 @@ function CompareTab() {
                     <td className="px-4 py-2.5">
                       <div className="flex flex-wrap gap-1">
                         {pq.rewards.items.map((item, i) => (
-                          <span key={i} className="text-xs px-1.5 py-0.5 bg-gray-100 text-gray-600 rounded">
+                          <span key={i} className="text-xs px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">
                             {item}
                           </span>
                         ))}
@@ -601,7 +601,7 @@ function CompareTab() {
       </div>
 
       {/* 레벨 구간별 추천 */}
-      <div className="bg-white border border-gray-200 rounded-xl p-5">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
         <h2 className="font-bold mb-4">레벨 구간별 추천 PQ</h2>
         <div className="space-y-3">
           {[
@@ -623,7 +623,7 @@ function CompareTab() {
               </span>
               <div>
                 <p className="text-sm font-medium">{item.rec}</p>
-                <p className="text-xs text-gray-500">{item.desc}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{item.desc}</p>
               </div>
             </div>
           ))}
