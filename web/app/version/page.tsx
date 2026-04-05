@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.8.0";
+const VERSION = "2.8.1";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,41 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.8.1",
+    date: "2026-04-05",
+    type: "patch",
+    title: "사냥터 검증 데이터 교체 + 배 시간표 수정 + 시세 비공개",
+    features: [
+      {
+        category: "개선 — 사냥터 추천 (/hunt)",
+        items: [
+          "커뮤니티(나무위키/아카라이브/DC갤/vortexgaming) + maple.db 크로스체크로 43개 사냥터 전면 교체",
+          "보스런 별도 섹션 (자쿰/혼테일/파풀라투스)",
+          "PQ 별도 표시 (커닝/루디/오르비스/로미오PQ)",
+          "직업별 젠컷 스펙 정보 추가 (비숍/보마/나로/히어로 등)",
+          "각 사냥터 출처(source) 표시",
+        ],
+      },
+      {
+        category: "개선 — 배 시간표 (/ship)",
+        items: [
+          "오르비스↔아쿠아리움 직행 노선 삭제 (존재하지 않는 노선)",
+          "오르비스↔무릉 학 이동을 즉시 이동으로 변경",
+          "즉시 이동수단 섹션 추가 (학/돌고래 택시/낙타 택시 8개 노선)",
+          "아쿠아리움 가는 방법 경로 안내 추가",
+          "모든 노선 실제 티켓 비용 반영 + 크림슨 발록 출현 정보",
+        ],
+      },
+      {
+        category: "변경 — 시세 조회 (/market)",
+        items: [
+          "시세 조회 페이지 비공개 처리 (관리자 비밀번호 인증 게이트)",
+          "아이템 상세 페이지 시세 차트 임시 제거 (데이터 정확도 이슈)",
+        ],
+      },
+    ],
+  },
   {
     version: "2.8.0",
     date: "2026-04-05",
