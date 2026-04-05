@@ -262,6 +262,34 @@ function ChartTooltip({ active, payload, label }: any) {
 //  Main Page Component
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 export default function MarketPage() {
+  // Auth state
+  const [authenticated, setAuthenticated] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
+  const [authError, setAuthError] = useState("");
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem("market_auth");
+    if (saved === "true") setAuthenticated(true);
+  }, []);
+
+  const handleLogin = async () => {
+    setAuthError("");
+    try {
+      const res = await fetch(`${API_BASE}/api/admin/verify`, {
+        method: "POST",
+        headers: { "X-Admin-Password": passwordInput },
+      });
+      if (res.ok) {
+        setAuthenticated(true);
+        sessionStorage.setItem("market_auth", "true");
+      } else {
+        setAuthError("비밀번호가 틀립니다.");
+      }
+    } catch {
+      setAuthError("서버 연결에 실패했습니다.");
+    }
+  };
+
   // Search state
   const [searchText, setSearchText] = useState("");
   const debouncedSearch = useDebounce(searchText, 400);
@@ -456,6 +484,31 @@ export default function MarketPage() {
     );
     return best.expectedValue > 0 ? best.id : null;
   }, [scrollCompRows]);
+
+  if (!authenticated) {
+    return (
+      <div className="max-w-sm mx-auto mt-24 p-6 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm">
+        <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">시세 조회</h1>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">시세 조회는 현재 비공개입니다</p>
+        <input
+          type="password"
+          autoComplete="off"
+          value={passwordInput}
+          onChange={(e) => setPasswordInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+          placeholder="비밀번호"
+          className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 mb-3"
+        />
+        {authError && <p className="text-sm text-red-500 mb-3">{authError}</p>}
+        <button
+          onClick={handleLogin}
+          className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 rounded-lg transition-colors"
+        >
+          로그인
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-5xl mx-auto">

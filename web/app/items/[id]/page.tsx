@@ -6,7 +6,6 @@ import Link from "next/link";
 import { getItem } from "@/lib/api";
 import type { Item } from "@/lib/types";
 import StatGrid from "@/components/StatGrid";
-import PriceChart from "@/components/PriceChart";
 import { toCategoryKr, toSubcategoryKr } from "@/lib/translations";
 
 export default function ItemDetailPage() {
@@ -129,8 +128,6 @@ export default function ItemDetailPage() {
           <StatGrid stats={equipStats} title="장비 스탯" />
         )}
       </div>
-
-      <PriceChart itemId={item.id} />
 
       {droppedBy.length > 0 && (
         <div className="mt-6">
