@@ -1,9 +1,21 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 
 // ─── 타입 ───
 type ViewMode = "gradient" | "compact" | "sound" | "multi" | "pip";
+
+interface TrapData {
+  id: string;
+  name: string;
+  location: string;
+  cycleDuration: number | null; // null = unknown cycle, can't use as timer
+  hiddenDuration: number | null;
+  visibleDuration: number | null;
+  effect: string;
+  note: string | null;
+  color: string;
+}
 
 interface MultiTimer {
   id: string;
@@ -11,67 +23,113 @@ interface MultiTimer {
   startedAt: number | null; // Date.now() when synced
 }
 
-// ─── 상수 ───
-const CYCLE_TOTAL = 31; // 30s hidden + 1s visible
-const WARN_AT = 5; // yellow warning at 5s remaining
-const DANGER_AT = 3; // red danger at 3s remaining
-
-// ─── 함정 정보 데이터 ───
-const TRAP_INFO = [
+// ─── 함정 데이터 ───
+const TRAPS: TrapData[] = [
   {
+    id: "leafre-mole",
     name: "리프레 두더지",
-    location: "리프레 야외 필드 전체 (미나르숲)",
-    cycle: "31초 (은신 30초 + 출현 1초)",
-    effect: "스턴 3초",
-    note: "모든 회피/스탠스/상태이상 내성 무시",
+    location: "리프레 야외 필드 전체 (미나르숲, 용의 숲, 용의 둥지)",
+    cycleDuration: 31,
+    hiddenDuration: 30,
+    visibleDuration: 1,
+    effect: "스턴 3초 (모든 내성 무시)",
+    note: "회피율/스탠스/상태이상 내성을 완전 무시하는 강제 스턴",
     color: "bg-red-100 dark:bg-red-900/30 border-red-200 dark:border-red-800",
   },
   {
+    id: "elnath-steam",
+    name: "엘나스 증기 (시련의 동굴)",
+    location: "엘나스 시련의 동굴, 위험한 증기 맵",
+    cycleDuration: 9,
+    hiddenDuration: 7,
+    visibleDuration: 2,
+    effect: "넉백 + 약 10 데미지",
+    note: "바닥에서 주기적으로 분출. 데미지는 낮지만 넉백으로 사냥 방해",
+    color: "bg-orange-100 dark:bg-orange-900/30 border-orange-200 dark:border-orange-800",
+  },
+  {
+    id: "sleepywood-steam",
+    name: "슬리피우드 던전 증기",
+    location: "슬리피우드 던전 (위험한 증기 맵)",
+    cycleDuration: 9,
+    hiddenDuration: 7,
+    visibleDuration: 2,
+    effect: "넉백 + 약 10 데미지",
+    note: "엘나스 증기와 동일한 메커니즘",
+    color: "bg-orange-100 dark:bg-orange-900/30 border-orange-200 dark:border-orange-800",
+  },
+  {
+    id: "dragon-forest-rock",
     name: "용의 숲 떨어지는 돌",
     location: "용의 숲",
-    cycle: "불명",
+    cycleDuration: null,
+    hiddenDuration: null,
+    visibleDuration: null,
     effect: "스턴",
-    note: null,
+    note: "주기 미확인 — 타이머 사용 불가",
     color: "bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700",
   },
   {
-    name: "슬리피우드 던전 증기",
-    location: "슬리피우드 던전",
-    cycle: "주기적",
-    effect: "넉백, 약 10 데미지",
-    note: null,
-    color: "bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700",
-  },
-  {
+    id: "pig-park-spike",
     name: "돼지공원 가시",
-    location: "돼지공원",
-    cycle: "상시",
+    location: "돼지공원 (헤네시스)",
+    cycleDuration: null,
+    hiddenDuration: null,
+    visibleDuration: null,
     effect: "데미지 + 넉백",
-    note: "매크로 방지용 함정",
+    note: "상시 활성 함정 (매크로 방지) — 타이머 불필요",
     color: "bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700",
   },
   {
-    name: "천공의 둥지 PQ 떨어지는 돌",
+    id: "sky-nest-rock",
+    name: "천공의 둥지 PQ 돌",
     location: "천공의 둥지 파티퀘스트",
-    cycle: "불명",
+    cycleDuration: null,
+    hiddenDuration: null,
+    visibleDuration: null,
     effect: "스턴 + 넉백, 약 300 데미지",
-    note: null,
+    note: "주기 미확인 — 타이머 사용 불가",
+    color: "bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700",
+  },
+  {
+    id: "elnath-cave-lava",
+    name: "엘나스 폐광 용암",
+    location: "시련의 동굴 2 (엘나스)",
+    cycleDuration: null,
+    hiddenDuration: null,
+    visibleDuration: null,
+    effect: "폐광 맵으로 강제 이동",
+    note: "지형 함정 — 빠지면 폐광 중앙으로 떨어짐",
     color: "bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700",
   },
 ];
 
-// ─── 유틸: 사이클 내 남은 초 계산 ───
-function getSecondsRemaining(startedAt: number | null): number {
-  if (startedAt === null) return CYCLE_TOTAL;
-  const elapsed = (Date.now() - startedAt) / 1000;
-  const inCycle = elapsed % CYCLE_TOTAL;
-  return CYCLE_TOTAL - inCycle;
+// 타이머 가능한 함정만 필터
+const TIMER_TRAPS = TRAPS.filter((t) => t.cycleDuration !== null);
+
+// ─── 유틸: 동적 경고/위험 임계값 계산 ───
+function getWarnAt(cycleDuration: number): number {
+  if (cycleDuration === 31) return 5;
+  return Math.round(cycleDuration * 0.16 * 10) / 10; // ~16% of cycle
 }
 
-function getPhase(remaining: number): "safe" | "caution" | "danger" | "appearing" {
-  if (remaining <= 1) return "appearing";
-  if (remaining <= DANGER_AT) return "danger";
-  if (remaining <= WARN_AT) return "caution";
+function getDangerAt(cycleDuration: number): number {
+  if (cycleDuration === 31) return 3;
+  return Math.round(cycleDuration * 0.10 * 10) / 10; // ~10% of cycle
+}
+
+// ─── 유틸: 사이클 내 남은 초 계산 ───
+function getSecondsRemaining(startedAt: number | null, cycleTotal: number): number {
+  if (startedAt === null) return cycleTotal;
+  const elapsed = (Date.now() - startedAt) / 1000;
+  const inCycle = elapsed % cycleTotal;
+  return cycleTotal - inCycle;
+}
+
+function getPhase(remaining: number, warnAt: number, dangerAt: number, visibleDuration: number): "safe" | "caution" | "danger" | "appearing" {
+  if (remaining <= visibleDuration) return "appearing";
+  if (remaining <= dangerAt) return "danger";
+  if (remaining <= warnAt) return "caution";
   return "safe";
 }
 
@@ -105,14 +163,17 @@ function playBeep(
 // ─── 메인 컴포넌트 ───
 export default function TrapTimerPage() {
   // 모드 및 설정
-  const [mode, setMode] = useState<ViewMode>("gradient");
+  const [mode, setMode] = useState<ViewMode>("pip");
   const [volume, setVolume] = useState(0.5);
   const [muted, setMuted] = useState(false);
   const [guideOpen, setGuideOpen] = useState(false);
 
+  // 선택된 함정
+  const [selectedTrapId, setSelectedTrapId] = useState<string>("leafre-mole");
+
   // 싱글 타이머 상태
   const [startedAt, setStartedAt] = useState<number | null>(null);
-  const [remaining, setRemaining] = useState(CYCLE_TOTAL);
+  const [remaining, setRemaining] = useState(31);
 
   // 멀티 타이머 상태
   const [multiTimers, setMultiTimers] = useState<MultiTimer[]>([
@@ -129,15 +190,30 @@ export default function TrapTimerPage() {
   const audioCtxRef = useRef<AudioContext | null>(null);
   const lastBeepPhaseRef = useRef<string>("");
 
+  // 선택된 함정 데이터 + 동적 상수
+  const selectedTrap = useMemo(
+    () => TIMER_TRAPS.find((t) => t.id === selectedTrapId) ?? TIMER_TRAPS[0],
+    [selectedTrapId]
+  );
+  const cycleTotal = selectedTrap.cycleDuration!;
+  const visibleDuration = selectedTrap.visibleDuration ?? 1;
+  const warnAt = getWarnAt(cycleTotal);
+  const dangerAt = getDangerAt(cycleTotal);
+
   // localStorage 로드
   useEffect(() => {
     try {
       const savedMode = localStorage.getItem("trap_mode");
       if (savedMode) setMode(savedMode as ViewMode);
+      else setMode("pip");
       const savedVol = localStorage.getItem("trap_volume");
       if (savedVol) setVolume(parseFloat(savedVol));
       const savedMuted = localStorage.getItem("trap_muted");
       if (savedMuted) setMuted(savedMuted === "true");
+      const savedTrap = localStorage.getItem("trap_selected");
+      if (savedTrap && TIMER_TRAPS.some((t) => t.id === savedTrap)) {
+        setSelectedTrapId(savedTrap);
+      }
       const savedTimers = localStorage.getItem("trap_multi_timers");
       if (savedTimers) {
         const parsed = JSON.parse(savedTimers);
@@ -167,21 +243,38 @@ export default function TrapTimerPage() {
     localStorage.setItem("trap_muted", String(muted));
   }, [muted]);
   useEffect(() => {
+    localStorage.setItem("trap_selected", selectedTrapId);
+  }, [selectedTrapId]);
+  useEffect(() => {
     localStorage.setItem(
       "trap_multi_timers",
       JSON.stringify(multiTimers.map((t) => ({ id: t.id, label: t.label })))
     );
   }, [multiTimers]);
 
+  // 함정 변경 시 타이머 리셋
+  const handleTrapChange = useCallback((trapId: string) => {
+    setSelectedTrapId(trapId);
+    setStartedAt(null);
+    lastBeepPhaseRef.current = "";
+  }, []);
+
+  // remaining 초기화 (cycleTotal 변경 시)
+  useEffect(() => {
+    if (startedAt === null) {
+      setRemaining(cycleTotal);
+    }
+  }, [cycleTotal, startedAt]);
+
   // 메인 타이머 루프 (싱글)
   useEffect(() => {
     if (startedAt === null) return;
     const id = setInterval(() => {
-      const r = getSecondsRemaining(startedAt);
+      const r = getSecondsRemaining(startedAt, cycleTotal);
       setRemaining(r);
     }, 50);
     return () => clearInterval(id);
-  }, [startedAt]);
+  }, [startedAt, cycleTotal]);
 
   // 멀티 타이머 루프
   useEffect(() => {
@@ -190,30 +283,30 @@ export default function TrapTimerPage() {
     const id = setInterval(() => {
       const newR: Record<string, number> = {};
       multiTimers.forEach((t) => {
-        newR[t.id] = getSecondsRemaining(t.startedAt);
+        newR[t.id] = getSecondsRemaining(t.startedAt, cycleTotal);
       });
       setMultiRemainings(newR);
     }, 50);
     return () => clearInterval(id);
-  }, [multiTimers]);
+  }, [multiTimers, cycleTotal]);
 
   // 사운드 모드: 비프음
   useEffect(() => {
     if (mode !== "sound" || startedAt === null || muted) return;
-    const phase = getPhase(remaining);
+    const phase = getPhase(remaining, warnAt, dangerAt, visibleDuration);
     const key = `${phase}-${Math.floor(remaining)}`;
     if (key === lastBeepPhaseRef.current) return;
     lastBeepPhaseRef.current = key;
 
     const effectiveVol = volume;
-    if (phase === "caution" && Math.floor(remaining) === WARN_AT) {
+    if (phase === "caution" && Math.floor(remaining) === Math.floor(warnAt)) {
       playBeep(audioCtxRef, 600, 0.15, effectiveVol);
-    } else if (phase === "danger" && remaining <= DANGER_AT && remaining > 1) {
+    } else if (phase === "danger" && remaining <= dangerAt && remaining > visibleDuration) {
       playBeep(audioCtxRef, 900, 0.1, effectiveVol);
     } else if (phase === "appearing") {
       playBeep(audioCtxRef, 1200, 0.3, effectiveVol);
     }
-  }, [mode, remaining, startedAt, muted, volume]);
+  }, [mode, remaining, startedAt, muted, volume, warnAt, dangerAt, visibleDuration]);
 
   // 키보드: 스페이스바로 시작/리셋
   useEffect(() => {
@@ -221,7 +314,6 @@ export default function TrapTimerPage() {
       if (e.code === "Space" && e.target === document.body) {
         e.preventDefault();
         setStartedAt(Date.now());
-        setRemaining(CYCLE_TOTAL);
         lastBeepPhaseRef.current = "";
       }
     }
@@ -235,16 +327,20 @@ export default function TrapTimerPage() {
     const el = pipWindow.document.getElementById("pip-remaining");
     const statusEl = pipWindow.document.getElementById("pip-status");
     const containerEl = pipWindow.document.getElementById("pip-container");
+    const labelEl = pipWindow.document.getElementById("pip-label");
     if (el) {
       el.textContent = startedAt === null ? "--" : remaining.toFixed(1);
     }
+    if (labelEl) {
+      labelEl.textContent = `${selectedTrap.name} 타이머 (${cycleTotal}초)`;
+    }
     if (statusEl) {
-      const phase = getPhase(remaining);
+      const phase = getPhase(remaining, warnAt, dangerAt, visibleDuration);
       if (startedAt === null) {
         statusEl.textContent = "스페이스바 또는 시작 버튼";
         statusEl.style.color = "#9ca3af";
       } else if (phase === "appearing") {
-        statusEl.textContent = "두더지 출현!";
+        statusEl.textContent = "함정 발동!";
         statusEl.style.color = "#ef4444";
       } else if (phase === "danger") {
         statusEl.textContent = "위험!";
@@ -258,24 +354,22 @@ export default function TrapTimerPage() {
       }
     }
     if (containerEl) {
-      const phase = getPhase(remaining);
+      const phase = getPhase(remaining, warnAt, dangerAt, visibleDuration);
       if (startedAt !== null && (phase === "danger" || phase === "appearing")) {
         containerEl.style.backgroundColor = "rgba(127,29,29,0.8)";
       } else {
         containerEl.style.backgroundColor = "rgba(0,0,0,0.85)";
       }
     }
-  }, [remaining, startedAt, pipWindow]);
+  }, [remaining, startedAt, pipWindow, selectedTrap.name, cycleTotal, warnAt, dangerAt, visibleDuration]);
 
   const handleSync = useCallback(() => {
     setStartedAt(Date.now());
-    setRemaining(CYCLE_TOTAL);
     lastBeepPhaseRef.current = "";
   }, []);
 
   const handleReset = useCallback(() => {
     setStartedAt(null);
-    setRemaining(CYCLE_TOTAL);
     lastBeepPhaseRef.current = "";
   }, []);
 
@@ -317,7 +411,7 @@ export default function TrapTimerPage() {
         <div id="pip-container">
           <div id="pip-remaining">--</div>
           <div id="pip-status">스페이스바 또는 시작 버튼</div>
-          <div id="pip-label">리프레 두더지 타이머</div>
+          <div id="pip-label">${selectedTrap.name} 타이머 (${cycleTotal}초)</div>
         </div>
       `;
       setPipWindow(pip);
@@ -325,7 +419,7 @@ export default function TrapTimerPage() {
     } catch {
       // PiP failed
     }
-  }, []);
+  }, [selectedTrap.name, cycleTotal]);
 
   // 멀티 타이머 함수
   const addMultiTimer = () => {
@@ -352,7 +446,7 @@ export default function TrapTimerPage() {
   };
 
   // 현재 phase
-  const phase = startedAt !== null ? getPhase(remaining) : null;
+  const phase = startedAt !== null ? getPhase(remaining, warnAt, dangerAt, visibleDuration) : null;
 
   // 모드 탭 정보
   const modes: { key: ViewMode; label: string }[] = [
@@ -363,12 +457,47 @@ export default function TrapTimerPage() {
     { key: "pip", label: "PiP 모드" },
   ];
 
+  // 함정 출현 시 표시 텍스트
+  const trapAppearText = selectedTrap.id === "leafre-mole" ? "두더지 출현" : "함정 발동";
+
   return (
     <div className="max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-1">맵 함정 타이머</h1>
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
-        리프레 두더지 사이클 타이머 — 31초 주기 (은신 30초 + 출현 1초)
+        {selectedTrap.name} 사이클 타이머 — {cycleTotal}초 주기
+        {selectedTrap.hiddenDuration !== null && selectedTrap.visibleDuration !== null
+          ? ` (은신 ${selectedTrap.hiddenDuration}초 + 출현 ${selectedTrap.visibleDuration}초)`
+          : ""}
       </p>
+
+      {/* ─── 함정 선택 ─── */}
+      <div className="mb-4">
+        <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">
+          타이머 대상 함정
+        </label>
+        <div className="flex flex-wrap gap-2">
+          {TIMER_TRAPS.map((trap) => (
+            <button
+              key={trap.id}
+              onClick={() => handleTrapChange(trap.id)}
+              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors border ${
+                selectedTrapId === trap.id
+                  ? "bg-orange-500 text-white border-orange-500"
+                  : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-orange-400 hover:text-orange-600 dark:hover:text-orange-400"
+              }`}
+            >
+              {trap.name}
+              <span className={`ml-1.5 text-xs ${
+                selectedTrapId === trap.id
+                  ? "text-orange-100"
+                  : "text-gray-400 dark:text-gray-500"
+              }`}>
+                ({trap.cycleDuration}초)
+              </span>
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* ─── 모드 선택 탭 ─── */}
       <div className="flex flex-wrap gap-1 mb-4">
@@ -430,13 +559,13 @@ export default function TrapTimerPage() {
             </div>
             <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
               {startedAt === null
-                ? "시작 버튼 또는 스페이스바를 눌러 두더지 출현에 맞춰 동기화하세요"
+                ? "시작 버튼 또는 스페이스바를 눌러 함정 발동에 맞춰 동기화하세요"
                 : phase === "appearing"
-                ? "두더지 출현 중!"
+                ? `${trapAppearText} 중!`
                 : phase === "danger"
-                ? "위험! 곧 출현합니다"
+                ? "위험! 곧 발동합니다"
                 : phase === "caution"
-                ? "주의 — 잠시 후 출현"
+                ? "주의 — 잠시 후 발동"
                 : "안전 구간"}
             </div>
           </div>
@@ -456,15 +585,15 @@ export default function TrapTimerPage() {
                 width:
                   startedAt === null
                     ? "0%"
-                    : `${((CYCLE_TOTAL - remaining) / CYCLE_TOTAL) * 100}%`,
+                    : `${((cycleTotal - remaining) / cycleTotal) * 100}%`,
               }}
             />
           </div>
           <div className="flex justify-between text-xs text-gray-400 mt-1">
             <span>안전</span>
-            <span>주의 (5초)</span>
-            <span>위험 (3초)</span>
-            <span>출현</span>
+            <span>주의 ({Math.round(warnAt)}초)</span>
+            <span>위험 ({Math.round(dangerAt)}초)</span>
+            <span>발동</span>
           </div>
         </div>
       )}
@@ -495,7 +624,7 @@ export default function TrapTimerPage() {
             {startedAt === null
               ? "대기 중"
               : phase === "appearing"
-              ? "두더지 출현!"
+              ? `${trapAppearText}!`
               : phase === "danger"
               ? "위험!"
               : phase === "caution"
@@ -527,11 +656,11 @@ export default function TrapTimerPage() {
               {startedAt === null
                 ? "시작 버튼을 눌러 동기화하세요"
                 : phase === "appearing"
-                ? "두더지 출현 중!"
+                ? `${trapAppearText} 중!`
                 : phase === "danger"
-                ? "위험! 곧 출현합니다"
+                ? "위험! 곧 발동합니다"
                 : phase === "caution"
-                ? "주의 — 잠시 후 출현"
+                ? "주의 — 잠시 후 발동"
                 : "안전 구간"}
             </div>
           </div>
@@ -551,7 +680,7 @@ export default function TrapTimerPage() {
                 width:
                   startedAt === null
                     ? "0%"
-                    : `${((CYCLE_TOTAL - remaining) / CYCLE_TOTAL) * 100}%`,
+                    : `${((cycleTotal - remaining) / cycleTotal) * 100}%`,
               }}
             />
           </div>
@@ -598,7 +727,7 @@ export default function TrapTimerPage() {
             </span>
           </div>
           <p className="text-xs text-gray-400 mt-2 text-center">
-            5초 전: 경고음 / 3초 이내: 긴급음 / 출현 시: 알림음
+            {Math.round(warnAt)}초 전: 경고음 / {Math.round(dangerAt)}초 이내: 긴급음 / 발동 시: 알림음
           </p>
         </div>
       )}
@@ -608,13 +737,13 @@ export default function TrapTimerPage() {
         <div className="space-y-3 mb-6">
           {[...multiTimers]
             .sort((a, b) => {
-              const ra = a.startedAt !== null ? (multiRemainings[a.id] ?? CYCLE_TOTAL) : Infinity;
-              const rb = b.startedAt !== null ? (multiRemainings[b.id] ?? CYCLE_TOTAL) : Infinity;
+              const ra = a.startedAt !== null ? (multiRemainings[a.id] ?? cycleTotal) : Infinity;
+              const rb = b.startedAt !== null ? (multiRemainings[b.id] ?? cycleTotal) : Infinity;
               return ra - rb;
             })
             .map((timer, idx) => {
-              const r = multiRemainings[timer.id] ?? CYCLE_TOTAL;
-              const p = timer.startedAt !== null ? getPhase(r) : null;
+              const r = multiRemainings[timer.id] ?? cycleTotal;
+              const p = timer.startedAt !== null ? getPhase(r, warnAt, dangerAt, visibleDuration) : null;
               return (
                 <div
                   key={timer.id}
@@ -721,7 +850,7 @@ export default function TrapTimerPage() {
               {startedAt === null
                 ? "대기 중"
                 : phase === "appearing"
-                ? "두더지 출현!"
+                ? `${trapAppearText}!`
                 : phase === "danger"
                 ? "위험!"
                 : phase === "caution"
@@ -837,19 +966,34 @@ export default function TrapTimerPage() {
       <div className="mb-6">
         <h2 className="font-bold text-lg mb-3">맵 함정 정보</h2>
         <div className="space-y-2">
-          {TRAP_INFO.map((trap) => (
+          {TRAPS.map((trap) => (
             <div
-              key={trap.name}
+              key={trap.id}
               className={`border rounded-xl p-4 ${trap.color}`}
             >
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
                 <div>
-                  <h3 className="font-bold text-sm">{trap.name}</h3>
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-bold text-sm">{trap.name}</h3>
+                    {trap.cycleDuration !== null ? (
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800">
+                        타이머 사용 가능
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-600">
+                        타이머 불가
+                      </span>
+                    )}
+                  </div>
                   <p className="text-xs text-gray-500 dark:text-gray-400">{trap.location}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-medium">{trap.effect}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">사이클: {trap.cycle}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                    사이클: {trap.cycleDuration !== null
+                      ? `${trap.cycleDuration}초${trap.hiddenDuration !== null && trap.visibleDuration !== null ? ` (은신 ${trap.hiddenDuration}초 + 출현 ${trap.visibleDuration}초)` : ""}`
+                      : "불명"}
+                  </p>
                 </div>
               </div>
               {trap.note && (
@@ -866,19 +1010,19 @@ export default function TrapTimerPage() {
         <ul className="space-y-1.5">
           <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
             <span className="text-orange-400 flex-shrink-0">-</span>
-            두더지 타이머는 게임 내 실제 두더지 출현에 맞춰 수동으로 동기화해야 합니다.
+            타이머는 게임 내 실제 함정 발동에 맞춰 수동으로 동기화해야 합니다.
           </li>
           <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
             <span className="text-orange-400 flex-shrink-0">-</span>
-            두더지가 보이는 순간 시작 버튼(또는 스페이스바)을 누르면 다음 사이클부터 정확하게 예측됩니다.
+            함정이 발동하는 순간 시작 버튼(또는 스페이스바)을 누르면 다음 사이클부터 정확하게 예측됩니다.
           </li>
           <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
             <span className="text-orange-400 flex-shrink-0">-</span>
-            사이클: 은신 30초 + 출현 1초 = 총 31초. 출현 시 3초 스턴 (모든 내성 무시).
+            리프레 두더지: 은신 30초 + 출현 1초 = 총 31초. 출현 시 3초 스턴 (모든 내성 무시).
           </li>
           <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
             <span className="text-orange-400 flex-shrink-0">-</span>
-            리프레 야외 필드(미나르숲) 전체에 두더지가 출현합니다.
+            엘나스/슬리피우드 증기: 은신 7초 + 분출 2초 = 총 9초 주기.
           </li>
           <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
             <span className="text-orange-400 flex-shrink-0">-</span>
