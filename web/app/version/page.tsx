@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.9.0";
+const VERSION = "2.9.1";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,29 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.9.1",
+    date: "2026-04-05",
+    type: "patch",
+    title: "함정 선택 기능 + 모바일 레이아웃 수정",
+    features: [
+      {
+        category: "개선 — 함정 타이머 (/trap)",
+        items: [
+          "함정 선택 기능: 두더지(31초)/엘나스 증기(9초)/슬리피우드 증기(9초) 전환",
+          "기본 모드 PiP로 변경",
+          "동적 사이클: 함정별 경고/위험 임계값 자동 조절",
+          "타이머 불가 함정 정보 표시 (용의숲 돌, 돼지공원 가시 등)",
+        ],
+      },
+      {
+        category: "수정 — 수수료 계산기 (/fee)",
+        items: [
+          "공대 분배 모바일 레이아웃 overflow 수정 (공제 항목이 화면 밖으로 밀리던 문제)",
+        ],
+      },
+    ],
+  },
   {
     version: "2.9.0",
     date: "2026-04-05",
