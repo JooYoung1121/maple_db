@@ -590,20 +590,20 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
         </div>
         <div className="space-y-2">
           {extraCosts.map((cost) => (
-            <div key={cost.id} className="flex gap-2 items-center">
+            <div key={cost.id} className="flex gap-2 items-center min-w-0">
               <input
                 type="text"
                 value={cost.label}
                 onChange={(e) => updateExtraCost(cost.id, "label", e.target.value)}
-                placeholder="항목명 (예: 숍지원비)"
-                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                placeholder="항목명"
+                className="min-w-0 flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
               <input
                 type="text"
                 value={cost.amount}
                 onChange={(e) => updateExtraCost(cost.id, "amount", e.target.value)}
                 placeholder="금액"
-                className="w-36 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="min-w-0 w-28 sm:w-36 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
               />
               <button
                 onClick={() => removeExtraCost(cost.id)}
