@@ -121,7 +121,7 @@ const INSTANT_ROUTES: InstantRoute[] = [
     to: "무릉",
     cost: "6,000 메소",
     vehicle: "학 (鶴)",
-    note: "NPC에게 말 걸면 즉시 이동",
+    note: "NPC에게 말 걸면 탑승, 약 1분 소요",
   },
   {
     id: "mureung-orbis",
@@ -129,7 +129,7 @@ const INSTANT_ROUTES: InstantRoute[] = [
     to: "오르비스",
     cost: "6,000 메소",
     vehicle: "학 (鶴)",
-    note: "NPC에게 말 걸면 즉시 이동",
+    note: "NPC에게 말 걸면 탑승, 약 1분 소요",
   },
   {
     id: "mureung-herbtown",
