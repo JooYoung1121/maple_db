@@ -67,14 +67,25 @@ FORTUNE_PROMPT = """너는 메이플스토리 v62(빅뱅 이전, 메이플랜드
 오늘 날짜: {date}
 사용자 정보: {zodiac}띠, {constellation}, 직업: {job}
 
+아래는 메이플랜드에 실제 존재하는 데이터야. 반드시 이 목록에서 골라서 사용해:
+
+[몬스터 목록]
+{monsters}
+
+[사냥터 목록]
+{maps}
+
+[아이템 목록 — 장비/무기/소비 등 다양]
+{items}
+
 아래 JSON 형식으로 오늘의 운세를 생성해줘. 반드시 유효한 JSON만 출력해.
 
 {{
   "maple_fortune": "메이플랜드 세계관 운세 (3~4문장. {job} 직업 특성 반영. 사냥, 강화, 파티퀘스트, 보스 등 게임 콘텐츠 언급. 구체적이고 재미있게)",
   "real_fortune": "현실 운세 (3~4문장. {constellation}의 오늘 운세. 금전/연애/건강/직장 중 2~3가지 언급. 따뜻하고 긍정적으로)",
-  "lucky_monster": "행운의 몬스터 이름 (메이플랜드 v62에 실제 존재하는 몬스터. 예: 주니어 발록, 크로노스, 머쉬맘, 좀비머쉬룸, 이끼달팽이, 타이머, 블러드하프, 레드 드레이크, 와일드보어, 루이넬 등)",
-  "lucky_map": "행운의 사냥터 이름 (메이플랜드 v62에 실제 존재하는 맵. 예: 개미굴 깊은 곳, 루디브리엄 시계탑, 죽은 나무의 숲, 엘나스 산간지역, 지구방위본부 등)",
-  "lucky_item": "행운의 아이템 이름 (메이플랜드 v62에 실제 존재하는 아이템. 장비/소비/기타 모두 가능. 예: 청룡언월도, 반 레온 모자, 장갑 공격력 주문서 60%, 엘릭서, 10% 주문서 등)",
+  "lucky_monster": "위 몬스터 목록에서 하나 선택",
+  "lucky_map": "위 사냥터 목록에서 하나 선택",
+  "lucky_item": "위 아이템 목록에서 하나 선택",
   "enhance_luck": (1~5 사이 정수. 오늘의 강화 운. 1=매우나쁨, 5=대박)
 }}
 
@@ -82,20 +93,61 @@ FORTUNE_PROMPT = """너는 메이플스토리 v62(빅뱅 이전, 메이플랜드
 - 코드블록(```) 없이 순수 JSON만 출력
 - {zodiac}띠와 {constellation}의 특성을 운세에 자연스럽게 녹여줘
 - 메이플 운세는 {job} 직업의 실제 플레이 스타일을 반영해
-- 모든 몬스터/맵/아이템은 메이플스토리 v62(빅뱅 이전)에 실제로 존재하는 것이어야 함"""
+- lucky_monster, lucky_map, lucky_item은 반드시 위 목록에 있는 이름 중에서 골라야 함"""
+
+
+def _sample_game_data(conn) -> tuple[str, str, str]:
+    """DB에서 몬스터/맵/아이템을 랜덤 샘플링하여 프롬프트 컨텍스트로 반환."""
+    # 몬스터: 레벨 있고 숨김 아닌 것 30개 랜덤
+    mob_rows = conn.execute("""
+        SELECT e.name_en, m.level FROM mobs m
+        JOIN entity_names_en e ON e.entity_type='mob' AND e.entity_id=m.id AND e.source='kms'
+        WHERE COALESCE(m.is_hidden, 0) = 0 AND m.level > 0 AND m.level <= 150
+        ORDER BY RANDOM() LIMIT 30
+    """).fetchall()
+    monsters = ", ".join(f"{r[0]}(Lv.{r[1]})" for r in mob_rows)
+
+    # 맵: 마을 제외, 사냥 가능 맵 30개 랜덤 (다양한 지역에서)
+    map_rows = conn.execute("""
+        SELECT e.name_en, mp.street_name FROM maps mp
+        JOIN entity_names_en e ON e.entity_type='map' AND e.entity_id=mp.id AND e.source='kms'
+        WHERE COALESCE(mp.is_town, 0) = 0
+          AND mp.street_name IS NOT NULL AND mp.street_name != ''
+          AND mp.street_name NOT LIKE '%Dojo%'
+          AND mp.street_name NOT LIKE '%Free Market%'
+          AND e.name_en NOT LIKE '%스테이지%'
+        ORDER BY RANDOM() LIMIT 30
+    """).fetchall()
+    maps = ", ".join(r[0] for r in map_rows)
+
+    # 아이템: 장비(무기+방어구) + 소비 섞어서 30개 랜덤
+    item_rows = conn.execute("""
+        SELECT e.name_en, i.overall_category, i.category FROM items i
+        JOIN entity_names_en e ON e.entity_type='item' AND e.entity_id=i.id AND e.source='kms'
+        WHERE COALESCE(i.is_hidden, 0) = 0
+          AND i.overall_category IN ('Equip', 'Use')
+          AND e.name_en != ''
+        ORDER BY RANDOM() LIMIT 30
+    """).fetchall()
+    items = ", ".join(r[0] for r in item_rows)
+
+    return monsters, maps, items
 
 
 async def _generate_fortune_ai(
-    zodiac: str, constellation: str, job: str, date_str: str,
+    zodiac: str, constellation: str, job: str, date_str: str, conn,
 ) -> dict:
-    """Gemini API로 운세를 생성한다."""
+    """Gemini API로 운세를 생성한다. DB에서 실제 게임 데이터를 프롬프트에 포함."""
     if not GOOGLE_API_KEY:
         raise HTTPException(status_code=503, detail="AI API 키가 설정되지 않았습니다.")
 
     import google.generativeai as genai
 
+    monsters, maps, items = _sample_game_data(conn)
+
     prompt = FORTUNE_PROMPT.format(
         date=date_str, zodiac=zodiac, constellation=constellation, job=job,
+        monsters=monsters, maps=maps, items=items,
     )
 
     def _sync_generate() -> dict:
@@ -103,7 +155,6 @@ async def _generate_fortune_ai(
         model = genai.GenerativeModel("gemini-2.5-flash")
         response = model.generate_content(prompt)
         text = response.text.strip() if response.text else ""
-        # JSON 정리 (코드블록 감싸져 있을 수도 있음)
         cleaned = text.replace("```json", "").replace("```", "").strip()
         return json.loads(cleaned)
 
@@ -195,8 +246,8 @@ async def get_fortune(body: FortuneRequest, request: Request):
                 "remaining": max(remaining_count, 0),
             }
 
-        # 3. Gemini AI로 운세 생성
-        fortune = await _generate_fortune_ai(zodiac, constellation, body.job, date_str)
+        # 3. Gemini AI로 운세 생성 (DB에서 실제 게임 데이터 샘플링)
+        fortune = await _generate_fortune_ai(zodiac, constellation, body.job, date_str, conn)
 
         # 4. 캐시 저장
         conn.execute(
