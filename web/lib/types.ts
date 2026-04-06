@@ -144,6 +144,7 @@ export interface Quest {
   following_quests?: { id: number; name: string; level_req: number }[];
   npc_start_name?: string | null;
   npc_end_name?: string | null;
+  is_mapleland?: number;
 }
 
 export interface QuestChainNode {

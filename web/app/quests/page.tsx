@@ -1,18 +1,30 @@
 "use client";
 
-import { Suspense, useCallback, useEffect, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getQuests, getQuestCategories } from "@/lib/api";
 import type { Quest } from "@/lib/types";
-import DataTable, { Column } from "@/components/DataTable";
 import Pagination from "@/components/Pagination";
-import QuestCard, { LevelBadge } from "@/components/QuestCard";
+import QuestCard from "@/components/QuestCard";
 import { useQueryState } from "@/lib/useQueryState";
 
-/* ── 뷰 타입 ── */
-type ViewMode = "card" | "table";
+/* ── 지역 버튼 매핑 ── */
+const AREA_BUTTONS: { label: string; value: string }[] = [
+  { label: "전체", value: "" },
+  { label: "메이플 아일랜드", value: "메이플 아일랜드" },
+  { label: "빅토리아", value: "빅토리아 아일랜드" },
+  { label: "엘나스/아쿠아로드", value: "엘나스/아쿠아로드" },
+  { label: "루디브리엄", value: "루디브리엄" },
+  { label: "무릉/니할사막", value: "무릉/니할사막" },
+  { label: "리프레", value: "리프레" },
+  { label: "마스테리아", value: "마스테리아" },
+  { label: "전직", value: "전직" },
+  { label: "이벤트", value: "이벤트" },
+  { label: "펫", value: "펫" },
+  { label: "기타 지역", value: "기타 지역" },
+];
 
-/* ── 로컬스토리지 완료 퀘스트 관리 ── */
+/* ── 로컬스토리지: 완료 퀘스트 ── */
 function useCompletedQuests() {
   const [completed, setCompleted] = useState<Set<number>>(new Set());
   useEffect(() => {
@@ -35,227 +47,28 @@ function useCompletedQuests() {
   return { completed, toggle };
 }
 
-/* ── 사이드바 필터 ── */
-function QuestSidebarFilter({
-  categories,
-  areas,
-  questTypes,
-  filterValues,
-  onChange,
-  mobileOpen,
-  onClose,
-}: {
-  categories: string[];
-  areas: string[];
-  questTypes: string[];
-  filterValues: Record<string, string>;
-  onChange: (v: Record<string, string>) => void;
-  mobileOpen: boolean;
-  onClose: () => void;
-}) {
-  const update = (key: string, value: string) => {
-    onChange({ ...filterValues, [key]: value });
-  };
+/* ── 로컬스토리지: 즐겨찾기 ── */
+function useFavoriteQuests() {
+  const [favorites, setFavorites] = useState<Set<number>>(new Set());
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("favoriteQuests");
+      if (stored) setFavorites(new Set(JSON.parse(stored)));
+    } catch {}
+  }, []);
 
-  const filterContent = (
-    <div className="space-y-5">
-      {/* 검색 */}
-      <div>
-        <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5">퀘스트 검색</label>
-        <input
-          type="text"
-          value={filterValues.q || ""}
-          onChange={(e) => update("q", e.target.value)}
-          placeholder="이름으로 검색..."
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent"
-        />
-      </div>
+  const toggle = useCallback((id: number) => {
+    setFavorites((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      localStorage.setItem("favoriteQuests", JSON.stringify([...next]));
+      return next;
+    });
+  }, []);
 
-      {/* 레벨 범위 */}
-      <div>
-        <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5">레벨 범위</label>
-        <div className="flex items-center gap-2">
-          <input
-            type="number"
-            value={filterValues.level_min || ""}
-            onChange={(e) => update("level_min", e.target.value)}
-            placeholder="최소"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-400"
-          />
-          <span className="text-gray-400">~</span>
-          <input
-            type="number"
-            value={filterValues.level_max || ""}
-            onChange={(e) => update("level_max", e.target.value)}
-            placeholder="최대"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-400"
-          />
-        </div>
-      </div>
-
-      {/* 지역 */}
-      <div>
-        <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5">지역</label>
-        <select
-          value={filterValues.area || ""}
-          onChange={(e) => update("area", e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-400"
-        >
-          <option value="">전체</option>
-          {areas.map((a) => (
-            <option key={a} value={a}>{a}</option>
-          ))}
-        </select>
-      </div>
-
-      {/* 카테고리 */}
-      <div>
-        <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5">카테고리</label>
-        <select
-          value={filterValues.category || ""}
-          onChange={(e) => update("category", e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-400"
-        >
-          <option value="">전체</option>
-          {categories.map((c) => (
-            <option key={c} value={c}>{c}</option>
-          ))}
-        </select>
-      </div>
-
-      {/* 퀘스트 유형 */}
-      <div>
-        <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5">퀘스트 유형</label>
-        <select
-          value={filterValues.quest_type || ""}
-          onChange={(e) => update("quest_type", e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-400"
-        >
-          <option value="">전체</option>
-          {questTypes.map((t) => (
-            <option key={t} value={t}>{t}</option>
-          ))}
-        </select>
-      </div>
-
-      {/* 보상 있는 퀘스트만 */}
-      <div>
-        <label className="flex items-center gap-2 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={filterValues.has_rewards === "1"}
-            onChange={(e) => update("has_rewards", e.target.checked ? "1" : "")}
-            className="rounded border-gray-300 dark:border-gray-600 text-orange-500 focus:ring-orange-400"
-          />
-          <span className="text-sm text-gray-600 dark:text-gray-400">보상 있는 퀘스트만</span>
-        </label>
-      </div>
-
-      {/* 정렬 */}
-      <div>
-        <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5">정렬</label>
-        <select
-          value={filterValues.sort || ""}
-          onChange={(e) => update("sort", e.target.value)}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-400"
-        >
-          <option value="">레벨 오름차순</option>
-          <option value="level_desc">레벨 내림차순</option>
-          <option value="exp_reward">경험치 보상순</option>
-          <option value="meso_reward">메소 보상순</option>
-          <option value="name">이름순</option>
-        </select>
-      </div>
-
-      {/* 필터 초기화 */}
-      <button
-        onClick={() => onChange({})}
-        className="w-full py-2 text-sm text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-orange-900/20 rounded-lg transition-colors"
-      >
-        필터 초기화
-      </button>
-    </div>
-  );
-
-  return (
-    <>
-      {/* Desktop */}
-      <aside className="hidden lg:block w-64 flex-shrink-0">
-        <div className="sticky top-20 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
-          <h2 className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-4">필터</h2>
-          {filterContent}
-        </div>
-      </aside>
-
-      {/* Mobile drawer */}
-      {mobileOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-black/50" onClick={onClose} />
-          <div className="absolute right-0 top-0 h-full w-80 max-w-full bg-white dark:bg-gray-800 shadow-xl overflow-y-auto">
-            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-              <h2 className="text-sm font-bold">필터</h2>
-              <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            <div className="p-4">{filterContent}</div>
-          </div>
-        </div>
-      )}
-    </>
-  );
+  return { favorites, toggle };
 }
-
-/* ── 테이블 컬럼 정의 ── */
-const tableColumns: Column<Quest>[] = [
-  {
-    key: "name",
-    label: "이름",
-    render: (row) => (
-      <div className="min-w-0">
-        <span className="font-medium">{row.name}</span>
-        {row.name_kr && row.name_kr !== row.name && (
-          <span className="text-xs text-gray-400 ml-1">({row.name_kr})</span>
-        )}
-      </div>
-    ),
-  },
-  {
-    key: "level_req",
-    label: "레벨",
-    render: (row) => <LevelBadge level={row.level_req || row.start_level || 0} />,
-  },
-  {
-    key: "area",
-    label: "지역",
-    render: (row) => (
-      <span className="text-xs text-gray-500 dark:text-gray-400">{row.area || "-"}</span>
-    ),
-  },
-  {
-    key: "quest_type",
-    label: "유형",
-    render: (row) => (
-      <span className="text-xs">{row.quest_type || "-"}</span>
-    ),
-  },
-  {
-    key: "npc_start",
-    label: "시작 NPC",
-    render: (row) => <span className="text-xs">{row.npc_start || "-"}</span>,
-  },
-  {
-    key: "exp_reward",
-    label: "EXP 보상",
-    render: (row) => (
-      <span className={`text-xs ${(row.exp_reward || 0) > 0 ? "text-blue-600 dark:text-blue-400 font-medium" : "text-gray-400"}`}>
-        {(row.exp_reward || 0) > 0 ? (row.exp_reward || 0).toLocaleString() : "-"}
-      </span>
-    ),
-  },
-];
 
 /* ── 메인 컴포넌트 ── */
 function QuestsPageContent() {
@@ -264,24 +77,11 @@ function QuestsPageContent() {
   const [quests, setQuests] = useState<Quest[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [viewMode, setViewMode] = useState<ViewMode>("card");
-  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
-  const [categories, setCategories] = useState<string[]>([]);
-  const [areas, setAreas] = useState<string[]>([]);
-  const [questTypes, setQuestTypes] = useState<string[]>([]);
+  const [hideCompleted, setHideCompleted] = useState(false);
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const { completed, toggle: toggleCompleted } = useCompletedQuests();
-  const perPage = 24;
-
-  // Load filter options
-  useEffect(() => {
-    getQuestCategories()
-      .then((d) => {
-        setCategories(d.categories);
-        setAreas(d.areas);
-        setQuestTypes(d.quest_types);
-      })
-      .catch(() => {});
-  }, []);
+  const { favorites, toggle: toggleFavorite } = useFavoriteQuests();
+  const perPage = 20;
 
   // Load quests
   useEffect(() => {
@@ -295,96 +95,182 @@ function QuestsPageContent() {
       .finally(() => setLoading(false));
   }, [page, filterValues]);
 
-  return (
-    <div className="flex gap-6">
-      {/* Sidebar Filter */}
-      <QuestSidebarFilter
-        categories={categories}
-        areas={areas}
-        questTypes={questTypes}
-        filterValues={filterValues}
-        onChange={setFilterValues}
-        mobileOpen={mobileFilterOpen}
-        onClose={() => setMobileFilterOpen(false)}
-      />
+  // Filter quests client-side for completed/favorites
+  const displayQuests = useMemo(() => {
+    let filtered = quests;
+    if (hideCompleted) {
+      filtered = filtered.filter((q) => !completed.has(q.id));
+    }
+    if (showFavoritesOnly) {
+      filtered = filtered.filter((q) => favorites.has(q.id));
+    }
+    return filtered;
+  }, [quests, hideCompleted, showFavoritesOnly, completed, favorites]);
 
-      {/* Main content */}
-      <div className="flex-1 min-w-0">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h1 className="text-2xl font-bold">퀘스트</h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-              총 {total.toLocaleString()}건
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            {/* Mobile filter toggle */}
+  const currentArea = filterValues.area || "";
+
+  const updateFilter = (key: string, value: string) => {
+    setFilterValues({ ...filterValues, [key]: value });
+  };
+
+  return (
+    <div className="flex gap-4 min-h-[calc(100vh-80px)]">
+      {/* ── 좌측 사이드바: 지역 버튼 ── */}
+      <aside className="hidden lg:block w-48 flex-shrink-0">
+        <div className="sticky top-20 space-y-1">
+          <h2 className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 px-2">지역</h2>
+          {AREA_BUTTONS.map((area) => (
             <button
-              onClick={() => setMobileFilterOpen(true)}
-              className="lg:hidden p-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
-              title="필터"
+              key={area.value}
+              onClick={() => updateFilter("area", area.value)}
+              className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition-all duration-150 ${
+                currentArea === area.value
+                  ? "bg-orange-500 text-white shadow-lg shadow-orange-500/25"
+                  : "text-gray-300 hover:bg-slate-700/60 hover:text-gray-100"
+              }`}
             >
-              <svg className="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-              </svg>
+              {area.label}
             </button>
-            {/* View toggle */}
-            <div className="flex border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden">
-              <button
-                onClick={() => setViewMode("card")}
-                className={`p-2 transition-colors ${viewMode === "card" ? "bg-orange-500 text-white" : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700"}`}
-                title="카드 뷰"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                </svg>
-              </button>
-              <button
-                onClick={() => setViewMode("table")}
-                className={`p-2 transition-colors ${viewMode === "table" ? "bg-orange-500 text-white" : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700"}`}
-                title="테이블 뷰"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                </svg>
-              </button>
+          ))}
+
+          {/* 보상 있는 퀘스트만 */}
+          <div className="pt-3 border-t border-slate-700/50 mt-3">
+            <label className="flex items-center gap-2 px-3 py-1.5 cursor-pointer text-sm text-gray-400 hover:text-gray-200">
+              <input
+                type="checkbox"
+                checked={filterValues.has_rewards === "1"}
+                onChange={(e) => updateFilter("has_rewards", e.target.checked ? "1" : "")}
+                className="rounded border-slate-500 bg-slate-700 text-orange-500 focus:ring-orange-400"
+              />
+              보상있는 퀘스트만
+            </label>
+          </div>
+
+          {/* 정렬 */}
+          <div className="pt-2">
+            <select
+              value={filterValues.sort || ""}
+              onChange={(e) => updateFilter("sort", e.target.value)}
+              className="w-full px-3 py-1.5 border border-slate-600 rounded-lg text-xs bg-slate-800 text-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-400"
+            >
+              <option value="">레벨 오름차순</option>
+              <option value="level_desc">레벨 내림차순</option>
+              <option value="exp_reward">경험치 보상순</option>
+              <option value="meso_reward">메소 보상순</option>
+              <option value="name">이름순</option>
+            </select>
+          </div>
+        </div>
+      </aside>
+
+      {/* ── 메인 콘텐츠 ── */}
+      <div className="flex-1 min-w-0">
+        {/* 상단 컨트롤 바 */}
+        <div className="bg-slate-800/60 border border-slate-700/60 rounded-lg p-3 mb-4">
+          <div className="flex flex-wrap items-center gap-3">
+            {/* 완료 숨기기 */}
+            <button
+              onClick={() => setHideCompleted(!hideCompleted)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                hideCompleted
+                  ? "bg-orange-500 text-white"
+                  : "bg-slate-700 text-gray-300 hover:bg-slate-600"
+              }`}
+            >
+              {hideCompleted ? "완료 숨김 중" : "완료 숨기기"}
+            </button>
+
+            {/* 즐겨찾기만 */}
+            <button
+              onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                showFavoritesOnly
+                  ? "bg-yellow-500 text-black"
+                  : "bg-slate-700 text-gray-300 hover:bg-slate-600"
+              }`}
+            >
+              {showFavoritesOnly ? "\u2605 즐겨찾기만" : "\u2606 즐겨찾기"}
+            </button>
+
+            {/* 레벨 범위 */}
+            <div className="flex items-center gap-1.5">
+              <span className="text-xs text-gray-500">Lv</span>
+              <input
+                type="number"
+                value={filterValues.level_min || ""}
+                onChange={(e) => updateFilter("level_min", e.target.value)}
+                placeholder="min"
+                className="w-16 px-2 py-1.5 border border-slate-600 rounded text-xs bg-slate-700 text-gray-200 focus:outline-none focus:ring-1 focus:ring-orange-400"
+              />
+              <span className="text-xs text-gray-500">~</span>
+              <input
+                type="number"
+                value={filterValues.level_max || ""}
+                onChange={(e) => updateFilter("level_max", e.target.value)}
+                placeholder="max"
+                className="w-16 px-2 py-1.5 border border-slate-600 rounded text-xs bg-slate-700 text-gray-200 focus:outline-none focus:ring-1 focus:ring-orange-400"
+              />
             </div>
+
+            {/* 검색 */}
+            <div className="flex-1 min-w-[180px]">
+              <input
+                type="text"
+                value={filterValues.q || ""}
+                onChange={(e) => updateFilter("q", e.target.value)}
+                placeholder="퀘스트 검색..."
+                className="w-full px-3 py-1.5 border border-slate-600 rounded-lg text-xs bg-slate-700 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-orange-400"
+              />
+            </div>
+
+            {/* Mobile area selector */}
+            <div className="lg:hidden">
+              <select
+                value={currentArea}
+                onChange={(e) => updateFilter("area", e.target.value)}
+                className="px-2 py-1.5 border border-slate-600 rounded text-xs bg-slate-700 text-gray-200 focus:outline-none focus:ring-1 focus:ring-orange-400"
+              >
+                {AREA_BUTTONS.map((a) => (
+                  <option key={a.value} value={a.value}>{a.label}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Total count */}
+            <span className="text-xs text-gray-500 ml-auto">
+              총 {total.toLocaleString()}건
+            </span>
           </div>
         </div>
 
-        {/* Content */}
+        {/* 퀘스트 리스트 */}
         {loading ? (
-          <div className="text-center py-16 text-gray-400">
-            <div className="inline-block w-8 h-8 border-4 border-gray-300 border-t-orange-500 rounded-full animate-spin mb-3" />
+          <div className="text-center py-16 text-gray-500">
+            <div className="inline-block w-8 h-8 border-4 border-slate-600 border-t-orange-500 rounded-full animate-spin mb-3" />
             <p>로딩 중...</p>
           </div>
-        ) : quests.length === 0 ? (
-          <div className="text-center py-16 text-gray-400">
+        ) : displayQuests.length === 0 ? (
+          <div className="text-center py-16 text-gray-500">
             <p className="text-lg mb-1">검색 결과가 없습니다</p>
             <p className="text-sm">필터 조건을 변경해보세요</p>
           </div>
-        ) : viewMode === "card" ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
-            {quests.map((quest) => (
+        ) : (
+          <div className="space-y-2">
+            {displayQuests.map((quest) => (
               <QuestCard
                 key={quest.id}
                 quest={quest}
                 onClick={() => router.push(`/quests/${quest.id}`)}
                 checked={completed.has(quest.id)}
                 onToggleCheck={() => toggleCompleted(quest.id)}
+                favorited={favorites.has(quest.id)}
+                onToggleFavorite={() => toggleFavorite(quest.id)}
               />
             ))}
           </div>
-        ) : (
-          <DataTable
-            columns={tableColumns}
-            data={quests}
-            onRowClick={(row) => router.push(`/quests/${row.id}`)}
-          />
         )}
 
-        {/* Pagination */}
+        {/* 페이지네이션 */}
         <Pagination page={page} totalPages={Math.ceil(total / perPage)} onChange={setPage} />
       </div>
     </div>
@@ -395,8 +281,8 @@ export default function QuestsPage() {
   return (
     <Suspense
       fallback={
-        <div className="text-center py-16 text-gray-400">
-          <div className="inline-block w-8 h-8 border-4 border-gray-300 border-t-orange-500 rounded-full animate-spin mb-3" />
+        <div className="text-center py-16 text-gray-500">
+          <div className="inline-block w-8 h-8 border-4 border-slate-600 border-t-orange-500 rounded-full animate-spin mb-3" />
           <p>로딩 중...</p>
         </div>
       }

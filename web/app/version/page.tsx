@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.11.0";
+const VERSION = "2.12.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,33 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.12.0",
+    date: "2026-04-06",
+    type: "minor",
+    title: "퀘스트 페이지 메랜퀘 스타일 UI + 버그 수정",
+    features: [
+      {
+        category: "개선 — 퀘스트 목록 UI 리뉴얼",
+        items: [
+          "메랜퀘(maplelandquest.gg) 스타일 UI 적용",
+          "지역별 사이드바 버튼 (빅토리아, 오르비스, 루디브리엄 등)",
+          "세로 리스트형 퀘스트 카드 + 조건/보상 인라인 표시",
+          "즐겨찾기(★) 기능 + 완료 숨기기 토글",
+          "한국어 퀘스트명 우선 표시",
+        ],
+      },
+      {
+        category: "수정 — 버그 4건",
+        items: [
+          "보상있는 퀘스트만 필터 동작 안 하던 문제 수정",
+          "메이플랜드(v62) 퀘스트만 기본 노출 (is_mapleland 필터)",
+          "레벨 0 퀘스트 Lv.? → Lv.- 로 변경",
+          "영어 이름 → 한국어 이름 우선 표시",
+        ],
+      },
+    ],
+  },
   {
     version: "2.11.0",
     date: "2026-04-06",

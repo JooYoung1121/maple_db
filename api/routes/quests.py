@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 _LIST_COLUMNS = (
     "id, name, level_req, npc_start, npc_end, category, area, quest_type, "
     "auto_start, exp_reward, meso_reward, reward_items, prerequisite_quests, "
-    "start_level, end_level, required_mobs, completion_items, next_quest_id"
+    "start_level, end_level, required_mobs, completion_items, next_quest_id, is_mapleland"
 )
 
 
@@ -31,7 +31,7 @@ def list_quests(
     sort: Optional[str] = Query(default=None, max_length=20),
 ):
     offset = (page - 1) * per_page
-    conditions = []
+    conditions = ["is_mapleland = 1"]
     params: list = []
 
     if level_min is not None:
@@ -55,7 +55,7 @@ def list_quests(
     if quest_type:
         conditions.append("quest_type = ?")
         params.append(quest_type)
-    if has_rewards:
+    if has_rewards is not None and has_rewards == 1:
         conditions.append("(exp_reward > 0 OR meso_reward > 0 OR reward_items IS NOT NULL)")
 
     where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
@@ -124,13 +124,13 @@ def get_quest_categories():
 
     try:
         categories = [r[0] for r in conn.execute(
-            "SELECT DISTINCT category FROM quests WHERE category IS NOT NULL AND category != '' ORDER BY category"
+            "SELECT DISTINCT category FROM quests WHERE is_mapleland = 1 AND category IS NOT NULL AND category != '' ORDER BY category"
         ).fetchall()]
         areas = [r[0] for r in conn.execute(
-            "SELECT DISTINCT area FROM quests WHERE area IS NOT NULL AND area != '' ORDER BY area"
+            "SELECT DISTINCT area FROM quests WHERE is_mapleland = 1 AND area IS NOT NULL AND area != '' ORDER BY area"
         ).fetchall()]
         quest_types = [r[0] for r in conn.execute(
-            "SELECT DISTINCT quest_type FROM quests WHERE quest_type IS NOT NULL AND quest_type != '' ORDER BY quest_type"
+            "SELECT DISTINCT quest_type FROM quests WHERE is_mapleland = 1 AND quest_type IS NOT NULL AND quest_type != '' ORDER BY quest_type"
         ).fetchall()]
     except Exception:
         categories, areas, quest_types = [], [], []
