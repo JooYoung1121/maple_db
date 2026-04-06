@@ -16,7 +16,8 @@ router = APIRouter()
 KST = timezone(timedelta(hours=9))
 MAX_CACHE_PER_COMBO = 3
 COOLDOWN_SEC = 30
-DAILY_LIMIT = 3
+# 2026-04-07 이후 3으로 복원할 것
+DAILY_LIMIT = 999
 
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY", "")
 
@@ -67,15 +68,15 @@ FORTUNE_PROMPT = """너는 메이플스토리 v62(빅뱅 이전, 메이플랜드
 오늘 날짜: {date}
 사용자 정보: {zodiac}띠, {constellation}, 직업: {job}
 
-아래는 메이플랜드에 실제 존재하는 데이터야. 반드시 이 목록에서 골라서 사용해:
+아래는 메이플랜드 DB에서 추출한 실제 데이터야.
 
-[몬스터 목록]
+[몬스터 — 번호와 이름]
 {monsters}
 
-[사냥터 목록]
+[사냥터 — 번호와 이름]
 {maps}
 
-[아이템 목록 — 장비/무기/소비 등 다양]
+[아이템 — 번호와 이름 (장비/무기/방어구/소비 등)]
 {items}
 
 아래 JSON 형식으로 오늘의 운세를 생성해줘. 반드시 유효한 JSON만 출력해.
@@ -83,17 +84,18 @@ FORTUNE_PROMPT = """너는 메이플스토리 v62(빅뱅 이전, 메이플랜드
 {{
   "maple_fortune": "메이플랜드 세계관 운세 (3~4문장. {job} 직업 특성 반영. 사냥, 강화, 파티퀘스트, 보스 등 게임 콘텐츠 언급. 구체적이고 재미있게)",
   "real_fortune": "현실 운세 (3~4문장. {constellation}의 오늘 운세. 금전/연애/건강/직장 중 2~3가지 언급. 따뜻하고 긍정적으로)",
-  "lucky_monster": "위 몬스터 목록에서 하나 선택",
-  "lucky_map": "위 사냥터 목록에서 하나 선택",
-  "lucky_item": "위 아이템 목록에서 하나 선택",
+  "lucky_monster": "위 몬스터 목록에서 번호 하나를 골라 그 이름을 정확히 복사",
+  "lucky_map": "위 사냥터 목록에서 번호 하나를 골라 그 이름을 정확히 복사",
+  "lucky_item": "위 아이템 목록에서 번호 하나를 골라 그 이름을 정확히 복사",
   "enhance_luck": (1~5 사이 정수. 오늘의 강화 운. 1=매우나쁨, 5=대박)
 }}
 
-중요:
+절대 규칙:
+- lucky_monster, lucky_map, lucky_item 값은 위 목록에 있는 이름을 한 글자도 바꾸지 말고 그대로 복사해야 함
+- 목록에 없는 몬스터/맵/아이템을 절대 만들어내지 마
 - 코드블록(```) 없이 순수 JSON만 출력
 - {zodiac}띠와 {constellation}의 특성을 운세에 자연스럽게 녹여줘
-- 메이플 운세는 {job} 직업의 실제 플레이 스타일을 반영해
-- lucky_monster, lucky_map, lucky_item은 반드시 위 목록에 있는 이름 중에서 골라야 함"""
+- 메이플 운세는 {job} 직업의 실제 플레이 스타일을 반영해"""
 
 
 def _sample_game_data(conn) -> tuple[str, str, str]:
@@ -105,7 +107,7 @@ def _sample_game_data(conn) -> tuple[str, str, str]:
         WHERE COALESCE(m.is_hidden, 0) = 0 AND m.level > 0 AND m.level <= 150
         ORDER BY RANDOM() LIMIT 30
     """).fetchall()
-    monsters = ", ".join(f"{r[0]}(Lv.{r[1]})" for r in mob_rows)
+    monsters = "\n".join(f"{i+1}. {r[0]}(Lv.{r[1]})" for i, r in enumerate(mob_rows))
 
     # 맵: 마을 제외, 사냥 가능 맵 30개 랜덤 (다양한 지역에서)
     map_rows = conn.execute("""
@@ -118,7 +120,7 @@ def _sample_game_data(conn) -> tuple[str, str, str]:
           AND e.name_en NOT LIKE '%스테이지%'
         ORDER BY RANDOM() LIMIT 30
     """).fetchall()
-    maps = ", ".join(r[0] for r in map_rows)
+    maps = "\n".join(f"{i+1}. {r[0]}" for i, r in enumerate(map_rows))
 
     # 아이템: 장비(무기+방어구) + 소비 섞어서 30개 랜덤
     item_rows = conn.execute("""
@@ -129,7 +131,7 @@ def _sample_game_data(conn) -> tuple[str, str, str]:
           AND e.name_en != ''
         ORDER BY RANDOM() LIMIT 30
     """).fetchall()
-    items = ", ".join(r[0] for r in item_rows)
+    items = "\n".join(f"{i+1}. {r[0]}" for i, r in enumerate(item_rows))
 
     return monsters, maps, items
 
@@ -209,7 +211,7 @@ async def get_fortune(body: FortuneRequest, request: Request):
             if rl_row["request_count"] >= DAILY_LIMIT:
                 raise HTTPException(
                     status_code=429,
-                    detail="오늘의 운세 조회 횟수를 모두 사용했습니다. (일일 10회)",
+                    detail=f"오늘의 운세 조회 횟수를 모두 사용했습니다. (일일 {DAILY_LIMIT}회)",
                 )
             conn.execute(
                 "UPDATE fortune_rate_limit SET request_count = request_count + 1, last_request_at = ? WHERE ip = ? AND request_date = ?",
