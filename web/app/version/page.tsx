@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.10.0";
+const VERSION = "2.11.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,54 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.11.0",
+    date: "2026-04-06",
+    type: "minor",
+    title: "퀘스트 페이지 전면 리뉴얼 + Quest.wz 데이터 파싱",
+    features: [
+      {
+        category: "신규 — 퀘스트 페이지 리뉴얼",
+        items: [
+          "Prydwen.gg 스타일 카드형/테이블형 뷰 전환",
+          "사이드바 필터 (지역, 카테고리, 퀘스트 유형, 레벨 범위, 보상 유무)",
+          "모바일 반응형 필터 드로어",
+          "완료 체크박스 (localStorage 저장)",
+          "정렬 기능 (레벨, EXP, 메소, 이름순)",
+        ],
+      },
+      {
+        category: "신규 — 퀘스트 상세 페이지",
+        items: [
+          "탭 구조: 개요 / 조건·보상 / 퀘스트 체인",
+          "선행 퀘스트 체인 타임라인 시각화",
+          "보상 아이템·필요 몬스터 링크 연결",
+          "사이드바 빠른 정보 카드",
+        ],
+      },
+      {
+        category: "데이터 — Quest.wz v62 파싱",
+        items: [
+          "1,697건 퀘스트 데이터 추출 (Act, Check, QuestInfo, Say)",
+          "선행퀘스트, 필요아이템, 필요몬스터, EXP/메소 보상 파싱",
+          "카테고리·지역·퀘스트 유형 자동 분류",
+          "한국어 퀘스트명 1,623건 매칭",
+          "메이플랜드 전용 퀘스트 플래그 (is_mapleland)",
+          "NPC 이름 자동 매칭 1,694건",
+        ],
+      },
+      {
+        category: "보안 — API 개선",
+        items: [
+          "N+1 쿼리 → 배치 쿼리 최적화",
+          "퀘스트 체인 API 재귀 깊이 50 제한",
+          "입력 파라미터 길이 제한 (검색어 100자, 필터 50자)",
+          "ARIA 접근성 속성 추가 (탭, 카드, 토글)",
+          "QuestChain lazy loading (탭 활성화 시에만 로드)",
+        ],
+      },
+    ],
+  },
   {
     version: "2.10.0",
     date: "2026-04-06",

@@ -1,0 +1,590 @@
+{
+  "1200": {
+    "월묘의 떡": "",
+    "mark": "Map/MapHelper/mark/MoonRabbitParty",
+    "rank": {
+      "S": {
+        "less": {
+          "min": 6
+        },
+        "more": {
+          "try": 100,
+          "CR": 90
+        },
+        "equal": {
+          "have": 1
+        }
+      },
+      "A": {
+        "less": {
+          "min": 7
+        },
+        "more": {
+          "try": 50,
+          "CR": 70
+        },
+        "equal": {
+          "have": 1
+        }
+      },
+      "B": {
+        "less": {
+          "min": 8
+        },
+        "more": {
+          "try": 30,
+          "CR": 50
+        },
+        "equal": null
+      },
+      "C": {
+        "less": {
+          "min": 9
+        },
+        "more": {
+          "try": 10,
+          "CR": 30
+        },
+        "equal": null
+      },
+      "D": {
+        "less": {
+          "min": 10
+        },
+        "more": {
+          "try": 1,
+          "CR": 40
+        },
+        "equal": null
+      },
+      "F": {
+        "less": {
+          "min": 10
+        },
+        "more": {
+          "try": 1,
+          "CR": 0
+        },
+        "equal": null
+      }
+    }
+  },
+  "1201": {
+    "첫번째 동행": "",
+    "mark": "Map/MapHelper/mark/KerningParty",
+    "rank": {
+      "S": {
+        "less": {
+          "min": 10
+        },
+        "more": {
+          "try": 100,
+          "CR": 90,
+          "have": 1
+        },
+        "equal": null
+      },
+      "A": {
+        "less": {
+          "min": 15
+        },
+        "more": {
+          "try": 50,
+          "CR": 70,
+          "have": 1
+        },
+        "equal": null
+      },
+      "B": {
+        "less": {
+          "min": 20
+        },
+        "more": {
+          "try": 30,
+          "CR": 50
+        },
+        "equal": null
+      },
+      "C": {
+        "less": {
+          "min": 25
+        },
+        "more": {
+          "try": 10,
+          "CR": 30
+        },
+        "equal": null
+      },
+      "D": {
+        "less": {
+          "min": 30
+        },
+        "more": {
+          "try": 1,
+          "CR": 20
+        },
+        "equal": null
+      },
+      "F": {
+        "less": {
+          "min": 30
+        },
+        "more": {
+          "try": 1,
+          "CR": 0
+        },
+        "equal": null
+      }
+    }
+  },
+  "1202": {
+    "차원의 균열": "",
+    "mark": "Map/MapHelper/mark/AbandonTower",
+    "rank": {
+      "S": {
+        "less": {
+          "min": 20
+        },
+        "more": {
+          "try": 100,
+          "CR": 90,
+          "have": 1
+        },
+        "equal": null
+      },
+      "A": {
+        "less": {
+          "min": 25
+        },
+        "more": {
+          "try": 50,
+          "CR": 70,
+          "have": 1
+        },
+        "equal": null
+      },
+      "B": {
+        "less": {
+          "min": 30
+        },
+        "more": {
+          "try": 30,
+          "CR": 50
+        },
+        "equal": null
+      },
+      "C": {
+        "less": {
+          "min": 40
+        },
+        "more": {
+          "try": 10,
+          "CR": 30
+        },
+        "equal": null
+      },
+      "D": {
+        "less": {
+          "min": 60
+        },
+        "more": {
+          "try": 1,
+          "CR": 20
+        },
+        "equal": null
+      },
+      "F": {
+        "less": {
+          "min": 60
+        },
+        "more": {
+          "try": 1,
+          "CR": 0
+        },
+        "equal": null
+      }
+    }
+  },
+  "1203": {
+    "여신의 흔적": "",
+    "mark": "Map/MapHelper/mark/GoddessTower",
+    "rank": {
+      "S": {
+        "less": {
+          "min": 15
+        },
+        "more": {
+          "try": 100,
+          "CR": 80
+        },
+        "equal": {
+          "have": 1
+        }
+      },
+      "A": {
+        "less": {
+          "min": 20
+        },
+        "more": {
+          "try": 50,
+          "CR": 70
+        },
+        "equal": {
+          "have": 1
+        }
+      },
+      "B": {
+        "less": {
+          "min": 30
+        },
+        "more": {
+          "try": 30,
+          "CR": 50
+        },
+        "equal": null
+      },
+      "C": {
+        "less": {
+          "min": 40
+        },
+        "more": {
+          "try": 10,
+          "CR": 30
+        },
+        "equal": null
+      },
+      "D": {
+        "less": {
+          "min": 60
+        },
+        "more": {
+          "try": 1,
+          "CR": 20
+        },
+        "equal": null
+      },
+      "F": {
+        "less": {
+          "min": 60
+        },
+        "more": {
+          "try": 1,
+          "CR": 0
+        },
+        "equal": null
+      }
+    }
+  },
+  "1204": {
+    "해적 데비존": "",
+    "mark": "Map/MapHelper/mark/DevijonParty",
+    "rank": {
+      "S": {
+        "less": null,
+        "more": {
+          "try": 100,
+          "CR": 80
+        },
+        "equal": {
+          "have3": 1
+        }
+      },
+      "A": {
+        "less": null,
+        "more": {
+          "try": 50,
+          "CR": 70
+        },
+        "equal": {
+          "have1": 1
+        }
+      },
+      "B": {
+        "less": null,
+        "more": {
+          "try": 30,
+          "CR": 50
+        },
+        "equal": {
+          "have0": 1
+        }
+      },
+      "C": {
+        "less": null,
+        "more": {
+          "try": 10,
+          "CR": 30
+        },
+        "equal": null
+      },
+      "D": {
+        "less": null,
+        "more": {
+          "try": 1,
+          "CR": 20
+        },
+        "equal": null
+      },
+      "F": {
+        "less": null,
+        "more": {
+          "try": 1,
+          "CR": 0
+        },
+        "equal": null
+      }
+    }
+  },
+  "1205": {
+    "로미오와 줄리엣": "",
+    "mark": "Map/MapHelper/mark/RomioJuliet",
+    "rank": {
+      "S": {
+        "less": {
+          "min": 20
+        },
+        "more": {
+          "try": 100,
+          "CR": 80,
+          "have": 1
+        },
+        "equal": null
+      },
+      "A": {
+        "less": {
+          "min": 25
+        },
+        "more": {
+          "try": 50,
+          "CR": 70,
+          "have": 1
+        },
+        "equal": null
+      },
+      "B": {
+        "less": {
+          "min": 30
+        },
+        "more": {
+          "try": 30,
+          "CR": 50
+        },
+        "equal": null
+      },
+      "C": {
+        "less": {
+          "min": 35
+        },
+        "more": {
+          "try": 10,
+          "CR": 30
+        },
+        "equal": null
+      },
+      "D": {
+        "less": {
+          "min": 45
+        },
+        "more": {
+          "try": 1,
+          "CR": 20
+        },
+        "equal": null
+      },
+      "F": {
+        "less": {
+          "min": 45
+        },
+        "more": {
+          "try": 1,
+          "CR": 0
+        },
+        "equal": null
+      }
+    }
+  },
+  "1206": {
+    "독안개의 숲": "",
+    "mark": "Map/MapHelper/mark/EilnForest",
+    "rank": {
+      "S": {
+        "less": {
+          "min": 15
+        },
+        "more": {
+          "try": 100,
+          "CR": 80,
+          "have1": 1
+        },
+        "equal": null
+      },
+      "A": {
+        "less": {
+          "min": 17
+        },
+        "more": {
+          "try": 50,
+          "CR": 70,
+          "have0": 1
+        },
+        "equal": null
+      },
+      "B": {
+        "less": {
+          "min": 20
+        },
+        "more": {
+          "try": 30,
+          "CR": 50
+        },
+        "equal": null
+      },
+      "C": {
+        "less": {
+          "min": 24
+        },
+        "more": {
+          "try": 10,
+          "CR": 30
+        },
+        "equal": null
+      },
+      "D": {
+        "less": {
+          "min": 30
+        },
+        "more": {
+          "try": 1,
+          "CR": 20
+        },
+        "equal": null
+      },
+      "F": {
+        "less": {
+          "min": 30
+        },
+        "more": {
+          "try": 1,
+          "CR": 0
+        },
+        "equal": null
+      }
+    }
+  },
+  "1300": {
+    "아리안트 투기대회": "",
+    "mark": "Map/MapHelper/mark/AriantMatch",
+    "rank": {
+      "S": {
+        "less": null,
+        "more": {
+          "try": 100,
+          "VR": 40
+        },
+        "equal": {
+          "have": 1
+        }
+      },
+      "A": {
+        "less": null,
+        "more": {
+          "try": 70,
+          "VR": 30
+        },
+        "equal": {
+          "have": 1
+        }
+      },
+      "B": {
+        "less": null,
+        "more": {
+          "try": 50,
+          "VR": 25
+        },
+        "equal": null
+      },
+      "C": {
+        "less": null,
+        "more": {
+          "try": 10,
+          "VR": 20
+        },
+        "equal": null
+      },
+      "D": {
+        "less": null,
+        "more": {
+          "try": 1,
+          "VR": 10
+        },
+        "equal": null
+      },
+      "F": {
+        "less": null,
+        "more": {
+          "try": 1,
+          "VR": 0
+        },
+        "equal": null
+      }
+    }
+  },
+  "1301": {
+    "몬스터 카니발": "",
+    "mark": "Map/MapHelper/mark/Carnival",
+    "rank": {
+      "S": {
+        "less": null,
+        "more": {
+          "try": 200,
+          "VR": 70
+        },
+        "equal": {
+          "have": 1
+        }
+      },
+      "A": {
+        "less": null,
+        "more": {
+          "try": 100,
+          "VR": 60
+        },
+        "equal": {
+          "have": 1
+        }
+      },
+      "B": {
+        "less": null,
+        "more": {
+          "try": 50,
+          "VR": 40
+        },
+        "equal": null
+      },
+      "C": {
+        "less": null,
+        "more": {
+          "try": 10,
+          "VR": 40
+        },
+        "equal": null
+      },
+      "D": {
+        "less": null,
+        "more": {
+          "try": 1,
+          "VR": 20
+        },
+        "equal": null
+      },
+      "F": {
+        "less": null,
+        "more": {
+          "try": 1,
+          "VR": 0
+        },
+        "equal": null
+      }
+    }
+  }
+}

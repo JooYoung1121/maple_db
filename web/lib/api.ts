@@ -72,7 +72,11 @@ export async function getNpc(id: number) {
   return fetchJSON<{ npc: import("./types").Npc }>(`/api/npcs/${id}`);
 }
 
-export async function getQuests(params: { page?: number; per_page?: number; level_min?: number; level_max?: number; q?: string } = {}) {
+export async function getQuests(params: {
+  page?: number; per_page?: number; level_min?: number; level_max?: number;
+  q?: string; category?: string; area?: string; quest_type?: string;
+  has_rewards?: number; sort?: string;
+} = {}) {
   return fetchJSON<{ quests: import("./types").Quest[]; total: number; page: number; per_page: number }>(
     `/api/quests?${qs(params as Record<string, string | number>)}`
   );
@@ -80,6 +84,14 @@ export async function getQuests(params: { page?: number; per_page?: number; leve
 
 export async function getQuest(id: number) {
   return fetchJSON<{ quest: import("./types").Quest }>(`/api/quests/${id}`);
+}
+
+export async function getQuestCategories() {
+  return fetchJSON<{ categories: string[]; areas: string[]; quest_types: string[] }>(`/api/quests/categories`);
+}
+
+export async function getQuestChain(id: number) {
+  return fetchJSON<{ chain: import("./types").QuestChainNode[]; quest_id: number }>(`/api/quests/${id}/chain`);
 }
 
 export async function getBosses(params: { page?: number; per_page?: number; level_min?: number; level_max?: number; q?: string } = {}) {

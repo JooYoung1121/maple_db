@@ -370,6 +370,25 @@ def migrate_db(conn: sqlite3.Connection) -> None:
         ("community_polls", "allow_multiple", "INTEGER DEFAULT 0"),
         ("community_polls", "deadline", "TEXT"),
         ("maple_land_posts", "summary", "TEXT"),
+        # Quest.wz 확장 컬럼
+        ("quests", "category", "TEXT"),
+        ("quests", "prerequisite_quests", "TEXT"),
+        ("quests", "required_items", "TEXT"),
+        ("quests", "required_mobs", "TEXT"),
+        ("quests", "completion_items", "TEXT"),
+        ("quests", "quest_type", "TEXT"),
+        ("quests", "area", "TEXT"),
+        ("quests", "auto_start", "INTEGER DEFAULT 0"),
+        ("quests", "npc_start_id", "INTEGER"),
+        ("quests", "npc_end_id", "INTEGER"),
+        ("quests", "exp_reward", "INTEGER DEFAULT 0"),
+        ("quests", "meso_reward", "INTEGER DEFAULT 0"),
+        ("quests", "reward_items", "TEXT"),
+        ("quests", "npc_dialogue", "TEXT"),
+        ("quests", "start_level", "INTEGER DEFAULT 0"),
+        ("quests", "end_level", "INTEGER DEFAULT 0"),
+        ("quests", "next_quest_id", "INTEGER"),
+        ("quests", "is_mapleland", "INTEGER DEFAULT 1"),
     ]
     for table, column, col_type in migrations:
         try:

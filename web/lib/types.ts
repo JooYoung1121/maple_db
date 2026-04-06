@@ -92,6 +92,25 @@ export interface Npc {
   name_kr?: string | null;
 }
 
+export interface QuestPrereq {
+  id: number;
+  state?: number;
+  name?: string;
+  level_req?: number;
+}
+
+export interface QuestItem {
+  id: number;
+  count: number;
+  name?: string | null;
+}
+
+export interface QuestMob {
+  id: number;
+  count: number;
+  name?: string | null;
+}
+
 export interface Quest {
   id: number;
   name: string;
@@ -104,6 +123,33 @@ export interface Quest {
   source_url: string | null;
   names_en?: NameEn[];
   name_kr?: string | null;
+  // Quest.wz extended fields
+  category?: string | null;
+  prerequisite_quests?: QuestPrereq[] | null;
+  required_items?: QuestItem[] | null;
+  required_mobs?: QuestMob[] | null;
+  completion_items?: QuestItem[] | null;
+  quest_type?: string | null;
+  area?: string | null;
+  auto_start?: number;
+  npc_start_id?: number | null;
+  npc_end_id?: number | null;
+  exp_reward?: number;
+  meso_reward?: number;
+  reward_items?: QuestItem[] | null;
+  npc_dialogue?: string[] | null;
+  start_level?: number;
+  end_level?: number;
+  next_quest_id?: number | null;
+  following_quests?: { id: number; name: string; level_req: number }[];
+  npc_start_name?: string | null;
+  npc_end_name?: string | null;
+}
+
+export interface QuestChainNode {
+  id: number;
+  name: string;
+  level_req: number;
 }
 
 export interface Skill {
