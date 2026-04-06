@@ -303,6 +303,33 @@ CREATE TABLE IF NOT EXISTS free_board_comment_votes (
   UNIQUE(comment_id, voter_ip),
   FOREIGN KEY (comment_id) REFERENCES free_board_comments(id)
 );
+
+-- 오늘의 운세 캐시 (같은 조합 최대 3개)
+CREATE TABLE IF NOT EXISTS fortune_cache (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    cache_date TEXT NOT NULL,
+    zodiac TEXT NOT NULL,
+    constellation TEXT NOT NULL,
+    job TEXT NOT NULL,
+    maple_fortune TEXT NOT NULL,
+    real_fortune TEXT NOT NULL,
+    lucky_monster TEXT,
+    lucky_map TEXT,
+    lucky_item TEXT,
+    enhance_luck INTEGER DEFAULT 3,
+    created_at TEXT DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_fortune_lookup
+    ON fortune_cache(cache_date, zodiac, constellation, job);
+
+-- 운세 Rate Limiting
+CREATE TABLE IF NOT EXISTS fortune_rate_limit (
+    ip TEXT NOT NULL,
+    request_date TEXT NOT NULL,
+    request_count INTEGER DEFAULT 1,
+    last_request_at REAL NOT NULL,
+    PRIMARY KEY (ip, request_date)
+);
 """
 
 FTS_SCHEMA = """

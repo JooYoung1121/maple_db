@@ -55,6 +55,7 @@ const NAV_CATEGORIES: NavCategory[] = [
     items: [
       { href: "/play", label: "룰렛 · 주사위" },
       { href: "/lotto", label: "로또" },
+      { href: "/fortune", label: "오늘의 운세" },
     ],
   },
   {
