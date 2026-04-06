@@ -100,7 +100,7 @@ async def _generate_fortune_ai(
 
     def _sync_generate() -> dict:
         genai.configure(api_key=GOOGLE_API_KEY)
-        model = genai.GenerativeModel("gemini-2.0-flash")
+        model = genai.GenerativeModel("gemini-2.5-flash")
         response = model.generate_content(prompt)
         text = response.text.strip() if response.text else ""
         # JSON 정리 (코드블록 감싸져 있을 수도 있음)
