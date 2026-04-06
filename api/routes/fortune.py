@@ -16,7 +16,7 @@ router = APIRouter()
 KST = timezone(timedelta(hours=9))
 MAX_CACHE_PER_COMBO = 3
 COOLDOWN_SEC = 30
-DAILY_LIMIT = 10
+DAILY_LIMIT = 3
 
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY", "")
 
