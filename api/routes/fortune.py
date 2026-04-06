@@ -5,11 +5,27 @@ import os
 import random
 import time
 from datetime import datetime, timezone, timedelta
+from pathlib import Path
 from fastapi import APIRouter, Query, HTTPException, Request
 from pydantic import BaseModel
 from typing import Optional
 
 from crawler.db import get_connection
+
+# v62(메이플랜드) 유효 ID 로드
+_V62_IDS_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "v62_ids.json"
+_v62_mob_ids: set[str] = set()
+_v62_map_ids: set[str] = set()
+_v62_item_ids: set[str] = set()
+try:
+    with open(_V62_IDS_PATH) as _f:
+        _v62 = json.load(_f)
+        _v62_mob_ids = set(_v62["mob_ids"])
+        _v62_map_ids = set(_v62["map_ids"])
+        _v62_item_ids = set(_v62["item_ids"])
+    print(f"[fortune] v62 ID 로드 완료: mob={len(_v62_mob_ids)}, map={len(_v62_map_ids)}, item={len(_v62_item_ids)}")
+except Exception as e:
+    print(f"[fortune] v62 ID 로드 실패 (DB 전체 데이터 사용): {e}")
 
 router = APIRouter()
 
@@ -99,36 +115,60 @@ FORTUNE_PROMPT = """너는 메이플스토리 v62(빅뱅 이전, 메이플랜드
 
 
 def _sample_game_data(conn) -> tuple[str, str, str]:
-    """DB에서 몬스터/맵/아이템을 랜덤 샘플링하여 프롬프트 컨텍스트로 반환."""
-    # 몬스터: 레벨 있고 숨김 아닌 것 30개 랜덤
-    mob_rows = conn.execute("""
+    """DB에서 v62(메이플랜드) 데이터만 랜덤 샘플링하여 프롬프트 컨텍스트로 반환."""
+
+    # v62 ID 필터 조건 생성
+    def _id_filter(ids: set[str], col: str = "e.entity_id") -> str:
+        if not ids:
+            return "1=1"
+        return f"CAST({col} AS TEXT) IN ({','.join(repr(i) for i in ids)})"
+
+    # 몬스터: v62에 존재 + 레벨 있고 보스/소환물 제외
+    mob_rows = conn.execute(f"""
         SELECT e.name_en, m.level FROM mobs m
         JOIN entity_names_en e ON e.entity_type='mob' AND e.entity_id=m.id AND e.source='kms'
-        WHERE COALESCE(m.is_hidden, 0) = 0 AND m.level > 0 AND m.level <= 150
+        WHERE COALESCE(m.is_hidden, 0) = 0
+          AND m.level > 0 AND m.level <= 150
+          AND COALESCE(m.is_boss, 0) = 0
+          AND {_id_filter(_v62_mob_ids, 'm.id')}
+          AND e.name_en NOT LIKE '%소환%'
+          AND e.name_en NOT LIKE '%의 %손%'
+          AND e.name_en NOT LIKE '%의 %머리%'
+          AND e.name_en NOT LIKE '%팔_'
         ORDER BY RANDOM() LIMIT 30
     """).fetchall()
     monsters = "\n".join(f"{i+1}. {r[0]}(Lv.{r[1]})" for i, r in enumerate(mob_rows))
 
-    # 맵: 마을 제외, 사냥 가능 맵 30개 랜덤 (다양한 지역에서)
-    map_rows = conn.execute("""
-        SELECT e.name_en, mp.street_name FROM maps mp
+    # 맵: v62에 존재 + 마을/도장/자유시장/PQ 스테이지 제외
+    map_rows = conn.execute(f"""
+        SELECT e.name_en FROM maps mp
         JOIN entity_names_en e ON e.entity_type='map' AND e.entity_id=mp.id AND e.source='kms'
         WHERE COALESCE(mp.is_town, 0) = 0
+          AND {_id_filter(_v62_map_ids, 'mp.id')}
           AND mp.street_name IS NOT NULL AND mp.street_name != ''
           AND mp.street_name NOT LIKE '%Dojo%'
           AND mp.street_name NOT LIKE '%Free Market%'
           AND e.name_en NOT LIKE '%스테이지%'
+          AND e.name_en NOT LIKE '%나가는%'
+          AND e.name_en NOT LIKE '%입장%'
         ORDER BY RANDOM() LIMIT 30
     """).fetchall()
     maps = "\n".join(f"{i+1}. {r[0]}" for i, r in enumerate(map_rows))
 
-    # 아이템: 장비(무기+방어구) + 소비 섞어서 30개 랜덤
-    item_rows = conn.execute("""
-        SELECT e.name_en, i.overall_category, i.category FROM items i
+    # 아이템: v62에 존재 + 장비/무기/소비 (헤어/성형/캐시 제외)
+    item_rows = conn.execute(f"""
+        SELECT e.name_en FROM items i
         JOIN entity_names_en e ON e.entity_type='item' AND e.entity_id=i.id AND e.source='kms'
         WHERE COALESCE(i.is_hidden, 0) = 0
+          AND {_id_filter(_v62_item_ids, 'i.id')}
           AND i.overall_category IN ('Equip', 'Use')
           AND e.name_en != ''
+          AND e.name_en NOT LIKE '%헤어%'
+          AND e.name_en NOT LIKE '%머리%'
+          AND e.name_en NOT LIKE '%얼굴%'
+          AND e.name_en NOT LIKE '%성형%'
+          AND e.name_en NOT LIKE '%*%천%'
+          AND i.category NOT IN ('Character', 'Face', 'Hair')
         ORDER BY RANDOM() LIMIT 30
     """).fetchall()
     items = "\n".join(f"{i+1}. {r[0]}" for i, r in enumerate(item_rows))
