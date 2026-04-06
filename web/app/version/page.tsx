@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.9.1";
+const VERSION = "2.10.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,32 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.10.0",
+    date: "2026-04-06",
+    type: "minor",
+    title: "오늘의 운세 + Gemini 요약 버그 수정",
+    features: [
+      {
+        category: "신규 — 오늘의 운세 (/fortune)",
+        items: [
+          "생년월일 + 직업 기반 AI 개인화 운세 (띠 + 별자리 자동 계산)",
+          "메이플랜드 운세 / 현실 운세 2종 탭 전환",
+          "행운의 몬스터·사냥터·아이템 — DB 실제 데이터 기반 (1,200+ 몬스터, 4,700+ 맵, 11,000+ 아이템)",
+          "강화운 별점 표시 (1~5점)",
+          "같은 조합 하루 최대 3가지 다른 운세, 매일 자정(KST) 초기화",
+          "남용 방지: IP 기반 30초 쿨다운 + 일일 3회 제한 + 쿠키 카운트다운",
+          "Gemini 2.5 Flash AI 생성",
+        ],
+      },
+      {
+        category: "수정 — 공지 요약 Gemini API",
+        items: [
+          "서버 재시작 시 모든 AI 요약을 삭제하던 1회성 코드 제거 (매 배포마다 Gemini API 수백건 불필요 호출 방지)",
+        ],
+      },
+    ],
+  },
   {
     version: "2.9.1",
     date: "2026-04-05",
