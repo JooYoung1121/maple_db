@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.13.0";
+const VERSION = "2.14.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,32 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.14.0",
+    date: "2026-04-07",
+    type: "minor",
+    title: "퀘스트 데이터 대규모 검증 + 한국어화 + 재분류",
+    features: [
+      {
+        category: "데이터 — KMS API 크롤링 + 한국어화",
+        items: [
+          "maplestory.io KMS 284 API에서 2,489건 퀘스트 한국어 설명 확보",
+          "대만어 description 975건 → 한국어 교체",
+          "보상 아이템명 654건 한국어화",
+          "required_mobs 213건, completion_items 851건 한국어화",
+        ],
+      },
+      {
+        category: "데이터 — 메이플랜드 퀘스트 재분류",
+        items: [
+          "mapledb.kr 크롤링: 664건 실제 메이플랜드 퀘스트 확인",
+          "is_mapleland 재분류: 1,697 → 1,135건 (562건 비활성화)",
+          "비활성: 시그너스 117, TMS/SEA 17, 이벤트 234, 마스테리아 190건",
+          "커뮤니티 구글시트 크로스체크: 누락 0건 확인",
+        ],
+      },
+    ],
+  },
   {
     version: "2.13.0",
     date: "2026-04-07",
