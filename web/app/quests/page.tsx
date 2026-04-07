@@ -68,7 +68,7 @@ function useFavoriteQuests() {
 /* ── 메인 컴포넌트 ── */
 function QuestsPageContent() {
   const router = useRouter();
-  const { filterValues, page, setFilterValues, setPage } = useQueryState();
+  const { filterValues, page, sortValue, setFilterValues, setPage, setSortValue } = useQueryState();
   const [quests, setQuests] = useState<Quest[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -81,14 +81,14 @@ function QuestsPageContent() {
   // Load quests
   useEffect(() => {
     setLoading(true);
-    getQuests({ page, per_page: perPage, ...filterValues })
+    getQuests({ page, per_page: perPage, sort: sortValue || undefined, ...filterValues })
       .then((d) => {
         setQuests(d.quests);
         setTotal(d.total);
       })
       .catch(() => setQuests([]))
       .finally(() => setLoading(false));
-  }, [page, filterValues]);
+  }, [page, filterValues, sortValue]);
 
   // Filter quests client-side for completed/favorites
   const displayQuests = useMemo(() => {
@@ -144,8 +144,8 @@ function QuestsPageContent() {
           {/* 정렬 */}
           <div className="pt-2">
             <select
-              value={filterValues.sort || ""}
-              onChange={(e) => updateFilter("sort", e.target.value)}
+              value={sortValue}
+              onChange={(e) => setSortValue(e.target.value)}
               className="w-full px-3 py-1.5 border border-slate-600 rounded-lg text-xs bg-slate-800 text-gray-300 focus:outline-none focus:ring-1 focus:ring-orange-400"
             >
               <option value="">레벨 오름차순</option>
