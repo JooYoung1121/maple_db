@@ -81,28 +81,55 @@ function useLocalSet(key: string) {
   return { set, toggle };
 }
 
+/* ── 인라인 범례 바 (항상 표시) ── */
+function InlineLegendBar() {
+  return (
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+      {LEGEND_ITEMS.map((item) => (
+        <span key={item.label} className="inline-flex items-center gap-1">
+          <span
+            className={`w-2 h-2 rounded-full ${item.dot} flex-shrink-0`}
+            style={{ boxShadow: `0 0 4px ${item.glow}40` }}
+          />
+          <span className="text-[11px] text-slate-400">{item.label}</span>
+        </span>
+      ))}
+    </div>
+  );
+}
+
 /* ── 난이도 범례 컴포넌트 ── */
 function DifficultyLegend() {
   const [open, setOpen] = useState(false);
+  const [initialized, setInitialized] = useState(false);
+
+  useEffect(() => {
+    try {
+      const seen = localStorage.getItem("quest_legend_seen");
+      if (!seen) {
+        setOpen(true);
+        localStorage.setItem("quest_legend_seen", "1");
+      }
+    } catch { /* noop */ }
+    setInitialized(true);
+  }, []);
+
   return (
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all border ${
           open
-            ? "bg-slate-700 border-slate-500 text-slate-200"
-            : "bg-slate-800/80 border-slate-700/50 text-slate-400 hover:text-slate-200 hover:border-slate-600"
+            ? "bg-orange-500/20 border-orange-500/40 text-orange-300"
+            : "bg-slate-800/80 border-slate-700/50 text-slate-400 hover:text-orange-300 hover:border-orange-500/40"
         }`}
       >
-        <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-          <circle cx="12" cy="12" r="10" />
-          <path strokeLinecap="round" d="M12 16v-4M12 8h.01" />
-        </svg>
-        {open ? "범례 닫기" : "범례 보기"}
+        <span className="text-sm">&#x2753;</span>
+        {open ? "색상 안내 닫기" : "색상 안내"}
       </button>
-      {open && (
+      {open && initialized && (
         <div className="absolute top-full left-0 mt-2 z-50 bg-slate-800 border border-slate-700/60 rounded-xl p-4 shadow-xl shadow-black/30 min-w-[280px] animate-questFadeIn">
-          <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">난이도 범례</h4>
+          <h4 className="text-xs font-bold text-orange-400 uppercase tracking-wider mb-3">난이도 색상 안내</h4>
           <div className="space-y-2">
             {LEGEND_ITEMS.map((item) => (
               <div key={item.label} className="flex items-center gap-2.5">
@@ -241,12 +268,17 @@ function ExpandedDetail({ quest, onGoDetail }: { quest: Quest; onGoDetail: () =>
           <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">퀘스트 조건 / 팁</h4>
           {quest.quest_conditions && quest.quest_conditions.length > 0 ? (
             <ul className="space-y-1.5">
-              {quest.quest_conditions.map((cond, i) => (
-                <li key={i} className="flex items-start gap-2 text-sm">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 flex-shrink-0" />
-                  <span className="text-slate-300">{cond}</span>
-                </li>
-              ))}
+              {quest.quest_conditions.map((cond, i) => {
+                const isNum = /^\d+$/.test(cond);
+                return (
+                  <li key={i} className="flex items-start gap-2 text-sm">
+                    <span className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${isNum ? "bg-yellow-500" : "bg-amber-400"}`} />
+                    <span className={isNum ? "text-yellow-400/80" : "text-slate-300"}>
+                      {isNum ? `조건 아이템 ${cond}개` : cond}
+                    </span>
+                  </li>
+                );
+              })}
             </ul>
           ) : (
             <p className="text-xs text-slate-600">조건 정보 없음</p>
@@ -513,6 +545,11 @@ function QuestsListView({
               총 {total.toLocaleString()}건
             </span>
           </div>
+        </div>
+
+        {/* 인라인 범례 바 */}
+        <div className="bg-slate-800/40 border border-slate-700/40 rounded-lg px-3 py-2 mb-3">
+          <InlineLegendBar />
         </div>
 
         {/* 퀘스트 리스트 */}
@@ -784,6 +821,11 @@ function QuestsTableView({
             </button>
           </div>
         </div>
+      </div>
+
+      {/* 인라인 범례 바 */}
+      <div className="bg-slate-800/40 border border-slate-700/40 rounded-lg px-3 py-2 mb-3">
+        <InlineLegendBar />
       </div>
 
       {/* 콘텐츠 */}

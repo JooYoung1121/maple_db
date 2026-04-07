@@ -171,15 +171,28 @@ export default function QuestDetailPage() {
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
           <h3 className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">퀘스트 조건</h3>
           <div className="space-y-1.5">
-            {quest.quest_conditions!.map((cond, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-2 px-3 py-2 bg-gray-50 dark:bg-gray-700/50 rounded-lg"
-              >
-                <span className="text-xs text-gray-400 font-mono w-5 text-right">{i + 1}.</span>
-                <span className="text-sm text-gray-700 dark:text-gray-300">{cond}</span>
-              </div>
-            ))}
+            {quest.quest_conditions!.map((cond, i) => {
+              const isNumericOnly = /^\d+$/.test(cond);
+              return (
+                <div
+                  key={i}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg ${
+                    isNumericOnly
+                      ? "bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800/40"
+                      : "bg-gray-50 dark:bg-gray-700/50"
+                  }`}
+                >
+                  <span className="text-xs text-gray-400 font-mono w-5 text-right">{i + 1}.</span>
+                  <span className={`text-sm ${
+                    isNumericOnly
+                      ? "text-yellow-700 dark:text-yellow-400"
+                      : "text-gray-700 dark:text-gray-300"
+                  }`}>
+                    {isNumericOnly ? `조건 아이템 ${cond}개` : cond}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "3.0.0";
+const VERSION = "3.1.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,32 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "3.1.0",
+    date: "2026-04-07",
+    type: "minor",
+    title: "퀘스트 조건 데이터 보강 + 난이도 범례 개선",
+    features: [
+      {
+        category: "데이터 — 퀘스트 조건 보강 (309건)",
+        items: [
+          "숫자만 있던 퀘스트 조건을 '스텀프 50마리', '주황버섯의 갓 10개' 등 구체적 이름+수량으로 변환",
+          "KMS 퀘스트 캐시 + WZ Quest_Check.json + TIP 힌트 3단계 매칭",
+          "385건 중 309건(80%) 보강 완료, 76건은 원본 유지",
+          "미보강 숫자 조건은 UI에서 '조건 아이템 N개'로 표시 + 노란색 강조",
+        ],
+      },
+      {
+        category: "UI — 난이도 범례 개선",
+        items: [
+          "인라인 범례 바 추가: 퀘스트 목록 상단에 색상 범례 항상 표시",
+          "첫 방문 시 범례 패널 자동 펼침 (localStorage로 기록)",
+          "범례 버튼 '색상 안내'로 라벨 변경 + 주황색 강조",
+          "상세 페이지에서도 숫자만 남은 조건은 노란색으로 구분 표시",
+        ],
+      },
+    ],
+  },
   {
     version: "3.0.0",
     date: "2026-04-07",
