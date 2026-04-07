@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.12.0";
+const VERSION = "2.13.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,32 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.13.0",
+    date: "2026-04-07",
+    type: "minor",
+    title: "관리자 데이터 대시보드 + 서버 DB 동기화 + 데이터 검증",
+    features: [
+      {
+        category: "신규 — 관리자 데이터 대시보드 (/admin-data)",
+        items: [
+          "퀘스트 현황: 지역별 분포 차트, 언어 분포, 레벨 히스토그램, 데이터 품질 지표",
+          "전체 데이터 현황: 아이템/몬스터/맵/NPC/퀘스트 스탯 카드 + 크롤링 상태",
+          "퀘스트 전체 목록: 검색/필터 테이블 + 엑셀 다운로드",
+          "엑셀 내보내기: 퀘스트 전용(3시트) + 전체 데이터(5시트)",
+        ],
+      },
+      {
+        category: "수정 — 서버 DB 동기화",
+        items: [
+          "Railway 볼륨 DB에 퀘스트 WZ 데이터가 반영 안 되던 문제 수정",
+          "start.sh에 퀘스트 데이터 자동 병합 로직 추가",
+          "API 상세 페이지 한국어 이름(name_kr) 누락 수정",
+          "퀘스트명 공백 트림 (34건 이름, 92건 KR이름)",
+        ],
+      },
+    ],
+  },
   {
     version: "2.12.0",
     date: "2026-04-06",

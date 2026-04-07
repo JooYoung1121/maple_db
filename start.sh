@@ -18,13 +18,30 @@ if [ -d "/data" ]; then
   echo "Volume contents: $(ls -la /data/ 2>/dev/null || echo 'empty')"
 
   if [ -f "$VOLUME_DB" ]; then
-    # 볼륨 DB 존재 — 절대 덮어쓰지 않음
     VSIZE=$(stat -c%s "$VOLUME_DB" 2>/dev/null || stat -f%z "$VOLUME_DB" 2>/dev/null || echo "unknown")
-    echo "Volume DB exists ($VSIZE bytes)"
-    # bimae_posts 개수 확인 (sqlite3 없으면 스킵)
+    ASIZE=$(stat -c%s "$APP_DB" 2>/dev/null || stat -f%z "$APP_DB" 2>/dev/null || echo "unknown")
+    echo "Volume DB: $VSIZE bytes | App DB: $ASIZE bytes"
+
+    # 유저 생성 데이터(bimae, guild, game_results 등)를 보존하면서 시드 DB 업데이트
     if command -v sqlite3 &>/dev/null; then
-      BCOUNT=$(sqlite3 "$VOLUME_DB" 'SELECT COUNT(*) FROM bimae_posts' 2>/dev/null || echo "table missing")
-      echo "Bimae posts in volume DB: $BCOUNT"
+      BCOUNT=$(sqlite3 "$VOLUME_DB" 'SELECT COUNT(*) FROM bimae_posts' 2>/dev/null || echo "0")
+      HAS_AREA=$(sqlite3 "$VOLUME_DB" "SELECT COUNT(*) FROM quests WHERE area IS NOT NULL AND area != ''" 2>/dev/null || echo "0")
+      echo "Bimae posts: $BCOUNT | Quests with area: $HAS_AREA"
+
+      # 퀘스트 데이터가 비어있으면 시드 DB에서 퀘스트 관련 데이터만 갱신
+      if [ "$HAS_AREA" = "0" ] || [ "$HAS_AREA" = "table missing" ]; then
+        echo "Quest data outdated — merging from seed DB..."
+        # 마이그레이션 먼저 실행
+        python -c "from crawler.db import init_db; init_db()" 2>/dev/null || true
+
+        # 시드 DB에서 퀘스트 테이블 전체를 복사 (유저 데이터 안 건드림)
+        sqlite3 "$VOLUME_DB" "ATTACH '$APP_DB' AS seed;" \
+          "DELETE FROM quests;" \
+          "INSERT INTO quests SELECT * FROM seed.quests;" \
+          "DELETE FROM entity_names_en WHERE entity_type='quest';" \
+          "INSERT OR IGNORE INTO entity_names_en SELECT * FROM seed.entity_names_en WHERE entity_type='quest';" \
+          "DETACH seed;" 2>/dev/null && echo "Quest data merged!" || echo "Quest merge failed (will use seed DB)"
+      fi
     fi
   else
     echo "No DB in volume, copying seed DB..."

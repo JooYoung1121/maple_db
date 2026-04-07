@@ -96,14 +96,18 @@ def list_quests(
             kr_map = {r["entity_id"]: r["name_en"] for r in kr_rows}
 
         for quest in results:
-            quest["name_kr"] = kr_map.get(quest["id"])
-            # Parse JSON fields for frontend
-            for jf in ["prerequisite_quests", "required_items", "required_mobs", "completion_items", "reward_items"]:
+            kr_name = kr_map.get(quest["id"])
+            quest["name_kr"] = kr_name.strip() if kr_name else None
+            # Parse JSON fields present in _LIST_COLUMNS
+            for jf in ["prerequisite_quests", "required_mobs", "completion_items", "reward_items"]:
                 if quest.get(jf):
                     try:
                         quest[jf] = json.loads(quest[jf])
                     except Exception:
                         pass
+            # Strip whitespace from name
+            if quest.get("name"):
+                quest["name"] = quest["name"].strip()
     except Exception as e:
         logger.warning("list_quests error: %s", e)
         results = []
@@ -152,6 +156,9 @@ def get_quest(quest_id: int):
         if row is None:
             raise HTTPException(status_code=404, detail="Quest not found")
         quest = dict(row)
+        # Strip whitespace from name
+        if quest.get("name"):
+            quest["name"] = quest["name"].strip()
 
         # 영문명
         en_rows = conn.execute(
@@ -159,6 +166,10 @@ def get_quest(quest_id: int):
             (quest_id,),
         ).fetchall()
         quest["names_en"] = [dict(r) for r in en_rows]
+
+        # KR name (source='kms')
+        kr_row = next((r for r in en_rows if r["source"] == "kms"), None)
+        quest["name_kr"] = kr_row["name_en"].strip() if kr_row else None
 
         # Parse JSON fields
         for jf in ["prerequisite_quests", "required_items", "required_mobs", "completion_items", "reward_items"]:
