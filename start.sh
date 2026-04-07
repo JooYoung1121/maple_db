@@ -11,9 +11,10 @@ echo "=== DB Sync ==="
 
 if [ -d "/data" ]; then
   if [ -f "$VOLUME_DB" ]; then
-    echo "Volume DB exists. Syncing ONLY quests table..."
+    echo "Volume DB exists. Replacing quests table from seed..."
 
-    # 퀘스트 테이블만 교체. 나머지 테이블은 절대 건드리지 않음.
+    # 퀘스트 테이블을 시드 DB 기준으로 완전 교체 (DROP+CREATE)
+    # 다른 테이블은 절대 건드리지 않음
     python -c "
 import sqlite3
 
@@ -22,44 +23,27 @@ SEED = '$APP_DB'
 
 try:
     vol = sqlite3.connect(VOLUME)
-
-    # 마이그레이션: 새 컬럼 추가 (이미 있으면 무시)
-    new_cols = [
-        ('quests', 'difficulty', 'TEXT'),
-        ('quests', 'start_location', 'TEXT'),
-        ('quests', 'quest_conditions', 'TEXT'),
-        ('quests', 'item_reward', 'TEXT'),
-        ('quests', 'extra_reward', 'TEXT'),
-        ('quests', 'note', 'TEXT'),
-        ('quests', 'tip', 'TEXT'),
-        ('quests', 'is_chain', 'INTEGER DEFAULT 0'),
-        ('quests', 'chain_parent', 'TEXT'),
-        ('quests', 'is_mapleland', 'INTEGER DEFAULT 1'),
-    ]
-    for table, col, coltype in new_cols:
-        try:
-            vol.execute(f'ALTER TABLE {table} ADD COLUMN {col} {coltype}')
-        except:
-            pass
-    vol.commit()
-
-    # 시드 DB에서 퀘스트 데이터만 가져오기
     vol.execute(f\"ATTACH '{SEED}' AS seed\")
 
-    # quests 테이블만 교체
-    vol.execute('DELETE FROM quests')
-    vol.execute('INSERT INTO quests SELECT * FROM seed.quests')
+    # quests 테이블 완전 교체 (스키마 차이 문제 해결)
+    vol.execute('DROP TABLE IF EXISTS quests')
+    vol.execute('CREATE TABLE quests AS SELECT * FROM seed.quests')
     qcount = vol.execute('SELECT COUNT(*) FROM quests').fetchone()[0]
-    print(f'Quests synced: {qcount}')
+
+    # 검증: 조건 데이터가 제대로 들어왔는지
+    sample = vol.execute(\"SELECT name, quest_conditions FROM quests WHERE name='버섯 몬스터를 연구하는 이유'\").fetchone()
+    if sample:
+        print(f'Sample: {sample[0]} -> {sample[1][:50]}')
 
     vol.execute('DETACH seed')
     vol.commit()
     vol.close()
-    print('Quest sync done. Other tables untouched.')
+    print(f'Quests replaced: {qcount} rows. Other tables untouched.')
 
 except Exception as e:
     print(f'Quest sync error: {e}')
-    # 실패해도 볼륨 DB를 덮어쓰지 않음
+    import traceback
+    traceback.print_exc()
 " 2>&1
 
   else
