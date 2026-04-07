@@ -22,25 +22,57 @@ if [ -d "/data" ]; then
     ASIZE=$(stat -c%s "$APP_DB" 2>/dev/null || stat -f%z "$APP_DB" 2>/dev/null || echo "unknown")
     echo "Volume DB: $VSIZE bytes | App DB: $ASIZE bytes"
 
-    # 유저 생성 데이터(bimae, guild, game_results 등)를 보존하면서 시드 DB 업데이트
+    # 마이그레이션 실행 (새 컬럼 추가)
+    python -c "
+import sqlite3, sys
+sys.path.insert(0, '.')
+from crawler.db import migrate_db
+conn = sqlite3.connect('$VOLUME_DB')
+migrate_db(conn)
+conn.close()
+print('Migration done')
+" 2>/dev/null || echo "Migration skipped"
+
+    # 퀘스트/아이템/몬스터/맵/NPC 등 게임 데이터는 매 배포마다 시드 DB에서 강제 동기화
+    # (유저 생성 데이터: bimae_posts, guild_*, game_results, community_*, scroll_rankings 등은 보존)
     if command -v sqlite3 &>/dev/null; then
       BCOUNT=$(sqlite3 "$VOLUME_DB" 'SELECT COUNT(*) FROM bimae_posts' 2>/dev/null || echo "0")
-      HAS_AREA=$(sqlite3 "$VOLUME_DB" "SELECT COUNT(*) FROM quests WHERE area IS NOT NULL AND area != ''" 2>/dev/null || echo "0")
-      echo "Bimae posts: $BCOUNT | Quests with area: $HAS_AREA"
+      echo "Bimae posts (preserved): $BCOUNT"
 
-      # 퀘스트 데이터가 비어있으면 시드 DB에서 퀘스트 관련 데이터만 갱신
-      if [ "$HAS_AREA" = "0" ] || [ "$HAS_AREA" = "table missing" ]; then
-        echo "Quest data outdated — merging from seed DB..."
-        # 마이그레이션 먼저 실행
-        python -c "from crawler.db import init_db; init_db()" 2>/dev/null || true
+      echo "Syncing game data from seed DB..."
+      sqlite3 "$VOLUME_DB" "ATTACH '$APP_DB' AS seed;
+        -- 퀘스트 테이블 전체 교체
+        DELETE FROM quests;
+        INSERT INTO quests SELECT * FROM seed.quests;
+        -- 퀘스트 이름 매핑 교체
+        DELETE FROM entity_names_en WHERE entity_type='quest';
+        INSERT OR IGNORE INTO entity_names_en SELECT * FROM seed.entity_names_en WHERE entity_type='quest';
+        -- 아이템/몬스터/맵/NPC도 시드에서 동기화 (더 최신 데이터)
+        DELETE FROM items;
+        INSERT INTO items SELECT * FROM seed.items;
+        DELETE FROM mobs;
+        INSERT INTO mobs SELECT * FROM seed.mobs;
+        DELETE FROM maps;
+        INSERT INTO maps SELECT * FROM seed.maps;
+        DELETE FROM npcs;
+        INSERT INTO npcs SELECT * FROM seed.npcs;
+        DELETE FROM mob_drops;
+        INSERT INTO mob_drops SELECT * FROM seed.mob_drops;
+        DELETE FROM mob_spawns;
+        INSERT INTO mob_spawns SELECT * FROM seed.mob_spawns;
+        DELETE FROM skills;
+        INSERT INTO skills SELECT * FROM seed.skills;
+        -- entity_names_en 나머지도 동기화
+        DELETE FROM entity_names_en WHERE entity_type!='quest';
+        INSERT OR IGNORE INTO entity_names_en SELECT * FROM seed.entity_names_en WHERE entity_type!='quest';
+        DETACH seed;" 2>/dev/null && echo "Game data synced!" || echo "Sync failed — using seed DB as fallback"
 
-        # 시드 DB에서 퀘스트 테이블 전체를 복사 (유저 데이터 안 건드림)
-        sqlite3 "$VOLUME_DB" "ATTACH '$APP_DB' AS seed;" \
-          "DELETE FROM quests;" \
-          "INSERT INTO quests SELECT * FROM seed.quests;" \
-          "DELETE FROM entity_names_en WHERE entity_type='quest';" \
-          "INSERT OR IGNORE INTO entity_names_en SELECT * FROM seed.entity_names_en WHERE entity_type='quest';" \
-          "DETACH seed;" 2>/dev/null && echo "Quest data merged!" || echo "Quest merge failed (will use seed DB)"
+      # 동기화 실패 시 시드 DB로 교체 (유저 데이터 손실 감수)
+      QCOUNT=$(sqlite3 "$VOLUME_DB" "SELECT COUNT(*) FROM quests WHERE is_mapleland=1" 2>/dev/null || echo "0")
+      echo "Mapleland quests after sync: $QCOUNT"
+      if [ "$QCOUNT" = "0" ]; then
+        echo "WARN: Sync failed, replacing volume DB with seed DB..."
+        cp "$APP_DB" "$VOLUME_DB"
       fi
     fi
   else
