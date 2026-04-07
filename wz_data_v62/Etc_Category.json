@@ -1,0 +1,152 @@
+{
+  "0": {
+    "Category": 1,
+    "CategorySub": 0,
+    "Name": "推荐商品"
+  },
+  "1": {
+    "Category": 1,
+    "CategorySub": 1,
+    "Name": "主题馆"
+  },
+  "2": {
+    "Category": 2,
+    "CategorySub": 0,
+    "Name": "帽子"
+  },
+  "3": {
+    "Category": 2,
+    "CategorySub": 1,
+    "Name": "脸饰"
+  },
+  "4": {
+    "Category": 2,
+    "CategorySub": 2,
+    "Name": "眼饰"
+  },
+  "5": {
+    "Category": 2,
+    "CategorySub": 3,
+    "Name": "套服"
+  },
+  "6": {
+    "Category": 2,
+    "CategorySub": 4,
+    "Name": "上衣"
+  },
+  "7": {
+    "Category": 2,
+    "CategorySub": 5,
+    "Name": "裤裙"
+  },
+  "8": {
+    "Category": 2,
+    "CategorySub": 6,
+    "Name": "鞋子"
+  },
+  "9": {
+    "Category": 2,
+    "CategorySub": 7,
+    "Name": "手套"
+  },
+  "10": {
+    "Category": 2,
+    "CategorySub": 8,
+    "Name": "武器"
+  },
+  "11": {
+    "Category": 2,
+    "CategorySub": 9,
+    "Name": "戒指"
+  },
+  "12": {
+    "Category": 2,
+    "CategorySub": 10,
+    "Name": "活动"
+  },
+  "13": {
+    "Category": 2,
+    "CategorySub": 11,
+    "Name": "披风"
+  },
+  "14": {
+    "Category": 3,
+    "CategorySub": 0,
+    "Name": "卷轴"
+  },
+  "15": {
+    "Category": 3,
+    "CategorySub": 1,
+    "Name": "通讯"
+  },
+  "16": {
+    "Category": 3,
+    "CategorySub": 2,
+    "Name": "喜庆商品"
+  },
+  "17": {
+    "Category": 5,
+    "CategorySub": 0,
+    "Name": "会员卡"
+  },
+  "18": {
+    "Category": 5,
+    "CategorySub": 1,
+    "Name": "个人商店"
+  },
+  "19": {
+    "Category": 5,
+    "CategorySub": 2,
+    "Name": "游戏"
+  },
+  "20": {
+    "Category": 5,
+    "CategorySub": 3,
+    "Name": "表情"
+  },
+  "21": {
+    "Category": 5,
+    "CategorySub": 4,
+    "Name": "结婚"
+  },
+  "22": {
+    "Category": 5,
+    "CategorySub": 5,
+    "Name": "效果"
+  },
+  "23": {
+    "Category": 5,
+    "CategorySub": 6,
+    "Name": "其他"
+  },
+  "24": {
+    "Category": 6,
+    "CategorySub": 0,
+    "Name": "宠物"
+  },
+  "25": {
+    "Category": 6,
+    "CategorySub": 1,
+    "Name": "宠物服饰"
+  },
+  "26": {
+    "Category": 6,
+    "CategorySub": 2,
+    "Name": "宠物用品"
+  },
+  "27": {
+    "Category": 7,
+    "CategorySub": 0,
+    "Name": "Package"
+  },
+  "28": {
+    "Category": "8",
+    "CategorySub": 0,
+    "Name": "使用说明"
+  },
+  "29": {
+    "Category": "8",
+    "CategorySub": 1,
+    "Name": "使用说明"
+  }
+}

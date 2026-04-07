@@ -1,0 +1,6492 @@
+{
+  "05450000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "npc": 9090000
+  },
+  "05220000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05220001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05220010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "pachinko": 1
+  },
+  "05220020": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05221000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05220040": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05230000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05370000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "sample": null,
+    "cash": 1
+  },
+  "05370001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "sample": null,
+    "cash": 1
+  },
+  "05060000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05060001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05060002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05460000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "slotMax": 1,
+    "cash": 1
+  },
+  "05280000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05281000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "time": 60,
+    "lt": null,
+    "rb": null
+  },
+  "05281001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "time": 60,
+    "lt": null,
+    "rb": null
+  },
+  "05290000": {
+    "cash": 1,
+    "slotMax": 1,
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "05290001": {
+    "cash": 1,
+    "slotMax": 1,
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "05290002": {
+    "cash": 1,
+    "slotMax": 1,
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "05290003": {
+    "cash": 1,
+    "slotMax": 1,
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "05290004": {
+    "cash": 1,
+    "slotMax": 1,
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "05290005": {
+    "cash": 1,
+    "slotMax": 1,
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "05290006": {
+    "cash": 1,
+    "slotMax": 1,
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "05290007": {
+    "cash": 1,
+    "slotMax": 1,
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "05090000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05100000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "path": "Sound/Jukebox.img/Congratulation"
+  },
+  "05470000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150019": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150020": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150021": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150022": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150024": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150025": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150026": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150027": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150030": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150031": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151016": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151017": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151019": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151020": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151021": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151022": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151025": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151026": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152021": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152022": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152023": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152024": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152025": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152026": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152027": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152028": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152029": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152030": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152033": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152034": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152035": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152036": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152041": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152042": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152045": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152046": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152047": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152048": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152049": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152050": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152100": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152101": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152102": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152103": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152104": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152105": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152106": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152107": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05153000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05153001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05153002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05153005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05153006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05153007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05153009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05154000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150038": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150032": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05150033": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152037": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152038": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05153010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151027": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05151028": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152039": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05152040": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05180000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "slotMax": 1,
+    "cash": 1,
+    "life": 90
+  },
+  "05170000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "slotMax": 1,
+    "cash": 1
+  },
+  "05110000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 100,
+    "cash": 1
+  },
+  "05400000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05401000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05490000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05130000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021016": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021017": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021020": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021021": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021023": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021024": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05021018": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05140000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05140001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05140002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05140003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05140004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05140006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05210000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:00-02",
+      "1": "MON:22-24",
+      "2": "TUE:00-02",
+      "3": "TUE:22-24",
+      "4": "WED:00-02",
+      "5": "WED:22-24",
+      "6": "THU:00-02",
+      "7": "THU:22-24",
+      "8": "FRI:00-02",
+      "9": "FRI:22-24",
+      "10": "SAT:00-24",
+      "11": "SUN:00-24",
+      "12": "HOL:00-24"
+    }
+  },
+  "05210001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:06-10",
+      "1": "TUE:06-10",
+      "2": "WED:06-10",
+      "3": "THU:06-10",
+      "4": "FRI:06-10",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24",
+      "7": "HOL:00-24"
+    }
+  },
+  "05210002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:14-18",
+      "1": "TUE:14-18",
+      "2": "WED:14-18",
+      "3": "THU:14-18",
+      "4": "FRI:14-18",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24",
+      "7": "HOL:00-24"
+    }
+  },
+  "05210003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:02-06",
+      "1": "TUE:02-06",
+      "2": "WED:02-06",
+      "3": "THU:02-06",
+      "4": "FRI:02-06",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24",
+      "7": "HOL:00-24"
+    }
+  },
+  "05210004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:10-14",
+      "1": "TUE:10-14",
+      "2": "WED:10-14",
+      "3": "THU:10-14",
+      "4": "FRI:10-14",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24",
+      "7": "HOL:00-24"
+    }
+  },
+  "05210005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:18-22",
+      "1": "TUE:18-22",
+      "2": "WED:18-22",
+      "3": "THU:18-22",
+      "4": "FRI:18-22",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24",
+      "7": "HOL:00-24"
+    }
+  },
+  "05211000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:18-20",
+      "1": "TUE:18-20",
+      "2": "WED:18-20",
+      "3": "THU:18-20",
+      "4": "FRI:18-20",
+      "5": "SAT:18-20",
+      "6": "SUN:18-20"
+    }
+  },
+  "05211003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:02-06",
+      "1": "TUE:02-06",
+      "2": "WED:02-06",
+      "3": "THU:02-06",
+      "4": "FRI:02-06",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24",
+      "7": "HOL:00-24"
+    }
+  },
+  "05211004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:07-11",
+      "1": "TUE:07-11",
+      "2": "WED:07-11",
+      "3": "THU:07-11",
+      "4": "FRI:07-11"
+    }
+  },
+  "05211005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:10-14",
+      "1": "TUE:10-14",
+      "2": "WED:10-14",
+      "3": "THU:10-14",
+      "4": "FRI:10-14"
+    }
+  },
+  "05211006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:13-17",
+      "1": "TUE:13-17",
+      "2": "WED:13-17",
+      "3": "THU:13-17",
+      "4": "FRI:13-17"
+    }
+  },
+  "05211007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:16-20",
+      "1": "TUE:16-20",
+      "2": "WED:16-20",
+      "3": "THU:16-20",
+      "4": "FRI:16-20"
+    }
+  },
+  "05211008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:19-23",
+      "1": "TUE:19-23",
+      "2": "WED:19-23",
+      "3": "THU:19-23",
+      "4": "FRI:19-23"
+    }
+  },
+  "05211009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "SAT:07-11",
+      "1": "SUN:07-11"
+    }
+  },
+  "05211010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "SAT:10-14",
+      "1": "SUN:10-14"
+    }
+  },
+  "05211011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "SAT:13-17",
+      "1": "SUN:13-17"
+    }
+  },
+  "05211012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "SAT:16-20",
+      "1": "SUN:16-20"
+    }
+  },
+  "05211013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "SAT:19-23",
+      "1": "SUN:19-23"
+    }
+  },
+  "05211014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:07-11",
+      "1": "TUE:07-11",
+      "2": "WED:07-11",
+      "3": "THU:07-11",
+      "4": "FRI:07-11",
+      "5": "SAT:07-11",
+      "6": "SUN:07-11"
+    }
+  },
+  "05211015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:10-14",
+      "1": "TUE:10-14",
+      "2": "WED:10-14",
+      "3": "THU:10-14",
+      "4": "FRI:10-14",
+      "5": "SAT:10-14",
+      "6": "SUN:10-14"
+    }
+  },
+  "05211016": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:13-17",
+      "1": "TUE:13-17",
+      "2": "WED:13-17",
+      "3": "THU:13-17",
+      "4": "FRI:13-17",
+      "5": "SAT:13-17",
+      "6": "SUN:13-17"
+    }
+  },
+  "05211017": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:16-20",
+      "1": "TUE:16-20",
+      "2": "WED:16-20",
+      "3": "THU:16-20",
+      "4": "FRI:16-20",
+      "5": "SAT:16-20",
+      "6": "SUN:16-20"
+    }
+  },
+  "05211018": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:19-23",
+      "1": "TUE:19-23",
+      "2": "WED:19-23",
+      "3": "THU:19-23",
+      "4": "FRI:19-23",
+      "5": "SAT:19-23",
+      "6": "SUN:19-23"
+    }
+  },
+  "05211037": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:00-04",
+      "1": "TUE:00-04",
+      "2": "WED:00-04",
+      "3": "THU:00-04",
+      "4": "FRI:00-04"
+    }
+  },
+  "05211038": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "SAT:00-04",
+      "1": "SUN:00-04"
+    }
+  },
+  "05211039": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:00-04",
+      "1": "TUE:00-04",
+      "2": "WED:00-04",
+      "3": "THU:00-04",
+      "4": "FRI:00-04",
+      "5": "SAT:00-04",
+      "6": "SUN:00-04"
+    }
+  },
+  "05211040": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:03-07",
+      "1": "TUE:03-07",
+      "2": "WED:03-07",
+      "3": "THU:03-07",
+      "4": "FRI:03-07"
+    }
+  },
+  "05211041": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "SAT:03-07",
+      "1": "SUN:03-07"
+    }
+  },
+  "05211042": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:03-07",
+      "1": "TUE:03-07",
+      "2": "WED:03-07",
+      "3": "THU:03-07",
+      "4": "FRI:03-07",
+      "5": "SAT:03-07",
+      "6": "SUN:03-07"
+    }
+  },
+  "05211043": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:06-10",
+      "1": "TUE:06-10",
+      "2": "WED:06-10",
+      "3": "THU:06-10",
+      "4": "FRI:06-10"
+    }
+  },
+  "05211044": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "SAT:06-10",
+      "1": "SUN:06-10"
+    }
+  },
+  "05211045": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:06-10",
+      "1": "TUE:06-10",
+      "2": "WED:06-10",
+      "3": "THU:06-10",
+      "4": "FRI:06-10",
+      "5": "SAT:06-10",
+      "6": "SUN:06-10"
+    }
+  },
+  "05211046": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:00-24",
+      "1": "TUE:00-24",
+      "2": "WED:00-24",
+      "3": "THU:00-24",
+      "4": "FRI:00-24",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24"
+    }
+  },
+  "05211047": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:00-24",
+      "1": "TUE:00-24",
+      "2": "WED:00-24",
+      "3": "THU:00-24",
+      "4": "FRI:00-24",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24",
+      "7": "HOL:00-24"
+    }
+  },
+  "05211048": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:00-24",
+      "1": "TUE:00-24",
+      "2": "WED:00-24",
+      "3": "THU:00-24",
+      "4": "FRI:00-24",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24",
+      "7": "HOL:00-24"
+    }
+  },
+  "05211049": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:00-24",
+      "1": "TUE:00-24",
+      "2": "WED:00-24",
+      "3": "THU:00-24",
+      "4": "FRI:00-24",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24",
+      "7": "HOL:00-24"
+    }
+  },
+  "05211001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:00-24",
+      "1": "TUE:00-24",
+      "2": "WED:00-24",
+      "3": "THU:00-24",
+      "4": "FRI:00-24",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24",
+      "7": "HOL:00-24"
+    }
+  },
+  "05211002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:00-24",
+      "1": "TUE:00-24",
+      "2": "WED:00-24",
+      "3": "THU:00-24",
+      "4": "FRI:00-24",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24",
+      "7": "HOL:00-24"
+    }
+  },
+  "05120000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/snow",
+    "type": 1
+  },
+  "05120001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/flower",
+    "type": 2
+  },
+  "05120002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/soap",
+    "type": 1
+  },
+  "05120003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/snowCrystal",
+    "type": 2,
+    "floatType": 2
+  },
+  "05120004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/present",
+    "type": 2,
+    "floatType": 1
+  },
+  "05120005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/chocolate",
+    "type": 2,
+    "floatType": 3
+  },
+  "05120006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/flowerage",
+    "type": 2,
+    "floatType": 4
+  },
+  "05120007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/candy",
+    "type": 2,
+    "floatType": 5
+  },
+  "05120008": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/maple",
+    "type": 2,
+    "floatType": 6
+  },
+  "05120009": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/squib/squib",
+    "type": 3,
+    "floatType": 7
+  },
+  "05120010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/coke",
+    "type": 2,
+    "floatType": 17
+  },
+  "05120012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "path": "Map/MapHelper.img/weather/christmasSocks",
+    "type": 2,
+    "floatType": 1,
+    "cash": 1
+  },
+  "05121006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/witch",
+    "type": 1,
+    "floatType": 14,
+    "speed": 1,
+    "direction": 2,
+    "stateChangeItem": 2022112
+  },
+  "05120011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/ghost",
+    "type": 2,
+    "floatType": 18
+  },
+  "05120015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "speed": 0,
+    "direction": 0,
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/firecracker",
+    "type": 4,
+    "floatType": 22
+  },
+  "05121017": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/water",
+    "type": 1,
+    "floatType": 25
+  },
+  "05122000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/lovelypartybear",
+    "type": 1,
+    "floatType": 24,
+    "direction": 1,
+    "speed": 0,
+    "stateChangeItem": 2022302,
+    "isBgmOrEffect": 1,
+    "bgmPath": "Sound/CashEffect.img/05122000/Use",
+    "repeat": 0
+  },
+  "05120014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "path": "Map/MapHelper.img/weather/kairin",
+    "type": 2,
+    "cash": 1
+  },
+  "05121000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/korea",
+    "type": 2,
+    "floatType": 8,
+    "stateChangeItem": 2022071
+  },
+  "05121001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/red",
+    "type": 2,
+    "floatType": 9,
+    "stateChangeItem": 2022072
+  },
+  "05121002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/soccer",
+    "type": 2,
+    "floatType": 10,
+    "stateChangeItem": 2022073
+  },
+  "05121003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/chicken",
+    "type": 2,
+    "floatType": 18,
+    "stateChangeItem": 2022094
+  },
+  "05121004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "direction": 5,
+    "speed": 0,
+    "path": "Map/MapHelper.img/weather/ricecake",
+    "type": 2,
+    "floatType": 12,
+    "stateChangeItem": 2022100
+  },
+  "05121005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "speed": 1,
+    "direction": 1,
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/ricesnack",
+    "type": 2,
+    "floatType": 13,
+    "stateChangeItem": 2022101
+  },
+  "05121007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "speed": 0,
+    "direction": 0,
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/tree",
+    "type": 2,
+    "floatType": 15,
+    "stateChangeItem": 2022119
+  },
+  "05121008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "direction": 1,
+    "speed": 0,
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/birthday",
+    "type": 1,
+    "floatType": 16,
+    "stateChangeItem": 2022153
+  },
+  "05121009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "speed": 0,
+    "direction": 0,
+    "path": "Map/MapHelper.img/weather/rose",
+    "type": 2,
+    "floatType": 19,
+    "cash": 1,
+    "stateChangeItem": 2022154
+  },
+  "05121010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/flower",
+    "type": 2,
+    "stateChangeItem": 2022183
+  },
+  "05121011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/wedding",
+    "type": 2,
+    "stateChangeItem": 2022196
+  },
+  "05121012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/wedding",
+    "type": 2,
+    "stateChangeItem": 2022197
+  },
+  "05121013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/wedding",
+    "type": 2,
+    "stateChangeItem": 2022200
+  },
+  "05121014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "speed": 0,
+    "direction": 0,
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/fishBread",
+    "type": 2,
+    "floatType": 20,
+    "stateChangeItem": 2022265
+  },
+  "05121015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "speed": 0,
+    "direction": 0,
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/snowmanSnow",
+    "type": 2,
+    "floatType": 21,
+    "stateChangeItem": 2022280
+  },
+  "05121016": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "speed": 0,
+    "direction": 0,
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/sweetHeart",
+    "type": 2,
+    "floatType": 23,
+    "stateChangeItem": 2022285
+  },
+  "05200000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "meso": 1000000,
+    "cash": 1
+  },
+  "05200001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "meso": 130000,
+    "cash": 1
+  },
+  "05200002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "meso": 350000,
+    "cash": 1
+  },
+  "05240000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 200,
+    "cash": 1
+  },
+  "05240001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 200,
+    "cash": 1
+  },
+  "05240002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 200,
+    "cash": 1
+  },
+  "05240003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 200,
+    "cash": 1
+  },
+  "05240004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 200,
+    "cash": 1
+  },
+  "05240005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 200,
+    "cash": 1
+  },
+  "05240006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 200,
+    "cash": 1
+  },
+  "05240007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 200,
+    "cash": 1
+  },
+  "05240008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 200,
+    "cash": 1
+  },
+  "05240009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 200,
+    "cash": 1
+  },
+  "05240010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 200,
+    "cash": 1
+  },
+  "05240011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 200,
+    "cash": 1
+  },
+  "05240012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 200,
+    "cash": 1
+  },
+  "05240013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 200,
+    "cash": 1
+  },
+  "05240015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 200,
+    "cash": 1
+  },
+  "05240017": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 200,
+    "cash": 1
+  },
+  "05240020": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 200,
+    "cash": 1
+  },
+  "05240021": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 200,
+    "cash": 1
+  },
+  "05080000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 100,
+    "cash": 1
+  },
+  "05080001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 100,
+    "cash": 1
+  },
+  "05080002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 100,
+    "cash": 1
+  },
+  "05080003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 100,
+    "cash": 1
+  },
+  "05160000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05160001": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05160002": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05160003": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05160004": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05160005": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05160006": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05160007": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05160008": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05160009": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05160010": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05160014": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05160011": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05160012": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05160013": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05380000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05070000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05071000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05072000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05073000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05074000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05075000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05075001": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05075002": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05075003": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05075004": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05075005": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05076000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05077000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05360000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:00-24",
+      "1": "TUE:00-24",
+      "2": "WED:00-24",
+      "3": "THU:00-24",
+      "4": "FRI:00-24",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24"
+    }
+  },
+  "05360001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:07-11",
+      "1": "TUE:07-11",
+      "2": "WED:07-11",
+      "3": "THU:07-11",
+      "4": "FRI:07-11",
+      "5": "SAT:07-11",
+      "6": "SUN:07-11"
+    }
+  },
+  "05360002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:10-14",
+      "1": "TUE:10-14",
+      "2": "WED:10-14",
+      "3": "THU:10-14",
+      "4": "FRI:10-14",
+      "5": "SAT:10-14",
+      "6": "SUN:10-14"
+    }
+  },
+  "05360003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:13-17",
+      "1": "TUE:13-17",
+      "2": "WED:13-17",
+      "3": "THU:13-17",
+      "4": "FRI:13-17",
+      "5": "SAT:13-17",
+      "6": "SUN:13-17"
+    }
+  },
+  "05360004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:16-20",
+      "1": "TUE:16-20",
+      "2": "WED:16-20",
+      "3": "THU:16-20",
+      "4": "FRI:16-20",
+      "5": "SAT:16-20",
+      "6": "SUN:16-20"
+    }
+  },
+  "05360005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:19-23",
+      "1": "TUE:19-23",
+      "2": "WED:19-23",
+      "3": "THU:19-23",
+      "4": "FRI:19-23",
+      "5": "SAT:19-23",
+      "6": "SUN:19-23"
+    }
+  },
+  "05360006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:00-04",
+      "1": "TUE:00-04",
+      "2": "WED:00-04",
+      "3": "THU:00-04",
+      "4": "FRI:00-04",
+      "5": "SAT:00-04",
+      "6": "SUN:00-04"
+    }
+  },
+  "05360007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:03-07",
+      "1": "TUE:03-07",
+      "2": "WED:03-07",
+      "3": "THU:03-07",
+      "4": "FRI:03-07",
+      "5": "SAT:03-07",
+      "6": "SUN:03-07"
+    }
+  },
+  "05360008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:06-10",
+      "1": "TUE:06-10",
+      "2": "WED:06-10",
+      "3": "THU:06-10",
+      "4": "FRI:06-10",
+      "5": "SAT:06-10",
+      "6": "SUN:06-10"
+    }
+  },
+  "05360009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:02-06",
+      "1": "TUE:02-06",
+      "2": "WED:02-06",
+      "3": "THU:02-06",
+      "4": "FRI:02-06",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24",
+      "7": "HOL:00-24"
+    }
+  },
+  "05360010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:10-14",
+      "1": "TUE:10-14",
+      "2": "WED:10-14",
+      "3": "THU:10-14",
+      "4": "FRI:10-14",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24",
+      "7": "HOL:00-24"
+    }
+  },
+  "05360011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:18-22",
+      "1": "TUE:18-22",
+      "2": "WED:18-22",
+      "3": "THU:18-22",
+      "4": "FRI:18-22",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24",
+      "7": "HOL:00-24"
+    }
+  },
+  "05360012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:00-02",
+      "1": "MON:22-24",
+      "2": "TUE:00-02",
+      "3": "TUE:22-24",
+      "4": "WED:00-02",
+      "5": "WED:22-24",
+      "6": "THU:00-02",
+      "7": "THU:22-24",
+      "8": "FRI:00-02",
+      "9": "FRI:22-24",
+      "10": "SAT:00-24",
+      "11": "SUN:00-24",
+      "12": "HOL:00-24"
+    }
+  },
+  "05360013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:06-10",
+      "1": "TUE:06-10",
+      "2": "WED:06-10",
+      "3": "THU:06-10",
+      "4": "FRI:06-10",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24",
+      "7": "HOL:00-24"
+    }
+  },
+  "05360014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:00-24",
+      "1": "TUE:00-24",
+      "2": "WED:00-24",
+      "3": "THU:00-24",
+      "4": "FRI:00-24",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24",
+      "7": "HOL:00-24"
+    }
+  },
+  "05360042": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:00-24",
+      "1": "TUE:00-24",
+      "2": "WED:00-24",
+      "3": "THU:00-24",
+      "4": "FRI:00-24",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24"
+    }
+  },
+  "05430000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05251000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05251003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05251001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05251002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05251100": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 1,
+    "cash": 1
+  },
+  "05252000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05050000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05050001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05050002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05050003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05050004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05420000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05420001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05420002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05420003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05420004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05420005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05420006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05300000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "price": 100,
+    "slotMax": 200,
+    "tradeBlock": 1
+  },
+  "05300001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "price": 100,
+    "slotMax": 200,
+    "tradeBlock": 1
+  },
+  "05300002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "price": 100,
+    "slotMax": 200,
+    "tradeBlock": 1
+  },
+  "05330000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05030000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 16
+  },
+  "05030001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 16
+  },
+  "05030002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 16
+  },
+  "05030003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 16
+  },
+  "05030004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 16
+  },
+  "05030005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 16
+  },
+  "05030006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 16
+  },
+  "05030008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 16,
+    "soldInform": 1
+  },
+  "05030009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 16,
+    "soldInform": 1
+  },
+  "05030010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 16,
+    "soldInform": 1
+  },
+  "05030011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 16,
+    "soldInform": 1
+  },
+  "05030012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 16,
+    "soldInform": 1
+  },
+  "05030013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 24,
+    "soldInform": 1
+  },
+  "05030014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 16,
+    "soldInform": 1
+  },
+  "05030015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 16,
+    "soldInform": 1
+  },
+  "05040000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05040001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05041000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05190000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "pickupItem": 1,
+    "add": 1
+  },
+  "05190001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "consumeHP": 1,
+    "add": 1
+  },
+  "05190002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "longRange": 1,
+    "add": 1
+  },
+  "05190003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "dropSweep": 1,
+    "add": 1
+  },
+  "05190004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "pickupAll": 1,
+    "add": 1
+  },
+  "05190005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "ignorePickup": 1,
+    "add": 1
+  },
+  "05190006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "consumeMP": 1,
+    "add": 1
+  },
+  "05190007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "add": 1,
+    "recall": 1
+  },
+  "05190008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "add": 1,
+    "autoSpeaking": 1
+  },
+  "05191000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "pickupItem": 1,
+    "add": 0
+  },
+  "05191001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "consumeHP": 1,
+    "add": 0
+  },
+  "05191002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "longRange": 1,
+    "add": 0
+  },
+  "05191003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "dropSweep": 1,
+    "add": 0
+  },
+  "05191004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "pickupAll": 1,
+    "add": 0
+  },
+  "05990000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 1,
+    "cash": 1
+  },
+  "05310000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2
+  },
+  "05320000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/weather/LoveEffect%d",
+    "type": 1,
+    "floatType": 0,
+    "direction": 1
+  },
+  "05340000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05340001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05350000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "reqLevel": 11
+  },
+  "05350001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05440000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": "1"
+  },
+  "05510000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05260000": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05260001": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05260002": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05260003": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05260004": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05260005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05260006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05260007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05260008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05260009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05540000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05410000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05410001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05410002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05500000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "addTime": 86400,
+    "maxDays": 30
+  },
+  "05270000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:00-24",
+      "1": "TUE:00-24",
+      "2": "WED:00-24",
+      "3": "THU:00-24",
+      "4": "FRI:00-24",
+      "5": "SAT:00-24",
+      "6": "SUN:00-24",
+      "7": "HOL:00-24"
+    }
+  },
+  "05270001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:18-22",
+      "1": "TUE:18-22",
+      "2": "WED:18-22",
+      "3": "THU:18-22",
+      "4": "FRI:18-22",
+      "5": "SAT:18-22",
+      "6": "SUN:18-22",
+      "7": "HOL:18-22"
+    }
+  },
+  "05270002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:22-24",
+      "1": "MON:00-02",
+      "2": "TUE:22-24",
+      "3": "TUE:00-02",
+      "4": "WED:22-24",
+      "5": "WED:00-02",
+      "6": "THU:22-24",
+      "7": "THU:00-02",
+      "8": "FRI:22-24",
+      "9": "FRI:00-02",
+      "10": "SAT:22-24",
+      "11": "SAT:00-02",
+      "12": "SUN:22-24",
+      "13": "SUN:00-02",
+      "14": "HOL:22-24",
+      "15": "HOL:00-02"
+    }
+  },
+  "05270003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:02-06",
+      "1": "TUE:02-06",
+      "2": "WED:02-06",
+      "3": "THU:02-06",
+      "4": "FRI:02-06",
+      "5": "SAT:02-06",
+      "6": "SUN:02-06",
+      "7": "HOL:02-06"
+    }
+  },
+  "05270004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:06-10",
+      "1": "TUE:06-10",
+      "2": "WED:06-10",
+      "3": "THU:06-10",
+      "4": "FRI:06-10",
+      "5": "SAT:06-10",
+      "6": "SUN:06-10",
+      "7": "HOL:06-10"
+    }
+  },
+  "05270005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:10-14",
+      "1": "TUE:10-14",
+      "2": "WED:10-14",
+      "3": "THU:10-14",
+      "4": "FRI:10-14",
+      "5": "SAT:10-14",
+      "6": "SUN:10-14",
+      "7": "HOL:10-14"
+    }
+  },
+  "05270006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 2,
+    "time": {
+      "0": "MON:14-18",
+      "1": "TUE:14-18",
+      "2": "WED:14-18",
+      "3": "THU:14-18",
+      "4": "FRI:14-18",
+      "5": "SAT:14-18",
+      "6": "SUN:14-18",
+      "7": "HOL:14-18"
+    }
+  },
+  "05480000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "icon1": {
+      "origin": null
+    },
+    "cash": 1,
+    "Font": 4270000,
+    "Num": 10
+  },
+  "05480001": {
+    "icon": {
+      "origin": null
+    },
+    "icon1": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "Font": 4270000,
+    "Num": 20
+  },
+  "05480002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "icon1": {
+      "origin": null
+    },
+    "cash": 1,
+    "Font": 4270001,
+    "Num": 10
+  },
+  "05480003": {
+    "icon": {
+      "origin": null
+    },
+    "icon1": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "Font": 4270001,
+    "Num": 20,
+    "origin": null
+  },
+  "05480004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "icon1": {
+      "origin": null
+    },
+    "cash": 1,
+    "Font": 4270002,
+    "Num": 10
+  },
+  "05480005": {
+    "icon": {
+      "origin": null
+    },
+    "icon1": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "Font": 4270002,
+    "Num": 20
+  },
+  "05480006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "icon1": {
+      "origin": null
+    },
+    "cash": 1,
+    "Font": 4270003,
+    "Num": 10
+  },
+  "05480007": {
+    "icon": {
+      "origin": null
+    },
+    "icon1": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "Font": 4270003,
+    "Num": 20
+  },
+  "05480008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "icon1": {
+      "origin": null
+    },
+    "cash": 1,
+    "Font": 4270004,
+    "Num": 10
+  },
+  "05480009": {
+    "icon": {
+      "origin": null
+    },
+    "icon1": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "Font": 4270004,
+    "Num": 20,
+    "origin": null
+  },
+  "05480010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "icon1": {
+      "origin": null
+    },
+    "cash": 1,
+    "Font": 4270005,
+    "Num": 10
+  },
+  "05480011": {
+    "icon": {
+      "origin": null
+    },
+    "icon1": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "Font": 4270005,
+    "Num": 20
+  },
+  "05010000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "noFlip": "1"
+  },
+  "05010007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "05010016": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010017": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010018": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010019": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010020": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010021": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010022": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010023": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010024": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010025": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010026": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010027": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010028": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010029": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010030": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010031": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010032": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010033": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010034": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010035": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010038": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010039": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010041": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010042": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010043": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010044": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010045": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010046": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010048": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010049": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010051": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010052": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010053": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010054": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010055": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010056": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010057": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010059": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010066": {
+    "cash": 1,
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "05010061": {
+    "cash": 1,
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "05010060": {
+    "cash": 1,
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "05010058": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010063": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010068": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010064": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010065": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010067": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010069": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010062": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010071": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010070": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010086": {
+    "cash": 1,
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "05010074": {
+    "cash": 1,
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "05010073": {
+    "cash": 1,
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "05010078": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010079": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010080": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05010081": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05520000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05570000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05390000": {
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/AvatarMegaphone/Burning",
+    "emotion": 5
+  },
+  "05390001": {
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/AvatarMegaphone/Bright",
+    "emotion": 2
+  },
+  "05390002": {
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/AvatarMegaphone/Heart",
+    "emotion": 17
+  },
+  "05390003": {
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/AvatarMegaphone/Newyear1",
+    "emotion": 17
+  },
+  "05390004": {
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/AvatarMegaphone/Newyear2",
+    "emotion": 17
+  },
+  "05390005": {
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/AvatarMegaphone/Tiger1",
+    "emotion": 17
+  },
+  "05390006": {
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/AvatarMegaphone/Tiger2",
+    "emotion": 15
+  },
+  "05390007": {
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/AvatarMegaphone/Goal",
+    "emotion": 15
+  },
+  "05390008": {
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1,
+    "path": "Map/MapHelper.img/AvatarMegaphone/WorldCup",
+    "emotion": 15
+  },
+  "05720000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "rate": 200,
+    "time": {
+      "0": "MON:18-24",
+      "1": "TUE:18-24",
+      "2": "WED:18-24",
+      "3": "THU:18-24",
+      "4": "FRI:18-24",
+      "5": "SAT:18-24",
+      "6": "SUN:18-24",
+      "7": "HOL:18-24"
+    }
+  },
+  "05690000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05660000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05660001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05640000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tradeBlock": 1,
+    "cash": 1
+  },
+  "05620000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1,
+    "reqSkillLevel": 5,
+    "masterLevel": 20,
+    "success": 100,
+    "skill": {
+      "0": 4311003
+    }
+  },
+  "05620001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 1,
+    "cash": 1,
+    "reqSkillLevel": 5,
+    "masterLevel": 20,
+    "success": 100,
+    "skill": {
+      "0": 4321000
+    }
+  },
+  "05620002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 1,
+    "cash": 1,
+    "reqSkillLevel": 10,
+    "masterLevel": 30,
+    "success": 100,
+    "skill": {
+      "0": 4331002
+    }
+  },
+  "05620003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 1,
+    "cash": 1,
+    "reqSkillLevel": 5,
+    "masterLevel": 20,
+    "success": 100,
+    "skill": {
+      "0": 4331005
+    }
+  },
+  "05620004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 1,
+    "cash": 1,
+    "masterLevel": 30,
+    "success": 100,
+    "reqSkillLevel": 10,
+    "skill": {
+      "0": 4341004
+    }
+  },
+  "05620005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "slotMax": 1,
+    "cash": 1,
+    "reqSkillLevel": 10,
+    "masterLevel": 30,
+    "success": 100,
+    "skill": {
+      "0": 4341007
+    }
+  },
+  "05610000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05610001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05600000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 100
+  },
+  "05600001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 100
+  },
+  "05560000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05561000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05550000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotIndex": 0,
+    "addDay": 30
+  },
+  "05550001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotIndex": 0,
+    "addDay": 7
+  },
+  "05530000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530016": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530017": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530018": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530019": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530020": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530021": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530022": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530023": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530024": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530025": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530026": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530031": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530032": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530056": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "cash": 1
+  },
+  "05530061": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530034": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530035": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530036": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530037": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530038": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530039": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530052": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530053": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530054": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530055": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530057": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530058": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530059": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530060": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530062": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530063": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530064": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530065": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530066": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530067": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530068": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530069": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530070": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530071": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530072": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530080": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530081": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05532003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05532004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530076": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1,
+    "slotMax": 1
+  },
+  "05530103": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "price": 100,
+    "tradeBlock": 1,
+    "notSale": 1
+  },
+  "05530106": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530107": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530108": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530110": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05532005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530125": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530126": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530127": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530129": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530130": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  },
+  "05530128": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "cash": 1
+  }
+}

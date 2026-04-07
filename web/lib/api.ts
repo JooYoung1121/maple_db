@@ -74,7 +74,7 @@ export async function getNpc(id: number) {
 
 export async function getQuests(params: {
   page?: number; per_page?: number; level_min?: number; level_max?: number;
-  q?: string; category?: string; area?: string; quest_type?: string;
+  q?: string; area?: string; quest_type?: string; difficulty?: string;
   has_rewards?: number; sort?: string;
 } = {}) {
   return fetchJSON<{ quests: import("./types").Quest[]; total: number; page: number; per_page: number }>(
@@ -87,7 +87,7 @@ export async function getQuest(id: number) {
 }
 
 export async function getQuestCategories() {
-  return fetchJSON<{ categories: string[]; areas: string[]; quest_types: string[] }>(`/api/quests/categories`);
+  return fetchJSON<{ areas: string[]; quest_types: string[]; difficulties: string[] }>(`/api/quests/categories`);
 }
 
 export async function getQuestChain(id: number) {

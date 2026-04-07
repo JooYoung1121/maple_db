@@ -111,9 +111,9 @@ def export_data(
 # ── 퀘스트 전용 엑셀 내보내기 ──
 
 _QUEST_COLUMNS = (
-    "id, name, level_req, area, category, quest_type, "
-    "npc_start, npc_end, exp_reward, meso_reward, reward_items, "
-    "prerequisite_quests, is_mapleland, start_level, end_level"
+    "id, name, level_req, area, difficulty, quest_type, "
+    "start_location, exp_reward, meso_reward, item_reward, "
+    "extra_reward, note, tip, is_chain, chain_parent, is_mapleland"
 )
 
 
@@ -152,18 +152,19 @@ def export_quests(
                 ordered = {
                     "ID": d["id"],
                     "이름": d["name"],
-                    "한국어명": d["name_kr"],
                     "레벨": d["level_req"],
                     "지역": d.get("area") or "",
-                    "카테고리": d.get("category") or "",
+                    "난이도": d.get("difficulty") or "",
                     "유형": d.get("quest_type") or "",
-                    "NPC시작": d.get("npc_start") or "",
-                    "NPC종료": d.get("npc_end") or "",
+                    "시작장소": d.get("start_location") or "",
                     "EXP보상": d.get("exp_reward") or 0,
                     "메소보상": d.get("meso_reward") or 0,
-                    "보상아이템": d.get("reward_items") or "",
-                    "선행퀘": d.get("prerequisite_quests") or "",
-                    "is_mapleland": d.get("is_mapleland") or 0,
+                    "아이템보상": d.get("item_reward") or "",
+                    "추가보상": d.get("extra_reward") or "",
+                    "비고": d.get("note") or "",
+                    "TIP": d.get("tip") or "",
+                    "체인": d.get("is_chain") or 0,
+                    "체인부모": d.get("chain_parent") or "",
                 }
                 result.append(ordered)
             return result
@@ -294,7 +295,7 @@ def dashboard_stats(pw: str = Query(default="")):
         total_quests = conn.execute("SELECT COUNT(*) FROM quests").fetchone()[0]
         ml_quests = conn.execute("SELECT COUNT(*) FROM quests WHERE is_mapleland = 1").fetchone()[0]
         rewarded = conn.execute(
-            "SELECT COUNT(*) FROM quests WHERE exp_reward > 0 OR meso_reward > 0 OR reward_items IS NOT NULL"
+            "SELECT COUNT(*) FROM quests WHERE exp_reward > 0 OR meso_reward > 0 OR item_reward IS NOT NULL"
         ).fetchone()[0]
 
         # 지역별
@@ -420,7 +421,7 @@ def export_all_quests_json(
         conditions.append("area = ?")
         params.append(area)
     if category:
-        conditions.append("category = ?")
+        conditions.append("difficulty = ?")
         params.append(category)
     if is_mapleland == "1":
         conditions.append("is_mapleland = 1")
@@ -438,8 +439,8 @@ def export_all_quests_json(
     try:
         total = conn.execute(f"SELECT COUNT(*) FROM quests {where}", params).fetchone()[0]
         rows = conn.execute(
-            f"SELECT id, name, level_req, area, category, quest_type, npc_start, npc_end, "
-            f"exp_reward, meso_reward, reward_items, prerequisite_quests, is_mapleland "
+            f"SELECT id, name, level_req, area, difficulty, quest_type, start_location, "
+            f"exp_reward, meso_reward, item_reward, is_mapleland "
             f"FROM quests {where} ORDER BY level_req, id LIMIT ? OFFSET ?",
             params + [per_page, offset],
         ).fetchall()
@@ -463,7 +464,7 @@ def export_all_quests_json(
             "SELECT DISTINCT area FROM quests WHERE area IS NOT NULL AND area != '' ORDER BY area"
         ).fetchall()]
         categories = [r[0] for r in conn.execute(
-            "SELECT DISTINCT category FROM quests WHERE category IS NOT NULL AND category != '' ORDER BY category"
+            "SELECT DISTINCT difficulty FROM quests WHERE difficulty IS NOT NULL AND difficulty != '' ORDER BY difficulty"
         ).fetchall()]
 
     finally:

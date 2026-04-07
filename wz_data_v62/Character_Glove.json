@@ -1,0 +1,9349 @@
+{
+  "01082123": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 80,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 248,
+    "reqLUK": 83,
+    "incPDD": 32,
+    "incMDD": 9,
+    "incINT": 4,
+    "incLUK": 2,
+    "incMMP": 30,
+    "tuc": 5,
+    "price": 210000,
+    "cash": 0
+  },
+  "01082084": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 165,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 18,
+    "incDEX": 1,
+    "tuc": 5,
+    "price": 85000,
+    "cash": 0
+  },
+  "01082154": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 100,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 308,
+    "reqLUK": 103,
+    "incPDD": 40,
+    "incMDD": 13,
+    "incINT": 4,
+    "incLUK": 4,
+    "tuc": 5,
+    "price": 270000,
+    "cash": 0
+  },
+  "01082017": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 75,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 9,
+    "incDEX": 1,
+    "tuc": 5,
+    "price": 17000,
+    "cash": 0
+  },
+  "01082102": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Cp",
+    "vslot": "Cp",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082037": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 50,
+    "reqINT": 0,
+    "reqLUK": 65,
+    "incPDD": 8,
+    "tuc": 5,
+    "price": 15000,
+    "cash": 0
+  },
+  "01082077": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01081001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082039": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 50,
+    "reqINT": 0,
+    "reqLUK": 65,
+    "incPDD": 10,
+    "incLUK": 2,
+    "tuc": 5,
+    "price": 20000,
+    "cash": 0
+  },
+  "01082168": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 110,
+    "reqSTR": 360,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 46,
+    "incSTR": 5,
+    "incDEX": 3,
+    "incMMP": 20,
+    "tuc": 5,
+    "price": 300000,
+    "cash": 0
+  },
+  "01082213": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 100,
+    "reqSTR": 100,
+    "reqDEX": 100,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 40,
+    "incDEX": 4,
+    "incSTR": 3,
+    "tuc": 5,
+    "price": 265000,
+    "cash": 0
+  },
+  "01082004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 20,
+    "reqSTR": 60,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 7,
+    "tuc": 5,
+    "price": 10000,
+    "cash": 0
+  },
+  "01082106": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 215,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 26,
+    "incDEX": 2,
+    "tuc": 5,
+    "price": 140000,
+    "cash": 0
+  },
+  "01082195": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 40,
+    "reqSTR": 40,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 14,
+    "incDEX": 1,
+    "tuc": 5,
+    "price": 40000,
+    "cash": 0
+  },
+  "01082071": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 14,
+    "incDEX": 1,
+    "tuc": 5,
+    "price": 45000,
+    "cash": 0
+  },
+  "01082164": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 110,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 338,
+    "reqLUK": 113,
+    "incINT": 5,
+    "incLUK": 5,
+    "incMDD": 15,
+    "incPDD": 45,
+    "tuc": 5,
+    "price": 300000,
+    "cash": 0
+  },
+  "01082034": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 50,
+    "incPDD": 8,
+    "incDEX": 2,
+    "tuc": 5,
+    "price": 14000,
+    "cash": 0
+  },
+  "01082225": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082096": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 110,
+    "reqINT": 0,
+    "reqLUK": 200,
+    "incPDD": 27,
+    "incLUK": 3,
+    "incEVA": 1,
+    "tuc": 5,
+    "price": 160000,
+    "cash": 0
+  },
+  "01082038": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 50,
+    "reqINT": 0,
+    "reqLUK": 65,
+    "incPDD": 9,
+    "incLUK": 1,
+    "tuc": 5,
+    "price": 17000,
+    "cash": 0
+  },
+  "01082013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 60,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 6,
+    "tuc": 5,
+    "price": 10000,
+    "cash": 0
+  },
+  "01082153": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 100,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 308,
+    "reqLUK": 103,
+    "incPDD": 39,
+    "incMDD": 12,
+    "incINT": 3,
+    "incLUK": 4,
+    "tuc": 5,
+    "price": 265000,
+    "cash": 0
+  },
+  "01082145": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 2,
+    "tuc": 5,
+    "price": 3000,
+    "cash": 0,
+    "incINT": 1
+  },
+  "01082230": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incINT": 2,
+    "incMMP": 200,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "notSale": 1,
+    "slotMax": 1
+  },
+  "01080001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082232": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 20,
+    "incMDD": 10,
+    "incPAD": 1,
+    "incMAD": 1,
+    "tuc": 5,
+    "price": 80000,
+    "cash": 0,
+    "tradeBlock": 1,
+    "tradeAvailable": 1
+  },
+  "01082019": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 48,
+    "reqLUK": 18,
+    "incPDD": 4,
+    "tuc": 5,
+    "price": 5000,
+    "cash": 0
+  },
+  "01082131": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 278,
+    "reqLUK": 93,
+    "incPDD": 34,
+    "incMDD": 9,
+    "incINT": 3,
+    "incLUK": 1,
+    "tuc": 5,
+    "price": 230000,
+    "cash": 0
+  },
+  "01082021": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 62,
+    "reqLUK": 23,
+    "incPDD": 7,
+    "tuc": 5,
+    "incINT": 1,
+    "price": 12000,
+    "cash": 0
+  },
+  "01081003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082023": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 40,
+    "reqSTR": 150,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 1,
+    "incPDD": 15,
+    "tuc": 5,
+    "price": 50000,
+    "cash": 0
+  },
+  "01082101": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082231": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082075": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 80,
+    "reqINT": 0,
+    "reqLUK": 110,
+    "incPDD": 14,
+    "incLUK": 1,
+    "tuc": 5,
+    "price": 45000,
+    "cash": 0
+  },
+  "01082070": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 115,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 14,
+    "incDEX": 2,
+    "tuc": 5,
+    "price": 40000,
+    "cash": 0
+  },
+  "01082010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 50,
+    "reqSTR": 180,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 20,
+    "tuc": 5,
+    "incSTR": 2,
+    "incDEX": 1,
+    "price": 100000,
+    "cash": 0
+  },
+  "01082246": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "tuc": 5,
+    "incACC": 20,
+    "incMAD": 8,
+    "cash": 0,
+    "price": 1
+  },
+  "01082150": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 3,
+    "incMDD": 1,
+    "tuc": 5,
+    "price": 3000,
+    "cash": 0
+  },
+  "01082179": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 3,
+    "tuc": 7,
+    "price": 1,
+    "cash": 0,
+    "incCraft": 1
+  },
+  "01082076": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 80,
+    "reqINT": 0,
+    "reqLUK": 110,
+    "incPDD": 15,
+    "incLUK": 2,
+    "tuc": 5,
+    "price": 55000,
+    "cash": 0
+  },
+  "01082099": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 218,
+    "reqLUK": 73,
+    "incPDD": 27,
+    "incMDD": 6,
+    "incINT": 3,
+    "incLUK": 1,
+    "tuc": 5,
+    "price": 145000,
+    "cash": 0
+  },
+  "01081004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 35,
+    "reqSTR": 125,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 13,
+    "tuc": 5,
+    "price": 35000,
+    "cash": 0
+  },
+  "01082089": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 190,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 22,
+    "incDEX": 1,
+    "incSTR": 1,
+    "tuc": 5,
+    "price": 110000,
+    "cash": 0
+  },
+  "01082147": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 2,
+    "tuc": 5,
+    "price": 3000,
+    "cash": 0,
+    "incDEX": 1
+  },
+  "01082125": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 265,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 34,
+    "incDEX": 3,
+    "incSTR": 1,
+    "tuc": 5,
+    "price": 230000,
+    "cash": 0
+  },
+  "01082128": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 90,
+    "reqSTR": 300,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 35,
+    "incSTR": 3,
+    "incDEX": 1,
+    "tuc": 5,
+    "price": 240000,
+    "cash": 0
+  },
+  "01082040": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082061": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 60,
+    "reqSTR": 210,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 25,
+    "incSTR": 3,
+    "incACC": 2,
+    "tuc": 5,
+    "price": 140000,
+    "cash": 0
+  },
+  "01082192": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": "35",
+    "reqSTR": 35,
+    "reqDEX": 35,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 12,
+    "tuc": 5,
+    "price": 30000,
+    "cash": 0
+  },
+  "01082043": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 60,
+    "reqINT": 0,
+    "reqLUK": 80,
+    "incPDD": 11,
+    "incLUK": 1,
+    "tuc": 5,
+    "price": 27500,
+    "cash": 0
+  },
+  "01082044": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 60,
+    "reqINT": 0,
+    "reqLUK": 80,
+    "incPDD": 12,
+    "incLUK": 2,
+    "tuc": 5,
+    "price": 30000,
+    "cash": 0
+  },
+  "01082138": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 100,
+    "reqSTR": 0,
+    "reqDEX": 140,
+    "reqINT": 0,
+    "reqLUK": 260,
+    "incPDD": 40,
+    "incLUK": 5,
+    "incDEX": 3,
+    "incMMP": 30,
+    "tuc": 5,
+    "price": 270000,
+    "cash": 0
+  },
+  "01082163": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 110,
+    "reqSTR": 0,
+    "reqDEX": 315,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 6,
+    "incSTR": 2,
+    "incMMP": 30,
+    "incPDD": 44,
+    "tuc": 5,
+    "price": 300000,
+    "cash": 0
+  },
+  "01082047": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 70,
+    "reqINT": 0,
+    "reqLUK": 95,
+    "incPDD": 13,
+    "incLUK": 1,
+    "tuc": 5,
+    "price": 37500,
+    "cash": 0
+  },
+  "01082172": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082035": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 35,
+    "reqSTR": 125,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 14,
+    "incSTR": 1,
+    "tuc": 5,
+    "price": 35000,
+    "cash": 0
+  },
+  "01082162": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082051": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 92,
+    "reqLUK": 33,
+    "incPDD": 10,
+    "tuc": 5,
+    "price": 24000,
+    "cash": 0
+  },
+  "01082052": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 92,
+    "reqLUK": 33,
+    "incINT": 1,
+    "incPDD": 11,
+    "tuc": 5,
+    "price": 25000,
+    "cash": 0
+  },
+  "01082067": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 140,
+    "incPDD": 19,
+    "incLUK": 2,
+    "incDEX": 1,
+    "cash": 0,
+    "tuc": 5,
+    "price": 90000
+  },
+  "01082031": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 30,
+    "reqINT": 0,
+    "reqLUK": 35,
+    "incPDD": 4,
+    "tuc": 5,
+    "price": 5000,
+    "cash": 0
+  },
+  "01082001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 25,
+    "reqSTR": 75,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 9,
+    "tuc": 5,
+    "price": 15000,
+    "cash": 0
+  },
+  "01082003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 3,
+    "tuc": 5,
+    "price": 2500,
+    "cash": 0
+  },
+  "01082014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 60,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 7,
+    "tuc": 5,
+    "incDEX": 1,
+    "price": 12000,
+    "cash": 0
+  },
+  "01082151": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 100,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 308,
+    "reqLUK": 103,
+    "incPDD": 37,
+    "incMDD": 11,
+    "incINT": 3,
+    "incLUK": 3,
+    "tuc": 5,
+    "price": 260000,
+    "cash": 0
+  },
+  "01082033": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 50,
+    "incPDD": 7,
+    "incDEX": 1,
+    "tuc": 5,
+    "price": 12000,
+    "cash": 0
+  },
+  "01082041": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082056": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 108,
+    "reqLUK": 38,
+    "incINT": 2,
+    "incPDD": 14,
+    "tuc": 5,
+    "price": 37500,
+    "cash": 0
+  },
+  "01082091": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 190,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 24,
+    "incDEX": 3,
+    "incSTR": 1,
+    "incMMP": 30,
+    "tuc": 5,
+    "price": 130000,
+    "cash": 0
+  },
+  "01082159": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 100,
+    "reqSTR": 0,
+    "reqDEX": 290,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 5,
+    "incSTR": 2,
+    "incMMP": 20,
+    "incPDD": 39,
+    "tuc": 5,
+    "price": 265000,
+    "cash": 0
+  },
+  "01082055": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 108,
+    "reqLUK": 38,
+    "incINT": 1,
+    "incPDD": 13,
+    "tuc": 5,
+    "price": 35000,
+    "cash": 0
+  },
+  "01082048": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 95,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 10,
+    "tuc": 5,
+    "price": 25000,
+    "cash": 0
+  },
+  "01082142": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 240,
+    "incPDD": 33,
+    "incLUK": 3,
+    "incSTR": 3,
+    "tuc": 5,
+    "price": 215000,
+    "cash": 0
+  },
+  "01082053": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 92,
+    "reqLUK": 33,
+    "incINT": 2,
+    "incPDD": 12,
+    "tuc": 5,
+    "price": 27500,
+    "cash": 0
+  },
+  "01082146": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 2,
+    "tuc": 5,
+    "price": 3000,
+    "cash": 0,
+    "incSTR": 1
+  },
+  "01082049": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 95,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 11,
+    "tuc": 5,
+    "incDEX": 1,
+    "price": 27500,
+    "cash": 0
+  },
+  "01082005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 30,
+    "reqSTR": 90,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 12,
+    "incSTR": 1,
+    "tuc": 5,
+    "price": 27500,
+    "cash": 0
+  },
+  "01082177": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 7,
+    "tuc": 5,
+    "incDEX": 2,
+    "price": 1,
+    "cash": 0
+  },
+  "01082140": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 100,
+    "reqSTR": 330,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 40,
+    "incSTR": 5,
+    "incDEX": 3,
+    "incMMP": 15,
+    "tuc": 5,
+    "price": 275000,
+    "cash": 0
+  },
+  "01082073": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 16,
+    "incDEX": 3,
+    "tuc": 5,
+    "price": 65000,
+    "cash": 0
+  },
+  "01082080": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 145,
+    "reqLUK": 50,
+    "incPDD": 20,
+    "incMDD": 3,
+    "incMMP": 30,
+    "incINT": 3,
+    "tuc": 5,
+    "price": 100000,
+    "cash": 0
+  },
+  "01082060": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 60,
+    "reqSTR": 210,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 24,
+    "incSTR": 2,
+    "incACC": 1,
+    "tuc": 5,
+    "price": 130000,
+    "cash": 0
+  },
+  "01082030": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 30,
+    "reqINT": 0,
+    "reqLUK": 35,
+    "incPDD": 4,
+    "tuc": 5,
+    "price": 5000,
+    "cash": 0
+  },
+  "01082104": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 70,
+    "reqSTR": 240,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 3,
+    "incACC": 1,
+    "incPDD": 28,
+    "tuc": 5,
+    "price": 160000,
+    "cash": 0
+  },
+  "01082129": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 90,
+    "reqSTR": 300,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 36,
+    "incSTR": 4,
+    "incDEX": 2,
+    "tuc": 5,
+    "price": 245000,
+    "cash": 0
+  },
+  "01082036": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 35,
+    "reqSTR": 125,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 15,
+    "incSTR": 2,
+    "tuc": 5,
+    "price": 35000,
+    "cash": 0
+  },
+  "01082029": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 30,
+    "reqINT": 0,
+    "reqLUK": 35,
+    "incPDD": 4,
+    "tuc": 5,
+    "price": 5000,
+    "cash": 0
+  },
+  "01082025": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 40,
+    "reqSTR": 150,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 17,
+    "tuc": 5,
+    "incSTR": 3,
+    "price": 75000,
+    "cash": 0
+  },
+  "01082045": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 70,
+    "reqINT": 0,
+    "reqLUK": 95,
+    "incPDD": 14,
+    "incLUK": 2,
+    "tuc": 5,
+    "price": 40000,
+    "cash": 0
+  },
+  "01082083": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 165,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 20,
+    "incDEX": 3,
+    "incMMP": 20,
+    "tuc": 5,
+    "price": 105000,
+    "cash": 0
+  },
+  "01082111": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 80,
+    "reqSTR": 0,
+    "reqDEX": 240,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 3,
+    "incSTR": 2,
+    "incPDD": 32,
+    "incMMP": 15,
+    "tuc": 5,
+    "price": 205000,
+    "cash": 0
+  },
+  "01082130": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 90,
+    "reqSTR": 300,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 37,
+    "incSTR": 5,
+    "incDEX": 2,
+    "tuc": 5,
+    "price": 250000,
+    "cash": 0
+  },
+  "01082086": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 188,
+    "reqLUK": 63,
+    "incPDD": 22,
+    "incMDD": 3,
+    "incINT": 1,
+    "incLUK": 1,
+    "tuc": 5,
+    "price": 105000,
+    "cash": 0
+  },
+  "01081002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082118": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 80,
+    "reqSTR": 0,
+    "reqDEX": 120,
+    "reqINT": 0,
+    "reqLUK": 220,
+    "incPDD": 30,
+    "incLUK": 2,
+    "incDEX": 1,
+    "incMMP": 10,
+    "tuc": 5,
+    "price": 200000,
+    "cash": 0
+  },
+  "01082132": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 278,
+    "reqLUK": 93,
+    "incPDD": 35,
+    "incMDD": 10,
+    "incINT": 4,
+    "incLUK": 2,
+    "tuc": 5,
+    "price": 235000,
+    "cash": 0
+  },
+  "01082186": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 25,
+    "reqSTR": 25,
+    "reqDEX": 25,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 8,
+    "tuc": 5,
+    "price": 15000,
+    "cash": 0
+  },
+  "01082112": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 80,
+    "reqSTR": 0,
+    "reqDEX": 240,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 2,
+    "incDEX": 4,
+    "incPDD": 32,
+    "incMMP": 30,
+    "tuc": 5,
+    "price": 210000,
+    "cash": 0
+  },
+  "01082156": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082249": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082113": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082062": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 128,
+    "reqLUK": 43,
+    "incPDD": 14,
+    "incINT": 1,
+    "tuc": 5,
+    "price": 40000,
+    "cash": 0
+  },
+  "01082068": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 115,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 12,
+    "tuc": 5,
+    "price": 35000,
+    "cash": 0
+  },
+  "01082097": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 110,
+    "reqINT": 0,
+    "reqLUK": 200,
+    "incPDD": 28,
+    "incLUK": 4,
+    "incEVA": 1,
+    "tuc": 5,
+    "price": 170000,
+    "cash": 0
+  },
+  "01082006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 30,
+    "reqSTR": 90,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 13,
+    "tuc": 5,
+    "incSTR": 2,
+    "price": 30000,
+    "cash": 0
+  },
+  "01082074": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 80,
+    "reqINT": 0,
+    "reqLUK": 110,
+    "incPDD": 16,
+    "incLUK": 3,
+    "tuc": 5,
+    "price": 65000,
+    "cash": 0
+  },
+  "01082119": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 80,
+    "reqSTR": 0,
+    "reqDEX": 120,
+    "reqINT": 0,
+    "reqLUK": 220,
+    "incPDD": 31,
+    "incLUK": 3,
+    "incDEX": 2,
+    "incMMP": 15,
+    "tuc": 5,
+    "price": 205000,
+    "cash": 0
+  },
+  "01082110": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 80,
+    "reqSTR": 0,
+    "reqDEX": 240,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 3,
+    "incSTR": 2,
+    "incPDD": 31,
+    "incMMP": 15,
+    "tuc": 5,
+    "price": 205000,
+    "cash": 0
+  },
+  "01082105": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 70,
+    "reqSTR": 240,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 4,
+    "incACC": 1,
+    "incPDD": 29,
+    "tuc": 5,
+    "price": 170000,
+    "cash": 0
+  },
+  "01082085": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 165,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 19,
+    "incDEX": 2,
+    "incMMP": 10,
+    "tuc": 5,
+    "price": 95000,
+    "cash": 0
+  },
+  "01082122": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 80,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 248,
+    "reqLUK": 83,
+    "incPDD": 31,
+    "incMDD": 8,
+    "incINT": 3,
+    "incLUK": 2,
+    "incMMP": 15,
+    "tuc": 5,
+    "price": 205000,
+    "cash": 0
+  },
+  "01082227": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082201": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 60,
+    "reqSTR": 60,
+    "reqDEX": 60,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 24,
+    "incDEX": 1,
+    "incSTR": 1,
+    "tuc": 5,
+    "price": 110000,
+    "cash": 0
+  },
+  "01082107": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 215,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 27,
+    "incDEX": 3,
+    "incEVA": 1,
+    "tuc": 5,
+    "price": 150000,
+    "cash": 0
+  },
+  "01082161": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082018": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 75,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 10,
+    "tuc": 5,
+    "incDEX": 2,
+    "price": 20000,
+    "cash": 0
+  },
+  "01082143": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 240,
+    "incPDD": 30,
+    "incLUk": 3,
+    "incDEX": 3,
+    "tuc": 5,
+    "price": 215000,
+    "cash": 0
+  },
+  "01082093": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 100,
+    "reqINT": 0,
+    "reqLUK": 170,
+    "incPDD": 22,
+    "incLUK": 2,
+    "incDEX": 1,
+    "incMMP": 15,
+    "tuc": 5,
+    "price": 120000,
+    "cash": 0
+  },
+  "01082158": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 100,
+    "reqSTR": 0,
+    "reqDEX": 290,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 4,
+    "incSTR": 2,
+    "incMMP": 10,
+    "incPDD": 38,
+    "tuc": 5,
+    "price": 260000,
+    "cash": 0
+  },
+  "01082024": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 40,
+    "reqSTR": 150,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 16,
+    "tuc": 5,
+    "incSTR": 2,
+    "price": 60000,
+    "cash": 0
+  },
+  "01082114": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 80,
+    "reqSTR": 270,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 31,
+    "incSTR": 2,
+    "incDEX": 1,
+    "incMMP": 10,
+    "tuc": 5,
+    "price": 210000,
+    "cash": 0
+  },
+  "01082115": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 80,
+    "reqSTR": 270,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 32,
+    "incSTR": 3,
+    "incDEX": 2,
+    "incMMP": 15,
+    "tuc": 5,
+    "price": 215000,
+    "cash": 0
+  },
+  "01082133": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 278,
+    "reqLUK": 93,
+    "incPDD": 35,
+    "incMDD": 10,
+    "incINT": 4,
+    "incLUK": 2,
+    "tuc": 5,
+    "price": 235000,
+    "cash": 0
+  },
+  "01082117": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 80,
+    "reqSTR": 270,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 33,
+    "incSTR": 4,
+    "incDEX": 2,
+    "incMMP": 20,
+    "tuc": 5,
+    "price": 220000,
+    "cash": 0
+  },
+  "01082087": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 188,
+    "reqLUK": 63,
+    "incPDD": 22,
+    "incMDD": 3,
+    "incINT": 2,
+    "incLUK": 1,
+    "incMMP": 15,
+    "tuc": 5,
+    "price": 115000,
+    "cash": 0
+  },
+  "01082100": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 218,
+    "reqLUK": 73,
+    "incPDD": 28,
+    "incMDD": 7,
+    "incINT": 4,
+    "incLUK": 1,
+    "tuc": 5,
+    "price": 150000,
+    "cash": 0
+  },
+  "01082015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 60,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 8,
+    "tuc": 5,
+    "incDEX": 2,
+    "price": 14000,
+    "cash": 0
+  },
+  "01082121": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 80,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 248,
+    "reqLUK": 83,
+    "incPDD": 30,
+    "incMDD": 7,
+    "incINT": 2,
+    "incLUK": 1,
+    "incMMP": 10,
+    "tuc": 5,
+    "price": 200000,
+    "cash": 0
+  },
+  "01082149": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "tuc": 7,
+    "price": 3000,
+    "cash": 0
+  },
+  "01082109": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 80,
+    "reqSTR": 0,
+    "reqDEX": 240,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 2,
+    "incSTR": 1,
+    "incMMP": 10,
+    "incPDD": 30,
+    "tuc": 5,
+    "price": 200000,
+    "cash": 0
+  },
+  "01082222": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 20,
+    "incMDD": 20,
+    "tuc": 5,
+    "price": 150000,
+    "cash": 0
+  },
+  "01082127": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 265,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 36,
+    "incDEX": 5,
+    "incSTR": 2,
+    "tuc": 5,
+    "price": 250000,
+    "cash": 0
+  },
+  "01082126": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 265,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 35,
+    "incDEX": 4,
+    "incSTR": 2,
+    "tuc": 5,
+    "price": 230000,
+    "cash": 0
+  },
+  "01082066": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 140,
+    "incPDD": 20,
+    "incLUK": 3,
+    "incEVA": 1,
+    "cash": 0,
+    "tuc": 5,
+    "price": 95000
+  },
+  "01082081": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 145,
+    "reqLUK": 50,
+    "incPDD": 18,
+    "incMDD": 1,
+    "incINT": 1,
+    "tuc": 5,
+    "price": 80000,
+    "cash": 0
+  },
+  "01082148": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 2,
+    "tuc": 5,
+    "price": 3000,
+    "cash": 0,
+    "incLUK": 1
+  },
+  "01082134": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 278,
+    "reqLUK": 93,
+    "incPDD": 36,
+    "incMDD": 11,
+    "incINT": 5,
+    "incLUK": 2,
+    "tuc": 5,
+    "price": 240000,
+    "cash": 0
+  },
+  "01082082": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 145,
+    "reqLUK": 50,
+    "incPDD": 19,
+    "incMDD": 2,
+    "incINT": 2,
+    "incMMP": 15,
+    "tuc": 5,
+    "price": 90000,
+    "cash": 0
+  },
+  "01082069": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 115,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 13,
+    "incDEX": 1,
+    "tuc": 5,
+    "price": 37500,
+    "cash": 0
+  },
+  "01082028": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 78,
+    "reqLUK": 28,
+    "incPDD": 10,
+    "tuc": 5,
+    "incINT": 2,
+    "price": 20000,
+    "cash": 0
+  },
+  "01082078": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082223": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPAD": 5,
+    "incPDD": 5,
+    "incMDD": 5,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0
+  },
+  "01082229": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1,
+    "effect": {
+      "path": "Effect/CharacterEff.img/1082229",
+      "follow": 0,
+      "left": "-5",
+      "top": -25,
+      "right": 15,
+      "bottom": -10,
+      "dx": 0,
+      "dy": -10,
+      "delay": 1200,
+      "interval": 170,
+      "z": -1,
+      "genOnMove": 1
+    }
+  },
+  "01082007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 30,
+    "reqSTR": 90,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 11,
+    "tuc": 5,
+    "price": 25000,
+    "cash": 0
+  },
+  "01082139": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 100,
+    "reqSTR": 330,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 39,
+    "incSTR": 5,
+    "incDEX": 2,
+    "incMMP": 10,
+    "tuc": 5,
+    "price": 270000,
+    "cash": 0
+  },
+  "01082002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 2,
+    "tuc": 5,
+    "price": 2000,
+    "cash": 0
+  },
+  "01082059": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 60,
+    "reqSTR": 210,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 1,
+    "incPDD": 23,
+    "tuc": 5,
+    "price": 120000,
+    "cash": 0
+  },
+  "01082141": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 100,
+    "reqSTR": 330,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 41,
+    "incSTR": 5,
+    "incDEX": 3,
+    "incMMP": 20,
+    "tuc": 5,
+    "price": 270000,
+    "cash": 0
+  },
+  "01082174": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 2,
+    "tuc": 5,
+    "price": 3000,
+    "cash": 0,
+    "incLUK": 1
+  },
+  "01082088": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 188,
+    "reqLUK": 63,
+    "incPDD": 22,
+    "incMDD": 3,
+    "incINT": 3,
+    "incLUK": 1,
+    "incMMP": 30,
+    "tuc": 5,
+    "price": 125000,
+    "cash": 0
+  },
+  "01082171": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082167": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 110,
+    "reqSTR": 0,
+    "reqDEX": 150,
+    "reqINT": 0,
+    "reqLUK": 280,
+    "incPDD": 43,
+    "incLUK": 6,
+    "incDEX": 5,
+    "tuc": 5,
+    "price": 300000,
+    "cash": 0
+  },
+  "01082218": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 70,
+    "reqSTR": 240,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 4,
+    "incACC": 1,
+    "incPDD": 29,
+    "tuc": 5,
+    "price": 170000,
+    "cash": 0
+  },
+  "01082189": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 30,
+    "reqSTR": 30,
+    "reqDEX": 30,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 10,
+    "tuc": 5,
+    "price": 25000,
+    "cash": 0
+  },
+  "01082136": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 100,
+    "reqSTR": 0,
+    "reqDEX": 140,
+    "reqINT": 0,
+    "reqLUK": 260,
+    "incPDD": 38,
+    "incLUK": 4,
+    "incDEX": 3,
+    "tuc": 5,
+    "price": 265000,
+    "cash": 0
+  },
+  "01082050": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 95,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 12,
+    "tuc": 5,
+    "incDEX": 2,
+    "price": 30000,
+    "cash": 0
+  },
+  "01082011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 50,
+    "reqSTR": 180,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 21,
+    "incSTR": 3,
+    "incACC": 1,
+    "tuc": 5,
+    "price": 110000,
+    "cash": 0
+  },
+  "01082020": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 62,
+    "reqLUK": 23,
+    "incPDD": 6,
+    "tuc": 5,
+    "price": 10000,
+    "cash": 0
+  },
+  "01082116": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 80,
+    "reqSTR": 270,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 33,
+    "incSTR": 2,
+    "incDEX": 4,
+    "incMMP": 20,
+    "tuc": 5,
+    "price": 220000,
+    "cash": 0
+  },
+  "01081000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1,
+    "price": 0
+  },
+  "01082057": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082124": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082120": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 80,
+    "reqSTR": 0,
+    "reqDEX": 120,
+    "reqINT": 0,
+    "reqLUK": 220,
+    "incPDD": 32,
+    "incLUK": 4,
+    "incDEX": 2,
+    "incMMP": 30,
+    "tuc": 5,
+    "price": 210000,
+    "cash": 0
+  },
+  "01082026": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 78,
+    "reqLUK": 28,
+    "incPDD": 8,
+    "tuc": 5,
+    "price": 15000,
+    "cash": 0
+  },
+  "01082032": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 50,
+    "incPDD": 6,
+    "tuc": 5,
+    "price": 10000,
+    "cash": 0
+  },
+  "01082198": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 50,
+    "reqSTR": 50,
+    "reqDEX": 50,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 20,
+    "incSTR": 1,
+    "tuc": 5,
+    "price": 85000,
+    "cash": 0
+  },
+  "01082160": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 100,
+    "reqSTR": 0,
+    "reqDEX": 290,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 6,
+    "incSTR": 2,
+    "incMMP": 30,
+    "incPDD": 40,
+    "tuc": 5,
+    "price": 270000,
+    "cash": 0
+  },
+  "01082009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 50,
+    "reqSTR": 180,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 1,
+    "incPDD": 19,
+    "tuc": 5,
+    "price": 90000,
+    "cash": 0
+  },
+  "01082233": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082216": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 110,
+    "reqSTR": 110,
+    "reqDEX": 110,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 44,
+    "incDEX": 5,
+    "incSTR": 5,
+    "incMHP": 15,
+    "tuc": 5,
+    "price": 300000,
+    "cash": 0
+  },
+  "01082157": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082224": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082064": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 128,
+    "reqLUK": 43,
+    "incPDD": 16,
+    "incINT": 3,
+    "tuc": 5,
+    "price": 45000,
+    "cash": 0
+  },
+  "01082169": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082170": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082079": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082022": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 62,
+    "reqLUK": 23,
+    "incPDD": 8,
+    "tuc": 5,
+    "incINT": 2,
+    "price": 14000,
+    "cash": 0
+  },
+  "01082095": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 110,
+    "reqINT": 0,
+    "reqLUK": 200,
+    "incPDD": 26,
+    "incLUK": 2,
+    "tuc": 5,
+    "price": 150000,
+    "cash": 0
+  },
+  "01082178": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 7,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "incLUK": 2
+  },
+  "01082175": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 7,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "incINT": 2
+  },
+  "01082176": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 7,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "incSTR": 2
+  },
+  "01082137": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 100,
+    "reqSTR": 0,
+    "reqDEX": 140,
+    "reqINT": 0,
+    "reqLUK": 260,
+    "incPDD": 39,
+    "incLUK": 4,
+    "incDEX": 3,
+    "tuc": 5,
+    "price": 265000,
+    "cash": 0,
+    "incMMP": 30
+  },
+  "01082092": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 100,
+    "reqINT": 0,
+    "reqLUK": 170,
+    "incPDD": 22,
+    "incLUK": 1,
+    "incDEX": 1,
+    "tuc": 5,
+    "price": 110000,
+    "cash": 0
+  },
+  "01082054": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 108,
+    "reqLUK": 38,
+    "incPDD": 12,
+    "tuc": 5,
+    "price": 32500,
+    "cash": 0
+  },
+  "01082180": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 15,
+    "reqSTR": 15,
+    "reqDEX": 15,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 4,
+    "tuc": 5,
+    "price": 5000,
+    "cash": 0
+  },
+  "01082183": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 20,
+    "reqSTR": 20,
+    "reqDEX": 20,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 6,
+    "tuc": 5,
+    "price": 10000,
+    "cash": 0
+  },
+  "01082103": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 70,
+    "reqSTR": 240,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 2,
+    "incPDD": 27,
+    "tuc": 5,
+    "price": 150000,
+    "cash": 0
+  },
+  "01082046": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 70,
+    "reqINT": 0,
+    "reqLUK": 95,
+    "incPDD": 12,
+    "tuc": 5,
+    "price": 35000,
+    "cash": 0
+  },
+  "01082065": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 140,
+    "incPDD": 18,
+    "incLUK": 1,
+    "tuc": 5,
+    "price": 85000,
+    "cash": 0
+  },
+  "01082098": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 218,
+    "reqLUK": 73,
+    "incPDD": 26,
+    "incMDD": 5,
+    "incINT": 2,
+    "tuc": 5,
+    "price": 140000,
+    "cash": 0
+  },
+  "01082042": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 60,
+    "reqINT": 0,
+    "reqLUK": 80,
+    "incPDD": 10,
+    "tuc": 5,
+    "price": 25000,
+    "cash": 0
+  },
+  "01082027": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 78,
+    "reqLUK": 28,
+    "incPDD": 9,
+    "tuc": 5,
+    "incINT": 1,
+    "price": 17000,
+    "cash": 0
+  },
+  "01082204": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 70,
+    "reqSTR": 70,
+    "reqDEX": 70,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 28,
+    "incSTR": 1,
+    "incDEX": 1,
+    "tuc": 5,
+    "price": 150000,
+    "cash": 0
+  },
+  "01082094": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 100,
+    "reqINT": 0,
+    "reqLUK": 170,
+    "incPDD": 24,
+    "incLUK": 3,
+    "incDEX": 1,
+    "incMMP": 30,
+    "tuc": 5,
+    "price": 130000,
+    "cash": 0
+  },
+  "01082210": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 90,
+    "reqSTR": 90,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 36,
+    "incDEX": 4,
+    "incSTR": 2,
+    "tuc": 5,
+    "price": 230000,
+    "cash": 0
+  },
+  "01082144": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 240,
+    "incPDD": 30,
+    "incSTR": 4,
+    "incLUK": 3,
+    "incMMP": 25,
+    "tuc": 5,
+    "price": 215000,
+    "cash": 0
+  },
+  "01082058": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082152": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 100,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 308,
+    "reqLUK": 103,
+    "incPDD": 38,
+    "incMDD": 12,
+    "incINT": 4,
+    "incLUK": 3,
+    "tuc": 5,
+    "price": 265000,
+    "cash": 0
+  },
+  "01082207": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 80,
+    "reqSTR": 80,
+    "reqDEX": 80,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 32,
+    "incSTR": 2,
+    "incDEX": 1,
+    "incMHP": 10,
+    "tuc": 5,
+    "price": 200000,
+    "cash": 0
+  },
+  "01080000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1,
+    "price": 0
+  },
+  "01082063": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 128,
+    "reqLUK": 43,
+    "incPDD": 15,
+    "incINT": 2,
+    "tuc": 5,
+    "price": 42500,
+    "cash": 0
+  },
+  "01082228": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incMDD": 5,
+    "tuc": 6,
+    "price": 1,
+    "cash": 0
+  },
+  "01082090": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 190,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 23,
+    "incDEX": 2,
+    "incSTR": 1,
+    "incMMP": 15,
+    "tuc": 5,
+    "price": 120000,
+    "cash": 0
+  },
+  "01082155": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082072": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 15,
+    "incDEX": 2,
+    "tuc": 5,
+    "price": 55000,
+    "cash": 0
+  },
+  "01082016": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 75,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 8,
+    "tuc": 5,
+    "price": 15000,
+    "cash": 0
+  },
+  "01082173": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 4,
+    "tuc": 5,
+    "price": 5000,
+    "cash": 0
+  },
+  "01082135": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 100,
+    "reqSTR": 0,
+    "reqDEX": 140,
+    "reqINT": 0,
+    "reqLUK": 260,
+    "incPDD": 37,
+    "incLUK": 3,
+    "incDEX": 4,
+    "tuc": 5,
+    "price": 260000,
+    "cash": 0
+  },
+  "01082000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 15,
+    "reqSTR": 40,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 5,
+    "tuc": 5,
+    "price": 5000,
+    "cash": 0
+  },
+  "01082247": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082108": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 215,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 28,
+    "incDEX": 4,
+    "incEVA": 1,
+    "tuc": 5,
+    "price": 160000,
+    "cash": 0
+  },
+  "01082240": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 120,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 368,
+    "reqLUK": 123,
+    "incINT": 5,
+    "incLUK": 5,
+    "incMMP": 15,
+    "incMDD": 17,
+    "incPDD": 50,
+    "tuc": 5,
+    "price": 330000,
+    "cash": 0,
+    "equipTradeBlock": 1,
+    "level": {
+      "info": {
+        "1": {
+          "incINTMin": 0,
+          "incINTMax": 1,
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incMADMin": 0,
+          "incMADMax": 1,
+          "exp": 70
+        },
+        "2": {
+          "incINTMin": 0,
+          "incINTMax": 1,
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incMADMin": 0,
+          "incMADMax": 1,
+          "exp": 75
+        },
+        "3": {
+          "incINTMin": 0,
+          "incINTMax": 1,
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incMADMin": 0,
+          "incMADMax": 1,
+          "exp": 80
+        },
+        "4": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "4": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 2121005,
+                "level": 1
+              },
+              "1": {
+                "id": 2221005,
+                "level": 1
+              },
+              "2": {
+                "id": 2321003,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    }
+  },
+  "01082237": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 120,
+    "reqSTR": 0,
+    "reqDEX": 160,
+    "reqINT": 0,
+    "reqLUK": 300,
+    "incPDD": 46,
+    "incLUK": 7,
+    "incDEX": 6,
+    "incMMP": 30,
+    "tuc": 5,
+    "price": 330000,
+    "cash": 0,
+    "equipTradeBlock": 1,
+    "level": {
+      "info": {
+        "1": {
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 80
+        },
+        "2": {
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 90
+        },
+        "3": {
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 100
+        },
+        "4": {
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 110
+        },
+        "5": {
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 120
+        },
+        "6": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "6": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 4120005,
+                "level": 1
+              },
+              "1": {
+                "id": 4220005,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    }
+  },
+  "01082239": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 120,
+    "reqSTR": 390,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 6,
+    "incDEX": 4,
+    "incMMP": 25,
+    "incPDD": 51,
+    "tuc": 5,
+    "price": 330000,
+    "cash": 0,
+    "equipTradeBlock": 1,
+    "level": {
+      "info": {
+        "1": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incACCMin": 1,
+          "incACCMax": 2,
+          "exp": 70
+        },
+        "2": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incACCMin": 1,
+          "incACCMax": 2,
+          "exp": 75
+        },
+        "3": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incACCMin": 1,
+          "incACCMax": 2,
+          "exp": 80
+        },
+        "4": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "4": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 1120003,
+                "level": 1
+              },
+              "1": {
+                "id": 1220010,
+                "level": 1
+              },
+              "2": {
+                "id": 1320008,
+                "level": 1
+              },
+              "3": {
+                "id": 1320009,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    }
+  },
+  "01082236": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 120,
+    "reqSTR": 0,
+    "reqDEX": 340,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 48,
+    "incDEX": 7,
+    "incSTR": 5,
+    "incMMP": 30,
+    "tuc": 5,
+    "price": 330000,
+    "cash": 0,
+    "equipTradeBlock": 1,
+    "level": {
+      "info": {
+        "1": {
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 80
+        },
+        "2": {
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 90
+        },
+        "3": {
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 100
+        },
+        "4": {
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 110
+        },
+        "5": {
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 120
+        },
+        "6": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "6": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 3120005,
+                "level": 1
+              },
+              "1": {
+                "id": 3220004,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    }
+  },
+  "01082238": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 120,
+    "reqSTR": 120,
+    "reqDEX": 120,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 48,
+    "incDEX": 6,
+    "incSTR": 6,
+    "incMHP": 20,
+    "tuc": 5,
+    "price": 335000,
+    "cash": 0,
+    "equipTradeBlock": 1,
+    "level": {
+      "info": {
+        "1": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 80
+        },
+        "2": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 90
+        },
+        "3": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 100
+        },
+        "4": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 110
+        },
+        "5": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 120
+        },
+        "6": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "6": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 5121005,
+                "level": 1
+              },
+              "1": {
+                "id": 5221007,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    }
+  },
+  "01082244": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPAD": 2,
+    "incMHP": 15,
+    "tuc": 4,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1,
+    "timeLimited": 1,
+    "slotMax": 1
+  },
+  "01082234": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 120,
+    "reqSTR": 390,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 7,
+    "incDEX": 4,
+    "incMMP": 25,
+    "incPDD": 51,
+    "tuc": 5,
+    "price": 330000,
+    "cash": 0,
+    "equipTradeBlock": 1,
+    "level": {
+      "info": {
+        "1": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incACCMin": 1,
+          "incACCMax": 2,
+          "exp": 80
+        },
+        "2": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incACCMin": 1,
+          "incACCMax": 2,
+          "exp": 90
+        },
+        "3": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incACCMin": 1,
+          "incACCMax": 2,
+          "exp": 100
+        },
+        "4": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incACCMin": 1,
+          "incACCMax": 2,
+          "exp": 110
+        },
+        "5": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incACCMin": 1,
+          "incACCMax": 2,
+          "exp": 120
+        },
+        "6": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "6": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 1120003,
+                "level": 1
+              },
+              "1": {
+                "id": 1220010,
+                "level": 1
+              },
+              "2": {
+                "id": 1320008,
+                "level": 1
+              },
+              "3": {
+                "id": 1320009,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    }
+  },
+  "01082235": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 120,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 368,
+    "reqLUK": 123,
+    "incINT": 6,
+    "incLUK": 6,
+    "incMMP": 15,
+    "incMDD": 17,
+    "incPDD": 50,
+    "tuc": 5,
+    "price": 330000,
+    "cash": 0,
+    "equipTradeBlock": 1,
+    "level": {
+      "info": {
+        "1": {
+          "incINTMin": 0,
+          "incINTMax": 1,
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incMADMin": 0,
+          "incMADMax": 1,
+          "exp": 80
+        },
+        "2": {
+          "incINTMin": 0,
+          "incINTMax": 1,
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incMADMin": 0,
+          "incMADMax": 1,
+          "exp": 90
+        },
+        "3": {
+          "incINTMin": 0,
+          "incINTMax": 1,
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incMADMin": 0,
+          "incMADMax": 1,
+          "exp": 100
+        },
+        "4": {
+          "incINTMin": 0,
+          "incINTMax": 1,
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incMADMin": 0,
+          "incMADMax": 1,
+          "exp": 110
+        },
+        "5": {
+          "incINTMin": 0,
+          "incINTMax": 1,
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incMADMin": 0,
+          "incMADMax": 1,
+          "exp": 120
+        },
+        "6": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "6": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 2121005,
+                "level": 1
+              },
+              "1": {
+                "id": 2221005,
+                "level": 1
+              },
+              "2": {
+                "id": 2321003,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    }
+  },
+  "01082245": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPAD": 3,
+    "incMHP": 30,
+    "tuc": 4,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082243": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 120,
+    "reqSTR": 120,
+    "reqDEX": 120,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 48,
+    "incDEX": 5,
+    "incSTR": 5,
+    "incMHP": 20,
+    "tuc": 5,
+    "price": 335000,
+    "cash": 0,
+    "equipTradeBlock": 1,
+    "level": {
+      "info": {
+        "1": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 70
+        },
+        "2": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 75
+        },
+        "3": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 80
+        },
+        "4": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "4": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 5121005,
+                "level": 1
+              },
+              "1": {
+                "id": 5221007,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    }
+  },
+  "01082241": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 120,
+    "reqSTR": 0,
+    "reqDEX": 340,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 48,
+    "incDEX": 6,
+    "incSTR": 5,
+    "incMMP": 30,
+    "tuc": 5,
+    "price": 330000,
+    "cash": 0,
+    "equipTradeBlock": 1,
+    "level": {
+      "info": {
+        "1": {
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 70
+        },
+        "2": {
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 75
+        },
+        "3": {
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 80
+        },
+        "4": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "4": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 3120005,
+                "level": 1
+              },
+              "1": {
+                "id": 3220004,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    }
+  },
+  "01082242": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 120,
+    "reqSTR": 0,
+    "reqDEX": 160,
+    "reqINT": 0,
+    "reqLUK": 300,
+    "incPDD": 46,
+    "incLUK": 6,
+    "incDEX": 6,
+    "incMMP": 30,
+    "tuc": 5,
+    "price": 330000,
+    "cash": 0,
+    "equipTradeBlock": 1,
+    "level": {
+      "info": {
+        "1": {
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 70
+        },
+        "2": {
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 75
+        },
+        "3": {
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 80
+        },
+        "4": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "4": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 4120005,
+                "level": 1
+              },
+              "1": {
+                "id": 4220005,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    }
+  },
+  "01082251": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082250": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082252": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "tuc": 5,
+    "incPDD": 10,
+    "tradeAvailable": 1,
+    "tradeBlock": 1
+  },
+  "01082165": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "price": 0,
+    "cash": 1
+  },
+  "01082166": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "price": 0,
+    "cash": 1
+  },
+  "01082248": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 55,
+    "reqSTR": 55,
+    "reqDEX": 55,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 20,
+    "incMDD": 5,
+    "incDEX": 1,
+    "incSTR": 1,
+    "tuc": 0,
+    "price": 120000,
+    "cash": 0
+  },
+  "01082226": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082254": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPAD": 1,
+    "incMAD": 2,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1,
+    "tradeAvailable": 1
+  },
+  "01082264": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 20,
+    "incSTR": 3,
+    "incACC": 1,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "equipTradeBlock": 1,
+    "setItemID": 1
+  },
+  "01082255": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082267": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "price": 0,
+    "cash": 1
+  },
+  "01082256": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 2,
+    "incMHP": 10,
+    "only": 1,
+    "tradeBlock": 1,
+    "tradeAvailable": 1,
+    "tuc": 8,
+    "price": 1,
+    "cash": 0
+  },
+  "01082257": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incINT": 2,
+    "incMMP": 10,
+    "only": 1,
+    "tradeBlock": 1,
+    "tradeAvailable": 1,
+    "tuc": 8,
+    "price": 1,
+    "cash": 0
+  },
+  "01082258": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incLUK": 2,
+    "incMHP": 10,
+    "only": 1,
+    "tradeBlock": 1,
+    "tradeAvailable": 1,
+    "tuc": 8,
+    "price": 1,
+    "cash": 0
+  },
+  "01082259": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 2,
+    "incMHP": 10,
+    "only": 1,
+    "tradeBlock": 1,
+    "tradeAvailable": 1,
+    "tuc": 8,
+    "price": 1,
+    "cash": 0
+  },
+  "01082260": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 2,
+    "incMHP": 10,
+    "only": 1,
+    "tradeBlock": 1,
+    "tradeAvailable": 1,
+    "tuc": 8,
+    "price": 1,
+    "cash": 0
+  },
+  "01082261": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082262": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 0
+  },
+  "01082263": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082268": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082273": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082265": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "pachinko": 1,
+    "tradeBlock": 1
+  },
+  "01082269": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082274": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "price": 0,
+    "cash": 1
+  },
+  "01082272": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "price": 0,
+    "cash": 1
+  },
+  "01082276": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "tuc": 5,
+    "reqJob": 0,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPAD": 3,
+    "incMAD": 3,
+    "incPDD": 10,
+    "incMDD": 10,
+    "incACC": 20,
+    "price": 1,
+    "cash": 0,
+    "setItemID": 1
+  },
+  "01082282": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082283": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 30,
+    "incMDD": 30,
+    "tuc": 5,
+    "price": 27000,
+    "cash": 0
+  },
+  "01082284": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "tuc": 5,
+    "reqJob": 0,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 0,
+    "incPAD": 5,
+    "incMAD": 5,
+    "incPDD": 25,
+    "incMDD": 25,
+    "incINT": 7,
+    "incMMP": 35,
+    "price": 1
+  },
+  "01082285": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "tuc": 7,
+    "reqJob": 1,
+    "reqLevel": 120,
+    "reqSTR": 390,
+    "reqDEX": 105,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 51,
+    "incSTR": 7,
+    "incDEX": 4,
+    "incMHP": 25,
+    "price": 1,
+    "cash": 0,
+    "tradeAvailable": 2,
+    "tradeBlock": 1,
+    "setItemID": 6
+  },
+  "01082286": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "tuc": 7,
+    "reqJob": 2,
+    "reqLevel": 120,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 368,
+    "reqLUK": 123,
+    "incPDD": 50,
+    "incMDD": 17,
+    "incINT": 6,
+    "incLUK": 6,
+    "incMMP": 15,
+    "price": 1,
+    "cash": 0,
+    "setItemID": 7,
+    "tradeAvailable": 2,
+    "tradeBlock": 1
+  },
+  "01082287": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "tuc": 7,
+    "reqJob": 4,
+    "reqLevel": 120,
+    "reqSTR": 105,
+    "reqDEX": 340,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 0,
+    "incPDD": 48,
+    "incDEX": 7,
+    "incSTR": 5,
+    "incMMP": 30,
+    "price": 1,
+    "setItemID": 8,
+    "tradeAvailable": 2,
+    "tradeBlock": 1
+  },
+  "01082288": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "tuc": 7,
+    "reqJob": 8,
+    "reqLevel": 120,
+    "reqSTR": 0,
+    "reqDEX": 160,
+    "reqINT": 0,
+    "reqLUK": 300,
+    "incPDD": 46,
+    "incLUK": 7,
+    "incDEX": 6,
+    "incMMP": 30,
+    "price": 1,
+    "cash": 0,
+    "setItemID": 9,
+    "tradeAvailable": 2,
+    "tradeBlock": 1
+  },
+  "01082289": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "tuc": 7,
+    "reqJob": 16,
+    "reqLevel": 120,
+    "reqSTR": 120,
+    "reqDEX": 120,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 48,
+    "incSTR": 6,
+    "incDEX": 6,
+    "incMHP": 20,
+    "price": 1,
+    "cash": 0,
+    "setItemID": 10,
+    "tradeAvailable": 1,
+    "tradeBlock": 8
+  },
+  "01082295": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "tuc": 7,
+    "reqJob": 1,
+    "reqLevel": 140,
+    "reqSTR": 420,
+    "reqDEX": 170,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 80,
+    "incMDD": 20,
+    "incSTR": 16,
+    "incDEX": 16,
+    "incMHP": 350,
+    "price": 1,
+    "cash": 0,
+    "incACC": 30,
+    "incPAD": 5,
+    "equipTradeBlock": 1,
+    "tradeAvailable": 2,
+    "setItemID": 25,
+    "charmEXP": 100
+  },
+  "01082296": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "tuc": 7,
+    "reqJob": 2,
+    "reqLevel": 140,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 420,
+    "reqLUK": 170,
+    "incINT": 16,
+    "incLUK": 16,
+    "incPDD": 30,
+    "incMDD": 70,
+    "incMHP": 350,
+    "price": 1,
+    "cash": 0,
+    "incACC": 30,
+    "equipTradeBlock": 1,
+    "tradeAvailable": 2,
+    "incMAD": 5,
+    "setItemID": 26,
+    "charmEXP": 100
+  },
+  "01082297": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "tuc": 7,
+    "reqJob": 4,
+    "reqLevel": 140,
+    "reqSTR": 170,
+    "reqDEX": 420,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 50,
+    "incMDD": 50,
+    "incSTR": 16,
+    "incDEX": 16,
+    "incMHP": 350,
+    "price": 1,
+    "cash": 0,
+    "incACC": 30,
+    "incPAD": 5,
+    "equipTradeBlock": 1,
+    "tradeAvailable": 2,
+    "setItemID": 27,
+    "charmEXP": 100
+  },
+  "01082298": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "tuc": 7,
+    "reqJob": 8,
+    "reqLevel": 140,
+    "reqSTR": 0,
+    "reqDEX": 170,
+    "reqINT": 0,
+    "reqLUK": 420,
+    "incPDD": 50,
+    "incMDD": 50,
+    "incLUK": 16,
+    "incDEX": 16,
+    "incMHP": 350,
+    "price": 1,
+    "cash": 0,
+    "incACC": 30,
+    "incPAD": 5,
+    "equipTradeBlock": 1,
+    "tradeAvailable": 2,
+    "setItemID": 28,
+    "charmEXP": 100
+  },
+  "01082299": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "tuc": 7,
+    "reqJob": 16,
+    "reqLevel": 140,
+    "reqSTR": 170,
+    "reqDEX": 170,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 50,
+    "incMDD": 50,
+    "incSTR": 16,
+    "incDEX": 16,
+    "incMHP": 350,
+    "price": 1,
+    "cash": 0,
+    "incACC": 30,
+    "incPAD": 5,
+    "equipTradeBlock": 1,
+    "tradeAvailable": 2,
+    "setItemID": 29,
+    "charmEXP": 100
+  },
+  "01082300": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "tuc": 5,
+    "reqJob": 1,
+    "reqLevel": 130,
+    "reqSTR": 380,
+    "reqDEX": 140,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 72,
+    "incSTR": 9,
+    "incDEX": 9,
+    "incPAD": 1,
+    "incMHP": 60,
+    "price": 1,
+    "cash": 0,
+    "tradeAvailable": 2,
+    "setItemID": 18,
+    "equipTradeBlock": 1,
+    "charmEXP": 90,
+    "incPVPDamage": 3
+  },
+  "01082301": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "tuc": 5,
+    "reqJob": 2,
+    "reqLevel": 130,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 380,
+    "reqLUK": 140,
+    "incPDD": 43,
+    "incMDD": 18,
+    "incMAD": 1,
+    "incINT": 9,
+    "incLUK": 9,
+    "incMMP": 60,
+    "price": 1,
+    "cash": 0,
+    "tradeAvailable": 2,
+    "setItemID": 19,
+    "equipTradeBlock": 1,
+    "charmEXP": 90,
+    "incPVPDamage": 3
+  },
+  "01082302": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "tuc": 5,
+    "reqJob": 4,
+    "reqLevel": 130,
+    "reqSTR": 140,
+    "reqDEX": 380,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 57,
+    "incSTR": 9,
+    "incDEX": 9,
+    "incMHP": 30,
+    "incMMP": 30,
+    "incPAD": 1,
+    "price": 1,
+    "cash": 0,
+    "tradeAvailable": 2,
+    "setItemID": 20,
+    "equipTradeBlock": 1,
+    "charmEXP": 90,
+    "incPVPDamage": 3
+  },
+  "01082303": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "tuc": 5,
+    "reqJob": 8,
+    "reqLevel": 130,
+    "reqSTR": 0,
+    "reqDEX": 140,
+    "reqINT": 0,
+    "reqLUK": 380,
+    "incPDD": 57,
+    "incLUK": 9,
+    "incDEX": 9,
+    "incMHP": 30,
+    "incMMP": 30,
+    "incPAD": 1,
+    "price": 1,
+    "cash": 0,
+    "tradeAvailable": 2,
+    "setItemID": 21,
+    "equipTradeBlock": 1,
+    "charmEXP": 90,
+    "incPVPDamage": 3
+  },
+  "01082304": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "tuc": 5,
+    "reqJob": 16,
+    "reqLevel": 130,
+    "reqSTR": 140,
+    "reqDEX": 140,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 57,
+    "incSTR": 9,
+    "incDEX": 9,
+    "incMHP": 30,
+    "incMMP": 30,
+    "incPAD": 1,
+    "price": 1,
+    "cash": 0,
+    "tradeAvailable": 2,
+    "setItemID": 22,
+    "equipTradeBlock": 1,
+    "charmEXP": 90,
+    "incPVPDamage": 3
+  },
+  "01082305": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 70,
+    "reqSTR": 240,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 3,
+    "incACC": 1,
+    "incPDD": 28,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "setItemID": 13,
+    "tradeBlock": 1,
+    "incPVPDamage": 2
+  },
+  "01082306": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 218,
+    "reqLUK": 73,
+    "incPDD": 27,
+    "incMDD": 6,
+    "incINT": 3,
+    "incLUK": 1,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "setItemID": 14,
+    "tradeBlock": 1,
+    "incPVPDamage": 2
+  },
+  "01082307": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 215,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 27,
+    "incDEX": 3,
+    "incEVA": 1,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "setItemID": 15,
+    "tradeBlock": 1,
+    "incPVPDamage": 2
+  },
+  "01082308": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 110,
+    "reqINT": 0,
+    "reqLUK": 200,
+    "incPDD": 27,
+    "incLUK": 3,
+    "incEVA": 1,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "setItemID": 16,
+    "tradeBlock": 1,
+    "incPVPDamage": 2
+  },
+  "01082309": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 70,
+    "reqSTR": 70,
+    "reqDEX": 70,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 28,
+    "incSTR": 1,
+    "incDEX": 1,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "setItemID": 17,
+    "tradeBlock": 1,
+    "incPVPDamage": 2
+  },
+  "01082312": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1,
+    "effect": {
+      "path": "Effect/CharacterEff.img/1082312",
+      "follow": 0,
+      "left": "-5",
+      "top": -25,
+      "right": 15,
+      "bottom": -10,
+      "dx": 0,
+      "dy": -10,
+      "delay": 1200,
+      "interval": 170,
+      "z": -1,
+      "genOnMove": 1
+    }
+  },
+  "01081005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "pachinko": 1
+  },
+  "01081006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "price": 0,
+    "cash": 1
+  },
+  "01081007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082290": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 24,
+    "incMDD": 5,
+    "incSTR": 2,
+    "incINT": 2,
+    "incDEX": 2,
+    "incLUK": 2,
+    "incMMP": 15,
+    "tradeBlock": 1,
+    "cash": 0,
+    "notSale": 1,
+    "setItemID": 11,
+    "tuc": 5
+  },
+  "01082291": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 80,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 31,
+    "incMDD": 7,
+    "incSTR": 3,
+    "incINT": 3,
+    "incDEX": 3,
+    "incLUK": 3,
+    "incACC": 1,
+    "tradeBlock": 1,
+    "cash": 0,
+    "notSale": 1,
+    "setItemID": 12,
+    "tuc": 5
+  },
+  "01082310": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1,
+    "noMoveToLocker": 1
+  },
+  "01082313": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 100,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 40,
+    "incMDD": 40,
+    "incMHP": 10,
+    "incMMP": 10,
+    "incSTR": 2,
+    "incDEX": 2,
+    "incINT": 2,
+    "incLUK": 2,
+    "tuc": 5,
+    "tradeBlock": 1,
+    "price": 1
+  },
+  "01082324": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Cp",
+    "vslot": "Cp",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "timeLimited": 1,
+    "notExtend": 1
+  },
+  "01082325": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "timeLimited": 1,
+    "notExtend": 1
+  },
+  "01082326": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "timeLimited": 1,
+    "notExtend": 1
+  },
+  "01082327": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "timeLimited": 1,
+    "notExtend": 1
+  },
+  "01082328": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 125,
+    "reqSTR": 390,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "tuc": 7,
+    "incPAD": 1,
+    "incSTR": 10,
+    "incDEX": 10,
+    "incPDD": 100,
+    "incMHP": 50,
+    "incACC": 15,
+    "price": 36000,
+    "cash": 0,
+    "equipTradeBlock": 1,
+    "tradeAvailable": 2,
+    "level": {
+      "info": {
+        "1": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incACCMin": 1,
+          "incACCMax": 2,
+          "exp": 70
+        },
+        "2": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incACCMin": 1,
+          "incACCMax": 2,
+          "exp": 75
+        },
+        "3": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incACCMin": 1,
+          "incACCMax": 2,
+          "exp": 80
+        },
+        "4": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "4": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 1120003,
+                "level": 1
+              },
+              "1": {
+                "id": 1220010,
+                "level": 1
+              },
+              "2": {
+                "id": 1320008,
+                "level": 1
+              },
+              "3": {
+                "id": 1320009,
+                "level": 1
+              },
+              "4": {
+                "id": 21120001,
+                "level": 1
+              },
+              "5": {
+                "id": 31120008,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    },
+    "charmEXP": 80,
+    "willEXP": 80,
+    "charismaEXP": 80
+  },
+  "01082329": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 125,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 368,
+    "reqLUK": 123,
+    "tuc": 7,
+    "incMAD": 1,
+    "incINT": 10,
+    "incLUK": 10,
+    "incPDD": 25,
+    "incMDD": 75,
+    "incMHP": 10,
+    "incMMP": 40,
+    "incACC": 15,
+    "price": 36000,
+    "cash": 0,
+    "equipTradeBlock": 1,
+    "tradeAvailable": 2,
+    "level": {
+      "info": {
+        "1": {
+          "incINTMin": 0,
+          "incINTMax": 1,
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incMADMin": 0,
+          "incMADMax": 1,
+          "exp": 70
+        },
+        "2": {
+          "incINTMin": 0,
+          "incINTMax": 1,
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incMADMin": 0,
+          "incMADMax": 1,
+          "exp": 75
+        },
+        "3": {
+          "incINTMin": 0,
+          "incINTMax": 1,
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incMADMin": 0,
+          "incMADMax": 1,
+          "exp": 80
+        },
+        "4": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "4": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 2121005,
+                "level": 1
+              },
+              "1": {
+                "id": 2221005,
+                "level": 1
+              },
+              "2": {
+                "id": 2321003,
+                "level": 1
+              },
+              "3": {
+                "id": 22170001,
+                "level": 1
+              },
+              "4": {
+                "id": 32120000,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    },
+    "charmEXP": 80,
+    "willEXP": 80,
+    "charismaEXP": 80
+  },
+  "01082330": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 125,
+    "reqSTR": 0,
+    "reqDEX": 340,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "tuc": 7,
+    "incPAD": 1,
+    "incSTR": 10,
+    "incDEX": 10,
+    "incPDD": 50,
+    "incMDD": 50,
+    "incMHP": 25,
+    "incMMP": 25,
+    "incACC": 15,
+    "price": 36000,
+    "cash": 0,
+    "equipTradeBlock": 1,
+    "tradeAvailable": 2,
+    "level": {
+      "info": {
+        "1": {
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 70
+        },
+        "2": {
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 75
+        },
+        "3": {
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 80
+        },
+        "4": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "4": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 3120005,
+                "level": 1
+              },
+              "1": {
+                "id": 3220004,
+                "level": 1
+              },
+              "2": {
+                "id": 33120000,
+                "level": 1
+              },
+              "3": {
+                "id": 23121002,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    },
+    "charmEXP": 80,
+    "willEXP": 80,
+    "charismaEXP": 80
+  },
+  "01082331": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 125,
+    "reqSTR": 0,
+    "reqDEX": 160,
+    "reqINT": 0,
+    "reqLUK": 300,
+    "tuc": 7,
+    "incPAD": 1,
+    "incDEX": 10,
+    "incLUK": 10,
+    "incPDD": 60,
+    "incMDD": 40,
+    "incMHP": 30,
+    "incMMP": 20,
+    "incACC": 15,
+    "price": 36000,
+    "cash": 0,
+    "equipTradeBlock": 1,
+    "tradeAvailable": 2,
+    "level": {
+      "info": {
+        "1": {
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 70
+        },
+        "2": {
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 75
+        },
+        "3": {
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 80
+        },
+        "4": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "4": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 4120005,
+                "level": 1
+              },
+              "1": {
+                "id": 4220005,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    },
+    "charmEXP": 80,
+    "willEXP": 80,
+    "charismaEXP": 80
+  },
+  "01082332": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 125,
+    "reqSTR": 120,
+    "reqDEX": 120,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "tuc": 7,
+    "incPAD": 1,
+    "incSTR": 10,
+    "incDEX": 10,
+    "incPDD": 60,
+    "incMDD": 40,
+    "incMHP": 30,
+    "incMMP": 20,
+    "incACC": 15,
+    "price": 37000,
+    "cash": 0,
+    "equipTradeBlock": 1,
+    "tradeAvailable": 2,
+    "level": {
+      "info": {
+        "1": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 70
+        },
+        "2": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 75
+        },
+        "3": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 80
+        },
+        "4": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "4": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 5121005,
+                "level": 1
+              },
+              "1": {
+                "id": 5221007,
+                "level": 1
+              },
+              "2": {
+                "id": 35120000,
+                "level": 1
+              },
+              "3": {
+                "id": 5321012,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    },
+    "charmEXP": 80,
+    "willEXP": 80,
+    "charismaEXP": 80
+  },
+  "01082333": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 125,
+    "reqSTR": 390,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "tuc": 7,
+    "incPAD": 1,
+    "incSTR": 11,
+    "incDEX": 11,
+    "incMHP": 50,
+    "incPDD": 100,
+    "incACC": 15,
+    "price": 36000,
+    "cash": 0,
+    "charmEXP": 90,
+    "equipTradeBlock": 1,
+    "tradeAvailable": 2,
+    "level": {
+      "info": {
+        "1": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incACCMin": 1,
+          "incACCMax": 2,
+          "exp": 80
+        },
+        "2": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incACCMin": 1,
+          "incACCMax": 2,
+          "exp": 90
+        },
+        "3": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incACCMin": 1,
+          "incACCMax": 2,
+          "exp": 100
+        },
+        "4": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incACCMin": 1,
+          "incACCMax": 2,
+          "exp": 110
+        },
+        "5": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incACCMin": 1,
+          "incACCMax": 2,
+          "exp": 120
+        },
+        "6": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "6": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 1120003,
+                "level": 1
+              },
+              "1": {
+                "id": 1220010,
+                "level": 1
+              },
+              "2": {
+                "id": 1320008,
+                "level": 1
+              },
+              "3": {
+                "id": 1320009,
+                "level": 1
+              },
+              "4": {
+                "id": 21120001,
+                "level": 1
+              },
+              "5": {
+                "id": 31120008,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    },
+    "willEXP": 90,
+    "charismaEXP": 90
+  },
+  "01082334": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 125,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 368,
+    "reqLUK": 123,
+    "tuc": 7,
+    "incMAD": 1,
+    "incINT": 11,
+    "incLUK": 11,
+    "incPDD": 25,
+    "incMDD": 75,
+    "incMHP": 10,
+    "incMMP": 40,
+    "incACC": 15,
+    "price": 36000,
+    "cash": 0,
+    "charmEXP": 90,
+    "equipTradeBlock": 1,
+    "tradeAvailable": 2,
+    "level": {
+      "info": {
+        "1": {
+          "incINTMin": 0,
+          "incINTMax": 1,
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incMADMin": 0,
+          "incMADMax": 1,
+          "exp": 80
+        },
+        "2": {
+          "incINTMin": 0,
+          "incINTMax": 1,
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incMADMin": 0,
+          "incMADMax": 1,
+          "exp": 90
+        },
+        "3": {
+          "incINTMin": 0,
+          "incINTMax": 1,
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incMADMin": 0,
+          "incMADMax": 1,
+          "exp": 100
+        },
+        "4": {
+          "incINTMin": 0,
+          "incINTMax": 1,
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incMADMin": 0,
+          "incMADMax": 1,
+          "exp": 110
+        },
+        "5": {
+          "incINTMin": 0,
+          "incINTMax": 1,
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incMADMin": 0,
+          "incMADMax": 1,
+          "exp": 120
+        },
+        "6": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "6": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 2121005,
+                "level": 1
+              },
+              "1": {
+                "id": 2221005,
+                "level": 1
+              },
+              "2": {
+                "id": 2321003,
+                "level": 1
+              },
+              "3": {
+                "id": 22170001,
+                "level": 1
+              },
+              "4": {
+                "id": 32120000,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    },
+    "willEXP": 90,
+    "charismaEXP": 90
+  },
+  "01082335": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 125,
+    "reqSTR": 0,
+    "reqDEX": 340,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "tuc": 7,
+    "incPAD": 1,
+    "incSTR": 11,
+    "incDEX": 11,
+    "incPDD": 50,
+    "incMDD": 50,
+    "incMHP": 25,
+    "incMMP": 25,
+    "incACC": 15,
+    "price": 36000,
+    "cash": 0,
+    "charmEXP": 90,
+    "equipTradeBlock": 1,
+    "tradeAvailable": 2,
+    "level": {
+      "info": {
+        "1": {
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 80
+        },
+        "2": {
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 90
+        },
+        "3": {
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 100
+        },
+        "4": {
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 110
+        },
+        "5": {
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 120
+        },
+        "6": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "6": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 3120005,
+                "level": 1
+              },
+              "1": {
+                "id": 3220004,
+                "level": 1
+              },
+              "2": {
+                "id": 33120000,
+                "level": 1
+              },
+              "3": {
+                "id": 23121002,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    },
+    "willEXP": 90,
+    "charismaEXP": 90
+  },
+  "01082336": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 125,
+    "reqSTR": 0,
+    "reqDEX": 160,
+    "reqINT": 0,
+    "reqLUK": 300,
+    "tuc": 7,
+    "incPAD": 1,
+    "incLUK": 11,
+    "incDEX": 11,
+    "incPDD": 60,
+    "incMDD": 40,
+    "incMHP": 30,
+    "incMMP": 20,
+    "incACC": 15,
+    "price": 36000,
+    "cash": 0,
+    "charmEXP": 90,
+    "equipTradeBlock": 1,
+    "tradeAvailable": 2,
+    "level": {
+      "info": {
+        "1": {
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 80
+        },
+        "2": {
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 90
+        },
+        "3": {
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 100
+        },
+        "4": {
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 110
+        },
+        "5": {
+          "incLUKMin": 0,
+          "incLUKMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 120
+        },
+        "6": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "6": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 4120005,
+                "level": 1
+              },
+              "1": {
+                "id": 4220005,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    },
+    "willEXP": 90,
+    "charismaEXP": 90
+  },
+  "01082337": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 125,
+    "reqSTR": 120,
+    "reqDEX": 120,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "tuc": 7,
+    "incPAD": 1,
+    "incPDD": 60,
+    "incMDD": 40,
+    "incDEX": 11,
+    "incSTR": 11,
+    "incMHP": 30,
+    "incMMP": 20,
+    "incACC": 15,
+    "price": 37000,
+    "charmEXP": 90,
+    "cash": 0,
+    "equipTradeBlock": 1,
+    "tradeAvailable": 2,
+    "level": {
+      "info": {
+        "1": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 80
+        },
+        "2": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 90
+        },
+        "3": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 100
+        },
+        "4": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 110
+        },
+        "5": {
+          "incSTRMin": 0,
+          "incSTRMax": 1,
+          "incDEXMin": 0,
+          "incDEXMax": 1,
+          "incMHPMin": 5,
+          "incMHPMax": 10,
+          "exp": 120
+        },
+        "6": {
+          "exp": 0
+        }
+      },
+      "case": {
+        "0": {
+          "prob": 9
+        },
+        "1": {
+          "6": {
+            "hs": "h1",
+            "Skill": {
+              "0": {
+                "id": 5121005,
+                "level": 1
+              },
+              "1": {
+                "id": 5221007,
+                "level": 1
+              },
+              "2": {
+                "id": 35120000,
+                "level": 1
+              },
+              "3": {
+                "id": 5321012,
+                "level": 1
+              }
+            }
+          },
+          "prob": 1
+        }
+      }
+    },
+    "willEXP": 90,
+    "charismaEXP": 90
+  },
+  "01082338": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 125,
+    "reqSTR": 390,
+    "reqDEX": 105,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "tuc": 7,
+    "incPAD": 1,
+    "incSTR": 9,
+    "incDEX": 5,
+    "incPDD": 80,
+    "incMHP": 60,
+    "price": 1,
+    "cash": 0,
+    "tradeAvailable": 2,
+    "tradeBlock": 1,
+    "setItemID": 45,
+    "charmEXP": 90,
+    "willEXP": 90,
+    "charismaEXP": 90
+  },
+  "01082339": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 125,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 368,
+    "reqLUK": 123,
+    "tuc": 7,
+    "incMAD": 1,
+    "incINT": 8,
+    "incLUK": 7,
+    "incPDD": 65,
+    "incMDD": 25,
+    "incMMP": 40,
+    "price": 1,
+    "cash": 0,
+    "setItemID": 46,
+    "tradeAvailable": 2,
+    "tradeBlock": 1,
+    "charmEXP": 90,
+    "willEXP": 90,
+    "charismaEXP": 90
+  },
+  "01082340": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 125,
+    "reqSTR": 105,
+    "reqDEX": 340,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "tuc": 7,
+    "incPAD": 1,
+    "incSTR": 6,
+    "incDEX": 9,
+    "incPDD": 60,
+    "incMMP": 40,
+    "price": 1,
+    "setItemID": 47,
+    "cash": 0,
+    "tradeAvailable": 2,
+    "tradeBlock": 1,
+    "charmEXP": 90,
+    "willEXP": 90,
+    "charismaEXP": 90
+  },
+  "01082341": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 125,
+    "reqSTR": 0,
+    "reqDEX": 160,
+    "reqINT": 0,
+    "reqLUK": 300,
+    "tuc": 7,
+    "incPAD": 1,
+    "incDEX": 7,
+    "incLUK": 9,
+    "incPDD": 64,
+    "incMMP": 40,
+    "price": 1,
+    "cash": 0,
+    "setItemID": 48,
+    "tradeAvailable": 2,
+    "tradeBlock": 1,
+    "charmEXP": 90,
+    "willEXP": 90,
+    "charismaEXP": 90
+  },
+  "01082342": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "tuc": 7,
+    "reqJob": 16,
+    "reqLevel": 125,
+    "reqSTR": 120,
+    "reqDEX": 120,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPAD": 1,
+    "incSTR": 8,
+    "incDEX": 8,
+    "incPDD": 55,
+    "incMDD": 15,
+    "incMHP": 60,
+    "price": 1,
+    "cash": 0,
+    "setItemID": 49,
+    "tradeAvailable": 2,
+    "tradeBlock": 1,
+    "charmEXP": 90,
+    "willEXP": 90,
+    "charismaEXP": 90
+  },
+  "01082343": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "tuc": 5,
+    "price": 1,
+    "incMDD": 20,
+    "incPDD": 20,
+    "incSTR": 1,
+    "incDEX": 1,
+    "incINT": 1,
+    "incLUK": 1,
+    "incACC": 10,
+    "equipTradeBlock": 1
+  },
+  "01082344": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "tuc": 5,
+    "price": 1,
+    "incMDD": 30,
+    "incPDD": 30,
+    "incSTR": 2,
+    "incDEX": 2,
+    "incINT": 2,
+    "incLUK": 2,
+    "incACC": 20,
+    "equipTradeBlock": 1
+  },
+  "01082345": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "tuc": 5,
+    "price": 1,
+    "incMDD": 45,
+    "incPDD": 45,
+    "incSTR": 3,
+    "incDEX": 3,
+    "incINT": 3,
+    "incLUK": 3,
+    "incACC": 30,
+    "incPAD": 1,
+    "incMAD": 1,
+    "equipTradeBlock": 1
+  },
+  "01082346": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 15,
+    "reqSTR": 40,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 5,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082347": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 48,
+    "reqLUK": 18,
+    "incPDD": 4,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082348": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 4,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082349": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 30,
+    "reqINT": 0,
+    "reqLUK": 35,
+    "incPDD": 4,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082350": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 15,
+    "reqSTR": 15,
+    "reqDEX": 15,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 4,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082351": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 20,
+    "reqSTR": 60,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 7,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082352": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 62,
+    "reqLUK": 23,
+    "incPDD": 8,
+    "tuc": 5,
+    "incINT": 2,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082353": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 60,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 8,
+    "tuc": 5,
+    "incDEX": 2,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082354": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 50,
+    "incPDD": 8,
+    "incDEX": 2,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082355": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 20,
+    "reqSTR": 20,
+    "reqDEX": 20,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 6,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082356": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 25,
+    "reqSTR": 75,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 9,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082357": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 78,
+    "reqLUK": 28,
+    "incPDD": 8,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082358": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 75,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 8,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082359": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 50,
+    "reqINT": 0,
+    "reqLUK": 65,
+    "incPDD": 8,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082360": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 25,
+    "reqSTR": 25,
+    "reqDEX": 25,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 8,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082361": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 30,
+    "reqSTR": 90,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 13,
+    "tuc": 5,
+    "incSTR": 2,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082362": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 92,
+    "reqLUK": 33,
+    "incINT": 2,
+    "incPDD": 12,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082363": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 95,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 12,
+    "tuc": 5,
+    "incDEX": 2,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082364": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 60,
+    "reqINT": 0,
+    "reqLUK": 80,
+    "incPDD": 12,
+    "incLUK": 2,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082365": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 30,
+    "reqSTR": 30,
+    "reqDEX": 30,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 10,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082366": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 35,
+    "reqSTR": 125,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 15,
+    "incSTR": 2,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082367": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 108,
+    "reqLUK": 38,
+    "incINT": 2,
+    "incPDD": 14,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082368": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 115,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 14,
+    "incDEX": 2,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082369": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 70,
+    "reqINT": 0,
+    "reqLUK": 95,
+    "incPDD": 14,
+    "incLUK": 2,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082370": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 35,
+    "reqSTR": 35,
+    "reqDEX": 35,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 12,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082371": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 40,
+    "reqSTR": 150,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 16,
+    "tuc": 5,
+    "incSTR": 2,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082372": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 128,
+    "reqLUK": 43,
+    "incPDD": 15,
+    "incINT": 2,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082373": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 15,
+    "incDEX": 2,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082374": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 80,
+    "reqINT": 0,
+    "reqLUK": 110,
+    "incPDD": 15,
+    "incLUK": 2,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082375": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 40,
+    "reqSTR": 40,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 14,
+    "incDEX": 1,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082376": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 50,
+    "reqSTR": 180,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 21,
+    "incSTR": 3,
+    "incACC": 1,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082377": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 145,
+    "reqLUK": 50,
+    "incPDD": 20,
+    "incMDD": 3,
+    "incMMP": 30,
+    "incINT": 3,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082378": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 165,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 20,
+    "incDEX": 3,
+    "incMMP": 20,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082379": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 140,
+    "incPDD": 20,
+    "incLUK": 3,
+    "incEVA": 1,
+    "cash": 0,
+    "tuc": 5,
+    "price": 1,
+    "tradeBlock": 1
+  },
+  "01082380": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 50,
+    "reqSTR": 50,
+    "reqDEX": 50,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 20,
+    "incSTR": 1,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082381": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 60,
+    "reqSTR": 210,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 25,
+    "incSTR": 3,
+    "incACC": 2,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082382": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 188,
+    "reqLUK": 63,
+    "incPDD": 22,
+    "incMDD": 3,
+    "incINT": 3,
+    "incLUK": 1,
+    "incMMP": 30,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082383": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 190,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 24,
+    "incDEX": 3,
+    "incSTR": 1,
+    "incMMP": 30,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082384": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 100,
+    "reqINT": 0,
+    "reqLUK": 170,
+    "incPDD": 24,
+    "incLUK": 3,
+    "incDEX": 1,
+    "incMMP": 30,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082385": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 60,
+    "reqSTR": 60,
+    "reqDEX": 60,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 24,
+    "incDEX": 1,
+    "incSTR": 1,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082386": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 1,
+    "reqLevel": 70,
+    "reqSTR": 240,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 4,
+    "incACC": 1,
+    "incPDD": 29,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082387": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 2,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 218,
+    "reqLUK": 73,
+    "incPDD": 28,
+    "incMDD": 7,
+    "incINT": 4,
+    "incLUK": 1,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082388": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 4,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 215,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 28,
+    "incDEX": 4,
+    "incEVA": 1,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082389": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 8,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 110,
+    "reqINT": 0,
+    "reqLUK": 200,
+    "incPDD": 28,
+    "incLUK": 4,
+    "incEVA": 1,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082390": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 16,
+    "reqLevel": 70,
+    "reqSTR": 70,
+    "reqDEX": 70,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 28,
+    "incSTR": 1,
+    "incDEX": 1,
+    "tuc": 5,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1
+  },
+  "01082391": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "tuc": 5,
+    "reqLevel": 80,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 35,
+    "incMDD": 35,
+    "incSTR": 4,
+    "incDEX": 4,
+    "incINT": 4,
+    "incLUK": 4,
+    "incMHP": 40,
+    "incMMP": 40,
+    "price": 0,
+    "cash": 0,
+    "tradeBlock": 1,
+    "setItemID": 54,
+    "accountShareTag": 1
+  },
+  "01082407": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082408": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01082409": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "price": 0,
+    "cash": 0,
+    "tradeBlock": 1,
+    "setItemID": 54,
+    "accountShareTag": 1,
+    "reqLevel": 100,
+    "tuc": 6,
+    "incSTR": 6,
+    "incINT": 6,
+    "incDEX": 6,
+    "incLUK": 6,
+    "incPAD": 0,
+    "incMAD": 0,
+    "incPDD": 41,
+    "incMDD": 41,
+    "incMHP": 46,
+    "incMMP": 46,
+    "incACC": 0,
+    "incEVA": 0,
+    "incSpeed": 0,
+    "incJump": 0
+  },
+  "01082410": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "price": 1,
+    "equipTradeBlock": 1,
+    "reqLevel": 100,
+    "tuc": 5,
+    "incSTR": 4,
+    "incINT": 4,
+    "incDEX": 4,
+    "incLUK": 4,
+    "incPAD": 2,
+    "incMAD": 2,
+    "incPDD": 77,
+    "incMDD": 77,
+    "incMMP": 0,
+    "incACC": 51,
+    "incEVA": 0,
+    "incMHP": 0
+  },
+  "01082412": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1,
+    "setItemID": 67
+  },
+  "01082413": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1,
+    "setItemID": 68
+  },
+  "01082315": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "tuc": 5,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 32,
+    "incMDD": 32,
+    "incSTR": 4,
+    "incDEX": 4,
+    "incINT": 4,
+    "incLUK": 4,
+    "incMHP": 30,
+    "incMMP": 30,
+    "price": 0,
+    "cash": 0,
+    "tradeBlock": 1,
+    "setItemID": 33
+  },
+  "01082314": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "tuc": 5,
+    "reqLevel": 45,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 21,
+    "incMDD": 21,
+    "incSTR": 3,
+    "incDEX": 3,
+    "incINT": 3,
+    "incLUK": 3,
+    "price": 0,
+    "cash": 0,
+    "tradeBlock": 1,
+    "setItemID": 32
+  },
+  "01082322": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Gv",
+    "vslot": "GlGw",
+    "reqJob": 0,
+    "reqLevel": 75,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 35,
+    "incMDD": 35,
+    "incPAD": 1,
+    "incMAD": 1,
+    "incACC": 120,
+    "tuc": 5,
+    "price": 10000,
+    "cash": 0,
+    "setItemID": 34,
+    "tradeBlock": 1,
+    "charmEXP": 40
+  }
+}

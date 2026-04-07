@@ -32,15 +32,13 @@ interface QuestRow {
   name_kr: string | null;
   level_req: number;
   area: string | null;
-  category: string | null;
+  difficulty: string | null;
   quest_type: string | null;
   is_mapleland: number;
   exp_reward: number;
   meso_reward: number;
-  reward_items: string | null;
-  prerequisite_quests: string | null;
-  npc_start: string | null;
-  npc_end: string | null;
+  item_reward: string | null;
+  start_location: string | null;
 }
 
 /* ─── Colors ─── */
@@ -429,8 +427,8 @@ function DataOverview({ stats }: { stats: DashboardStats }) {
 
 /* ─── Tab 3: Quest Table ─── */
 function QuestTable({
-  quests, total, page, perPage, search, area, category, mapleland,
-  areas, categories, onPageChange, onSearchChange, onAreaChange, onCategoryChange, onMaplelandChange, pw,
+  quests, total, page, perPage, search, area, category: difficulty, mapleland,
+  areas, categories: difficulties, onPageChange, onSearchChange, onAreaChange, onCategoryChange: onDifficultyChange, onMaplelandChange, pw,
 }: {
   quests: QuestRow[];
   total: number;
@@ -461,7 +459,7 @@ function QuestTable({
     )},
     { key: "level_req", label: "레벨", sortable: false },
     { key: "area", label: "지역", sortable: false, render: (r: QuestRow) => r.area || "-" },
-    { key: "category", label: "카테고리", sortable: false, render: (r: QuestRow) => r.category || "-" },
+    { key: "difficulty", label: "난이도", sortable: false, render: (r: QuestRow) => r.difficulty || "-" },
     { key: "is_mapleland", label: "메랜", sortable: false, render: (r: QuestRow) => (
       <span className={`px-2 py-0.5 rounded text-xs font-medium ${r.is_mapleland ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" : "bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400"}`}>
         {r.is_mapleland ? "O" : "X"}
@@ -497,14 +495,14 @@ function QuestTable({
           </select>
         </div>
         <div>
-          <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">카테고리</label>
+          <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">난이도</label>
           <select
-            value={category}
-            onChange={(e) => onCategoryChange(e.target.value)}
+            value={difficulty}
+            onChange={(e) => onDifficultyChange(e.target.value)}
             className="px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
           >
             <option value="">전체</option>
-            {categories.map((c) => <option key={c} value={c}>{c}</option>)}
+            {difficulties.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
         </div>
         <div>

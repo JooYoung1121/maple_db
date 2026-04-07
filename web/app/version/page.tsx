@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.15.0";
+const VERSION = "3.0.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,32 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "3.0.0",
+    date: "2026-04-07",
+    type: "major",
+    title: "퀘스트 시스템 완전 리빌딩 — 엑셀 마스터 데이터 기반",
+    features: [
+      {
+        category: "대규모 — 퀘스트 데이터 리빌딩",
+        items: [
+          "기존 퀘스트 데이터 전부 삭제, 커뮤니티 엑셀(퀘매.xlsx) 419건으로 재구축",
+          "6개 지역: 빅토리아(82), 엘나스(83), 루디브리엄(98), 무릉/니할(80), 리프레(11), 세계여행(65)",
+          "난이도 색상 분류: 필수(초록), 추천(노랑), 비추천(빨강), 일일(시안), 월드이동(파랑), 히든(주황), 체인(보라)",
+          "체인 퀘스트 연결 정보, TIP/비고/시작장소 등 엑셀 원본 정보 100% 반영",
+        ],
+      },
+      {
+        category: "신규 — 테스트 퀘스트 페이지 (/quests-beta)",
+        items: [
+          "Notion DB 스타일 인터랙티브 테이블 + 카드 그리드 하이브리드",
+          "히어로 헤더, 수평 스크롤 지역 탭, 뷰 모드 전환(테이블/그리드)",
+          "클릭하여 펼치기 상세 패널, 난이도 컬러 도트",
+          "기존 페이지(/quests)와 비교 후 선택 가능",
+        ],
+      },
+    ],
+  },
   {
     version: "2.15.0",
     date: "2026-04-07",

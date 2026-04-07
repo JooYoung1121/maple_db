@@ -1,0 +1,9875 @@
+{
+  "01041121": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 90,
+    "reqSTR": 300,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "reqPOP": 20,
+    "incPDD": 95,
+    "incSTR": 5,
+    "incDEX": 2,
+    "incMMP": 20,
+    "tuc": 7,
+    "price": 190000,
+    "cash": 0
+  },
+  "01040082": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 80,
+    "reqINT": 0,
+    "reqLUK": 110,
+    "incMMP": 10,
+    "incPDD": 34,
+    "incDEX": 3,
+    "tuc": 7,
+    "price": 45000,
+    "cash": 0
+  },
+  "01041034": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 25,
+    "reqSTR": 25,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incMMP": 20,
+    "incPDD": 22,
+    "tuc": 7,
+    "price": 7500,
+    "cash": 0
+  },
+  "01040090": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 60,
+    "reqSTR": 210,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 65,
+    "incDEX": 4,
+    "incSTR": 1,
+    "tuc": 7,
+    "price": 90000,
+    "cash": 0
+  },
+  "01041006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 3,
+    "tuc": 7,
+    "price": 25,
+    "cash": 0
+  },
+  "01042043": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041023": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 25,
+    "reqSTR": 80,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 30,
+    "incSpeed": 7,
+    "tuc": 7,
+    "price": 8000,
+    "cash": 0
+  },
+  "01040020": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 2,
+    "reqLevel": 18,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 55,
+    "reqLUK": 20,
+    "incPDD": 15,
+    "incMDD": 10,
+    "incMMP": 10,
+    "tuc": 7,
+    "price": 4250,
+    "cash": 0
+  },
+  "01041068": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 115,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 30,
+    "incDEX": 3,
+    "tuc": 7,
+    "price": 38000,
+    "cash": 0
+  },
+  "01042010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042086": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041087": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 50,
+    "reqSTR": 180,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 3,
+    "incDEX": 1,
+    "incPDD": 55,
+    "tuc": 7,
+    "price": 75000,
+    "cash": 0
+  },
+  "01042145": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040039": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 20,
+    "reqSTR": 65,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 1,
+    "incPDD": 25,
+    "tuc": 7,
+    "price": 4500,
+    "cash": 0
+  },
+  "01041017": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 2,
+    "reqLevel": 13,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 40,
+    "reqLUK": 15,
+    "incINT": 1,
+    "incPDD": 12,
+    "incMDD": 8,
+    "tuc": 7,
+    "price": 2000,
+    "cash": 0
+  },
+  "01042013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041033": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 25,
+    "reqSTR": 25,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incMHP": 20,
+    "incPDD": 22,
+    "tuc": 7,
+    "price": 7500,
+    "cash": 0
+  },
+  "01042016": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040079": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 34,
+    "incDEX": 3,
+    "incMMP": 10,
+    "tuc": 7,
+    "price": 45000,
+    "cash": 0
+  },
+  "01042075": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040022": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 25,
+    "reqSTR": 25,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 2,
+    "incPDD": 22,
+    "tuc": 7,
+    "price": 7500,
+    "cash": 0
+  },
+  "01040015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 15,
+    "tuc": 7,
+    "price": 1600,
+    "cash": 0
+  },
+  "01041031": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 2,
+    "reqLevel": 18,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 55,
+    "reqLUK": 20,
+    "incPDD": 15,
+    "incMDD": 10,
+    "incMMP": 10,
+    "tuc": 7,
+    "price": 4250,
+    "cash": 0
+  },
+  "01040134": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041104": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040056": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040028": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 32,
+    "reqSTR": 105,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 2,
+    "incPDD": 37,
+    "tuc": 7,
+    "price": 29000,
+    "cash": 0
+  },
+  "01042070": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042071": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040099": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 100,
+    "reqINT": 0,
+    "reqLUK": 170,
+    "incPDD": 50,
+    "incDEX": 1,
+    "incLUK": 4,
+    "tuc": 7,
+    "price": 90000,
+    "cash": 0
+  },
+  "01042040": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042074": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040040": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 25,
+    "reqSTR": 80,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incMMP": 20,
+    "incPDD": 30,
+    "tuc": 7,
+    "price": 8000,
+    "cash": 0
+  },
+  "01040041": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 25,
+    "reqSTR": 80,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 2,
+    "incPDD": 30,
+    "tuc": 7,
+    "price": 8000,
+    "cash": 0
+  },
+  "01040129": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 11,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 11,
+    "tuc": 7,
+    "price": 1500,
+    "cash": 0
+  },
+  "01041133": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042132": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042072": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040128": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040042": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 50,
+    "incDEX": 1,
+    "incPDD": 18,
+    "tuc": 7,
+    "price": 4500,
+    "cash": 0
+  },
+  "01042031": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041103": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 110,
+    "reqINT": 0,
+    "reqLUK": 200,
+    "incPDD": 58,
+    "incDEX": 2,
+    "incLUK": 4,
+    "tuc": 7,
+    "price": 100000,
+    "cash": 0
+  },
+  "01040094": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 140,
+    "incPDD": 42,
+    "incLUK": 3,
+    "incDEX": 1,
+    "tuc": 7,
+    "price": 75000,
+    "cash": 0
+  },
+  "01041024": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 25,
+    "reqSTR": 80,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 30,
+    "incMHP": 20,
+    "tuc": 7,
+    "price": 8000,
+    "cash": 0
+  },
+  "01041078": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 140,
+    "incPDD": 42,
+    "incLUK": 3,
+    "incSTR": 1,
+    "tuc": 7,
+    "price": 75000,
+    "cash": 0
+  },
+  "01041030": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 2,
+    "reqLevel": 18,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 55,
+    "reqLUK": 20,
+    "incPDD": 15,
+    "incMDD": 10,
+    "incMHP": 10,
+    "tuc": 7,
+    "price": 4250,
+    "cash": 0
+  },
+  "01040068": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 100,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 26,
+    "incDEX": 2,
+    "tuc": 7,
+    "price": 25000,
+    "cash": 0
+  },
+  "01040050": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 50,
+    "reqINT": 0,
+    "reqLUK": 65,
+    "incPDD": 22,
+    "incSTR": 2,
+    "tuc": 7,
+    "price": 8000,
+    "cash": 0
+  },
+  "01040051": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042065": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041081": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incMMP": 10,
+    "incPDD": 34,
+    "incDEX": 3,
+    "tuc": 7,
+    "price": 45000,
+    "cash": 0
+  },
+  "01040072": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 115,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 3,
+    "incPDD": 30,
+    "tuc": 7,
+    "price": 38000,
+    "cash": 0
+  },
+  "01040038": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 15,
+    "tuc": 7,
+    "price": 1600,
+    "cash": 0
+  },
+  "01042097": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "MaGw",
+    "reqJob": 4,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 65,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 1,
+    "incPDD": 18,
+    "tuc": 7,
+    "price": 4500,
+    "cash": 0
+  },
+  "01042128": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040034": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 30,
+    "reqINT": 0,
+    "reqLUK": 35,
+    "incPDD": 14,
+    "incLUK": "1",
+    "tuc": 7,
+    "price": 2500,
+    "cash": 0
+  },
+  "01040060": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 60,
+    "reqINT": 0,
+    "reqLUK": 80,
+    "incPDD": 26,
+    "tuc": 7,
+    "incLUK": 1,
+    "incDEX": 1,
+    "price": 22500,
+    "cash": 0
+  },
+  "01041063": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 14,
+    "incDEX": 1,
+    "tuc": 7,
+    "price": 2750,
+    "cash": 0
+  },
+  "01040140": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040111": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 90,
+    "reqSTR": 300,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 2,
+    "incDEX": 5,
+    "incACC": 1,
+    "incPDD": 95,
+    "incMDD": 0,
+    "tuc": 7,
+    "price": 160000,
+    "cash": 0
+  },
+  "01041073": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040071": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 10,
+    "tuc": 7,
+    "price": 1600,
+    "cash": 0
+  },
+  "01040113": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 90,
+    "reqSTR": 300,
+    "reqPOP": 20,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 5,
+    "incDEX": 2,
+    "incACC": 1,
+    "incPDD": 95,
+    "incMDD": 0,
+    "tuc": 7,
+    "price": 160000,
+    "cash": 0
+  },
+  "01040045": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040049": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 50,
+    "reqINT": 0,
+    "reqLUK": 65,
+    "incPDD": 22,
+    "tuc": 7,
+    "price": 8000,
+    "incDEX": 2,
+    "cash": 0
+  },
+  "01042030": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042094": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 65,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 18,
+    "incDEX": 1,
+    "tuc": 7,
+    "price": 4500,
+    "cash": 0
+  },
+  "01042008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041117": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 240,
+    "incSTR": 2,
+    "incLUK": 5,
+    "incMMP": 20,
+    "incPDD": 70,
+    "tuc": 7,
+    "price": 180000,
+    "cash": 0
+  },
+  "01040074": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 115,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 3,
+    "incPDD": 30,
+    "tuc": 7,
+    "price": 38000,
+    "cash": 0
+  },
+  "01040084": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 80,
+    "reqINT": 0,
+    "reqLUK": 110,
+    "reqPOP": 20,
+    "incMMP": 10,
+    "incPDD": 34,
+    "incLUK": 3,
+    "tuc": 7,
+    "price": 45000,
+    "cash": 0
+  },
+  "01040007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 14,
+    "incDEX": 1,
+    "tuc": 7,
+    "price": 2750,
+    "cash": 0
+  },
+  "01040044": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 50,
+    "incLUK": 1,
+    "incPDD": 18,
+    "tuc": 7,
+    "price": 4500,
+    "cash": 0
+  },
+  "01042078": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040061": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 70,
+    "reqINT": 0,
+    "reqLUK": 95,
+    "incPDD": 30,
+    "tuc": 7,
+    "incLUK": 3,
+    "price": 38000,
+    "cash": 0
+  },
+  "01042068": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040081": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incMMP": 10,
+    "incPDD": 34,
+    "incSTR": 3,
+    "tuc": 7,
+    "price": 45000,
+    "cash": 0
+  },
+  "01041131": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041044": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 30,
+    "reqINT": 0,
+    "reqLUK": 35,
+    "incPDD": 14,
+    "incLUK": 1,
+    "tuc": 7,
+    "price": 2500,
+    "cash": 0
+  },
+  "01041089": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 50,
+    "reqSTR": 180,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "reqPOP": 20,
+    "incSTR": 3,
+    "incDEX": 1,
+    "incPDD": 55,
+    "tuc": 7,
+    "price": 75000,
+    "cash": 0
+  },
+  "01042096": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042050": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042122": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041038": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 10,
+    "tuc": 7,
+    "price": 1500,
+    "cash": 0
+  },
+  "01041096": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 100,
+    "reqINT": 0,
+    "reqLUK": 170,
+    "reqPOP": 20,
+    "incPDD": 50,
+    "incDEX": 1,
+    "incLUK": 4,
+    "tuc": 7,
+    "price": 90000,
+    "cash": 0
+  },
+  "01042117": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042062": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040092": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 60,
+    "reqSTR": 210,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 65,
+    "incDEX": 4,
+    "incSTR": 1,
+    "tuc": 7,
+    "price": 90000,
+    "cash": 0
+  },
+  "01040017": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 2,
+    "reqLevel": 8,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 7,
+    "incMDD": 5,
+    "tuc": 7,
+    "price": 1000,
+    "cash": 0
+  },
+  "01041124": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 100,
+    "reqSTR": 330,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 105,
+    "incSTR": 6,
+    "incDEX": 3,
+    "incMMP": 25,
+    "regPOP": 25,
+    "tuc": 7,
+    "price": 280000,
+    "cash": 0
+  },
+  "01042141": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": "1"
+  },
+  "01040096": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 140,
+    "incPDD": 42,
+    "incLUK": 3,
+    "incDEX": 1,
+    "tuc": 7,
+    "price": 75000,
+    "cash": 0
+  },
+  "01040073": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 115,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 3,
+    "incPDD": 30,
+    "tuc": 7,
+    "price": 38000,
+    "cash": 0
+  },
+  "01040036": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 1,
+    "tuc": 0,
+    "price": 1,
+    "cash": 0
+  },
+  "01041091": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 60,
+    "reqSTR": 210,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 65,
+    "incDEX": 4,
+    "incSTR": 1,
+    "tuc": 7,
+    "price": 90000,
+    "cash": 0
+  },
+  "01040100": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 100,
+    "reqINT": 0,
+    "reqLUK": 170,
+    "reqPOP": 20,
+    "incPDD": 50,
+    "incDEX": 1,
+    "incLUK": 4,
+    "tuc": 7,
+    "price": 90000,
+    "cash": 0
+  },
+  "01042017": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040102": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 70,
+    "reqSTR": 240,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 4,
+    "incSTR": 2,
+    "incMMP": 10,
+    "incPDD": 75,
+    "tuc": 7,
+    "price": 100000,
+    "cash": 0
+  },
+  "01042032": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040104": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 70,
+    "reqSTR": 240,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 2,
+    "incSTR": 4,
+    "incMMP": 10,
+    "incPDD": 75,
+    "tuc": 7,
+    "price": 100000,
+    "cash": 0
+  },
+  "01040105": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 110,
+    "reqINT": 0,
+    "reqLUK": 200,
+    "incPDD": 58,
+    "incLUK": 2,
+    "incDEX": 4,
+    "incMMP": 10,
+    "tuc": 7,
+    "price": 100000,
+    "cash": 0
+  },
+  "01042089": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041085": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 40,
+    "reqSTR": 130,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 45,
+    "incSTR": 3,
+    "incMMP": 10,
+    "tuc": 7,
+    "price": 50000,
+    "cash": 0
+  },
+  "01041130": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040043": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 50,
+    "incSTR": 1,
+    "incPDD": 18,
+    "tuc": 7,
+    "price": 4500,
+    "cash": 0
+  },
+  "01042126": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040119": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041041": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "MaGw",
+    "reqJob": 2,
+    "reqLevel": 28,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 85,
+    "reqLUK": 30,
+    "incPDD": 21,
+    "incMDD": 15,
+    "incINT": 2,
+    "tuc": 7,
+    "price": 21000,
+    "cash": 0
+  },
+  "01041100": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 110,
+    "reqINT": 0,
+    "reqLUK": 200,
+    "incPDD": 58,
+    "incSTR": 4,
+    "incLUK": 2,
+    "tuc": 7,
+    "price": 100000,
+    "cash": 0
+  },
+  "01041058": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 45,
+    "reqINT": 0,
+    "reqLUK": 30,
+    "incPDD": 22,
+    "incMHP": 20,
+    "tuc": 7,
+    "price": 9000,
+    "cash": 0
+  },
+  "01040087": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 50,
+    "reqSTR": 180,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 3,
+    "incDEX": 1,
+    "incPDD": 55,
+    "tuc": 7,
+    "price": 75000,
+    "cash": 0
+  },
+  "01042090": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041143": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040118": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 240,
+    "incDEX": 2,
+    "incLUK": 5,
+    "incMMP": 20,
+    "incPDD": 70,
+    "tuc": 7,
+    "price": 180000,
+    "cash": 0
+  },
+  "01042107": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1,
+    "effect": {
+      "path": "Effect/CharacterEff.img/1042107",
+      "follow": 0,
+      "left": -30,
+      "top": -50,
+      "right": 50,
+      "bottom": 20,
+      "dx": 50,
+      "dy": 0,
+      "delay": 2000,
+      "interval": 100,
+      "genOnMove": 1
+    }
+  },
+  "01042134": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040125": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040123": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041122": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 100,
+    "reqSTR": 330,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 105,
+    "incSTR": 3,
+    "incDEX": 6,
+    "incMMP": 25,
+    "tuc": 7,
+    "price": 280000,
+    "cash": 0
+  },
+  "01040010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 3,
+    "tuc": 7,
+    "price": 25,
+    "cash": 0
+  },
+  "01041142": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042088": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041111": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042021": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041084": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 40,
+    "reqSTR": 130,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 45,
+    "incDEX": 3,
+    "incMMP": 10,
+    "tuc": 7,
+    "price": 50000,
+    "cash": 0
+  },
+  "01040130": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040101": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042140": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040133": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041060": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 45,
+    "reqINT": 0,
+    "reqLUK": 30,
+    "incPDD": 22,
+    "incLUK": 1,
+    "incDEX": 1,
+    "tuc": 7,
+    "price": 9000,
+    "cash": 0
+  },
+  "01040117": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 240,
+    "incSTR": 2,
+    "incLUK": 5,
+    "incMMP": 20,
+    "incPDD": 70,
+    "tuc": 7,
+    "price": 180000,
+    "cash": 0
+  },
+  "01040137": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041102": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 110,
+    "reqINT": 0,
+    "reqLUK": 200,
+    "incPDD": 58,
+    "incDEX": 2,
+    "incLUK": 4,
+    "tuc": 7,
+    "price": 100000,
+    "cash": 0
+  },
+  "01042120": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040141": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042105": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 3,
+    "tuc": 7,
+    "price": 25,
+    "cash": 0
+  },
+  "01042104": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042033": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 3,
+    "tuc": 7,
+    "price": 25,
+    "cash": 0
+  },
+  "01041125": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042054": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040109": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 80,
+    "reqSTR": 0,
+    "reqDEX": 120,
+    "reqINT": 0,
+    "reqLUK": 220,
+    "incPDD": 64,
+    "incLUK": 5,
+    "incDEX": 1,
+    "incMMP": 15,
+    "tuc": 7,
+    "price": 140000,
+    "cash": 0
+  },
+  "01042147": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040143": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041025": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 2,
+    "reqLevel": 13,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 40,
+    "reqLUK": 15,
+    "incPDD": 12,
+    "incMDD": 10,
+    "incMHP": 10,
+    "tuc": 7,
+    "price": 2000,
+    "cash": 0
+  },
+  "01040019": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 2,
+    "reqLevel": 18,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 55,
+    "reqLUK": 20,
+    "incPDD": 15,
+    "incMDD": 10,
+    "incMHP": 10,
+    "tuc": 7,
+    "price": 4250,
+    "cash": 0
+  },
+  "01041010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 3,
+    "tuc": 7,
+    "price": 25,
+    "cash": 0
+  },
+  "01040093": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 60,
+    "reqSTR": 210,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "reqPOP": 20,
+    "incPDD": 65,
+    "incSTR": 4,
+    "incDEX": 1,
+    "tuc": 7,
+    "price": 90000,
+    "cash": 0
+  },
+  "01042066": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041069": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 115,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 30,
+    "incSTR": 3,
+    "tuc": 7,
+    "price": 38000,
+    "cash": 0
+  },
+  "01041014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 15,
+    "tuc": 7,
+    "price": 1600,
+    "cash": 0
+  },
+  "01041045": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 30,
+    "reqINT": 0,
+    "reqLUK": 35,
+    "incPDD": 14,
+    "incDEX": 1,
+    "tuc": 7,
+    "price": 2500,
+    "cash": 0
+  },
+  "01042023": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040067": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 100,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 26,
+    "tuc": 7,
+    "incDEX": 2,
+    "price": 25000,
+    "cash": 0
+  },
+  "01041018": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 2,
+    "reqLevel": 13,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 40,
+    "reqLUK": 15,
+    "incPDD": 12,
+    "incMDD": 8,
+    "incMMP": 10,
+    "tuc": 7,
+    "price": 2000,
+    "cash": 0
+  },
+  "01041015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 2,
+    "reqLevel": 8,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 7,
+    "incMDD": 5,
+    "tuc": 7,
+    "price": 1000,
+    "cash": 0
+  },
+  "01042001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040122": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 100,
+    "reqSTR": 330,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 6,
+    "incDEX": 2,
+    "incACC": 2,
+    "incPDD": 105,
+    "tuc": 7,
+    "price": 200000,
+    "cash": 0
+  },
+  "01041056": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 100,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 26,
+    "incMMP": 20,
+    "tuc": 7,
+    "price": 25000,
+    "cash": 0
+  },
+  "01041005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040029": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 35,
+    "reqSTR": 120,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 3,
+    "incPDD": 40,
+    "tuc": 7,
+    "price": 35000,
+    "cash": 0
+  },
+  "01041127": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042084": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041035": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 25,
+    "reqSTR": 25,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 2,
+    "incPDD": 22,
+    "tuc": 7,
+    "price": 7500,
+    "cash": 0
+  },
+  "01040124": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041029": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 2,
+    "reqLevel": 18,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 55,
+    "reqLUK": 20,
+    "incPDD": 15,
+    "incMDD": 10,
+    "incINT": 1,
+    "tuc": 7,
+    "price": 4250,
+    "cash": 0
+  },
+  "01041059": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": "8",
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 45,
+    "reqINT": 0,
+    "reqLUK": 30,
+    "incPDD": 22,
+    "incDEX": 2,
+    "tuc": 7,
+    "price": 9000,
+    "cash": 0
+  },
+  "01041099": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 70,
+    "reqSTR": 240,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 2,
+    "incSTR": 4,
+    "incMMP": 10,
+    "incPDD": 75,
+    "tuc": 7,
+    "price": 100000,
+    "cash": 0
+  },
+  "01042119": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042063": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040037": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 15,
+    "reqSTR": 40,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incMMP": 10,
+    "incPDD": 20,
+    "tuc": 7,
+    "price": 2750,
+    "cash": 0
+  },
+  "01040132": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042019": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042076": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040088": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 50,
+    "reqSTR": 180,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 3,
+    "incSTR": 1,
+    "incPDD": 55,
+    "tuc": 7,
+    "price": 75000,
+    "cash": 0
+  },
+  "01042135": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042125": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042045": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041054": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 100,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 26,
+    "incDEX": 2,
+    "tuc": 7,
+    "price": 25000,
+    "cash": 0
+  },
+  "01042108": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041028": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 65,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 18,
+    "incMMP": 10,
+    "tuc": 7,
+    "price": 4500,
+    "cash": 0
+  },
+  "01041040": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 50,
+    "incSTR": 1,
+    "incPDD": 18,
+    "tuc": 7,
+    "price": 4500,
+    "cash": 0
+  },
+  "01041123": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 100,
+    "reqSTR": 330,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 105,
+    "incSTR": 6,
+    "incDEX": 3,
+    "incMMP": 25,
+    "tuc": 7,
+    "price": 280000,
+    "cash": 0
+  },
+  "01040006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 3,
+    "tuc": 7,
+    "price": 25,
+    "cash": 0
+  },
+  "01042006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041139": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042081": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042056": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041106": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 80,
+    "reqSTR": 0,
+    "reqDEX": 120,
+    "reqINT": 0,
+    "reqLUK": 220,
+    "incPDD": 64,
+    "incLUK": 5,
+    "incDEX": 1,
+    "incMMP": 15,
+    "tuc": 7,
+    "price": 140000,
+    "cash": 0
+  },
+  "01040108": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 80,
+    "reqSTR": 0,
+    "reqDEX": 120,
+    "reqINT": 0,
+    "reqLUK": 220,
+    "incPDD": 64,
+    "incLUK": 1,
+    "incDEX": 5,
+    "incMMP": 15,
+    "tuc": 7,
+    "price": 140000,
+    "cash": 0
+  },
+  "01041055": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 100,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 26,
+    "tuc": 7,
+    "incDEX": 1,
+    "incSTR": 1,
+    "price": 25000,
+    "cash": 0
+  },
+  "01042027": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1,
+    "pachinko": 1
+  },
+  "01041097": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 70,
+    "reqSTR": 240,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 4,
+    "incSTR": 2,
+    "incMMP": 10,
+    "incPDD": 75,
+    "tuc": 7,
+    "price": 100000,
+    "cash": 0
+  },
+  "01040026": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 30,
+    "reqSTR": 100,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 2,
+    "incPDD": 35,
+    "tuc": 7,
+    "price": 20000,
+    "cash": 0
+  },
+  "01040138": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042073": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041032": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 25,
+    "reqSTR": 25,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 2,
+    "incPDD": 22,
+    "tuc": 7,
+    "price": 7500,
+    "cash": 0
+  },
+  "01041115": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 240,
+    "incSTR": 5,
+    "incLUK": 2,
+    "incMMP": 20,
+    "incPDD": 70,
+    "tuc": 7,
+    "price": 180000,
+    "cash": 0
+  },
+  "01041065": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 115,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 30,
+    "incDEX": 3,
+    "tuc": 7,
+    "price": 38000,
+    "cash": 0
+  },
+  "01040086": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 40,
+    "reqSTR": 130,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 3,
+    "incMMP": 10,
+    "incPDD": 45,
+    "tuc": 7,
+    "price": 50000,
+    "cash": 0
+  },
+  "01040095": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 140,
+    "incPDD": 42,
+    "incLUK": 3,
+    "incSTR": 1,
+    "tuc": 7,
+    "price": 75000,
+    "cash": 0
+  },
+  "01041066": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 115,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 30,
+    "incSTR": 3,
+    "tuc": 7,
+    "price": 38000,
+    "cash": 0
+  },
+  "01042047": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 10,
+    "tuc": 7,
+    "price": 1600,
+    "cash": 0
+  },
+  "01040058": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 60,
+    "reqINT": 0,
+    "reqLUK": 80,
+    "incPDD": 26,
+    "tuc": 7,
+    "incDEX": 2,
+    "price": 22500,
+    "cash": 0
+  },
+  "01040024": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 25,
+    "reqSTR": 25,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incMMP": 20,
+    "incPDD": 22,
+    "tuc": 7,
+    "price": 7500,
+    "cash": 0
+  },
+  "01041051": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 2,
+    "reqLevel": 33,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 100,
+    "reqLUK": 35,
+    "incPDD": 24,
+    "incMDD": 18,
+    "incINT": 3,
+    "tuc": 7,
+    "price": 40000,
+    "cash": 0
+  },
+  "01040059": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 60,
+    "reqINT": 0,
+    "reqLUK": 80,
+    "incPDD": 26,
+    "tuc": 7,
+    "incMHP": 20,
+    "price": 22500,
+    "cash": 0
+  },
+  "01041049": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 60,
+    "reqINT": 0,
+    "reqLUK": 80,
+    "incPDD": 26,
+    "tuc": 7,
+    "incSTR": 2,
+    "price": 22500,
+    "cash": 0
+  },
+  "01041074": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 80,
+    "reqINT": 0,
+    "reqLUK": 110,
+    "incMMP": 10,
+    "incPDD": 34,
+    "incLUK": 3,
+    "tuc": 7,
+    "price": 45000,
+    "cash": 0
+  },
+  "01041011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 3,
+    "tuc": 7,
+    "price": 25,
+    "cash": 0
+  },
+  "01041076": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 80,
+    "reqINT": 0,
+    "reqLUK": 110,
+    "reqPOP": 20,
+    "incMMP": 10,
+    "incPDD": 34,
+    "incLUK": 3,
+    "tuc": 7,
+    "price": 45000,
+    "cash": 0
+  },
+  "01042039": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042109": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041105": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 80,
+    "reqSTR": 0,
+    "reqDEX": 120,
+    "reqINT": 0,
+    "reqLUK": 220,
+    "incPDD": 64,
+    "incLUK": 1,
+    "incDEX": 5,
+    "incMMP": 15,
+    "tuc": 7,
+    "price": 140000,
+    "cash": 0
+  },
+  "01040131": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042130": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042018": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042022": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040115": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 240,
+    "incSTR": 5,
+    "incLUK": 2,
+    "incMMP": 20,
+    "incPDD": 70,
+    "tuc": 7,
+    "price": 180000,
+    "cash": 0
+  },
+  "01040116": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 240,
+    "incDEX": 5,
+    "incLUK": 2,
+    "incMMP": 20,
+    "incPDD": 70,
+    "tuc": 7,
+    "price": 180000,
+    "cash": 0
+  },
+  "01041101": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 110,
+    "reqINT": 0,
+    "reqLUK": 200,
+    "incPDD": 58,
+    "incDEX": 4,
+    "incLUK": 2,
+    "tuc": 7,
+    "price": 100000,
+    "cash": 0
+  },
+  "01041036": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 10,
+    "tuc": 7,
+    "price": 1500,
+    "cash": 0
+  },
+  "01042082": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042020": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042143": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041027": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 65,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 18,
+    "incMHP": 10,
+    "tuc": 7,
+    "price": 4500,
+    "cash": 0
+  },
+  "01041119": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 90,
+    "reqSTR": 300,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 95,
+    "incDEX": 5,
+    "incSTR": 2,
+    "incMMP": 20,
+    "tuc": 7,
+    "price": 190000,
+    "cash": 0
+  },
+  "01040089": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 50,
+    "reqSTR": 180,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "reqPOP": 20,
+    "incSTR": 3,
+    "incDEX": 1,
+    "incPDD": 55,
+    "tuc": 7,
+    "price": 75000,
+    "cash": 0
+  },
+  "01042024": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041095": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 100,
+    "reqINT": 0,
+    "reqLUK": 170,
+    "incPDD": 50,
+    "incDEX": 1,
+    "incLUK": 4,
+    "tuc": 7,
+    "price": 90000,
+    "cash": 0
+  },
+  "01042011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040035": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 30,
+    "reqINT": 0,
+    "reqLUK": 35,
+    "incPDD": 14,
+    "price": 2500,
+    "tuc": 7,
+    "incDEX": 1,
+    "cash": 0
+  },
+  "01040012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 20,
+    "reqSTR": 65,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 1,
+    "incPDD": 25,
+    "tuc": 7,
+    "price": 4500,
+    "cash": 0
+  },
+  "01040023": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 25,
+    "reqSTR": 25,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 2,
+    "incPDD": 22,
+    "tuc": 7,
+    "price": 7500,
+    "cash": 0
+  },
+  "01040063": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 70,
+    "reqINT": 0,
+    "reqLUK": 95,
+    "incPDD": 30,
+    "incDEX": 3,
+    "tuc": 7,
+    "price": 38000,
+    "cash": 0
+  },
+  "01042038": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041026": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 2,
+    "reqLevel": 13,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 40,
+    "reqLUK": 15,
+    "incPDD": 12,
+    "incMDD": 10,
+    "incSpeed": 3,
+    "tuc": 7,
+    "price": 2000,
+    "cash": 0
+  },
+  "01042095": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041114": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041079": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 140,
+    "incPDD": 42,
+    "incLUK": 3,
+    "incDEX": 1,
+    "tuc": 7,
+    "price": 75000,
+    "cash": 0
+  },
+  "01040127": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040048": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 50,
+    "reqINT": 0,
+    "reqLUK": 65,
+    "incPDD": 22,
+    "incLUK": 2,
+    "tuc": 7,
+    "price": 8000,
+    "cash": 0
+  },
+  "01040021": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 30,
+    "reqSTR": 100,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incMHP": 20,
+    "incPDD": 35,
+    "tuc": 7,
+    "price": 20000,
+    "cash": 0
+  },
+  "01040001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041110": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041046": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 1,
+    "tuc": 0,
+    "price": 1,
+    "cash": 0
+  },
+  "01042044": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041113": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042035": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042080": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042136": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 14,
+    "incDEX": 1,
+    "tuc": 7,
+    "price": 2750,
+    "cash": 0
+  },
+  "01041118": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 240,
+    "incDEX": 2,
+    "incLUK": 5,
+    "incMMP": 20,
+    "incPDD": 70,
+    "tuc": 7,
+    "price": 180000,
+    "cash": 0
+  },
+  "01041039": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 50,
+    "incLUK": 1,
+    "incPDD": 18,
+    "tuc": 7,
+    "price": 4500,
+    "cash": 0
+  },
+  "01041120": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 90,
+    "reqSTR": 300,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 95,
+    "incSTR": 5,
+    "incDEX": 2,
+    "incMMP": 20,
+    "tuc": 7,
+    "price": 190000,
+    "cash": 0
+  },
+  "01041090": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042034": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041098": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 70,
+    "reqSTR": 240,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 2,
+    "incSTR": 4,
+    "incMMP": 10,
+    "incPDD": 75,
+    "tuc": 7,
+    "price": 100000,
+    "cash": 0
+  },
+  "01041077": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 140,
+    "incPDD": 42,
+    "incLUK": 3,
+    "incDEX": 1,
+    "tuc": 7,
+    "price": 75000,
+    "cash": 0
+  },
+  "01041047": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 60,
+    "reqINT": 0,
+    "reqLUK": 80,
+    "incPDD": 26,
+    "tuc": 7,
+    "incMHP": 20,
+    "price": 22500,
+    "cash": 0
+  },
+  "01040107": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 110,
+    "reqINT": 0,
+    "reqLUK": 200,
+    "reqPOP": 20,
+    "incPDD": 58,
+    "incLUK": 4,
+    "incDEX": 2,
+    "incMMP": 10,
+    "tuc": 7,
+    "price": 100000,
+    "cash": 0
+  },
+  "01042118": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041128": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040144": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041064": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 15,
+    "tuc": 7,
+    "price": 1600,
+    "cash": 0
+  },
+  "01041129": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 0,
+    "price": 1
+  },
+  "01040055": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040062": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 70,
+    "reqINT": 0,
+    "reqLUK": 95,
+    "incPDD": 30,
+    "tuc": 7,
+    "incLUK": 2,
+    "incDEX": 1,
+    "price": 38000,
+    "cash": 0
+  },
+  "01041135": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042061": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042053": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041138": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041136": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 11,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 11,
+    "tuc": 7,
+    "price": 1500,
+    "cash": 0
+  },
+  "01040135": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041146": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040085": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 40,
+    "reqSTR": 130,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "reqPOP": 20,
+    "incSTR": 3,
+    "incMMP": 10,
+    "incPDD": 45,
+    "tuc": 7,
+    "price": 50000,
+    "cash": 0
+  },
+  "01041067": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 115,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 30,
+    "incDEX": 3,
+    "tuc": 7,
+    "price": 38000,
+    "cash": 0
+  },
+  "01040110": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 80,
+    "reqSTR": 0,
+    "reqDEX": 120,
+    "reqINT": 0,
+    "reqLUK": 220,
+    "reqPOP": 20,
+    "incPDD": 64,
+    "incLUK": 5,
+    "incDEX": 1,
+    "incMMP": 15,
+    "tuc": 7,
+    "price": 140000,
+    "cash": 0
+  },
+  "01042100": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040016": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 25,
+    "reqSTR": 80,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incMHP": 20,
+    "incPDD": 30,
+    "tuc": 7,
+    "price": 8000,
+    "cash": 0
+  },
+  "01042009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040075": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 115,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 3,
+    "incPDD": 30,
+    "tuc": 7,
+    "price": 38000,
+    "cash": 0
+  },
+  "01042012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040054": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041042": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "MaGw",
+    "reqJob": 2,
+    "reqLevel": 28,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 85,
+    "reqLUK": 30,
+    "incPDD": 21,
+    "incMDD": 15,
+    "incINT": 1,
+    "incMMP": 10,
+    "tuc": 7,
+    "price": 21000,
+    "cash": 0
+  },
+  "01041050": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 60,
+    "reqINT": 0,
+    "reqLUK": 80,
+    "incPDD": 26,
+    "tuc": 7,
+    "incDEX": 2,
+    "price": 22500,
+    "cash": 0
+  },
+  "01042041": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040121": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 100,
+    "reqSTR": 330,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 6,
+    "incDEX": 2,
+    "incACC": 2,
+    "incPDD": 105,
+    "tuc": 7,
+    "price": 200000,
+    "cash": 0
+  },
+  "01040013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 11,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 11,
+    "tuc": 7,
+    "price": 1500,
+    "cash": 0
+  },
+  "01042077": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042042": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040069": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 100,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 26,
+    "incMHP": 20,
+    "tuc": 7,
+    "price": 25000,
+    "cash": 0
+  },
+  "01041080": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 140,
+    "incPDD": 42,
+    "incLUK": 3,
+    "incSTR": 1,
+    "tuc": 7,
+    "price": 75000,
+    "cash": 0
+  },
+  "01040025": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 25,
+    "reqSTR": 25,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incMHP": 20,
+    "incPDD": 22,
+    "tuc": 7,
+    "price": 7500,
+    "cash": 0
+  },
+  "01041126": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040052": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041021": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 20,
+    "reqSTR": 65,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 25,
+    "incSTR": 1,
+    "tuc": 7,
+    "price": 4500,
+    "cash": 0
+  },
+  "01041083": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "reqPOP": 20,
+    "incMMP": 10,
+    "incPDD": 34,
+    "incDEX": 3,
+    "tuc": 7,
+    "price": 45000,
+    "cash": 0
+  },
+  "01040120": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 100,
+    "reqSTR": 330,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 2,
+    "incDEX": 6,
+    "incACC": 2,
+    "incPDD": 105,
+    "tuc": 7,
+    "price": 200000,
+    "cash": 0
+  },
+  "01042025": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042110": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040031": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 10,
+    "tuc": 7,
+    "price": 1500,
+    "cash": 0
+  },
+  "01042028": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1,
+    "pachinko": 1
+  },
+  "01041052": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 2,
+    "reqLevel": 33,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 100,
+    "reqLUK": 35,
+    "incPDD": 24,
+    "incMDD": 18,
+    "incLUK": 3,
+    "tuc": 7,
+    "price": 40000,
+    "cash": 0
+  },
+  "01042087": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040070": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 100,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 26,
+    "tuc": 7,
+    "incMMP": 20,
+    "price": 25000,
+    "cash": 0
+  },
+  "01040103": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 70,
+    "reqSTR": 240,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 2,
+    "incSTR": 4,
+    "incMMP": 10,
+    "incPDD": 75,
+    "tuc": 7,
+    "price": 100000,
+    "cash": 0
+  },
+  "01041043": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "MaGw",
+    "reqJob": 2,
+    "reqLevel": 28,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 85,
+    "reqLUK": 30,
+    "incPDD": 21,
+    "incMDD": 15,
+    "incMMP": 20,
+    "tuc": 7,
+    "price": 21000,
+    "cash": 0
+  },
+  "01042085": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041134": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042067": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042037": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041108": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040091": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 60,
+    "reqSTR": 210,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 65,
+    "incSTR": 4,
+    "incDEX": 1,
+    "tuc": 7,
+    "price": 90000,
+    "cash": 0
+  },
+  "01042029": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040083": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 80,
+    "reqINT": 0,
+    "reqLUK": 110,
+    "incMMP": 10,
+    "incPDD": 34,
+    "incLUK": 3,
+    "tuc": 7,
+    "price": 45000,
+    "cash": 0
+  },
+  "01042069": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042102": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040033": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 10,
+    "tuc": 7,
+    "price": 1500,
+    "cash": 0
+  },
+  "01042046": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040097": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 50,
+    "reqSTR": 0,
+    "reqDEX": 90,
+    "reqINT": 0,
+    "reqLUK": 140,
+    "incPDD": 42,
+    "incLUK": 3,
+    "incSTR": 1,
+    "tuc": 7,
+    "price": 75000,
+    "cash": 0
+  },
+  "01042093": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042049": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042064": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042051": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041109": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042092": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040078": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042121": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042133": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 11,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 11,
+    "tuc": 7,
+    "price": 1500,
+    "cash": 0
+  },
+  "01042060": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040114": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042048": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041062": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 14,
+    "incDEX": 1,
+    "tuc": 7,
+    "price": 2750,
+    "cash": 0
+  },
+  "01041007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 10,
+    "tuc": 7,
+    "price": 1600,
+    "cash": 0
+  },
+  "01041003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 20,
+    "reqSTR": 0,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 50,
+    "incDEX": 1,
+    "incPDD": 18,
+    "tuc": 7,
+    "price": 4500,
+    "cash": 0
+  },
+  "01040030": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 35,
+    "reqSTR": 120,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 3,
+    "incPDD": 40,
+    "tuc": 7,
+    "price": 35000,
+    "cash": 0
+  },
+  "01040077": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041107": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 80,
+    "reqSTR": 0,
+    "reqDEX": 120,
+    "reqINT": 0,
+    "reqLUK": 220,
+    "reqPOP": 20,
+    "incPDD": 64,
+    "incLUK": 5,
+    "incDEX": 1,
+    "incMMP": 15,
+    "tuc": 7,
+    "price": 140000,
+    "cash": 0
+  },
+  "01042131": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042026": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040126": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042142": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041082": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incMMP": 10,
+    "incPDD": 34,
+    "incSTR": 3,
+    "tuc": 7,
+    "price": 45000,
+    "cash": 0
+  },
+  "01041057": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 25,
+    "reqSTR": 0,
+    "reqDEX": 45,
+    "reqINT": 0,
+    "reqLUK": 30,
+    "incPDD": 22,
+    "incLUK": 2,
+    "tuc": 7,
+    "price": 9000,
+    "cash": 0
+  },
+  "01041075": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 80,
+    "reqINT": 0,
+    "reqLUK": 110,
+    "incMMP": 10,
+    "incPDD": 34,
+    "incDEX": 3,
+    "tuc": 7,
+    "price": 45000,
+    "cash": 0
+  },
+  "01041037": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 10,
+    "tuc": 7,
+    "price": 1500,
+    "cash": 0
+  },
+  "01041019": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 20,
+    "reqSTR": 65,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 25,
+    "incMHP": 10,
+    "tuc": 7,
+    "price": 4500,
+    "cash": 0
+  },
+  "01041092": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 60,
+    "reqSTR": 210,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 65,
+    "incDEX": 1,
+    "incSTR": 4,
+    "tuc": 7,
+    "price": 90000,
+    "cash": 0
+  },
+  "01042106": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041070": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 5,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040053": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041093": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 60,
+    "reqSTR": 210,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 65,
+    "incDEX": 1,
+    "incSTR": 4,
+    "tuc": 7,
+    "price": 90000,
+    "cash": 0
+  },
+  "01042101": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040065": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040076": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 115,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 3,
+    "incPDD": 30,
+    "tuc": 7,
+    "price": 38000,
+    "cash": 0
+  },
+  "01042052": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041112": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040018": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 2,
+    "reqLevel": 18,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 55,
+    "reqLUK": 20,
+    "incPDD": 15,
+    "incMDD": 10,
+    "incINT": 1,
+    "tuc": 7,
+    "price": 4250,
+    "cash": 0
+  },
+  "01042058": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042091": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 40,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 14,
+    "incSTR": 1,
+    "tuc": 7,
+    "price": 2750,
+    "cash": 0
+  },
+  "01040106": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 70,
+    "reqSTR": 0,
+    "reqDEX": 110,
+    "reqINT": 0,
+    "reqLUK": 200,
+    "incPDD": 58,
+    "incLUK": 4,
+    "incDEX": 2,
+    "incMMP": 10,
+    "tuc": 7,
+    "price": 100000,
+    "cash": 0
+  },
+  "01040080": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 40,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "reqPOP": 20,
+    "incPDD": 34,
+    "incMMP": 10,
+    "incDEX": 3,
+    "tuc": 7,
+    "price": 45000,
+    "cash": 0
+  },
+  "01041088": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 50,
+    "reqSTR": 180,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 3,
+    "incSTR": 1,
+    "incPDD": 55,
+    "tuc": 7,
+    "price": 75000,
+    "cash": 0
+  },
+  "01041137": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042059": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042099": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041094": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 100,
+    "reqINT": 0,
+    "reqLUK": 170,
+    "incPDD": 50,
+    "incDEX": 4,
+    "incLUK": 1,
+    "tuc": 7,
+    "price": 90000,
+    "cash": 0
+  },
+  "01041132": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040098": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 60,
+    "reqSTR": 0,
+    "reqDEX": 100,
+    "reqINT": 0,
+    "reqLUK": 170,
+    "incPDD": 50,
+    "incDEX": 4,
+    "incLUK": 1,
+    "tuc": 7,
+    "price": 90000,
+    "cash": 0
+  },
+  "01040066": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040032": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 10,
+    "tuc": 7,
+    "price": 1500,
+    "cash": 0
+  },
+  "01041116": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 90,
+    "reqSTR": 0,
+    "reqDEX": 130,
+    "reqINT": 0,
+    "reqLUK": 240,
+    "incDEX": 5,
+    "incLUK": 2,
+    "incMMP": 20,
+    "incPDD": 70,
+    "tuc": 7,
+    "price": 180000,
+    "cash": 0
+  },
+  "01042000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041016": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 2,
+    "reqLevel": 8,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 7,
+    "incMDD": 5,
+    "tuc": 7,
+    "price": 1000,
+    "cash": 0
+  },
+  "01040046": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041048": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 60,
+    "reqINT": 0,
+    "reqLUK": 80,
+    "incPDD": 26,
+    "incLUK": 2,
+    "tuc": 7,
+    "price": 22500,
+    "cash": 0
+  },
+  "01040027": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042098": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041061": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 10,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 10,
+    "tuc": 7,
+    "price": 1600,
+    "cash": 0
+  },
+  "01041022": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 25,
+    "reqSTR": 80,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 30,
+    "incSTR": 2,
+    "tuc": 7,
+    "price": 8500,
+    "cash": 0
+  },
+  "01042083": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041072": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042036": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041053": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 2,
+    "reqLevel": 33,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 100,
+    "reqLUK": 35,
+    "incPDD": 24,
+    "incMDD": 18,
+    "incINT": 3,
+    "tuc": 7,
+    "price": 40000,
+    "cash": 0
+  },
+  "01042127": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040047": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042129": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042116": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040064": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042055": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041071": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 5,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042103": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 15,
+    "reqSTR": 40,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incMHP": 10,
+    "incPDD": 20,
+    "tuc": 7,
+    "price": 2750,
+    "cash": 0
+  },
+  "01042137": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042138": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041086": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 40,
+    "reqSTR": 130,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "reqPOP": 20,
+    "incPDD": 45,
+    "incSTR": 3,
+    "incMMP": 10,
+    "tuc": 7,
+    "price": 50000,
+    "cash": 0
+  },
+  "01040004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 2,
+    "reqLevel": 8,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 7,
+    "incMDD": 5,
+    "tuc": 7,
+    "price": 1000,
+    "cash": 0
+  },
+  "01042146": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 40,
+    "reqSTR": 130,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 3,
+    "incMMP": 10,
+    "incPDD": 45,
+    "tuc": 7,
+    "price": 50000,
+    "cash": 0
+  },
+  "01041020": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 20,
+    "reqSTR": 65,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 25,
+    "incDEX": 1,
+    "tuc": 7,
+    "price": 4500,
+    "cash": 0
+  },
+  "01040057": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 30,
+    "reqSTR": 0,
+    "reqDEX": 60,
+    "reqINT": 0,
+    "reqLUK": 80,
+    "incPDD": 26,
+    "incLUK": 2,
+    "tuc": 7,
+    "price": 22500,
+    "cash": 0
+  },
+  "01040112": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 90,
+    "reqSTR": 300,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 5,
+    "incDEX": 2,
+    "incACC": 1,
+    "incPDD": 95,
+    "incMDD": 0,
+    "tuc": 7,
+    "price": 160000,
+    "cash": 0
+  },
+  "01042150": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041140": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040139": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042151": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042057": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "pachinko": 1
+  },
+  "01042153": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042149": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042152": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01048000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "sample": null,
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042154": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042144": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01049000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "sample": null,
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042155": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042161": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042158": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041147": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042156": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042157": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042159": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042160": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042162": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "tuc": 0,
+    "price": 1,
+    "cash": 1
+  },
+  "01042163": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042164": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042165": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042148": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 15,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 25,
+    "incMHP": 10,
+    "tuc": 7,
+    "price": 1,
+    "tradeBlock": 1,
+    "cash": 0
+  },
+  "01042167": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 3,
+    "tuc": 7,
+    "price": 1,
+    "tradeBlock": 1,
+    "cash": 0
+  },
+  "01042168": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042169": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040142": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041141": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "pachinko": 1
+  },
+  "01041144": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01041145": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042111": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "pachinko": 1
+  },
+  "01042112": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "pachinko": 1
+  },
+  "01042113": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "pachinko": 1
+  },
+  "01042114": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "pachinko": 1
+  },
+  "01042115": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "pachinko": 1
+  },
+  "01042166": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042123": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "pachinko": 1
+  },
+  "01042124": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "pachinko": 1
+  },
+  "01042170": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042172": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042173": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042174": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042186": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042187": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042177": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042178": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042180": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "tuc": 7,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incSTR": 0,
+    "incINT": 0,
+    "incDEX": 0,
+    "incLUK": 0,
+    "incPDD": 3,
+    "incMDD": 0,
+    "price": 30,
+    "tradeBlock": 1,
+    "cash": 0
+  },
+  "01042181": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042182": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042183": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042184": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042185": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042188": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042189": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042190": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042193": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042194": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042198": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042199": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042200": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042202": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042203": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042204": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042206": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042207": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042208": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042209": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042210": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042212": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042213": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042214": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042220": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042215": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01040154": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1,
+    "noMoveToLocker": 1
+  },
+  "01040147": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 70,
+    "reqINT": 0,
+    "reqLUK": 95,
+    "incMMP": 10,
+    "incPDD": 34,
+    "incLUK": 3,
+    "tuc": 7,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1,
+    "tradeAvailable": 1
+  },
+  "01040146": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 115,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "reqPOP": 20,
+    "incPDD": 34,
+    "incMMP": 10,
+    "tuc": 7,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1,
+    "tradeAvailable": 1
+  },
+  "01040145": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 35,
+    "reqSTR": 120,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incDEX": 3,
+    "incMMP": 10,
+    "incPDD": 45,
+    "tuc": 7,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1,
+    "tradeAvailable": 1
+  },
+  "01041148": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 1,
+    "reqLevel": 35,
+    "reqSTR": 120,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "reqPOP": 20,
+    "incPDD": 45,
+    "incSTR": 3,
+    "incMMP": 10,
+    "tuc": 7,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1,
+    "tradeAvailable": 1
+  },
+  "01041149": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 4,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 115,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "incPDD": 34,
+    "incMMP": 10,
+    "incDEX": 3,
+    "reqPOP": 20,
+    "tuc": 7,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1,
+    "tradeAvailable": 1
+  },
+  "01041150": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 8,
+    "reqLevel": 35,
+    "reqSTR": 0,
+    "reqDEX": 70,
+    "reqINT": 0,
+    "reqLUK": 95,
+    "reqPOP": 20,
+    "incPDD": 34,
+    "incLUK": 3,
+    "incMMP": 10,
+    "tuc": 7,
+    "incDEX": 2,
+    "price": 1,
+    "cash": 0,
+    "tradeBlock": 1,
+    "tradeAvailable": 1
+  },
+  "01041156": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1,
+    "noMoveToLocker": 1
+  },
+  "01042225": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "islot": "Ma",
+    "vslot": "Ma",
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "timeLimited": 1,
+    "notExtend": 1
+  },
+  "01042224": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "timeLimited": 1,
+    "notExtend": 1
+  },
+  "01042223": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "timeLimited": 1,
+    "notExtend": 1
+  },
+  "01042226": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "islot": "Ma",
+    "vslot": "Ma",
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "timeLimited": 1,
+    "notExtend": 1
+  },
+  "01042227": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "MaPn",
+    "vslot": "MaPn",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "timeLimited": 1,
+    "notExtend": 1
+  },
+  "01042232": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042219": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042218": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042217": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042216": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  },
+  "01042221": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1,
+    "noMoveToLocker": 1
+  },
+  "01042222": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Ma",
+    "vslot": "Ma",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "reqSTR": 0,
+    "reqDEX": 0,
+    "reqINT": 0,
+    "reqLUK": 0,
+    "cash": 1
+  }
+}

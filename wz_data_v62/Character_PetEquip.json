@@ -1,0 +1,794 @@
+{
+  "01832000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 0,
+    "cash": 1,
+    "pickupMeso": "0",
+    "pickupItem": "0",
+    "pickupOthers": "0",
+    "sweepForDrop": "0",
+    "longRange": "0",
+    "consumeMP": "1"
+  },
+  "01802001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 5,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 5,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802049": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 5,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802056": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 5,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802017": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802021": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 5,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802044": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802052": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802024": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802051": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802036": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01822000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802016": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802050": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802055": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 5,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 5,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802022": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01812002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 0,
+    "cash": 1,
+    "pickupMeso": "0",
+    "pickupItem": "0",
+    "pickupOthers": "0",
+    "sweepForDrop": "0",
+    "longRange": "0",
+    "consumeHP": "1"
+  },
+  "01802048": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802027": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01812000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 0,
+    "cash": 1,
+    "pickupMeso": "1",
+    "pickupItem": "0",
+    "pickupOthers": "0",
+    "sweepForDrop": "0",
+    "consumeHP": "0",
+    "longRange": "0"
+  },
+  "01802028": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 5,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802035": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802100": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802034": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01812007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 0,
+    "cash": 1,
+    "consumeMP": "0",
+    "longRange": "0",
+    "sweepForDrop": "0",
+    "pickupOthers": "0",
+    "pickupItem": "0",
+    "pickupMeso": "0",
+    "ignorePickup": 1
+  },
+  "01802033": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802038": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802029": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802020": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802037": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802030": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01812006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 0,
+    "cash": 1,
+    "consumeMP": "0",
+    "longRange": "0",
+    "sweepForDrop": "0",
+    "pickupOthers": "1",
+    "pickupItem": "0",
+    "pickupMeso": "0"
+  },
+  "01802002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 5,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01812004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 0,
+    "cash": 1,
+    "pickupMeso": "0",
+    "pickupItem": "0",
+    "pickupOthers": "0",
+    "sweepForDrop": "1",
+    "longRange": "0",
+    "consumeMP": "0"
+  },
+  "01802026": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802019": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802025": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01812003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 0,
+    "cash": 1,
+    "pickupMeso": "0",
+    "pickupItem": "0",
+    "pickupOthers": "0",
+    "sweepForDrop": "0",
+    "longRange": "0",
+    "consumeMP": "1"
+  },
+  "01802045": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802047": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802018": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01812005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 0,
+    "cash": 1,
+    "pickupMeso": "0",
+    "pickupItem": "0",
+    "pickupOthers": "0",
+    "longRange": "1",
+    "sweepForDrop": "0",
+    "consumeMP": "0"
+  },
+  "01802059": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802023": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01812001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 0,
+    "cash": 1,
+    "pickupItem": "1",
+    "pickupOthers": "0",
+    "longRange": "0",
+    "consumeHP": "0",
+    "sweepForDrop": "0",
+    "pickupMeso": "0"
+  },
+  "01802032": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802031": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 5,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802053": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802042": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 5,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802043": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802054": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802057": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802060": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  },
+  "01802058": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "tuc": 7,
+    "reqLevel": 0,
+    "cash": 1
+  }
+}

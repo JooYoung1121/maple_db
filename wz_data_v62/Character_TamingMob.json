@@ -1,0 +1,3191 @@
+{
+  "01902009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 70,
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1
+  },
+  "01902001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 120,
+    "tuc": 0,
+    "tamingMob": 2,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 70,
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1
+  },
+  "01902002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 200,
+    "tuc": 0,
+    "tamingMob": 3,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 70,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 70,
+    "tuc": 0,
+    "tamingMob": 4,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01912004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01912003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01912007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01912006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01912005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "reqLevel": 0,
+    "incSpeed": 0,
+    "incJump": 0,
+    "incSwim": 0,
+    "incPDD": 0,
+    "incMDD": 0,
+    "incEVA": 0,
+    "incFatigue": 0,
+    "hpRecovery": 0,
+    "mpRecovery": 0,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01912000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "reqLevel": 0,
+    "incSpeed": 0,
+    "incJump": 0,
+    "incSwim": 0,
+    "incPDD": 0,
+    "incMDD": 0,
+    "incEVA": 0,
+    "incFatigue": 0,
+    "hpRecovery": 0,
+    "mpRecovery": 0,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1
+  },
+  "01902007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 120,
+    "tuc": 0,
+    "tamingMob": 3,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 100,
+    "tuc": 0,
+    "tamingMob": 2,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 50,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 70,
+    "tuc": 0,
+    "tamingMob": 5,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1,
+    "timeLimited": 1
+  },
+  "01902004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 30,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1,
+    "timeLimited": 1,
+    "dropBlock": 1
+  },
+  "01912001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "reqLevel": 0,
+    "incSpeed": 0,
+    "incJump": 0,
+    "incSwim": 0,
+    "incPDD": 0,
+    "incMDD": 0,
+    "incEVA": 0,
+    "incFatigue": 0,
+    "hpRecovery": 0,
+    "mpRecovery": 0,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1,
+    "timeLimited": 1
+  },
+  "01912002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "reqLevel": 0,
+    "incSpeed": 0,
+    "incJump": 0,
+    "incSwim": 0,
+    "incPDD": 0,
+    "incMDD": 0,
+    "incEVA": 0,
+    "incFatigue": 0,
+    "hpRecovery": 0,
+    "mpRecovery": 0,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1,
+    "timeLimited": 1,
+    "dropBlock": 1
+  },
+  "01902013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 70,
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1
+  },
+  "01912009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01902012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 70,
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1
+  },
+  "01912008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01902014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1
+  },
+  "01912010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01902015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 50,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902016": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 100,
+    "tuc": 0,
+    "tamingMob": 2,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902017": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 150,
+    "tuc": 0,
+    "tamingMob": 3,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902018": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 200,
+    "tuc": 0,
+    "tamingMob": 5,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01912011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "reqLevel": 0,
+    "incSpeed": 0,
+    "incJump": 0,
+    "incSwim": 0,
+    "incPDD": 0,
+    "incMDD": 0,
+    "incEVA": 0,
+    "incFatigue": 0,
+    "hpRecovery": 0,
+    "mpRecovery": 0,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 2,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902022": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 70,
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1
+  },
+  "01902023": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 70,
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1
+  },
+  "01902024": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1
+  },
+  "01902025": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1
+  },
+  "01902026": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1
+  },
+  "01912015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01912016": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01912017": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01912018": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01912019": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01902019": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 30,
+    "tuc": 0,
+    "tamingMob": 5,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1,
+    "timeLimited": 1,
+    "slotMax": 1
+  },
+  "01902020": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1
+  },
+  "01902021": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1
+  },
+  "01912012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "reqLevel": 0,
+    "incSpeed": 0,
+    "incJump": 0,
+    "incSwim": 0,
+    "incPDD": 0,
+    "incMDD": 0,
+    "incEVA": 0,
+    "incFatigue": 0,
+    "hpRecovery": 0,
+    "mpRecovery": 0,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1,
+    "timeLimited": 1,
+    "slotMax": 1
+  },
+  "01912013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01912014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01912029": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01902036": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1
+  },
+  "01912032": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01902039": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1
+  },
+  "01902038": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1
+  },
+  "01912031": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01902031": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "pachinko": 1,
+    "timeLimited": 1,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "cash": 1
+  },
+  "01902032": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "pachinko": 1,
+    "timeLimited": 1,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "cash": 1
+  },
+  "01902034": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "pachinko": 1,
+    "timeLimited": 1,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "cash": 1
+  },
+  "01902033": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "pachinko": 1,
+    "timeLimited": 1,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "cash": 1
+  },
+  "01902035": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "pachinko": 1,
+    "timeLimited": 1,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "cash": 1
+  },
+  "01902037": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "pachinko": 1,
+    "timeLimited": 1,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "cash": 1
+  },
+  "01902045": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1,
+    "origin": null
+  },
+  "01912024": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "pachinko": 1,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "cash": 1
+  },
+  "01912025": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "pachinko": 1,
+    "timeLimited": 1,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "cash": 1
+  },
+  "01912026": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "pachinko": 1,
+    "timeLimited": 1,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "cash": 1
+  },
+  "01912027": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "pachinko": 1,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "cash": 1
+  },
+  "01912028": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "pachinko": 1,
+    "timeLimited": 1,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "cash": 1
+  },
+  "01912030": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "pachinko": 1,
+    "timeLimited": 1,
+    "slotMax": 1,
+    "tradeBlock": 1,
+    "cash": 1
+  },
+  "01912038": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01902040": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 50,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902041": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 80,
+    "tuc": 0,
+    "tamingMob": 2,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902042": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 120,
+    "tuc": 0,
+    "tamingMob": 3,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01912033": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "reqLevel": 0,
+    "incSpeed": 0,
+    "incJump": 0,
+    "incSwim": 0,
+    "incPDD": 0,
+    "incMDD": 0,
+    "incEVA": 0,
+    "incFatigue": 0,
+    "hpRecovery": 0,
+    "mpRecovery": 0,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01912034": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "reqLevel": 0,
+    "incSpeed": 0,
+    "incJump": 0,
+    "incSwim": 0,
+    "incPDD": 0,
+    "incMDD": 0,
+    "incEVA": 0,
+    "incFatigue": 0,
+    "hpRecovery": 0,
+    "mpRecovery": 0,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01912035": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "reqLevel": 0,
+    "incSpeed": 0,
+    "incJump": 0,
+    "incSwim": 0,
+    "incPDD": 0,
+    "incMDD": 0,
+    "incEVA": 0,
+    "incFatigue": 0,
+    "hpRecovery": 0,
+    "mpRecovery": 0,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902048": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 75,
+    "tuc": 0,
+    "tamingMob": 3,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01912041": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "reqLevel": 75,
+    "incSpeed": 0,
+    "incJump": 0,
+    "incSwim": 0,
+    "incPDD": 0,
+    "incMDD": 0,
+    "incEVA": 0,
+    "incFatigue": 0,
+    "hpRecovery": 0,
+    "mpRecovery": 0,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902027": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1
+  },
+  "01902028": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 50,
+    "tuc": 0,
+    "tradeBlock": 1
+  },
+  "01902046": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1,
+    "timeLimited": 1
+  },
+  "01912021": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01912020": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01912039": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1,
+    "timeLimited": 1
+  },
+  "01902049": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902050": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902051": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902052": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902053": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01912049": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "reqLevel": 0,
+    "incSpeed": 0,
+    "incJump": 0,
+    "incSwim": 0,
+    "incPDD": 0,
+    "incMDD": 0,
+    "incEVA": 0,
+    "incFatigue": 0,
+    "hpRecovery": 0,
+    "mpRecovery": 0,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01912050": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "reqLevel": 0,
+    "incSpeed": 0,
+    "incJump": 0,
+    "incSwim": 0,
+    "incPDD": 0,
+    "incMDD": 0,
+    "incEVA": 0,
+    "incFatigue": 0,
+    "hpRecovery": 0,
+    "mpRecovery": 0,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1,
+    "timeLimited": 1,
+    "dropBlock": 1
+  },
+  "01912051": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "reqLevel": 0,
+    "incSpeed": 0,
+    "incJump": 0,
+    "incSwim": 0,
+    "incPDD": 0,
+    "incMDD": 0,
+    "incEVA": 0,
+    "incFatigue": 0,
+    "hpRecovery": 0,
+    "mpRecovery": 0,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01912052": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "reqLevel": 0,
+    "incSpeed": 0,
+    "incJump": 0,
+    "incSwim": 0,
+    "incPDD": 0,
+    "incMDD": 0,
+    "incEVA": 0,
+    "incFatigue": 0,
+    "hpRecovery": 0,
+    "mpRecovery": 0,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01912053": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "reqLevel": 0,
+    "incSpeed": 0,
+    "incJump": 0,
+    "incSwim": 0,
+    "incPDD": 0,
+    "incMDD": 0,
+    "incEVA": 0,
+    "incFatigue": 0,
+    "hpRecovery": 0,
+    "mpRecovery": 0,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1,
+    "timeLimited": 1,
+    "dropBlock": 1
+  },
+  "01902047": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 70,
+    "islot": "Tm",
+    "vslot": "Tm",
+    "cash": 1
+  },
+  "01912040": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "cash": 1
+  },
+  "01932036": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 12,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 6,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 11,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 6,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 2,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 2,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 3,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 2,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932015": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 9,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932016": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 70,
+    "tuc": 0,
+    "tamingMob": 10,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932018": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 2,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932022": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932023": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932025": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 11,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932026": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 2,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932027": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 11,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932028": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932030": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 9,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932031": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 9,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932032": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 9,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932033": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 9,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932034": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 3,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932035": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932038": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932041": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932043": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932044": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932045": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1
+  },
+  "01932046": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1
+  },
+  "01932047": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1
+  },
+  "01932048": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932058": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1
+  },
+  "01932059": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1
+  },
+  "01932060": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932061": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1
+  },
+  "01932062": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932063": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqLevel": 0,
+    "reqJob": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932064": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqLevel": 0,
+    "reqJob": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932065": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "reqLevel": 0,
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932066": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqLevel": 0,
+    "reqJob": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932071": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqLevel": 0,
+    "reqJob": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932072": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqLevel": 0,
+    "reqJob": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932078": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 8,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932080": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 2,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932081": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 2,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932083": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1,
+    "passengerNum": 3
+  },
+  "01983000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983008": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    }
+  },
+  "01983010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983016": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983017": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983018": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983019": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983020": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983021": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983022": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983023": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983024": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01983025": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    }
+  },
+  "01992000": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 120,
+    "tuc": 0,
+    "tamingMob": 3,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01992001": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 120,
+    "tuc": 0,
+    "tamingMob": 3,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01992002": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01992003": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tamingMob": 3,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01992004": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tamingMob": 1,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01992005": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tamingMob": 8,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01992006": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01992007": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01992008": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tamingMob": 1,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01992009": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tamingMob": 2,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01992010": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01992011": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01992012": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 120,
+    "tuc": 0,
+    "tamingMob": 3,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01992013": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01992014": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tamingMob": 2,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01992015": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932109": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932105": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932099": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 11,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932098": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 11,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932097": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 11,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932092": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 11,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932091": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 2,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932090": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932089": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 7,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932088": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 11,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932087": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 8,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932086": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 13,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932085": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 8,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01932084": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "slotMax": 1,
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 6,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902054": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 1,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01902055": {
+    "icon": {
+      "origin": null,
+      "z": 0
+    },
+    "iconRaw": {
+      "origin": null,
+      "z": 0
+    },
+    "islot": "Tm",
+    "vslot": "Tm",
+    "reqJob": 0,
+    "reqLevel": 0,
+    "tuc": 0,
+    "tamingMob": 8,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  },
+  "01912054": {
+    "icon": {
+      "origin": null
+    },
+    "iconRaw": {
+      "origin": null
+    },
+    "islot": "Sd",
+    "vslot": "Sd",
+    "reqLevel": 0,
+    "incSpeed": 0,
+    "incJump": 0,
+    "incSwim": 0,
+    "incPDD": 0,
+    "incMDD": 0,
+    "incEVA": 0,
+    "incFatigue": 0,
+    "hpRecovery": 0,
+    "mpRecovery": 0,
+    "tuc": 0,
+    "tradeBlock": 1,
+    "notSale": 1,
+    "only": 1
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "1": {
+    "type": "Foul Language",
+    "msg": "Foul language/Harrassment"
+  },
+  "2": {
+    "type": "Advertising",
+    "msg": "Advertising websites"
+  },
+  "3": {
+    "type": "Hack",
+    "msg": "Fake GM"
+  },
+  "4": {
+    "type": "Account Trading",
+    "msg": "Trading or selling account"
+  },
+  "5": {
+    "type": "Trading",
+    "msg": "Do not report fame scams and trade scams. "
+  },
+  "6": {
+    "type": "Penalty Alert",
+    "msg": "The reporter's conversation is also subject to penalties."
+  }
+}

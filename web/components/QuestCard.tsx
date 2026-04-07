@@ -22,11 +22,29 @@ function LevelBadge({ level }: { level: number }) {
   );
 }
 
+function DifficultyBadge({ difficulty }: { difficulty: string }) {
+  const colors: Record<string, string> = {
+    "필수": "bg-green-100 text-green-700 dark:bg-green-900/50 dark:text-green-400",
+    "추천": "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/50 dark:text-yellow-400",
+    "비추천": "bg-red-100 text-red-700 dark:bg-red-900/50 dark:text-red-400",
+    "일일": "bg-cyan-100 text-cyan-700 dark:bg-cyan-900/50 dark:text-cyan-400",
+    "월드이동": "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-400",
+    "히든": "bg-orange-100 text-orange-700 dark:bg-orange-900/50 dark:text-orange-400",
+    "체인": "bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-400",
+  };
+  return (
+    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${colors[difficulty] || "bg-gray-100 text-gray-600 dark:bg-gray-700/60 dark:text-gray-300"}`}>
+      {difficulty}
+    </span>
+  );
+}
+
 function TypeBadge({ type }: { type: string }) {
   const colors: Record<string, string> = {
     "일반": "bg-gray-100 text-gray-600 dark:bg-gray-700/60 dark:text-gray-300",
-    "자동시작": "bg-cyan-100 text-cyan-700 dark:bg-cyan-900/50 dark:text-cyan-400",
     "반복": "bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-400",
+    "히든": "bg-orange-100 text-orange-700 dark:bg-orange-900/50 dark:text-orange-400",
+    "월드이동": "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-400",
   };
   return (
     <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${colors[type] || colors["일반"]}`}>
@@ -47,15 +65,8 @@ interface Props {
 export default function QuestCard({ quest, onClick, checked, onToggleCheck, favorited, onToggleFavorite }: Props) {
   const expReward = quest.exp_reward || 0;
   const mesoReward = quest.meso_reward || 0;
-  const level = quest.level_req || quest.start_level || 0;
-  const displayName = quest.name_kr || quest.name;
-  const subName = quest.name_kr && quest.name_kr !== quest.name ? quest.name : null;
-
-  const requiredMobs = quest.required_mobs && Array.isArray(quest.required_mobs) ? quest.required_mobs : [];
-  const completionItems = quest.completion_items && Array.isArray(quest.completion_items) ? quest.completion_items : [];
-  const rewardItems = quest.reward_items && Array.isArray(quest.reward_items) ? quest.reward_items : [];
-  const hasConditions = requiredMobs.length > 0 || completionItems.length > 0;
-  const hasRewards = expReward > 0 || mesoReward > 0 || rewardItems.length > 0;
+  const level = quest.level_req || 0;
+  const hasRewards = expReward > 0 || mesoReward > 0 || !!quest.item_reward;
 
   return (
     <div
@@ -65,7 +76,7 @@ export default function QuestCard({ quest, onClick, checked, onToggleCheck, favo
           : "border-slate-700/80"
       }`}
     >
-      {/* Top row: star, level, name, complete checkbox */}
+      {/* Top row: star, level, name, badges, checkbox */}
       <div className="flex items-center gap-2 px-3 py-2.5">
         {/* Favorite star */}
         <button
@@ -90,15 +101,18 @@ export default function QuestCard({ quest, onClick, checked, onToggleCheck, favo
           onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onClick?.(); } }}
         >
           <span className={`font-semibold text-sm text-gray-100 hover:text-orange-400 transition-colors ${checked ? "line-through opacity-60" : ""}`}>
-            {displayName}
+            {quest.name}
           </span>
-          {subName && (
-            <span className="text-xs text-gray-500 ml-1.5">({subName})</span>
+          {quest.is_chain === 1 && quest.chain_parent && (
+            <span className="text-xs text-gray-500 ml-1.5">(체인)</span>
           )}
         </div>
 
-        {/* Quest type badge */}
-        {quest.quest_type && <TypeBadge type={quest.quest_type} />}
+        {/* Difficulty badge */}
+        {quest.difficulty && <DifficultyBadge difficulty={quest.difficulty} />}
+
+        {/* Quest type badge (only for non-일반) */}
+        {quest.quest_type && quest.quest_type !== "일반" && <TypeBadge type={quest.quest_type} />}
 
         {/* Complete checkbox */}
         <button
@@ -117,7 +131,7 @@ export default function QuestCard({ quest, onClick, checked, onToggleCheck, favo
           )}
         </button>
 
-        {/* Tip link */}
+        {/* Detail link */}
         <button
           onClick={onClick}
           className="flex-shrink-0 text-xs text-orange-400/70 hover:text-orange-400 transition-colors px-1"
@@ -127,7 +141,7 @@ export default function QuestCard({ quest, onClick, checked, onToggleCheck, favo
         </button>
       </div>
 
-      {/* Bottom row: area, NPC, conditions, rewards */}
+      {/* Bottom row: area, start location, rewards */}
       <div className="px-3 pb-2.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-400">
         {/* Area */}
         {quest.area && (
@@ -137,28 +151,11 @@ export default function QuestCard({ quest, onClick, checked, onToggleCheck, favo
           </span>
         )}
 
-        {/* NPC */}
-        {quest.npc_start && (
+        {/* Start location */}
+        {quest.start_location && (
           <span>
-            <span className="text-gray-500">NPC</span>{" "}
-            <span className="text-gray-300">{quest.npc_start}</span>
-          </span>
-        )}
-
-        {/* Conditions */}
-        {hasConditions && (
-          <span className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-gray-500">조건</span>
-            {requiredMobs.map((mob, i) => (
-              <span key={`mob-${i}`} className="inline-flex items-center gap-0.5 bg-red-900/30 text-red-300 px-1.5 py-0.5 rounded">
-                {mob.name || `몹#${mob.id}`} x{mob.count}
-              </span>
-            ))}
-            {completionItems.map((item, i) => (
-              <span key={`item-${i}`} className="inline-flex items-center gap-0.5 bg-amber-900/30 text-amber-300 px-1.5 py-0.5 rounded">
-                {item.name || `아이템#${item.id}`} x{item.count}
-              </span>
-            ))}
+            <span className="text-gray-500">시작</span>{" "}
+            <span className="text-gray-300">{quest.start_location}</span>
           </span>
         )}
 
@@ -173,14 +170,14 @@ export default function QuestCard({ quest, onClick, checked, onToggleCheck, favo
             )}
             {mesoReward > 0 && (
               <span className="inline-flex items-center gap-0.5 bg-yellow-900/30 text-yellow-300 px-1.5 py-0.5 rounded">
-                메소 {mesoReward.toLocaleString()}
+                {mesoReward.toLocaleString()} 메소
               </span>
             )}
-            {rewardItems.map((item, i) => (
-              <span key={`reward-${i}`} className="inline-flex items-center gap-0.5 bg-green-900/30 text-green-300 px-1.5 py-0.5 rounded">
-                {item.name || `아이템#${item.id}`} x{item.count}
+            {quest.item_reward && (
+              <span className="inline-flex items-center gap-0.5 bg-green-900/30 text-green-300 px-1.5 py-0.5 rounded">
+                {quest.item_reward}
               </span>
-            ))}
+            )}
           </span>
         )}
       </div>
@@ -188,4 +185,4 @@ export default function QuestCard({ quest, onClick, checked, onToggleCheck, favo
   );
 }
 
-export { LevelBadge, TypeBadge };
+export { LevelBadge, DifficultyBadge, TypeBadge };
