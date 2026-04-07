@@ -1,0 +1,46 @@
+{
+  "timestamp": "2026-04-07T01:02:40.676Z",
+  "summary": {
+    "original_mapleland_1": 1697,
+    "final_mapleland_1": 1134,
+    "net_reduction": 563,
+    "total_disabled": 583,
+    "total_restored": 20
+  },
+  "breakdown_disabled": {
+    "cygnus_knights_20000_29999": 117,
+    "tms_sea_50000_plus": 17,
+    "event_chinese_foreign": 57,
+    "event_english_only": 38,
+    "event_seasonal_keyword": 1,
+    "event_korean_inactive": 94,
+    "overseas_region_keywords": 6,
+    "masteria_gms_exclusive": 190,
+    "non_korean_misc": 63
+  },
+  "restored_from_mapledb_kr": 20,
+  "mapledb_kr_stats": {
+    "total_on_mapledb": 664,
+    "all_confirmed_in_db": 664,
+    "missing_from_db": 0
+  },
+  "community_sheet_crosscheck": {
+    "total_quests_in_sheet": 80,
+    "matched_in_db": "~75 (이름 변형 포함)",
+    "truly_missing": "0-2건 (이름 차이로 인한 미매치, 실제로는 DB에 존재)",
+    "notes": "커뮤니티 시트는 빅토리아 아일랜드 퀘스트 중심. DB 퀘스트명이 다소 다르지만 동일 퀘스트 확인."
+  },
+  "final_area_distribution": {
+    "빅토리아 아일랜드": 296,
+    "전직": 192,
+    "무릉/니할사막": 170,
+    "루디브리엄": 149,
+    "기타 지역": 134,
+    "엘나스/아쿠아로드": 109,
+    "메이플 아일랜드": 43,
+    "(없음)": 20,
+    "리프레": 15,
+    "펫": 4,
+    "이벤트": 2
+  }
+}
