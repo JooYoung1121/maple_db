@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "2.14.0";
+const VERSION = "2.15.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,32 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "2.15.0",
+    date: "2026-04-07",
+    type: "minor",
+    title: "엑셀 마스터 데이터 기반 퀘스트 DB 리빌딩",
+    features: [
+      {
+        category: "데이터 — 퀘스트 DB 리빌딩 (419건)",
+        items: [
+          "커뮤니티 엑셀(퀘매.xlsx) 419건을 마스터 데이터로 삼아 퀘스트 DB 전면 리빌딩",
+          "6개 지역 시트: 빅토리아(82), 엘나스(83), 루디브리엄(98), 니할사막(80), 리프레(11), 세계여행(65)",
+          "기존 DB 266건 매칭 + 153건 신규 삽입, is_mapleland 419건 확정",
+          "레벨/EXP/메소 보상/퀘스트 타입(일반/반복) 엑셀 기준 업데이트",
+          "기존 WZ 파싱 데이터(prerequisite_quests, required_mobs 등) 보존",
+        ],
+      },
+      {
+        category: "개선 — 지역 필터 정리",
+        items: [
+          "퀘스트 목록 지역 버튼을 엑셀 시트 기반 6개 지역으로 정리",
+          "세계여행(중국/태국/일본 등) 지역 신규 추가",
+          "미사용 지역(메이플 아일랜드, 마스테리아, 전직, 이벤트, 펫, 기타) 제거",
+        ],
+      },
+    ],
+  },
   {
     version: "2.14.0",
     date: "2026-04-07",

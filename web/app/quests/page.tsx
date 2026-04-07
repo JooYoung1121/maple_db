@@ -11,17 +11,12 @@ import { useQueryState } from "@/lib/useQueryState";
 /* ── 지역 버튼 매핑 ── */
 const AREA_BUTTONS: { label: string; value: string }[] = [
   { label: "전체", value: "" },
-  { label: "메이플 아일랜드", value: "메이플 아일랜드" },
   { label: "빅토리아", value: "빅토리아 아일랜드" },
   { label: "엘나스/아쿠아로드", value: "엘나스/아쿠아로드" },
   { label: "루디브리엄", value: "루디브리엄" },
   { label: "무릉/니할사막", value: "무릉/니할사막" },
   { label: "리프레", value: "리프레" },
-  { label: "마스테리아", value: "마스테리아" },
-  { label: "전직", value: "전직" },
-  { label: "이벤트", value: "이벤트" },
-  { label: "펫", value: "펫" },
-  { label: "기타 지역", value: "기타 지역" },
+  { label: "세계여행", value: "세계여행" },
 ];
 
 /* ── 로컬스토리지: 완료 퀘스트 ── */
