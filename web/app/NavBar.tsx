@@ -22,7 +22,6 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/npcs", label: "NPC" },
       { href: "/quests", label: "퀘스트" },
       { href: "/skills", label: "스킬" },
-      { href: "/market", label: "시세 조회" },
       { href: "/drop-search", label: "드롭 검색" },
     ],
   },
@@ -33,7 +32,6 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/exp", label: "경험치 계산기" },
       { href: "/nhit", label: "엔방컷 계산기" },
       { href: "/fee", label: "수수료 계산기" },
-      { href: "/meso", label: "메소 효율" },
     ],
   },
   {
@@ -49,7 +47,7 @@ const NAV_CATEGORIES: NavCategory[] = [
   {
     label: "커뮤니티",
     items: [
-      { href: "/news", label: "소식" },
+      { href: "/news", label: "메랜 공홈 소식" },
       { href: "/bimae", label: "비매박제" },
       { href: "/community", label: "투표" },
     ],

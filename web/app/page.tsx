@@ -25,7 +25,6 @@ const SECTION_GROUPS = [
       { href: "/npcs", label: "NPC", icon: "🧑", desc: "상점, 퀘스트 NPC" },
       { href: "/quests", label: "퀘스트", icon: "📜", desc: "메인, 서브 퀘스트" },
       { href: "/skills", label: "스킬", icon: "✨", desc: "직업별 스킬 정보" },
-      { href: "/market", label: "시세", icon: "📊", desc: "아이템 시세 조회" },
       { href: "/drop-search", label: "드롭 검색", icon: "🔍", desc: "아이템 드롭처 역검색" },
     ],
   },
@@ -36,7 +35,6 @@ const SECTION_GROUPS = [
       { href: "/exp", label: "경험치", icon: "📈", desc: "레벨업 계산" },
       { href: "/nhit", label: "엔방컷", icon: "⚔️", desc: "젠컷 계산" },
       { href: "/fee", label: "수수료", icon: "💰", desc: "거래 수수료" },
-      { href: "/meso", label: "메소 효율", icon: "💵", desc: "사냥터별 메소 효율" },
     ],
   },
   {
@@ -52,7 +50,7 @@ const SECTION_GROUPS = [
   {
     label: "커뮤니티",
     items: [
-      { href: "/news", label: "소식", icon: "📰", desc: "메이플랜드 공지/이벤트" },
+      { href: "/news", label: "메랜 공홈 소식", icon: "📰", desc: "메이플랜드 공지/이벤트" },
       { href: "/bimae", label: "비매박제", icon: "🚫", desc: "비매 유저 신고" },
       { href: "/community", label: "투표", icon: "🗳️", desc: "유저 투표 참여" },
     ],
