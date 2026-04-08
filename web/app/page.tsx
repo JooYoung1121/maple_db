@@ -55,7 +55,6 @@ const SECTION_GROUPS = [
       { href: "/news", label: "소식", icon: "📰", desc: "메이플랜드 공지/이벤트" },
       { href: "/bimae", label: "비매박제", icon: "🚫", desc: "비매 유저 신고" },
       { href: "/community", label: "투표", icon: "🗳️", desc: "유저 투표 참여" },
-      { href: "/showcase", label: "캐릭터 자랑", icon: "📸", desc: "코디 · 스크린샷 갤러리" },
     ],
   },
   {

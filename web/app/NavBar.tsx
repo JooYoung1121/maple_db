@@ -52,7 +52,6 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/news", label: "소식" },
       { href: "/bimae", label: "비매박제" },
       { href: "/community", label: "투표" },
-      { href: "/showcase", label: "캐릭터 자랑" },
     ],
   },
   {
