@@ -201,6 +201,7 @@ export default function DiscordBotPage() {
                 onChange={(e) => setChannelId(e.target.value)}
                 className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-orange-300 outline-none"
               />
+            </div>
 
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-700 dark:text-gray-300">메랜 공홈 공지 알림</span>
