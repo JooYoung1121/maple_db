@@ -1,10 +1,15 @@
-"""Gemini API를 사용한 게시글 요약 모듈"""
+"""Gemini API를 사용한 게시글 요약 모듈 (httpx REST 직접 호출)"""
 from __future__ import annotations
 
-import asyncio
 import os
+import httpx
 
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY", "")
+GEMINI_MODEL = "gemini-2.5-flash-lite"
+GEMINI_URL = (
+    "https://generativelanguage.googleapis.com/v1beta/models/"
+    f"{GEMINI_MODEL}:generateContent"
+)
 
 PROMPT_TEMPLATE = """너는 메이플랜드(게임) 소식을 전해주는 친근한 요약봇이야.
 아래 공식 공지사항을 읽고, 유저 입장에서 핵심만 쏙쏙 뽑아서 편하게 정리해 줘.
@@ -36,18 +41,25 @@ async def summarize_post(title: str, content: str) -> str | None:
     if not content or len(content.strip()) < 50:
         return None
 
+    truncated = content[:8000] if len(content) > 8000 else content
+    prompt = PROMPT_TEMPLATE.format(title=title, content=truncated)
+
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {"temperature": 0.4},
+    }
+
     try:
-        import google.generativeai as genai
-
-        def _sync_generate() -> str | None:
-            genai.configure(api_key=GOOGLE_API_KEY)
-            model = genai.GenerativeModel("gemini-2.5-flash-lite")
-            truncated = content[:8000] if len(content) > 8000 else content
-            prompt = PROMPT_TEMPLATE.format(title=title, content=truncated)
-            response = model.generate_content(prompt)
-            return response.text.strip() if response.text else None
-
-        return await asyncio.to_thread(_sync_generate)
+        async with httpx.AsyncClient(timeout=30) as client:
+            res = await client.post(
+                GEMINI_URL,
+                params={"key": GOOGLE_API_KEY},
+                json=payload,
+            )
+            res.raise_for_status()
+            data = res.json()
+            text = data["candidates"][0]["content"]["parts"][0]["text"]
+            return text.strip() if text else None
     except Exception as e:
         print(f"[summarizer] 요약 실패: {e}")
         return None
