@@ -22,16 +22,18 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/npcs", label: "NPC" },
       { href: "/quests", label: "퀘스트" },
       { href: "/skills", label: "스킬" },
-      { href: "/market", label: "시세 조회 (비공개)" },
+      { href: "/market", label: "시세 조회" },
+      { href: "/drop-search", label: "드롭 검색" },
     ],
   },
   {
     label: "계산기",
     items: [
       { href: "/scroll", label: "주문서 계산기" },
-      { href: "/fee", label: "수수료 계산기" },
       { href: "/exp", label: "경험치 계산기" },
       { href: "/nhit", label: "엔방컷 계산기" },
+      { href: "/fee", label: "수수료 계산기" },
+      { href: "/meso", label: "메소 효율" },
     ],
   },
   {
@@ -39,6 +41,7 @@ const NAV_CATEGORIES: NavCategory[] = [
     items: [
       { href: "/pq", label: "파티퀘스트" },
       { href: "/hunt", label: "사냥터 추천" },
+      { href: "/job", label: "전직 가이드" },
       { href: "/ship", label: "배 시간표" },
       { href: "/trap", label: "함정 타이머" },
     ],
@@ -46,8 +49,10 @@ const NAV_CATEGORIES: NavCategory[] = [
   {
     label: "커뮤니티",
     items: [
+      { href: "/news", label: "소식" },
       { href: "/bimae", label: "비매박제" },
       { href: "/community", label: "투표" },
+      { href: "/showcase", label: "캐릭터 자랑" },
     ],
   },
   {
@@ -56,6 +61,7 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/play", label: "룰렛 · 주사위" },
       { href: "/lotto", label: "로또" },
       { href: "/fortune", label: "오늘의 운세" },
+      { href: "/quiz", label: "메이플 퀴즈" },
     ],
   },
   {
@@ -70,10 +76,11 @@ const NAV_CATEGORIES: NavCategory[] = [
   },
 ];
 
-function DropdownMenu({ category, isActive, closeMobileMenu }: {
+function DropdownMenu({ category, isActive, closeMobileMenu, newsBadge = 0 }: {
   category: NavCategory;
   isActive: (href: string) => boolean;
   closeMobileMenu?: () => void;
+  newsBadge?: number;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -94,13 +101,18 @@ function DropdownMenu({ category, isActive, closeMobileMenu }: {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className={`flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+        className={`relative flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
           hasActiveChild
             ? "bg-orange-50 dark:bg-orange-900/30 text-orange-600"
             : "text-gray-600 dark:text-gray-300 hover:text-orange-600 hover:bg-gray-50 dark:hover:bg-gray-700"
         }`}
       >
         {category.label}
+        {newsBadge > 0 && (
+          <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+            {newsBadge > 99 ? "99+" : newsBadge}
+          </span>
+        )}
         <svg
           className={`w-3.5 h-3.5 transition-transform ${open ? "rotate-180" : ""}`}
           fill="none"
@@ -184,23 +196,8 @@ export default function NavBar() {
             홈
           </Link>
           {NAV_CATEGORIES.map((cat) => (
-            <DropdownMenu key={cat.label} category={cat} isActive={isActive} />
+            <DropdownMenu key={cat.label} category={cat} isActive={isActive} newsBadge={cat.label === "커뮤니티" ? newsBadge : 0} />
           ))}
-          <Link
-            href="/news"
-            className={`relative px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-              isActive("/news")
-                ? "bg-orange-50 dark:bg-orange-900/30 text-orange-600"
-                : "text-gray-600 dark:text-gray-300 hover:text-orange-600 hover:bg-gray-50 dark:hover:bg-gray-700"
-            }`}
-          >
-            메랜 공홈 공지
-            {newsBadge > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-                {newsBadge > 99 ? "99+" : newsBadge}
-              </span>
-            )}
-          </Link>
           <ThemeToggle />
         </div>
 
@@ -230,20 +227,6 @@ export default function NavBar() {
             }`}
           >
             홈
-          </Link>
-          <Link
-            href="/news"
-            onClick={() => setMenuOpen(false)}
-            className={`flex items-center justify-between px-4 py-3 text-sm font-medium border-t border-gray-50 dark:border-gray-700 ${
-              isActive("/news") ? "bg-orange-50 dark:bg-orange-900/30 text-orange-600" : "text-gray-600 dark:text-gray-300"
-            }`}
-          >
-            <span>메랜 공홈 공지</span>
-            {newsBadge > 0 && (
-              <span className="min-w-[18px] h-[18px] px-1 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-                {newsBadge > 99 ? "99+" : newsBadge}
-              </span>
-            )}
           </Link>
           {NAV_CATEGORIES.map((cat) => (
             <div key={cat.label} className="border-t border-gray-50 dark:border-gray-700">

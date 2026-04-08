@@ -23,6 +23,7 @@ from api.routes import fee_records
 from api.routes import discord_admin
 from api.routes import free_board
 from api.routes import fortune
+from api.routes import showcase
 from api.discord_bot import start_bot, get_bot
 
 
@@ -127,6 +128,7 @@ app.include_router(discord_admin.router, prefix="/api")
 app.include_router(free_board.router, prefix="/api")
 app.include_router(matip.router, prefix="/api")
 app.include_router(fortune.router, prefix="/api")
+app.include_router(showcase.router)
 
 
 @app.get("/api/health")

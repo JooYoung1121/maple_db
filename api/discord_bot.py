@@ -117,6 +117,39 @@ class MapleBot(discord.Client):
         await ch.send(content=self.get_mention_text(), embed=embed)
 
 
+    async def fetch_showcase_images(self, limit: int = 100) -> list[dict]:
+        """#코디자랑 채널에서 이미지 첨부파일을 가져옵니다."""
+        conn = get_connection()
+        row = conn.execute(
+            "SELECT value FROM bot_settings WHERE key='showcase_channel_id'"
+        ).fetchone()
+        conn.close()
+        ch_id = int(row[0]) if row else None
+        if not ch_id:
+            # showcase_channel_id가 없으면 기본 채널 사용
+            ch_id = self.get_channel_id()
+        if not ch_id:
+            return []
+        try:
+            channel = await self.fetch_channel(ch_id)
+        except Exception as e:
+            print(f"[discord] 코디자랑 채널 조회 실패: {e}")
+            return []
+
+        images = []
+        async for msg in channel.history(limit=limit):
+            for att in msg.attachments:
+                if att.content_type and att.content_type.startswith("image/"):
+                    images.append({
+                        "id": str(att.id),
+                        "url": att.url,
+                        "author": msg.author.display_name,
+                        "message": msg.content or None,
+                        "posted_at": msg.created_at.isoformat(),
+                    })
+        return images
+
+
 async def start_bot():
     global bot_instance
     token = os.environ.get("DISCORD_BOT_TOKEN")
@@ -124,6 +157,7 @@ async def start_bot():
         print("[discord] DISCORD_BOT_TOKEN 미설정, 봇 비활성화")
         return
     intents = discord.Intents.default()
+    intents.message_content = True
     bot_instance = MapleBot(intents=intents)
     try:
         await bot_instance.start(token)

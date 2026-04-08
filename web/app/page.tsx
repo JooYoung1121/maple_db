@@ -25,6 +25,8 @@ const SECTION_GROUPS = [
       { href: "/npcs", label: "NPC", icon: "🧑", desc: "상점, 퀘스트 NPC" },
       { href: "/quests", label: "퀘스트", icon: "📜", desc: "메인, 서브 퀘스트" },
       { href: "/skills", label: "스킬", icon: "✨", desc: "직업별 스킬 정보" },
+      { href: "/market", label: "시세", icon: "📊", desc: "아이템 시세 조회" },
+      { href: "/drop-search", label: "드롭 검색", icon: "🔍", desc: "아이템 드롭처 역검색" },
     ],
   },
   {
@@ -34,19 +36,26 @@ const SECTION_GROUPS = [
       { href: "/exp", label: "경험치", icon: "📈", desc: "레벨업 계산" },
       { href: "/nhit", label: "엔방컷", icon: "⚔️", desc: "젠컷 계산" },
       { href: "/fee", label: "수수료", icon: "💰", desc: "거래 수수료" },
+      { href: "/meso", label: "메소 효율", icon: "💵", desc: "사냥터별 메소 효율" },
     ],
   },
   {
     label: "가이드",
     items: [
       { href: "/pq", label: "파티퀘스트", icon: "🏰", desc: "PQ 공략 및 보상" },
+      { href: "/hunt", label: "사냥터 추천", icon: "🎯", desc: "레벨별 사냥터 가이드" },
+      { href: "/job", label: "전직 가이드", icon: "📋", desc: "직업별 전직 경로" },
+      { href: "/ship", label: "배 시간표", icon: "🚢", desc: "정기선 운항 시간" },
+      { href: "/trap", label: "트랩 타이머", icon: "⏱️", desc: "트랩 주기 타이머" },
     ],
   },
   {
     label: "커뮤니티",
     items: [
+      { href: "/news", label: "소식", icon: "📰", desc: "메이플랜드 공지/이벤트" },
       { href: "/bimae", label: "비매박제", icon: "🚫", desc: "비매 유저 신고" },
       { href: "/community", label: "투표", icon: "🗳️", desc: "유저 투표 참여" },
+      { href: "/showcase", label: "캐릭터 자랑", icon: "📸", desc: "코디 · 스크린샷 갤러리" },
     ],
   },
   {
@@ -54,6 +63,18 @@ const SECTION_GROUPS = [
     items: [
       { href: "/play", label: "룰렛 · 주사위", icon: "🎰", desc: "룰렛, 주사위 굴리기" },
       { href: "/lotto", label: "로또", icon: "🎱", desc: "랜덤 번호 생성" },
+      { href: "/fortune", label: "오늘의 운세", icon: "🔮", desc: "메이플 운세 보기" },
+      { href: "/quiz", label: "메이플 퀴즈", icon: "❓", desc: "스피드퀴즈 연습" },
+    ],
+  },
+  {
+    label: "추억길드",
+    items: [
+      { href: "/guild", label: "공지 · 이벤트", icon: "📢", desc: "길드 공지사항" },
+      { href: "/guild/members", label: "길드원 명단", icon: "👥", desc: "길드원 정보" },
+      { href: "/guild/boss", label: "보스", icon: "🐉", desc: "보스 파티 · 기록" },
+      { href: "/guild/board", label: "자유게시판", icon: "💬", desc: "길드원 소통" },
+      { href: "/guild/discord", label: "디스코드 봇", icon: "🤖", desc: "봇 설정 · 알림" },
     ],
   },
 ];

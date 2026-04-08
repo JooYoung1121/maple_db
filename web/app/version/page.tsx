@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "3.1.0";
+const VERSION = "3.2.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,45 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "3.2.0",
+    date: "2026-04-08",
+    type: "minor",
+    title: "신규 페이지 5종 + 카테고리 재정비 + 3차 전직 퀴즈",
+    features: [
+      {
+        category: "신규 — 정보/가이드 페이지",
+        items: [
+          "드롭 검색 (/drop-search): 아이템 이름으로 드롭 몬스터 역검색",
+          "전직 가이드 (/job): 4직업 전직 경로 + 3차 전직 퀴즈 족보 40문제 (검색/카테고리 필터)",
+          "메소 효율 계산기 (/meso): 사냥터별 메소/경험치 비교 (추정치 기반, 레벨 필터, 메소 획득률 조절)",
+        ],
+      },
+      {
+        category: "신규 — 커뮤니티/놀이터 페이지",
+        items: [
+          "캐릭터 자랑 (/showcase): Discord #코디자랑 채널 이미지 자동 갤러리 + 모달 뷰어",
+          "메이플 퀴즈 (/quiz): 스피드퀴즈 연습 모드 (10초 타이머) + 족보 모드 (클릭 복사)",
+        ],
+      },
+      {
+        category: "개선 — 카테고리 재정비",
+        items: [
+          "홈 화면 · NavBar 카테고리 완전 동기화",
+          "시세를 계산기 → 정보로 이동 (NavBar 일치)",
+          "추억길드 섹션을 홈 화면에 별도 추가 (5개 하위 링크 노출)",
+          "소식(news)을 커뮤니티 드롭다운에 포함 + 뱃지 유지",
+        ],
+      },
+      {
+        category: "백엔드 — Discord 연동 강화",
+        items: [
+          "Discord 봇에 message_content intent 추가",
+          "fetch_showcase_images() 메서드 + GET /api/showcase 엔드포인트",
+        ],
+      },
+    ],
+  },
   {
     version: "3.1.0",
     date: "2026-04-07",
