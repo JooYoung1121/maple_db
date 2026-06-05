@@ -28,6 +28,10 @@ export default function DiscordBotPage() {
   // 봇 상태
   const [online, setOnline] = useState(false);
   const [botUser, setBotUser] = useState<string | null>(null);
+  const [statusChannelId, setStatusChannelId] = useState<string | null>(null);
+  const [channelName, setChannelName] = useState<string | null>(null);
+  const [channelOk, setChannelOk] = useState<boolean | null>(null);
+  const [channelError, setChannelError] = useState<string | null>(null);
 
   // 설정
   const [channelId, setChannelId] = useState("");
@@ -53,6 +57,10 @@ export default function DiscordBotPage() {
       .then((d) => {
         setOnline(d.online);
         setBotUser(d.user);
+        setStatusChannelId(d.channel_id ?? null);
+        setChannelName(d.channel_name ?? null);
+        setChannelOk(typeof d.channel_ok === "boolean" ? d.channel_ok : null);
+        setChannelError(d.channel_error ?? null);
       })
       .catch(() => {});
   }, []);
@@ -103,6 +111,7 @@ export default function DiscordBotPage() {
         pw,
       );
       setSettingsSaved(true);
+      fetchStatus();
       setTimeout(() => setSettingsSaved(false), 2000);
     } catch (e: unknown) {
       alert(e instanceof Error ? e.message : "설정 저장 실패");
@@ -159,6 +168,31 @@ export default function DiscordBotPage() {
         </span>
         {botUser && (
           <span className="text-xs text-gray-400 ml-auto font-mono">{botUser}</span>
+        )}
+      </div>
+
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 space-y-2">
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">알림 채널</span>
+          <span
+            className={`text-xs px-2 py-1 rounded-full ${
+              !statusChannelId
+                ? "bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-300"
+                : channelOk
+                ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
+                : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300"
+            }`}
+          >
+            {!statusChannelId ? "미설정" : channelOk ? "연결됨" : "오류"}
+          </span>
+        </div>
+        {statusChannelId && (
+          <p className="text-xs text-gray-500 dark:text-gray-400 font-mono break-all">
+            {channelName ? `${channelName} (${statusChannelId})` : statusChannelId}
+          </p>
+        )}
+        {channelError && (
+          <p className="text-xs text-red-500 break-words">{channelError}</p>
         )}
       </div>
 

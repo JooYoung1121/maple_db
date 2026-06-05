@@ -1,0 +1,4176 @@
+{
+  "generated_at": "2026-06-05T04:42:16.058501+00:00",
+  "summary_count": 417,
+  "summaries": [
+    {
+      "post_id": "w5zcuwl1isqmwxqgzeaz346z",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 6월 5일(금) 무중단 배포 Ver. Test 2.2.62 안내 (4:25 추가)",
+      "published_at": "2026.06.05",
+      "url": "https://tespia.maple.land/board/notices/w5zcuwl1isqmwxqgzeaz346z",
+      "summary": "- 이제 몽롱할배를 통해 레벨 180까지 한번에 레벨업이 가능합니다.\n- 단, 시그너스 직업은 불가능합니다.\n- 이제 보스<핑크빈>, 보스<카오스 자쿰>, 보스<카오스 혼테일>을 진행해 보실 수 있습니다.\n- 보스의 드롭 데이터 또는 밸런스 등 세부 수치는 추후 변경될 수 있습니다.\n- 이제 파티퀘스트 <몬스터 카니발>을 진행해 보실 수 있습니다."
+    },
+    {
+      "post_id": "l5s1otgcec6orsfnqell53j1",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 6월 4일(목) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2026.06.03",
+      "url": "https://maple.land/board/notices/l5s1otgcec6orsfnqell53j1",
+      "summary": "- 메이플스토리 월드(MSW) 점검\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2026년 6월 4일(목) 오전 6시 30분 ~ 오전 11시 (4시간 30분)"
+    },
+    {
+      "post_id": "h8yu12q5fr0glc0nkkmx0jki",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 6월 3일(수) 업데이트 Ver. Test 2.2.57 안내 (2:30 추가)",
+      "published_at": "2026.06.02",
+      "url": "https://tespia.maple.land/board/notices/h8yu12q5fr0glc0nkkmx0jki",
+      "summary": "- 6월 2일 21시 24분을 기하여 캐릭터 선택시 접속이 안되던 계정 및 캐릭터 오류를 해결하였습니다.\n- 인게임 리소스 스프라이트가 정상적으로 출력되지 않던 오류가 수정됩니다.\n- 스킬 초기화시 앰플의 스킬포인트가 되돌려지지 않던 문제가 수정됩니다.\n- 엘리먼트 엠플리피케이션이 온오프 스킬로 변경됨에 따라, 스킬코드가 변경되었습니다.\n- 기존에 오류를 겪으시던 분들께서는 한번 더 SP 초기화 진행을 부탁드립니다. 감사합니다."
+    },
+    {
+      "post_id": "kkws4odtb7ihnjzlxguq0290",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 6월 2일(화) 무중단 배포 Ver. Test 2.2.56 안내",
+      "published_at": "2026.06.01",
+      "url": "https://tespia.maple.land/board/notices/kkws4odtb7ihnjzlxguq0290",
+      "summary": "- 진행중이던 섀도어 스킬 구조 개편 작업이 취소됩니다.\n- 금일 무중단 배포로 적용되는 섀도어의 스킬 정보입니다.\n- 이전 변경사항이 취소됩니다.\n- 즉발할 경우 단독으로 사용 가능하도록 개편한 내용은 유지됩니다.\n- 공격 반사 스킬도 가드하도록 개편한 내용은 유지됩니다."
+    },
+    {
+      "post_id": "be8iyp8i0v7yup2f717c512v",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 31일(일) 무중단 배포 Ver. Test 2.2.52 안내",
+      "published_at": "2026.05.31",
+      "url": "https://tespia.maple.land/board/notices/be8iyp8i0v7yup2f717c512v",
+      "summary": "- 빌드 오류로 인해 누락된 요소가 다시 추가됩니다.\n- 모든 몬스터의 피격음이 다시 추가됩니다.\n- 모든 몬스터의 사망음이 다시 추가됩니다.\n- 일부 효과음이 다시 추가됩니다.\n- 인레이지 스킬 내 중첩 공격력 증가량에 원작 데이터가 대신 들어있던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "vp59uqypil9w8lx5ivu4w5or",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 30일(토) 무중단 배포 Ver. Test 2.2.51 안내",
+      "published_at": "2026.05.30",
+      "url": "https://tespia.maple.land/board/notices/vp59uqypil9w8lx5ivu4w5or",
+      "summary": "- 택배를 수령할 때 목록 내 상태가 즉시 갱신되지 않던 문제가 수정됩니다.\n- 돼지, 리본돼지의 die 사운드가 추가되었습니다.\n- 블록퍼스에게서 플래툰 크로노스의 사운드가 출력되던 문제가 수정됩니다.\n- 스킬이 추가로 변경됩니다.\n- 몬스터 라이딩 탑승 시 버프가 종료되어야 하는 원작의 속성을 제거하였습니다."
+    },
+    {
+      "post_id": "htgckj3uau4dc7giz6pmuy7w",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 30일(토) 업데이트 Ver. Test 2.2.50 안내",
+      "published_at": "2026.05.30",
+      "url": "https://tespia.maple.land/board/notices/htgckj3uau4dc7giz6pmuy7w",
+      "summary": "- 일부 직업에 대한 스킬 변경이 이루어졌습니다.\n- 테스피아 기준으로 큰 폭으로 변경된 스킬에 대해서만 변경점을 안내드립니다.\n- 원작과 동일하게 밀려나는 거리가 지나치게 멀어 불편할 수 있음을 인지하고 있으며, 소폭 수정할 예정입니다.\n- 중첩 공격력을 부여하는 파티버프 형태로 변경되었습니다.\n- 원작과 달리 콤보 10개를 실제로 소모하도록 변경됩니다."
+    },
+    {
+      "post_id": "uc1liqzj16p84uk1dzbk5n7g",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 29일(금) 패치노트",
+      "published_at": "2026.05.29",
+      "url": "https://maple.land/board/notices/uc1liqzj16p84uk1dzbk5n7g",
+      "summary": "- 6/12 캐시 아이템 판매 서비스 중단을 위한 사전 작업이 진행됩니다.\n- 픽트라 몬스터 오류 보상, 두뇌훈련 퀴즈 오류 보상은 2026년 5월 31일까지만 수령하실 수 있습니다.\n- 기타 오류가 수정됩니다.\n- 점검 직후 접속 시, 간헐적으로 ‘월드 오류’ 내지는 ‘규칙 위반’을 원인으로 한 접속 종료 현상이 발생할 수 있습니다."
+    },
+    {
+      "post_id": "xdazk2dzabolyo80vgdcf27z",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 5월 29일(금) 점검 예정 안내",
+      "published_at": "2026.05.28",
+      "url": "https://maple.land/board/notices/xdazk2dzabolyo80vgdcf27z",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다.\n- 택배의 유효기간이 점검 도중에 만료될 수 있으니 만료가 임박한 택배를 수령하시기 바랍니다."
+    },
+    {
+      "post_id": "ob0hctdrcwyir7us9gq6lgjm",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 28일(목) 무중단 배포 Ver. Test 2.2.47 안내 (1:59 추가)",
+      "published_at": "2026.05.28",
+      "url": "https://tespia.maple.land/board/notices/ob0hctdrcwyir7us9gq6lgjm",
+      "summary": "- 새로 수정된 데이터 저장 및 불러오기 로직 상의 창고 시스템의 저장 과정에서 발견된 부수적인 문제를 수정하였습니다.\n- 콤보 어택 버프가 활성화되어 있을 경우 채널 변경이 실패할 수 있었던 문제가 수정됩니다.\n- 쉐도우 파트너 스킬의 이펙트가 부자연스럽게 움직이던 문제가 수정됩니다.\n- 아란 직업의 콤보를 너무 빠른 시간 내에 많이 쌓는 경우 규칙 위반으로 접속이 종료될 수 있던 문제가 수정됩니다.\n- 스킬창의 스킬 정렬 순서가 원작의 순서와 달랐던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "hhxu6wkapl0f6sio662laaqp",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2026년 6월 12일(금) 캐시 아이템 판매 일시 중단 안내",
+      "published_at": "2026.05.27",
+      "url": "https://maple.land/board/notices/hhxu6wkapl0f6sio662laaqp",
+      "summary": "- 본 이관 작업이 진행되기 앞서, 아래 일정 동안 캐시 아이템 판매가 전면 중단되어 사전 안내드립니다.\n- ■ 캐시 아이템 판매 종료 일정 안내\n- 아래 판매 종료 일정 개시부터 캐시샵을 통해 캐시 아이템을 더 이상 구매하실 수 없습니다.\n- 판매 종료 일정 이후에도 기존 캐시 보관함에 있는 아이템은 여전히 수령하실 수 있습니다.\n- 판매 종료 일정 이후에도 아직 수령하지 않은 캐시 아이템에 대해 7일 내 청약철회를 신청할 수 있습니다."
+    },
+    {
+      "post_id": "sqqjgavbmb5lt1iwxuw1ki0d",
+      "source": "tespia",
+      "board": "notices",
+      "category": "안내",
+      "title": "2026년 5월 27일 알려진 오류 안내 (해결 완료)",
+      "published_at": "2026.05.27",
+      "url": "https://tespia.maple.land/board/notices/sqqjgavbmb5lt1iwxuw1ki0d",
+      "summary": "- 현재 발생중인 치명적인 오류에 대한 안내사항을 전달드립니다.\n- 창고에 아이템을 신규로 저장할 경우 창고 시스템을 이용할 수 없는 문제\n- 현재 수정된 데이터 저장 및 불러오기 로직의 문제로 인하여 계정 데이터에 아이템의 소유권을 이전하는 경우(ex. 창고에 아이템 맡기기) 계정 데이터와 관련된 캐릭터 데이터 저장 및 불러오기가..."
+    },
+    {
+      "post_id": "yuw0c7wd4p544ahgvytvf7g6",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 27일(수) 업데이트 Ver. Test 2.2.45 안내",
+      "published_at": "2026.05.27",
+      "url": "https://tespia.maple.land/board/notices/yuw0c7wd4p544ahgvytvf7g6",
+      "summary": "- 마법사 4차 스킬 빅뱅 사용 시 규칙 위반으로 게임이 종료될 수 있던 문제가 수정됩니다.\n- 궁수 3차 스킬 모탈 블로우 사용 시 규칙 위반으로 게임이 종료될 수 있던 문제가 수정됩니다.\n- 4차 공용 스킬인 메이플 용사 버프가 만료되며 장비 장착 해제가 일어날 때 스킬을 사용할 경우 규칙 위반으로 게임이 종료되던 문제가 수정됩니다.\n- 일부의 스킬만 사용할 수 없는 필드에서 모든 스킬 사용이 차단되어 규칙 위반으로 연결이 끊어질 수 있던 문제 수정\n- 설정을 너무 자주 변경하는 경우 규칙 위반으로 연결이 끊길 수 있던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "eo1yswhxmq8wxgd8xlbv1vjm",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 26일(화) 무중단 배포 Ver. Test 2.2.43 안내",
+      "published_at": "2026.05.25",
+      "url": "https://tespia.maple.land/board/notices/eo1yswhxmq8wxgd8xlbv1vjm",
+      "summary": "- 마스테리아 대륙의 각종 특수 버프 아이템을 사용하실 수 있습니다.\n- 절제된 분노 아이템 교환이 정상적으로 이루어지지 않던 현상이 수정됩니다. 이용에 불편을 드려 죄송합니다.\n- x축을 기준으로 뒤집힌 함정에 피격되었을 때, 밀려나는 방향 설정이 잘못되었던 문제가 수정됩니다.\n- 나이트의 선더 차지/라이트닝 차지가 어시스트 차지로서 기능하기 위해 시전해야 하는 버프의 순서가 Mapleland의 것과 맞지 않았던 문제가 수정됩니다.\n- 모탈 블로우 스킬 발동 시 간헐적으로 발생하던 특정 문제가 수정됩니다."
+    },
+    {
+      "post_id": "beh2m3hd5sbzcq9d108amwty",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 24일(일) 무중단 배포 Ver. Test 2.2.41 안내 (00:39 추가)",
+      "published_at": "2026.05.24",
+      "url": "https://tespia.maple.land/board/notices/beh2m3hd5sbzcq9d108amwty",
+      "summary": "- 이제 파티퀘스트 <크림슨우드 성채 공략>을 진행해 보실 수 있습니다.\n- 파티퀘스트 도전 조건인 <통달의 전당 관문 통과>의 경우, 선행 퀘스트 완료 없이도 이동하실 수 있도록 조치되어 있습니다.\n- 2.0 엔진 환경에 맞게 처음부터 다시 제작된 파티퀘스트인 만큼, 퀘스트 진행이 불안정할 수 있는 점 양해 부탁드리며, 오류 발생 시 오류를 제보해주시면 큰 도움이 됩니다.\n- 잭 NPC가 클릭되지 않던 현상이 수정되었습니다.\n- (00:20 추가)"
+    },
+    {
+      "post_id": "k9sryv4izlzwf1vuy4nxl4y3",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 23일(토) 업데이트 Ver. Test 2.2.40 안내 (03:05 수정)",
+      "published_at": "2026.05.22",
+      "url": "https://tespia.maple.land/board/notices/k9sryv4izlzwf1vuy4nxl4y3",
+      "summary": "- 길드 연합 기능은 이후로도 출시 예정이 없으며, \"연합에게\" 단축키는 \"(친구)그룹에게\" 단축키로 변경되었습니다.\n- UI 하단의 \"내 거래\" 버튼을 눌러서 내가 거래한 내역을 조회하고, 판매된 아이템에 대한 메소, 구매/반환/유찰된 아이템, 혹은 보증금 등을 수령할 수 있습니다.\n- 아래와 같은 캐시 아이템이 구현됨에 따라 추가되었으며, 몽롱 및 카산드라를 통해 수령하실 수 있습니다.\n- 몽롱 : 캐시 아이템을 받고 싶어요. -> 다양한 캐시 아이템을 받고 싶어요.\n- MSW 코디 반지 아이템"
+    },
+    {
+      "post_id": "kbfr2hba08wxa2qzqw9eyd5k",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 5월 21일(목) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2026.05.20",
+      "url": "https://maple.land/board/notices/kbfr2hba08wxa2qzqw9eyd5k",
+      "summary": "- 메이플스토리 월드(MSW)의 점검\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2026년 5월 21일(목) 오전 8시 ~ 오전 10시 (2시간)"
+    },
+    {
+      "post_id": "zarq8pvdw1l304ktu78aqqt9",
+      "source": "tespia",
+      "board": "notices",
+      "category": "안내",
+      "title": "테스피아 월드 운영 현황 및 향후 계획 안내",
+      "published_at": "2026.05.19",
+      "url": "https://tespia.maple.land/board/notices/zarq8pvdw1l304ktu78aqqt9",
+      "summary": "- 4월 30일부터 운영을 시작한 테스피아 월드에서의 테스트가 진행되고 있는 가운데,\n- 관련 안내가 다소 늦은 점 사과드리며, 현재 테스트의 진행상황을 안내드립니다.\n- 2단계 (5/11 ~ 별도 공지, 진행 중)\n- 테스트 내용 : 창고, 몬스터북, 메이커, 기상효과, 커뮤니티 시스템, 그리고 [아란] 직업군 테스트\n- 테스트 내용 : 스킬 밸런스 패치, 캐시샵, 유저 데이터 외부에 저장되는 아이템의 처리 관련(거래 시스템 등) 집중 테스트 진행"
+    },
+    {
+      "post_id": "g70cyu65it8bbkv7dosdusmd",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 19일(화) 무중단 배포 Ver. Test 2.2.37 안내",
+      "published_at": "2026.05.19",
+      "url": "https://tespia.maple.land/board/notices/g70cyu65it8bbkv7dosdusmd",
+      "summary": "- 아직 공개되지 않은 시스템에 접근할 수 있었던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "uarglt1ghw3ivvilj8cv7wez",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 19일(화) 무중단 배포 Ver. Test 2.2.36 안내",
+      "published_at": "2026.05.19",
+      "url": "https://tespia.maple.land/board/notices/uarglt1ghw3ivvilj8cv7wez",
+      "summary": "- \"친구\" 기능이 구현되어 이제 친구추가를 진행해 보실 수 있습니다.\n- 몬스터북 콘텐츠의 몬스터 카드가 드롭되지 않던 일부 몬스터에게 드롭 정보를 추가하였습니다.\n- NPC와 상호작용을 마쳐도 매크로 방지 몬스터를 쓰러뜨릴 수 없었던 문제가 수정됩니다.\n- 야시장의 성형외과와 미용실이 작동하도록 수정하였습니다.\n- 더 이상 아래로 내려갈 수 없는 풋홀드에서 하향 점프를 할 수 있던 점이 수정됩니다."
+    },
+    {
+      "post_id": "n8v1mirvsq2h6fgepydg4413",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 16일(토) 업데이트 Ver. Test 2.2.35 안내 (7:24 수정)",
+      "published_at": "2026.05.16",
+      "url": "https://tespia.maple.land/board/notices/n8v1mirvsq2h6fgepydg4413",
+      "summary": "- 이제 필드에 드롭된 몬스터 카드가 몬스터북 시스템에 정상적으로 등록됩니다.\n- 아직 몬스터 정보의 전리품은 최신 정보를 가리키지 않을 수 있으며, 변동될 수 있습니다.\n- 섀도어의 연막탄 스킬 범위 내에서 그 효과를 적용받고 있을 때 공격 반사 스킬에 의한 데미지를 입지 않도록 변경되었습니다.\n- 타 유저의 원거리 범위공격 일부 스킬(어벤저, 드래곤펄스 등)가 일반 추적형 투사체 이펙트로 보이던 문제가 수정됩니다.\n- 캡틴의 '마인드 컨트롤' 효과가 적용된 몬스터의 물리공격 데미지가 적 몬스터에게 정상적으로 적용되지 않던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "i3gwmntyoa0mlflof2a3kzfy",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 15일(금) 패치노트",
+      "published_at": "2026.05.15",
+      "url": "https://maple.land/board/notices/i3gwmntyoa0mlflof2a3kzfy",
+      "summary": "- ■ “돌고래섬으로의 초대\" 이벤트 진행 안내\n- 금일 자정부터 이용이 불가능했던 가가 NPC의 이벤트 상점을 다시 이용하실 수 있습니다. 이용에 불편을 드려 죄송합니다.\n- 아이템이 회수됩니다.\n- 점검 직후 접속 시, 간헐적으로 ‘월드 오류’ 내지는 ‘규칙 위반’을 원인으로 한 접속 종료 현상이 발생할 수 있습니다."
+    },
+    {
+      "post_id": "zzrfdn37v086mgk949sccp71",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 5월 15일(금) 점검 예정 안내",
+      "published_at": "2026.05.14",
+      "url": "https://maple.land/board/notices/zzrfdn37v086mgk949sccp71",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다.\n- 택배의 유효기간이 점검 도중에 만료될 수 있으니 만료가 임박한 택배를 수령하시기 바랍니다."
+    },
+    {
+      "post_id": "et74163tiuestkz5l4onqq05",
+      "source": "main",
+      "board": "events",
+      "category": "진행중",
+      "title": "돌고래섬으로의 초대",
+      "published_at": "2026.05.14",
+      "url": "https://maple.land/board/events/et74163tiuestkz5l4onqq05",
+      "summary": "- 퀘스트를 진행하실 수 있습니다.\n- 레벨 25 이상\n- 수령 후 14일간 사용 가능)\n- (수령 후 14일간 사용 가능)\n- NPC 내지는 화면 좌측의 퀘스트 알림을 통해 이벤트 필드"
+    },
+    {
+      "post_id": "zerxq0coz2t73kbmf03rjzgh",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 14일(목) 무중단 배포 Ver. Test 2.2.33 안내 (06:30 추가)",
+      "published_at": "2026.05.14",
+      "url": "https://tespia.maple.land/board/notices/zerxq0coz2t73kbmf03rjzgh",
+      "summary": "- 몬스터 스킬 중 '공격 반사'의 실제 효과가 구현됩니다.\n- 아이템 교환창에서 메소 단위가 잘못 표시되던 문제가 수정됩니다.\n- 일반 가격 표시란에도 3자리마다 쉼표가 표기되도록 수정하였습니다.\n- 메이커 이용시 특정 환경에서 제작 사운드가 지속적으로 남아있는 문제가 수정됩니다.\n- 개인상점 장비 슬롯에 숫자 아이콘이 표시되던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "oj7mjz5knpaucw7dbx0pape4",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 5월 14일(목) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2026.05.13",
+      "url": "https://maple.land/board/notices/oj7mjz5knpaucw7dbx0pape4",
+      "summary": "- 메이플스토리 월드(MSW) 점검\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2026년 5월 14일(목) 오전 5시 ~ 오전 6시 30분 (1시간 30분)"
+    },
+    {
+      "post_id": "jwceagk00klbg0v5upa9vugc",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 13일(수) 무중단 배포 Ver. Test 2.2.31 안내 (02:36 추가)",
+      "published_at": "2026.05.13",
+      "url": "https://tespia.maple.land/board/notices/jwceagk00klbg0v5upa9vugc",
+      "summary": "- 몬스터에게 드롭된 장비 아이템들에게서 상급과 하급 옵션이 등장하지 않던 오류가 수정됩니다.\n- 타 캐릭터의 정보가 업데이트될 때 해당 캐릭터가 가만히 있어도 움직이는 것처럼 보이던 원작의 현상이 수정됩니다.\n- 판매 불가 아이템을 교환하였을 때 판매 불가 속성이 사라지는 오류가 수정됩니다.\n- 만료된 스킬 쿨타임이 조금 더 빠른 간격으로 초기화되도록 수정됩니다.\n- 파티버프의 버프 툴팁에서 흰색 박스가 출력되던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "xpi8s59cjg88a6zep4ghxxao",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 12일(화) 무중단 배포 Ver. Test 2.2.30 안내",
+      "published_at": "2026.05.12",
+      "url": "https://tespia.maple.land/board/notices/xpi8s59cjg88a6zep4ghxxao",
+      "summary": "- 강화용으로 지급된 보석과 크리스탈들을 상점에 팔 수 있었던 오류가 수정됩니다.\n- 드롭되는 메소의 양이 20배로 증가합니다."
+    },
+    {
+      "post_id": "gddhbiat3xenwhp397r76lno",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 11일(월) 무중단 배포 Ver. Test 2.2.29 안내",
+      "published_at": "2026.05.11",
+      "url": "https://tespia.maple.land/board/notices/gddhbiat3xenwhp397r76lno",
+      "summary": "- 새롭게 사용한 버프 스킬이나 아이템이 기존 버프나 아이템의 효과보다 더 높은 효과를 가졌을 때만 덮어씌우도록 수정됩니다.\n- 스킬 레벨이 0으로 되돌아갈 때 스킬 정보가 삭제되는 것처럼 동작하던 점이 수정됩니다.\n- 맵 이동 시 해당 맵에 기존하던 기상효과가 제대로 보이지 않던 문제가 수정됩니다.\n- 게임 종료 시 기상효과의 메시지 UI가 사라지지 않던 문제가 수정됩니다.\n- 트랜스폼 상태에서 스파크 사용시 간헐적으로 캐릭터를 조작할 수 없던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "mvl9x4ksz4k33mmlz3hjehol",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 11일(월) 무중단 배포 Ver. Test 2.2.27 안내",
+      "published_at": "2026.05.11",
+      "url": "https://tespia.maple.land/board/notices/mvl9x4ksz4k33mmlz3hjehol",
+      "summary": "- '아란' 직업군이 추가됩니다.\n- 캐릭터 생성 시 레벨 10인 상태로 리스항구로 워프합니다.\n- 전직 레벨을 달성했을 경우, 리스항구의 '몽롱 할배'를 통해 추가 전직이 가능합니다.\n- '메이커' 스킬이 추가됩니다.\n- 메이커 내 기능을 통해 강화 보석을 이용하여 기존 장비에 추가옵션 부여를 진행할 수 있습니다."
+    },
+    {
+      "post_id": "fq6m5lx3f1ofubbvstuccds5",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 8일(금) 패치노트",
+      "published_at": "2026.05.08",
+      "url": "https://maple.land/board/notices/fq6m5lx3f1ofubbvstuccds5",
+      "summary": "- ■ “가정의 달 이벤트\" 진행 안내\n- 의 보기 오류로 불편을 겪으신 모험가분들께 소정의 보상이 지급됩니다.\n- 이벤트 <픽트라 몬스터로의 초대\n- 점검 직후 접속 시, 간헐적으로 ‘월드 오류’ 내지는 ‘규칙 위반’을 원인으로 한 접속 종료 현상이 발생할 수 있습니다."
+    },
+    {
+      "post_id": "gptdmdd64zx82rrku09jtnkm",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "가정의 달 이벤트",
+      "published_at": "2026.05.08",
+      "url": "https://maple.land/board/events/gptdmdd64zx82rrku09jtnkm",
+      "summary": "- 퀘스트를 진행하실 수 있습니다.\n- 레벨 10 이상 ~ 200 이하\n- 퀘스트를 진행하실 수 있습니다.\n- 레벨 10 이상 ~ 200 이하\n- 사용하지 않은 기간제 아이템은 표기된 기간이 지나면 모두 사라집니다."
+    },
+    {
+      "post_id": "qca9f7jzkl809ua2a1iytogv",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 8일(금) 무중단 배포 Ver. Test 2.2.26 안내 (+05:31 추가)",
+      "published_at": "2026.05.08",
+      "url": "https://tespia.maple.land/board/notices/qca9f7jzkl809ua2a1iytogv",
+      "summary": "- 캐릭터 생성시 모험가 직업군과 시그너스 직업군을 별개로 선택할 수 있도록 임시로 수정하였습니다.\n- 시그너스 직업군 선택 시 레벨 10의 노블레스인 채로 에레브에서 시작하게 됩니다.\n- 몽롱할배가 더 이상 10레벨 초보자를 노블레스로 만들어주지 않습니다.\n- 캐릭터 선택에서 Tab키로 키보드 포커싱을 활성화할 수 있도록 수정되었습니다.\n- 창고 내에 고유 아이템을 넣을 수 없던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "k13w26d2rmejp9ophwirc9a7",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 5월 8일(금) 점검 예정 안내",
+      "published_at": "2026.05.07",
+      "url": "https://maple.land/board/notices/k13w26d2rmejp9ophwirc9a7",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다.\n- 택배의 유효기간이 점검 도중에 만료될 수 있으니 만료가 임박한 택배를 수령하시기 바랍니다."
+    },
+    {
+      "post_id": "hkl4cejcirtbansqnye8vacd",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 7일(목) 무중단 배포 Ver. Test 2.2.25 안내",
+      "published_at": "2026.05.07",
+      "url": "https://tespia.maple.land/board/notices/hkl4cejcirtbansqnye8vacd",
+      "summary": "- 창고 시스템이 추가됩니다.\n- 어빌리티 포인트와 스킬 포인트를 투자할 때, 한 번에 많은 양을 투자할 수 있는 UI가 추가됩니다.\n- Maplestory Worlds와의 협업을 통해 현재 메이플스토리의 두손무기(두손검, 두손도끼, 두손둔기, 석궁) Idle 모션을 고전 메이플스토리와 같은 형태로 변경하였습니다.\n- 이제 마을에서도 개인상점을 개설할 수 있도록 변경됩니다.\n- 파이어데몬/엘퀴네스 디버프로 몬스터의 색상이 변경되지 않던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "dl8e4rwaei8w8usoy3qcy592",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 6일(수) 업데이트 Ver. Test 2.2.24 안내",
+      "published_at": "2026.05.06",
+      "url": "https://tespia.maple.land/board/notices/dl8e4rwaei8w8usoy3qcy592",
+      "summary": "- 이제 테스피아에서 카산드라에게 투자한 어빌리티 포인트와 스킬 포인트를 초기화할 수 있습니다.\n- 필드의 아이템이 사라지는 시간이 임시로 설정되었던 1분에서 3분으로 다시 조정됩니다.\n- 단, 퀘스트 아이템은 30초만에 사라지도록 조정됩니다.\n- 몬스터의 디버프 애니메이션이 어색하게 재생되던 문제가 수정됩니다.\n- 자폭을 실행하는 몬스터의 범위 내에 있을 때 간헐적으로 게임이 종료되던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "nt62uvx8b210mqnypopp6u4s",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 4일(월) 무중단 배포 Ver. Test 2.2.21 안내",
+      "published_at": "2026.05.04",
+      "url": "https://tespia.maple.land/board/notices/nt62uvx8b210mqnypopp6u4s",
+      "summary": "- 테스피아에 한하여 캐시 아이템을 버릴 수 있도록 수정하였습니다.\n- 카산드라를 통해 오류 수정 이전 사라진 스킬들을 재발급할 수 있도록 수정하였습니다.\n- 번거로우시겠지만 다시 한 번 해당 메뉴를 선택하여 스킬을 재발급 받아 주시기 바랍니다. 이용에 불편을 드려 죄송합니다.\n- 크로스보우 마스터리 / 크로스보우 엑스퍼트의 효과가 적용되지 않던 문제가 수정됩니다.\n- 배틀쉽 내구도가 10배 적게 적용되던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "m5q5ivozbwnsfybi7s5qaj0g",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 3일(일) 무중단 배포 Ver. Test 2.2.20 안내",
+      "published_at": "2026.05.03",
+      "url": "https://tespia.maple.land/board/notices/m5q5ivozbwnsfybi7s5qaj0g",
+      "summary": "- 화면에 표시되는 UI에 대한 우선순위 옵션이 추가됩니다.\n- [시스템 옵션] - [UI 우선순위] - [자동], [설정 해상도 우선] 중에 선택이 가능합니다.\n- 보스<자쿰>, 보스<혼테일>의 하루 2회 입장 제한이 해제됩니다.\n- 보스<자쿰> 의 입장 최소 인원 제한이 감소합니다.\n- 서버 지연 시간이 높은 경우 공격, 스킬 사용, 포션 사용 등에 지연 시간이 소폭 개선되었습니다."
+    },
+    {
+      "post_id": "mrkketx4zhpl9za7x92duy7q",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2026년 4월 제재내역 [사행성 · 홍보]",
+      "published_at": "2026.05.02",
+      "url": "https://maple.land/board/notices/mrkketx4zhpl9za7x92duy7q",
+      "summary": "- 제재자 명단 (230개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2026년 4월 1일 ~ 4월 30일"
+    },
+    {
+      "post_id": "avem2nu5c9ngcjrvca9a3rus",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 2일(토) 무중단 배포 Ver. Test 2.2.19 안내",
+      "published_at": "2026.05.02",
+      "url": "https://tespia.maple.land/board/notices/avem2nu5c9ngcjrvca9a3rus",
+      "summary": "- 네트워크 환경이 원활하지 않아 서버 재접속 시도가 발생한 경우 유예 없이 즉시 연결을 끊던 점을 개선했습니다.\n- 가가 상점에 만병통치약이 추가됩니다.\n- 가가 상점에 아대 공격력 주문서 10%가 추가됩니다.\n- 헤네시스 중형택시의 초보자 전용 다이얼로그에서 커닝시티가 페리온으로 표기되던 문제가 수정됩니다.\n- 다른 UI에 포커스가 이동한 후 돌아오는 과정에서 스킬이 액션 딜레이 없이 사용할 수 있던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "aeuqaczcqlxve5sy9k0m5uej",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 2일(토) 무중단 배포 Ver. Test 2.2.18 안내",
+      "published_at": "2026.05.02",
+      "url": "https://tespia.maple.land/board/notices/aeuqaczcqlxve5sy9k0m5uej",
+      "summary": "- 카산드라의 [4차 스킬들을 다시 얻고 싶어요.] 가 정상적으로 작동하지 않던 문제가 수정됩니다.\n- 번거로우시겠지만 다시 한 번 해당 메뉴를 선택하여 스킬을 재발급 받아 주시기 바랍니다. 이용에 불편을 드려 죄송합니다.\n- 시그너스 기사단의 라이딩 퀘스트가 정상적으로 진행되지 않던 문제가 수정됩니다.\n- 나이트 직업의 선더 차지, 라이트닝 차지 스킬이 중복 차지 슬롯에 설정되지 않던 문제가 수정됩니다.\n- 더 이상 몬스터 스킬인 버프 해제로 인하여 아이템 버프가 해제되지 않도록 변경됩니다."
+    },
+    {
+      "post_id": "hz4iacw8n2rrdb620hiz31kk",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 2일(토) 무중단 배포 Ver. Test 2.2.17 안내",
+      "published_at": "2026.05.02",
+      "url": "https://tespia.maple.land/board/notices/hz4iacw8n2rrdb620hiz31kk",
+      "summary": "- 타인이 소환한 소환수의 잔상이 클라이언트에 남아있던 문제가 수정됩니다.\n- 4차 전직 후 스킬에 SP를 투자하지 않고 게임을 종료한 경우 스킬의 마스터 레벨이 0으로 설정되던 문제가 수정됩니다.\n- 기존 해당 오류로 문제를 겪으신 분들은 화면 좌측 이벤트 알림이의 [Mapleland 2.0 카산드라의 다양한 기능 지원]의 메뉴에서 [4차 스킬들을 다시 얻고 싶어요.] 를 클릭하시면 됩니다.\n- 인기도가 음수로 변경되는 경우 게임이 종료되던 문제가 수정됩니다.\n- 펫이 물약을 사용할 때 HP, MP 경고등이 깜빡이지 않던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "g1zdn5w3gzfrjfuhi9d21ink",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 5월 1일(금) 무중단 배포 안내",
+      "published_at": "2026.05.01",
+      "url": "https://maple.land/board/notices/g1zdn5w3gzfrjfuhi9d21ink",
+      "summary": "- 메이플 체력훈련이 수정됩니다.\n- 2단계 보상이 교환 불가로 변경됩니다."
+    },
+    {
+      "post_id": "c3os9e4n19bw1efvtq7z473o",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 1일(금) 무중단 배포 Ver. Test 2.2.16 안내",
+      "published_at": "2026.05.01",
+      "url": "https://tespia.maple.land/board/notices/c3os9e4n19bw1efvtq7z473o",
+      "summary": "- 게임 크래시 버그가 추가로 수정되었습니다.\n- /펫 명령어 및 /펫 채팅 기능이 추가됩니다.\n- 장비창 내 펫에게 장착된 물약의 툴팁이 표시되지 않던 문제가 수정됩니다.\n- 펫에게 등록된 물약이 드래그로 해제되지 않던 문제가 수정됩니다.\n- 펫에게 등록한 물약이 채널 변경 시 사라지던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "f4zw0ai256151le4fmweeun1",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 4월 30일(목) 무중단 배포 안내 (2)",
+      "published_at": "2026.04.30",
+      "url": "https://maple.land/board/notices/f4zw0ai256151le4fmweeun1",
+      "summary": "- 메이플 체력훈련에서 별도의 버프 아이템을 사용할 수 있던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "gyvkb9fnovmo87vx0so2h18q",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "트라이애슬론 : 알려진 문제 안내 (21:14 수정)",
+      "published_at": "2026.04.30",
+      "url": "https://maple.land/board/notices/gyvkb9fnovmo87vx0so2h18q",
+      "summary": "- 수정 직전까지 1문제 이상 오답 처리가 되신 유저분들을 선별하여 스타 월드코인 50개와 경험치를 보상해 드리도록 하겠습니다.\n- 2일차 퀴즈부터 잘못 출력되는 보기가 없도록 재검수를 진행하겠습니다.\n- 보상을 실제 라이브 월드에 적용된 것과 같도록 수정하였습니다.\n- 1인 전용으로 마련된 맵에 다수가 입장되는 현상 / [사우스페리, 리스항구, 오르비스, 루디브리엄, 마가티아]가 아닌 마을에서 입장하는 경우 오류 발생\n- 원인 확정하여 핫픽스를 통한 수정이 이루어졌습니다."
+    },
+    {
+      "post_id": "bajqrpi1e4dyt7t2lqa2w5dw",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 4월 30일(목) 무중단 배포 안내 (11:35 수정)",
+      "published_at": "2026.04.30",
+      "url": "https://maple.land/board/notices/bajqrpi1e4dyt7t2lqa2w5dw",
+      "summary": "- 메이플 체력훈련에서 다수의 인원이 한 맵에 입장되던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "pgmndu03zomwj7j3ssvyq40t",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 4월 30일(목) 패치노트",
+      "published_at": "2026.04.30",
+      "url": "https://maple.land/board/notices/pgmndu03zomwj7j3ssvyq40t",
+      "summary": "- ■ “월드코인 페스타 : 트라이애슬론” 이벤트 진행 안내\n- [캐시 아이템]\n- 아이템 확성기(1개 120코인 / 5개 600코인 / 11개 1,200코인)\n- 이벤트 <픽트라 몬스터로의 초대\n- 진행 보상 미수령자를 위해, 4월 30일 이후에도"
+    },
+    {
+      "post_id": "omvi2xgz631deted0tarv4zx",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "월드코인 페스타 : 트라이애슬론 (5/1 수정)",
+      "published_at": "2026.04.30",
+      "url": "https://maple.land/board/events/omvi2xgz631deted0tarv4zx",
+      "summary": "- 본 이벤트 내 \"미션\"의 달성 조건은 캐릭터마다 별도로 체크되며, 미션 1개의 클리어가 체크되면 계정 내 해당 상태가 공유됩니다. (17:50 추가)\n- 레벨 13 이상,\n- 레벨 13 이상,\n- 레벨 13 이상,\n- 으로부터 안내 퀘스트를 진행하실 수 있습니다."
+    },
+    {
+      "post_id": "p1h1x5m2draj1f92b0hf35zt",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 5월 1일(금) 무중단 배포 Ver. Test 2.2.15 안내",
+      "published_at": "2026.04.30",
+      "url": "https://tespia.maple.land/board/notices/p1h1x5m2draj1f92b0hf35zt",
+      "summary": "- 몇 가지 상황에서 월드 오류나 규칙 위반으로 추방당하던 문제가 수정됩니다.\n- 퀵슬롯에서 기능 아이콘을 퀵슬롯 영역 바깥 경계에 놓을 경우 게임이 종료되던 문제가 수정됩니다.\n- 채널 변경 UI가 열리기 직전에 방향키를 누를 경우 게임이 종료되던 문제가 수정됩니다.\n- 채널 이동 중 버프 시간이 종료된 경우 게임이 종료되던 문제가 수정됩니다.\n- 파티 보너스 경험치에 테스피아 경험치 배율이 적용되지 않던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "qa1kou0tq6p8yl8wehjz2wbt",
+      "source": "tespia",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 4월 30일(목) 무중단 배포 Ver. Test 2.2.12 안내",
+      "published_at": "2026.04.30",
+      "url": "https://tespia.maple.land/board/notices/qa1kou0tq6p8yl8wehjz2wbt",
+      "summary": "- 맵 배경이 잘못 그려지던 문제가 수정됩니다.\n- 채팅창에서 엔터 관련 조작이 개선됩니다.\n- 미니맵에 흰색 오브젝트가 그려지던 문제가 수정됩니다.\n- 2차전직 이후의 스트라이커 직업군에서 자동분배가 되지 않던 문제가 수정됩니다.\n- 아이템 교환창에서 툴팁이 사라지지 않던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "ye7gti9bdnlzccmj6pwwahfn",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "Mapleland 2.0 테스피아 전용 홈페이지 안내",
+      "published_at": "2026.04.29",
+      "url": "https://maple.land/board/notices/ye7gti9bdnlzccmj6pwwahfn",
+      "summary": "- 테스피아 월드 운영을 위한 전용 홈페이지를 오픈하였습니다.\n- 테스피아 전용 도메인인\n- https://tespia.maple.land/\n- 를 통해 접속해 주시면 감사드리겠습니다."
+    },
+    {
+      "post_id": "uvyha5fh3sim6cgotnwafm5p",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 4월 30일(목) 점검 예정 안내",
+      "published_at": "2026.04.29",
+      "url": "https://maple.land/board/notices/uvyha5fh3sim6cgotnwafm5p",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다.\n- 택배의 유효기간이 점검 도중에 만료될 수 있으니 만료가 임박한 택배를 수령하시기 바랍니다."
+    },
+    {
+      "post_id": "e0igajbl7jfjpakb3d6evv1k",
+      "source": "tespia",
+      "board": "notices",
+      "category": "안내",
+      "title": "Mapleland 2.0 오픈 알파 테스트 진행 안내",
+      "published_at": "2026.04.28",
+      "url": "https://tespia.maple.land/board/notices/e0igajbl7jfjpakb3d6evv1k",
+      "summary": "- Mapleland 2.0은 현재도 개발이 진행 중인 월드입니다.\n- 테스피아 월드를 통해 얻은 데이터를 바탕으로 현재의 개발 방향을 점검하고, 숨은 문제점들을 찾아내 수정하고자 합니다.\n- 테스피아 월드는 총 한 달에 걸쳐 세 단계로 운영이 진행될 예정입니다.\n- 테스트 내용 : 몬스터북 시스템, 커뮤니티 시스템과 [아란] 직업의 조작감에 대한 테스트\n- 테스트 내용 : 유저 데이터 외부에 저장되는 아이템의 처리 관련 테스트(창고, 고용상인 등) 진행"
+    },
+    {
+      "post_id": "boyciv242jcpwpulxtvl4cs3",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 4월 25일(토) 무중단 배포 안내",
+      "published_at": "2026.04.25",
+      "url": "https://maple.land/board/notices/boyciv242jcpwpulxtvl4cs3",
+      "summary": "- 마스터 몬스터가 소환되지 않는 현상이 수정됩니다."
+    },
+    {
+      "post_id": "pghip1cz7w7cw36zclx7ow5p",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "Mapleland 2.0 오픈 알파 테스트 일정 안내",
+      "published_at": "2026.04.25",
+      "url": "https://maple.land/board/notices/pghip1cz7w7cw36zclx7ow5p",
+      "summary": "- 은 현재도 개발이 진행 중인 월드입니다.\n- 기존 코드베이스의 비대화로 인한 개발 속도 저하 개선\n- 월드 서버 및 클라이언트의 성능 개선\n- 처음부터 새로 제작되는 월드인 만큼, 해당 월드에 기존 Mapleland에서 이루어져 온 변경사항은 아직 반영되어 있지 않습니다.\n- 이번 테스피아의 환경은 임시 구성이며, 개발이 완료되는 시점에 기존 변경사항을 순차적으로 적용할 예정입니다."
+    },
+    {
+      "post_id": "t3z0kl0tokcbsna4sdo61eot",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "MSW 그랜드 오픈 2주년 이벤트",
+      "published_at": "2026.04.24",
+      "url": "https://maple.land/board/events/t3z0kl0tokcbsna4sdo61eot",
+      "summary": "- 코인샵의 재입고 가능 품목의 재입고일은 5월 1일, 5월 8일, 5월 15일입니다.\n- 2025년에 지급된 스타 월드코인으로는 아이템을 구매하실 수 없습니다.\n- 코인샵 운영 기간이 지나면 아이템을 구매하실 수 없으며, 코인 역시 사라지게 됩니다.\n- (교환 불가, 구입 후 7일간 사용 가능)\n- (2개까지만 구매 가능)"
+    },
+    {
+      "post_id": "pbbm6q29gltzbqd37il7tzrf",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "메이플 첫걸음",
+      "published_at": "2026.04.24",
+      "url": "https://maple.land/board/events/pbbm6q29gltzbqd37il7tzrf",
+      "summary": "- 첫 번째 친구, 첫 번째 아이템, 첫 번째 빅토리아 아일랜드, 첫 번째 전직...\n- NPC를 통해 퀘스트를 수행하실 수 있습니다.\n- 들을 대상으로 지원 퀘스트가 진행됩니다.\n- 다음과 같은 퀘스트들을 진행하실 수 있습니다.\n- 레벨 15 이상 ~ 레벨 19 이하"
+    },
+    {
+      "post_id": "occrhs63704iv5xaqgdi2bwt",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 4월 24일(금) 패치노트",
+      "published_at": "2026.04.23",
+      "url": "https://maple.land/board/notices/occrhs63704iv5xaqgdi2bwt",
+      "summary": "- ■ “메이플 첫걸음” 이벤트 진행 안내\n- ■ “MSW 그랜드 오픈 2주년 이벤트” 진행 안내\n- 코인 상점은 13레벨부터 이용하실 수 있습니다.\n- 을 만들 때 남은 제작 가능 횟수가 표시되도록 변경됩니다.\n- 퀘스트의 시작 조건에 잘못된 퀘스트가 포함되었던 원작의 오류가 수정됩니다."
+    },
+    {
+      "post_id": "mvwtg08g8kzl40zqixsu08vj",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 4월 24일(금) 점검 예정 안내",
+      "published_at": "2026.04.23",
+      "url": "https://maple.land/board/notices/mvwtg08g8kzl40zqixsu08vj",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다.\n- 택배의 유효기간이 점검 도중에 만료될 수 있으니 만료가 임박한 택배를 수령하시기 바랍니다."
+    },
+    {
+      "post_id": "xh6o8fs60r9bardqnwr02k8r",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "[픽트라] 레전드리 에그 보상 지급 시작 안내 (19:02 수정)",
+      "published_at": "2026.04.16",
+      "url": "https://maple.land/board/notices/xh6o8fs60r9bardqnwr02k8r",
+      "summary": "- 기존 3월 30일부터 4월 13일 오전 9시까지 진행된\n- [픽트라 몬스터로의 초대]\n- (19:02 수정)\n- (제재이력을 재차 검증하여 지급 대상자를 추가 확보하였습니다. 혼선을 드려 대단히 죄송합니다. (18:35 수정))\n- [픽트라 몬스터로의 초대] 이벤트 1"
+    },
+    {
+      "post_id": "a18j4w9tg6zizdv0t2haedx2",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 4월 16일(목) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2026.04.15",
+      "url": "https://maple.land/board/notices/a18j4w9tg6zizdv0t2haedx2",
+      "summary": "- 메이플스토리 월드(MSW) 점검\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2026년 4월 16일(목) 오전 7시 ~ 오전 10시 (3시간)"
+    },
+    {
+      "post_id": "jo74n08orhnrjsl3sbilcev7",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "[픽트라 몬스터로의 초대] 추가 보상 지급 일정 안내",
+      "published_at": "2026.04.13",
+      "url": "https://maple.land/board/notices/jo74n08orhnrjsl3sbilcev7",
+      "summary": "- 기존 3월 30일부터 4월 13일 오전 9시까지 진행된\n- [픽트라 몬스터로의 초대]\n- 조건 : [픽트라 몬스터로의 초대]\n- <픽트라 몬스터\n- 최대한 빠르게 대상자를 확인하여 절차가 완료되는 대로 보상을 지급할 예정이며, 더욱 자세한 사항은 아래 링크의 상단 추가 안내를 참조 부탁드립니다."
+    },
+    {
+      "post_id": "kmd60142ua9eh54h02fp4k2j",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 4월 13일(월) 메이플스토리 월드 (MSW) 무중단 패치 안내",
+      "published_at": "2026.04.13",
+      "url": "https://maple.land/board/notices/kmd60142ua9eh54h02fp4k2j",
+      "summary": "- 가 진행됩니다.\n- 배포 이전 서버에 접속 중인 경우 작업 내용 적용을 위해 강제 월드 마이그레이션이 진행될 예정이며,\n- 메이플스토리 월드 무중단 패치 진행 일시 : 2026년 4월 13일(월) 14시 10분"
+    },
+    {
+      "post_id": "xyz64du6smu180ax7u8edbf1",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 4월 13일(월) 무중단 배포 안내",
+      "published_at": "2026.04.13",
+      "url": "https://maple.land/board/notices/xyz64du6smu180ax7u8edbf1",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "xywxqnoa9glasemmnyk5a5c6",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 4월 10일(금) 무중단 배포 안내",
+      "published_at": "2026.04.10",
+      "url": "https://maple.land/board/notices/xywxqnoa9glasemmnyk5a5c6",
+      "summary": "- 퀘스트 UI 내 구성요소가 제대로 출력되지 않던 오류가 수정됩니다."
+    },
+    {
+      "post_id": "c3ic64r8yincrspss04lhkiz",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 4월 10일(금) 패치노트",
+      "published_at": "2026.04.10",
+      "url": "https://maple.land/board/notices/c3ic64r8yincrspss04lhkiz",
+      "summary": "- 만우절 이벤트 보스 몬스터의 스폰 장소 관련 자료가 추가로 확인됨에 따라 조금 더 다양한 맵에서 등장합니다.\n- 일부 몬스터의 스킬이 수정됩니다.\n- 의도와 달리 특정 스킬을 점프로 피할 수 있던 문제가 수정됩니다.\n- 가 잘못된 카테고리에 속하던 문제가 수정됩니다.\n- 일부 직업의 스킬이 수정됩니다."
+    },
+    {
+      "post_id": "y9ethso47ev41bxven2ejy2a",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 4월 10일(금) 점검 예정 안내",
+      "published_at": "2026.04.09",
+      "url": "https://maple.land/board/notices/y9ethso47ev41bxven2ejy2a",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다.\n- 택배의 유효기간이 점검 도중에 만료될 수 있으니 만료가 임박한 택배를 수령하시기 바랍니다."
+    },
+    {
+      "post_id": "jna1d6089ubbgc2cd9y9yal2",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2026년 3월 제재내역 [사행성 · 홍보]",
+      "published_at": "2026.04.02",
+      "url": "https://maple.land/board/notices/jna1d6089ubbgc2cd9y9yal2",
+      "summary": "- 제재자 명단 (282개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2026년 3월 1일 ~ 3월 31일"
+    },
+    {
+      "post_id": "rluqst6as5yj7ogr3xqcmdms",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 3월 31일(화) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2026.03.30",
+      "url": "https://maple.land/board/notices/rluqst6as5yj7ogr3xqcmdms",
+      "summary": "- 메이플스토리 월드(MSW) 점검\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2026년 3월 31일(화) 오전 8시 ~ 오전 10시 (2시간)"
+    },
+    {
+      "post_id": "f0lmeop6bgf99i9g82ur29gb",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 3월 27일(금) 무중단 배포 안내",
+      "published_at": "2026.03.27",
+      "url": "https://maple.land/board/notices/f0lmeop6bgf99i9g82ur29gb",
+      "summary": "- 이벤트 퀘스트의 재시작 가능 여부가 지정했던 시간보다 빠르게 초기화되던 현상이 수정됩니다.\n- 해당 이벤트 스킬의 데미지가 상향됩니다."
+    },
+    {
+      "post_id": "lelkzjufqkcez8p3gyxdxxtc",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 3월 27일(금) 패치노트",
+      "published_at": "2026.03.26",
+      "url": "https://maple.land/board/notices/lelkzjufqkcez8p3gyxdxxtc",
+      "summary": "- ■ “만우절 대소동” 이벤트 진행 안내\n- ■ “픽트라 몬스터로의 초대” 이벤트 진행 안내\n- <픽트라 몬스터로의 초대> 이벤트\n- 필드 곳곳에서 만우절 이벤트 보스 몬스터 11종이 출현합니다. (이벤트 보스 몬스터를 통해서는 퇴치 퀘스트를 완료하실 수 없습니다.)\n- 마스터 몬스터가 한 번에 소환할 수 있는 몬스터의 최대 개체수가 10마리로 조정됩니다."
+    },
+    {
+      "post_id": "z0kjivj0jpn21wo99utp72by",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 3월 27일(금) 점검 예정 안내",
+      "published_at": "2026.03.26",
+      "url": "https://maple.land/board/notices/z0kjivj0jpn21wo99utp72by",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다.\n- 택배의 유효기간이 점검 도중에 만료될 수 있으니 만료가 임박한 택배를 수령하시기 바랍니다."
+    },
+    {
+      "post_id": "skxbywpx2n1bpsob7sln8bqv",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "만우절 대소동",
+      "published_at": "2026.03.26",
+      "url": "https://maple.land/board/events/skxbywpx2n1bpsob7sln8bqv",
+      "summary": "- 변신의 꽃잎을 모아 인간으로 변신해 모험가를 속이려는 몬스터들이 있다고 해요.\n- 퀘스트 완료가 진행되는 각 NPC를 직접 만나\n- 퀘스트를 진행하실 수 있습니다.\n- 레벨 10 이상 ~ 레벨 30 이하\n- (교환 불가, 4월 28일 00시까지 사용 가능)"
+    },
+    {
+      "post_id": "qlbmny0bplrb7ft9t1ejsiie",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "픽트라 몬스터로의 초대 (4/13 추가)",
+      "published_at": "2026.03.26",
+      "url": "https://maple.land/board/events/qlbmny0bplrb7ft9t1ejsiie",
+      "summary": "- [픽트라 몬스터로의 초대]\n- MSW 오리지널 월드 <픽트라 몬스터\n- 콜라보 이벤트가 진행됩니다!\n- 메이플스토리 월드에는 몬스터를 포획해 키우면서 타고 다닐 수도 있는 월드가 있다고 합니다.\n- <픽트라 몬스터"
+    },
+    {
+      "post_id": "ahm9pcubmv276cstzo2c8zm7",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 3월 26일(목) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2026.03.25",
+      "url": "https://maple.land/board/notices/ahm9pcubmv276cstzo2c8zm7",
+      "summary": "- 메이플스토리 월드(MSW) 점검\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2026년 3월 26일(목) 오전 6시 ~ 오전 10시 (4시간)"
+    },
+    {
+      "post_id": "pgpv7ovk2lgxnrks40x618lw",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "공식 홈페이지 이전 안내",
+      "published_at": "2026.03.24",
+      "url": "https://maple.land/board/notices/pgpv7ovk2lgxnrks40x618lw",
+      "summary": "- 금일 (3월 24일) 18:00을 기하여 Mapleland의 홈페이지가 새롭게 변경됩니다.\n- 기존 홈페이지의 불안정한 접속 환경을 개선하고, 게시글과 정보를 보다 쾌적하게 확인하실 수 있도록 자체 제작한 홈페이지로 이전하였습니다."
+    },
+    {
+      "post_id": "gwygx3ck241y36ugh5fxum11",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 3월 20일(금) 패치노트(20:49 수정)",
+      "published_at": "2026.03.20",
+      "url": "https://maple.land/board/notices/gwygx3ck241y36ugh5fxum11",
+      "summary": "- ‘파티퀘스트 보너스 경험치’ 이벤트 연장 안내\n- 기존 2026년 3월 20일 00시까지 진행 예정이었던 본 이벤트의 진행 기간이\n- 이벤트 기간 동안 각 파티퀘스트의 마지막 단계 완료 시, 아래의 예시와 같이 추가 경험치를 지급합니다.\n- [마스터 몬스터]\n- 끊임없는 몬스터들의 반란! <마스터 몬스터> 16종이 추가되었습니다!"
+    },
+    {
+      "post_id": "uyf16t91nqd55ftv5g1dyklr",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "“접근 권한 없음” 클라이언트 오류 현상 관련 안내",
+      "published_at": "2026.03.19",
+      "url": "https://maple.land/board/notices/uyf16t91nqd55ftv5g1dyklr",
+      "summary": "- 금일 오후 5시경 Maplestory Worlds 클라이언트에서 정상적인 게임 플레이가 불가능한 현상이 확인되었습니다."
+    },
+    {
+      "post_id": "sdd60l2i2gntguaqhenm1n7t",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 3월 20일(금) 점검 예정 안내",
+      "published_at": "2026.03.19",
+      "url": "https://maple.land/board/notices/sdd60l2i2gntguaqhenm1n7t",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다.\n- 택배의 유효기간이 점검 도중에 만료될 수 있으니 만료가 임박한 택배를 수령하시기 바랍니다."
+    },
+    {
+      "post_id": "rv6rxigphnixshxg9bebuetu",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 3월 19일(목) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2026.03.18",
+      "url": "https://maple.land/board/notices/rv6rxigphnixshxg9bebuetu",
+      "summary": "- 메이플스토리 월드(MSW) 점검\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2026년 3월 19일(목) 오전 7시 ~ 오전 10시 (3시간) 점검 내용 :"
+    },
+    {
+      "post_id": "ohkoid8bobrivsr2ujjf9pg1",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 3월 13일(금) 패치노트",
+      "published_at": "2026.03.13",
+      "url": "https://maple.land/board/notices/ohkoid8bobrivsr2ujjf9pg1",
+      "summary": "- 이벤트 파티퀘스트 <루디브리엄 미로 탐색\n- 의 이벤트 진행 기간이 일주일 연장됩니다.\n- 파티퀘스트 포인트\n- 이벤트 파티퀘스트 <루디브리엄 미로 탐색\n- 에서, 한 채널당 입장 가능한 미로의 수가 증가합니다."
+    },
+    {
+      "post_id": "vbzowtf5nnjrohg1099x9q2g",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 3월 13일(금) 점검 예정 안내",
+      "published_at": "2026.03.13",
+      "url": "https://maple.land/board/notices/vbzowtf5nnjrohg1099x9q2g",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "u51gsnc3nuzhz9twt5sytawa",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 3월 6일(금) 무중단 배포 안내 (18:14 추가)",
+      "published_at": "2026.03.06",
+      "url": "https://maple.land/board/notices/u51gsnc3nuzhz9twt5sytawa",
+      "summary": "- 파티퀘스트<루디브리엄 미로 탐색\n- 에서 택배함을 열 수 없도록 변경됩니다.\n- 관련하여 오류 사용이 확인된 이용자에 대해 이용제한 조치가 완료되었습니다. 월드 오류 발견 시"
+    },
+    {
+      "post_id": "lowgxv9tygsfpvkx1q9mewan",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 3월 6일(금) 패치노트 (3/19 추가)",
+      "published_at": "2026.03.06",
+      "url": "https://maple.land/board/notices/lowgxv9tygsfpvkx1q9mewan",
+      "summary": "- “루디브리엄의 미로” 이벤트 진행 안내\n- ‘파티퀘스트 보너스 경험치’ 이벤트 시작\n- 이벤트 기간 동안 각 파티퀘스트의 마지막 단계 완료 시, 아래의 예시와 같이 추가 경험치를 지급합니다.\n- (2026년 3월 19일 14시 38분 추가)\n- 을 통해 퀘스트를 수행하실 수 있습니다."
+    },
+    {
+      "post_id": "zw0xsy7lfo1tfi5opd3z31j5",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "루디브리엄의 미로",
+      "published_at": "2026.03.06",
+      "url": "https://maple.land/board/events/zw0xsy7lfo1tfi5opd3z31j5",
+      "summary": "- 새로운 이벤트 파티퀘스트 <루디브리엄 미로 탐색>이 추가되었습니다!\n- 루디브리엄 어딘가에는 신비로운 미로가 있다고 합니다. 파티원들과 함께 미로를 탐색하며 몬스터를 처치하고, 티켓을 모아 보상을 획득해 보세요!\n- 새로운 기간 한정 파티 퀘스트가 추가되었습니다.\n- 레벨 51 이상, 레벨 200 이하, 3인 이상~6인 이하로 구성된 파티\n- 를 통해 파티퀘스트 대기실로 이동하실 수 있습니다."
+    },
+    {
+      "post_id": "w9u2vs9dfk84nv4y6grym4j0",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 3월 6일(금) 점검 예정 안내 (11:44 추가)",
+      "published_at": "2026.03.05",
+      "url": "https://maple.land/board/notices/w9u2vs9dfk84nv4y6grym4j0",
+      "summary": "- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "pmf6dvmgsbm12pmc08hjgwkj",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2026년 2월 제재내역 [사행성 · 홍보]",
+      "published_at": "2026.03.02",
+      "url": "https://maple.land/board/notices/pmf6dvmgsbm12pmc08hjgwkj",
+      "summary": "- 제재자 명단 (302개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2026년 2월 1일 ~ 2월 28일"
+    },
+    {
+      "post_id": "ypjk3mpg2tevzqt956aefsyv",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "[고성능 확성기] 사용조건 변경 안내",
+      "published_at": "2026.02.27",
+      "url": "https://maple.land/board/notices/ypjk3mpg2tevzqt956aefsyv",
+      "summary": "- 의 사용 조건이 아래와 같이 변경될 예정입니다.\n- : Lv.10 이상부터 사용 가능\n- 의 사용이 가능해지는 점 안내드립니다."
+    },
+    {
+      "post_id": "q2a19ah04cedk4ac1df22ah6",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 2월 27일(금) 무중단 배포 안내 (15:26 추가)",
+      "published_at": "2026.02.27",
+      "url": "https://maple.land/board/notices/q2a19ah04cedk4ac1df22ah6",
+      "summary": "- 파티퀘스트<몬스터 카니발\n- 에서의 대전 불참자 수 계산이 잘못 이루어지던 현상이 수정됩니다."
+    },
+    {
+      "post_id": "jmdrobxa8n9jpxkzjdzdfq8o",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "Mapleland(빅토리아) 출시 지연 안내",
+      "published_at": "2026.02.27",
+      "url": "https://maple.land/board/notices/jmdrobxa8n9jpxkzjdzdfq8o",
+      "summary": "- 현재 Maplestory Worlds 플랫폼 오류로 Mapleland(빅토리아)의 출시 작업이 지연되고 있습니다.\n- 다른 월드(엘나스, 루더스/니할, 리프레, 원정대, 자유시장/이벤트)는 정상적으로 이용이 가능하며,"
+    },
+    {
+      "post_id": "ce9hzrrky62x2kfn8jkypy0g",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 2월 27일(금) 패치노트",
+      "published_at": "2026.02.27",
+      "url": "https://maple.land/board/notices/ce9hzrrky62x2kfn8jkypy0g",
+      "summary": "- 파티퀘스트<몬스터 카니발\n- 의 보상 경험치 지급 방식이 변경됩니다.\n- 퀘스트 아이템인\n- 을 사용하여 몬스터를 공격할 때, 특정 조건 하에서 캐릭터가 비정상적인 움직임을 보이던 문제가 수정됩니다.\n- 크림슨우드 지역의 일부 몬스터가 플랫폼을 이탈하던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "crulpa8igqu2uhekntkzqf9x",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 2월 27일(금) 점검 예정 안내",
+      "published_at": "2026.02.26",
+      "url": "https://maple.land/board/notices/crulpa8igqu2uhekntkzqf9x",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "x100xoq1ujxbxjyi980n4ozl",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2026년 1월 제재내역 [사행성 · 홍보]",
+      "published_at": "2026.02.26",
+      "url": "https://maple.land/board/notices/x100xoq1ujxbxjyi980n4ozl",
+      "summary": "- 제재자 명단 (318개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2026년 1월 1일 ~ 1월 31일"
+    },
+    {
+      "post_id": "zilibyfptawexc1rz8en36ty",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 2월 20일(금) 패치노트",
+      "published_at": "2026.02.20",
+      "url": "https://maple.land/board/notices/zilibyfptawexc1rz8en36ty",
+      "summary": "- 새로운 채널이 생성되면 적어도 1분이 지나야 다른 채널에서 이동할 수 있도록 변경됩니다.\n- 스킬 아이템의 사용이 불가한 지역에서 예외적으로 아이템 형태로 지급된 라이딩 스킬을 사용할 수 있게 됩니다.\n- 이제 라이딩에서 내리는 것은 마우스 우클릭 뿐만 아니라 아이템을 다시 사용하는 것으로도 정상적으로 내릴 수 있습니다.\n- 으로 이동할 수 없던 현상이 수정됩니다.\n- 점검 직후 접속 시, 간헐적으로 ‘월드 오류’ 내지는 ‘규칙 위반’을 원인으로 한 접속 종료 현상이 발생할 수 있습니다."
+    },
+    {
+      "post_id": "ijmjtmar1zx0y7v7wrd96x09",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 2월 20일(금) 점검 예정 안내",
+      "published_at": "2026.02.19",
+      "url": "https://maple.land/board/notices/ijmjtmar1zx0y7v7wrd96x09",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "coqc892fo7ixn7610zhfw9ak",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 2월 16일(월) 무중단 패치노트",
+      "published_at": "2026.02.16",
+      "url": "https://maple.land/board/notices/coqc892fo7ixn7610zhfw9ak",
+      "summary": "- 파티퀘스트 <크림슨우드 성채 공략\n- 에서 1단계 패널티 몬스터들이 파티퀘스트 지역이 아닌 곳에 소환되던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "kxw88yp4zs47olkgsvamzrq2",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 2월 16일(월) 무중단 배포 안내",
+      "published_at": "2026.02.15",
+      "url": "https://maple.land/board/notices/kxw88yp4zs47olkgsvamzrq2",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "g5h9xioof6alalevxj7dtde6",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 2월 12일(목) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2026.02.11",
+      "url": "https://maple.land/board/notices/g5h9xioof6alalevxj7dtde6",
+      "summary": "- 메이플스토리 월드(MSW) 점검\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2026년 2월 12일(목) 오전 7시 ~ 오전 9시 (2시간)"
+    },
+    {
+      "post_id": "kk1sxosesyjz5bf6vj61vr7q",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2026년 2월 7일(토) 문의처 이전 안내",
+      "published_at": "2026.02.07",
+      "url": "https://maple.land/board/notices/kk1sxosesyjz5bf6vj61vr7q",
+      "summary": "- (로그인 이후 문의를 진행하실 수 있습니다.)\n- 젠데스크 폐쇄 예정 일자 (답변 진행 및 기답변 내용 조회 종료)\n- 앞으로 문의는 위 경로를 통해 접수하여 주시기 바라며, 접수 환경이 변경되는 초기에는 문의량 및 플랫폼 처리 방식 차이로 인해"
+    },
+    {
+      "post_id": "dt7yo88gi222medcrjobpdpe",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "메이플랜드의 설날",
+      "published_at": "2026.02.06",
+      "url": "https://maple.land/board/events/dt7yo88gi222medcrjobpdpe",
+      "summary": "- 퀘스트를 진행하실 수 있습니다.\n- 으로부터 퀘스트를 진행하실 수 있습니다.\n- 레벨 13 이상\n- (7일간 사용 가능)\n- 레벨 13 이상"
+    },
+    {
+      "post_id": "g6kr80h3l03k3tusrqvmdmqr",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 2월 6일(금) 패치노트",
+      "published_at": "2026.02.06",
+      "url": "https://maple.land/board/notices/g6kr80h3l03k3tusrqvmdmqr",
+      "summary": "- “메이플랜드의 설날” 이벤트 진행 안내\n- 점검 직후 접속 시, 간헐적으로 ‘월드 오류’ 내지는 ‘규칙 위반’을 원인으로 한 접속 종료 현상이 발생할 수 있습니다."
+    },
+    {
+      "post_id": "ie29hia2xn5c82zjndrbfstj",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 2월 6일(금) 점검 예정 안내",
+      "published_at": "2026.02.05",
+      "url": "https://maple.land/board/notices/ie29hia2xn5c82zjndrbfstj",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "lmbhto76aqcltrrmewfmna61",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 1월 30일(금) 패치노트 (12:40 추가)",
+      "published_at": "2026.01.30",
+      "url": "https://maple.land/board/notices/lmbhto76aqcltrrmewfmna61",
+      "summary": "- 파티퀘스트 <크림슨우드 성채 공략\n- 의 일부 사항이 변경됩니다.\n- 가 사용하는 스킬의 피격 범위가 확대되고, 피격 시 발생하는\n- 에서 보스 처치 이후 발생하는 이동 제한 시간이 초과된 경우\n- 을 통해 정상적으로 퇴장할 수 있도록 변경됩니다."
+    },
+    {
+      "post_id": "s8n1ougxnx2mcpwb9ozl5yml",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 1월 30일(금) 점검 예정 안내",
+      "published_at": "2026.01.29",
+      "url": "https://maple.land/board/notices/s8n1ougxnx2mcpwb9ozl5yml",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "cudrh4v7tql8hqhs8aa22o74",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 1월 29일(목) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2026.01.28",
+      "url": "https://maple.land/board/notices/cudrh4v7tql8hqhs8aa22o74",
+      "summary": "- 메이플스토리 월드(MSW) 점검\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2026년 1월 29일(목) 오전 7시 ~ 오전 10시 (3시간)"
+    },
+    {
+      "post_id": "jk8cs3kzypghfkoy2p5qd6ru",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 1월 28일(수) 무중단 배포 안내",
+      "published_at": "2026.01.28",
+      "url": "https://maple.land/board/notices/jk8cs3kzypghfkoy2p5qd6ru",
+      "summary": "- 이벤트 <월드 보스 레이드\n- 이 소환되던 현상이 수정됩니다."
+    },
+    {
+      "post_id": "msvno9l35dbjw4cub6h274b3",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 1월 24일(토) 무중단 배포 안내",
+      "published_at": "2026.01.24",
+      "url": "https://maple.land/board/notices/msvno9l35dbjw4cub6h274b3",
+      "summary": "- 로딩 시간이 길게 발생하던 현상이 개선됩니다."
+    },
+    {
+      "post_id": "r06axmg9zb1ndpesvfd2mt11",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "메이플랜드의 월동 준비",
+      "published_at": "2026.01.23",
+      "url": "https://maple.land/board/events/r06axmg9zb1ndpesvfd2mt11",
+      "summary": "- 퀘스트를 진행하실 수 있습니다.\n- 으로부터 퀘스트를 진행하실 수 있습니다.\n- 레벨 13 이상\n- 몬스터가 드롭하는 알파벳을 모아 “HAPPY NEW YEAR” 완성하기\n- (7일간 사용 가능)"
+    },
+    {
+      "post_id": "sjxlsd6lg18f17xs0yn9pnxw",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "골드리치의 보물 창고",
+      "published_at": "2026.01.23",
+      "url": "https://maple.land/board/events/sjxlsd6lg18f17xs0yn9pnxw",
+      "summary": "- 이벤트 퀘스트를 통해 획득할 수 있는\n- 를 통해 퀘스트를 수행하실 수 있습니다.\n- 레벨 13 이상 ~ 200 이하\n- (이벤트 종료시까지 사용 가능, 교환 및 판매 불가)\n- (이벤트 종료시까지 사용 가능, 교환 및 판매 불가)"
+    },
+    {
+      "post_id": "pieimwbk3w29oovr2s587g58",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 1월 23일(금) 무중단 배포 안내",
+      "published_at": "2026.01.23",
+      "url": "https://maple.land/board/notices/pieimwbk3w29oovr2s587g58",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "pvdzwbbjkaao3ykg8lejzybe",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "<절제된 분노>아이템 제작 오류 현상 안내",
+      "published_at": "2026.01.23",
+      "url": "https://maple.land/board/notices/pvdzwbbjkaao3ykg8lejzybe",
+      "summary": "- 금일 업데이트된 피오나 NPC의 아이템 제작 기능을 이용해 절제된 분노를 제작할 경우, 제작 재료가 추가로 소모되는\n- 해당 문제는 금일 무중단 패치를 통해 수정될 예정입니다.\n- 이후 제작 재료가 추가로 소모된 유저분들께서는 듀이 NPC를 통해 소모된 재료를 수령하실 수 있도록 조치할 예정입니다."
+    },
+    {
+      "post_id": "eivoqexiu1hyq2mbccz2mx0g",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "지원센터 운영 이전 안내",
+      "published_at": "2026.01.23",
+      "url": "https://maple.land/board/notices/eivoqexiu1hyq2mbccz2mx0g",
+      "summary": "- 다만 접수 환경이 변경되는 초기에는 문의량 및 플랫폼 처리 방식 차이로 인해 답변이 완료되기까지 기존보다 시일이 소요될 수 있는 점 너른 양해 부탁드립니다.\n- 젠데스크 문의 접수 가능 기간 (2026년 2월 7일부터는 접수 불가)\n- 젠데스크 문의 접수 가능 기간 동안 젠데스크를 통한 문의 접수 및 이메일 문의 접수가 가능합니다.\n- 기존 지원센터 문의 접수 종료 이후부터 폐쇄 전까지는 기존 문의/답변 내역 조회만 가능합니다.\n- 2026년 2월 7일 00:00(KST) 이후 문의는 [MSW 빅토리아(크리에이터에게 문의하기)]를 통해서만 접수 가능하며"
+    },
+    {
+      "post_id": "ay0ru4x2zwb14s4sducuzalq",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2026년 1월 23일 운영정책 개정 안내",
+      "published_at": "2026.01.23",
+      "url": "https://maple.land/board/notices/ay0ru4x2zwb14s4sducuzalq",
+      "summary": "- 2) 회사는 월드 운영, 보안, 부정행위 방지 및 운영정책 위반 조사 · 조치를 위해 월드 이용 과정에서 생성되는 기록(예 : 접속 기록, 거래 기록, 메소 및 아이템 이동 기록, 월드 내 모...\n- 단, 수사 협조 또는 관계 법령상 보존이 필요한 경우에는 해당 목적 달성 시까지 또는 법령에서 정한 기간 동안 추가 보관될 수 있습니다.\n- : 아이템 줍기 기능을 제외한 타인과의 모든 거래가 제한됩니다.\n- : 아이템 줍기 기능을 포함한 타인과의 교류에서 모든 상호작용이 제한됩니다.\n- d. 아이템 제한"
+    },
+    {
+      "post_id": "kfxn9apjwhrzvd6zjb4bw4by",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "계정 도용으로 인한 피해 안내",
+      "published_at": "2026.01.23",
+      "url": "https://maple.land/board/notices/kfxn9apjwhrzvd6zjb4bw4by",
+      "summary": "- 최근 계정 공유(양도 · 대여 · 대리 접속 등)로 인해 게임 내 재화 및 아이템이 탈취되는 피해가 지속적으로 접수되고 있습니다.\n- 앞으로의 피해 예방을 위해 혹시라도 현재 본인의 계정이 타인에게 공유가 진행되고 있다면 즉시 이를 중단하여 주시기 바라며\n- Mapleland에서는 이와 관련된 이슈에 대해 가능한 최선을 다해 협조 드리고 있습니다."
+    },
+    {
+      "post_id": "y71qps22nn1ze094s3rpctfh",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 1월 23일(금) 패치노트",
+      "published_at": "2026.01.23",
+      "url": "https://maple.land/board/notices/y71qps22nn1ze094s3rpctfh",
+      "summary": "- “메이플랜드의 월동 준비” 이벤트 진행 안내\n- “골드리치의 보물 창고” 이벤트 진행 안내\n- ■ 마스테리아 대륙에 새로운 파티 퀘스트, <크림슨우드 성채 공략>이 추가되었습니다!\n- 마스테리아 대륙의 크림슨우드 성채에 새로운 파티 퀘스트가 추가되었습니다.\n- 레벨 120 이상, 최대 20인으로 구성된 원정대, 주 2회 입장 가능"
+    },
+    {
+      "post_id": "nndajkxc2p877vhzoasljt16",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 1월 23일(금) 점검 예정 안내 (14:00 추가)",
+      "published_at": "2026.01.22",
+      "url": "https://maple.land/board/notices/nndajkxc2p877vhzoasljt16",
+      "summary": "- (11:00 추가)\n- (12:52 추가)\n- (14:00 추가)"
+    },
+    {
+      "post_id": "er8wo76yi6ptyrf4260h4j6x",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 1월 16일(금) 무중단 패치노트",
+      "published_at": "2026.01.16",
+      "url": "https://maple.land/board/notices/er8wo76yi6ptyrf4260h4j6x",
+      "summary": "- 일부 특수 맵에서 접속을 종료한 후 재접속 시 지정된 맵으로 이동되지 않던 현상이 수정됩니다.\n- 가 발동되던 현상이 수정됩니다.\n- 아래 몬스터들의 몬스터 애니메이션이 일부 수정됩니다.\n- 의 드롭률이 조정되었습니다.\n- 파티퀘스트 <몬스터 카니발"
+    },
+    {
+      "post_id": "me08svtg4ulfn23v99x85lzo",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 1월 16일(금) 무중단 배포 안내",
+      "published_at": "2026.01.15",
+      "url": "https://maple.land/board/notices/me08svtg4ulfn23v99x85lzo",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "newceo363chrrjgblcixyrez",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 1월 13일(화) 무중단 배포 안내 - 2",
+      "published_at": "2026.01.13",
+      "url": "https://maple.land/board/notices/newceo363chrrjgblcixyrez",
+      "summary": "- 월드 이동 시 맵이 정상적으로 선택되지 않던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "f9k1urtj0euox4bbopsc76ah",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 1월 13일(화) 무중단 패치노트",
+      "published_at": "2026.01.13",
+      "url": "https://maple.land/board/notices/f9k1urtj0euox4bbopsc76ah",
+      "summary": "- 선공을 하지 않는 몬스터가 플레이어가 공격을 시도하려는 순간부터 반응하여 너무 빠르게 반격하던 현상이 수정됩니다.\n- 퀘스트의 보상 중\n- 가 초보자 직업군에게만 지급되던 현상이 수정됩니다.\n- 퀘스트가 일련의 퀘스트를 완료했음에도 여전히 완료되지 않은 상태로 표시되던 현상이 수정됩니다.\n- 를 통해 마스테리아 대륙으로 이동 시, 의도하지 않은 맵으로 이동되던 현상이 수정됩니다."
+    },
+    {
+      "post_id": "dqzy8iq0mv51rkmylumxs369",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2025년 12월 제재내역 [사행성 · 홍보]",
+      "published_at": "2026.01.12",
+      "url": "https://maple.land/board/notices/dqzy8iq0mv51rkmylumxs369",
+      "summary": "- 댕잉, **그온유, **984165, **34685, **징털, **슈, **롱통, **찌, **톨몽, **짝살짝, **릉내, **지털, **릉지, **신잡는육군, **롤톨, **79415,..."
+    },
+    {
+      "post_id": "v5q85hd4ohilymgkop9tyrfa",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 1월 13일(화) 무중단 배포 안내",
+      "published_at": "2026.01.12",
+      "url": "https://maple.land/board/notices/v5q85hd4ohilymgkop9tyrfa",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "k8sh8kv74h0ubyep9qx4n6m8",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "<카산드라의 새해운세보기> 진행불가 현상 안내",
+      "published_at": "2026.01.10",
+      "url": "https://maple.land/board/notices/k8sh8kv74h0ubyep9qx4n6m8",
+      "summary": "- 금일 자정을 기준으로 퀘스트\n- 퀘스트가 안내드린 종료 일자와 다르게 조기 종료된 현상을 확인하였습니다.\n- 해당 문제는 무중단 패치 없이 핫픽스 작업을 통해 조치될 예정입니다.\n- NPC를 통해 1월 11일 23시 59분 까지 보상을 수령하실 수 있도록 수정될 예정입니다."
+    },
+    {
+      "post_id": "bh8ra3pihpxcb8hx25mo3dki",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 1월 9일(금) 무중단 배포 안내 -2",
+      "published_at": "2026.01.09",
+      "url": "https://maple.land/board/notices/bh8ra3pihpxcb8hx25mo3dki",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "b7d37dvoshoz7yvaw4nojcqz",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 1월 9일(금) 무중단 배포 안내 (15:58 추가)",
+      "published_at": "2026.01.09",
+      "url": "https://maple.land/board/notices/b7d37dvoshoz7yvaw4nojcqz",
+      "summary": "- 일부 몬스터들의 비정상적인 MP량이 수정됩니다.\n- 각 몬스터에게서 뱃지 아이템이 드롭되지 않던 현상이 수정됩니다.\n- (15:58 추가)"
+    },
+    {
+      "post_id": "ni0iwqua6h7urj76flpfvfpi",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2026년 1월 9일(금) 패치노트",
+      "published_at": "2026.01.09",
+      "url": "https://maple.land/board/notices/ni0iwqua6h7urj76flpfvfpi",
+      "summary": "- 마스테리아 대륙 남부에 새로운 지역 <크림슨우드 산맥>이 추가되었습니다!\n- 지역에 아래와 같은 몬스터가 출현합니다.\n- 해당 지역에 등장하는 일부 몬스터들의 능력치가 조정되었습니다.\n- 몬스터 레벨 변경\n- 몬스터 레벨 변경"
+    },
+    {
+      "post_id": "zgj7or49bebngijn6lxhthor",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 1월 9일(금) 점검 예정 안내 (11:18 수정)",
+      "published_at": "2026.01.08",
+      "url": "https://maple.land/board/notices/zgj7or49bebngijn6lxhthor",
+      "summary": "- (11:18 추가)"
+    },
+    {
+      "post_id": "ay3a7d4hfbcbvjhcwaiquale",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 1월 7일(수) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2026.01.06",
+      "url": "https://maple.land/board/notices/ay3a7d4hfbcbvjhcwaiquale",
+      "summary": "- 메이플스토리 월드(MSW) 점검\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2026년 1월 7일(수) 오전 7시 ~ 오전 9시 (2시간)"
+    },
+    {
+      "post_id": "kiu0ufz8vsbblpfybqs7hbdf",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2026년 1월 5일(월) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2026.01.02",
+      "url": "https://maple.land/board/notices/kiu0ufz8vsbblpfybqs7hbdf",
+      "summary": "- 메이플스토리 월드(MSW) 점검\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2026년 1월 5일(월) 오전 6시 30분 ~ 오전 9시 (2시간 30분)"
+    },
+    {
+      "post_id": "n4mv2ygea4j8h6qm9ugojspz",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 12월 30일(화) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2025.12.29",
+      "url": "https://maple.land/board/notices/n4mv2ygea4j8h6qm9ugojspz",
+      "summary": "- 메이플스토리 월드(MSW) 점검\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2025년 12월 30일(화) 오전 7시 ~ 오전 8시 (1시간)"
+    },
+    {
+      "post_id": "fnbfhh2y5y7sg50esaowbahl",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 12월 23일(화) 무중단 패치노트",
+      "published_at": "2025.12.23",
+      "url": "https://maple.land/board/notices/fnbfhh2y5y7sg50esaowbahl",
+      "summary": "- 아래 몬스터들의 경험치 상승량이 결정되어 안내드립니다.\n- 일부 몬스터들이 지급하는 경험치의 양이 상승합니다.\n- 변경 후 경험치\n- 변경 후 경험치\n- 변경 후 경험치"
+    },
+    {
+      "post_id": "n2tc494l7hpzvrxp3xt2agaq",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 12월 23일(화) 무중단 배포 안내",
+      "published_at": "2025.12.22",
+      "url": "https://maple.land/board/notices/n2tc494l7hpzvrxp3xt2agaq",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "bh5bmx966mqmvcxx12x7cats",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 12월 19일(금) 무중단 배포 안내",
+      "published_at": "2025.12.19",
+      "url": "https://maple.land/board/notices/bh5bmx966mqmvcxx12x7cats",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다.\n- Mapleland (자유시장/이벤트)\n- Mapleland (빅토리아)\n- Mapleland (엘나스)\n- Mapleland (루더스/니할)"
+    },
+    {
+      "post_id": "gqays6n6f49dst0bi2yerf5f",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 12월 19일(금) 패치노트 (12:21 수정)",
+      "published_at": "2025.12.19",
+      "url": "https://maple.land/board/notices/gqays6n6f49dst0bi2yerf5f",
+      "summary": "- 일부 몬스터들이 성탄절을 맞아 한시적으로 색다르게 변신합니다!\n- 이 사용하는 스킬이 기존 물리 이뮨, 마법 이뮨에서 상태 이상 스킬로 변경됩니다.\n- (12:12 추가)\n- 레벨이 70 이하인 경우 특정 환경에서 사망 시 경험치 감소 패널티가 적용되지 않도록\n- 현재 레벨 업 필요 EXP의 50%"
+    },
+    {
+      "post_id": "iygf08kmrylup9jxi8jkkxv0",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 12월 19일(금) 점검 예정 안내 (11:55 수정)",
+      "published_at": "2025.12.18",
+      "url": "https://maple.land/board/notices/iygf08kmrylup9jxi8jkkxv0",
+      "summary": "- (11:55 추가)"
+    },
+    {
+      "post_id": "za931fgkvbzhuxxmxg8e1ukr",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 12월 16일(화) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2025.12.15",
+      "url": "https://maple.land/board/notices/za931fgkvbzhuxxmxg8e1ukr",
+      "summary": "- 메이플스토리 월드(MSW) 점검\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2025년 12월 16일 (화) 오전 7시 ~ 오전 9시 (2시간)"
+    },
+    {
+      "post_id": "mq87qb9d469kj8b49i22vwv7",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 12월 15일(월) 무중단 배포 안내",
+      "published_at": "2025.12.15",
+      "url": "https://maple.land/board/notices/mq87qb9d469kj8b49i22vwv7",
+      "summary": "- 를 통해 본인의 MSW 아바타를 노출할 수 없도록 수정됩니다."
+    },
+    {
+      "post_id": "dxbhe005q74b76se00kvjt8x",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "행복한 마을의 크리스마스",
+      "published_at": "2025.12.12",
+      "url": "https://maple.land/board/events/dxbhe005q74b76se00kvjt8x",
+      "summary": "- 가 판매하는 장식용 아이템들, 혹은 모험가 여러분들의 아이템들로 멋지게 꾸며보세요!\n- 드롭한 아이템은 본인 외의 유저가 가져갈 수 없습니다.\n- 캐시 아이템 및 교환 불가 아이템은 드롭할 수 없습니다.\n- 장식하기 위해 드롭한 아이템은 맵에서 이탈할 때, 자동으로 전부 회수됩니다.\n- ○ 크리스마스 이벤트 퀘스트"
+    },
+    {
+      "post_id": "hnaxxabaq2fn59n215t3ws65",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 12월 12일(금) 무중단 배포 안내",
+      "published_at": "2025.12.12",
+      "url": "https://maple.land/board/notices/hnaxxabaq2fn59n215t3ws65",
+      "summary": "- 명령어가 6자 이상인 닉네임을 사용 중인 대상으로는 작동하지 않던 현상이 수정됩니다.\n- 퀘스트 완료 체크가 정상적으로 이루어지지 않던 현상이 수정됩니다."
+    },
+    {
+      "post_id": "ceo7qy34db71f8tk0c5jtelu",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 12월 12일(금) 패치노트",
+      "published_at": "2025.12.12",
+      "url": "https://maple.land/board/notices/ceo7qy34db71f8tk0c5jtelu",
+      "summary": "- “행복한 마을의 크리스마스” 이벤트 진행 안내\n- 점검 직후 접속 시, 간헐적으로 ‘월드 오류’ 내지는 ‘규칙 위반’을 원인으로 한 접속 종료 현상이 발생할 수 있습니다."
+    },
+    {
+      "post_id": "jvqfu0ikj7tzbxv7u2ora2cr",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 12월 12일(금) 점검 예정 안내",
+      "published_at": "2025.12.11",
+      "url": "https://maple.land/board/notices/jvqfu0ikj7tzbxv7u2ora2cr",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "m73predpa5ere6x1iufltliw",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 12월 5일(금) 무중단 패치노트",
+      "published_at": "2025.12.05",
+      "url": "https://maple.land/board/notices/m73predpa5ere6x1iufltliw",
+      "summary": "- 일부 아이템의 드롭률이 소폭 상향 조정되었습니다.\n- 파티퀘스트 <몬스터 카니발\n- 을 통해 잔여 입장 횟수를 확인할 수 있는 메뉴가 추가됩니다.\n- 퀘스트가 3일 간격으로 다시 진행할 수 있다는 설명과 다르게 반복 진행되지 않던 문제가 수정됩니다.\n- 키설정 도중 설정된 키의 아이콘을 UI 외부로 드래그&드랍하여 제거하는 경우 키설정이 정상적으로 저장되지 않던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "zzsg2o73d0opg3dk18n7hmlc",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 12월 5일(금) 무중단 배포 안내",
+      "published_at": "2025.12.04",
+      "url": "https://maple.land/board/notices/zzsg2o73d0opg3dk18n7hmlc",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "lvqe0lzvx1yuackm4gpxik9c",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2025년 11월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.12.03",
+      "url": "https://maple.land/board/notices/lvqe0lzvx1yuackm4gpxik9c",
+      "summary": "- 원가능, **뱅놀이, **짜융, **연S22, **츠,"
+    },
+    {
+      "post_id": "uh65mokgeww7u032y1e8yf0y",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 11월 28일(금) 무중단 패치노트(12/3 추가)",
+      "published_at": "2025.11.28",
+      "url": "https://maple.land/board/notices/uh65mokgeww7u032y1e8yf0y",
+      "summary": "- 일부 퀘스트의 수행 레벨 제한이 변경됩니다.\n- 40레벨 이상 수행 가능\n- 40레벨 이상 수행 가능\n- 아이템의 스프라이트가 잘못 출력되었던 오류가 수정됩니다.\n- 이 적용되어 있는 몬스터를 타격할 경우, 때때로 캐릭터의 이동 및 스킬 사용이 제한되던 오류가 수정됩니다."
+    },
+    {
+      "post_id": "zbxw8sy5ixzqhidqdf625lrs",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 12월 1일(월) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2025.11.27",
+      "url": "https://maple.land/board/notices/zbxw8sy5ixzqhidqdf625lrs",
+      "summary": "- 메이플스토리 월드(MSW) 점검\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2025년 12월 1일 (월) 오전 7시 ~ 오전 9시 (2시간)"
+    },
+    {
+      "post_id": "mr2j8v92uh0ilscbrsyfxcco",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 11월 28일(금) 무중단 배포 안내",
+      "published_at": "2025.11.27",
+      "url": "https://maple.land/board/notices/mr2j8v92uh0ilscbrsyfxcco",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "xzf1wv88uas63q4s6thszgii",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 11월 21일(금) 패치노트",
+      "published_at": "2025.11.21",
+      "url": "https://maple.land/board/notices/xzf1wv88uas63q4s6thszgii",
+      "summary": "- 마스테리아 대륙 남부에 새로운 마을 <뉴 리프 시티>가 추가되었습니다!\n- 지역에 아래와 같은 몬스터가 출현합니다.\n- 가 추가되었습니다.\n- 이제 고정형 몬스터에게는\n- 택배 보관함의 페이지 이동 시 기존에 선택 반송하기 위해 체크했던 목록이 초기화되도록 변경됩니다"
+    },
+    {
+      "post_id": "iv1w7rslh07ms9ag3dl7r2zz",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 11월 21일(금) 점검 예정 안내",
+      "published_at": "2025.11.20",
+      "url": "https://maple.land/board/notices/iv1w7rslh07ms9ag3dl7r2zz",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "lkhnzooizmmauen2bdewtr8o",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 11월 14일(금) 무중단 패치노트",
+      "published_at": "2025.11.14",
+      "url": "https://maple.land/board/notices/lkhnzooizmmauen2bdewtr8o",
+      "summary": "- 퀘스트 진행 불가 현상에 대한 보상입니다.\n- 이벤트 퀘스트 중\n- 이 조기 종료되어 진행할 수 없었던 현상이 수정됩니다.\n- 무중단 패치 적용 이후, 퀘스트를 다시 수행하실 수 있습니다.\n- 파티 초대 후 파티 요청을 받은 상대방이 수락 및 거절을 하지 않은 상태에서 중복하여 파티초대를 진행할 시, 파티 가입이 정상적으로 진행되지 않던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "jeeq3bys5zlt1d6ilcvxc4mm",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "<매일매일 황금 단풍잎> 퀘스트 오류 안내",
+      "published_at": "2025.11.14",
+      "url": "https://maple.land/board/notices/jeeq3bys5zlt1d6ilcvxc4mm",
+      "summary": "- 금일 자정을 기해 퀘스트\n- 이는 금일 15시에 예정되어 있던 무중단 배포를 통해 수정될 예정이며,\n- 무중단 배포 이후 퀘스트를 다시 수락하실 수 있도록 조치 및 불편에 따른 소정의 보상을"
+    },
+    {
+      "post_id": "ilnm1xvur6l90ahcbgwbeybl",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 11월 14일(금) 무중단 배포 안내",
+      "published_at": "2025.11.13",
+      "url": "https://maple.land/board/notices/ilnm1xvur6l90ahcbgwbeybl",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "i93qvrokowda56eeyfi4h9ut",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "메이플스토리 월드 (MSW) 점검 연기 안내",
+      "published_at": "2025.11.12",
+      "url": "https://maple.land/board/notices/i93qvrokowda56eeyfi4h9ut",
+      "summary": "- 메이플스토리 월드(MSW) 점검\n- 관련 점검 일정이 연기되었음을 안내드립니다.\n- 2025년 11월 13일 오전 8시 30분에 예정되었던\n- 아래 메이플스토리 월드 공지를 참조 부탁드립니다.\n- https://maplestoryworlds.nexon.com/ko/community/5005/2120/3222028"
+    },
+    {
+      "post_id": "b1qqljwvqibpgkmnbpy0pr9y",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2025년 10월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.11.10",
+      "url": "https://maple.land/board/notices/b1qqljwvqibpgkmnbpy0pr9y",
+      "summary": "- 제재자 명단 (277개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2025년 10월 1일 ~ 10월 31일"
+    },
+    {
+      "post_id": "l4rvqzjm0cxnf5x56qx15pzs",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 11월 7일(금) 패치노트 (13:25 추가)",
+      "published_at": "2025.11.07",
+      "url": "https://maple.land/board/notices/l4rvqzjm0cxnf5x56qx15pzs",
+      "summary": "- 가 조기 종료되는 현상이 있어, 11월 10일(월) 00시 00분까지 이벤트 진행 기간을 연장합니다.\n- 기존 퀘스트 진행이 중단되었던 모험가 여러분들은 퀘스트를 이어서 진행하실 수 있습니다.\n- 마시멜로를 2개 이상 구매 시 1세트만 지급되던 문제\n- 구매 시 기간이 적용되어 있던 아이템들의 기간을\n- 무제한으로 변경"
+    },
+    {
+      "post_id": "e2h0vytcjkdnj4gkpdw19fdp",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 11월 7일(금) 점검 예정 안내",
+      "published_at": "2025.11.06",
+      "url": "https://maple.land/board/notices/e2h0vytcjkdnj4gkpdw19fdp",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "hwh3coj79j01ju6upe1u9os2",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 11월 4일(화) 무중단 배포 안내 - 2",
+      "published_at": "2025.11.04",
+      "url": "https://maple.land/board/notices/hwh3coj79j01ju6upe1u9os2",
+      "summary": "- 에서 아이템 여러 묶음을 한번에 구매할 때 차감된 황금 단풍잎만큼의 아이템이 지급되지 않던 문제가 수정됩니다.\n- 추후 해당 오류 관련 로그를 전수조사하여 누락된 수량만큼을 각 택배로 지급해드릴 예정입니다. 이용에 불편을 드려 정말 죄송합니다."
+    },
+    {
+      "post_id": "cdfxs1gie2atgifu0cimvvnq",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 11월 4일(화) 무중단 패치노트",
+      "published_at": "2025.11.04",
+      "url": "https://maple.land/board/notices/cdfxs1gie2atgifu0cimvvnq",
+      "summary": "- 의 구입이 정상적으로 이루어지지 않던 현상이 수정됩니다.\n- 가 둘이던 현상이 수정됩니다.\n- 로 변경되었습니다.\n- 아이템에 유효기간이 있던 현상이 수정됩니다. 이용에 혼란을 드려 죄송합니다.\n- 기존에 구입하신 의자는 추후 영구제로 변경해 드릴 예정이며,"
+    },
+    {
+      "post_id": "cb8gi5d5t7io9fohofjcrmhi",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 11월 4일(화) 무중단 배포 안내",
+      "published_at": "2025.11.04",
+      "url": "https://maple.land/board/notices/cb8gi5d5t7io9fohofjcrmhi",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "rsxu96xm9co5a8lz8cvpfc7v",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "Mapleland 2주년 파티",
+      "published_at": "2025.10.31",
+      "url": "https://maple.land/board/events/rsxu96xm9co5a8lz8cvpfc7v",
+      "summary": "- NPC를 통해 퀘스트를 수행하실 수 있습니다.\n- 해당 퀘스트를 완료해야 아래의 퀘스트를 진행할 수 있습니다.\n- 레벨 15 이상\n- 레벨 15 이상\n- 레벨 15 이상"
+    },
+    {
+      "post_id": "wndpxyg5r0qsvdz5ay13rtbt",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 10월 31일(금) 무중단 배포 안내 - 2",
+      "published_at": "2025.10.31",
+      "url": "https://maple.land/board/notices/wndpxyg5r0qsvdz5ay13rtbt",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다.\n- 64제 메이플 무기의 착용 제한 스텟이 잘못 설정되어 있던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "n6sb9zmsrhpkivl7cwuinly7",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 10월 31일(금) 무중단 배포 안내",
+      "published_at": "2025.10.31",
+      "url": "https://maple.land/board/notices/n6sb9zmsrhpkivl7cwuinly7",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다.\n- 모바일 환경에서 조작이 불가능한 이슈가 해결됩니다."
+    },
+    {
+      "post_id": "nr1kp6zrkp7qbsj98d5lhnvq",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 10월 31일(금) 패치노트",
+      "published_at": "2025.10.31",
+      "url": "https://maple.land/board/notices/nr1kp6zrkp7qbsj98d5lhnvq",
+      "summary": "- (1) “Mapleland 2주년 파티” 이벤트 진행 안내\n- 모바일 환경에서 숏컷 메뉴의 퀘스트, 커뮤니티의 일부 영역을 터치할 수 없던 문제가 수정됩니다.\n- 엎드린 상태에서 차징류 스킬을 사용할 수 없도록 수정됩니다.\n- 차징류 스킬 사용 중 장애물에 부딪힐 때 함정 포탈이 정상적으로 작동하지 않던 문제가 수정됩니다.\n- 퀘스트 진행 중 간헐적으로 원활하게 진행되지 않던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "nmvx8rdj8278rhvgrqhg5bd3",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 10월 31일(금) 점검 예정 안내",
+      "published_at": "2025.10.30",
+      "url": "https://maple.land/board/notices/nmvx8rdj8278rhvgrqhg5bd3",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "gf1aqewqz0nvp2rll5hj1lsk",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 10월 30일(목) 메이플스토리 월드 (MSW) 점검 안내 (13:00 추가)",
+      "published_at": "2025.10.29",
+      "url": "https://maple.land/board/notices/gf1aqewqz0nvp2rll5hj1lsk",
+      "summary": "- (10:37 추가)\n- (13:00 추가)\n- 추가 점검 내용:"
+    },
+    {
+      "post_id": "ilwh2jn8onh6gqmwuxr1ouky",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "메이플 할로윈 파티",
+      "published_at": "2025.10.24",
+      "url": "https://maple.land/board/events/ilwh2jn8onh6gqmwuxr1ouky",
+      "summary": "- 를 통해 퀘스트를 수행하실 수 있습니다.\n- 레벨 13 이상 ~ 200 이하\n- 해당 퀘스트를 시작으로 맨션 곳곳에 숨은 이야기들을 풀어보다 보면 3종의 장비를 얻으실 수 있습니다.\n- (2025년 11월 14일 00시 00분까지 사용 가능)\n- 할로윈 이벤트 퀘스트를 모두 클리어할 시, 화면 좌측 [이벤트 알리미]를 통해 퀘스트를 수행하실 수 있습니다."
+    },
+    {
+      "post_id": "ml1daqxqk75jtquv0koqaoau",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 10월 24일(금) 무중단 패치노트",
+      "published_at": "2025.10.24",
+      "url": "https://maple.land/board/notices/ml1daqxqk75jtquv0koqaoau",
+      "summary": "- 할로윈 이벤트 퀘스트 중\n- 퀘스트의 필요 아이템 완료 조건이 완화됩니다.\n- 에서 소환되는 몬스터의 개체 수가 증가합니다.\n- 다른 모험가의 원활한 이벤트 진행을 고의적으로 방해하는 행위에 대해 이용제한 조치를 취했습니다. 모두가 즐거운 게임 환경을 위해 서로 배려 부탁드립니다."
+    },
+    {
+      "post_id": "i0gzm4kz54c4f1d80qioi55g",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 10월 24일(금) 무중단 배포 안내",
+      "published_at": "2025.10.24",
+      "url": "https://maple.land/board/notices/i0gzm4kz54c4f1d80qioi55g",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "h66i8gbcbljch36wxuwlv9fn",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 10월 24일(금) 패치노트",
+      "published_at": "2025.10.24",
+      "url": "https://maple.land/board/notices/h66i8gbcbljch36wxuwlv9fn",
+      "summary": "- (1) “메이플 할로윈 파티” 이벤트 진행 안내\n- 오류와 관련하여 Notion 측에 문의를 진행한 상태이며, 추후 개선점이 확인되는 대로 보다 편리하게 이용하실 수 있도록 개선하여 선보일 수 있도록 하겠습니다. 이용에 불편을 드려 죄송합니다.\n- 택배 기능 이용 도중 맵을 이탈하게 되었을 때, 작업중이던 내용이 종료되고 택배 UI가 닫히도록 변경됩니다.\n- 가 소환된 장소를 벗어나지 못하던 문제가 수정됩니다.\n- 라이딩 탑승 중 스킬 봉인 상태가 되었을 때 정상적으로 탑승을 해제할 수 있도록 변경됩니다."
+    },
+    {
+      "post_id": "dq2kotgm8oii16b25bt7o7zb",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 10월 24일(금) 점검 예정 안내",
+      "published_at": "2025.10.23",
+      "url": "https://maple.land/board/notices/dq2kotgm8oii16b25bt7o7zb",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "l21xqad64k770ulvzs2lot74",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 10월 3일(금) 무중단 패치노트",
+      "published_at": "2025.10.03",
+      "url": "https://maple.land/board/notices/l21xqad64k770ulvzs2lot74",
+      "summary": "- 이벤트 퀘스트 중\n- 퀘스트가 조건 충족 시 반복적으로 등장하도록 변경됩니다.\n- 이 상점에 판매될 수 없도록 변경됩니다.\n- 이 간헐적으로 연속적으로 소환되지 않던 문제가 추가 수정됩니다.\n- 파티퀘스트 <몬스터 카니발"
+    },
+    {
+      "post_id": "nriyug6yiq2mm7e0pa6w1fbh",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 10월 3일(금) 무중단 배포 안내",
+      "published_at": "2025.10.02",
+      "url": "https://maple.land/board/notices/nriyug6yiq2mm7e0pa6w1fbh",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "kv4v2zrsuqdjpg923uaes6le",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "Mapleland 고객센터 휴무 안내 (10월 3일 ~ 10월 10일)",
+      "published_at": "2025.10.02",
+      "url": "https://maple.land/board/notices/kv4v2zrsuqdjpg923uaes6le",
+      "summary": "- 위의 기간 동안 접수된 문의들은 이후 순차적으로 답변이 진행될 예정입니다."
+    },
+    {
+      "post_id": "jq7rqie5wo1wvv59iu6eev0d",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2025년 9월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.10.01",
+      "url": "https://maple.land/board/notices/jq7rqie5wo1wvv59iu6eev0d",
+      "summary": "- 제재자 명단 (245개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2025년 9월 1일 ~ 9월 30일"
+    },
+    {
+      "post_id": "c0csi6i2bsnya4dt3r3xzdh2",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "추석맞이 달나라 여행",
+      "published_at": "2025.09.26",
+      "url": "https://maple.land/board/events/c0csi6i2bsnya4dt3r3xzdh2",
+      "summary": "- 를 통해 관련 퀘스트를 진행하실 수 있습니다.\n- 레벨 13 이상 ~ 200 이하\n- 레벨 13 이상 ~ 30 이하\n- 쌀가루 10개, 레벨 범위 몬스터 200마리\n- 레벨 31 이상 ~ 60 이하"
+    },
+    {
+      "post_id": "kh3ftt5eih2v1xqv5onpujju",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 9월 26일(금) 무중단 배포 안내",
+      "published_at": "2025.09.26",
+      "url": "https://maple.land/board/notices/kh3ftt5eih2v1xqv5onpujju",
+      "summary": "- 한 이후, <달빛마당> 에서 본래의 월드로 돌아갈 수 없던 현상이 수정됩니다."
+    },
+    {
+      "post_id": "md0qnipvffdu2p9xo4xv2m54",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "<달빛마당> 퇴장 불가 이슈 안내",
+      "published_at": "2025.09.26",
+      "url": "https://maple.land/board/notices/md0qnipvffdu2p9xo4xv2m54",
+      "summary": "- 관련하여 자체 조사를 진행 중인 상태이며,\n- 해당 오류가 해결될 경우 추가 공지를 통해 안내해 드릴 수 있도록 하겠습니다."
+    },
+    {
+      "post_id": "zn7tvsjshe50u0sy7ja6v0f5",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 9월 26일(금) 패치노트",
+      "published_at": "2025.09.26",
+      "url": "https://maple.land/board/notices/zn7tvsjshe50u0sy7ja6v0f5",
+      "summary": "- (1) “추석맞이 달나라 여행” 이벤트 진행 안내\n- 월드맵에서 니할 사막 지역 위에 마우스를 올렸을 때 잘못된 이미지가 등장하던 문제가 수정됩니다.\n- 파티퀘스트 <로미오와 줄리엣\n- 에서 잘못된 미니맵이 등장하던 문제가 수정됩니다.\n- 점검 직후 접속 시, 간헐적으로 ‘월드 오류’ 내지는 ‘규칙 위반’을 원인으로 한 접속 종료 현상이 발생할 수 있습니다."
+    },
+    {
+      "post_id": "byhe6tg4opm1qfxsbsq6z2gr",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 9월 26일(금) 점검 예정 안내",
+      "published_at": "2025.09.25",
+      "url": "https://maple.land/board/notices/byhe6tg4opm1qfxsbsq6z2gr",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "drhzbzkbjcz66df8cjke0wd1",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 9월 25일(목) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2025.09.24",
+      "url": "https://maple.land/board/notices/drhzbzkbjcz66df8cjke0wd1",
+      "summary": "- 메이플스토리 월드(MSW) 점검\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2025년 9월 25일 (목) 오전 5시 ~ 오전 9시 (4시간)"
+    },
+    {
+      "post_id": "b7rnv7rai0rrvb3tux8fqw8w",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 9월 12일(금) 무중단 배포 안내",
+      "published_at": "2025.09.11",
+      "url": "https://maple.land/board/notices/b7rnv7rai0rrvb3tux8fqw8w",
+      "summary": "- 파티퀘스트 <로미오와 줄리엣\n- 에서 줄리엣을 도와 파티퀘스트를 수행중일 때, 파티장이\n- 에 입장하면 강제로 추방되던 오류가 수정됩니다."
+    },
+    {
+      "post_id": "b6qk5bnh4lmzwo7ur4bqh872",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 9월 11일(목) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2025.09.10",
+      "url": "https://maple.land/board/notices/b6qk5bnh4lmzwo7ur4bqh872",
+      "summary": "- 2025년 9월 11일 오전 6시에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2025년 9월 11일 (목) 오전 6시 ~ 오전 11시 (5시간)"
+    },
+    {
+      "post_id": "kot5ujuvkw933klmuxmzl08j",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 9월 5일(금) 무중단 배포 안내",
+      "published_at": "2025.09.05",
+      "url": "https://maple.land/board/notices/kot5ujuvkw933klmuxmzl08j",
+      "summary": "- 일부 퀘스트가 요구 레벨을 충족하였음에도 수행 가능 상태로 표기되지 않던 오류가 수정됩니다."
+    },
+    {
+      "post_id": "cy17v162q4rydapne3v7bfc7",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 9월 5일(금) 핫픽스 안내",
+      "published_at": "2025.09.05",
+      "url": "https://maple.land/board/notices/cy17v162q4rydapne3v7bfc7",
+      "summary": "- 파티퀘스트 <로미오와 줄리엣\n- 맵으로 이동되지 않고 경험치가 중복 지급되던 현상이 수정됩니다.\n- 로 확인되었습니다. 가능한 시점에 회수 예정입니다."
+    },
+    {
+      "post_id": "d53qwiypyfip60lh2rf5z1yi",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 9월 5일(금) 패치노트",
+      "published_at": "2025.09.05",
+      "url": "https://maple.land/board/notices/d53qwiypyfip60lh2rf5z1yi",
+      "summary": "- 니할 사막의 마가티아에 새로운 파티퀘스트 <로미오와 줄리엣>이 추가되었습니다!\n- 니할 사막의 마가티아에 새로운 파티 퀘스트가 추가되었습니다.\n- 레벨 71 이상, 레벨 100 이하,\n- 파티퀘스트 <로미오와 줄리엣\n- 수행을 위한 지역이 추가되었습니다."
+    },
+    {
+      "post_id": "z8hm95juhl1egxn6w0doqrt8",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 9월 5일(금) 점검 예정 안내",
+      "published_at": "2025.09.04",
+      "url": "https://maple.land/board/notices/z8hm95juhl1egxn6w0doqrt8",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "fck9rky41j659x48on6vtspf",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2025년 8월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.09.01",
+      "url": "https://maple.land/board/notices/fck9rky41j659x48on6vtspf",
+      "summary": "- 제재자 명단 (177개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2025년 8월 1일 ~ 8월 31일"
+    },
+    {
+      "post_id": "r2vsd040yj3acv5rqjte2psl",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 8월 29일(금) 무중단 패치노트",
+      "published_at": "2025.08.29",
+      "url": "https://maple.land/board/notices/r2vsd040yj3acv5rqjte2psl",
+      "summary": "- 보스 <파풀라투스\n- 의 입장 가능 횟수 초기화가 첫 번째 입장 시각 기준 24시간마다 진행되도록 변경됩니다.\n- 금일(8월 29일) 무중단 배포 이전에 1회 이상 입장하신 모험가분들의 입장 가능 횟수는 8월 30일 00시에 초기화됩니다.\n- 월드 보스 레이드 입구\n- 점검 직후 접속 시, 간헐적으로 ‘월드 오류’ 내지는 ‘규칙 위반’을 원인으로 한 접속 종료 현상이 발생할 수 있습니다."
+    },
+    {
+      "post_id": "wynvcn5ko3p6awbwm4llget0",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 8월 29일(금) 무중단 배포 안내",
+      "published_at": "2025.08.28",
+      "url": "https://maple.land/board/notices/wynvcn5ko3p6awbwm4llget0",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "no7r2giozu679isy3uazl8ou",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 8월 19일(화) 무중단 배포 안내",
+      "published_at": "2025.08.19",
+      "url": "https://maple.land/board/notices/no7r2giozu679isy3uazl8ou",
+      "summary": "- 일부 퀘스트에서 의도하지 않은 방식으로 경험치를 획득할 수 있던 점이 수정됩니다."
+    },
+    {
+      "post_id": "phb6ger8xsezswl5aadxa1o1",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "슈피겔만의 월드 보스 레이드",
+      "published_at": "2025.08.15",
+      "url": "https://maple.land/board/events/phb6ger8xsezswl5aadxa1o1",
+      "summary": "- “몬스터 카니발”을 성황리에 개최중인 서커스 단장 \"슈피겔만\"! 이번에는 건설 중인 테마파크에서 모험가들을 모집중이라는데…?\n- ○ 슈피겔만의 월드 보스 레이드\n- 월드 보스 레이드에 도전\n- 좌측 전구를 통해 기본 퀘스트 완료 이후, 각 마을의\n- 월드 보스 레이드 입구"
+    },
+    {
+      "post_id": "ttmvxoqji1qllqpgjhcqxgmb",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 8월 15일(금) 무중단 배포 안내",
+      "published_at": "2025.08.15",
+      "url": "https://maple.land/board/notices/ttmvxoqji1qllqpgjhcqxgmb",
+      "summary": "- 일부 이벤트 맵에서 사망 시 대기실로 이동하지 않던 문제가 수정됩니다.\n- 이벤트 맵에서 채널 변경이 가능하도록 변경됩니다."
+    },
+    {
+      "post_id": "fry6vie1srxoyelef8om55r1",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 8월 15일(금) 패치노트",
+      "published_at": "2025.08.15",
+      "url": "https://maple.land/board/notices/fry6vie1srxoyelef8om55r1",
+      "summary": "- (1) “슈피겔만의 월드 보스 레이드” 이벤트 진행 안내\n- <슈피겔만의 월드 보스 레이드> 이벤트\n- 광복절 80주년을 기념하여 간단한 퀴즈를 통해 보상을 받으실 수 있도록 퀘스트를 준비하였습니다.\n- 레벨 10 이상 수행 가능하며,\n- 8월 15일 하루만 수행 가능"
+    },
+    {
+      "post_id": "zvs2dl6s9ea85d452e0d2a1u",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 8월 15일(금) 점검 예정 안내",
+      "published_at": "2025.08.14",
+      "url": "https://maple.land/board/notices/zvs2dl6s9ea85d452e0d2a1u",
+      "summary": "- 문제가 해결되는 대로 즉시 오픈할 수 있도록 하겠습니다. 이용에 불편을 드려 대단히 죄송합니다."
+    },
+    {
+      "post_id": "qr33f2ns2sxava2phkinvgtx",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 8월 8일(금) 무중단 패치노트",
+      "published_at": "2025.08.08",
+      "url": "https://maple.land/board/notices/qr33f2ns2sxava2phkinvgtx",
+      "summary": "- 을 처치한 유저를 최우선적으로 따라가도록 수정됩니다.\n- 택배 시스템을 통한 거래 중, 대금 청구가 발생하는 아이템 거래 시 텍스트 입력이 제한됩니다.\n- 에서, 보상은 정상적으로 지급되나 대사에 항상 ‘장갑 공격력 주문서 10%’라고 표시되던 문제가 수정됩니다.\n- 사용에 실패한 경우 잠시동안 맵 이동을 할 수 없던 문제가 수정됩니다.\n- 파티퀘스트 <몬스터 카니발"
+    },
+    {
+      "post_id": "crhgpg3d81ncgo0zd8hf1nyb",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2025년 7월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.08.07",
+      "url": "https://maple.land/board/notices/crhgpg3d81ncgo0zd8hf1nyb",
+      "summary": "- 제재자 명단 (210개 캐릭터)\n- 교수1, **23asdqwe, **제재명,\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다."
+    },
+    {
+      "post_id": "ivvf24c6azjgwjkkw8ivblvn",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 8월 8일(금) 무중단 배포 안내",
+      "published_at": "2025.08.07",
+      "url": "https://maple.land/board/notices/ivvf24c6azjgwjkkw8ivblvn",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "jf748v1odwiomcbzszlbwfau",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 8월 1일(금) 패치노트",
+      "published_at": "2025.08.01",
+      "url": "https://maple.land/board/notices/jf748v1odwiomcbzszlbwfau",
+      "summary": "- [무기류 캐시 아이템 판매 개시]\n- 을 통해 더 다양한 종류의 무기류 캐시 장비 아이템을 판매합니다.\n- ◆ 업데이트 이후 추가되는 캐시 장비류\n- 현재 플랫폼 오류로 인해 일부 캐시 장비를 출시할 수 없었으며, 캐시샵 내 미리보기 기능이 불완전할 수 있습니다.\n- Mapleland는 메이플스토리 월드 측에 협력을 요청했으며, 추가적인 개선사항이 확인되는 대로 수정하여 선보일 수 있도록 하겠습니다. 감사합니다."
+    },
+    {
+      "post_id": "eafx6c3sg8boqik3uiv61tvs",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 8월 1일(금) 점검 예정 안내",
+      "published_at": "2025.07.31",
+      "url": "https://maple.land/board/notices/eafx6c3sg8boqik3uiv61tvs",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "i44mgirprn5nz8dsj213rt5m",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2024년 2월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.07.30",
+      "url": "https://maple.land/board/notices/i44mgirprn5nz8dsj213rt5m",
+      "summary": "- 제재자 명단 (307개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2024년 2월 1일 ~ 2월 29일"
+    },
+    {
+      "post_id": "dhcg66nc5eavws5lq7h7wr6e",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "고객센터 답변 지연 안내",
+      "published_at": "2025.07.30",
+      "url": "https://maple.land/board/notices/dhcg66nc5eavws5lq7h7wr6e",
+      "summary": "- 최근 고객센터로 접수되는 문의량이 급증하여, 답변이\n- 되고 있습니다.\n- 항상 저희 Mapleland를 신뢰하고 즐겁게 이용해 주시는 모험가 여러분,\n- 그리고 문의에 대한 답변을 기다리고 계신 모든 분들께 저희 모든 팀원이 신속한 응대를 위해 최선을 다하고 있으니 너그러운 양해 부탁드립니다.\n- 앞으로도 쾌적한 게임 환경을 제공해드리기 위해 노력하겠습니다."
+    },
+    {
+      "post_id": "pxau1hbaxihrdbdxys2e220p",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2025년 5월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.07.29",
+      "url": "https://maple.land/board/notices/pxau1hbaxihrdbdxys2e220p",
+      "summary": "- 제재자 명단 (624개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2025년 5월 1일 ~ 5월 31일"
+    },
+    {
+      "post_id": "vl7i1angp09n5ub542mvh2ij",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2025년 6월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.07.29",
+      "url": "https://maple.land/board/notices/vl7i1angp09n5ub542mvh2ij",
+      "summary": "- 니징, **틴가능, **배당마틴,"
+    },
+    {
+      "post_id": "cvpllvygjr2crxqa10qja52v",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2024년 8월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.07.29",
+      "url": "https://maple.land/board/notices/cvpllvygjr2crxqa10qja52v",
+      "summary": "- 제재자 명단 (237개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2024년 8월 1일 ~ 8월 31일"
+    },
+    {
+      "post_id": "gwmwvo9kp3kut944mkpy8zcv",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2025년 4월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.07.29",
+      "url": "https://maple.land/board/notices/gwmwvo9kp3kut944mkpy8zcv",
+      "summary": "- 제재자 명단 (558개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2025년 4월 1일 ~ 4월 30일"
+    },
+    {
+      "post_id": "knnfdzobdb6po6sdaw0148ka",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2024년 10월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.07.29",
+      "url": "https://maple.land/board/notices/knnfdzobdb6po6sdaw0148ka",
+      "summary": "- 제재자 명단 (86개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2024년 10월 1일 ~ 10월 31일"
+    },
+    {
+      "post_id": "vl659dclfn7kmpy1q2uzbth0",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2024년 5월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.07.29",
+      "url": "https://maple.land/board/notices/vl659dclfn7kmpy1q2uzbth0",
+      "summary": "- 노리한판, **나가는1인, **인적인문제,"
+    },
+    {
+      "post_id": "pu0wglrvoxffx72u7rlz16mq",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2024년 4월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.07.29",
+      "url": "https://maple.land/board/notices/pu0wglrvoxffx72u7rlz16mq",
+      "summary": "- 제재자 명단 (253개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2024년 4월 1일 ~ 4월 30일"
+    },
+    {
+      "post_id": "dp6p2we66z20ms7suxdk2f5q",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2024년 12월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.07.29",
+      "url": "https://maple.land/board/notices/dp6p2we66z20ms7suxdk2f5q",
+      "summary": "- 제재자 명단 (241개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2024년 12월 1일 ~ 12월 31일"
+    },
+    {
+      "post_id": "itlrasa3wlbr9kedjgvxho9h",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2025년 3월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.07.29",
+      "url": "https://maple.land/board/notices/itlrasa3wlbr9kedjgvxho9h",
+      "summary": "- 제재자 명단 (497개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2025년 3월 1일 ~ 3월 31일"
+    },
+    {
+      "post_id": "fh8sj4530suz3f9go7szhh5x",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2024년 7월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.07.29",
+      "url": "https://maple.land/board/notices/fh8sj4530suz3f9go7szhh5x",
+      "summary": "- 제재자 명단 (83개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2024년 7월 1일 ~ 7월 31일"
+    },
+    {
+      "post_id": "u87ka4zgmxnywqwmty3lqo9z",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2024년 6월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.07.29",
+      "url": "https://maple.land/board/notices/u87ka4zgmxnywqwmty3lqo9z",
+      "summary": "- 랑한다해서, **주문의가능, **녕하심까,"
+    },
+    {
+      "post_id": "cyrt3euejj77kiqfeiky863j",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2024년 9월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.07.29",
+      "url": "https://maple.land/board/notices/cyrt3euejj77kiqfeiky863j",
+      "summary": "- 제재자 명단 (200개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2024년 9월 1일 ~ 9월 30일"
+    },
+    {
+      "post_id": "bal1i5w35grpivh3mbm8o5zq",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2024년 11월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.07.29",
+      "url": "https://maple.land/board/notices/bal1i5w35grpivh3mbm8o5zq",
+      "summary": "- 법사1, **준이, **상확인가능,"
+    },
+    {
+      "post_id": "spbubl2qa54k75hdmcyorurx",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2025년 1월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.07.29",
+      "url": "https://maple.land/board/notices/spbubl2qa54k75hdmcyorurx",
+      "summary": "- 제재자 명단 (212개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2025년 1월 1일 ~ 1월 31일"
+    },
+    {
+      "post_id": "mtb1swdsqakfweyd04ct7h50",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2025년 2월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.07.29",
+      "url": "https://maple.land/board/notices/mtb1swdsqakfweyd04ct7h50",
+      "summary": "- 억도가능, **vipllIlIIl, **신격상,\n- 화면추가, **미새신이시, **vip7772카,"
+    },
+    {
+      "post_id": "zpf8fn1gjryy7boe5qggycq0",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2024년 3월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.07.29",
+      "url": "https://maple.land/board/notices/zpf8fn1gjryy7boe5qggycq0",
+      "summary": "- 제재자 명단 (324개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2024년 3월 1일 ~ 3월 31일"
+    },
+    {
+      "post_id": "oiqh4ypb8irzfqxse1r4xyld",
+      "source": "main",
+      "board": "notices",
+      "category": "제재",
+      "title": "2024년 1월 제재내역 [사행성 · 홍보]",
+      "published_at": "2025.07.29",
+      "url": "https://maple.land/board/notices/oiqh4ypb8irzfqxse1r4xyld",
+      "summary": "- 제재자 명단 (178개 캐릭터)\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- Mapleland에서는 유저 보호를 위해 사행성 행위의 홍보 및 광고를 엄격히 금지하고 있으며,\n- 지속적인 모니터링 후 해당 사용자와 이와 관련된 계정 모두를 사전에 안내드린 이용 규칙에 따라 조치하고 있습니다.\n- 2024년 1월 1일 ~ 1월 31일"
+    },
+    {
+      "post_id": "pecbuxugzaz981b0c15easmw",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "여름에는 시원한 Mapleland",
+      "published_at": "2025.07.25",
+      "url": "https://maple.land/board/events/pecbuxugzaz981b0c15easmw",
+      "summary": "- Mapleland가 준비한 피서 아이템과 함께 시원한 여름을 보내 보세요~!\n- 이벤트 기간 동안 레벨 범위 몬스터를 처치할 경우 일정 확률로 아이스 박스를 획득하실 수 있습니다.\n- (9월 1일 00시 00분까지 개봉 가능, 교환 불가)\n- (9월 1일 00시 00분까지 사용 가능, 교환 불가)\n- (7일간 사용 가능, 판매 불가)"
+    },
+    {
+      "post_id": "ckxi4mr6ytf8afdya65vpv0q",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 7월 25일(금) 패치노트",
+      "published_at": "2025.07.25",
+      "url": "https://maple.land/board/notices/ckxi4mr6ytf8afdya65vpv0q",
+      "summary": "- (1) “여름에는 시원한 Mapleland” 이벤트 진행 안내\n- 오시리아 대륙 남부에 새로운 마을 <마가티아>가 추가되었습니다!\n- 지역에 아래와 같은 몬스터가 출현합니다.\n- 가 추가되었습니다.\n- 생명연금의 문제점"
+    },
+    {
+      "post_id": "uqdja7oofexnes69e6158ypy",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 7월 25일(금) 점검 예정 안내 (11:42 추가)",
+      "published_at": "2025.07.24",
+      "url": "https://maple.land/board/notices/uqdja7oofexnes69e6158ypy",
+      "summary": "- (11:42 추가)"
+    },
+    {
+      "post_id": "olqgx4kb7m6odyom0wcnld1w",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 7월 24일(목) 무중단 배포 안내",
+      "published_at": "2025.07.24",
+      "url": "https://maple.land/board/notices/olqgx4kb7m6odyom0wcnld1w",
+      "summary": "- 7월 24일 MapleStory Worlds 업데이트 이후, ‘Entity ID’ 입력 창이 게임 화면에 지속적으로 표시되는 현상 수정"
+    },
+    {
+      "post_id": "tyk5b661xtkxz54i98mdu1th",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 7월 24일(목) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2025.07.23",
+      "url": "https://maple.land/board/notices/tyk5b661xtkxz54i98mdu1th",
+      "summary": "- 2025년 7월 24일 오전 6시 30분에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2025년 7월 24일 (목) 오전 6시 30분 ~ 오전 10시 (총 3시간 30분)"
+    },
+    {
+      "post_id": "d4hl6xa2z7z612uojvxifsgs",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 7월 19일(토) 무중단 배포 안내",
+      "published_at": "2025.07.19",
+      "url": "https://maple.land/board/notices/d4hl6xa2z7z612uojvxifsgs",
+      "summary": "- 특수한 경우에서 스킬 <포이즌 미스트>가 필드에 영향을 주던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "yemwnvi4g3wlnq4uu4fer8v9",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 7월 18일(금) 패치노트",
+      "published_at": "2025.07.18",
+      "url": "https://maple.land/board/notices/yemwnvi4g3wlnq4uu4fer8v9",
+      "summary": "- 에서 다음 페이즈의 보스 소환 이후 5분이 지나면 추가 이동이 불가능하도록 변경됩니다.\n- 택배 시스템 내 서버에 부담이 가는 부분을 개선하였습니다.\n- (당일만 수령 가능)\n- (8월 1일 00시까지 사용 가능)\n- (8월 1일 00시까지 사용 가능)"
+    },
+    {
+      "post_id": "wscihkp5oac4f1spbco1widh",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 7월 18일(금) 점검 예정 안내",
+      "published_at": "2025.07.17",
+      "url": "https://maple.land/board/notices/wscihkp5oac4f1spbco1widh",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "tm6swreaa9d8z6u44h44i8sl",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "보스 <피아누스> 일시중단 안내",
+      "published_at": "2025.07.16",
+      "url": "https://maple.land/board/notices/tm6swreaa9d8z6u44h44i8sl",
+      "summary": "- 보스 <피아누스\n- 해당 문제에 대해 메이플스토리 월드 팀과 협의하도록 하겠습니다.\n- 추가적인 소식은 공지 및 패치노트를 통해 안내드릴 수 있도록 하겠습니다."
+    },
+    {
+      "post_id": "ycoxpqw18uo5kcylow7u1bdc",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 7월 15일(화) 서버 장애 안내",
+      "published_at": "2025.07.15",
+      "url": "https://maple.land/board/notices/ycoxpqw18uo5kcylow7u1bdc",
+      "summary": "- 추가 내용이 확인되는 대로 공지사항으로 안내 드리겠습니다."
+    },
+    {
+      "post_id": "pn31zlazp0w9krda6gyktgf7",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "[완료] 파티퀘스트 <몬스터 카니발> 일시중단 안내 (15:30 추가)",
+      "published_at": "2025.07.13",
+      "url": "https://maple.land/board/notices/pn31zlazp0w9krda6gyktgf7",
+      "summary": "- 파티퀘스트 <몬스터 카니발\n- 진행 중, 패배했음에도 승리 판정이 적용되는 문제가 수정됩니다.\n- 1차 무중단 배포 이후 진행 시간이 짧았던 문제가 수정됩니다.\n- 클릭 시 피해를 입으신 모험가분들께 피해 횟수를 복구해 드리는 선택지를 추가하였습니다.\n- 해당 옵션은 금일 자정까지만 이용 가능하니 이용에 참고 부탁드립니다. 감사합니다."
+    },
+    {
+      "post_id": "krwd4jy73sh8yqbi2c1ug255",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "[완료] 글로벌 채널 생성 이슈 및 무중단 배포 안내",
+      "published_at": "2025.07.13",
+      "url": "https://maple.land/board/notices/krwd4jy73sh8yqbi2c1ug255",
+      "summary": "- 한국 넥슨 계정이 아닌 상태에서 월드에 로그인 할 수 없도록 로직이 수정됩니다.\n- 한국 이외의 디비전(글로벌 채널)에서 접속할 경우 월드에 로그인 할 수 없도록 로직이 수정됩니다."
+    },
+    {
+      "post_id": "hg7xwqjq52zc9gnafe9vfq1s",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 7월 11일(금) 무중단 배포 안내 - 2 (17:42 수정)",
+      "published_at": "2025.07.11",
+      "url": "https://maple.land/board/notices/hg7xwqjq52zc9gnafe9vfq1s",
+      "summary": "- 이전 무중단 패치 이후 몬스터카니발 필드의 방을 생성할 수 없는 현상이 수정됩니다.\n- 보스 <파풀라투스>,\n- 해당 인원에 대하여 다음 업데이트 때 추가 입장권 아이템을 보상을 지급할 예정입니다. 이용에 불편을 드려서 죄송합니다."
+    },
+    {
+      "post_id": "zi1zdi9wswluzq6ftrmmk3kf",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 7월 11일(금) 무중단 패치노트",
+      "published_at": "2025.07.11",
+      "url": "https://maple.land/board/notices/zi1zdi9wswluzq6ftrmmk3kf",
+      "summary": "- 게임 내의 파괴형 오브젝트가 재소환되지 않던 문제가 수정됩니다.\n- 보스 <파풀라투스, 자쿰, 대보스\n- 도전 중 맵 밖으로 강제로 추방되는 문제가 수정됩니다.\n- 로 이동되는 현상이 수정됩니다."
+    },
+    {
+      "post_id": "obqdenu6cxevr5kxsrlzyfqx",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 7월 11일(금) 무중단 배포 안내",
+      "published_at": "2025.07.11",
+      "url": "https://maple.land/board/notices/obqdenu6cxevr5kxsrlzyfqx",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "xycwd87i8hfb2uhlrdwkxclw",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 7월 11일(금) 패치노트",
+      "published_at": "2025.07.11",
+      "url": "https://maple.land/board/notices/xycwd87i8hfb2uhlrdwkxclw",
+      "summary": "- [몬스터 카니발]\n- 완전히 새로운 방식의 경쟁 퀘스트, <몬스터 카니발>이 추가되었습니다!\n- 평화로운 메이플 월드에 불현듯 나타난 서커스 단장 \"슈피겔만\"! 오직 \"즐거움을 위해서라면 물불을 가리지 않는 성격의 소유자라고 하는데.. 메이플 모험가들을 큰 재미로 인도해줄 \"몬스터 카니발...\n- 루더스 호수의 루디브리엄에 새로운 파티 퀘스트가 추가되었습니다.\n- 을 통해서만 파티퀘스트 전용 지역에 입장하실 수 있습니다."
+    },
+    {
+      "post_id": "mu9t9nv09yilrzmz9m65ptwl",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 7월 11일(금) 점검 예정 안내(11:48 추가)",
+      "published_at": "2025.07.10",
+      "url": "https://maple.land/board/notices/mu9t9nv09yilrzmz9m65ptwl",
+      "summary": "- (11:48 추가)"
+    },
+    {
+      "post_id": "ht7ipljjgrl5dtrdv3gcpppw",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "카산드라의 여름 피크닉",
+      "published_at": "2025.07.04",
+      "url": "https://maple.land/board/events/ht7ipljjgrl5dtrdv3gcpppw",
+      "summary": "- ■ 이벤트 소개 및 참여 방법 (2025년 7월 5일 오전 11시 19분 수정)\n- 이벤트 기간 동안 화면 좌측의 퀘스트 알림 및 각 마을의\n- 퀘스트를 진행하실 수 있습니다.\n- ● 레벨 30(초보자 외 2차 전직) 이상\n- 완료 조건 충족 시까지 반복 가능"
+    },
+    {
+      "post_id": "zz9jbffghf602z0jsjreyiaf",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "화이트 마우스와 치즈창고",
+      "published_at": "2025.07.04",
+      "url": "https://maple.land/board/events/zz9jbffghf602z0jsjreyiaf",
+      "summary": "- 퀘스트를 진행하실 수 있습니다.\n- 레벨 30 이상\n- (8월 1일 00시까지 사용 가능)\n- (8월 1일 00시 00분까지 사용 가능)\n- 퀘스트를 진행하실 수 있습니다."
+    },
+    {
+      "post_id": "xqk44ng91vvk267tuc89hiyl",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 7월 4일(금) 무중단 배포 안내",
+      "published_at": "2025.07.04",
+      "url": "https://maple.land/board/notices/xqk44ng91vvk267tuc89hiyl",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다.\n- 에서 시간 초과로 퇴장될 경우, 리프레, 엘나스, 루디브리엄 월드에서 빅토리아 월드로 강제 이동되는 현상이 수정됩니다.\n- 아대 타입의 메이플 무기 치장 아이템을 착용했을 때, 교환 및 상점 등 UI에서 캐릭터의 무기가 올바르게 표시되지 않는 현상이 수정됩니다."
+    },
+    {
+      "post_id": "skbwuukqoj81eu04w1ltirg5",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 7월 4일(금) 패치노트",
+      "published_at": "2025.07.04",
+      "url": "https://maple.land/board/notices/skbwuukqoj81eu04w1ltirg5",
+      "summary": "- (1) “화이트 마우스와 치즈창고” 이벤트 진행 안내\n- (2) “카산드라의 여름 피크닉” 이벤트 진행 안내\n- 일부 직업의 스킬이 수정됩니다.\n- 사용 시, 가한 데미지가 MISS임에도 몬스터가 스턴 상태에 빠지던 오류가 수정됩니다.\n- 캐시샵 진입 시 ESC를 누르면 환불 가이드 팝업과 캐시샵 UI가 한꺼번에 닫히던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "zbbqwtuw39sfgj8q393h8s8u",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 7월 4일(금) 점검 예정 안내",
+      "published_at": "2025.07.03",
+      "url": "https://maple.land/board/notices/zbbqwtuw39sfgj8q393h8s8u",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "m4eounf4wnwtm1h3cpl72i3u",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 6월 27일(금) 무중단 패치노트",
+      "published_at": "2025.06.27",
+      "url": "https://maple.land/board/notices/m4eounf4wnwtm1h3cpl72i3u",
+      "summary": "- Mapleland 내 해당 월드의 채널 인스턴스 생성 방식이 변경됩니다.\n- 월드에 재접속을 시도하시는 경우,  로비에서 직접 Mapleland 월드의 플레이 버튼을 클릭하여 재접속을 진행해주시기 바랍니다.\n- 4월 24일 Maplestory Worlds의 정책 변경으로 인해, 유저가 해당 절차를 따라 직접 조치하지 않으면 월드코인 아이템의 환불이 불가능합니다.\n- 월드코인으로 판매되고 있는 아이템을 구매할 때 청약 철회에 대한 안내 메시지가 출력되도록 추가됩니다.\n- 파이터, 페이지의 스킬이 수정되었습니다."
+    },
+    {
+      "post_id": "xjqwsbxri1ocarwzvhkhxo8y",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 6월 27일(금) 무중단 배포 안내",
+      "published_at": "2025.06.26",
+      "url": "https://maple.land/board/notices/xjqwsbxri1ocarwzvhkhxo8y",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "ruz7pfa3ygf08q5jl3ynvgm6",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 6월 20일(금) 무중단 배포 안내",
+      "published_at": "2025.06.20",
+      "url": "https://maple.land/board/notices/ruz7pfa3ygf08q5jl3ynvgm6",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다.\n- 에 공격 준비 모션이 적용되지 않던 오류가 수정됩니다."
+    },
+    {
+      "post_id": "zf2nd9oclvwpm5hwjmclpkzb",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 6월 20일(금) 패치노트",
+      "published_at": "2025.06.20",
+      "url": "https://maple.land/board/notices/zf2nd9oclvwpm5hwjmclpkzb",
+      "summary": "- 오시리아 대륙 남부에 새로운 마을 <아리안트>가 추가되었습니다!\n- 아리안트 지역에 아래와 같은 몬스터가 출현합니다.\n- 으로 변경됩니다.\n- Mapleland 내 해당 월드의 채널 인스턴스 생성 방식이 변경됩니다.\n- 니할사막 지역의 월드맵이 추가되었습니다."
+    },
+    {
+      "post_id": "jzeykx5wme08iq10g82zs2mv",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 6월 20일(금) 점검 예정 안내",
+      "published_at": "2025.06.19",
+      "url": "https://maple.land/board/notices/jzeykx5wme08iq10g82zs2mv",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "e79015v2vp6yntso6ykdq2vw",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 6월 16일(월) 무중단 패치노트",
+      "published_at": "2025.06.16",
+      "url": "https://maple.land/board/notices/e79015v2vp6yntso6ykdq2vw",
+      "summary": "- 각 맵에서 몬스터의 스폰을 결정했던 원작의 시스템이 개선됩니다.\n- 특급 배송을 이용하여 메소를 송금할 때 수수료가 정상적으로 차감되지 않던 문제가 수정됩니다.\n- 을 장착하였을 때 이펙트가 정상적으로 출력되지 않던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "jpxamp542kk5lvk0r409bi08",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 6월 16일(월) 무중단 배포 안내 (14:58 추가)",
+      "published_at": "2025.06.16",
+      "url": "https://maple.land/board/notices/jpxamp542kk5lvk0r409bi08",
+      "summary": "- 일부 작업을 위한 무중단 배포 진행이 예정되어 안내드립니다.\n- 현재 메이플스토리 월드 플랫폼 문제로 월드 출시가 지연되어, 출시 일정을 변경합니다. (14:58 추가)"
+    },
+    {
+      "post_id": "dv7k8r2t0v0fuuga7mwepymf",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 6월 13일(금) 패치노트",
+      "published_at": "2025.06.13",
+      "url": "https://maple.land/board/notices/dv7k8r2t0v0fuuga7mwepymf",
+      "summary": "- 같은 맵에 파티원이 모두 모여있을 경우에만 입장이 가능\n- 하도록 변경됩니다.\n- 프리스트의 스킬이 변경되었습니다.\n- 스킬의 시전자가 접속 종료할 때 포탈이 사라지지 않던 문제가 수정됩니다.\n- 지속시간이 정상적으로 적용되지 않던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "ttuk8q01e44b7avw4lc23cqo",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 6월 13일(금) 무중단 패치 예정 안내",
+      "published_at": "2025.06.12",
+      "url": "https://maple.land/board/notices/ttuk8q01e44b7avw4lc23cqo",
+      "summary": "- 일부 작업을 위한 무중단 패치 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "df0djya902zw8zg3hlcux3nw",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 6월 12일(목) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2025.06.11",
+      "url": "https://maple.land/board/notices/df0djya902zw8zg3hlcux3nw",
+      "summary": "- 2025년 6월 12일 오전 7시에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2025년 6월 12일 (목) 오전 7시 ~ 오전 9시 (총 2시간)"
+    },
+    {
+      "post_id": "tqmepqpe13764xoa3qgm12ht",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "돌고래섬으로의 초대 (16:43 추가)",
+      "published_at": "2025.06.06",
+      "url": "https://maple.land/board/events/tqmepqpe13764xoa3qgm12ht",
+      "summary": "- 초보 모험가들에게 가뭄에 단비같은 여름 아이템, 분홍색 꽃무늬 튜브! 카산드라가 이 튜브를 모험가들에게 나누어주고 있다는데…?\n- 퀘스트를 진행하실 수 있습니다.\n- 레벨 25 이상\n- 수령 후 14일간 사용 가능\n- NPC 내지는 화면 좌측의 퀘스트 알림을 통해 이벤트 필드"
+    },
+    {
+      "post_id": "v3hn3aqo28u6s486rhydxvgj",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 6월 6일(금) 긴급 점검 보상 안내",
+      "published_at": "2025.06.06",
+      "url": "https://maple.land/board/notices/v3hn3aqo28u6s486rhydxvgj",
+      "summary": "- 모든 아이템들은 교환 불가 상태로 지급되며, 8일(일요일) 23시 59분 59초까지 사용 가능합니다."
+    },
+    {
+      "post_id": "e2lnwdid8y0kxrbovvz8vtj4",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 6월 6일(금) 긴급 점검 안내",
+      "published_at": "2025.06.06",
+      "url": "https://maple.land/board/notices/e2lnwdid8y0kxrbovvz8vtj4",
+      "summary": "- 일부 작업을 위한 긴급 점검의 진행이 예정되어 안내드립니다.\n- ○ 일부 캐시 치장 아이템을 구매할 경우 다른 특정 아이템으로 구매 처리되는 현상\n- 새로 추가된 아이템들 중 일부에 기존에 등록된 아이템들과 중복되는 구별용 ID가 사용됨\n- 중복되지 않도록 수정 및 해당 문제가 있던 아이템을 구매했던 유저들을 대상으로 환불 처리 진행 예정\n- ○ 기타 오류 수정"
+    },
+    {
+      "post_id": "tc6ubku4qbsxsok4xxb2olk8",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 6월 6일(금) 패치노트",
+      "published_at": "2025.06.06",
+      "url": "https://maple.land/board/notices/tc6ubku4qbsxsok4xxb2olk8",
+      "summary": "- (1) “돌고래섬으로의 초대” 이벤트 진행 안내\n- [치장 캐시 아이템 추가 판매 개시]\n- 을 통해 더 다양한 종류의 치장 캐시 아이템을 판매합니다.\n- ◆ 06/06 업데이트 이후 추가되는 캐시 장비류\n- 현재 캐시 무기 아이템류를 포함한 많은 콘텐츠들의 추가가 플랫폼 오류로 인해 불가능한 상황입니다."
+    },
+    {
+      "post_id": "agivtdp65zjhx5eyze7qxdbr",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 6월 6일(금) 점검 예정 안내",
+      "published_at": "2025.06.05",
+      "url": "https://maple.land/board/notices/agivtdp65zjhx5eyze7qxdbr",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "uewpy5w8tqy2mbyb4g15mw7q",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 5월 29일(목) 메이플스토리 월드 (MSW) 점검 안내 (연장)",
+      "published_at": "2025.05.28",
+      "url": "https://maple.land/board/notices/uewpy5w8tqy2mbyb4g15mw7q",
+      "summary": "- 2025년 5월 29일 오전 7시에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2025년 5월 29일 (목) 오전 7시 ~"
+    },
+    {
+      "post_id": "vf848tz158cigd5ls53egwp3",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 5월 23일(금) 패치노트",
+      "published_at": "2025.05.23",
+      "url": "https://maple.land/board/notices/vf848tz158cigd5ls53egwp3",
+      "summary": "- 새로운 도전과제 컨텐츠, <훈장 시스템>이 추가되었습니다!\n- 명예를 위한 도전의 시작! 훈장 아이템에 도전해 보자!\n- ◆ 05/23 업데이트 후 도전 가능한 훈장\n- 장착 레벨 제한\n- 레벨 15 이상"
+    },
+    {
+      "post_id": "vjr94w59fy2t1tijz5oylr23",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 5월 23일(금) 점검 예정 안내",
+      "published_at": "2025.05.22",
+      "url": "https://maple.land/board/notices/vjr94w59fy2t1tijz5oylr23",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "ojnivddixe1tkimz0hceemy9",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 5월 19일(월) 무중단 패치 안내",
+      "published_at": "2025.05.19",
+      "url": "https://maple.land/board/notices/ojnivddixe1tkimz0hceemy9",
+      "summary": "- 일부 작업을 위한 무중단 패치 진행이 예정되어 안내드립니다.\n- 맵의 일부 타일이 부자연스러웠던 문제가 수정됩니다.\n- 맵의 일부 오브젝트가 부자연스러웠던 문제가 수정됩니다.\n- 일부 버프 아이콘의 툴팁이 출력되지 않던 문제가 수정됩니다.\n- 에 따라 안내 메시지가 변경됩니다."
+    },
+    {
+      "post_id": "lz8d9ggj0yo5baq4mjktqg4d",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "Mapleland 환불 시스템 변경 안내",
+      "published_at": "2025.05.10",
+      "url": "https://maple.land/board/notices/lz8d9ggj0yo5baq4mjktqg4d",
+      "summary": "- 2025년 4월 24일 메이플스토리 월드 정책 변경으로 월드 코인 상품의 환불 방법이 변경되었음을 안내드립니다.\n- Mapleland 월드코인샵 인벤토리 내에서 아이템을 지정하여 [청약철회] 신청 (구매 후 7일 내)\n- Mapleland 월드코인샵 인벤토리 내에서 아이템을 지정하여 [청약철회] 신청 (구매 후 7일 내)\n- 4월 24일 패치 이후부터는 메이플스토리 월드 정책 변경으로\n- 에 대해서만 크리에이터가 확인하여 환불할 수 있도록 변경 되었음을 안내드립니다."
+    },
+    {
+      "post_id": "b1bdmci0m4hf8jro6bdxq477",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 5월 10일 운영정책 개정 안내",
+      "published_at": "2025.05.10",
+      "url": "https://maple.land/board/notices/b1bdmci0m4hf8jro6bdxq477",
+      "summary": "- 4-2 운영정책을 위반하는 행위로 게임환경을 심각한 수준으로 파괴하는 등 추가적인 조치가 필요한 상황이 발생하면, MLC는 문제를 발생시킨 당사자 또는 관련자에게 법적인 대응을 할 수 있습니다.\n- 4-5 MLC로부터 이미 제재를 받은 이용자가 탈퇴 및 재가입, 추가 계정을 생성을 한 경우, 새로 생성된 계정에는 이전과 동등한 수준의 이용제한이 적용될 수 있습니다.\n- 4-7 운영정책을 위반하여 습득한 재화는 모두 MLC로부터 회수될 수 있으며, 해당 이용자는 이용 제한 처리될 수 있습니다. 이때 100% 회수가 불가능 한 경우 그에 따른 추가 이용 제한을...\n- 4-8 운영정책 위반으로 생성된 월드코인 · 아이템 · 재화 · ID의 비정상 거래가 의심되거나 비인가 프로그램 사용이 의심되는 경우 관련 계정에 대해 임시적으로 게임 이용제한과 거래불가 조치...\n- 아래와 같은 내용이 확인되면 운영정책 위반을 목적으로 설립된 길드로 간주하고 해당 길드 전체에 대한 조치가 진행될 수 있습니다. 이 경우 길드명 강제 변경, 길드 해산, 연관자 이용 제한 등이..."
+    },
+    {
+      "post_id": "kavvnk4w9zuuel27q5n60fn8",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 5월 9일(금) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2025.05.09",
+      "url": "https://maple.land/board/notices/kavvnk4w9zuuel27q5n60fn8",
+      "summary": "- 2025년 5월 9일 오전 8시에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2025년 5월 9일 (목) 오전 8시 ~ 오전 10시 (총 2시간)"
+    },
+    {
+      "post_id": "vh12sw6apo8bgr1ho6g8dwek",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 5월 3일(토) 무중단 패치 안내",
+      "published_at": "2025.05.03",
+      "url": "https://maple.land/board/notices/vh12sw6apo8bgr1ho6g8dwek",
+      "summary": "- 일부 작업을 위한 무중단 패치 진행이 예정되어 안내드립니다.\n- 일정 기간 접속하지 않았던 일부 계정에서 재입고 예정일이 지났음에도 코인 상점의 물품 재입고가 진행되지 않던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "kof66kn61f2j5o8miwrhspvm",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "가정의 달 이벤트",
+      "published_at": "2025.04.30",
+      "url": "https://maple.land/board/events/kof66kn61f2j5o8miwrhspvm",
+      "summary": "- 퀘스트를 진행하실 수 있습니다.\n- 레벨 10 이상 ~ 200 이하\n- 퀘스트를 진행하실 수 있습니다.\n- 레벨 10 이상 ~ 200 이하\n- 퀘스트를 진행하실 수 있습니다."
+    },
+    {
+      "post_id": "palfmwf8yrqu7koyqwju9e1q",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 4월 30일(수) 무중단 패치 안내",
+      "published_at": "2025.04.30",
+      "url": "https://maple.land/board/notices/palfmwf8yrqu7koyqwju9e1q",
+      "summary": "- 일부 작업을 위한 무중단 패치 진행이 예정되어 안내드립니다.\n- 친구를 삭제하는 작업이 완료가 되지 않은 상태에서 다시 삭제 했을 때 “등록되지 않은 친구입니다.”의 메시지가 접속 중인 모든 유저에게 나타나던 문제가 수정됩니다.\n- 코인 상점에서 스타 월드코인이 부족한 경우 출력되는 메시지가 접속 중인 모든 유저에게 나타나던 문제가 수정됩니다.\n- 엘리베이터<아랫마을행> 맵의 일부 오브젝트가 자연스럽지 않던 문제가 수정됩니다.\n- 가정의달 5월을 맞이하여 다음과 같은 퀘스트가 추가됩니다."
+    },
+    {
+      "post_id": "h5utcnqxexculnd4op6vlgfk",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "MSW 그랜드 오픈 1주년 이벤트",
+      "published_at": "2025.04.25",
+      "url": "https://maple.land/board/events/h5utcnqxexculnd4op6vlgfk",
+      "summary": "- 퀘스트를 진행하실 수 있습니다.\n- 레벨 13 이상 ~ 200 이하\n- 매일 1회 수행 가능\n- 레벨 범위 몬스터\n- (당일까지만 사용 가능)"
+    },
+    {
+      "post_id": "rg5jva9qe5eguy5zy8rq0y9r",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 4월 25일(금) 패치노트(4월 28일 14시 50분 추가)",
+      "published_at": "2025.04.25",
+      "url": "https://maple.land/board/notices/rg5jva9qe5eguy5zy8rq0y9r",
+      "summary": "- 세계여행:일본에 새로운 지역 <카에데 성>이 추가되었습니다!\n- 카에데 성에 아래와 같은 몬스터가 출현합니다.\n- 에 아래와 같은 몬스터가 출현합니다.\n- 아지트 깊은 곳에 아래와 같은 몬스터가 출현합니다.\n- 이번에 추가 되는 일부 몬스터의 드롭 아이템은 다음과 같습니다."
+    },
+    {
+      "post_id": "wplr48jm8xpj1h99cpaovgo9",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 4월 25일(금) 점검 예정 안내",
+      "published_at": "2025.04.24",
+      "url": "https://maple.land/board/notices/wplr48jm8xpj1h99cpaovgo9",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "v1n4jpsk4oykfwwzkc3byq0w",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 4월 24일(목) 메이플스토리 월드 (MSW) 점검 안내",
+      "published_at": "2025.04.23",
+      "url": "https://maple.land/board/notices/v1n4jpsk4oykfwwzkc3byq0w",
+      "summary": "- 2025년 4월 24일 오전 7시에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2025년 4월 24일 (목) 오전 7시 ~ 오전 10시 (총 3시간)"
+    },
+    {
+      "post_id": "mjujmjk0ag7uf7r4hbs7x2zz",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 4월 18일(금) 무중단 패치 안내 (13:11 추가)",
+      "published_at": "2025.04.18",
+      "url": "https://maple.land/board/notices/mjujmjk0ag7uf7r4hbs7x2zz",
+      "summary": "- 일부 작업을 위한 무중단 패치 진행이 예정되어 안내드립니다.\n- 당분간 파티퀘스트\n- 에 입장할 수 없도록 수정됩니다.\n- 레벨이 30 이하인 경우 사망 시 경험치 감소 패널티가 적용되지 않도록\n- 다음 NPC의 관련 대사가 변경됩니다."
+    },
+    {
+      "post_id": "vrozrv8qjv6otxivptvm3sn8",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 4월 17일(목) 메이플스토리 월드(MSW) 점검 안내",
+      "published_at": "2025.04.16",
+      "url": "https://maple.land/board/notices/vrozrv8qjv6otxivptvm3sn8",
+      "summary": "- 2025년 4월 17일 오전 8시에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2025년 4월 17일 (목) 오전 8시 ~ 오전 10시 (총 2시간)"
+    },
+    {
+      "post_id": "n04wqo8ny7upbvzm3bnoa2tj",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "4/15 접속 장애 관련 임시 점검 완료 안내",
+      "published_at": "2025.04.15",
+      "url": "https://maple.land/board/notices/n04wqo8ny7upbvzm3bnoa2tj",
+      "summary": "- 금일(2025년 4월 15일) 16:40부터 메이플스토리 월드 플랫폼에 발생하였던 접속 장애 현상이 19시 15분을 기해 해결되었음을 안내드립니다.\n- 자세한 내용은 관련 공지를 참고 부탁드립니다.\n- [관련 공지 보기]"
+    },
+    {
+      "post_id": "pvog2j6jqqd7y7v2sw4cs7ce",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "4/15(화) 접속 장애 현상 관련 보상 안내",
+      "published_at": "2025.04.15",
+      "url": "https://maple.land/board/notices/pvog2j6jqqd7y7v2sw4cs7ce",
+      "summary": "- 이로 인해 Mapleland로의 정상적인 접속이 불가능해진 바,"
+    },
+    {
+      "post_id": "g5vvx5qz6akwaxiij7quoq4h",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 4월 4일(금) 긴급 점검 안내 (완료)",
+      "published_at": "2025.04.04",
+      "url": "https://maple.land/board/notices/g5vvx5qz6akwaxiij7quoq4h",
+      "summary": "- 미출시된 지역에 입장이 가능했던 현상이 수정됩니다."
+    },
+    {
+      "post_id": "vr426vnvypne0dpavlrofapc",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 4월 4일(금) 무중단 패치 안내 (15:12 추가)",
+      "published_at": "2025.04.04",
+      "url": "https://maple.land/board/notices/vr426vnvypne0dpavlrofapc",
+      "summary": "- 일부 작업을 위한 무중단 패치 진행이 예정되어 안내드립니다.\n- 퀘스트를 포기할 수 없습니다.\n- 가 정상적으로 업그레이드 되지 않던 현상이 수정됩니다."
+    },
+    {
+      "post_id": "r9nbctcy0d0so3tp2ykqpd8o",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 4월 1일(화) 무중단 패치 안내(2)",
+      "published_at": "2025.04.01",
+      "url": "https://maple.land/board/notices/r9nbctcy0d0so3tp2ykqpd8o",
+      "summary": "- 일부 작업을 위한 무중단 패치 진행이 예정되어 안내드립니다."
+    },
+    {
+      "post_id": "ld7p7ky72zpu04g8zwzhebdt",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 4월 1일(화) 무중단 패치 안내",
+      "published_at": "2025.03.31",
+      "url": "https://maple.land/board/notices/ld7p7ky72zpu04g8zwzhebdt",
+      "summary": "- 일부 작업을 위한 무중단 패치 진행이 예정되어 안내드립니다.\n- 플레이어 카메라가 플레이어를 정상적으로 따라가지 않던 현상이 수정됩니다."
+    },
+    {
+      "post_id": "vkp2abhx2jf126xaa0le0yru",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "만우절 이벤트",
+      "published_at": "2025.03.28",
+      "url": "https://maple.land/board/events/vkp2abhx2jf126xaa0le0yru",
+      "summary": "- 만우절에는 역시 거짓말이죠! 항상 예의바른 메이플 운영자를 당황시키고 싶어하는 카산드라에 의하면 메이플 운영자를 골탕먹이기 위해선 몬스터에게서 드랍되는 특별한 쿠키가 필요하다는데…? 과연 카산...\n- NPC를 통해 다음과 같은 퀘스트를 진행하실 수 있습니다.\n- 레벨 13 이상 ~ 레벨 200 이하\n- 1시간마다 반복 가능\n- 특정 조건에 따라 아래와 같은 아이템 중 하나를 획득하실 수 있습니다."
+    },
+    {
+      "post_id": "ja8jrihnz580twtzukuwrnf3",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 3월 28일(금) 패치노트",
+      "published_at": "2025.03.28",
+      "url": "https://maple.land/board/notices/ja8jrihnz580twtzukuwrnf3",
+      "summary": "- 오시리아 대륙에 새로운 마을 <백초마을>이 추가되었습니다!\n- 백초마을에 아래와 같은 몬스터가 출현합니다.\n- 지역 관련 퀘스트들을 수행하실 수 있습니다.\n- 지역의 몬스터 처치 혹은 전리품을 요구하는 퀘스트들 역시 수행하실 수 있습니다.\n- 를 격파한 이후 15분 이내에 해당 맵에서 퇴장하지 않으면 강제 퇴장되도록 변경됩니다."
+    },
+    {
+      "post_id": "rjo2wvduly2veodivuvqcn2v",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 3월 28일(금) 점검 예정 안내",
+      "published_at": "2025.03.27",
+      "url": "https://maple.land/board/notices/rjo2wvduly2veodivuvqcn2v",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "yte61b365cr2af9jue0ofdd5",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 3월 21일(금) 핫픽스 안내",
+      "published_at": "2025.03.21",
+      "url": "https://maple.land/board/notices/yte61b365cr2af9jue0ofdd5",
+      "summary": "- 의 이벤트 진행 기간이 연장됩니다.\n- 까지로 변경됩니다.\n- 다음 NPC의 대사가 더욱 원작과 흡사하게 수정됩니다."
+    },
+    {
+      "post_id": "pz5lw7t9jmhjoihx1ybirs07",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 3월 20일(목) 메이플스토리 월드(MSW) 점검 안내",
+      "published_at": "2025.03.19",
+      "url": "https://maple.land/board/notices/pz5lw7t9jmhjoihx1ybirs07",
+      "summary": "- 2025년 3월 20일 오전 7시에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2025년 3월 20일 (목) 오전 7시 ~ 오전 9시 30분 (총 2시간 30분)"
+    },
+    {
+      "post_id": "j3szdsmademtb5q83ludikpw",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "카산드라의 봄꽃축제",
+      "published_at": "2025.03.14",
+      "url": "https://maple.land/board/events/j3szdsmademtb5q83ludikpw",
+      "summary": "- 이벤트 기간 동안 레벨 범위 몬스터를 처치할 경우 드롭되는\n- 아이템을 획득하게 되면\n- 특정 점수 달성 시, 아래와 같은 아이템들을 수령하실 수 있습니다.\n- (아이템 및 구성품은 각각 수령과 개봉 시점으로부터 7일간 사용 가능)\n- NPC를 통해 다음과 같은 퀘스트들을 진행하실 수 있습니다."
+    },
+    {
+      "post_id": "wnf8qwr07ifrohdhgnqhofia",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 3월 14일(금) 패치노트",
+      "published_at": "2025.03.14",
+      "url": "https://maple.land/board/notices/wnf8qwr07ifrohdhgnqhofia",
+      "summary": "- 다음 맵의 지형이 원작 초창기 형태로 변경됩니다.\n- 다음 맵의 최대 몬스터 수가 조정됩니다.\n- 다음 맵의 몬스터 구성이 변경됩니다.\n- 폐광 지역에서 매크로 방지 몬스터의 무력화 방법이 변경됩니다.\n- 전리품을 떨어뜨리는 원작의 방식에서 보유한 상태로 NPC를 클릭하는 것으로 변경됩니다."
+    },
+    {
+      "post_id": "clahqve9m7gbkpm0ms1kw5cp",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 3월 14일(금) 점검 예정 안내 (10:35 추가)",
+      "published_at": "2025.03.13",
+      "url": "https://maple.land/board/notices/clahqve9m7gbkpm0ms1kw5cp",
+      "summary": "- (03/14 10:35 추가)\n- 메이플스토리 월드 플랫폼의 금요일 점검(07:00 ~ 08:00) 이 예정됨으로 인해 최종 점검 시간이 변경되었습니다.\n- (03/13 19:42 추가)"
+    },
+    {
+      "post_id": "rxm9f8zbtxkw9ngvq2lkjwad",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 3월 13일(목) 메이플스토리 월드(MSW) 점검 안내",
+      "published_at": "2025.03.12",
+      "url": "https://maple.land/board/notices/rxm9f8zbtxkw9ngvq2lkjwad",
+      "summary": "- 2025년 3월 13일 오전 6시 30분에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2025년 3월 13일 (목) 오전 6시 30분 ~ 오전 9시 (총 2시간 30분)"
+    },
+    {
+      "post_id": "i3lf65jtg8qgizssndo3de84",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 3월 7일(금) 무중단 패치 안내",
+      "published_at": "2025.03.07",
+      "url": "https://maple.land/board/notices/i3lf65jtg8qgizssndo3de84",
+      "summary": "- 일부 작업을 위한 무중단 패치 진행이 예정되어 안내드립니다.\n- 메이플스토리 월드 기본 폰트 사용 시, 고성능 확성기의 내용이 채팅창에 표시되지 않던 오류가 수정됩니다."
+    },
+    {
+      "post_id": "ce0fumkif8kbv3gvz9glsx6n",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 3월 7일(금) 패치노트",
+      "published_at": "2025.03.07",
+      "url": "https://maple.land/board/notices/ce0fumkif8kbv3gvz9glsx6n",
+      "summary": "- [모바일 환경 개선]\n- 모바일 환경에서 키설정 버튼 이미지가 변경됩니다.\n- 모바일 환경의 버튼 불투명도를 조절할 수 있는 기능이 추가됩니다. 이 설정은 캐릭터별로 저장됩니다.\n- 모바일 환경의 버튼 및 조이스틱 레이아웃을 편집할 수 있는 기능이 추가됩니다. 이 설정은 캐릭터별로 저장됩니다.\n- 단, 조이스틱은 위치 변경만 가능합니다."
+    },
+    {
+      "post_id": "uoakg1x13pdp7jlq8vutxulm",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 3월 7일(금) 점검 예정 안내",
+      "published_at": "2025.03.06",
+      "url": "https://maple.land/board/notices/uoakg1x13pdp7jlq8vutxulm",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "efadleu9ensphpnby8mk2fw0",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "“대리 서비스”에 의한 해킹 피해 관련 안내",
+      "published_at": "2025.03.06",
+      "url": "https://maple.land/board/notices/efadleu9ensphpnby8mk2fw0",
+      "summary": "- 를 제3자와 공유하는 것은 매우 위험한 행위입니다. 이러한 정보 공유로 인해 발생하는 해킹, 계정 도용, 재화 탈취 등 모든 종류의 피해는 기술적 및 정책적인 한계로 인해 복구가 절대적으로 불...\n- 특히, 계정 ID와 비밀번호 등 개인정보를 제3자와 공유하여 발생하는 피해에 대해서는 Mapleland에서 어떠한 방식으로도 도움을 드릴 수 없는 상황입니다. 이는 계정 보안의 특성상 피해 사...\n- 수사 기관에 정식으로 사건을 신고하시고 수사 기관의 적법한 절차에 따른 협조 요청이 있을 경우, Mapleland는 해당 캐릭터의 게임 이용 기록을 예외 없이 제공하고 있고, 현재 시점에도 이..."
+    },
+    {
+      "post_id": "uxdrissgrm738d5h5bhxvt6m",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 2월 28일(금) 패치노트",
+      "published_at": "2025.02.28",
+      "url": "https://maple.land/board/notices/uxdrissgrm738d5h5bhxvt6m",
+      "summary": "- 오시리아 대륙에 새로운 마을 <무릉>이 추가되었습니다!\n- 이제 무릉 지역 관련 퀘스트들을 수행하실 수 있습니다.\n- 지역의 몬스터 처치 혹은 전리품을 요구하는 퀘스트들은 현재 수행하실 수 없습니다.\n- 무릉도원에 아래와 같은 몬스터가 출현합니다.\n- 빅토리아 아일랜드의 페리온 유적발굴단 캠프에 새로운 길드 퀘스트 <길드대항전>이 추가되었습니다!"
+    },
+    {
+      "post_id": "kwr28xktibco68uet797qcr2",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 2월 28일(금) 점검 예정 안내 (11:17 추가)",
+      "published_at": "2025.02.27",
+      "url": "https://maple.land/board/notices/kwr28xktibco68uet797qcr2",
+      "summary": "- 메이플스토리 월드 플랫폼 오류로 월드 출시가 불가능한 상태입니다. 플랫폼 측에 문의를 접수하였으며,\n- 문제가 해결될 때까지 점검이 무기한 연장됩니다. 불편을 드려서 죄송합니다.\n- (02/28 10:59 추가)\n- 메이플스토리 월드 플랫폼의 월드 출시 오류가 해소되어 기존의 일정대로 정상적으로 진행될 예정입니다.\n- (02/28 11:17 추가)"
+    },
+    {
+      "post_id": "m3o5r1czrjdbypc572n51j7c",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 2월 27일(목) 메이플스토리 월드(MSW) 점검 안내",
+      "published_at": "2025.02.26",
+      "url": "https://maple.land/board/notices/m3o5r1czrjdbypc572n51j7c",
+      "summary": "- 2025년 2월 27일 오전 7시에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2025년 2월 27일 (목) 오전 7시 ~ 오전 9시 (총 2시간)"
+    },
+    {
+      "post_id": "lwfktcoc8qkwvvn09a71o7o3",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 2월 22일(토) 무중단 패치 안내 (02:10 추가)",
+      "published_at": "2025.02.22",
+      "url": "https://maple.land/board/notices/lwfktcoc8qkwvvn09a71o7o3",
+      "summary": "- 일부 작업을 위한 무중단 패치 진행이 예정되어 안내드립니다.\n- 월드 접속 시 간헐적으로 채팅 로그에 아무런 내용이 출력되지 않는 현상이 수정됩니다.\n- 간헐적으로 캐릭터 선택 시 월드 입장이 진행되지 않는 현상이 수정됩니다.\n- ‘#’ 문자열이 포함된 채팅이 잘못된 문자로 변환되는 현상이 수정됩니다.\n- (02/22 02:10 내용 추가)"
+    },
+    {
+      "post_id": "if74c7m5czvntuk1m4uxpbul",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 2월 21일(금) 패치노트",
+      "published_at": "2025.02.21",
+      "url": "https://maple.land/board/notices/if74c7m5czvntuk1m4uxpbul",
+      "summary": "- 다음 맵의 최대 몬스터 수가 조정됩니다.\n- 다음 맵의 몬스터 비율이 변경됩니다.\n- ‘아쿠아로드 - 난파선의 무덤’ 맵에서 접속 시 캐릭터가 시작하는 위치가 변경됩니다.\n- 길드 가입, 탈퇴, 직위 변경, 채팅 입력 등 길드 정보 업데이트 동기화가 정상적으로 이루어지지 않는 문제가 수정됩니다.\n- 친구별로 말하기와 듣기 기능이 올바르게 작동하지 않던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "nn6vn4ssup8l9d4ylgpreh2q",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 2월 21일(금) 무중단 패치 안내 (12:00 추가)",
+      "published_at": "2025.02.21",
+      "url": "https://maple.land/board/notices/nn6vn4ssup8l9d4ylgpreh2q",
+      "summary": "- 일부 작업을 위한 무중단 패치 진행이 예정되어 안내드립니다.\n- 변경되는 내용과 관련해서는"
+    },
+    {
+      "post_id": "z0r1m6h14w8js268s2ssw1c4",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "Mapleland에서의 첫걸음",
+      "published_at": "2025.02.14",
+      "url": "https://maple.land/board/events/z0r1m6h14w8js268s2ssw1c4",
+      "summary": "- 첫 번째 1차전직, 첫 번째 파티, 첫 번째 친구, 첫 번째 아이템...\n- ○ ‘파티퀘스트 보너스 경험치’ 이벤트 안내\n- 이벤트 기간 동안 각 파티퀘스트의 마지막 단계 완료 시, 아래의 예시와 같이 추가 경험치를 지급합니다.\n- ○ Mapleland 첫걸음 이벤트 퀘스트\n- 이벤트 기간 동안 2/1 이후 시점에 신규 생성된 모험가분들을 대상으로 지원 이벤트가 진행됩니다."
+    },
+    {
+      "post_id": "tf8rlbl9vz1lsjn1btnj7l3d",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "발렌타인데이와 솔로부대",
+      "published_at": "2025.02.14",
+      "url": "https://maple.land/board/events/tf8rlbl9vz1lsjn1btnj7l3d",
+      "summary": "- ○ 발렌타인데이 이벤트 퀘스트\n- 발렌타인데이를 맞아 다양한 NPC로부터 여러 이벤트 퀘스트를 수행할 수 있습니다.\n- 1일 1회 수행 가능\n- ○ 솔로부대 이벤트 퀘스트\n- 1시간마다 1회 수행 가능"
+    },
+    {
+      "post_id": "ig478c1pi258gipcyi3ya2av",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 2월 14일(금) 패치노트",
+      "published_at": "2025.02.14",
+      "url": "https://maple.land/board/notices/ig478c1pi258gipcyi3ya2av",
+      "summary": "- 스피넬을 통해 신규 해외 지역 플로팅 마켓(태국)으로 이동이 가능하게 변경됩니다.\n- 이제 태국 지역의 퀘스트들을 정상적으로 수행하실 수 있습니다.\n- 위험한 용의 둥지 맵의 캐릭터 시작 좌표가 변경됩니다.\n- 화산의숨결<1단계> 맵의 몬스터 “파이어 봄”에게서 전리품을 얻을 수 없도록 변경됩니다.\n- 기존에 진행중이던 이벤트인 ‘파티퀘스트 보너스 경험치 이벤트’는 3월 8일 00시를 기하여 종료될 예정입니다. 자세한 내용은 이벤트 페이지를 참조해 주세요."
+    },
+    {
+      "post_id": "tsdr5ynjlkgala4ir6seei84",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 2월 14일(금) 점검 예정 안내",
+      "published_at": "2025.02.13",
+      "url": "https://maple.land/board/notices/tsdr5ynjlkgala4ir6seei84",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "z2gqu3rfp2jni3mso4vugeg3",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 2월 13일(목) 메이플스토리 월드(MSW) 점검 안내",
+      "published_at": "2025.02.12",
+      "url": "https://maple.land/board/notices/z2gqu3rfp2jni3mso4vugeg3",
+      "summary": "- 2025년 2월 13일 오전 8시에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2025년 2월 13일 (목) 오전 8시 ~ 오전 10시 (총 2시간)"
+    },
+    {
+      "post_id": "gayedquigqe4fsx4bkga5n9h",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "보스 <혼테일>의 “유혹” 상태이상 문제 안내",
+      "published_at": "2025.02.08",
+      "url": "https://maple.land/board/notices/gayedquigqe4fsx4bkga5n9h",
+      "summary": "- 현재 메이플스토리 월드 플랫폼의 서버 불안정으로 인해 발생하는 이상현상들 중 보스 <혼테일> 레이드 진행 시 “유혹” 상태이상의 적용 순서에 이상이 발생하는 것을 파악하였습니다."
+    },
+    {
+      "post_id": "wjp3exxw5likuq2vvmos6ai0",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 2월 7일(금) 무중단 패치 안내 (18:25 추가)",
+      "published_at": "2025.02.07",
+      "url": "https://maple.land/board/notices/wjp3exxw5likuq2vvmos6ai0",
+      "summary": "- 일부 작업을 위한 무중단 패치 진행이 예정되어 안내드립니다.\n- 장비 아이템의 추가 옵션에 따라 색상이 변하여 등급을 확인할 수 있는 기능의 HP, MP의 잘못된 계산식이 수정됩니다.\n- 간헐적으로 중복된 채널 이름을 가진 채널이 발생할 경우에도 원활하게 채널 변경을 선택할 수 있도록 수정됩니다.\n- 채널 변경, 캐릭터 변경 등 재접속 시 일부 버프의 효과가 유지되도록 아래와 같이 개선됩니다.\n- 퀘스트 보상 및 소비 아이템 효과로 적용된 버프는 유지됩니다."
+    },
+    {
+      "post_id": "wl2l0kx5cs6auch324bstrhv",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 2월 7일(금) 패치노트",
+      "published_at": "2025.02.07",
+      "url": "https://maple.land/board/notices/wl2l0kx5cs6auch324bstrhv",
+      "summary": "- 월드의 채널 인스턴스 생성 방식이 변경됩니다.\n- NPC 상점 창의 UI가 원작과 더욱 흡사하게 개선됩니다.\n- 장비 아이템의 추가 옵션에 따라 색상이 변하여 등급을 확인할 수 있는 기능이 추가됩니다.\n- 보스 혼테일이 소환될 때, 동일한 채널의 맵에서 이전에 소환된 혼테일이 처치되면서 미처 발동하지 못한 몬스터 스킬이 이어서 즉시 발동되던 문제가 수정됩니다.\n- 아이템의 툴팁 텍스트 길이에 맞추어 툴팁 영역이 자동으로 늘어나도록 수정되었습니다."
+    },
+    {
+      "post_id": "hgghdvnjtacrbbsyhe4v8m8n",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 2월 7일(금) 점검 예정 안내 (12:04 추가)",
+      "published_at": "2025.02.06",
+      "url": "https://maple.land/board/notices/hgghdvnjtacrbbsyhe4v8m8n",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "dbs9kb3w85pnu3o6s4g5i2o6",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 2월 6일(목) 메이플스토리 월드(MSW) 점검 안내",
+      "published_at": "2025.02.05",
+      "url": "https://maple.land/board/notices/dbs9kb3w85pnu3o6s4g5i2o6",
+      "summary": "- 2025년 2월 6일 오전 6시 30분에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2025년 2월 6일 (목) 오전 6시 30분 ~ 오전 10시 (총 3시간 30분)"
+    },
+    {
+      "post_id": "xobfzrfldpi66qvojh1q3vks",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 1월 31일(금) 무중단 패치 안내",
+      "published_at": "2025.01.31",
+      "url": "https://maple.land/board/notices/xobfzrfldpi66qvojh1q3vks",
+      "summary": "- 일부 작업을 위한 무중단 패치 진행이 예정되어 안내드립니다.\n- 오류 메시지와 함께 입장이 불가한 문제가 수정됩니다.\n- 혼테일 원정대를 구성 가능한 시간이\n- 으로 변경됩니다."
+    },
+    {
+      "post_id": "ypf7r4ldw6pb2budhchemzrb",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "까치 까치 설날은",
+      "published_at": "2025.01.24",
+      "url": "https://maple.land/board/events/ypf7r4ldw6pb2budhchemzrb",
+      "summary": "- 해당 퀘스트는 명시된 기간에만 완료가 가능합니다.\n- 몬스터들에게서 떨어지는 알파벳 문자를 모아 “HAPPY NEW YEAR”를 완성하여 각 마을의\n- NPC에게 전달하면, 특별한 아이템을 얻으실 수 있습니다.\n- 에게 가져가면 만두 아이템과 함께 소정의 보상을 얻으실 수 있습니다.\n- 일부 퀘스트는 레벨 제한이 존재합니다."
+    },
+    {
+      "post_id": "vzu7lxsrd8chb5wmed46xpow",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 1월 24일(금) 무중단 패치 안내",
+      "published_at": "2025.01.24",
+      "url": "https://maple.land/board/notices/vzu7lxsrd8chb5wmed46xpow",
+      "summary": "- 일부 작업을 위한 무중단 패치가 진행되어 안내드립니다.\n- 스킬 키를 누르고 있는 상태에서 방향키 포함 다른 키를 입력할 때 스킬 키가 강제로 해제되는 현상이 수정됩니다.\n- 특정 조건에서 동일 맵의 다른 플레이어들이 캐릭터를 이동할 수 없게 되는 문제가 수정됩니다.\n- (13:45 추가)"
+    },
+    {
+      "post_id": "vlmsvrtowv3iwhexlt9kloqk",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "1월 27일 ~ 1월 30일 Mapleland 고객센터 휴무 안내",
+      "published_at": "2025.01.24",
+      "url": "https://maple.land/board/notices/vlmsvrtowv3iwhexlt9kloqk",
+      "summary": "- 해당 기간 동안에는 문의사항 답변이 다소 원활하지 않을 수 있는 점 양해 부탁드리며\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- 설 연휴를 맞이하여 Mapleland 문의처 휴무 일정을 안내드리고자 합니다.\n- 2025년 1월 27일(월) ~ 1월 30일(목) - 총 4일\n- 접수해주셨던 문의사항은 31일(금) 부터 신속히 답변 도와드리겠습니다."
+    },
+    {
+      "post_id": "wg2wnq9er8f1m9pfmozs1qb4",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 1월 24일(금) 패치노트",
+      "published_at": "2025.01.24",
+      "url": "https://maple.land/board/notices/wg2wnq9er8f1m9pfmozs1qb4",
+      "summary": "- 이번 혼테일 업데이트는 혼테일에 도전하는 원정대의 원활한 입장과 보스 공략을 위해, 관련 콘텐츠와 기능을 먼저 월드에 적용합니다. 이를 통해 업데이트 직후 즉시 보스에 도전할 때 발생할 수 있...\n- 바로 도전이 가능합니다.\n- 월드에서 진행됩니다.\n- '은 도전 첫날인 2025년 1월 31일에만 하루 2회 입장이 가능하며, 그 이후부터는 하루 1회만 입장할 수 있습니다.\n- 월드의 채널 생성 방식이 변경됩니다."
+    },
+    {
+      "post_id": "l9q7ok2fkq2duw01qffqygrp",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 1월 24일(금) 점검 예정 안내",
+      "published_at": "2025.01.23",
+      "url": "https://maple.land/board/notices/l9q7ok2fkq2duw01qffqygrp",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "eazaeflus5wfknsx6odc4hxu",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "골드리치의 보물창고",
+      "published_at": "2025.01.17",
+      "url": "https://maple.land/board/events/eazaeflus5wfknsx6odc4hxu",
+      "summary": "- 이벤트 퀘스트를 통해 획득할 수 있는\n- 레벨 범위 몬스터를 통해 획득할 수 있는\n- 레벨 13 이상\n- 1시간마다 1회 수행 가능\n- 를 도와 몬스터를 처치하면 골드리치의 보물창고로 향할 수 있는 황금 나침반의 재료인"
+    },
+    {
+      "post_id": "vu6hrkju66x20bnkryr0b7bn",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 1월 17일(금) 패치노트",
+      "published_at": "2025.01.17",
+      "url": "https://maple.land/board/notices/vu6hrkju66x20bnkryr0b7bn",
+      "summary": "- (2) ‘파티퀘스트 보너스 경험치’ 이벤트 시작\n- 이벤트 기간 동안 각 파티퀘스트의 마지막 단계 완료 시, 아래의 예시와 같이 추가 경험치를 지급합니다.\n- 일부 마을에 더 이상 길 잃은 루돌프가 출현하지 않도록 변경됩니다.\n- 소환수가 동일 속성에 강점을 보이는 몬스터를 타격하여 무효 데미지가 출력될 때, 1이 아닌 Miss가 적용되던 오류가 수정됩니다.\n- 게임 옵션, 시스템 옵션의 취소 버튼을 클릭하면 HP, MP 경고 표시 설정값이 되돌아가는 현상이 수정됩니다."
+    },
+    {
+      "post_id": "yhq46x94lc16i7bvur4yr5u7",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 1월 17일(금) 점검 예정 안내",
+      "published_at": "2025.01.16",
+      "url": "https://maple.land/board/notices/yhq46x94lc16i7bvur4yr5u7",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "nxzqhqoa60rc9df6yv6si4a2",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 1월 16일(목) 메이플스토리 월드(MSW) 점검 안내",
+      "published_at": "2025.01.15",
+      "url": "https://maple.land/board/notices/nxzqhqoa60rc9df6yv6si4a2",
+      "summary": "- 1월 16일 (목) 오전 6시 30분에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 1월 16일 (목) 오전 6시 30분 ~ 오전 11시 (총 4시간 30분)"
+    },
+    {
+      "post_id": "fvf9bpnfe3cf1jpv6zmjbaa3",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 1월 10일(금) 패치노트",
+      "published_at": "2025.01.10",
+      "url": "https://maple.land/board/notices/fvf9bpnfe3cf1jpv6zmjbaa3",
+      "summary": "- 아쿠아리움 동물원에서 펫 관련 퀘스트인 <켄타의 조언> 퀘스트를 수락할 수 있습니다.\n- 일부 채널, 특히 생성된 지 오래된 채널에서 길드 가입, 탈퇴, 직위 변경 등 길드 정보 업데이트 동기화가 정상적으로 이루어지지 않는 문제가 수정됩니다.\n- 고정형 몬스터에게서 공격 대상이 일정 범위 이상으로 벗어날 경우, 몬스터가 이를 더 이상 공격 대상으로 인식하지 않게 됩니다.\n- 간혹 타 플레이어의 머리 위 이펙트가 잘못된 위치에 출력되는 문제가 수정됩니다.\n- 일부 세트 장비 이펙트가 좌우 반전이 잘못 적용되던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "xz1gzi3wzz0z7qes3yr62ase",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2025년 1월 10일(금) 점검 예정 안내",
+      "published_at": "2025.01.09",
+      "url": "https://maple.land/board/notices/xz1gzi3wzz0z7qes3yr62ase",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "fkq8v9kp3ll2bzjcrpe85xqf",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2025년 1월 2일 무중단 패치 노트",
+      "published_at": "2025.01.02",
+      "url": "https://maple.land/board/notices/fkq8v9kp3ll2bzjcrpe85xqf",
+      "summary": "- 2025년 1월 2일 18:00에 진행된 무중단 패치 이후 적용되는 내용을 아래와 같이 안내드립니다.\n- “돌진”, “드래곤 펄스” 등 몬스터의 위치를 직접 제어하는 스킬 사용 시 간헐적으로 몬스터가 지형을 이탈하는 문제가 수정됩니다.\n- 간헐적으로 몬스터에게 일부 스킬의 데미지가 적용되지 않는 현상이 수정됩니다.\n- “퍼펫” 소환수가 몬스터의 마법 공격을 대신 맞아주지 않던 문제가 수정됩니다.\n- 스킬 “메이플 용사”를 통해 증가한 스탯으로 장착한 장비에 달린 스탯의 효과가 적용되지 않는 현상이 수정됩니다."
+    },
+    {
+      "post_id": "jvbpaej6zgbybs2z1cn4dji9",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "Mapleland <멘토링 프로그램> 크리에이터 모집 종료 및 결과 발표 안내",
+      "published_at": "2025.01.02",
+      "url": "https://maple.land/board/notices/jvbpaej6zgbybs2z1cn4dji9",
+      "summary": "- 12월 26일(목)까지 진행되었던"
+    },
+    {
+      "post_id": "ad6k8ecrwn4iwaemfnsim7hl",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 1월 2일(목) 무중단 패치 안내",
+      "published_at": "2025.01.02",
+      "url": "https://maple.land/board/notices/ad6k8ecrwn4iwaemfnsim7hl",
+      "summary": "- “돌진”, “드래곤 펄스” 등 몬스터의 위치를 직접 제어하는 스킬 사용 시 간헐적으로 몬스터가 지형을 이탈하는 문제가 수정됩니다.\n- 간헐적으로 몬스터에게 일부 스킬의 데미지가 적용되지 않는 현상이 수정됩니다.\n- “퍼펫” 소환수가 몬스터의 마법 공격을 대신 맞아주지 않던 문제가 수정됩니다.\n- 스킬 “메이플 용사”를 통해 증가한 스탯으로 장착한 장비에 달린 스탯의 효과가 적용되지 않는 현상이 수정됩니다.\n- 파티원들 및 몬스터의 HP 게이지가 간헐적으로 배경만 남는 문제가 수정됩니다."
+    },
+    {
+      "post_id": "cs88eox8mi980hpblkkh4psj",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2025년 1월 1일(수) 무중단 패치 안내",
+      "published_at": "2025.01.01",
+      "url": "https://maple.land/board/notices/cs88eox8mi980hpblkkh4psj",
+      "summary": "- 일부 작업을 위한 무중단 패치가 진행되어 안내드립니다.\n- “나이트로드” 직업군의 스킬 “트리플 스로우”의 데미지 계산식이 잘못 적용되었던 문제가 수정됩니다.\n- 이제 아크메이지 직업군으로 4차전직 시 추가 MP가 지급됩니다.\n- 기존에 전직을 완료한 아크메이지 직업군의 경우, 기간 제한 없이 언제든 4차 전직관에게 말을 걸어 추가 MP를 받으실 수 있습니다.\n- 기존에 전직을 완료한 레벨 120~140 아크메이지인 경우, 추가로 SP 초기화 주문서"
+    },
+    {
+      "post_id": "z1986hwnlx5yx8svb090zp4r",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2024년 12월 31일(화) 무중단 패치 안내",
+      "published_at": "2024.12.31",
+      "url": "https://maple.land/board/notices/z1986hwnlx5yx8svb090zp4r",
+      "summary": "- 일부 작업을 위한 무중단 패치가 진행되어 안내드립니다.\n- 생명의 동굴 파티퀘스트에 입장하지 못하는 버그 수정\n- ‘월드오류’ 사유로 추방\n- 되는 문제에 관해 현재 메이플스토리 월드 측의 답변을 기다리고 있으며, 자세한 내용은"
+    },
+    {
+      "post_id": "kehgvf39upk8afkaui5408m2",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 12월 31일(화) 패치노트 (19:50 추가)",
+      "published_at": "2024.12.31",
+      "url": "https://maple.land/board/notices/kehgvf39upk8afkaui5408m2",
+      "summary": "- 새로운 시대로의 첫걸음, <4차 전직>이 추가되었습니다!\n- 4차 전직이 추가되었습니다.\n- 120레벨이 되면 엘나스 ‘장로의 관저’에 있는 직업별 장로들을 통해 다음과 같은 직업들로의 전직 퀘스트를 진행하실 수 있습니다.\n- 4차 전직 관련 퀘스트들이 추가됩니다.\n- 전 직업 공통 스킬이 추가되었습니다."
+    },
+    {
+      "post_id": "drlftlxldlo49paziqg2kuan",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2024년 12월 31일(화) 점검 예정 안내",
+      "published_at": "2024.12.30",
+      "url": "https://maple.land/board/notices/drlftlxldlo49paziqg2kuan",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "rz324xjvanhjjenmkl02urj2",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "<산타고양이의 선물상자> 퀘스트 이슈 안내",
+      "published_at": "2024.12.21",
+      "url": "https://maple.land/board/notices/rz324xjvanhjjenmkl02urj2",
+      "summary": "- ’ 퀘스트 완료 이슈 안내\n- 획득할 수 있는 문제\n- 해당 퀘스트 완료 스크립트 개발 과정에서의 실수로 인해 기획 의도와 다른 허점 발생\n- 2024.12.21 11:18 핫픽스를 통해 문제가 수정되었습니다.\n- 현재 해당 문제에 대한 전수 조사를 진행하였으며,"
+    },
+    {
+      "post_id": "sxyzj9u20g1hg1v8k8bu9yqu",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "행복한 마을의 크리스마스",
+      "published_at": "2024.12.20",
+      "url": "https://maple.land/board/events/sxyzj9u20g1hg1v8k8bu9yqu",
+      "summary": "- 가 판매하는 장식용 아이템들, 혹은 모험가 여러분들의 아이템들로 멋지게 꾸며보세요!\n- 드롭한 아이템은 본인 외의 유저가 가져갈 수 없습니다.\n- 캐시 아이템 및 교환 불가 아이템은 드롭할 수 없습니다.\n- 장식하기 위해 드롭한 아이템은 맵에서 이탈할 때, 자동으로 전부 회수됩니다.\n- ○ 크리스마스 이벤트 퀘스트"
+    },
+    {
+      "post_id": "aclxrqhu0hkgp2ici0zhdkcd",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2024년 12월 20일(금) 무중단 패치 안내",
+      "published_at": "2024.12.20",
+      "url": "https://maple.land/board/notices/aclxrqhu0hkgp2ici0zhdkcd",
+      "summary": "- 일부 작업을 위한 무중단 패치가 진행되어 안내드립니다.\n- 퀘스트를 화면 좌측의 이벤트 퀘스트 알림이를 통해 수행할 수 있도록 변경됩니다.\n- 퀘스트를 화면 좌측의 이벤트 퀘스트 알림이를 통해 수행할 수 있도록 변경됩니다."
+    },
+    {
+      "post_id": "d8me7xnx1vgdttctphmt5b98",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "메리 크리스마스 선물상자 아이템 이슈 안내",
+      "published_at": "2024.12.20",
+      "url": "https://maple.land/board/notices/d8me7xnx1vgdttctphmt5b98",
+      "summary": "- ‘메리 크리스마스 선물상자’ 아이템 관련 게임 내 이슈에 대해 안내드립니다.\n- 해당 오류는 핫픽스 작업을 통해 무중단 패치 없이 수정되었습니다.\n- ○ ‘메리 크리스마스 선물상자’ 드롭률 관련 안내\n- ‘메리 크리스마스 선물상자’ 아이템이 일부 몬스터에 한해서 드롭률이 과도하게 높게 설정되어 있던 오류\n- 해당 아이템의 드롭률이 정상적으로 적용되게 수정됩니다."
+    },
+    {
+      "post_id": "uxpdhjo8m6fnem7p0ya8gnzn",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 12월 20일(금) 패치노트",
+      "published_at": "2024.12.20",
+      "url": "https://maple.land/board/notices/uxpdhjo8m6fnem7p0ya8gnzn",
+      "summary": "- 일반 배송보다 더욱 더 편리한 특급 배송 기능이 추가되었습니다!\n- 특급 배송은 “일반배송 “ 우측에 새로 추가된 탭을 클릭하여 보낼 수 있으며, 배송 비용(20,000 메소)을 제외하고 일반배송과 동일합니다.\n- 알림이 나오는 순간 “O” 버튼을 눌러서 확인 가능합니다.\n- 알림을 닫았을 경우에도 “신고하기” 버튼 우측의 쪽지 버튼을 클릭해서 확인 가능합니다.\n- NPC를 통해서도 확인 가능합니다."
+    },
+    {
+      "post_id": "ulpugtzltj74ldx3ovcxojik",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2024년 12월 20일(금) 점검 예정 안내",
+      "published_at": "2024.12.19",
+      "url": "https://maple.land/board/notices/ulpugtzltj74ldx3ovcxojik",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "ms13434m014i2ldhuwm4bgcc",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "Mapleland <멘토링 프로그램> 멘티 크리에이터 모집 안내 (12/27 수정)",
+      "published_at": "2024.12.18",
+      "url": "https://maple.land/board/notices/ms13434m014i2ldhuwm4bgcc",
+      "summary": "- 그 결정의 일환으로 오늘은 콘텐츠 크리에이터분들을 대상으로 진행될\n- 최종 선정된 멘토와 멘티 크리에이터분들께는 원활한 진행을 위해\n- 이번 공지에서는 우선 선정된 멘토 크리에이터분들의 발표와 함께 멘티 크리에이터 모집을 진행할 예정입니다.\n- Mapleland에서 콘텐츠 창작 활동을 하고 계신, 그리고 Mapleland에서 콘텐츠 창작 활동을 진행하실 Mapleland 유저분들의 많은 참여를 바랍니다.\n- 멘티 크리에이터에도 지원 가능"
+    },
+    {
+      "post_id": "l8odqwa4bzyyba95sr9rzgwf",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2024년 12월 18일(수) 서버 접속 불가 현상 해결 안내",
+      "published_at": "2024.12.18",
+      "url": "https://maple.land/board/notices/l8odqwa4bzyyba95sr9rzgwf",
+      "summary": "- 접속 시 ‘월드에서 추방’ 되었다는 안내와 함께 접속이 종료되는 문제 수정"
+    },
+    {
+      "post_id": "lxq20q8pglq2y62f6v3cqkxp",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2024년 12월 18일(수) 서버 접속 불가 현상 안내 (수정1)",
+      "published_at": "2024.12.18",
+      "url": "https://maple.land/board/notices/lxq20q8pglq2y62f6v3cqkxp",
+      "summary": "- 12월 18일 오전 9시 30분 메이플스토리 월드(MSW) 점검 종료 이후 Mapleland 서버 접속이 불가능한 현상이 관측되었습니다.\n- 현재 문제를 파악하고 있으며, 최대한 빠른 시일 내에 수정 후 다시 공지할 수 있도록 하겠습니다.\n- + 수정 1 (2024-12-18 10:17)\n- 문제 해결을 위하여 오전 11시까지 긴급 점검을 진행할 예정입니다."
+    },
+    {
+      "post_id": "q2cntfiklrvsa2jk55azb1k8",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2024년 12월 18일(수) 메이플스토리 월드(MSW) 점검 안내",
+      "published_at": "2024.12.18",
+      "url": "https://maple.land/board/notices/q2cntfiklrvsa2jk55azb1k8",
+      "summary": "- 12월 18일 오전 8시 30분에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 12월 18일 (수) 오전 8시 30분 ~ 오전 10시 (총 1시간 30분)"
+    },
+    {
+      "post_id": "hd2nkzdpcjgv2cic79jbqtjf",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2024년 12월 17일(화) 서버 불안정 현상 안내",
+      "published_at": "2024.12.17",
+      "url": "https://maple.land/board/notices/hd2nkzdpcjgv2cic79jbqtjf",
+      "summary": "- 해당 현상은 데이터베이스 서버와의 연결이 원활하지 않아 발생하였으며, 장애 발생 시점부터 원인을 해결하기 위해 작업을 진행하였고 현재 문제 해결이 완료되어 이를 안내드립니다.\n- 문제가 해결되는 동안 월드 접속에 불편을 겪으신 모험가 분들께 진심을 담아 사과의 말씀을 드리며,\n- <서버 오류 보상 안내\n- 전용 퀘스트를 통해 수령하실 수 있습니다."
+    },
+    {
+      "post_id": "gs80dd7m5f3lbmz9ao2mk0za",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "Mapleland <멘토링 프로그램> 안내 (12/17 추가)",
+      "published_at": "2024.12.13",
+      "url": "https://maple.land/board/notices/gs80dd7m5f3lbmz9ao2mk0za",
+      "summary": "- 그 결정의 일환으로 오늘은 콘텐츠 크리에이터분들을 대상으로 진행될\n- 최종 선정된 멘토와 멘티 크리에이터분들께는 원활한 진행을 위해\n- 이번 공지에서는 우선 멘토 크리에이터의 모집을 진행하며, 최종 선정된 멘토 크리에이터 발표와 함께 멘티 크리에이터 모집을 진행할 예정입니다.\n- (※ 멘티 모집은 12.18(수) 18:00 이후 진행 예정)\n- (12.17 17:10 추가 - 지원자 검토에 시간이 다소 소요되어 멘티 모집 일정이 연기되었습니다.)"
+    },
+    {
+      "post_id": "btv11zphw87xv5j2x7z97of8",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2024년 12월 13일(금) 무중단 패치 안내",
+      "published_at": "2024.12.13",
+      "url": "https://maple.land/board/notices/btv11zphw87xv5j2x7z97of8",
+      "summary": "- 일부 작업을 위한 무중단 패치가 진행되어 안내드립니다.\n- 간헐적으로 상점 창이 갑자기 나타나는 현상이 수정됩니다.\n- 데이터베이스 서버와 연결이 원활하지 않아 일부 기능이 정상적으로 동작하지 않던 현상이 수정됩니다.\n- ‘월드오류’ 사유로 추방\n- 되는 문제에 관해 현재 메이플스토리 월드 측의 답변을 기다리고 있으며, 자세한 내용은"
+    },
+    {
+      "post_id": "gtw5sdu03ewuvin1n2u53s0p",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "'월드오류' 사유로 인한 로그인 불가 현상 안내 (완료)",
+      "published_at": "2024.12.13",
+      "url": "https://maple.land/board/notices/gtw5sdu03ewuvin1n2u53s0p",
+      "summary": "- 해외 세션으로 접속되는 현상이 수정되었습니다.\n- 현재 일부 이용자분들께서 Mapleland 로그인 시 '월드오류' 메시지와 함께 접속이 차단되는 현상이 확인되어 안내드립니다.\n- 내용이 추가되는 경우 다시 안내드리겠습니다."
+    },
+    {
+      "post_id": "g4grrqp08acggkdz3k6pcb0j",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 12월 13일 패치노트",
+      "published_at": "2024.12.13",
+      "url": "https://maple.land/board/notices/g4grrqp08acggkdz3k6pcb0j",
+      "summary": "- [몬스터 라이딩]\n- 새롭게 선보이는 개인용 이동수단, <몬스터 라이딩>이 추가되었습니다!\n- 아쿠아리움에서 동물들을 사육하는 켄타의 할아버지인 켄타조는 평생을 연구하여 드디어 몬스터를 길들이는데 성공하였습니다. 켄타는 켄타조 할아버지의 연구 결과를 바탕으로 몬스터를 이동 수단으로 이용...\n- 오시리아 대륙의 아쿠아로드에 새로운 퀘스트가 추가되었습니다.\n- 빅토리아 아일랜드의 헤네시스에 새로운 파티퀘스트 <월묘의 떡>이 추가되었습니다!"
+    },
+    {
+      "post_id": "sau7mdxinwyh9fr509e1v0oj",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2024년 12월 13일(금) 점검 예정 안내",
+      "published_at": "2024.12.12",
+      "url": "https://maple.land/board/notices/sau7mdxinwyh9fr509e1v0oj",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "uximtey3wa8swfiqdzumbd60",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2024년 12월 6일(금) 무중단 패치 및 마이그레이션 예정 안내",
+      "published_at": "2024.12.06",
+      "url": "https://maple.land/board/notices/uximtey3wa8swfiqdzumbd60",
+      "summary": "- 월드에 해당하는 몬스터가 없어서 제외됩니다.\n- 월드에 해당하는 몬스터가 없어서 제외됩니다.\n- 수영을 하거나 공중에 부유하는 몬스터에게 기절 공격을 할 경우 캐릭터의 정상적인 조작이 불가능해지는 문제가 수정됩니다."
+    },
+    {
+      "post_id": "hwgifwm8bbswc6jfryx1ku5f",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2024년 12월 6일(금) 발생 이슈 및 긴급점검 안내",
+      "published_at": "2024.12.06",
+      "url": "https://maple.land/board/notices/hwgifwm8bbswc6jfryx1ku5f",
+      "summary": "- 금일 12월 6일 점검 이후 클라이언트 버전 충돌로 인해 몇 가지 문제가 발생한 것을 파악하였으며,\n- 잠시 후 긴급점검이 진행될 예정입니다.\n- 레인저, 저격수 직업에 다음 차수의 스킬인 보우 엑스퍼트, 크로스보우 엑스퍼트가 적용되던 오류가 수정됩니다.\n- Mapleland(엘나스) 월드가 과거 버전으로 출시된 오류가 수정됩니다."
+    },
+    {
+      "post_id": "t3l4vm2jjdo10065h4xtaeo7",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 12월 6일 패치노트",
+      "published_at": "2024.12.06",
+      "url": "https://maple.land/board/notices/t3l4vm2jjdo10065h4xtaeo7",
+      "summary": "- 새로운 지역 <용의 숲>, <용의 협곡>이 추가되었습니다!\n- 업데이트 이후, <숲의 갈림길> 에 새롭게 추가된 포탈을 통해 새로운 지역으로 이동하실 수 있으며, 이어진 길을 따라 <용의 숲>, <용의 협곡> 지역까지 탐험하실 수 있습니다.\n- 미나르숲에 아래와 같은 몬스터가 출현합니다.\n- 따라서, 4차 전직을 완료하지 않은 유저가 고레벨의 몬스터를 무리하여 사냥하시게 될 경우 캐릭터가\n- ‘요정의 뿔피리 다시 구하기’ 퀘스트가 추가됩니다."
+    },
+    {
+      "post_id": "d1nxhpefkhpqfne1a6kl3bfw",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2024년 12월 6일(금) 점검 예정 안내",
+      "published_at": "2024.12.05",
+      "url": "https://maple.land/board/notices/d1nxhpefkhpqfne1a6kl3bfw",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "x5jsprsq3xcw05nl3ka9b4ci",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2024년 11월 29일(금) 무중단 패치 및 마이그레이션 예정 안내",
+      "published_at": "2024.11.29",
+      "url": "https://maple.land/board/notices/x5jsprsq3xcw05nl3ka9b4ci",
+      "summary": "- [버그 수정 및 변경 내용]\n- 퀵슬롯에 스킬 키세팅 변경 시 기존 스킬의 재사용 대기시간 표시가 남아있던 문제가 수정됩니다.\n- 스피루나 NPC의 퀘스트 아이콘의 위치가 올바르지 않던 문제가 수정됩니다.\n- 아쿠아리움 무기 상점의 판매 목록 중 두손도끼의 순서가 올바르게 나오지 않던 문제가 수정됩니다.\n- 일부 특정 지역에서 캐시샵이 열리지 않도록 변경됩니다."
+    },
+    {
+      "post_id": "tsqkb092u23ntwnfdli8hns6",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2024년 11월 22일(금) 무중단 패치 및 마이그레이션 예정 안내",
+      "published_at": "2024.11.21",
+      "url": "https://maple.land/board/notices/tsqkb092u23ntwnfdli8hns6",
+      "summary": "- 메이플스토리 월드 플랫폼 오류 해결 적용을 위한 무중단 패치가 11월 22일 00:00에 진행될 예정입니다.\n- 해당 플랫폼 점검 이후 일부 UI와 레이어의 표시, 그리고 채널 변경 이슈와 관련한 문제가 해결될것으로 기대하고 있습니다.\n- (패치가 적용되지 않은 채널 강제 종료)이 진행될 예정입니다."
+    },
+    {
+      "post_id": "i4q3n3ksld3rrcury1e6yfsd",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "11월 21일(목) 메이플스토리 월드(MSW) 점검 안내",
+      "published_at": "2024.11.20",
+      "url": "https://maple.land/board/notices/i4q3n3ksld3rrcury1e6yfsd",
+      "summary": "- 11월 21일 오전 6시 30분에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 11월 21일 (목) 오전 6시 30분 ~ 오전 9시 30분 (총 3시간)"
+    },
+    {
+      "post_id": "qjaj6sdvhbqh3kz2gwpf02uu",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "현재 Mapleland 주요 이슈 및 대응 방안 안내",
+      "published_at": "2024.11.16",
+      "url": "https://maple.land/board/notices/qjaj6sdvhbqh3kz2gwpf02uu",
+      "summary": "- 현재 여러 지표를 지속적으로 모니터링하며 내부적으로 개선 방안을 검토하고 있습니다. 최대한 원작 옛날 메이플스토리의 감성은 지키면서, 플레이어분들이 더 즐겁게 게임을 즐기실 수 있도록 계속해서...\n- 그러나 개선 방안을 검토하고 적용하는 동안 느낄 수 있는 불편함 해소를 위한 임시 조치로, 리프레 월드의 채널당 최대 접속 인원을 현재 100명에서 50명으로 조정하여 적용하도록 하겠습니다.\n- 월드 최초 접속 시 채팅창, 인벤토리창, 스킬창의 스크롤바가 정상적으로 출력되지 않는 현상이 확인되었습니다.\n- 채널을 변경하거나 월드에 재입장시 정상화되는 특성으로 인해 원인 파악에 어려움이 있어 문제 수정이 지연되고 있습니다."
+    },
+    {
+      "post_id": "ie3hgy8kc6hqmvkqobt89eag",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 11월 15일 무중단 패치 노트",
+      "published_at": "2024.11.15",
+      "url": "https://maple.land/board/notices/ie3hgy8kc6hqmvkqobt89eag",
+      "summary": "- 2024년 11월 15일에 진행된 무중단 패치 이후 적용되는 내용을 아래와 같이 안내드립니다.\n- 리프레 전용 월드의 채널 이름에 구분 문자가 표기되지 않는 현상이 수정됩니다. (13:36 적용)"
+    },
+    {
+      "post_id": "tlmzrlrcs5imdvxxkxs26ljl",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 11월 15일 패치노트",
+      "published_at": "2024.11.15",
+      "url": "https://maple.land/board/notices/tlmzrlrcs5imdvxxkxs26ljl",
+      "summary": "- 새로운 지역 <미나르숲>과 전용 월드가 추가되었습니다!\n- 미나르숲 지역 관련 퀘스트들이 추가됩니다.\n- 다음의 퀘스트들을 더 이상 진행하실 수 없습니다.\n- 미나르숲에 아래와 같은 몬스터가 출현합니다.\n- 스킬창 UI의 스크롤바 및 스크롤링 방식이 원작과 흡사한 방식으로 개선됩니다."
+    },
+    {
+      "post_id": "lbksh2jmis83t0psepshiyjf",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2024년 11월 15일(금) 점검 예정 안내",
+      "published_at": "2024.11.14",
+      "url": "https://maple.land/board/notices/lbksh2jmis83t0psepshiyjf",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "qs33f7cnzebisecrkwf38bdl",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "11월 14일(목) 메이플스토리 월드(MSW) 점검 안내",
+      "published_at": "2024.11.13",
+      "url": "https://maple.land/board/notices/qs33f7cnzebisecrkwf38bdl",
+      "summary": "- 11월 14일 오전 7시에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 11월 14일 (목) 오전 7시 ~ 오전 9시 (총 2시간)"
+    },
+    {
+      "post_id": "kl1ozb8drjtsdjsqqh796t46",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "‘단풍잎 입에 물고…’ 완료 불가 이슈 안내",
+      "published_at": "2024.11.11",
+      "url": "https://maple.land/board/notices/kl1ozb8drjtsdjsqqh796t46",
+      "summary": "- ‘단풍잎 입에 물고…’ 퀘스트 관련 게임 내 이슈에 대해 안내드립니다.\n- 해당 오류는 핫픽스 작업을 통해 무중단 패치 없이 수정되었습니다.\n- ○ ‘메이플 시럽 만들기’ 퀘스트 완료 불가 현상\n- ‘단풍잎 입에 물고…’ 퀘스트 수행 가능 기간이 11 14일 0시가 아닌 11월 11일 0시로 설정됨.\n- ‘단풍잎 입에 물고…’  퀘스트를 진행하지 않아도 NPC 카산드라를 통해 메이플 리프 아이템을 획득 할 수 있도록 변경됩니다."
+    },
+    {
+      "post_id": "shntp4g7rp9gadslx4kqci8c",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "11월 10일(일) 메이플스토리 월드(MSW) 임시 점검 안내",
+      "published_at": "2024.11.10",
+      "url": "https://maple.land/board/notices/shntp4g7rp9gadslx4kqci8c",
+      "summary": "- 11월 10일 오전 10시에 메이플스토리 월드(MSW) 임시 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 11월 10일 (일) 오전 10시 ~ 오전 11시 (총 1시간)"
+    },
+    {
+      "post_id": "x8w3nvm94kvqsl34tg59hjgr",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2024년 11월 7일(목) 택배 시스템 이슈 안내",
+      "published_at": "2024.11.07",
+      "url": "https://maple.land/board/notices/x8w3nvm94kvqsl34tg59hjgr",
+      "summary": "- 현재 택배 시스템을 원활하게 사용할 수 없었던 문제에 대해서 안내드립니다.\n- 캐릭터 닉네임의 영문 대소문자를 구분없이 캐릭터를 찾을 수 있도록 변경함.\n- 도 해당하여 함께 변경함."
+    },
+    {
+      "post_id": "rcka8xtueb864kcextmdt58j",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "11월 7일(목) 메이플스토리 월드(MSW) 점검 안내",
+      "published_at": "2024.11.06",
+      "url": "https://maple.land/board/notices/rcka8xtueb864kcextmdt58j",
+      "summary": "- 11월 7일 오전 7시에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 11월 7일 (목) 오전 7시 ~ 오전 10시 (총 3시간)"
+    },
+    {
+      "post_id": "hhsadbh224zcwg8v8pdm72gh",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2024년 11월 5일(화) 무중단 패치 및 마이그레이션 예정 안내",
+      "published_at": "2024.11.05",
+      "url": "https://maple.land/board/notices/hhsadbh224zcwg8v8pdm72gh",
+      "summary": "- Mapleland (자유시장/이벤트)\n- 일부 작업을 위한 무중단 패치가 예정되어 있어 안내드립니다.\n- Mapleland (빅토리아)\n- Mapleland (엘나스)\n- Mapleland (루디브리엄)"
+    },
+    {
+      "post_id": "ly4ijsfv64n16l6mmkaxrxoo",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "서비스 지연 현상 및 안정화 작업 진행 안내",
+      "published_at": "2024.11.01",
+      "url": "https://maple.land/board/notices/ly4ijsfv64n16l6mmkaxrxoo",
+      "summary": "- 최근 1주년 이벤트 이후 발생한 서비스 지연 현상과 관련하여 안내 드립니다.\n- 1주년 이벤트 이후 신규 및 복귀 이용자 증가로 인한 서버 부하 증가\n- Mapleland 입니다.\n- 저녁 및 심야 시간대에 일부 기능의 처리 속도 저하 현상 발생\n- 2024년 10월 30일 부하가 심한 데이터베이스 영역의 분산화 작업 완료 (무중단 패치)"
+    },
+    {
+      "post_id": "gmkz0sicm93guio89g612vwh",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2024년 10월 30일 서버 시스템 무중단 패치 안내",
+      "published_at": "2024.10.30",
+      "url": "https://maple.land/board/notices/gmkz0sicm93guio89g612vwh",
+      "summary": "- 별도로 월드의 무중단 패치 및 마이그레이션 등은 진행되지 않습니다."
+    },
+    {
+      "post_id": "sgdq4a5dr7t452jgc03n1m0f",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "‘메이플 시럽 만들기’ 완료 불가 등 1주년 이벤트 이슈 안내",
+      "published_at": "2024.10.25",
+      "url": "https://maple.land/board/notices/sgdq4a5dr7t452jgc03n1m0f",
+      "summary": "- ○ ‘메이플 시럽 만들기’ 퀘스트 완료 불가 현상\n- ‘메이플 시럽 만들기’ 퀘스트 완료에 필요한 단풍잎 개수는\n- 현재 25개만 소지하고 있어도 퀘스트 완료 가능 상태로 표시됩니다.\n- 이로 인해 실제 필요한 단풍잎 개수인 100개가 충족되지 않아 시럽 만들기 퀘스트가 완료되지 않고 있습니다.\n- 퀘스트 완료 실패시 단풍잎 100개가 필요하다는 안내를 추가합니다."
+    },
+    {
+      "post_id": "jg507kuerpbqhg1fx5sncihr",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 10월 25일 패치노트",
+      "published_at": "2024.10.25",
+      "url": "https://maple.land/board/notices/jg507kuerpbqhg1fx5sncihr",
+      "summary": "- NPC [카산드라]의 ‘Mapleland 1주년을 기념하며’ 퀘스트를 통해 이벤트에 대한 안내를 듣고 참여하실 수 있습니다.\n- 다음 퀘스트를 통해서 [메이플 모자]를 획득하실 수 있습니다.\n- Mapleland 1주년 기념파티 <레벨 8 이상 진행가능\n- 제인의 파티 참석 허락 받기 <레벨 8 이상 진행가능\n- 제인의 심부름 돕기 <메이플 모자 1단계 소지시, 레벨 31 이상 진행가능"
+    },
+    {
+      "post_id": "j11kl36y83vwlehfunonepo1",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2024년 10월 25일(금) 점검 예정 안내 (09:56 추가)",
+      "published_at": "2024.10.24",
+      "url": "https://maple.land/board/notices/j11kl36y83vwlehfunonepo1",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "bxtb3zowq4edlgrk4qi8yq5v",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 10월 18일 패치노트 (13:18 추가)",
+      "published_at": "2024.10.18",
+      "url": "https://maple.land/board/notices/bxtb3zowq4edlgrk4qi8yq5v",
+      "summary": "- (1) 길드 기능 추가\n- 길드장 레벨 10 이상\n- 현재 이름, 직업, 레벨, 직위명 정렬 기능\n- 길드 마크 제작, 각 마을의 명예의 바위 랭킹 기능은 현재 지원되지 않습니다. 추후 기능 추가 예정입니다.\n- ◈ 길드원은 현재 최대 100명까지 인원 확장이 가능합니다."
+    },
+    {
+      "post_id": "b5co0lbjea0apcyh33wnnpum",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "2024년 10월 18일(금) 점검 예정 안내",
+      "published_at": "2024.10.17",
+      "url": "https://maple.land/board/notices/b5co0lbjea0apcyh33wnnpum",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "cvk558d40iq79qjbcaq4u7xd",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "신규 계정 로그인 및 캐릭터 생성 및 삭제 제한 해제",
+      "published_at": "2024.10.17",
+      "url": "https://maple.land/board/notices/cvk558d40iq79qjbcaq4u7xd",
+      "summary": "- (2024-10-18 11:42 추가)\n- 따라서 Mapleland에서 의도한 보안 수준과 상이함에 따라, 해당 문제의 정상화 시점까지 임시 신규 계정 로그인 제한 및 캐릭터 생성과 삭제 기능 제한이 유지될 예정입니다.\n- 이 중 운영정책 위반 캐릭터의 발생 가능성을 염두에 두고 당분간 집중 모니터링 예정입니다.\n- (2024-10-17 18:56 추가)\n- 심각한 보안 문제가 발견되어 확인중입니다."
+    },
+    {
+      "post_id": "rdqqh5k5aqde3a55ftnoitf4",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "10월 17일(목) 메이플스토리 월드(MSW) 점검 안내 (09:59 수정)",
+      "published_at": "2024.10.16",
+      "url": "https://maple.land/board/notices/rdqqh5k5aqde3a55ftnoitf4",
+      "summary": "- 10월 17일 오전 6시에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간 동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 : 2024-10-17 AM 06:00 ~ 11:00 (4시간 + 1시간 연장)"
+    },
+    {
+      "post_id": "eze56y7fnxl7jc4m4lj8rzx9",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "메이플 할로윈 파티",
+      "published_at": "2024.10.10",
+      "url": "https://maple.land/board/events/eze56y7fnxl7jc4m4lj8rzx9",
+      "summary": "- ] NPC를 통해 헌티드 맨션에 입장하기 위한 퀘스트를 수행할 수 있습니다.\n- (2024년 11월 7일 00시까지 사용 가능합니다.)\n- (2024년 11월 7일 00시까지 사용 가능합니다.)\n- 이벤트 보상으로 받은 아이템을 버릴 경우 다시 획득할 수 없으며, 복구가 어렵습니다."
+    },
+    {
+      "post_id": "gchb17u2oa3k9f1yxeee0vjx",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2024년 10월 10일(목) 2차 무중단 패치 및 마이그레이션 예정 안내",
+      "published_at": "2024.10.10",
+      "url": "https://maple.land/board/notices/gchb17u2oa3k9f1yxeee0vjx",
+      "summary": "- 오류 수정을 위한 무중단 패치가 예정되어 있어 안내드립니다.\n- 정상적으로 헌티드 맨션에 입장 및 퇴장이 불가능하던 현상 수정"
+    },
+    {
+      "post_id": "y017jtg9yeoow2yesraf7o19",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "헌티드 맨션 오류 현상 안내 (22:53 해결 방법 추가)",
+      "published_at": "2024.10.10",
+      "url": "https://maple.land/board/notices/y017jtg9yeoow2yesraf7o19",
+      "summary": "- 헌티드 맨션 퀘스트 진행 중, 굴뚝 분기와 조나스의방 분기를 동시에 수행할 경우 진행이 불가능합니다.\n- 해당 문제로 퀘스트 진행이 더 이상 불가능할 경우,\n- 헌티드 맨션의 [가면신사] NPC와 대화를 통해 문제를 해결할 수 있습니다.\n- (22:53 추가)\n- 20:20 무중단 업데이트를 통해 수정되었습니다."
+    },
+    {
+      "post_id": "oy1pa6g4fd1xgofoh8o3yish",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 10월 10일 무중단 패치 노트",
+      "published_at": "2024.10.10",
+      "url": "https://maple.land/board/notices/oy1pa6g4fd1xgofoh8o3yish",
+      "summary": "- 2024년 10월 10일 16:00에 진행된 무중단 패치 이후 적용되는 내용을 아래와 같이 안내드립니다.\n- 고성능 확성기 및 채널 채팅 사용 시 정상적으로 사용되지 않는 문제가 수정됩니다."
+    },
+    {
+      "post_id": "awfba7vf8joc5o96ufdwemio",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2024년 10월 10일(목) 무중단 패치 및 마이그레이션 예정 안내",
+      "published_at": "2024.10.10",
+      "url": "https://maple.land/board/notices/awfba7vf8joc5o96ufdwemio",
+      "summary": "- 오류 수정을 위한 무중단 패치가 예정되어 있어 안내드립니다.\n- 고성능 확성기 및 채널 채팅 사용 시 정상적으로 사용되지 않는 문제"
+    },
+    {
+      "post_id": "uxztv460lburgzxsjtojacoa",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 10월 10일 패치노트",
+      "published_at": "2024.10.10",
+      "url": "https://maple.land/board/notices/uxztv460lburgzxsjtojacoa",
+      "summary": "- ‘가면신사의 초대’ 퀘스트를 통해 이벤트에 참여하실 수 있습니다.\n- (1) 친구 기능 추가\n- (2) 우편 시스템 시인성 개선\n- 첨부된 아이템의 이름 및 정보가 편지 내용에 표기됩니다.\n- 택배 보관함 및 회수신청 상태 문구의 시인성이 개선됩니다."
+    },
+    {
+      "post_id": "z6xaew7y26pfitnycc3p0mp1",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "명찰 및 말풍선 기능 테스트 및 무료 지급 안내",
+      "published_at": "2024.10.10",
+      "url": "https://maple.land/board/notices/z6xaew7y26pfitnycc3p0mp1",
+      "summary": "- 또한 저희 개발진 역시 이에 맞추어 치장 아이템 및 길드 기능 업데이트의 마무리에도 박차를 가하고 있는데요.\n- 치장 아이템의 정식 출시에 앞서, 이번 업데이트로 리뉴얼된 명찰 및 말풍선 기능의 원활한 동작 여부를 확인하기 위한 테스트를 진행하고자 합니다.\n- ◆ 선택 가능한 명찰 반지\n- ◆ 선택 가능한 말풍선 반지"
+    },
+    {
+      "post_id": "uh816lcf2b7hlh8wkhaw5xr0",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "10월 10일(목) 점검 지연 안내 (완료) (13:06 수정)",
+      "published_at": "2024.10.10",
+      "url": "https://maple.land/board/notices/uh816lcf2b7hlh8wkhaw5xr0",
+      "summary": "- 10월 10일(목) 업데이트 과정에서 아래와 같이 기술적 문제가 발생하여 점검 시간이 연장될 예정임을 안내드립니다.\n- (13:06 수정)\n- 금일 메이플스토리 월드 플랫폼 점검 후 월드 저장 및 출시 기능 오류 발생\n- 로그인 불가 문제\n- (13:06 추가)"
+    },
+    {
+      "post_id": "u5rq0jbhcnk3f9q15nsy2k1q",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "10월 10일(목) 점검 예정 안내 (완료) (11:50 수정)",
+      "published_at": "2024.10.09",
+      "url": "https://maple.land/board/notices/u5rq0jbhcnk3f9q15nsy2k1q",
+      "summary": "- 과 동시에 진행될 예정입니다."
+    },
+    {
+      "post_id": "q2uxflpo4c62eyfznf4oeork",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "추석맞이 달나라 여행",
+      "published_at": "2024.10.04",
+      "url": "https://maple.land/board/events/q2uxflpo4c62eyfznf4oeork",
+      "summary": "- 몬스터가 드롭하는 ‘\n- '추석 화양적 한 접시 만들기' 퀘스트는 완료 후 매일 자정(00:00)에 초기화됩니다.\n- 를 찾아가면 여러가지 아이템으로 교환할 수 있습니다. 교환 가능한 아이템 품목은 이벤트 안내 하단의 “■\n- 에게 가져다주면 랜덤 보상 및 레벨에 따른 경험치 보상을 받을 수 있습니다.\n- 추석을 맞이하여 추석에 관련된 상식 문제를 준비했습니다. 각 마을의"
+    },
+    {
+      "post_id": "h7l9z15qeqh5cowg6qbs27rc",
+      "source": "main",
+      "board": "events",
+      "category": "종료",
+      "title": "요원특별강화프로그램 “몬스터 대결!”",
+      "published_at": "2024.10.04",
+      "url": "https://maple.land/board/events/h7l9z15qeqh5cowg6qbs27rc",
+      "summary": "- 이 특별 고안했던 요원 특별강화 프로그램 “몬스터 대결!”을 Mapleland에서 다시 한 번 만나보세요.\n- 가상공간에서 단계별로 나타나는 몬스터를 퇴치하고 포인트를 얻어 여러가지 보상을 얻을 수 있습니다.\n- 몬스터 대결에 등장하는 보스몬스터들은 추후에 나올 보스몬스터들과 상세 스펙이 다를 수 있습니다\n- 가장 레벨이 높은 파티원과 가장 레벨이 낮은 파티원의 레벨 차이가 30을 초과할 수 없습니다.\n- 130레벨을 초과한 캐릭터는 130레벨로 간주합니다."
+    },
+    {
+      "post_id": "d1chaug331mlk47dkypiz8tf",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2024년 10월 4일 운영정책 개정 안내 (+10월 9일 수정 추가)",
+      "published_at": "2024.10.04",
+      "url": "https://maple.land/board/notices/d1chaug331mlk47dkypiz8tf",
+      "summary": "- 10월 9일 변경점 :\n- 100% 재화 회수 가능\n- )하고, 모든 관련 재화(직, 간접적으로 취득한 아이템, 메소, 게임머니, 경험치 등등)를 회수할 수 있습니다.\n- 거래 정보를 속이거나 부당한 방법으로 다른 이용자의 재화, 아이템 등을 갈취 · 이득을 취하는 경우 (부당 이득 회수)\n- ② 각종 기만행위(허위정보, 사기행위, 사칭, 비매너 · 비정상 거래 등)로 게임 재화 · 아이템 등을 갈취하거나 이득을 취하는 경우"
+    },
+    {
+      "post_id": "f32osvvu6lfv86g6ddpaf4fz",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2024년 10월 3일(목) 무중단 패치 예정 안내",
+      "published_at": "2024.10.02",
+      "url": "https://maple.land/board/notices/f32osvvu6lfv86g6ddpaf4fz",
+      "summary": "- Mapleland (자유시장/이벤트)\n- 일부 작업을 위한 무중단 패치가 예정되어 있어 안내드립니다.\n- ■ 무중단 패치 일시\n- 2024년 10월 3일(목) 07:00\n- <자유시장입구> 지역 내 [골드리치] NPC가 판매 중인 일부 물품이 판매 종료됩니다."
+    },
+    {
+      "post_id": "t35bsdxcvy3awlbv2zw11dt6",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 9월 28일 무중단 패치노트",
+      "published_at": "2024.09.29",
+      "url": "https://maple.land/board/notices/t35bsdxcvy3awlbv2zw11dt6",
+      "summary": "- 2024년 9월 28일 20:00에 진행된 무중단 패치 이후 적용되는 내용을 아래와 같이 안내드립니다.\n- 하나의 몬스터를 여럿이서 공격할 경우, 몬스터의 공격 기술 시전 빈도가 크게 낮아지는 문제가 수정됩니다.\n- 특정 상황에서 경험치를 계속 수령할 수 있는 오류가 수정됩니다."
+    },
+    {
+      "post_id": "r88wmry8q09cqdxja0tne1y0",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2024년 9월 28일 무중단 패치 재안내 (완료)",
+      "published_at": "2024.09.27",
+      "url": "https://maple.land/board/notices/r88wmry8q09cqdxja0tne1y0",
+      "summary": "- 오류 수정을 위한 무중단 패치가 예정되어 있어 안내드립니다.\n- 하나의 몬스터를 여럿이서 공격할 경우, 몬스터의 공격 기술 시전 빈도가 크게 낮아지는 문제 수정\n- 특정 상황에서 경험치를 계속 수령할 수 있는 오류 수정"
+    },
+    {
+      "post_id": "o1juklmy32jw6gd9bekxoejw",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "몬스터 대결 오류 관련 아이템 재지급 안내",
+      "published_at": "2024.09.26",
+      "url": "https://maple.land/board/notices/o1juklmy32jw6gd9bekxoejw",
+      "summary": "- 9월 6일 ~ 9월 26일 05:50까지 몬스터 대결에서 간헐적으로\n- 아이템이 소모되었던 부분에 대해 복구 조치가 완료되었으며,\n- 아이템에 대해서도 기재된 옵션이 제대로 적용되지 않아\n- 앞으로도 오류 해결을 위해 최선을 다하겠습니다."
+    },
+    {
+      "post_id": "p250ix6pey05pu0x8672wzbn",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "골드리치 상점 일부 아이템 판매 중단 및 종료 예정 안내",
+      "published_at": "2024.09.26",
+      "url": "https://maple.land/board/notices/p250ix6pey05pu0x8672wzbn",
+      "summary": "- Mapleland는 현재 다양한 치장 아이템과 관련된 콘텐츠 및 시스템을 준비하고 있습니다.\n- NPC가 판매 중인 일부 아이템들의 판매 중단 및 종료가 진행될 예정입니다."
+    },
+    {
+      "post_id": "vw7aj8gag6zcgai5y8ey4nde",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "2024년 9월 26일(목) 무중단 패치 및 마이그레이션 예정 안내",
+      "published_at": "2024.09.26",
+      "url": "https://maple.land/board/notices/vw7aj8gag6zcgai5y8ey4nde",
+      "summary": "- 2024년 9월 26일 13:11에 무중단 패치가 진행되었습니다.\n- (패치가 적용되지 않은 채널 강제 종료)이 진행될 예정입니다."
+    },
+    {
+      "post_id": "lvpev988uqkbj91ynm3y8yts",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 9월 26일 무중단 패치노트",
+      "published_at": "2024.09.26",
+      "url": "https://maple.land/board/notices/lvpev988uqkbj91ynm3y8yts",
+      "summary": "- 2024년 9월 26일 13:11에 진행된 무중단 패치 이후 적용되는 내용을 아래와 같이 안내드립니다.\n- 2024년 9월 26일 17:00에 마이그레이션(패치가 적용되지 않은 채널 강제 종료)이 진행될 예정입니다.\n- 몬스터를 타격할 경우 이동 속도가 일정 속도로 고정되는 오류가 수정됩니다.\n- 맵에 입장할 경우 몬스터의 추격 상태 이미지가 표시되지 않는 문제가 수정됩니다."
+    },
+    {
+      "post_id": "s8oesk3ks5lzeubh6jl1f3yv",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "알려진 이슈 안내 (10/14)",
+      "published_at": "2024.09.26",
+      "url": "https://maple.land/board/notices/s8oesk3ks5lzeubh6jl1f3yv",
+      "summary": "- 알려진 버그들은 수정될 예정이며, 수정된 항목들은 공지사항을 통해 안내드리겠습니다.\n- 일부 버그들은 MapleStory Worlds 플랫폼 엔진에서 발생된 이슈일 수 있으며, 해당 이슈들 역시 수정된 항목들을 공지사항을 통해 안내드리겠습니다.\n- 레이스 몬스터가 검은색 두건 아이템을 드롭하지 않는 문제가 있습니다.\n- 무기 변경 시 한손무기, 양손무기, 맨손 등의 모션이 즉시 변경되지 않는 문제가 있습니다.\n- 점프가 가능한 몬스터가 점프를 통해 정해진 영역을 너무 자주 벗어나는 현상이 있습니다."
+    },
+    {
+      "post_id": "nj0u51jui1krsoywtkexvfc4",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 9월 26일 패치노트",
+      "published_at": "2024.09.26",
+      "url": "https://maple.land/board/notices/nj0u51jui1krsoywtkexvfc4",
+      "summary": "- 우편 만료 기한이 기존 7일에서 30일로 변경됩니다.\n- 거짓말탐지기의 문구가 표시될 때, 간헐적으로 저사양 기기에서 ‘월드에서 치명적 오류가 발생’했다는 메시지와 함께 월드에서 추방되지 않도록 클라이언트 부담을 감소시켰습니다.\n- 몬스터의 마법 공격 및 스킬 시전 사이에 약간의 딜레이가 추가됩니다.\n- 메이플 아일랜드의 일부 타일이 변경됩니다.\n- 채널에게 채팅 기본 단축키가 기존 3번 키에서 5번 키로 변경됩니다."
+    },
+    {
+      "post_id": "cyk1teva8u1olbcvrtvzkxqh",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "9월 26일(목) 점검 예정 안내 (19:52 수정)",
+      "published_at": "2024.09.25",
+      "url": "https://maple.land/board/notices/cyk1teva8u1olbcvrtvzkxqh",
+      "summary": "- 의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "t8l4kll9c33gpp8j34epbho8",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "9월 14일(토) 무중단 패치 및 마이그레이션 예정 안내",
+      "published_at": "2024.09.14",
+      "url": "https://maple.land/board/notices/t8l4kll9c33gpp8j34epbho8",
+      "summary": "- 가 진행되었습니다.\n- (패치가 적용되지 않은 채널 강제 종료)이 진행될 예정입니다."
+    },
+    {
+      "post_id": "dk3obw1kssq2zogik58vglix",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 9월 14일 무중단 패치노트",
+      "published_at": "2024.09.14",
+      "url": "https://maple.land/board/notices/dk3obw1kssq2zogik58vglix",
+      "summary": "- 9월 14일 15:38에 진행된 무중단 패치 이후 적용되는 내용을 아래와 같이 안내드립니다.\n- 2024년 9월 14일 23:00에 마이그레이션(패치가 적용되지 않은 채널 강제 종료)이 진행될 예정입니다.\n- [이벤트 변경]\n- 한 채널에서 동시에 진행될 수 있는 맵의 최대 개수가 3개에서 7개로 변경됩니다."
+    },
+    {
+      "post_id": "ecyul5d9t0kqfns29ol95zf7",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "9월 16일 ~ 9월 18일 Mapleland 고객센터 휴무 안내",
+      "published_at": "2024.09.14",
+      "url": "https://maple.land/board/notices/ecyul5d9t0kqfns29ol95zf7",
+      "summary": "- 해당 기간 동안에는 문의사항 답변이 다소 원활하지 않을 수 있는 점 양해 부탁드리며\n- 이용자 여러분 안녕하세요, Mapleland 입니다.\n- 추석 연휴를 맞이하여 Mapleland 문의처 휴무 일정을 안내드리고자 합니다.\n- 2024년 9월 16일(월) ~ 9월 18일(수) - 총 3일\n- 접수해주셨던 문의사항은 19일(목) 부터 신속히 답변 도와드리겠습니다."
+    },
+    {
+      "post_id": "hf5ayxpcpnn27grsu6rw6rri",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "9월 12일 월드 내 지연 현상 안내",
+      "published_at": "2024.09.12",
+      "url": "https://maple.land/board/notices/hf5ayxpcpnn27grsu6rw6rri",
+      "summary": "- 금일 업데이트 이후, 간헐적으로 로그인, 캐릭터 선택, 채널 이동, 월드 이동, 우편 시스템 등\n- 요청이 즉시 처리되지 않고 지연되는 현상\n- 이 확인되고 있습니다.\n- 월드 간 이동 요청 및 우편(택배) 이용률이 최근 크게 늘어,\n- 금일 Mapleland의 DB 서버에 너무 많은 처리 요청이 몰린 것이 원인으로 파악되고 있습니다."
+    },
+    {
+      "post_id": "ttbjauf6pk004lq61wf03aow",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 9월 12일 추가 긴급 무중단 패치노트",
+      "published_at": "2024.09.12",
+      "url": "https://maple.land/board/notices/ttbjauf6pk004lq61wf03aow",
+      "summary": "- 2024년 9월 12일 18:18에 진행된 추가\n- 기존 2024년 9월 12일 20:00에 예정되어있던 긴급 마이그레이션(패치가 적용되지 않은 채널 강제 종료)이 2024년 9월 12일 18:30에 진행될 예정\n- 몬스터가 정상적으로 움직이지 않던 문제가 수정됩니다."
+    },
+    {
+      "post_id": "pvcpyov3ct8v3bsxzledcvx4",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 9월 12일 무중단 패치노트",
+      "published_at": "2024.09.12",
+      "url": "https://maple.land/board/notices/pvcpyov3ct8v3bsxzledcvx4",
+      "summary": "- 2024년 9월 12일 17:43에 진행된 무중단 패치 이후 적용되는 내용을 아래와 같이 안내드립니다.\n- 2024년 9월 12일 20:00에 마이그레이션(패치가 적용되지 않은 채널 강제 종료)이 진행될 예정입니다.\n- 인벤토리에서 아이템을 드래그하여 드롭할 때 확인\n- 팝업 메시지 출력되도록 추가\n- 인벤토리에서 아이템을 드래그하여 슬롯 사이에 드롭할 때 UI 시스템이 인식하는 문제가 발생하여, 임시로 조치를 취했습니다."
+    },
+    {
+      "post_id": "d9anp9ri7zz2nx524j56jv98",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "9월 12일 간헐적으로 월드 접속이 불가한 현상 안내",
+      "published_at": "2024.09.12",
+      "url": "https://maple.land/board/notices/d9anp9ri7zz2nx524j56jv98",
+      "summary": "- 현재 간헐적으로 월드 접속이 불가한 현상에 관하여 MSW(메이플스토리 월드)에서  안내하고 있으니, 아래 링크를 클릭하여 확인 부탁드립니다.\n- MSW 공지사항 확인하기"
+    },
+    {
+      "post_id": "cnp9w7zdl8nmvvsq10kzng1k",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "9월 12일 인벤토리 드롭 오류 현상 안내",
+      "published_at": "2024.09.12",
+      "url": "https://maple.land/board/notices/cnp9w7zdl8nmvvsq10kzng1k",
+      "summary": "- 현재 발생하고 있는 인벤토리 드롭 오류에 관하여 안내드리니 아래 내용 확인 부탁드립니다.\n- [오류 발생 원인]\n- 슬롯 사이의 공간에 아이템을 드래그하여 아이템 이동을 시도할 시 시스템이 UI로 인식하지 않아 아이템이 드롭되는 현상\n- 아이템을 다른 슬롯으로 이동시킬 때 드래그중인 아이템을 슬롯 위치에"
+    },
+    {
+      "post_id": "f4f3vaso1r0weomkpcpq015u",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 9월 12일 패치노트",
+      "published_at": "2024.09.12",
+      "url": "https://maple.land/board/notices/f4f3vaso1r0weomkpcpq015u",
+      "summary": "- 요원특별강화 프로그램 “몬스터 대결!” 이벤트가 시작됩니다.\n- 밧줄 또는 사다리를 타고 내려오면서 좌우로 점프하여 사다리를 탈출할 수 있도록 수정됩니다.\n- 메이플 우체국 기능을 통해 메소를 보낼 때, 상대방에게 메소를 보낸다는 것을 재확인하는 과정이 추가됩니다.\n- 메소 보내기 및 대금 청구 수수료 설명이 서로 반대로 표시되던 오류가 수정됩니다.\n- 우편 보관함, 회수 신청 목록을 불러오는 과정이 진행중임을 명확히 알 수 있도록 시인성이 개선됩니다."
+    },
+    {
+      "post_id": "vqojstyhhzi8xc94c1ndnu5c",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "9월 12일(목) 점검 예정 안내 (+수정3)",
+      "published_at": "2024.09.11",
+      "url": "https://maple.land/board/notices/vqojstyhhzi8xc94c1ndnu5c",
+      "summary": "- 과 동시에 진행될 예정입니다.\n- Mapleland의 서버 변경점이 월드에 정상적으로 적용되지 않는 문제"
+    },
+    {
+      "post_id": "ccttnqycbsgu6f4nhh7wybrr",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "Mapleland 9월 6일 예고 없던 패치에 사과드립니다.",
+      "published_at": "2024.09.10",
+      "url": "https://maple.land/board/notices/ccttnqycbsgu6f4nhh7wybrr",
+      "summary": "- 지난 9월 6일의 업데이트의 버그 수정 패치가 갑작스럽게 벌어진 점에 대해서 사과의 말씀을 드립니다.\n- 이러한 상황에서 별다른 사전 예고도 없이 급하게 버그가 수정됨에 따라 게임을 플레이하시던 이용자 분들께 영향을 끼쳐드렸습니다.\n- 특히 장비 장착 가능 여부 검사 기능에 대해서는 또 다시 수정될 것을 우려하는 불안감이 존재하는 것을 문의 창구로 여러 건 확인했습니다.\n- 이 기능은 9월 8일에 진행된 무중단 패치에 모든 버그가 수정된 버전이 배포되었으며, 더 이상 수정될 예정이 없음을 먼저 공식적으로 알려드립니다.\n- 저희가 파악하고 있는 [알려진 버그 목록]이 정리되어 공개된다면, 이용자 여러분께서 버그 여부와 향후 수정 예정 여부를 직접 구분하실 수 있을 것입니다."
+    },
+    {
+      "post_id": "xwrnzatormu3qs4jxnp6i6fx",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 9월 8일 무중단 패치 노트",
+      "published_at": "2024.09.08",
+      "url": "https://maple.land/board/notices/xwrnzatormu3qs4jxnp6i6fx",
+      "summary": "- 2024년 9월 8일 02:36에 진행된 무중단 패치 이후 적용되는 내용을 아래와 같이 안내드립니다.\n- 마이그레이션(패치가 적용되지 않은 채널 강제 종료)은 2024년 9월 8일 08:00에 진행될 예정입니다.\n- 대금청구 우편에 메소가 부족한 상태로 대금지급 시도시 발송자가 회수 불가능해지는 문제가 수정됩니다.\n- <여신의 흔적> 파티퀘스트 재입장이 불가능한 문제가 수정됩니다.\n- 일부 일자형 맵에 소환되는 몬스터의 개체수가 감소하는 현상이 수정됩니다."
+    },
+    {
+      "post_id": "j0ehgkstizypznkkzxzvuoql",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 9월 6일 패치노트",
+      "published_at": "2024.09.06",
+      "url": "https://maple.land/board/notices/j0ehgkstizypznkkzxzvuoql",
+      "summary": "- 새로운 지역 <쇼와마을> 이 추가되었습니다.\n- 다음 맵이 새롭게 추가되었습니다.\n- 쇼와 마을 관련 퀘스트들이 추가됩니다.\n- 해당 아이템의 옵션이 변경됩니다.\n- 의자 기능이 추가됩니다."
+    },
+    {
+      "post_id": "gatmlt587v04n7jjutzhipii",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "Mapleland 우체국 시스템 가이드",
+      "published_at": "2024.09.06",
+      "url": "https://maple.land/board/notices/gatmlt587v04n7jjutzhipii",
+      "summary": "- 9월 6일 업데이트 이후 새롭게 추가될 우체국 시스템에 대한 간단한 가이드입니다.\n- ⚠️ 실수로 반송하거나 대금을 보낸 경우 운영 측에서 도움을 드리기 어려우며, 원상 복구가 불가능합니다. 반드시 대금 보내기나 반송 전에 다시 한번 주의깊게 확인하시기 바랍니다.\n- B는 A가 보낸 우편의 아이템을 수령 및 대금 청구를 받아들일 수 있습니다.\n- A는 자신이 B에게 보낸 우편, 대금 청구를 취소할 수 있습니다. (단, “배송 중, 대금 청구” 상태일 때만 가능하며 B가 아이템을 수령했거나 대금 지급 상태일 경우 회수가 불가능합니다.)\n- A가 보낸 우편을 B가 보관함에서 반송을 할 경우 A는 회수 신청 탭에서 해당 우편에 첨부한 아이템, 재화를 수령할 수 있습니다."
+    },
+    {
+      "post_id": "uksjvzea4cgebefhkl28ncnb",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "9월 6일(금) 점검 예정 안내",
+      "published_at": "2024.09.05",
+      "url": "https://maple.land/board/notices/uksjvzea4cgebefhkl28ncnb",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "qy8u4z8fof75b5t8rkj8nk8s",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "9월 5일(목) 메이플스토리 월드(MSW) 점검 안내",
+      "published_at": "2024.09.04",
+      "url": "https://maple.land/board/notices/qy8u4z8fof75b5t8rkj8nk8s",
+      "summary": "- 9월 5일 오전 8시에 메이플스토리 월드(MSW) 점검이 예정되어 있습니다.\n- 점검 시간동안 Mapleland 이용이 원활하지 않을 수 있는 점 양해 부탁드리며,\n- 메이플스토리 월드 점검 일시 :"
+    },
+    {
+      "post_id": "lcfv4cr2hiwhubp5ipbjc8m9",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "수박밭 입장권 기한 연장 오류 안내(+ 3:27 추가)",
+      "published_at": "2024.09.01",
+      "url": "https://maple.land/board/notices/lcfv4cr2hiwhubp5ipbjc8m9",
+      "summary": "- 현재 '수박밭 입장권' 아이템의 사용 기한이 9월 16일로 정상적으로 재설정이 되지 않은 오류를 확인했습니다.\n- 저희는 해당 오류로 인해 아이템 손실을 입으신 모험가 여러분을 파악 중에 있으며 해당 작업이 완료 이후 복구 방안이 마련되는 대로 추가 공지를 통해 자세한 내용을 안내해 드리도록 하겠습니다.\n- 이번 일로 인해 모험가 여러분께 심려를 끼쳐드린 점 죄송하다는 말씀을 드리며, 문제 해결을 위해 최선의 노력을 다하겠습니다.\n- (2024-09-01 03:26 추가)\n- 이렇게 사라진 수박밭 입장권 아이템 또한 자유시장입구의 NPC <가가>에게 새로운 수박밭 입장권을 돌려받으실 수 있습니다."
+    },
+    {
+      "post_id": "nfsd177wkg8syxylocnnl0id",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "8월 30일 업데이트 지연 안내",
+      "published_at": "2024.08.30",
+      "url": "https://maple.land/board/notices/nfsd177wkg8syxylocnnl0id",
+      "summary": "- 금일 진행 예정이었던 업데이트는 몬스터 로직 최적화 작업과 더불어 유저분들의 아이템과 재화에 영향을 미치는 기능들이 다수 추가됨에 따라 더욱 신중하게 개발 및 작업을 진행하고 있습니다.\n- 버그 수정 및 추가 작업과 테스트가 충분히 완료되지 않았다고 판단되어 연기하게 되었습니다. 패치 일정이 확정 되는대로 공지를 통해 다시 안내해드리겠습니다.\n- 몬스터 로직 최적화\n- 해외여행 지역 추가 업데이트(쇼와 마을)\n- 현재 진행 중에 있는 여름 이벤트 퀘스트는 9월 1일 00시에 종료될 예정입니다."
+    },
+    {
+      "post_id": "se7hbqt176trj93gqdyuqeaa",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "8월 18일(일) 무중단 패치 및 마이그레이션 예정 안내 (+ 18:54 수정)",
+      "published_at": "2024.08.18",
+      "url": "https://maple.land/board/notices/se7hbqt176trj93gqdyuqeaa",
+      "summary": "- (월드) 무중단 패치가 진행되었습니다.\n- 8월 18일 18:00에 월드 마이그레이션(패치가 적용되지 않은 채널 강제 종료)이 진행될 예정이며, (18:54 마이그레이션 완료)"
+    },
+    {
+      "post_id": "v19w5pmhn8zxtxsrd7r3e7c6",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "8월 18일(일) 확인된 오류 안내 (+14:08 추가)",
+      "published_at": "2024.08.18",
+      "url": "https://maple.land/board/notices/v19w5pmhn8zxtxsrd7r3e7c6",
+      "summary": "- 현재 다음과 같은 오류 현상이 확인되었으며 급히 조치될 필요가 있는\n- 아이템이 여러개 겹쳐있던 자리에서 줍기가 원활하지 않은 현상\n- 필드 위 오류가 발생한 위치 외 다른곳에 재화(아이템, 메소) 여러번 뿌리기\n- 해당 현상이 발생한 맵을 재입장하거나, 필드 위 오류가 발생한 곳 외 다른 위치에\n- 빅토리아, 자유시장, 엘나스, 루디브리엄 (월드) : 14:21 무중단 패치 예정 (수정)"
+    },
+    {
+      "post_id": "lpehrxw91336q9jobvpnzbwp",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "8월 16일(금) 무중단 패치 및 마이그레이션 예정 안내",
+      "published_at": "2024.08.16",
+      "url": "https://maple.land/board/notices/lpehrxw91336q9jobvpnzbwp",
+      "summary": "- 가 진행되었습니다.\n- (패치가 적용되지 않은 채널 강제 종료)이 진행될 예정입니다."
+    },
+    {
+      "post_id": "rt77sr3z6dalzaiqdsj7pfxm",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 8월 16일 무중단 패치노트",
+      "published_at": "2024.08.16",
+      "url": "https://maple.land/board/notices/rt77sr3z6dalzaiqdsj7pfxm",
+      "summary": "- 8월 16일 17:22에 진행된 무중단 패치 이후 적용되는 내용을 아래와 같이 안내드립니다.\n- 8월 16일 23:00에 마이그레이션(패치가 적용되지 않은 채널 강제 종료)이 진행될 예정입니다.\n- 캐릭터 사망시 간헐적으로 회복 상태로 돌아오지 않던 오류"
+    },
+    {
+      "post_id": "nlox4xiokz975qn2x6ichxcy",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "8월 16일(금) 확인된 오류 안내",
+      "published_at": "2024.08.16",
+      "url": "https://maple.land/board/notices/nlox4xiokz975qn2x6ichxcy",
+      "summary": "- 다음과 같은 오류 현상이 확인되어 안내드립니다.\n- 원정대 월드에 접속이 불가능한 오류(수정완료)\n- 아쿠아리움에서 수박밭으로 이동 시 루디브리엄 월드로 이동되는 현상(수정 완료)\n- 캐릭터 사망 시 간혈적으로 회복 상태로 변경이 되지 않는 오류(수정 완료)\n- 원정대 월드 접속 오류가 해결되기 전까지 아도비스를 통해 원정대 월드로의 입장이 제한됩니다."
+    },
+    {
+      "post_id": "dmlzv1dggql2sc6t9ph6ci8l",
+      "source": "main",
+      "board": "notices",
+      "category": "업데이트",
+      "title": "2024년 8월 16일 패치노트",
+      "published_at": "2024.08.16",
+      "url": "https://maple.land/board/notices/dmlzv1dggql2sc6t9ph6ci8l",
+      "summary": "- 지역이 추가되었습니다!\n- 다음 맵이 새롭게 추가되었습니다.\n- 아쿠아리움 지역 관련 퀘스트들이 추가됩니다.\n- 유적 발굴지 지역 관련 퀘스트들이 추가됩니다.\n- 루디브리엄 NPC 지니를 통해 전리품을 다양한 아이템으로 교환할 수 있게 됩니다."
+    },
+    {
+      "post_id": "si1g5buub3o1jc83u77hr7eo",
+      "source": "main",
+      "board": "notices",
+      "category": "점검",
+      "title": "8월 16일(금) 점검 예정 안내",
+      "published_at": "2024.08.15",
+      "url": "https://maple.land/board/notices/si1g5buub3o1jc83u77hr7eo",
+      "summary": "- 안정적인 서비스 운영을 위해 Mapleland 월드의 점검이 예정되어 있습니다.\n- 점검 시간 중에는 월드 이용이 불가합니다.\n- 점검 시작 전 안전한 장소에서 미리 접속을 종료해주시기 바랍니다.\n- 점검 시간은 내부 상황에 따라 변동될 수 있습니다."
+    },
+    {
+      "post_id": "no1gf54b3aap75n3su374wfp",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "메이플스토리 월드(MSW) 콘텐츠 제작의 IP 사용 가이드 변경 안내",
+      "published_at": "2024.08.03",
+      "url": "https://maple.land/board/notices/no1gf54b3aap75n3su374wfp",
+      "summary": "- 메이플스토리 월드 콘텐츠 제작의 IP 사용 가이드가 변경될 예정입니다."
+    },
+    {
+      "post_id": "zsurunmlwd9r0zyywjn4z5sy",
+      "source": "main",
+      "board": "notices",
+      "category": "안내",
+      "title": "아이스 박스 아이템 기한 오류 관련 안내 (+03:40 추가)",
+      "published_at": "2024.07.31",
+      "url": "https://maple.land/board/notices/zsurunmlwd9r0zyywjn4z5sy",
+      "summary": "- 본 이벤트는 2024년 8월 9일 00시(8월 8일 23시 59분)까지 연장 진행됩니다.\n- 한시라도 빨리 문제를 해결하고자 하는 마음에 급히 작업을 진행하던 중, 내부 인원 간 다소 부정확한 소통으로 인해 잘못된 이벤트 연장 시각을 전달하게 되었습니다. 저희의 실수로 인해 모험가 여...\n- (2024-07-31 03:40 추가)\n- (2024-07-31 02:43 추가)\n- 7월 31일 오전 2시 33분에 아이스 박스 기한 설정 오류를 수정한 무중단 패치가 적용되었습니다."
+    }
+  ]
+}

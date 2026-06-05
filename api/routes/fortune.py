@@ -14,9 +14,13 @@ from crawler.db import get_connection
 
 # v62(메이플랜드) 유효 ID 로드
 _V62_IDS_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "v62_ids.json"
+_MAPLELAND_REF_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "mapleland_reference.json"
 _v62_mob_ids: set[str] = set()
 _v62_map_ids: set[str] = set()
 _v62_item_ids: set[str] = set()
+_mapleland_mobs: list[dict] = []
+_mapleland_maps: list[dict] = []
+_mapleland_items: list[dict] = []
 try:
     with open(_V62_IDS_PATH) as _f:
         _v62 = json.load(_f)
@@ -26,6 +30,19 @@ try:
     print(f"[fortune] v62 ID 로드 완료: mob={len(_v62_mob_ids)}, map={len(_v62_map_ids)}, item={len(_v62_item_ids)}")
 except Exception as e:
     print(f"[fortune] v62 ID 로드 실패 (DB 전체 데이터 사용): {e}")
+
+try:
+    with open(_MAPLELAND_REF_PATH) as _f:
+        _mapleland_ref = json.load(_f).get("entities", {})
+        _mapleland_mobs = _mapleland_ref.get("mobs", {}).get("records", [])
+        _mapleland_maps = _mapleland_ref.get("maps", {}).get("records", [])
+        _mapleland_items = _mapleland_ref.get("items", {}).get("records", [])
+    print(
+        "[fortune] MapleLand 기준 데이터 로드 완료: "
+        f"mob={len(_mapleland_mobs)}, map={len(_mapleland_maps)}, item={len(_mapleland_items)}"
+    )
+except Exception as e:
+    print(f"[fortune] MapleLand 기준 데이터 로드 실패: {type(e).__name__}")
 
 router = APIRouter()
 
@@ -116,12 +133,44 @@ FORTUNE_PROMPT = """너는 메이플스토리 v62(빅뱅 이전, 메이플랜드
 
 def _sample_game_data(conn) -> tuple[str, str, str]:
     """DB에서 v62(메이플랜드) 데이터만 랜덤 샘플링하여 프롬프트 컨텍스트로 반환."""
+    if _mapleland_mobs and _mapleland_maps and _mapleland_items:
+        mob_pool = [
+            r for r in _mapleland_mobs
+            if r.get("name_kr") and int(r.get("level") or 0) > 0 and int(r.get("level") or 0) <= 150
+        ]
+        map_pool = [
+            r for r in _mapleland_maps
+            if r.get("name_kr")
+            and "스테이지" not in r["name_kr"]
+            and "입구" not in r["name_kr"]
+            and "퇴장" not in r["name_kr"]
+        ]
+        item_pool = [
+            r for r in _mapleland_items
+            if r.get("name_kr")
+            and "헤어" not in r["name_kr"]
+            and "성형" not in r["name_kr"]
+            and "얼굴" not in r["name_kr"]
+        ]
+
+        mob_rows = random.sample(mob_pool, min(30, len(mob_pool)))
+        map_rows = random.sample(map_pool, min(30, len(map_pool)))
+        item_rows = random.sample(item_pool, min(30, len(item_pool)))
+
+        monsters = "\n".join(
+            f"{i+1}. {r['name_kr']}(Lv.{int(r.get('level') or 0)})"
+            for i, r in enumerate(mob_rows)
+        )
+        maps = "\n".join(f"{i+1}. {r['name_kr']}" for i, r in enumerate(map_rows))
+        items = "\n".join(f"{i+1}. {r['name_kr']}" for i, r in enumerate(item_rows))
+        return monsters, maps, items
 
     # v62 ID 필터 조건 생성
     def _id_filter(ids: set[str], col: str = "e.entity_id") -> str:
-        if not ids:
+        normalized_ids = sorted({int(i) for i in ids if str(i).isdigit()})
+        if not normalized_ids:
             return "1=1"
-        return f"CAST({col} AS TEXT) IN ({','.join(repr(i) for i in ids)})"
+        return f"CAST({col} AS INTEGER) IN ({','.join(str(i) for i in normalized_ids)})"
 
     # 몬스터: v62에 존재 + 레벨 있고 보스/소환물 제외
     mob_rows = conn.execute(f"""
@@ -174,6 +223,59 @@ def _sample_game_data(conn) -> tuple[str, str, str]:
     items = "\n".join(f"{i+1}. {r[0]}" for i, r in enumerate(item_rows))
 
     return monsters, maps, items
+
+
+JOB_HINTS = {
+    "전사": "몸으로 길을 열기보다 한 박자 늦게 들어가면 사냥 흐름이 더 안정적입니다.",
+    "궁수": "자리 선정과 거리 조절이 좋은 날입니다. 욕심내기보다 명중률 높은 루트가 잘 맞습니다.",
+    "마법사": "마나 관리와 동선 정리가 잘 풀리는 날입니다. 몰이 사냥보다 안정적인 순환이 좋습니다.",
+    "도적": "빠른 판단이 빛나는 날입니다. 드롭 확인과 포션 타이밍만 챙기면 손해를 줄일 수 있습니다.",
+}
+
+
+def _pick_from_context(rng: random.Random, text: str, fallback: str) -> str:
+    lines = [line for line in text.splitlines() if ". " in line]
+    if not lines:
+        return fallback
+    value = rng.choice(lines).split(". ", 1)[1].strip()
+    if "(Lv." in value:
+        value = value.rsplit("(Lv.", 1)[0].strip()
+    return value or fallback
+
+
+def _generate_fortune_local(
+    zodiac: str, constellation: str, job: str, date_str: str, conn,
+) -> dict:
+    """외부 AI 없이 DB 샘플과 규칙만으로 운세를 생성한다."""
+    monsters, maps, items = _sample_game_data(conn)
+    rng = random.Random(f"{date_str}:{zodiac}:{constellation}:{job}:{time.time_ns()}")
+
+    lucky_monster = _pick_from_context(rng, monsters, "달팽이")
+    lucky_map = _pick_from_context(rng, maps, "헤네시스")
+    lucky_item = _pick_from_context(rng, items, "주황 포션")
+    enhance_luck = rng.randint(1, 5)
+    hint = JOB_HINTS.get(job, "무리하지 않고 기본기를 지키면 흐름이 좋아지는 날입니다.")
+
+    maple_messages = [
+        f"오늘은 {lucky_map} 쪽 기운이 좋습니다. {job} 특성상 {hint} {lucky_monster}를 만나면 드롭 운을 한 번 기대해봐도 좋습니다.",
+        f"{zodiac}띠의 끈기가 메랜에서도 잘 살아나는 날입니다. {lucky_item}처럼 작지만 확실한 준비물이 사냥 흐름을 편하게 만들어줍니다.",
+        f"강화운은 {enhance_luck}/5 정도입니다. 큰 승부보다는 필요한 장비를 차분히 점검하고, 사냥 루틴을 짧게 끊어가는 쪽이 좋습니다.",
+    ]
+    real_messages = [
+        f"{constellation}의 흐름은 정리와 회복 쪽에 가깝습니다. 급하게 결론을 내기보다 미뤄둔 일을 하나씩 끝내면 마음이 가벼워집니다.",
+        "금전운은 작은 지출을 줄이는 쪽에서 이득이 있습니다. 사람 관계에서는 먼저 단정하지 않고 한 번 더 들어주는 태도가 도움이 됩니다.",
+        "컨디션은 무리하면 바로 표시가 날 수 있습니다. 짧은 휴식과 가벼운 정리가 오늘의 페이스를 오래 붙잡아줍니다.",
+    ]
+
+    return {
+        "maple_fortune": "\n".join(maple_messages),
+        "real_fortune": "\n".join(real_messages),
+        "lucky_monster": lucky_monster,
+        "lucky_map": lucky_map,
+        "lucky_item": lucky_item,
+        "enhance_luck": enhance_luck,
+        "source": "local",
+    }
 
 
 async def _generate_fortune_ai(
@@ -288,8 +390,13 @@ async def get_fortune(body: FortuneRequest, request: Request):
                 "remaining": max(remaining_count, 0),
             }
 
-        # 3. Gemini AI로 운세 생성 (DB에서 실제 게임 데이터 샘플링)
-        fortune = await _generate_fortune_ai(zodiac, constellation, body.job, date_str, conn)
+        # 3. 운세 생성: Gemini 키가 없거나 실패하면 DB 기반 로컬 운세로 fallback
+        try:
+            fortune = await _generate_fortune_ai(zodiac, constellation, body.job, date_str, conn)
+            fortune["source"] = "ai"
+        except Exception as e:
+            print(f"[fortune] AI 운세 실패, 로컬 운세 사용: {type(e).__name__}")
+            fortune = _generate_fortune_local(zodiac, constellation, body.job, date_str, conn)
 
         # 4. 캐시 저장
         conn.execute(
@@ -320,8 +427,6 @@ async def get_fortune(body: FortuneRequest, request: Request):
 
     except HTTPException:
         raise
-    except json.JSONDecodeError:
-        raise HTTPException(status_code=502, detail="AI 응답을 파싱하지 못했습니다. 다시 시도해주세요.")
     except Exception as e:
         print(f"[fortune] 오류: {e}")
         raise HTTPException(status_code=500, detail="운세 생성 중 오류가 발생했습니다.")

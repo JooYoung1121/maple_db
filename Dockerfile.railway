@@ -37,6 +37,8 @@ COPY api/ api/
 RUN mkdir -p data/cache
 COPY data/maple.db data/maple.db
 COPY data/v62_ids.json data/v62_ids.json
+COPY data/mapleland_reference.json data/mapleland_reference.json
+COPY data/local_news_summaries.json data/local_news_summaries.json
 RUN python -c "from crawler.db import init_db; init_db()"
 
 # 시작 스크립트

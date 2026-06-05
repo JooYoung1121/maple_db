@@ -597,9 +597,11 @@ def seed_guild_members(conn: sqlite3.Connection) -> None:
 def seed_bot_settings(conn: sqlite3.Connection) -> None:
     """bot_settings 테이블 초기 시드."""
     defaults = [
-        ("channel_id", "1302092927257804921"),
-        ("notify_maple_land", "true"),
-        ("notify_guild_post", "true"),
+        ("channel_id", ""),
+        ("notify_maple_land", "false"),
+        ("notify_guild_post", "false"),
+        ("mention_type", "none"),
+        ("mention_role_id", ""),
     ]
     for key, value in defaults:
         conn.execute(

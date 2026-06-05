@@ -11,6 +11,7 @@ interface FortuneResult {
   lucky_map: string;
   lucky_item: string;
   enhance_luck: number;
+  source?: string;
   zodiac: string;
   constellation: string;
   job: string;
@@ -316,7 +317,7 @@ export default function FortunePage() {
       {/* ── 안내 ──────────────────────────────────────── */}
       <div className="mt-6 bg-gray-50 dark:bg-gray-900 rounded-xl p-4">
         <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
-          운세는 AI가 생성하며 재미를 위한 것입니다. 같은 조합으로 하루 최대 3가지 다른 운세를 받을 수 있으며, 매일 자정(KST)에 초기화됩니다.
+          운세는 메이플랜드 DB와 날짜별 운세 규칙을 바탕으로 생성되며 재미를 위한 것입니다. 같은 조합으로 하루 최대 3가지 다른 운세를 받을 수 있으며, 매일 자정(KST)에 초기화됩니다.
         </p>
       </div>
     </div>

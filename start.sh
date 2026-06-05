@@ -60,6 +60,41 @@ fi
 
 python -c "from crawler.db import init_db; init_db()" 2>/dev/null || true
 
+if [ -f "/app/data/local_news_summaries.json" ]; then
+  python -c "
+import json
+import sqlite3
+
+DB = '$APP_DB'
+SUMMARY_FILE = '/app/data/local_news_summaries.json'
+
+try:
+    with open(SUMMARY_FILE, encoding='utf-8') as f:
+        payload = json.load(f)
+    summaries = payload.get('summaries', [])
+    conn = sqlite3.connect(DB)
+    changed = 0
+    for item in summaries:
+        post_id = item.get('post_id')
+        summary = item.get('summary')
+        if not post_id or not summary:
+            continue
+        cur = conn.execute(
+            \"\"\"UPDATE maple_land_posts
+               SET summary = ?
+               WHERE post_id = ?
+                 AND (summary IS NULL OR summary = '')\"\"\",
+            (summary, post_id),
+        )
+        changed += cur.rowcount
+    conn.commit()
+    conn.close()
+    print(f'Local news summaries applied: {changed} rows')
+except Exception as e:
+    print(f'Local news summary sync error: {e}')
+" 2>&1
+fi
+
 python -c "
 import sqlite3
 conn = sqlite3.connect('$APP_DB')

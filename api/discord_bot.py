@@ -20,7 +20,11 @@ class MapleBot(discord.Client):
             "SELECT value FROM bot_settings WHERE key='channel_id'"
         ).fetchone()
         conn.close()
-        return int(row[0]) if row else None
+        value = str(row[0]).strip() if row else ""
+        return int(value) if value.isdigit() else None
+
+    def clear_channel_errors(self) -> None:
+        self._invalid_channel_ids.clear()
 
     def is_enabled(self, key: str) -> bool:
         conn = get_connection()

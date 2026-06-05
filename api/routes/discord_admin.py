@@ -74,6 +74,9 @@ def update_discord_settings(body: SettingsUpdate, request: Request):
         )
     conn.commit()
     conn.close()
+    bot = get_bot()
+    if bot:
+        bot.clear_channel_errors()
     return {"ok": True, "updated": updates}
 
 

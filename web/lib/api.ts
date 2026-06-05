@@ -420,7 +420,14 @@ export async function deleteFeeRecord(id: number, password: string) {
 // ── 디스코드 봇 ──
 
 export async function getDiscordStatus() {
-  return fetchJSON<{ online: boolean; user: string | null }>(`/api/discord/status`);
+  return fetchJSON<{
+    online: boolean;
+    user: string | null;
+    channel_id?: string | null;
+    channel_name?: string;
+    channel_ok?: boolean;
+    channel_error?: string;
+  }>(`/api/discord/status`);
 }
 
 export async function getDiscordSettings(pw: string) {
