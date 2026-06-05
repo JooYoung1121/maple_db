@@ -79,7 +79,7 @@ def create_post(body: PostCreate):
 @router.get("/guild/board/posts/{post_id}")
 def get_post(
     post_id: int,
-    sort: str = Query(default="newest", regex="^(newest|upvotes)$"),
+    sort: str = Query(default="newest", pattern="^(newest|upvotes)$"),
 ):
     try:
         conn = get_connection()
