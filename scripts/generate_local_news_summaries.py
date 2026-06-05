@@ -110,8 +110,11 @@ def main() -> None:
     records: list[dict] = []
     changed = 0
     for row in rows:
-        generated = generic_summary(row["title"] or "", row["content"] or "")
-        summary = generated or row["summary"]
+        existing_summary = row["summary"]
+        generated = None
+        if args.force or not existing_summary:
+            generated = generic_summary(row["title"] or "", row["content"] or "")
+        summary = generated or existing_summary
         if not summary:
             continue
         records.append({
@@ -124,7 +127,7 @@ def main() -> None:
             "url": row["url"],
             "summary": summary,
         })
-        if generated and (args.force or not row["summary"]):
+        if generated and (args.force or not existing_summary):
             cur = conn.execute(
                 "UPDATE maple_land_posts SET summary = ? WHERE post_id = ?",
                 (generated, row["post_id"]),

@@ -247,12 +247,14 @@ git push origin main  # Railway 자동 빌드 트리거
 API 비용을 쓰지 않고 로컬에서 공홈/테스피아 공지 요약본을 갱신하려면:
 
 ```bash
-python scripts/generate_local_news_summaries.py --force
+./scripts/refresh_news_summaries.sh
 git add data/local_news_summaries.json data/maple.db
 git commit -m "chore: refresh local news summaries"
 git push origin main
 ```
 
+기본 실행은 메랜 공홈/테스피아 새 공지를 크롤링하고, 기존 Gemini 요약은 유지한 채 빈 요약만 로컬 규칙 요약으로 채웁니다.
+필요할 때만 `--force-crawl` 또는 `--force-summary`를 사용합니다.
 배포 시 `data/local_news_summaries.json`이 이미지에 포함되고, 시작 스크립트가 아직 요약이 비어 있는 공지에만 로컬 요약을 채웁니다.
 
 ---

@@ -32,6 +32,7 @@ export default function DiscordBotPage() {
   const [channelName, setChannelName] = useState<string | null>(null);
   const [channelOk, setChannelOk] = useState<boolean | null>(null);
   const [channelError, setChannelError] = useState<string | null>(null);
+  const [channelHelp, setChannelHelp] = useState<string | null>(null);
 
   // 설정
   const [channelId, setChannelId] = useState("");
@@ -61,6 +62,7 @@ export default function DiscordBotPage() {
         setChannelName(d.channel_name ?? null);
         setChannelOk(typeof d.channel_ok === "boolean" ? d.channel_ok : null);
         setChannelError(d.channel_error ?? null);
+        setChannelHelp(d.channel_help ?? null);
       })
       .catch(() => {});
   }, []);
@@ -194,6 +196,11 @@ export default function DiscordBotPage() {
         {channelError && (
           <p className="text-xs text-red-500 break-words">{channelError}</p>
         )}
+        {channelHelp && (
+          <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs leading-5 text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
+            {channelHelp}
+          </div>
+        )}
       </div>
 
       {/* 인증 */}
@@ -235,6 +242,9 @@ export default function DiscordBotPage() {
                 onChange={(e) => setChannelId(e.target.value)}
                 className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-orange-300 outline-none"
               />
+              <p className="mt-1 text-[11px] leading-5 text-gray-400">
+                디스코드 개발자 모드에서 텍스트 채널을 우클릭한 뒤 ID를 복사하세요. 봇은 해당 서버에 초대되어 있어야 하고 채널 보기, 메시지 보내기, 임베드 링크 권한이 필요합니다.
+              </p>
             </div>
 
             <div className="flex items-center justify-between">

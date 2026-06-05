@@ -427,6 +427,7 @@ export async function getDiscordStatus() {
     channel_name?: string;
     channel_ok?: boolean;
     channel_error?: string;
+    channel_help?: string;
   }>(`/api/discord/status`);
 }
 

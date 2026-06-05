@@ -12,6 +12,20 @@ router = APIRouter()
 ALLOWED_KEYS = {"channel_id", "notify_maple_land", "notify_guild_post", "mention_type", "mention_role_id"}
 
 
+def _explain_channel_error(error: Exception) -> str:
+    message = str(error)
+    if "10003" in message or "Unknown Channel" in message:
+        return (
+            "채널을 찾을 수 없습니다. 채널 ID가 실제 텍스트 채널 ID인지, "
+            "봇이 해당 서버에 초대되어 있는지, 채널 보기/메시지 보내기/임베드 링크 권한이 있는지 확인하세요."
+        )
+    if "50001" in message or "Missing Access" in message:
+        return "봇이 채널에 접근할 권한이 없습니다. 채널 보기 권한과 역할 권한을 확인하세요."
+    if "50013" in message or "Missing Permissions" in message:
+        return "봇 권한이 부족합니다. 메시지 보내기와 임베드 링크 권한을 확인하세요."
+    return "채널 연결 확인 중 오류가 발생했습니다. 봇 권한과 채널 ID를 확인하세요."
+
+
 def _check_admin(request: Request):
     admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "1004")
     provided_pw = request.headers.get("X-Admin-Password", "")
@@ -38,6 +52,7 @@ async def discord_status():
                 result["channel_ok"] = True
             except Exception as e:
                 result["channel_error"] = str(e)
+                result["channel_help"] = _explain_channel_error(e)
                 result["channel_ok"] = False
     return result
 
