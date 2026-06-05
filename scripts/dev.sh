@@ -14,6 +14,16 @@ ROOT=$(pwd)
 
 echo "=== 메이플랜드 개발 서버 시작 ==="
 
+for env_file in "$ROOT/.env" "$ROOT/.env.local" "$ROOT/web/.env.local"; do
+  if [ -f "$env_file" ]; then
+    echo "환경변수 로드: $env_file"
+    set -a
+    # shellcheck disable=SC1090
+    source "$env_file"
+    set +a
+  fi
+done
+
 # API 서버 (백그라운드)
 echo "API 서버 시작 (http://localhost:8000)..."
 cd "$ROOT" && uvicorn api.main:app --reload --host 0.0.0.0 --port 8000 &

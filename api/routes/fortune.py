@@ -52,7 +52,7 @@ COOLDOWN_SEC = 30
 # 2026-04-07 이후 3으로 복원할 것
 DAILY_LIMIT = 999
 
-GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY", "")
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY", "")
 
 # ── 띠 & 별자리 계산 ──────────────────────────────────────
 
@@ -282,7 +282,7 @@ async def _generate_fortune_ai(
     zodiac: str, constellation: str, job: str, date_str: str, conn,
 ) -> dict:
     """Gemini API로 운세를 생성한다. DB에서 실제 게임 데이터를 프롬프트에 포함."""
-    if not GOOGLE_API_KEY:
+    if not GEMINI_API_KEY:
         raise HTTPException(status_code=503, detail="AI API 키가 설정되지 않았습니다.")
 
     import google.generativeai as genai
@@ -295,7 +295,7 @@ async def _generate_fortune_ai(
     )
 
     def _sync_generate() -> dict:
-        genai.configure(api_key=GOOGLE_API_KEY)
+        genai.configure(api_key=GEMINI_API_KEY)
         model = genai.GenerativeModel("gemini-2.5-flash")
         response = model.generate_content(prompt)
         text = response.text.strip() if response.text else ""

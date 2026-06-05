@@ -229,12 +229,31 @@ Railway 대시보드 → Variables:
 |------|------|
 | `NEXT_PUBLIC_API_URL` | (빈 값) — Railway 자동 라우팅 사용 |
 | `GAME_ADMIN_PASSWORD` | 게임 기록 삭제 비밀번호 (기본값: `1004`) |
+| `GEMINI_API_KEY` | 운세 AI, 공지 요약, N방컷 AI 분석에 사용하는 Gemini 키 |
+| `GOOGLE_API_KEY` | 선택 사항. 예전 Gemini 키 이름 호환용 |
+| `DISCORD_BOT_TOKEN` | 디스코드 알림봇 토큰. 없으면 봇은 비활성화됨 |
+
+디스코드 알림 채널과 멘션 설정은 배포 후 `/guild/discord` 페이지에서 관리자 비밀번호로 저장합니다.
+로컬 개발에서는 루트 `.env`, `.env.local`, `web/.env.local`이 `./scripts/dev.sh` 실행 시 함께 로드됩니다.
 
 ### 배포
 
 ```bash
 git push origin main  # Railway 자동 빌드 트리거
 ```
+
+### 로컬 공지 요약 생성
+
+API 비용을 쓰지 않고 로컬에서 공홈/테스피아 공지 요약본을 갱신하려면:
+
+```bash
+python scripts/generate_local_news_summaries.py --force
+git add data/local_news_summaries.json data/maple.db
+git commit -m "chore: refresh local news summaries"
+git push origin main
+```
+
+배포 시 `data/local_news_summaries.json`이 이미지에 포함되고, 시작 스크립트가 아직 요약이 비어 있는 공지에만 로컬 요약을 채웁니다.
 
 ---
 

@@ -5,7 +5,7 @@ import os
 import time
 import httpx
 
-GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY", "")
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY", "")
 GEMINI_MODEL = "gemini-2.5-flash-lite"
 GEMINI_BACKOFF_SEC = int(os.environ.get("GEMINI_BACKOFF_SEC", "1800"))
 GEMINI_URL = (
@@ -40,7 +40,7 @@ PROMPT_TEMPLATE = """너는 메이플랜드(게임) 소식을 전해주는 친�
 async def summarize_post(title: str, content: str) -> str | None:
     """Gemini로 게시글을 요약한다. API 키가 없거나 실패 시 None 반환."""
     global _skip_until
-    if not GOOGLE_API_KEY:
+    if not GEMINI_API_KEY:
         return None
     if _skip_until and time.monotonic() < _skip_until:
         return None
@@ -59,7 +59,7 @@ async def summarize_post(title: str, content: str) -> str | None:
         async with httpx.AsyncClient(timeout=30) as client:
             res = await client.post(
                 GEMINI_URL,
-                params={"key": GOOGLE_API_KEY},
+                params={"key": GEMINI_API_KEY},
                 json=payload,
             )
             res.raise_for_status()
