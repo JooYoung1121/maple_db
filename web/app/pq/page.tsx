@@ -164,6 +164,15 @@ const REWARD_COMPARE = [
   { id: "romeo", expPerRun: "20~30%", expPerHour: "약 1~2회/시간", efficiency: "보통 (70~119)", mainDrops: "호루스 눈, 연금술사 반지" },
 ];
 
+const TESPIA_PQ_NOTES = [
+  {
+    title: "몬스터 카니발",
+    version: "Test 2.2.62",
+    level: "Lv.30~50",
+    note: "테스피아 2.0에서 테스트 가능. 카니발 필드 드롭률은 1배로 안내됨.",
+  },
+];
+
 type Tab = "guide" | "timer" | "compare";
 
 export default function PQPage() {
@@ -175,6 +184,20 @@ export default function PQPage() {
       <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
         PQ 가이드, 재입장 타이머, 보상 비교
       </p>
+
+      <div className="mb-6 rounded-xl border border-sky-200 dark:border-sky-900 bg-sky-50 dark:bg-sky-950/30 p-4">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-[10px] font-bold tracking-wide px-1.5 py-0.5 rounded bg-sky-600 text-white">TEST</span>
+          <h2 className="text-sm font-bold text-sky-900 dark:text-sky-100">테스피아 2.0 파티퀘스트 변경</h2>
+        </div>
+        <div className="space-y-1">
+          {TESPIA_PQ_NOTES.map((item) => (
+            <p key={item.title} className="text-sm text-sky-800 dark:text-sky-200">
+              <span className="font-semibold">{item.title}</span> · {item.level} · {item.note} ({item.version})
+            </p>
+          ))}
+        </div>
+      </div>
 
       <div className="flex gap-1 mb-6 bg-gray-100 dark:bg-gray-700 p-1 rounded-xl w-fit">
         {([

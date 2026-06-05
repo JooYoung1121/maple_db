@@ -91,7 +91,7 @@ export default function MobDetailPage() {
           <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl divide-y divide-gray-100">
             {spawns.map((s) => (
               <Link key={s.id} href={`/maps/${s.id}`} className="flex items-center justify-between px-4 py-3 hover:bg-orange-50">
-                <span className="font-medium">{s.name}</span>
+                <span className="font-medium">{s.name_kr || s.name}</span>
                 {s.area && <span className="text-sm text-gray-400">{s.area}</span>}
               </Link>
             ))}

@@ -33,7 +33,7 @@ export async function getItems(params: { page?: number; per_page?: number; categ
 }
 
 export async function getItem(id: number) {
-  return fetchJSON<{ item: import("./types").Item; dropped_by: { mob_id: number; mob_name: string; drop_rate: number | null }[] }>(
+  return fetchJSON<{ item: import("./types").Item; dropped_by: { mob_id: number; mob_name: string; mob_name_kr?: string | null; drop_rate: number | null }[] }>(
     `/api/items/${id}`
   );
 }
@@ -41,6 +41,12 @@ export async function getItem(id: number) {
 export async function getMobs(params: { page?: number; per_page?: number; level_min?: number; level_max?: number; is_boss?: number; q?: string; sort?: string } = {}) {
   return fetchJSON<{ mobs: import("./types").Mob[]; total: number; page: number; per_page: number }>(
     `/api/mobs?${qs(params as Record<string, string | number>)}`
+  );
+}
+
+export async function getNhitMobPresets(params: { q?: string; include_boss?: number; mapleland_only?: number; require_korean_name?: number; level_min?: number; level_max?: number; limit?: number } = {}) {
+  return fetchJSON<{ mobs: import("./types").NHitMobPreset[]; total: number }>(
+    `/api/mobs/nhit-presets?${qs(params as Record<string, string | number>)}`
   );
 }
 
@@ -57,7 +63,7 @@ export async function getMaps(params: { page?: number; per_page?: number; area?:
 }
 
 export async function getMap(id: number) {
-  return fetchJSON<{ map: import("./types").MapData; monsters: { mob_id: number; mob_name: string; level: number }[]; npcs: import("./types").Npc[] }>(
+  return fetchJSON<{ map: import("./types").MapData; monsters: import("./types").MapMobSpawn[]; npcs: import("./types").Npc[] }>(
     `/api/maps/${id}`
   );
 }
@@ -171,6 +177,7 @@ export async function deleteAdminMob(id: number) {
 }
 
 export async function getNews(params: {
+  source?: string;
   board?: string;
   category?: string;
   q?: string;
@@ -184,6 +191,12 @@ export async function getNews(params: {
 
 export async function getNewsPost(postId: string) {
   return fetchJSON<{ post: import("./types").MapleLandPost }>(`/api/news/${postId}`);
+}
+
+export async function getTespiaPatchSummary(limit = 12) {
+  return fetchJSON<{ source: string; total: number; patches: import("./types").TespiaPatchSummary[] }>(
+    `/api/news/tespia-summary?${qs({ limit })}`
+  );
 }
 
 export interface GuildMember {

@@ -40,6 +40,20 @@ export interface Mob {
   name_kr?: string | null;
 }
 
+export interface NHitMobPreset {
+  id: number;
+  name: string;
+  name_kr?: string | null;
+  level: number;
+  hp: number;
+  wdef: number;
+  mdef: number;
+  exp: number;
+  is_boss: number;
+  is_undead?: number;
+  speed?: number;
+}
+
 export interface MobDrop {
   id: number;
   name: string;
@@ -51,8 +65,16 @@ export interface MobDrop {
 export interface MobSpawn {
   id: number;
   name: string;
+  name_kr?: string | null;
   street_name?: string | null;
   area?: string | null;
+}
+
+export interface MapMobSpawn {
+  mob_id: number;
+  mob_name: string;
+  mob_name_kr?: string | null;
+  level: number;
 }
 
 export interface MapData {
@@ -174,6 +196,7 @@ export interface PaginatedResponse<T> {
 export interface MapleLandPost {
   id: number;
   post_id: string;
+  source?: "main" | "tespia" | string;
   board: string;
   category: string | null;
   title: string;
@@ -183,4 +206,14 @@ export interface MapleLandPost {
   published_at: string | null;
   created_at: string;
   summary: string | null;
+}
+
+export interface TespiaPatchSummary {
+  post_id: string;
+  title: string;
+  category: string | null;
+  published_at: string | null;
+  version: string | null;
+  url: string | null;
+  summary_lines: string[];
 }

@@ -1,0 +1,31 @@
+{
+  "generated_at": "2026-06-05T00:05:52.042Z",
+  "output_path": "/Users/user/Desktop/jy/maple_db/data/maple_canonical.db",
+  "source_db": "/Users/user/Desktop/jy/maple_db/data/maple.db",
+  "base": "wz83",
+  "wz_dir": "/Users/user/Desktop/jy/maple_db/wz_data",
+  "quest_wz_dir": "/Users/user/Desktop/jy/maple_db/wz_data_v62",
+  "overrides_path": "/Users/user/Desktop/jy/maple_db/data/mapleland_overrides.json",
+  "applied_overrides": {
+    "mobs": 0,
+    "items": 0,
+    "quests": 0,
+    "skills": 0
+  },
+  "counts": {
+    "mobs": 1877,
+    "visible_mobs": 1229,
+    "items": 14832,
+    "quests": 2116,
+    "skills": 820,
+    "names": 26796,
+    "data_sources": 32133
+  },
+  "quality": {
+    "mobs_missing_korean_name": 474,
+    "items_missing_korean_name": 3578,
+    "quests_from_wz62": 1697,
+    "quests_legacy_excel_only": 419,
+    "skills_missing_legacy_name": 555
+  }
+}

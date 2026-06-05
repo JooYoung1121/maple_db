@@ -4,6 +4,7 @@ from typing import Optional
 import json
 
 from crawler.db import get_connection
+from api.routes.mapleland_reference import id_filter_sql, require_mapleland_id
 
 router = APIRouter()
 
@@ -15,13 +16,22 @@ def map_filters():
     except Exception:
         return {"areas": [], "street_names": []}
     try:
+        mapleland_filter = id_filter_sql("id", "maps")
+        base_conditions = []
+        if mapleland_filter:
+            base_conditions.append(mapleland_filter)
+        base_where = f"WHERE {' AND '.join(base_conditions)}" if base_conditions else ""
+        prefix = f"{base_where} AND" if base_where else "WHERE"
         areas = conn.execute(
-            "SELECT DISTINCT area FROM maps WHERE area IS NOT NULL AND area != '' ORDER BY area"
+            f"SELECT DISTINCT area FROM maps {prefix} area IS NOT NULL AND area != '' ORDER BY area"
         ).fetchall()
         streets = conn.execute(
-            "SELECT DISTINCT street_name FROM maps WHERE street_name IS NOT NULL AND street_name != '' ORDER BY street_name"
+            f"SELECT DISTINCT street_name FROM maps {prefix} street_name IS NOT NULL AND street_name != '' ORDER BY street_name"
         ).fetchall()
-        town_count = conn.execute("SELECT COUNT(*) FROM maps WHERE is_town=1").fetchone()[0]
+        town_conditions = ["is_town=1"]
+        if mapleland_filter:
+            town_conditions.insert(0, mapleland_filter)
+        town_count = conn.execute(f"SELECT COUNT(*) FROM maps WHERE {' AND '.join(town_conditions)}").fetchone()[0]
         return {
             "areas": [r["area"] for r in areas],
             "street_names": [r["street_name"] for r in streets],
@@ -39,10 +49,16 @@ def list_maps(
     street_name: Optional[str] = Query(default=None),
     is_town: Optional[bool] = Query(default=None),
     q: Optional[str] = Query(default=None),
+    mapleland_only: bool = Query(default=True),
 ):
     offset = (page - 1) * per_page
     conditions = []
     params: list = []
+
+    if mapleland_only:
+        mapleland_filter = id_filter_sql("id", "maps")
+        if mapleland_filter:
+            conditions.append(mapleland_filter)
 
     if area:
         conditions.append("area LIKE ?")
@@ -93,6 +109,9 @@ def list_maps(
 
 @router.get("/maps/{map_id}")
 def get_map(map_id: int):
+    if not require_mapleland_id(map_id, "maps"):
+        raise HTTPException(status_code=404, detail="Map not found")
+
     try:
         conn = get_connection()
     except Exception:
@@ -123,12 +142,18 @@ def get_map(map_id: int):
             map_data["portals"] = []
 
         # Monsters that spawn on this map
+        mob_filter = id_filter_sql("m.id", "mobs")
+        mob_conditions = ["ms.map_id = ?"]
+        if mob_filter:
+            mob_conditions.append(mob_filter)
         mob_rows = conn.execute(
             """
-            SELECT m.id, m.name, m.level, m.hp, m.is_boss, m.icon_url
+            SELECT m.id as mob_id, m.name as mob_name, m.level, m.hp, m.is_boss, m.icon_url,
+                   (SELECT name_en FROM entity_names_en
+                    WHERE entity_type='mob' AND entity_id=m.id AND source='kms') as mob_name_kr
             FROM mob_spawns ms
             JOIN mobs m ON m.id = ms.mob_id
-            WHERE ms.map_id = ?
+            WHERE """ + " AND ".join(mob_conditions) + """
             ORDER BY m.level
             """,
             (map_id,),
@@ -136,8 +161,17 @@ def get_map(map_id: int):
         monsters = [dict(r) for r in mob_rows]
 
         # NPCs on this map
+        npc_filter = id_filter_sql("id", "npcs")
+        npc_conditions = ["map_id = ?"]
+        if npc_filter:
+            npc_conditions.append(npc_filter)
         npc_rows = conn.execute(
-            "SELECT id, name, description, icon_url FROM npcs WHERE map_id = ? ORDER BY name",
+            f"""SELECT id, name, description, icon_url,
+                       (SELECT name_en FROM entity_names_en
+                        WHERE entity_type='npc' AND entity_id=npcs.id AND source='kms') as name_kr
+                FROM npcs
+                WHERE {' AND '.join(npc_conditions)}
+                ORDER BY COALESCE(name_kr, name)""",
             (map_id,),
         ).fetchall()
         npcs = [dict(r) for r in npc_rows]

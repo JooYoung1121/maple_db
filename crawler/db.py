@@ -201,6 +201,7 @@ CREATE TABLE IF NOT EXISTS community_poll_votes (
 CREATE TABLE IF NOT EXISTS maple_land_posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     post_id TEXT UNIQUE,
+    source TEXT DEFAULT 'main',
     board TEXT NOT NULL,
     category TEXT,
     title TEXT NOT NULL,
@@ -370,6 +371,7 @@ def migrate_db(conn: sqlite3.Connection) -> None:
         ("community_polls", "allow_multiple", "INTEGER DEFAULT 0"),
         ("community_polls", "deadline", "TEXT"),
         ("maple_land_posts", "summary", "TEXT"),
+        ("maple_land_posts", "source", "TEXT DEFAULT 'main'"),
         # Quest.wz 확장 컬럼
         ("quests", "category", "TEXT"),
         ("quests", "prerequisite_quests", "TEXT"),
@@ -395,6 +397,10 @@ def migrate_db(conn: sqlite3.Connection) -> None:
             conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {col_type}")
         except Exception:
             pass  # Column already exists
+    try:
+        conn.execute("UPDATE maple_land_posts SET source = 'main' WHERE source IS NULL OR source = ''")
+    except Exception:
+        pass
     conn.commit()
 
     # community_poll_votes UNIQUE 제약 변경: (poll_id, voter_ip) → (poll_id, voter_ip, option_index)

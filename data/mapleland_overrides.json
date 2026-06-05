@@ -1,0 +1,14 @@
+{
+  "profile": "mapleland-current",
+  "base_version": "wz83",
+  "updated_at": null,
+  "notes": [
+    "MapleLand live/test-server deltas belong here after source verification.",
+    "The canonical rebuild uses WZ v83 as the base, then applies these overrides.",
+    "Keep only confirmed current MapleLand values in this file."
+  ],
+  "mobs": {},
+  "items": {},
+  "quests": {},
+  "skills": {}
+}

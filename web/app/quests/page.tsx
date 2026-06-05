@@ -1160,6 +1160,9 @@ function QuestsPageContent() {
 
   return (
     <div className="space-y-4">
+      <div className="rounded-lg border border-amber-200 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-900 px-4 py-3 text-sm text-amber-800 dark:text-amber-200">
+        현재 퀘스트 DB는 실제 메랜 퀘스트 ID가 아닌 임시 ID 기반 데이터입니다. 메랜디비 기준 정규 퀘스트 DB로 리빌드하기 전까지는 목록/보상/선행조건을 참고용으로만 봐주세요.
+      </div>
       {/* 탭 바 */}
       <div className="flex items-center gap-1 bg-slate-800/60 border border-slate-700/60 rounded-lg p-1 w-fit">
         <button

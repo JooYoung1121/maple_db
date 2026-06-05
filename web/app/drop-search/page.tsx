@@ -8,6 +8,7 @@ import Link from "next/link";
 interface DropSource {
   mob_id: number;
   mob_name: string;
+  mob_name_kr?: string | null;
   drop_rate: number | null;
 }
 
@@ -152,7 +153,7 @@ export default function DropSearchPage() {
                 >
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">👾</span>
-                    <span className="font-medium">{mob.mob_name}</span>
+                    <span className="font-medium">{mob.mob_name_kr || mob.mob_name}</span>
                   </div>
                   {mob.drop_rate !== null && (
                     <span className={`text-sm font-mono px-2 py-1 rounded ${

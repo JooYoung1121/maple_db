@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
+import { getNhitMobPresets } from "@/lib/api";
+import type { NHitMobPreset } from "@/lib/types";
 
 // ─── 무기 배율 테이블 ───
 const WEAPON_MULTIPLIERS: Record<
@@ -409,17 +411,20 @@ const ELEMENT_LABEL: Record<string, string> = {
 
 // ─── 몬스터 데이터 ───
 interface Monster {
+  id?: number;
   name: string;
+  nameEn?: string;
   level: number;
   hp: number;
   wdef: number;
   mdef: number;
   exp: number;
   map: string;
+  isBoss?: boolean;
   weakness?: "fire" | "ice" | "lightning" | "holy" | "poison" | "dark";
 }
 
-const HUNTING_GROUNDS: Monster[] = [
+const FALLBACK_HUNTING_GROUNDS: Monster[] = [
   // Level 1-10
   { name: "파란달팽이",    level: 2,   hp: 15,        wdef: 0,    mdef: 0,    exp: 3,    map: "빅토리아 아일랜드" },
   { name: "노란달팽이",    level: 3,   hp: 30,        wdef: 0,    mdef: 0,    exp: 5,    map: "빅토리아 아일랜드" },
@@ -467,48 +472,72 @@ const HUNTING_GROUNDS: Monster[] = [
   { name: "루미네",        level: 66,  hp: 12000,     wdef: 260,  mdef: 260,  exp: 360,  map: "엘나스" },
   { name: "다크로드",      level: 67,  hp: 12500,     wdef: 275,  mdef: 265,  exp: 370,  map: "루디브리엄" },
   { name: "다크예티",      level: 68,  hp: 13000,     wdef: 190,  mdef: 270,  exp: 409,  map: "엘나스" },
-  { name: "타우로마시스",  level: 70,  hp: 15000,     wdef: 250,  mdef: 250,  exp: 472,  map: "미나르숲" },
+  { name: "타우로마시스",  level: 70,  hp: 15000,     wdef: 250,  mdef: 250,  exp: 270,  map: "슬리피우드" },
   { name: "클라크",        level: 70,  hp: 15000,     wdef: 250,  mdef: 250,  exp: 270,  map: "시계탑 최하층" },
   { name: "아이스그림",    level: 72,  hp: 15500,     wdef: 270,  mdef: 265,  exp: 490,  map: "엘나스",        weakness: "fire" },
   { name: "설인",          level: 73,  hp: 16000,     wdef: 310,  mdef: 305,  exp: 510,  map: "엘나스" },
   { name: "버푼",          level: 74,  hp: 16000,     wdef: 340,  mdef: 340,  exp: 340,  map: "시계탑" },
-  { name: "타우로스피어",  level: 75,  hp: 18000,     wdef: 550,  mdef: 400,  exp: 567,  map: "미나르숲" },
+  { name: "타우로스피어",  level: 75,  hp: 18000,     wdef: 550,  mdef: 400,  exp: 350,  map: "슬리피우드" },
   { name: "다크클라크",    level: 76,  hp: 18000,     wdef: 380,  mdef: 380,  exp: 370,  map: "시계탑" },
   { name: "가고일",        level: 78,  hp: 24000,     wdef: 620,  mdef: 480,  exp: 750,  map: "루디브리엄" },
   { name: "라이칸스로프",  level: 80,  hp: 27000,     wdef: 650,  mdef: 520,  exp: 850,  map: "엘나스" },
   // Level 80-100
   { name: "블랙라이칸스",  level: 82,  hp: 28500,     wdef: 670,  mdef: 540,  exp: 900,  map: "엘나스" },
   { name: "해적",          level: 83,  hp: 30000,     wdef: 710,  mdef: 710,  exp: 1100, map: "시계탑 최하층" },
-  { name: "켄타우로스",    level: 86,  hp: 34000,     wdef: 585,  mdef: 585,  exp: 1450, map: "리프레" },
+  { name: "망둥이",        level: 85,  hp: 17000,     wdef: 645,  mdef: 430,  exp: 1400, map: "아쿠아리움" },
+  { name: "푸른 켄타우로스",level: 88,  hp: 37000,     wdef: 800,  mdef: 495,  exp: 1600, map: "리프레" },
   { name: "듀얼해적",      level: 87,  hp: 35000,     wdef: 775,  mdef: 775,  exp: 1500, map: "시계탑 최하층" },
-  { name: "블루켄타",      level: 88,  hp: 37000,     wdef: 600,  mdef: 600,  exp: 1600, map: "리프레" },
-  { name: "주니어와이번",  level: 90,  hp: 43000,     wdef: 800,  mdef: 800,  exp: 1750, map: "리프레" },
+  { name: "듀얼 버크",     level: 88,  hp: 37000,     wdef: 850,  mdef: 480,  exp: 1620, map: "리프레" },
   { name: "파이어독",      level: 90,  hp: 45000,     wdef: 835,  mdef: 505,  exp: 1800, map: "엘나스",        weakness: "ice" },
-  { name: "다크켄타",      level: 92,  hp: 46000,     wdef: 695,  mdef: 695,  exp: 1920, map: "리프레" },
-  { name: "리자드맨",      level: 93,  hp: 47000,     wdef: 700,  mdef: 720,  exp: 2050, map: "리프레" },
+  { name: "바이킹",        level: 93,  hp: 50000,     wdef: 830,  mdef: 530,  exp: 2100, map: "루디브리엄" },
   { name: "레드드래곤터틀",level: 93,  hp: 49000,     wdef: 700,  mdef: 700,  exp: 2100, map: "미나르숲" },
-  { name: "리자드(레드)",  level: 95,  hp: 51000,     wdef: 720,  mdef: 720,  exp: 2250, map: "리프레" },
   { name: "블루드래곤터틀",level: 96,  hp: 52000,     wdef: 730,  mdef: 730,  exp: 2400, map: "미나르숲" },
-  { name: "레드와이번",    level: 97,  hp: 53000,     wdef: 750,  mdef: 750,  exp: 2500, map: "리프레" },
+  { name: "리셀스퀴드",    level: 97,  hp: 49000,     wdef: 830,  mdef: 550,  exp: 2500, map: "아쿠아리움" },
+  { name: "레드 와이번",   level: 97,  hp: 53000,     wdef: 830,  mdef: 550,  exp: 2500, map: "리프레" },
   // Level 100+
   { name: "피아누스",      level: 100, hp: 2400000,   wdef: 800,  mdef: 800,  exp: 0,    map: "루디브리엄 궁전 (보스)" },
-  { name: "블루와이번",    level: 101, hp: 57000,     wdef: 800,  mdef: 800,  exp: 3050, map: "리프레" },
-  { name: "독수리",        level: 102, hp: 58000,     wdef: 840,  mdef: 840,  exp: 3100, map: "리프레" },
-  { name: "다크와이번",    level: 103, hp: 60000,     wdef: 850,  mdef: 850,  exp: 3150, map: "리프레" },
-  { name: "만티스",        level: 105, hp: 65000,     wdef: 870,  mdef: 870,  exp: 3600, map: "리프레" },
-  { name: "아이스드라코",  level: 108, hp: 75000,     wdef: 900,  mdef: 900,  exp: 4100, map: "리프레",        weakness: "fire" },
-  { name: "스켈레곤",      level: 110, hp: 80000,     wdef: 900,  mdef: 900,  exp: 4500, map: "리프레",        weakness: "holy" },
-  { name: "메카트로피",    level: 112, hp: 88000,     wdef: 970,  mdef: 940,  exp: 4800, map: "루디브리엄" },
+  { name: "샤크",          level: 100, hp: 56000,     wdef: 850,  mdef: 570,  exp: 3000, map: "아쿠아리움" },
+  { name: "그린코니언",    level: 100, hp: 56000,     wdef: 800,  mdef: 500,  exp: 3000, map: "리프레" },
+  { name: "블루 와이번",   level: 101, hp: 57000,     wdef: 850,  mdef: 570,  exp: 3050, map: "리프레" },
+  { name: "콜드샤크",      level: 102, hp: 58500,     wdef: 855,  mdef: 575,  exp: 3100, map: "아쿠아리움" },
+  { name: "다크 와이번",   level: 103, hp: 60000,     wdef: 900,  mdef: 580,  exp: 3150, map: "리프레" },
+  { name: "다크코니언",    level: 105, hp: 67000,     wdef: 800,  mdef: 500,  exp: 3700, map: "리프레" },
+  { name: "뉴트주니어",    level: 105, hp: 68000,     wdef: 750,  mdef: 680,  exp: 3800, map: "리프레" },
+  { name: "네스트골렘",    level: 110, hp: 80000,     wdef: 900,  mdef: 600,  exp: 8050, map: "리프레" },
+  { name: "스켈레곤",      level: 110, hp: 80000,     wdef: 800,  mdef: 700,  exp: 4500, map: "리프레",        weakness: "holy" },
   { name: "스켈로스",      level: 113, hp: 85000,     wdef: 810,  mdef: 710,  exp: 4750, map: "리프레",        weakness: "holy" },
-  { name: "파퀴",          level: 115, hp: 95000,     wdef: 1000, mdef: 980,  exp: 5000, map: "루디브리엄" },
-  { name: "핫샌드",        level: 116, hp: 100000,    wdef: 1000, mdef: 1000, exp: 5200, map: "리프레" },
-  { name: "만타",          level: 118, hp: 108000,    wdef: 1020, mdef: 1020, exp: 5600, map: "리프레" },
-  { name: "마리온에트",    level: 120, hp: 120000,    wdef: 1050, mdef: 1050, exp: 6200, map: "루디브리엄" },
-  { name: "리스크리",      level: 122, hp: 130000,    wdef: 1080, mdef: 1080, exp: 6800, map: "루디브리엄" },
   // 보스
   { name: "오르카",        level: 130, hp: 35000000,  wdef: 1200, mdef: 1200, exp: 0,    map: "빅마마 섬 (보스)" },
   { name: "자쿰",          level: 140, hp: 128000000, wdef: 1500, mdef: 1500, exp: 0,    map: "자쿰 신전 (보스)" },
 ];
+
+function firstSkillLevelFor(job: string): number {
+  return JOB_SKILL_DATA[job]?.actives[0]?.maxLevel ?? 1;
+}
+
+function clampSkillLevel(level: number, skill?: ActiveSkill): number {
+  if (!skill) return Math.max(1, level);
+  return Math.min(Math.max(1, level), skill.maxLevel);
+}
+
+function highestMastery(jobData: JobSkillData): number {
+  return Math.max(...jobData.passives.map((p) => p.mastery ?? 0), 50) / 100;
+}
+
+function mapPresetMob(mob: NHitMobPreset): Monster {
+  return {
+    id: mob.id,
+    name: mob.name_kr || mob.name,
+    nameEn: mob.name,
+    level: mob.level,
+    hp: mob.hp,
+    wdef: mob.wdef ?? 0,
+    mdef: mob.mdef ?? 0,
+    exp: mob.exp ?? 0,
+    map: mob.is_boss ? "보스" : "DB",
+    isBoss: !!mob.is_boss,
+  };
+}
 
 // ─── 데미지 계산 ───
 interface DamageResult {
@@ -540,7 +569,7 @@ function calcPhysicalDamage(
     ) * hits;
   const minDmg =
     Math.max(
-      ((mainStat * minMult * mastery + subStat) * (atk / 100) * levelPenalty -
+      ((mainStat * minMult * 0.9 * mastery + subStat) * (atk / 100) * levelPenalty -
         wdef * 0.6) *
         (skillPct / 100),
       1
@@ -581,12 +610,13 @@ function calcNHit(hp: number, dmg: DamageResult): { nHitMax: number; nHitAvg: nu
   return { nHitMax, nHitAvg };
 }
 
-// 원킬컷 역산: physical ATK (maxMult 기준)
+// 원킬컷 역산: physical ATK (최소 데미지 기준 보장 컷)
 function calcOneKillAtk(
   hp: number,
   mainStat: number,
   subStat: number,
-  maxMult: number,
+  minMult: number,
+  mastery: number,
   skillPct: number,
   hits: number,
   charLevel: number,
@@ -594,11 +624,11 @@ function calcOneKillAtk(
   wdef: number
 ): number {
   const D = Math.max(monLevel - charLevel, 0);
-  const levelPenalty = 1 - 0.01 * D;
-  const target = hp / hits + wdef * 0.5;
-  const base = (mainStat * maxMult + subStat) * levelPenalty * skillPct;
-  if (base <= 0) return 0;
-  return Math.ceil(target * 10000 / base);
+  const levelPenalty = Math.max(1 - 0.01 * D, 0);
+  const statTerm = mainStat * minMult * 0.9 * mastery + subStat;
+  if (levelPenalty <= 0 || statTerm <= 0 || skillPct <= 0 || hits <= 0) return 0;
+  const requiredBeforeDefense = (hp / hits) * 100 / skillPct + wdef * 0.6;
+  return Math.ceil(requiredBeforeDefense * 100 / (statTerm * levelPenalty));
 }
 
 // 원킬컷 역산: magic MA (이차방정식 풀이)
@@ -834,7 +864,7 @@ export default function NHitPage() {
 
   // 스킬 선택
   const [selectedSkillIdx, setSelectedSkillIdx] = useState(0);
-  const [skillLevel, setSkillLevel] = useState(30);
+  const [skillLevel, setSkillLevel] = useState(() => firstSkillLevelFor("히어로"));
 
   // 패시브 토글 (기본 true)
   const [enabledPassives, setEnabledPassives] = useState<Record<string, boolean>>({});
@@ -901,9 +931,37 @@ export default function NHitPage() {
   const [manualWdef, setManualWdef] = useState(250);
   const [manualMdef, setManualMdef] = useState(250);
   const [manualWeakness, setManualWeakness] = useState<string>("");
+  const [monsterPresets, setMonsterPresets] = useState<Monster[]>(FALLBACK_HUNTING_GROUNDS);
+  const [monsterPresetSource, setMonsterPresetSource] = useState<"db" | "fallback">("fallback");
+
+  useEffect(() => {
+    let cancelled = false;
+    getNhitMobPresets({ include_boss: 1, limit: 5000 })
+      .then((res) => {
+        if (cancelled) return;
+        const presets = res.mobs.map(mapPresetMob).filter((m) => m.level > 0 && m.hp > 1);
+        if (presets.length > 0) {
+          setMonsterPresets(presets);
+          setMonsterPresetSource("db");
+          setSelectedMonster(0);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setMonsterPresetSource("fallback");
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (selectedMonster >= monsterPresets.length) {
+      setSelectedMonster(0);
+    }
+  }, [monsterPresets.length, selectedMonster]);
 
   const monster: Monster = usePreset
-    ? HUNTING_GROUNDS[selectedMonster]
+    ? (monsterPresets[selectedMonster] ?? monsterPresets[0] ?? FALLBACK_HUNTING_GROUNDS[0])
     : {
         name: manualName,
         level: manualLevel,
@@ -921,7 +979,7 @@ export default function NHitPage() {
     const firstSub = JOB_GROUPS[group][0];
     setSubJob(firstSub);
     setSelectedSkillIdx(0);
-    setSkillLevel(30);
+    setSkillLevel(firstSkillLevelFor(firstSub));
     setEnabledBuffs({});
     setEnabledPassives({});
     const firstWeapon = JOB_SKILL_DATA[firstSub]?.weapons[0];
@@ -933,7 +991,7 @@ export default function NHitPage() {
   const handleSubJobChange = (sub: string) => {
     setSubJob(sub);
     setSelectedSkillIdx(0);
-    setSkillLevel(30);
+    setSkillLevel(firstSkillLevelFor(sub));
     setEnabledBuffs({});
     setEnabledPassives({});
     const firstWeapon = JOB_SKILL_DATA[sub]?.weapons[0];
@@ -945,6 +1003,13 @@ export default function NHitPage() {
   const actives = jobData?.actives ?? [];
   const passives = jobData?.passives ?? [];
   const selectedSkill = actives[selectedSkillIdx] ?? actives[0];
+  const effectiveSkillLevel = clampSkillLevel(skillLevel, selectedSkill);
+
+  useEffect(() => {
+    if (effectiveSkillLevel !== skillLevel) {
+      setSkillLevel(effectiveSkillLevel);
+    }
+  }, [effectiveSkillLevel, skillLevel]);
 
   // 마스터리
   const effectiveMastery = useMemo(() => {
@@ -979,9 +1044,9 @@ export default function NHitPage() {
     if (!selectedSkill) return 100;
     const { minDamage, damage: maxDamage, maxLevel } = selectedSkill;
     if (maxLevel <= 1) return maxDamage;
-    const interpolated = minDamage + (skillLevel - 1) * (maxDamage - minDamage) / (maxLevel - 1);
+    const interpolated = minDamage + (effectiveSkillLevel - 1) * (maxDamage - minDamage) / (maxLevel - 1);
     return Math.round(interpolated);
-  }, [selectedSkill, skillLevel]);
+  }, [selectedSkill, effectiveSkillLevel]);
 
   const skillPct = interpolatedSkillDamage;
   const skillHits = selectedSkill?.hits ?? 1;
@@ -1108,7 +1173,8 @@ export default function NHitPage() {
         monster.hp,
         effectiveMainStat,
         effectiveSubStat,
-        weaponInfo?.maxMult ?? 4.0,
+        weaponInfo?.minMult ?? weaponInfo?.maxMult ?? 4.0,
+        effectiveMastery / 100,
         skillPct,
         skillHits,
         charLevel,
@@ -1193,7 +1259,7 @@ export default function NHitPage() {
           isMagic={isMagic}
           selectedSkillIdx={selectedSkillIdx}
           setSelectedSkillIdx={setSelectedSkillIdx}
-          skillLevel={skillLevel}
+          skillLevel={effectiveSkillLevel}
           setSkillLevel={setSkillLevel}
           interpolatedSkillDamage={interpolatedSkillDamage}
           enabledPassives={enabledPassives}
@@ -1237,6 +1303,8 @@ export default function NHitPage() {
           setUsePreset={setUsePreset}
           selectedMonster={selectedMonster}
           setSelectedMonster={setSelectedMonster}
+          monsterPresets={monsterPresets}
+          monsterPresetSource={monsterPresetSource}
           manualName={manualName}
           setManualName={setManualName}
           manualLevel={manualLevel}
@@ -1334,6 +1402,8 @@ interface CalcTabProps {
   setUsePreset: (v: boolean) => void;
   selectedMonster: number;
   setSelectedMonster: (v: number) => void;
+  monsterPresets: Monster[];
+  monsterPresetSource: "db" | "fallback";
   manualName: string;
   setManualName: (v: string) => void;
   manualLevel: number;
@@ -1387,6 +1457,7 @@ function CalcTab({
   ma, setMa,
   charLevel, setCharLevel, autoStatEnabled, setAutoStatEnabled,
   usePreset, setUsePreset, selectedMonster, setSelectedMonster,
+  monsterPresets, monsterPresetSource,
   manualName, setManualName, manualLevel, setManualLevel,
   manualHp, setManualHp, manualWdef, setManualWdef, manualMdef, setManualMdef,
   manualWeakness, setManualWeakness, isAttrWeakness,
@@ -1404,6 +1475,7 @@ function CalcTab({
   const passives = jobData?.passives ?? [];
   const buffs = jobData?.buffs ?? [];
   const selectedSkill = actives[selectedSkillIdx] ?? actives[0];
+  const optionSuffix = monsterPresetSource === "db" ? "" : " / 폴백";
 
   const togglePassive = (name: string) => {
     const current = enabledPassives[name] !== false;
@@ -1685,7 +1757,7 @@ function CalcTab({
               {actives.map((skill, idx) => (
                 <button
                   key={skill.name}
-                  onClick={() => { setSelectedSkillIdx(idx); setSkillLevel(30); }}
+                  onClick={() => { setSelectedSkillIdx(idx); setSkillLevel(skill.maxLevel); }}
                   className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border ${
                     selectedSkillIdx === idx
                       ? "bg-orange-500 text-white border-orange-500"
@@ -1800,9 +1872,9 @@ function CalcTab({
             onChange={(e) => setSelectedMonster(Number(e.target.value))}
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
           >
-            {HUNTING_GROUNDS.map((m, i) => (
-              <option key={i} value={i}>
-                {m.name} (Lv.{m.level} / HP {m.hp.toLocaleString()} / 방어 {m.wdef}/{m.mdef}) — {m.map}
+            {monsterPresets.map((m, i) => (
+              <option key={m.id ?? `${m.name}-${i}`} value={i}>
+                {m.name} (Lv.{m.level} / HP {m.hp.toLocaleString()} / 방어 {m.wdef}/{m.mdef}) — {m.map}{optionSuffix}
               </option>
             ))}
           </select>
@@ -2035,14 +2107,14 @@ interface HuntSpot {
 
 const HUNT_SPOTS: HuntSpot[] = [
   {
-    name: "미나르숲 (타우로마시스)",
-    zone: "미나르숲",
+    name: "슬리피우드 (타우로마시스)",
+    zone: "빅토리아 아일랜드",
     levelRange: [65, 80],
     monster: { name: "타우로마시스", level: 70, hp: 15000, wdef: 250, mdef: 250 },
   },
   {
-    name: "미나르숲 (타우로스피어)",
-    zone: "미나르숲",
+    name: "슬리피우드 (타우로스피어)",
+    zone: "빅토리아 아일랜드",
     levelRange: [70, 85],
     monster: { name: "타우로스피어", level: 75, hp: 18000, wdef: 550, mdef: 400 },
   },
@@ -2050,33 +2122,88 @@ const HUNT_SPOTS: HuntSpot[] = [
     name: "리프레 (켄타우로스 계열)",
     zone: "리프레",
     levelRange: [80, 100],
-    monster: { name: "켄타우로스", level: 86, hp: 34000, wdef: 585, mdef: 585 },
+    monster: { name: "푸른 켄타우로스", level: 88, hp: 37000, wdef: 800, mdef: 495 },
+    notes: "검은/붉은/푸른 켄타우로스 기준. 메랜디비 확인 몬스터만 사용.",
   },
   {
-    name: "리프레 (주니어와이번)",
+    name: "아쿠아리움 (망둥이)",
+    zone: "아쿠아리움",
+    levelRange: [85, 110],
+    monster: { name: "망둥이", level: 85, hp: 17000, wdef: 645, mdef: 430 },
+  },
+  {
+    name: "리프레 (듀얼 버크)",
     zone: "리프레",
     levelRange: [85, 110],
-    monster: { name: "주니어와이번", level: 90, hp: 43000, wdef: 800, mdef: 800 },
+    monster: { name: "듀얼 버크", level: 88, hp: 37000, wdef: 850, mdef: 480 },
   },
   {
-    name: "리프레 (다크와이번)",
+    name: "루디브리엄 (바이킹)",
+    zone: "루디브리엄",
+    levelRange: [90, 115],
+    monster: { name: "바이킹", level: 93, hp: 50000, wdef: 830, mdef: 530 },
+  },
+  {
+    name: "아쿠아리움 (리셀스퀴드)",
+    zone: "아쿠아리움",
+    levelRange: [90, 115],
+    monster: { name: "리셀스퀴드", level: 97, hp: 49000, wdef: 830, mdef: 550 },
+  },
+  {
+    name: "리프레 (레드 와이번)",
+    zone: "리프레",
+    levelRange: [95, 115],
+    monster: { name: "레드 와이번", level: 97, hp: 53000, wdef: 830, mdef: 550 },
+  },
+  {
+    name: "리프레 (블루 와이번)",
     zone: "리프레",
     levelRange: [95, 120],
-    monster: { name: "다크와이번", level: 103, hp: 60000, wdef: 850, mdef: 850 },
+    monster: { name: "블루 와이번", level: 101, hp: 57000, wdef: 850, mdef: 570 },
   },
   {
-    name: "리프레 (아이스드라코)",
+    name: "리프레 (다크 와이번)",
+    zone: "리프레",
+    levelRange: [95, 120],
+    monster: { name: "다크 와이번", level: 103, hp: 60000, wdef: 900, mdef: 580 },
+  },
+  {
+    name: "아쿠아리움 (샤크)",
+    zone: "아쿠아리움",
+    levelRange: [95, 120],
+    monster: { name: "샤크", level: 100, hp: 56000, wdef: 850, mdef: 570 },
+  },
+  {
+    name: "리프레 (다크코니언)",
     zone: "리프레",
     levelRange: [100, 125],
-    monster: { name: "아이스드라코", level: 108, hp: 75000, wdef: 900, mdef: 900, weakness: "fire" },
-    notes: "불 속성 약점. 불독(F/P) 파이어 에로우/익스플로전 효과적.",
+    monster: { name: "다크코니언", level: 105, hp: 67000, wdef: 800, mdef: 500 },
+  },
+  {
+    name: "망가진 용의 둥지 (뉴트주니어)",
+    alias: "망용둥",
+    zone: "리프레",
+    levelRange: [100, 130],
+    monster: { name: "뉴트주니어", level: 105, hp: 68000, wdef: 750, mdef: 680, spawns: 8 },
+    communityData: [
+      { job: "보우마스터", skill: "폭풍의 시", note: "옥상/2층 젠컷 자료는 커뮤니티 기준으로 별도 검증 필요" },
+      { job: "나이트로드", skill: "트리플 스로우", note: "트리플 스로우 기준 스공컷은 MapleLand 패치에 따라 재검증 필요" },
+    ],
+    notes: "메랜디비에 존재하는 뉴트주니어 기준. 커뮤니티 젠컷 수치는 추후 출처별로 분리 예정.",
+  },
+  {
+    name: "망가진 용의 둥지 (네스트골렘)",
+    alias: "망용둥",
+    zone: "리프레",
+    levelRange: [105, 140],
+    monster: { name: "네스트골렘", level: 110, hp: 80000, wdef: 900, mdef: 600 },
   },
   {
     name: "죽은 용의 둥지 (스켈레곤)",
     alias: "죽둥",
     zone: "리프레",
-    levelRange: [105, 140],
-    monster: { name: "스켈레곤", level: 110, hp: 80000, wdef: 900, mdef: 900, weakness: "holy" },
+    levelRange: [105, 145],
+    monster: { name: "스켈레곤", level: 110, hp: 80000, wdef: 800, mdef: 700, weakness: "holy" },
     notes: "성 속성 약점. 비숍·팔라딘 홀리 스킬 효과적.",
   },
   {
@@ -2091,33 +2218,7 @@ const HUNT_SPOTS: HuntSpot[] = [
       { job: "나이트로드", skill: "트리플 스로우", note: "최대 5젠컷 한계" },
       { job: "신궁", skill: "피어싱 애로우", note: "5.5젠컷 가능" },
     ],
-    notes: "성 속성 약점. 비숍 제네시스 × 1.5 적용. 메이플랜드 최고 인기 사냥터.",
-  },
-  {
-    name: "루디브리엄 (마리온에트)",
-    zone: "루디브리엄",
-    levelRange: [115, 140],
-    monster: { name: "마리온에트", level: 120, hp: 120000, wdef: 1050, mdef: 1050 },
-  },
-  {
-    name: "루디브리엄 (리스크리)",
-    zone: "루디브리엄",
-    levelRange: [120, 145],
-    monster: { name: "리스크리", level: 122, hp: 130000, wdef: 1080, mdef: 1080 },
-  },
-  {
-    name: "망가진 용의 둥지 (뉴트주니어)",
-    alias: "망용둥",
-    zone: "미나르숲",
-    levelRange: [140, 200],
-    monster: { name: "뉴트주니어", level: 105, hp: 68000, wdef: 850, mdef: 700, spawns: 8 },
-    communityData: [
-      { job: "보우마스터", skill: "폭풍의 시", note: "스공 5,400+ → 옥상 6젠컷 (Lv.167+)" },
-      { job: "보우마스터", skill: "폭풍의 시", note: "스공 4,400~4,700 → 2층 5젠컷" },
-      { job: "나이트로드", skill: "트리플 스로우", note: "스공 3,800~4,000 → 5젠컷" },
-      { job: "나이트로드", skill: "트리플 스로우", note: "스공 4,500+ → 5.5젠컷" },
-    ],
-    notes: "메이플랜드 최고 경험치 사냥터. 자릿값 매우 높음.",
+    notes: "성 속성 약점. 비숍 제네시스 × 1.5 적용. 메랜디비 확인 몬스터 기준.",
   },
 ];
 
@@ -2167,7 +2268,7 @@ function calcNHitCut(
     const mainStat = charLevel * 5;
     const subStat = JOB_STAT_DEFAULTS[job]?.subStatDefault ?? 25;
     return calcOneKillAtk(
-      hpPerHit, mainStat, subStat, wInfo?.maxMult ?? 4.0,
+      hpPerHit, mainStat, subStat, wInfo?.minMult ?? wInfo?.maxMult ?? 4.0, highestMastery(jobData),
       skill.damage, skill.hits ?? 1, charLevel, monster.level, monster.wdef
     );
   }
@@ -2555,10 +2656,9 @@ function DamageTakenTab() {
     { name: "스켈로사우르스", level: 100, pAtk: 520, mAtk: 540 },
     { name: "네카드", level: 105, pAtk: 550, mAtk: 580 },
     { name: "스켈레곤", level: 110, pAtk: 590, mAtk: 610 },
-    { name: "마리온에트", level: 120, pAtk: 650, mAtk: 670 },
+    { name: "스켈로스", level: 113, pAtk: 620, mAtk: 640 },
     { name: "자쿰", level: 140, pAtk: 2000, mAtk: 2500 },
     { name: "혼테일", level: 160, pAtk: 2900, mAtk: 3400 },
-    { name: "핑크빈", level: 180, pAtk: 4000, mAtk: 4800 },
   ], []);
 
   useEffect(() => {

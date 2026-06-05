@@ -8,13 +8,89 @@ from datetime import datetime, timezone
 from .base import BaseParser
 from .summarizer import summarize_post
 
-BASE_URL = "https://maple.land"
-BOARDS = ["notices", "events"]
+SOURCES = {
+    "main": {
+        "label": "Mapleland",
+        "base_url": "https://maple.land",
+        "boards": ["notices", "events"],
+    },
+    "tespia": {
+        "label": "Mapleland Tespia",
+        "base_url": "https://tespia.maple.land",
+        "boards": ["notices", "events"],
+    },
+}
+BASE_URL = SOURCES["main"]["base_url"]
+BOARDS = SOURCES["main"]["boards"]
 CATEGORIES = ["업데이트", "점검", "안내", "제재", "이벤트", "진행중", "종료"]
 DATE_RE = re.compile(r"\d{4}\.\d{2}\.\d{2}")
+SKIP_SUMMARY_PREFIXES = (
+    "안녕하세요",
+    "아래 내용을 확인",
+    "항상 쾌적한",
+    "감사합니다",
+    "Mapleland 드림",
+    "※",
+    "주소 복사",
+)
+SUMMARY_KEYWORDS = (
+    "추가",
+    "변경",
+    "수정",
+    "개선",
+    "가능",
+    "진행",
+    "레벨",
+    "보스",
+    "파티퀘스트",
+    "스킬",
+    "아이템",
+    "몬스터",
+    "퀘스트",
+    "드롭",
+    "오류",
+    "문제",
+)
+
+
+def local_patch_summary(title: str, content: str, max_lines: int = 6) -> str | None:
+    """Generate a deterministic fallback summary from patch note bullet text."""
+    if not content:
+        return None
+    lines: list[str] = []
+    in_changes = "[변경 내용]" not in content
+    for raw in content.splitlines():
+        line = raw.strip().strip("-*•> ").strip()
+        if not line:
+            continue
+        if "[변경 내용]" in line:
+            in_changes = True
+            continue
+        if not in_changes:
+            continue
+        if any(line.startswith(prefix) for prefix in SKIP_SUMMARY_PREFIXES):
+            continue
+        if len(line) < 8:
+            continue
+        if not any(keyword in line for keyword in SUMMARY_KEYWORDS):
+            continue
+        if line in lines:
+            continue
+        if len(line) > 110:
+            line = line[:107].rstrip() + "..."
+        lines.append(f"- {line}")
+        if len(lines) >= max_lines:
+            break
+    if lines:
+        return "\n".join(lines)
+    return None
 
 
 class MapleLandParser(BaseParser):
+    def __init__(self, source: str = "main"):
+        super().__init__()
+        self.source = source
+        self.base_url = SOURCES.get(source, SOURCES["main"])["base_url"]
 
     def parse_list(self, html: str) -> list[dict]:
         return self.parse_board_list(html, "notices")
@@ -40,7 +116,7 @@ class MapleLandParser(BaseParser):
                 continue
             seen.add(post_id)
 
-            url = f"{BASE_URL}{href}"
+            url = f"{self.base_url}{href}"
             title = a.get_text(strip=True)
 
             # 부모 row 컨테이너 탐색 (카테고리 + 날짜가 같이 있는 div)
@@ -75,6 +151,7 @@ class MapleLandParser(BaseParser):
 
             results.append({
                 "post_id": post_id,
+                "source": self.source,
                 "board": board,
                 "url": url,
                 "title": title,
@@ -155,10 +232,11 @@ class MapleLandParser(BaseParser):
         conn.execute(
             """
             INSERT INTO maple_land_posts
-                (post_id, board, category, title, content, content_html, url, published_at, last_crawled_at, summary)
+                (post_id, source, board, category, title, content, content_html, url, published_at, last_crawled_at, summary)
             VALUES
-                (:post_id, :board, :category, :title, :content, :content_html, :url, :published_at, :last_crawled_at, :summary)
+                (:post_id, :source, :board, :category, :title, :content, :content_html, :url, :published_at, :last_crawled_at, :summary)
             ON CONFLICT(post_id) DO UPDATE SET
+                source = excluded.source,
                 category = excluded.category,
                 title = excluded.title,
                 content = excluded.content,
@@ -169,6 +247,7 @@ class MapleLandParser(BaseParser):
             """,
             {
                 "post_id": data.get("post_id"),
+                "source": data.get("source", "main"),
                 "board": data.get("board"),
                 "category": data.get("category"),
                 "title": data.get("title", ""),
@@ -187,13 +266,12 @@ SUMMARY_CATEGORIES = {"업데이트", "이벤트", "진행중", "종료", "안�
 
 
 async def crawl_maple_land(conn: sqlite3.Connection, client, force: bool = False) -> int:
-    """maple.land 공지사항 + 이벤트 크롤링. 신규/수정 건수 반환."""
-    parser = MapleLandParser()
+    """maple.land + Tespia notices/events crawler. Returns new/updated count."""
     new_count = 0
 
     # 기존 게시글 중 summary가 없는 업데이트/이벤트 백필
     backfill_rows = conn.execute(
-        "SELECT post_id, title, content FROM maple_land_posts "
+        "SELECT post_id, source, title, content FROM maple_land_posts "
         "WHERE summary IS NULL AND category IN ('업데이트','이벤트','진행중','종료','안내') AND content IS NOT NULL AND content != ''"
     ).fetchall()
     if backfill_rows:
@@ -201,6 +279,8 @@ async def crawl_maple_land(conn: sqlite3.Connection, client, force: bool = False
         for row in backfill_rows:
             try:
                 summary = await summarize_post(row["title"], row["content"])
+                if not summary and row["source"] == "tespia":
+                    summary = local_patch_summary(row["title"], row["content"])
                 if summary:
                     conn.execute(
                         "UPDATE maple_land_posts SET summary = ? WHERE post_id = ?",
@@ -213,12 +293,13 @@ async def crawl_maple_land(conn: sqlite3.Connection, client, force: bool = False
 
     # 본문 없는 기존 포스트 재크롤링 (파서 수정 후 자동 보정)
     empty_posts = conn.execute(
-        "SELECT post_id, board, url FROM maple_land_posts WHERE content IS NULL OR content = ''"
+        "SELECT post_id, source, board, url FROM maple_land_posts WHERE content IS NULL OR content = ''"
     ).fetchall()
     if empty_posts:
         print(f"[maple-land] 본문 없는 포스트 {len(empty_posts)}건 재수집")
         for row in empty_posts:
             try:
+                parser = MapleLandParser(row["source"] or "main")
                 detail_html = await client.get(
                     row["url"],
                     cache_key=f"maple_land/post/{row['post_id']}",
@@ -244,74 +325,79 @@ async def crawl_maple_land(conn: sqlite3.Connection, client, force: bool = False
                 print(f"[maple-land] 재수집 오류 {row['post_id']}: {e}")
 
     # 신규 포스트 수집
-    for board in BOARDS:
-        print(f"[maple-land] {board} 크롤링 시작")
-        for page in range(1, 50):
-            url = f"{BASE_URL}/board/{board}?page={page}"
-            try:
-                html = await client.get(
-                    url,
-                    cache_key=f"maple_land/{board}/p{page}",
-                    use_cache=not force,
-                )
-            except Exception as e:
-                print(f"[maple-land] {board} p{page} 오류: {e}")
-                break
-
-            entries = parser.parse_board_list(html, board)
-            if not entries:
-                print(f"[maple-land] {board} p{page}: 항목 없음, 중단")
-                break
-
-            all_known = True
-            for entry in entries:
-                existing = conn.execute(
-                    "SELECT id FROM maple_land_posts WHERE post_id = ?",
-                    (entry["post_id"],),
-                ).fetchone()
-
-                if existing and not force:
-                    continue
-
-                all_known = False
+    for source, source_info in SOURCES.items():
+        parser = MapleLandParser(source)
+        for board in source_info["boards"]:
+            print(f"[maple-land] {source}/{board} 크롤링 시작")
+            for page in range(1, 50):
+                url = f"{source_info['base_url']}/board/{board}?page={page}"
                 try:
-                    detail_html = await client.get(
-                        entry["url"],
-                        cache_key=f"maple_land/post/{entry['post_id']}",
+                    html = await client.get(
+                        url,
+                        cache_key=f"maple_land/{source}/{board}/p{page}",
                         use_cache=not force,
                     )
-                    detail = parser.parse_detail(detail_html, 0)
-                    cat = entry.get("category") or detail.get("category")
-                    title = entry.get("title") or detail.get("title", "")
-                    content = detail.get("content", "")
-
-                    # 업데이트/이벤트 카테고리만 AI 요약 생성
-                    summary = None
-                    if cat in SUMMARY_CATEGORIES and content:
-                        summary = await summarize_post(title, content)
-
-                    merged = {
-                        "post_id": entry["post_id"],
-                        "board": board,
-                        "url": entry["url"],
-                        "title": title,
-                        "category": cat,
-                        "published_at": entry.get("published_at") or detail.get("published_at"),
-                        "content": content,
-                        "content_html": detail.get("content_html", ""),
-                        "last_crawled_at": detail["last_crawled_at"],
-                        "summary": summary,
-                    }
-                    parser.save(conn, merged)
-                    new_count += 1
-                    print(f"[maple-land] 저장: {entry['title'][:40]}")
                 except Exception as e:
-                    print(f"[maple-land] {entry['url']} 상세 오류: {e}")
+                    print(f"[maple-land] {source}/{board} p{page} 오류: {e}")
+                    break
 
-            if all_known and not force:
-                print(f"[maple-land] {board} p{page}: 기존 항목만 있어 중단")
-                break
+                entries = parser.parse_board_list(html, board)
+                if not entries:
+                    print(f"[maple-land] {source}/{board} p{page}: 항목 없음, 중단")
+                    break
 
-        print(f"[maple-land] {board} 완료")
+                all_known = True
+                for entry in entries:
+                    existing = conn.execute(
+                        "SELECT id FROM maple_land_posts WHERE post_id = ?",
+                        (entry["post_id"],),
+                    ).fetchone()
+
+                    if existing and not force:
+                        continue
+
+                    all_known = False
+                    try:
+                        detail_html = await client.get(
+                            entry["url"],
+                            cache_key=f"maple_land/{source}/post/{entry['post_id']}",
+                            use_cache=not force,
+                        )
+                        detail = parser.parse_detail(detail_html, 0)
+                        cat = entry.get("category") or detail.get("category")
+                        title = entry.get("title") or detail.get("title", "")
+                        content = detail.get("content", "")
+
+                        # 업데이트/이벤트 카테고리만 요약 생성
+                        summary = None
+                        if cat in SUMMARY_CATEGORIES and content:
+                            summary = await summarize_post(title, content)
+                            if not summary and source == "tespia":
+                                summary = local_patch_summary(title, content)
+
+                        merged = {
+                            "post_id": entry["post_id"],
+                            "source": source,
+                            "board": board,
+                            "url": entry["url"],
+                            "title": title,
+                            "category": cat,
+                            "published_at": entry.get("published_at") or detail.get("published_at"),
+                            "content": content,
+                            "content_html": detail.get("content_html", ""),
+                            "last_crawled_at": detail["last_crawled_at"],
+                            "summary": summary,
+                        }
+                        parser.save(conn, merged)
+                        new_count += 1
+                        print(f"[maple-land] 저장: {source}/{entry['title'][:40]}")
+                    except Exception as e:
+                        print(f"[maple-land] {entry['url']} 상세 오류: {e}")
+
+                if all_known and not force:
+                    print(f"[maple-land] {source}/{board} p{page}: 기존 항목만 있어 중단")
+                    break
+
+            print(f"[maple-land] {source}/{board} 완료")
 
     return new_count

@@ -47,7 +47,7 @@ const NAV_CATEGORIES: NavCategory[] = [
   {
     label: "커뮤니티",
     items: [
-      { href: "/news", label: "메랜 공홈 소식" },
+      { href: "/news", label: "공홈 · 테스피아 소식" },
       { href: "/bimae", label: "비매박제" },
       { href: "/community", label: "투표" },
     ],

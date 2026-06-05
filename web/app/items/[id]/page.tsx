@@ -8,10 +8,17 @@ import type { Item } from "@/lib/types";
 import StatGrid from "@/components/StatGrid";
 import { toCategoryKr, toSubcategoryKr } from "@/lib/translations";
 
+interface DroppedByMob {
+  mob_id: number;
+  mob_name: string;
+  mob_name_kr?: string | null;
+  drop_rate: number | null;
+}
+
 export default function ItemDetailPage() {
   const { id } = useParams();
   const [item, setItem] = useState<Item | null>(null);
-  const [droppedBy, setDroppedBy] = useState<{ mob_id: number; mob_name: string; drop_rate: number | null }[]>([]);
+  const [droppedBy, setDroppedBy] = useState<DroppedByMob[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -135,7 +142,7 @@ export default function ItemDetailPage() {
           <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl divide-y divide-gray-100">
             {droppedBy.map((m) => (
               <Link key={m.mob_id} href={`/mobs/${m.mob_id}`} className="flex items-center justify-between px-4 py-3 hover:bg-orange-50">
-                <span className="font-medium">{m.mob_name}</span>
+                <span className="font-medium">{m.mob_name_kr || m.mob_name}</span>
                 {m.drop_rate != null && <span className="text-sm text-gray-400">{(m.drop_rate * 100).toFixed(2)}%</span>}
               </Link>
             ))}

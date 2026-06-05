@@ -3,6 +3,7 @@ from fastapi import APIRouter, Query, HTTPException
 from typing import Optional
 
 from crawler.db import get_connection
+from api.routes.mapleland_reference import id_filter_sql, require_mapleland_id
 
 router = APIRouter()
 
@@ -14,14 +15,17 @@ def item_filters():
     except Exception:
         return {"categories": [], "subcategories": [], "jobs": []}
     try:
+        mapleland_filter = id_filter_sql("id", "items")
+        where = f"WHERE {mapleland_filter}" if mapleland_filter else ""
+        prefix = f"{where} AND" if where else "WHERE"
         cats = conn.execute(
-            "SELECT DISTINCT category FROM items WHERE category IS NOT NULL AND category != '' ORDER BY category"
+            f"SELECT DISTINCT category FROM items {prefix} category IS NOT NULL AND category != '' ORDER BY category"
         ).fetchall()
         subcats = conn.execute(
-            "SELECT DISTINCT subcategory FROM items WHERE subcategory IS NOT NULL AND subcategory != '' ORDER BY subcategory"
+            f"SELECT DISTINCT subcategory FROM items {prefix} subcategory IS NOT NULL AND subcategory != '' ORDER BY subcategory"
         ).fetchall()
         jobs = conn.execute(
-            "SELECT DISTINCT job_req FROM items WHERE job_req IS NOT NULL AND job_req != '' ORDER BY job_req"
+            f"SELECT DISTINCT job_req FROM items {prefix} job_req IS NOT NULL AND job_req != '' ORDER BY job_req"
         ).fetchall()
         return {
             "categories": [r["category"] for r in cats],
@@ -40,8 +44,12 @@ def list_item_categories():
     except Exception:
         return {"categories": []}
     try:
+        mapleland_filter = id_filter_sql("id", "items")
+        conditions = ["category IS NOT NULL", "category != ''"]
+        if mapleland_filter:
+            conditions.insert(0, mapleland_filter)
         rows = conn.execute(
-            "SELECT category, COUNT(*) as count FROM items WHERE category IS NOT NULL AND category != '' GROUP BY category ORDER BY count DESC"
+            f"SELECT category, COUNT(*) as count FROM items WHERE {' AND '.join(conditions)} GROUP BY category ORDER BY count DESC"
         ).fetchall()
         return {"categories": [{"name": r["category"], "count": r["count"]} for r in rows]}
     finally:
@@ -59,10 +67,16 @@ def list_items(
     job: Optional[str] = Query(default=None),
     q: Optional[str] = Query(default=None),
     sort: Optional[str] = Query(default=None),
+    mapleland_only: bool = Query(default=True),
 ):
     offset = (page - 1) * per_page
     conditions = ["COALESCE(is_hidden, 0) = 0"]
     params: list = []
+
+    if mapleland_only:
+        mapleland_filter = id_filter_sql("id", "items")
+        if mapleland_filter:
+            conditions.append(mapleland_filter)
 
     if category:
         if "," in category:
@@ -132,6 +146,9 @@ def list_items(
 
 @router.get("/items/{item_id}")
 def get_item(item_id: int):
+    if not require_mapleland_id(item_id, "items"):
+        raise HTTPException(status_code=404, detail="Item not found")
+
     try:
         conn = get_connection()
     except Exception:
@@ -152,12 +169,18 @@ def get_item(item_id: int):
         item["names_en"] = [dict(r) for r in en_rows]
 
         # Mobs that drop this item
+        mob_filter = id_filter_sql("m.id", "mobs")
+        drop_conditions = ["md.item_id = ?"]
+        if mob_filter:
+            drop_conditions.append(mob_filter)
         drop_rows = conn.execute(
-            """
-            SELECT m.id as mob_id, m.name as mob_name, m.level, m.is_boss, md.drop_rate
+            f"""
+            SELECT m.id as mob_id, m.name as mob_name, m.level, m.is_boss, md.drop_rate,
+                   (SELECT name_en FROM entity_names_en
+                    WHERE entity_type='mob' AND entity_id=m.id AND source='kms') as mob_name_kr
             FROM mob_drops md
             JOIN mobs m ON m.id = md.mob_id
-            WHERE md.item_id = ?
+            WHERE {' AND '.join(drop_conditions)}
             ORDER BY m.level
             """,
             (item_id,),

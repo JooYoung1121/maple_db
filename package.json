@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "audit:data": "node scripts/audit_data_quality.js",
+    "rebuild:canonical": "node scripts/rebuild_canonical_db.js",
+    "sync:mapleland:mobs": "node scripts/sync_mapleland_mobs.js",
+    "sync:mapleland:reference": "node scripts/sync_mapleland_reference.js",
+    "sync:tespia:news": ".venv/bin/python scripts/sync_tespia_news.py"
+  },
+  "dependencies": {
+    "@tybys/wz": "^1.7.1",
+    "better-sqlite3": "^12.8.0"
+  }
+}

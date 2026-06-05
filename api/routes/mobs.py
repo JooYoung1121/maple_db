@@ -1,10 +1,16 @@
 """Mob routes"""
+
 from fastapi import APIRouter, Query, HTTPException
 from typing import Optional
 
 from crawler.db import get_connection
+from api.routes.mapleland_reference import id_filter_sql, mapleland_ids, require_mapleland_id
 
 router = APIRouter()
+
+
+def mapleland_mob_ids() -> set[int]:
+    return set(mapleland_ids("mobs"))
 
 
 @router.get("/mobs/filters")
@@ -14,14 +20,20 @@ def mob_filters():
     except Exception:
         return {"level_ranges": [], "boss_count": 0}
     try:
-        boss_count = conn.execute("SELECT COUNT(*) FROM mobs WHERE is_boss=1 AND COALESCE(is_hidden,0)=0").fetchone()[0]
-        max_level = conn.execute("SELECT MAX(level) FROM mobs WHERE COALESCE(is_hidden,0)=0").fetchone()[0] or 200
+        mapleland_filter = id_filter_sql("id", "mobs")
+        base_conditions = ["COALESCE(is_hidden,0)=0"]
+        if mapleland_filter:
+            base_conditions.append(mapleland_filter)
+        base_where = " AND ".join(base_conditions)
+        boss_count = conn.execute(f"SELECT COUNT(*) FROM mobs WHERE is_boss=1 AND {base_where}").fetchone()[0]
+        max_level = conn.execute(f"SELECT MAX(level) FROM mobs WHERE {base_where}").fetchone()[0] or 200
         ranges = []
         step = 10
         for start in range(0, max_level + 1, step):
             end = start + step - 1
             cnt = conn.execute(
-                "SELECT COUNT(*) FROM mobs WHERE level >= ? AND level <= ? AND COALESCE(is_hidden,0)=0", (start, end)
+                f"SELECT COUNT(*) FROM mobs WHERE level >= ? AND level <= ? AND {base_where}",
+                (start, end),
             ).fetchone()[0]
             if cnt > 0:
                 ranges.append({"min": start, "max": end, "count": cnt})
@@ -39,6 +51,7 @@ def list_mobs(
     is_boss: Optional[bool] = Query(default=None),
     q: Optional[str] = Query(default=None),
     sort: Optional[str] = Query(default=None),
+    mapleland_only: bool = Query(default=True),
 ):
     offset = (page - 1) * per_page
     conditions = []
@@ -46,6 +59,11 @@ def list_mobs(
 
     # 숨김 처리된 몬스터 제외 (중복/빈 데이터/이벤트 복제)
     conditions.append("COALESCE(is_hidden, 0) = 0")
+
+    if mapleland_only:
+        mapleland_filter = id_filter_sql("id", "mobs")
+        if mapleland_filter:
+            conditions.append(mapleland_filter)
 
     if level_min is not None:
         conditions.append("level >= ?")
@@ -102,6 +120,88 @@ def list_mobs(
     return {"mobs": results, "total": total, "page": page, "per_page": per_page}
 
 
+@router.get("/mobs/nhit-presets")
+def nhit_mob_presets(
+    q: Optional[str] = Query(default=None),
+    include_boss: bool = Query(default=True),
+    mapleland_only: bool = Query(default=True),
+    require_korean_name: bool = Query(default=True),
+    level_min: Optional[int] = Query(default=None, ge=0),
+    level_max: Optional[int] = Query(default=None, ge=0),
+    limit: int = Query(default=2500, ge=1, le=5000),
+):
+    conditions = [
+        "COALESCE(is_hidden, 0) = 0",
+        "level > 0",
+        "hp > 1",
+        "(COALESCE(exp, 0) > 0 OR COALESCE(is_boss, 0) = 1)",
+    ]
+    params: list = []
+
+    ids = sorted(mapleland_mob_ids()) if mapleland_only else []
+    if ids:
+        conditions.append(f"id IN ({','.join('?' for _ in ids)})")
+        params.extend(ids)
+    if not include_boss:
+        conditions.append("COALESCE(is_boss, 0) = 0")
+    if require_korean_name:
+        conditions.append(
+            "EXISTS (SELECT 1 FROM entity_names_en WHERE entity_type='mob' AND entity_id=mobs.id AND source='kms')"
+        )
+    if level_min is not None:
+        conditions.append("level >= ?")
+        params.append(level_min)
+    if level_max is not None:
+        conditions.append("level <= ?")
+        params.append(level_max)
+    if q:
+        conditions.append(
+            "(name LIKE ? OR id IN (SELECT entity_id FROM entity_names_en WHERE entity_type='mob' AND name_en LIKE ?))"
+        )
+        params.append(f"%{q}%")
+        params.append(f"%{q}%")
+
+    where = "WHERE " + " AND ".join(conditions)
+
+    try:
+        conn = get_connection()
+    except Exception:
+        return {"mobs": [], "total": 0}
+
+    try:
+        total = conn.execute(f"SELECT COUNT(*) FROM mobs {where}", params).fetchone()[0]
+        rows = conn.execute(
+            f"""
+            SELECT
+                id,
+                name,
+                level,
+                hp,
+                COALESCE(defense, 0) as wdef,
+                COALESCE(magic_defense, 0) as mdef,
+                COALESCE(exp, 0) as exp,
+                COALESCE(is_boss, 0) as is_boss,
+                COALESCE(is_undead, 0) as is_undead,
+                COALESCE(speed, 0) as speed,
+                (SELECT name_en FROM entity_names_en
+                 WHERE entity_type='mob' AND entity_id=mobs.id AND source='kms') as name_kr
+            FROM mobs
+            {where}
+            ORDER BY level ASC, hp ASC, id ASC, COALESCE(name_kr, name) ASC
+            LIMIT ?
+            """,
+            params + [limit],
+        ).fetchall()
+        results = [dict(row) for row in rows]
+    except Exception:
+        results = []
+        total = 0
+    finally:
+        conn.close()
+
+    return {"mobs": results, "total": total}
+
+
 @router.get("/bosses")
 def list_bosses(
     page: int = Query(default=1, ge=1),
@@ -113,6 +213,9 @@ def list_bosses(
     offset = (page - 1) * per_page
     conditions = ["is_boss = 1", "COALESCE(is_hidden,0) = 0"]
     params: list = []
+    mapleland_filter = id_filter_sql("id", "mobs")
+    if mapleland_filter:
+        conditions.append(mapleland_filter)
 
     if level_min is not None:
         conditions.append("level >= ?")
@@ -148,8 +251,13 @@ def list_bosses(
                 (boss["id"],),
             ).fetchone()
             boss["name_kr"] = kr["name_en"] if kr else None
+            item_filter = id_filter_sql("item_id", "items")
+            drop_count_conditions = ["mob_id = ?"]
+            if item_filter:
+                drop_count_conditions.append(item_filter)
             drop_count = conn.execute(
-                "SELECT COUNT(*) FROM mob_drops WHERE mob_id = ?", (boss["id"],)
+                f"SELECT COUNT(*) FROM mob_drops WHERE {' AND '.join(drop_count_conditions)}",
+                (boss["id"],),
             ).fetchone()[0]
             boss["drop_count"] = drop_count
             spawn = conn.execute(
@@ -169,6 +277,9 @@ def list_bosses(
 
 @router.get("/mobs/{mob_id}")
 def get_mob(mob_id: int):
+    if not require_mapleland_id(mob_id, "mobs"):
+        raise HTTPException(status_code=404, detail="Mob not found")
+
     try:
         conn = get_connection()
     except Exception:
@@ -189,14 +300,18 @@ def get_mob(mob_id: int):
         mob["names_en"] = [dict(r) for r in en_rows]
 
         # Items dropped by this mob (한국어 이름 포함)
+        item_filter = id_filter_sql("i.id", "items")
+        drop_conditions = ["md.mob_id = ?"]
+        if item_filter:
+            drop_conditions.append(item_filter)
         drop_rows = conn.execute(
-            """
+            f"""
             SELECT i.id, i.name, i.category, md.drop_rate,
                    (SELECT name_en FROM entity_names_en
                     WHERE entity_type='item' AND entity_id=i.id AND source='kms') as name_kr
             FROM mob_drops md
             JOIN items i ON i.id = md.item_id
-            WHERE md.mob_id = ?
+            WHERE {' AND '.join(drop_conditions)}
             ORDER BY COALESCE(
                 (SELECT name_en FROM entity_names_en WHERE entity_type='item' AND entity_id=i.id AND source='kms'),
                 i.name
@@ -207,12 +322,18 @@ def get_mob(mob_id: int):
         drops = [dict(r) for r in drop_rows]
 
         # Maps where this mob spawns
+        map_filter = id_filter_sql("m.id", "maps")
+        spawn_conditions = ["ms.mob_id = ?"]
+        if map_filter:
+            spawn_conditions.append(map_filter)
         spawn_rows = conn.execute(
-            """
-            SELECT m.id, m.name, m.street_name, m.area
+            f"""
+            SELECT m.id, m.name, m.street_name, m.area,
+                   (SELECT name_en FROM entity_names_en
+                    WHERE entity_type='map' AND entity_id=m.id AND source='kms') as name_kr
             FROM mob_spawns ms
             JOIN maps m ON m.id = ms.map_id
-            WHERE ms.mob_id = ?
+            WHERE {' AND '.join(spawn_conditions)}
             ORDER BY m.name
             """,
             (mob_id,),

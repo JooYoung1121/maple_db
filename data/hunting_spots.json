@@ -341,21 +341,6 @@
     "source": "DB 데이터 + 커뮤니티"
   },
   {
-    "id": "wolf-spider",
-    "levelMin": 75,
-    "levelMax": 95,
-    "mapName": "늑대거미 동굴",
-    "mapNameEn": "Wolf Spider Cavern",
-    "region": "싱가포르/뉴리프",
-    "monsters": [
-      { "name": "늑대거미", "nameEn": "Wolf Spider", "level": 80, "hp": 28000, "exp": 1200 }
-    ],
-    "expPerHour": 100000,
-    "jobs": ["전체"],
-    "tips": "경험치 대비 HP가 낮아 킬 효율이 매우 높은 숨은 명당. 비숍은 홀리 심볼 활용 시 더욱 효율적. MapleRoyals에서도 75~95 구간 1순위 추천. 다만 맵이 좁아 경쟁이 심할 수 있음.",
-    "source": "MapleRoyals Training Guide + DB 데이터"
-  },
-  {
     "id": "elnath-lycanthrope",
     "levelMin": 78,
     "levelMax": 90,
@@ -368,7 +353,7 @@
     ],
     "expPerHour": 90000,
     "jobs": ["전체"],
-    "tips": "늑대거미 경쟁이 심할 때 대안. HP 27,000 대비 경험치 850으로 효율적. 드랍 아이템도 좋은 편.",
+    "tips": "HP 27,000 대비 경험치 850으로 효율적. 리프레/루디브리엄 고레벨 사냥 진입 전 대안으로 활용 가능.",
     "source": "DB 데이터 + 커뮤니티"
   },
   {
@@ -630,21 +615,6 @@
     "jobs": ["전체"],
     "tips": "리프레 중급 사냥터. 듀얼 버크(Lv.88)도 같은 구역에서 사냥 가능. 코니언/와이번 이전 단계.",
     "source": "DB 데이터 + 커뮤니티"
-  },
-  {
-    "id": "mini-bean",
-    "levelMin": 140,
-    "levelMax": 200,
-    "mapName": "시간의 신전 (미니빈)",
-    "mapNameEn": "Temple of Time (Mini Bean)",
-    "region": "시간의 신전",
-    "monsters": [
-      { "name": "미니빈", "nameEn": "Mini Bean", "level": 150, "hp": 303000, "exp": 11000 }
-    ],
-    "expPerHour": 220000,
-    "jobs": ["전체"],
-    "tips": "시간의 신전 최종 구역. 남둥과 함께 엔드게임 사냥터. 파티 사냥 필수. 매우 높은 스펙 요구.",
-    "source": "DB 데이터 + MapleRoyals"
   },
   {
     "id": "boss-zakum",

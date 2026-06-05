@@ -4,6 +4,7 @@ from typing import Optional
 import json
 
 from crawler.db import get_connection
+from api.routes.mapleland_reference import id_filter_sql, require_mapleland_id
 
 router = APIRouter()
 
@@ -15,7 +16,11 @@ def npc_filters():
     except Exception:
         return {"shop_count": 0}
     try:
-        shop_count = conn.execute("SELECT COUNT(*) FROM npcs WHERE is_shop=1").fetchone()[0]
+        mapleland_filter = id_filter_sql("id", "npcs")
+        conditions = ["is_shop=1"]
+        if mapleland_filter:
+            conditions.append(mapleland_filter)
+        shop_count = conn.execute(f"SELECT COUNT(*) FROM npcs WHERE {' AND '.join(conditions)}").fetchone()[0]
         return {"shop_count": shop_count}
     finally:
         conn.close()
@@ -27,10 +32,16 @@ def list_npcs(
     per_page: int = Query(default=20, ge=1, le=100),
     is_shop: Optional[bool] = Query(default=None),
     q: Optional[str] = Query(default=None),
+    mapleland_only: bool = Query(default=True),
 ):
     offset = (page - 1) * per_page
     conditions = []
     params: list = []
+
+    if mapleland_only:
+        mapleland_filter = id_filter_sql("id", "npcs")
+        if mapleland_filter:
+            conditions.append(mapleland_filter)
 
     if is_shop is not None:
         conditions.append("is_shop = ?")
@@ -75,6 +86,9 @@ def list_npcs(
 
 @router.get("/npcs/{npc_id}")
 def get_npc(npc_id: int):
+    if not require_mapleland_id(npc_id, "npcs"):
+        raise HTTPException(status_code=404, detail="NPC not found")
+
     try:
         conn = get_connection()
     except Exception:

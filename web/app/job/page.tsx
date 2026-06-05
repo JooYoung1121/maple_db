@@ -40,14 +40,14 @@ const JOB_PATHS: JobPath[] = [
         advancements: [
           {
             order: 1, level: 10, jobName: "전사",
-            npc: "다크로드", location: "페리온 - 전사 전직관",
+            npc: "주먹펴고 일어서", location: "페리온 - 전사 전직관",
             quest: "페리온의 전사 전직관을 찾아가면 바로 전직 가능",
             skills: ["파워 스트라이크", "슬래시 블래스트"],
             tip: "STR 35 이상 필요",
           },
           {
             order: 2, level: 30, jobName: "파이터",
-            npc: "다크로드", location: "페리온 - 전사 전직관",
+            npc: "주먹펴고 일어서", location: "페리온 - 전사 전직관",
             quest: "전사의 증표를 모아 전직관에게 전달",
             skills: ["파워 가드", "소드 부스터", "레이지"],
             tip: "한손검/도끼/둔기 중 선택. 파이터는 한손검+방패 추천",
@@ -66,13 +66,13 @@ const JOB_PATHS: JobPath[] = [
         advancements: [
           {
             order: 1, level: 10, jobName: "전사",
-            npc: "다크로드", location: "페리온 - 전사 전직관",
+            npc: "주먹펴고 일어서", location: "페리온 - 전사 전직관",
             quest: "페리온의 전사 전직관을 찾아가면 바로 전직 가능",
             skills: ["파워 스트라이크", "슬래시 블래스트"],
           },
           {
             order: 2, level: 30, jobName: "페이지",
-            npc: "다크로드", location: "페리온 - 전사 전직관",
+            npc: "주먹펴고 일어서", location: "페리온 - 전사 전직관",
             quest: "전사의 증표를 모아 전직관에게 전달",
             skills: ["파워 가드", "소드 부스터", "쓰레셔"],
             tip: "한손둔기+방패 조합 추천. 안정적인 사냥 가능",
@@ -87,26 +87,26 @@ const JOB_PATHS: JobPath[] = [
         ],
       },
       {
-        name: "스피어맨 → 버서커",
+        name: "스피어맨 → 용기사",
         advancements: [
           {
             order: 1, level: 10, jobName: "전사",
-            npc: "다크로드", location: "페리온 - 전사 전직관",
+            npc: "주먹펴고 일어서", location: "페리온 - 전사 전직관",
             quest: "페리온의 전사 전직관을 찾아가면 바로 전직 가능",
             skills: ["파워 스트라이크", "슬래시 블래스트"],
           },
           {
             order: 2, level: 30, jobName: "스피어맨",
-            npc: "다크로드", location: "페리온 - 전사 전직관",
+            npc: "주먹펴고 일어서", location: "페리온 - 전사 전직관",
             quest: "전사의 증표를 모아 전직관에게 전달",
             skills: ["폴암 부스터", "아이언 월", "하이퍼 바디"],
             tip: "하이퍼 바디로 파티에서 환영받는 직업",
           },
           {
-            order: 3, level: 70, jobName: "버서커",
+            order: 3, level: 70, jobName: "용기사",
             npc: "타일러스", location: "엘나스 - 사무실",
             quest: "엘나스의 타일러스를 찾아가 시련 퀘스트 완료",
-            skills: ["드래곤 로어", "폴암 퓨리"],
+            skills: ["드래곤 로어", "버스터", "새크리파이스"],
             tip: "광역기가 강력. 사냥 효율이 좋음",
           },
         ],
@@ -125,22 +125,22 @@ const JOB_PATHS: JobPath[] = [
         advancements: [
           {
             order: 1, level: 8, jobName: "마법사",
-            npc: "겔리메르", location: "엘리니아 - 마법의 도서관",
-            quest: "엘리니아 마법의 도서관에서 겔리메르를 만나면 전직",
+            npc: "하인즈", location: "엘리니아 - 마법의 도서관",
+            quest: "엘리니아 마법의 도서관에서 하인즈를 만나면 전직",
             skills: ["매직 클로", "매직 가드", "매직 아머"],
             tip: "INT 20 이상 필요. 레벨 8에 전직 가능 (가장 빠름)",
           },
           {
             order: 2, level: 30, jobName: "위자드(불/독)",
-            npc: "겔리메르", location: "엘리니아 - 마법의 도서관",
+            npc: "하인즈", location: "엘리니아 - 마법의 도서관",
             quest: "마법사의 증표를 모아 전달",
             skills: ["파이어 애로우", "포이즌 브레스", "메디테이션"],
             tip: "지속 데미지(DOT)가 강점. 보스전에서 유리",
           },
           {
             order: 3, level: 70, jobName: "메이지(불/독)",
-            npc: "로비나", location: "엘나스 - 사무실",
-            quest: "엘나스의 로비나를 찾아가 시련 퀘스트 완료",
+            npc: "로베이라", location: "엘나스 - 사무실",
+            quest: "엘나스의 로베이라를 찾아가 시련 퀘스트 완료",
             skills: ["익스플로전", "포이즌 미스트", "엘리먼트 앰프"],
             tip: "익스플로전의 광역 딜이 강력",
           },
@@ -151,21 +151,21 @@ const JOB_PATHS: JobPath[] = [
         advancements: [
           {
             order: 1, level: 8, jobName: "마법사",
-            npc: "겔리메르", location: "엘리니아 - 마법의 도서관",
-            quest: "엘리니아 마법의 도서관에서 겔리메르를 만나면 전직",
+            npc: "하인즈", location: "엘리니아 - 마법의 도서관",
+            quest: "엘리니아 마법의 도서관에서 하인즈를 만나면 전직",
             skills: ["매직 클로", "매직 가드", "매직 아머"],
           },
           {
             order: 2, level: 30, jobName: "위자드(얼/뇌)",
-            npc: "겔리메르", location: "엘리니아 - 마법의 도서관",
+            npc: "하인즈", location: "엘리니아 - 마법의 도서관",
             quest: "마법사의 증표를 모아 전달",
             skills: ["콜드 빔", "썬더 볼트", "메디테이션"],
             tip: "빙결 효과로 안전한 사냥 가능",
           },
           {
             order: 3, level: 70, jobName: "메이지(얼/뇌)",
-            npc: "로비나", location: "엘나스 - 사무실",
-            quest: "엘나스의 로비나를 찾아가 시련 퀘스트 완료",
+            npc: "로베이라", location: "엘나스 - 사무실",
+            quest: "엘나스의 로베이라를 찾아가 시련 퀘스트 완료",
             skills: ["아이스 스트라이크", "썬더 스피어", "엘리먼트 앰프"],
             tip: "광역 빙결로 사냥 효율 최상급",
           },
@@ -176,21 +176,21 @@ const JOB_PATHS: JobPath[] = [
         advancements: [
           {
             order: 1, level: 8, jobName: "마법사",
-            npc: "겔리메르", location: "엘리니아 - 마법의 도서관",
-            quest: "엘리니아 마법의 도서관에서 겔리메르를 만나면 전직",
+            npc: "하인즈", location: "엘리니아 - 마법의 도서관",
+            quest: "엘리니아 마법의 도서관에서 하인즈를 만나면 전직",
             skills: ["매직 클로", "매직 가드", "매직 아머"],
           },
           {
             order: 2, level: 30, jobName: "클레릭",
-            npc: "겔리메르", location: "엘리니아 - 마법의 도서관",
+            npc: "하인즈", location: "엘리니아 - 마법의 도서관",
             quest: "마법사의 증표를 모아 전달",
             skills: ["힐", "인빈서블", "블레스"],
             tip: "힐로 언데드 몬스터 즉사 가능. 파티 필수 직업",
           },
           {
             order: 3, level: 70, jobName: "프리스트",
-            npc: "로비나", location: "엘나스 - 사무실",
-            quest: "엘나스의 로비나를 찾아가 시련 퀘스트 완료",
+            npc: "로베이라", location: "엘나스 - 사무실",
+            quest: "엘나스의 로베이라를 찾아가 시련 퀘스트 완료",
             skills: ["홀리 심볼", "샤이닝 레이", "디스펠"],
             tip: "홀리 심볼로 파티 경험치 1.5배. 최고의 파티 직업",
           },
@@ -284,8 +284,8 @@ const JOB_PATHS: JobPath[] = [
           },
           {
             order: 3, level: 70, jobName: "허밋",
-            npc: "아르웬", location: "엘나스 - 사무실",
-            quest: "엘나스의 아르웬을 찾아가 시련 퀘스트 완료",
+            npc: "아레크", location: "엘나스 - 사무실",
+            quest: "엘나스의 아레크를 찾아가 시련 퀘스트 완료",
             skills: ["어벤져", "쉐도우 웹", "쉐도우 파트너"],
             tip: "쉐도우 파트너로 2배 공격. DPM 최상위",
           },
@@ -309,8 +309,8 @@ const JOB_PATHS: JobPath[] = [
           },
           {
             order: 3, level: 70, jobName: "시프마스터",
-            npc: "아르웬", location: "엘나스 - 사무실",
-            quest: "엘나스의 아르웬을 찾아가 시련 퀘스트 완료",
+            npc: "아레크", location: "엘나스 - 사무실",
+            quest: "엘나스의 아레크를 찾아가 시련 퀘스트 완료",
             skills: ["어설트", "밴디트 슬래시", "메소 가드"],
             tip: "메소 가드로 생존력 UP. 밴디트 슬래시 광역 사냥",
           },

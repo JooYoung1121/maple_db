@@ -63,6 +63,9 @@ function SkillsPageContent() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4">스킬</h1>
+      <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-900 px-4 py-3 text-sm text-amber-800 dark:text-amber-200">
+        현재 스킬 DB는 과거 수집 데이터가 섞여 있어 메랜 기준 정규 리빌드가 필요합니다. 직업별 스킬 배치와 마스터레벨은 검증 중인 참고 정보로 봐주세요.
+      </div>
       <div className="flex gap-1 mb-4 overflow-x-auto">
         {JOB_TABS.map((tab) => (
           <button

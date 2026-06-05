@@ -1,0 +1,4796 @@
+{
+  "generated_at": "2026-06-05T00:33:16.905Z",
+  "db_path": "/Users/user/Desktop/jy/maple_db/data/maple.db",
+  "counts": {
+    "items": {
+      "total": 14146,
+      "visible": 12889,
+      "hidden": 1257
+    },
+    "mobs": {
+      "total": 1877,
+      "visible": 1229,
+      "hidden": 648
+    },
+    "maps": {
+      "total": 4771
+    },
+    "npcs": {
+      "total": 1598
+    },
+    "quests": {
+      "total": 419
+    },
+    "skills": {
+      "total": 265
+    },
+    "mob_drops": {
+      "total": 2588
+    },
+    "mob_spawns": {
+      "total": 190
+    }
+  },
+  "names": {
+    "visible_items_without_kms_name": 2633,
+    "visible_mobs_without_kms_name": 310
+  },
+  "relations": {
+    "mob_drops": {
+      "total": 2588,
+      "null_drop_rate": 2588,
+      "visible_mob_links": 1997,
+      "visible_item_links": 2311
+    },
+    "mob_spawns": {
+      "total": 190,
+      "maps_with_spawns": 44,
+      "mobs_with_spawns": 151
+    }
+  },
+  "anomalies": {
+    "maps_without_area": 4771,
+    "maps_without_spawns": 4727,
+    "visible_mobs_invalid_level_or_hp": [
+      {
+        "id": 9101002,
+        "name": "Ghost Stump",
+        "level": 0,
+        "hp": 320,
+        "exp": 33,
+        "is_boss": 1
+      },
+      {
+        "id": 9420081,
+        "name": "Present Fake Scientist Abductor Alien",
+        "level": 0,
+        "hp": 1,
+        "exp": 0,
+        "is_boss": 0
+      },
+      {
+        "id": 9420086,
+        "name": "Powerful Alien Summoning Cube",
+        "level": 0,
+        "hp": 1,
+        "exp": 0,
+        "is_boss": 0
+      },
+      {
+        "id": 9420089,
+        "name": "Alien That Appeared Summoner",
+        "level": 0,
+        "hp": 1,
+        "exp": 0,
+        "is_boss": 0
+      },
+      {
+        "id": 9420097,
+        "name": "Lighting Cube Clear Check Fake Mob",
+        "level": 0,
+        "hp": 1000000,
+        "exp": 0,
+        "is_boss": 0
+      },
+      {
+        "id": 9420126,
+        "name": "Wise Alien Summoning Cube",
+        "level": 0,
+        "hp": 1,
+        "exp": 0,
+        "is_boss": 0
+      },
+      {
+        "id": 9420127,
+        "name": "Lucky Alien Summoning Cube",
+        "level": 0,
+        "hp": 1,
+        "exp": 0,
+        "is_boss": 0
+      },
+      {
+        "id": 9400714,
+        "name": "Snow Blower",
+        "level": 1,
+        "hp": 1,
+        "exp": 20,
+        "is_boss": 0
+      },
+      {
+        "id": 9700036,
+        "name": "Wooden Box",
+        "level": 1,
+        "hp": 1,
+        "exp": 0,
+        "is_boss": 0
+      },
+      {
+        "id": 9700000,
+        "name": "Subway Slime",
+        "level": 24,
+        "hp": 1,
+        "exp": 0,
+        "is_boss": 0
+      },
+      {
+        "id": 9700001,
+        "name": "Subway Orange Mushroom",
+        "level": 24,
+        "hp": 1,
+        "exp": 0,
+        "is_boss": 0
+      },
+      {
+        "id": 9700002,
+        "name": "Subway Ribbon Pig",
+        "level": 24,
+        "hp": 1,
+        "exp": 0,
+        "is_boss": 0
+      },
+      {
+        "id": 9700003,
+        "name": "Subway Horny Mushroom",
+        "level": 24,
+        "hp": 1,
+        "exp": 0,
+        "is_boss": 0
+      },
+      {
+        "id": 9400707,
+        "name": "Item Maker",
+        "level": 30,
+        "hp": 1,
+        "exp": 0,
+        "is_boss": 0
+      },
+      {
+        "id": 9700004,
+        "name": "Pyramid Mummydog",
+        "level": 39,
+        "hp": 1,
+        "exp": 0,
+        "is_boss": 0
+      },
+      {
+        "id": 9700005,
+        "name": "Pyramid Skeleton",
+        "level": 39,
+        "hp": 1,
+        "exp": 0,
+        "is_boss": 0
+      },
+      {
+        "id": 9700006,
+        "name": "Mummy",
+        "level": 39,
+        "hp": 1,
+        "exp": 0,
+        "is_boss": 0
+      },
+      {
+        "id": 9700007,
+        "name": "Pharaoh Snake",
+        "level": 39,
+        "hp": 1,
+        "exp": 0,
+        "is_boss": 0
+      },
+      {
+        "id": 9700008,
+        "name": "Anubis",
+        "level": 39,
+        "hp": 1,
+        "exp": 0,
+        "is_boss": 0
+      },
+      {
+        "id": 9700019,
+        "name": "Pharaoh Jr. Yeti",
+        "level": 39,
+        "hp": 1,
+        "exp": 0,
+        "is_boss": 0
+      }
+    ],
+    "suspicious_bosses": [
+      {
+        "id": 9101002,
+        "name": "Ghost Stump",
+        "level": 0,
+        "hp": 320,
+        "exp": 33
+      },
+      {
+        "id": 8820014,
+        "name": "Pink Bean",
+        "level": 1,
+        "hp": 2100000000,
+        "exp": 50000000
+      }
+    ],
+    "quest_low_meso_reward_samples": [
+      {
+        "id": 87,
+        "name": "리사의 특수치료제",
+        "level_req": 30,
+        "item_reward": null,
+        "meso_reward": 1
+      },
+      {
+        "id": 209,
+        "name": "칠성이의 돼지고기 산적",
+        "level_req": 37,
+        "item_reward": "돼지고기 산적",
+        "meso_reward": 1
+      },
+      {
+        "id": 369,
+        "name": "뱀을 무서워하는 지트아저씨",
+        "level_req": 55,
+        "item_reward": "무예타이 끈 | 마사지 오일 5개",
+        "meso_reward": 1
+      },
+      {
+        "id": 208,
+        "name": "칠남이의 메밀묵",
+        "level_req": 37,
+        "item_reward": "메밀묵 2개",
+        "meso_reward": 2
+      },
+      {
+        "id": 344,
+        "name": "요정 숲의 전령",
+        "level_req": 8,
+        "item_reward": "리프레 안내 책자",
+        "meso_reward": 2
+      },
+      {
+        "id": 345,
+        "name": "장난감성의 전령",
+        "level_req": 8,
+        "item_reward": "리프레 안내 책자",
+        "meso_reward": 2
+      },
+      {
+        "id": 397,
+        "name": "쉬는 시간 10분 속 연필 전쟁",
+        "level_req": 35,
+        "item_reward": null,
+        "meso_reward": 2
+      },
+      {
+        "id": 177,
+        "name": "에오스탑의 거미퇴치",
+        "level_req": 28,
+        "item_reward": "어둠의 크리스탈 원석 3개",
+        "meso_reward": 3
+      },
+      {
+        "id": 186,
+        "name": "오뚝이의 연장",
+        "level_req": 31,
+        "item_reward": "이상한 보따리 3개",
+        "meso_reward": 3
+      },
+      {
+        "id": 195,
+        "name": "장난감 조립",
+        "level_req": 36,
+        "item_reward": "장난감 로봇 소환 보따리 3개",
+        "meso_reward": 3
+      },
+      {
+        "id": 239,
+        "name": "로봇 부품 회수",
+        "level_req": 30,
+        "item_reward": "사령실 워프 캡슐 3개 | 루디브리엄 워프 캡슐 3개",
+        "meso_reward": 3
+      },
+      {
+        "id": 243,
+        "name": "훈이의 이 통증",
+        "level_req": 31,
+        "item_reward": "펫장비 이동속도 주문서 60% 3개",
+        "meso_reward": 3
+      },
+      {
+        "id": 251,
+        "name": "지독한 늦잠꾸러기",
+        "level_req": 38,
+        "item_reward": null,
+        "meso_reward": 3
+      },
+      {
+        "id": 257,
+        "name": "외계인 그레이와의 거래",
+        "level_req": 44,
+        "item_reward": "외계인 소환 보따리 3개",
+        "meso_reward": 3
+      },
+      {
+        "id": 262,
+        "name": "새로운 조종 프로그램",
+        "level_req": 50,
+        "item_reward": null,
+        "meso_reward": 3
+      },
+      {
+        "id": 280,
+        "name": "에레스카의 모래그림단",
+        "level_req": 29,
+        "item_reward": "다이아몬드의 원석 3개 | 아다만티움의 원석 3개",
+        "meso_reward": 3
+      },
+      {
+        "id": 89,
+        "name": "봉달이를 위한 먹이사냥 1",
+        "level_req": 30,
+        "item_reward": "뚱뚱이 핫도그 10개 | 펫의 먹이 30개",
+        "meso_reward": 4
+      },
+      {
+        "id": 90,
+        "name": "봉달이를 위한 먹이사냥 2",
+        "level_req": 30,
+        "item_reward": "뚱뚱이 핫도그 15개 | 마법석 활성화 주문서 2개 | 펫의 먹이 15개",
+        "meso_reward": 4
+      },
+      {
+        "id": 91,
+        "name": "봉달이를 위한 먹이사냥 3",
+        "level_req": 30,
+        "item_reward": "신발 이동속도 주문서 60% | 펫의 먹이 15개 | 마법석 활성화 주문서 2개 | 하얀 포션 20개",
+        "meso_reward": 4
+      },
+      {
+        "id": 49,
+        "name": "모래그림단의 지령! (특별한 지령)",
+        "level_req": 30,
+        "item_reward": null,
+        "meso_reward": 5
+      }
+    ],
+    "quest_generic_drop_item_conditions": [
+      {
+        "id": 9,
+        "name": "마야와 이상한 약",
+        "quest_conditions": "[\"다크스텀프 50마리\", \"다크스텀프 드롭 아이템 50개\", \"다크스텀프 드롭 아이템 20개\", \"다크스텀프 드롭 아이템 40개\"]"
+      },
+      {
+        "id": 11,
+        "name": "넬라와 커닝시티 주민들의 의뢰 1",
+        "quest_conditions": "[\"버블링 50마리\", \"버블링 드롭 아이템 50개\"]"
+      },
+      {
+        "id": 13,
+        "name": "넬라와 커닝시티 주민들의 의뢰 3",
+        "quest_conditions": "[\"옥토퍼스 100마리\", \"옥토퍼스 드롭 아이템 1개\"]"
+      },
+      {
+        "id": 27,
+        "name": "가출소년 알렉스",
+        "quest_conditions": "[\"리본돼지 100마리\", \"리본돼지 드롭 아이템 50개\"]"
+      },
+      {
+        "id": 43,
+        "name": "넬라와 커닝시티 주민들의 의뢰 4",
+        "quest_conditions": "[\"주니어네키 100마리\", \"주니어네키 드롭 아이템 50개\"]"
+      },
+      {
+        "id": 55,
+        "name": "이카루스의 열기구",
+        "quest_conditions": "[\"식탁보 100개\", \"주니어레이스 드롭 아이템 10개\"]"
+      },
+      {
+        "id": 134,
+        "name": "(~Lv.100) 바다의 무법자",
+        "quest_conditions": "[\"데비존 1마리\", \"데비존 1마리\", \"데비존 드롭 아이템 1개\"]"
+      }
+    ],
+    "duplicate_skill_names": [
+      {
+        "skill_name": "메이플 용사",
+        "copies": 5,
+        "job_classes": "궁수,도적,마법사,전사,해적"
+      },
+      {
+        "skill_name": "용사의 의지",
+        "copies": 5,
+        "job_classes": "궁수,도적,마법사,전사,해적"
+      },
+      {
+        "skill_name": "MP 증가량 향상",
+        "copies": 2,
+        "job_classes": "마법사,전사"
+      },
+      {
+        "skill_name": "닌자 앰부쉬",
+        "copies": 2,
+        "job_classes": "도적,전사"
+      },
+      {
+        "skill_name": "님블 바디",
+        "copies": 2,
+        "job_classes": "도적,전사"
+      },
+      {
+        "skill_name": "다크 사이트",
+        "copies": 2,
+        "job_classes": "도적,전사"
+      },
+      {
+        "skill_name": "더블 스탭",
+        "copies": 2,
+        "job_classes": "도적,전사"
+      },
+      {
+        "skill_name": "디스오더",
+        "copies": 2,
+        "job_classes": "도적,전사"
+      },
+      {
+        "skill_name": "럭키 세븐",
+        "copies": 2,
+        "job_classes": "도적,전사"
+      },
+      {
+        "skill_name": "베놈",
+        "copies": 2,
+        "job_classes": "도적,전사"
+      },
+      {
+        "skill_name": "쇼다운",
+        "copies": 2,
+        "job_classes": "도적,전사"
+      },
+      {
+        "skill_name": "쉴드 마스터리",
+        "copies": 2,
+        "job_classes": "도적,전사"
+      },
+      {
+        "skill_name": "인듀어",
+        "copies": 2,
+        "job_classes": "도적,전사"
+      },
+      {
+        "skill_name": "킨 아이즈",
+        "copies": 2,
+        "job_classes": "도적,전사"
+      },
+      {
+        "skill_name": "페이크",
+        "copies": 2,
+        "job_classes": "도적,전사"
+      },
+      {
+        "skill_name": "헤이스트",
+        "copies": 2,
+        "job_classes": "도적,전사"
+      }
+    ],
+    "suspicious_warrior_skills": [
+      {
+        "id": 91,
+        "job_class": "전사",
+        "job_branch": "1차",
+        "skill_name": "더블 스탭"
+      },
+      {
+        "id": 92,
+        "job_class": "전사",
+        "job_branch": "2차",
+        "skill_name": "럭키 세븐"
+      },
+      {
+        "id": 101,
+        "job_class": "전사",
+        "job_branch": "3차",
+        "skill_name": "쉐도우 파트너"
+      },
+      {
+        "id": 112,
+        "job_class": "전사",
+        "job_branch": "4차",
+        "skill_name": "트리플 스로우"
+      },
+      {
+        "id": 97,
+        "job_class": "전사",
+        "job_branch": "2차",
+        "skill_name": "헤이스트"
+      }
+    ]
+  },
+  "crosscheck": {
+    "mobs_vs_wz83": {
+      "source": "wz_data/Mob_info.json",
+      "wz_count": 1564,
+      "db_count": 1877,
+      "matched": 1548,
+      "perfect": 1528,
+      "mismatched": 20,
+      "not_in_wz": 329,
+      "mismatch_samples": [
+        {
+          "id": 5130106,
+          "name": "Transforming Dark Jr. Yeti",
+          "diff": {
+            "exp": {
+              "db": 180,
+              "wz83": 0
+            }
+          }
+        },
+        {
+          "id": 8820014,
+          "name": "Pink Bean",
+          "diff": {
+            "exp": {
+              "db": 50000000,
+              "wz83": 0
+            }
+          }
+        },
+        {
+          "id": 9000100,
+          "name": "Fire Boar 2",
+          "diff": {
+            "exp": {
+              "db": 107,
+              "wz83": 0
+            }
+          }
+        },
+        {
+          "id": 9300035,
+          "name": "Jr. Gargoyle",
+          "diff": {
+            "exp": {
+              "db": 430,
+              "wz83": 0
+            }
+          }
+        },
+        {
+          "id": 9300061,
+          "name": "Moon Bunny",
+          "diff": {
+            "exp": {
+              "db": 110,
+              "wz83": 0
+            }
+          }
+        },
+        {
+          "id": 9300160,
+          "name": "Blue Flower Serpent",
+          "diff": {
+            "exp": {
+              "db": 110,
+              "wz83": 0
+            }
+          }
+        },
+        {
+          "id": 9300161,
+          "name": "Red Flower Serpent",
+          "diff": {
+            "exp": {
+              "db": 110,
+              "wz83": 0
+            }
+          }
+        },
+        {
+          "id": 9300164,
+          "name": "The Book Ghost",
+          "diff": {
+            "exp": {
+              "db": 175,
+              "wz83": 0
+            }
+          }
+        },
+        {
+          "id": 9300165,
+          "name": "Peach Monkey",
+          "diff": {
+            "exp": {
+              "db": 240,
+              "wz83": 0
+            }
+          }
+        },
+        {
+          "id": 9300275,
+          "name": "Shammos",
+          "diff": {
+            "level": {
+              "db": 85,
+              "wz83": 10
+            },
+            "hp": {
+              "db": 50000,
+              "wz83": 10
+            },
+            "mp": {
+              "db": 2000,
+              "wz83": 10
+            },
+            "defense": {
+              "db": 900,
+              "wz83": 10
+            },
+            "magic_defense": {
+              "db": 950,
+              "wz83": 10
+            },
+            "physical_damage": {
+              "db": 400,
+              "wz83": 20
+            },
+            "magic_damage": {
+              "db": 450,
+              "wz83": 0
+            },
+            "accuracy": {
+              "db": 160,
+              "wz83": 10
+            },
+            "evasion": {
+              "db": 30,
+              "wz83": 0
+            }
+          }
+        },
+        {
+          "id": 9300276,
+          "name": "Hoblin Hector",
+          "diff": {
+            "level": {
+              "db": 75,
+              "wz83": 10
+            },
+            "hp": {
+              "db": 32000,
+              "wz83": 10
+            },
+            "mp": {
+              "db": 150,
+              "wz83": 10
+            },
+            "exp": {
+              "db": 500,
+              "wz83": 1
+            },
+            "defense": {
+              "db": 550,
+              "wz83": 10
+            },
+            "magic_defense": {
+              "db": 550,
+              "wz83": 10
+            },
+            "physical_damage": {
+              "db": 200,
+              "wz83": 20
+            },
+            "magic_damage": {
+              "db": 230,
+              "wz83": 0
+            },
+            "accuracy": {
+              "db": 160,
+              "wz83": 10
+            },
+            "evasion": {
+              "db": 25,
+              "wz83": 0
+            }
+          }
+        },
+        {
+          "id": 9300277,
+          "name": "Elite Hoblin",
+          "diff": {
+            "level": {
+              "db": 76,
+              "wz83": 10
+            },
+            "hp": {
+              "db": 33000,
+              "wz83": 10
+            },
+            "mp": {
+              "db": 200,
+              "wz83": 10
+            },
+            "exp": {
+              "db": 850,
+              "wz83": 1
+            },
+            "defense": {
+              "db": 560,
+              "wz83": 10
+            },
+            "magic_defense": {
+              "db": 560,
+              "wz83": 10
+            },
+            "physical_damage": {
+              "db": 345,
+              "wz83": 20
+            },
+            "magic_damage": {
+              "db": 385,
+              "wz83": 0
+            },
+            "accuracy": {
+              "db": 160,
+              "wz83": 10
+            },
+            "evasion": {
+              "db": 26,
+              "wz83": 0
+            }
+          }
+        },
+        {
+          "id": 9300278,
+          "name": "Elite Green Hoblin",
+          "diff": {
+            "level": {
+              "db": 77,
+              "wz83": 10
+            },
+            "hp": {
+              "db": 34000,
+              "wz83": 10
+            },
+            "mp": {
+              "db": 200,
+              "wz83": 10
+            },
+            "exp": {
+              "db": 900,
+              "wz83": 1
+            },
+            "defense": {
+              "db": 570,
+              "wz83": 10
+            },
+            "magic_defense": {
+              "db": 570,
+              "wz83": 10
+            },
+            "physical_damage": {
+              "db": 350,
+              "wz83": 20
+            },
+            "magic_damage": {
+              "db": 390,
+              "wz83": 0
+            },
+            "accuracy": {
+              "db": 165,
+              "wz83": 10
+            },
+            "evasion": {
+              "db": 27,
+              "wz83": 0
+            }
+          }
+        },
+        {
+          "id": 9300279,
+          "name": "Combat Hoblin",
+          "diff": {
+            "level": {
+              "db": 78,
+              "wz83": 10
+            },
+            "hp": {
+              "db": 35000,
+              "wz83": 10
+            },
+            "mp": {
+              "db": 250,
+              "wz83": 10
+            },
+            "exp": {
+              "db": 950,
+              "wz83": 1
+            },
+            "defense": {
+              "db": 580,
+              "wz83": 10
+            },
+            "magic_defense": {
+              "db": 580,
+              "wz83": 10
+            },
+            "physical_damage": {
+              "db": 355,
+              "wz83": 20
+            },
+            "magic_damage": {
+              "db": 395,
+              "wz83": 0
+            },
+            "accuracy": {
+              "db": 165,
+              "wz83": 10
+            },
+            "evasion": {
+              "db": 28,
+              "wz83": 0
+            }
+          }
+        },
+        {
+          "id": 9300280,
+          "name": "Ferocious Hoblin",
+          "diff": {
+            "level": {
+              "db": 79,
+              "wz83": 10
+            },
+            "hp": {
+              "db": 36000,
+              "wz83": 10
+            },
+            "mp": {
+              "db": 300,
+              "wz83": 10
+            },
+            "exp": {
+              "db": 1000,
+              "wz83": 1
+            },
+            "defense": {
+              "db": 590,
+              "wz83": 10
+            },
+            "magic_defense": {
+              "db": 590,
+              "wz83": 10
+            },
+            "physical_damage": {
+              "db": 360,
+              "wz83": 20
+            },
+            "magic_damage": {
+              "db": 400,
+              "wz83": 0
+            },
+            "accuracy": {
+              "db": 170,
+              "wz83": 10
+            },
+            "evasion": {
+              "db": 29,
+              "wz83": 0
+            }
+          }
+        },
+        {
+          "id": 9300281,
+          "name": "Rex",
+          "diff": {
+            "level": {
+              "db": 80,
+              "wz83": 10
+            },
+            "hp": {
+              "db": 3000000,
+              "wz83": 10
+            },
+            "mp": {
+              "db": 10000,
+              "wz83": 10
+            },
+            "exp": {
+              "db": 330000,
+              "wz83": 1
+            },
+            "defense": {
+              "db": 700,
+              "wz83": 10
+            },
+            "magic_defense": {
+              "db": 750,
+              "wz83": 10
+            },
+            "physical_damage": {
+              "db": 410,
+              "wz83": 20
+            },
+            "magic_damage": {
+              "db": 450,
+              "wz83": 0
+            },
+            "accuracy": {
+              "db": 160,
+              "wz83": 10
+            },
+            "evasion": {
+              "db": 30,
+              "wz83": 0
+            }
+          }
+        },
+        {
+          "id": 9300282,
+          "name": "Shammos",
+          "diff": {
+            "level": {
+              "db": 62,
+              "wz83": 10
+            },
+            "hp": {
+              "db": 400000,
+              "wz83": 10
+            },
+            "mp": {
+              "db": 10000,
+              "wz83": 10
+            },
+            "defense": {
+              "db": 300,
+              "wz83": 10
+            },
+            "magic_defense": {
+              "db": 500,
+              "wz83": 10
+            },
+            "physical_damage": {
+              "db": 350,
+              "wz83": 20
+            },
+            "magic_damage": {
+              "db": 330,
+              "wz83": 0
+            },
+            "accuracy": {
+              "db": 160,
+              "wz83": 10
+            },
+            "evasion": {
+              "db": 27,
+              "wz83": 0
+            }
+          }
+        },
+        {
+          "id": 9300283,
+          "name": "Rex Summoned Invisible Mob",
+          "diff": {
+            "level": {
+              "db": 40,
+              "wz83": 10
+            },
+            "hp": {
+              "db": 1,
+              "wz83": 10
+            },
+            "mp": {
+              "db": 100,
+              "wz83": 10
+            },
+            "defense": {
+              "db": 20,
+              "wz83": 10
+            },
+            "magic_defense": {
+              "db": 30,
+              "wz83": 10
+            },
+            "accuracy": {
+              "db": 90,
+              "wz83": 10
+            },
+            "evasion": {
+              "db": 500,
+              "wz83": 0
+            }
+          }
+        },
+        {
+          "id": 9300340,
+          "name": "Maple Bday Cake",
+          "diff": {
+            "exp": {
+              "db": 7,
+              "wz83": 6
+            }
+          }
+        },
+        {
+          "id": 9500190,
+          "name": "Toy Clown",
+          "diff": {
+            "level": {
+              "db": 10,
+              "wz83": 1800
+            }
+          }
+        }
+      ],
+      "not_in_wz_samples": [
+        {
+          "id": 100100,
+          "name": "Snail",
+          "level": 1,
+          "hp": 8
+        },
+        {
+          "id": 100101,
+          "name": "Blue Snail",
+          "level": 2,
+          "hp": 15
+        },
+        {
+          "id": 100120,
+          "name": "Tino",
+          "level": 1,
+          "hp": 9
+        },
+        {
+          "id": 100121,
+          "name": "Tiv",
+          "level": 3,
+          "hp": 25
+        },
+        {
+          "id": 100122,
+          "name": "Timu",
+          "level": 5,
+          "hp": 45
+        },
+        {
+          "id": 100123,
+          "name": "Tiru",
+          "level": 7,
+          "hp": 70
+        },
+        {
+          "id": 100124,
+          "name": "Tiguru",
+          "level": 9,
+          "hp": 100
+        },
+        {
+          "id": 100130,
+          "name": "Muru",
+          "level": 1,
+          "hp": 8
+        },
+        {
+          "id": 100131,
+          "name": "Murupa",
+          "level": 3,
+          "hp": 28
+        },
+        {
+          "id": 100132,
+          "name": "Murupia",
+          "level": 5,
+          "hp": 43
+        },
+        {
+          "id": 100133,
+          "name": "Murumuru",
+          "level": 7,
+          "hp": 70
+        },
+        {
+          "id": 100134,
+          "name": "Murukun",
+          "level": 9,
+          "hp": 95
+        },
+        {
+          "id": 120100,
+          "name": "Shroom",
+          "level": 2,
+          "hp": 20
+        },
+        {
+          "id": 130100,
+          "name": "Stump",
+          "level": 4,
+          "hp": 40
+        },
+        {
+          "id": 130101,
+          "name": "Red Snail",
+          "level": 4,
+          "hp": 40
+        },
+        {
+          "id": 210100,
+          "name": "Slime",
+          "level": 6,
+          "hp": 50
+        },
+        {
+          "id": 1210111,
+          "name": "Strange Pig",
+          "level": 10,
+          "hp": 120
+        },
+        {
+          "id": 2220110,
+          "name": "Crying Blue Mushroom",
+          "level": 20,
+          "hp": 350
+        },
+        {
+          "id": 2230112,
+          "name": "Terrified Wild Boar",
+          "level": 25,
+          "hp": 550
+        },
+        {
+          "id": 8300000,
+          "name": "Soaring Hawk ",
+          "level": 110,
+          "hp": 150000
+        },
+        {
+          "id": 8300001,
+          "name": "Soaring Eagle",
+          "level": 110,
+          "hp": 150000
+        },
+        {
+          "id": 8300002,
+          "name": "Soaring Red Wyvern ",
+          "level": 115,
+          "hp": 180000
+        },
+        {
+          "id": 8300003,
+          "name": "Soaring Blue Wyvern ",
+          "level": 115,
+          "hp": 180000
+        },
+        {
+          "id": 8300004,
+          "name": "Soaring Black Wyvern ",
+          "level": 115,
+          "hp": 190000
+        },
+        {
+          "id": 8300005,
+          "name": "Soaring Griffey",
+          "level": 120,
+          "hp": 3700000
+        },
+        {
+          "id": 8300006,
+          "name": "Dragonoir",
+          "level": 120,
+          "hp": 120000000
+        },
+        {
+          "id": 8300007,
+          "name": "Dragon Rider",
+          "level": 120,
+          "hp": 130000000
+        },
+        {
+          "id": 8800100,
+          "name": "Chaos Zakum",
+          "level": 140,
+          "hp": 528000000
+        },
+        {
+          "id": 8800101,
+          "name": "Chaos Zakum",
+          "level": 140,
+          "hp": 704000000
+        },
+        {
+          "id": 8800102,
+          "name": "Chaos Zakum",
+          "level": 140,
+          "hp": 880000000
+        }
+      ]
+    },
+    "mobs_vs_mapleland_reference": {
+      "source": "https://mapledb.kr/mob.php",
+      "reference_count": 749,
+      "db_visible_count": 1229,
+      "visible_not_in_reference": 662,
+      "reference_missing_in_db": 182,
+      "value_mismatches": 16,
+      "visible_not_in_reference_samples": [
+        {
+          "id": 9300349,
+          "name": "Gentleman",
+          "level": 999,
+          "hp": 99,
+          "exp": 0,
+          "is_boss": 0,
+          "name_kr": "신사"
+        },
+        {
+          "id": 8890000,
+          "name": "Black Mage's Henchman A",
+          "level": 200,
+          "hp": 1800000000,
+          "exp": 99999,
+          "is_boss": 0,
+          "name_kr": "검은마법사의 하수인 A"
+        },
+        {
+          "id": 8890002,
+          "name": "Black Mage's Henchman B",
+          "level": 200,
+          "hp": 1800000000,
+          "exp": 99999,
+          "is_boss": 0,
+          "name_kr": "검은마법사의 하수인 B"
+        },
+        {
+          "id": 9300311,
+          "name": "Bam Bam Cat",
+          "level": 200,
+          "hp": 330000000,
+          "exp": 35,
+          "is_boss": 0,
+          "name_kr": "뱅뱅 고양이"
+        },
+        {
+          "id": 9300313,
+          "name": "Witch Cat",
+          "level": 200,
+          "hp": 10,
+          "exp": 1,
+          "is_boss": 0,
+          "name_kr": "마녀 고양이"
+        },
+        {
+          "id": 9300325,
+          "name": "Cat Sleeping Spot",
+          "level": 200,
+          "hp": 99999999,
+          "exp": 1,
+          "is_boss": 0,
+          "name_kr": "고양이 잠터"
+        },
+        {
+          "id": 9400010,
+          "name": "Flaming Raccoon",
+          "level": 200,
+          "hp": 99999,
+          "exp": 0,
+          "is_boss": 0,
+          "name_kr": null
+        },
+        {
+          "id": 9400410,
+          "name": "Rock",
+          "level": 200,
+          "hp": 10000,
+          "exp": 0,
+          "is_boss": 0,
+          "name_kr": null
+        },
+        {
+          "id": 9400553,
+          "name": "Purple Flying Book",
+          "level": 200,
+          "hp": 99999,
+          "exp": 0,
+          "is_boss": 0,
+          "name_kr": null
+        },
+        {
+          "id": 9400554,
+          "name": "Orange Flying Book",
+          "level": 200,
+          "hp": 99999,
+          "exp": 0,
+          "is_boss": 0,
+          "name_kr": null
+        },
+        {
+          "id": 9400555,
+          "name": "Blue Flying Book",
+          "level": 200,
+          "hp": 99999,
+          "exp": 0,
+          "is_boss": 0,
+          "name_kr": null
+        },
+        {
+          "id": 9400598,
+          "name": "Dark Menhir",
+          "level": 200,
+          "hp": 9999999,
+          "exp": 999,
+          "is_boss": 0,
+          "name_kr": null
+        },
+        {
+          "id": 9400704,
+          "name": "Beef Eater",
+          "level": 200,
+          "hp": 9999,
+          "exp": 0,
+          "is_boss": 0,
+          "name_kr": null
+        },
+        {
+          "id": 9420091,
+          "name": "Visitor Time Bomb",
+          "level": 200,
+          "hp": 10000000,
+          "exp": 0,
+          "is_boss": 0,
+          "name_kr": null
+        },
+        {
+          "id": 8820002,
+          "name": "Ariel",
+          "level": 180,
+          "hp": 600000000,
+          "exp": 20000000,
+          "is_boss": 0,
+          "name_kr": "아리엘"
+        },
+        {
+          "id": 8820003,
+          "name": "Solomon the Wise",
+          "level": 180,
+          "hp": 300000000,
+          "exp": 3000000,
+          "is_boss": 0,
+          "name_kr": "현자 솔로몬"
+        },
+        {
+          "id": 8820004,
+          "name": "Rex the Wise",
+          "level": 180,
+          "hp": 300000000,
+          "exp": 3000000,
+          "is_boss": 0,
+          "name_kr": "현자 렉스"
+        },
+        {
+          "id": 8820005,
+          "name": "Hugin",
+          "level": 180,
+          "hp": 450000000,
+          "exp": 3500000,
+          "is_boss": 0,
+          "name_kr": "휘긴"
+        },
+        {
+          "id": 8820006,
+          "name": "Munin",
+          "level": 180,
+          "hp": 450000000,
+          "exp": 3500000,
+          "is_boss": 0,
+          "name_kr": "무닌"
+        },
+        {
+          "id": 9400409,
+          "name": "Castellan Toad",
+          "level": 180,
+          "hp": 450000000,
+          "exp": 25300000,
+          "is_boss": 0,
+          "name_kr": null
+        },
+        {
+          "id": 9400300,
+          "name": "The Boss",
+          "level": 175,
+          "hp": 150000000,
+          "exp": 17500000,
+          "is_boss": 0,
+          "name_kr": null
+        },
+        {
+          "id": 9400659,
+          "name": "Dunas Type D",
+          "level": 174,
+          "hp": 100000000,
+          "exp": 2000000,
+          "is_boss": 0,
+          "name_kr": null
+        },
+        {
+          "id": 8810000,
+          "name": "Horntail's Left Head",
+          "level": 160,
+          "hp": 330000000,
+          "exp": 9732030,
+          "is_boss": 0,
+          "name_kr": "혼테일의 왼쪽 머리"
+        },
+        {
+          "id": 8810001,
+          "name": "Horntail's Right Head",
+          "level": 160,
+          "hp": 330000000,
+          "exp": 9732030,
+          "is_boss": 0,
+          "name_kr": "혼테일의 오른쪽 머리"
+        },
+        {
+          "id": 8810002,
+          "name": "Horntail's Head A",
+          "level": 160,
+          "hp": 330000000,
+          "exp": 13902900,
+          "is_boss": 0,
+          "name_kr": "혼테일의 머리A"
+        },
+        {
+          "id": 8810003,
+          "name": "Horntail's Head B",
+          "level": 160,
+          "hp": 490000000,
+          "exp": 20673700,
+          "is_boss": 0,
+          "name_kr": "혼테일의 머리B"
+        },
+        {
+          "id": 8810004,
+          "name": "Horntail's Head C",
+          "level": 160,
+          "hp": 330000000,
+          "exp": 13902900,
+          "is_boss": 0,
+          "name_kr": "혼테일의 머리C"
+        },
+        {
+          "id": 8810005,
+          "name": "Horntail's Left Hand",
+          "level": 160,
+          "hp": 230000000,
+          "exp": 9689900,
+          "is_boss": 0,
+          "name_kr": "혼테일의 왼손"
+        },
+        {
+          "id": 8810006,
+          "name": "Horntail's Right Hand",
+          "level": 160,
+          "hp": 230000000,
+          "exp": 9689900,
+          "is_boss": 0,
+          "name_kr": "혼테일의 오른손"
+        },
+        {
+          "id": 8810007,
+          "name": "Horntail's Wings",
+          "level": 160,
+          "hp": 270000000,
+          "exp": 11375100,
+          "is_boss": 0,
+          "name_kr": "혼테일의 날개"
+        },
+        {
+          "id": 8810008,
+          "name": "Horntail's Legs",
+          "level": 160,
+          "hp": 130000000,
+          "exp": 5476900,
+          "is_boss": 0,
+          "name_kr": "혼테일의 다리"
+        },
+        {
+          "id": 8810009,
+          "name": "Horntail's Tails",
+          "level": 160,
+          "hp": 80000000,
+          "exp": 3370400,
+          "is_boss": 0,
+          "name_kr": "혼테일의 꼬리"
+        },
+        {
+          "id": 8810018,
+          "name": "Horntail",
+          "level": 160,
+          "hp": 2090000000,
+          "exp": 0,
+          "is_boss": 1,
+          "name_kr": "혼테일"
+        },
+        {
+          "id": 8810100,
+          "name": "Chaos Horntail's Left Head",
+          "level": 160,
+          "hp": 1650000000,
+          "exp": 19464060,
+          "is_boss": 0,
+          "name_kr": "카오스 혼테일의 왼쪽 머리"
+        },
+        {
+          "id": 8810101,
+          "name": "Chaos Horntail's Right Head",
+          "level": 160,
+          "hp": 1650000000,
+          "exp": 19464060,
+          "is_boss": 0,
+          "name_kr": "카오스 혼테일의 오른쪽 머리"
+        },
+        {
+          "id": 8810102,
+          "name": "Chaos Horntail's Head A",
+          "level": 160,
+          "hp": 1650000000,
+          "exp": 27805800,
+          "is_boss": 0,
+          "name_kr": "카오스 혼테일의 머리A"
+        },
+        {
+          "id": 8810103,
+          "name": "Chaos Horntail's Head B",
+          "level": 160,
+          "hp": 1950000000,
+          "exp": 62021100,
+          "is_boss": 0,
+          "name_kr": "카오스 혼테일의 머리B"
+        },
+        {
+          "id": 8810104,
+          "name": "Chaos Horntail's Head C ",
+          "level": 160,
+          "hp": 1650000000,
+          "exp": 27805800,
+          "is_boss": 0,
+          "name_kr": "카오스 혼테일의 머리C"
+        },
+        {
+          "id": 8810105,
+          "name": "Chaos Horntail's Left Hand",
+          "level": 160,
+          "hp": 1150000000,
+          "exp": 19379800,
+          "is_boss": 0,
+          "name_kr": "카오스 혼테일의 왼손"
+        },
+        {
+          "id": 8810106,
+          "name": "Chaos Horntail's Right Hand",
+          "level": 160,
+          "hp": 1150000000,
+          "exp": 19379800,
+          "is_boss": 0,
+          "name_kr": "카오스 혼테일의 오른손"
+        },
+        {
+          "id": 8810107,
+          "name": "Chaos Horntail's Wings",
+          "level": 160,
+          "hp": 1350000000,
+          "exp": 22750200,
+          "is_boss": 0,
+          "name_kr": "카오스 혼테일의 날개"
+        },
+        {
+          "id": 8810108,
+          "name": "Chaos Horntail's Legs",
+          "level": 160,
+          "hp": 650000000,
+          "exp": 10953800,
+          "is_boss": 0,
+          "name_kr": "카오스 혼테일의 다리"
+        },
+        {
+          "id": 8810109,
+          "name": "Chaos Horntail's Tail",
+          "level": 160,
+          "hp": 450000000,
+          "exp": 6740800,
+          "is_boss": 0,
+          "name_kr": "카오스 혼테일의 꼬리"
+        },
+        {
+          "id": 8810118,
+          "name": "Chaos Horntail",
+          "level": 160,
+          "hp": 2000000000,
+          "exp": 0,
+          "is_boss": 0,
+          "name_kr": "카오스 혼테일"
+        },
+        {
+          "id": 9400660,
+          "name": "Royal Guard Type S",
+          "level": 160,
+          "hp": 200000000,
+          "exp": 15500000,
+          "is_boss": 0,
+          "name_kr": null
+        },
+        {
+          "id": 9400113,
+          "name": "Bodyguard B",
+          "level": 155,
+          "hp": 500000000,
+          "exp": 10500000,
+          "is_boss": 0,
+          "name_kr": null
+        },
+        {
+          "id": 9400112,
+          "name": "Bodyguard A",
+          "level": 152,
+          "hp": 400000000,
+          "exp": 13800000,
+          "is_boss": 0,
+          "name_kr": null
+        },
+        {
+          "id": 8820007,
+          "name": "Mini Bean",
+          "level": 150,
+          "hp": 303000,
+          "exp": 11000,
+          "is_boss": 0,
+          "name_kr": "미니빈"
+        },
+        {
+          "id": 9300215,
+          "name": "Mu Gong Merits",
+          "level": 150,
+          "hp": 27523000,
+          "exp": 100000,
+          "is_boss": 0,
+          "name_kr": "무공"
+        },
+        {
+          "id": 9300354,
+          "name": "Wolf Underling",
+          "level": 150,
+          "hp": 100000,
+          "exp": 0,
+          "is_boss": 0,
+          "name_kr": "부하 늑대"
+        }
+      ],
+      "reference_missing_in_db_samples": [
+        {
+          "id": 9409000,
+          "name_kr": "튜토리얼Mob1",
+          "level": 1,
+          "hp": 8
+        },
+        {
+          "id": 9409001,
+          "name_kr": "튜토리얼Mob2",
+          "level": 1,
+          "hp": 8
+        },
+        {
+          "id": 9300063,
+          "name_kr": "스티지",
+          "level": 6,
+          "hp": 60
+        },
+        {
+          "id": 9300082,
+          "name_kr": "스티지",
+          "level": 6,
+          "hp": 60
+        },
+        {
+          "id": 9300062,
+          "name_kr": "플라이아이",
+          "level": 8,
+          "hp": 80
+        },
+        {
+          "id": 9300081,
+          "name_kr": "플라이아이",
+          "level": 8,
+          "hp": 80
+        },
+        {
+          "id": 9420001,
+          "name_kr": "개구리",
+          "level": 8,
+          "hp": 75
+        },
+        {
+          "id": 9500167,
+          "name_kr": "황금돼지",
+          "level": 10,
+          "hp": 120
+        },
+        {
+          "id": 9500197,
+          "name_kr": "유령",
+          "level": 10,
+          "hp": 50
+        },
+        {
+          "id": 9500305,
+          "name_kr": "잭오랜턴",
+          "level": 10,
+          "hp": 10
+        },
+        {
+          "id": 9500321,
+          "name_kr": "눈사람",
+          "level": 10,
+          "hp": 600
+        },
+        {
+          "id": 9500322,
+          "name_kr": "꼬마 눈사람",
+          "level": 10,
+          "hp": 3
+        },
+        {
+          "id": 9300083,
+          "name_kr": "도깨비불",
+          "level": 11,
+          "hp": 155
+        },
+        {
+          "id": 1140100,
+          "name_kr": "고스텀프",
+          "level": 19,
+          "hp": 330
+        },
+        {
+          "id": 9500168,
+          "name_kr": "킹슬라임",
+          "level": 20,
+          "hp": 945
+        },
+        {
+          "id": 9500194,
+          "name_kr": "거울 유령",
+          "level": 20,
+          "hp": 350
+        },
+        {
+          "id": 9500306,
+          "name_kr": "마노",
+          "level": 20,
+          "hp": 2000
+        },
+        {
+          "id": 9500325,
+          "name_kr": "킹슬라임",
+          "level": 23,
+          "hp": 5000
+        },
+        {
+          "id": 9300157,
+          "name_kr": "스콜피언",
+          "level": 25,
+          "hp": 1200
+        },
+        {
+          "id": 9420000,
+          "name_kr": "두꺼비",
+          "level": 28,
+          "hp": 720
+        },
+        {
+          "id": 9200016,
+          "name_kr": "북치는 토끼",
+          "level": 30,
+          "hp": 950
+        },
+        {
+          "id": 9300061,
+          "name_kr": "월묘",
+          "level": 30,
+          "hp": 5000
+        },
+        {
+          "id": 9300127,
+          "name_kr": "브라운테니",
+          "level": 30,
+          "hp": 1800
+        },
+        {
+          "id": 9300129,
+          "name_kr": "레츠",
+          "level": 30,
+          "hp": 1600
+        },
+        {
+          "id": 9300132,
+          "name_kr": "틱톡",
+          "level": 30,
+          "hp": 2400
+        },
+        {
+          "id": 9300133,
+          "name_kr": "로보토이",
+          "level": 30,
+          "hp": 3000
+        },
+        {
+          "id": 9300134,
+          "name_kr": "킹 블록골렘",
+          "level": 30,
+          "hp": 3300
+        },
+        {
+          "id": 9300136,
+          "name_kr": "롬바드",
+          "level": 30,
+          "hp": 6500
+        },
+        {
+          "id": 9300180,
+          "name_kr": "포이즌 골렘",
+          "level": 30,
+          "hp": 10000
+        },
+        {
+          "id": 9500107,
+          "name_kr": "북치는 토끼",
+          "level": 30,
+          "hp": 950
+        },
+        {
+          "id": 9300169,
+          "name_kr": "차원의 라츠",
+          "level": 32,
+          "hp": 3700
+        },
+        {
+          "id": 9500108,
+          "name_kr": "리게이터",
+          "level": 32,
+          "hp": 1200
+        },
+        {
+          "id": 9500109,
+          "name_kr": "라츠",
+          "level": 32,
+          "hp": 1000
+        },
+        {
+          "id": 9300170,
+          "name_kr": "차원의 블랙라츠",
+          "level": 34,
+          "hp": 4300
+        },
+        {
+          "id": 3220000,
+          "name_kr": "스텀피",
+          "level": 35,
+          "hp": 7000
+        },
+        {
+          "id": 9001006,
+          "name_kr": "파이렛옥토",
+          "level": 35,
+          "hp": 800
+        },
+        {
+          "id": 9300171,
+          "name_kr": "차원의 블록퍼스",
+          "level": 35,
+          "hp": 4900
+        },
+        {
+          "id": 9500110,
+          "name_kr": "스타픽시",
+          "level": 35,
+          "hp": 1300
+        },
+        {
+          "id": 9500112,
+          "name_kr": "주니어 페페",
+          "level": 35,
+          "hp": 1400
+        },
+        {
+          "id": 9500183,
+          "name_kr": "수박파수꾼 호걸",
+          "level": 35,
+          "hp": 330000000
+        },
+        {
+          "id": 9500307,
+          "name_kr": "스텀피",
+          "level": 35,
+          "hp": 7000
+        },
+        {
+          "id": 9500328,
+          "name_kr": "크림슨발록",
+          "level": 35,
+          "hp": 13000
+        },
+        {
+          "id": 9500113,
+          "name_kr": "팬더테니",
+          "level": 36,
+          "hp": 1400
+        },
+        {
+          "id": 9500117,
+          "name_kr": "치크세이버",
+          "level": 36,
+          "hp": 1350
+        },
+        {
+          "id": 9500115,
+          "name_kr": "로랑",
+          "level": 37,
+          "hp": 1950
+        },
+        {
+          "id": 9600008,
+          "name_kr": "검은 양",
+          "level": 37,
+          "hp": 1500
+        },
+        {
+          "id": 3220001,
+          "name_kr": "데우",
+          "level": 38,
+          "hp": 7700
+        },
+        {
+          "id": 9300011,
+          "name_kr": "장난감 목마",
+          "level": 39,
+          "hp": 1920
+        },
+        {
+          "id": 9300131,
+          "name_kr": "장난감 목마",
+          "level": 39,
+          "hp": 2300
+        },
+        {
+          "id": 9500118,
+          "name_kr": "트위터",
+          "level": 39,
+          "hp": 1900
+        }
+      ],
+      "value_mismatch_samples": [
+        {
+          "id": 130100,
+          "name_kr": "스텀프",
+          "diff": {
+            "hp": {
+              "db": 40,
+              "mapleland": 45
+            }
+          }
+        },
+        {
+          "id": 2130100,
+          "name_kr": "다크 엑스텀프",
+          "diff": {
+            "level": {
+              "db": 22,
+              "mapleland": 10
+            }
+          }
+        },
+        {
+          "id": 9400000,
+          "name_kr": "까마귀",
+          "diff": {
+            "hp": {
+              "db": 550,
+              "mapleland": 400
+            }
+          }
+        },
+        {
+          "id": 9400001,
+          "name_kr": "불너구리",
+          "diff": {
+            "hp": {
+              "db": 900,
+              "mapleland": 1200
+            }
+          }
+        },
+        {
+          "id": 9300175,
+          "name_kr": "중독된 스프라이트",
+          "diff": {
+            "level": {
+              "db": 65,
+              "mapleland": 55
+            },
+            "hp": {
+              "db": 7500,
+              "mapleland": 8500
+            }
+          }
+        },
+        {
+          "id": 9300172,
+          "name_kr": "중독된 트리로드",
+          "diff": {
+            "hp": {
+              "db": 6100,
+              "mapleland": 10500
+            }
+          }
+        },
+        {
+          "id": 9300182,
+          "name_kr": "초강화형 포이즌 골렘",
+          "diff": {
+            "level": {
+              "db": 85,
+              "mapleland": 62
+            },
+            "hp": {
+              "db": 113500,
+              "mapleland": 10500
+            }
+          }
+        },
+        {
+          "id": 9300179,
+          "name_kr": "더 중독된 스프라이트",
+          "diff": {
+            "hp": {
+              "db": 7500,
+              "mapleland": 3000
+            }
+          }
+        },
+        {
+          "id": 9300173,
+          "name_kr": "중독된 스톤버그",
+          "diff": {
+            "hp": {
+              "db": 7200,
+              "mapleland": 12500
+            }
+          }
+        },
+        {
+          "id": 9300181,
+          "name_kr": "강화형 포이즌 골렘",
+          "diff": {
+            "level": {
+              "db": 75,
+              "mapleland": 65
+            },
+            "hp": {
+              "db": 83000,
+              "mapleland": 12500
+            }
+          }
+        },
+        {
+          "id": 9300183,
+          "name_kr": "보스 몬스터 퇴치 체크용 투명 몬스터",
+          "diff": {
+            "level": {
+              "db": 1,
+              "mapleland": 65
+            },
+            "hp": {
+              "db": 2090000000,
+              "mapleland": 12500
+            }
+          }
+        },
+        {
+          "id": 9300174,
+          "name_kr": "포이즌 플라워",
+          "diff": {
+            "hp": {
+              "db": 6500,
+              "mapleland": 13000
+            }
+          }
+        },
+        {
+          "id": 9300176,
+          "name_kr": "멀쩡한 스프라이트",
+          "diff": {
+            "hp": {
+              "db": 21000,
+              "mapleland": 720000
+            }
+          }
+        },
+        {
+          "id": 9300177,
+          "name_kr": "더 중독된 트리로드",
+          "diff": {
+            "level": {
+              "db": 62,
+              "mapleland": 75
+            },
+            "hp": {
+              "db": 3500,
+              "mapleland": 930000
+            }
+          }
+        },
+        {
+          "id": 9300178,
+          "name_kr": "더 중독된 스톤버그",
+          "diff": {
+            "level": {
+              "db": 65,
+              "mapleland": 85
+            },
+            "hp": {
+              "db": 6700,
+              "mapleland": 1350000
+            }
+          }
+        },
+        {
+          "id": 9500190,
+          "name_kr": "삐에로 인형",
+          "diff": {
+            "level": {
+              "db": 10,
+              "mapleland": 1800
+            }
+          }
+        }
+      ]
+    },
+    "items_vs_mapleland_reference": {
+      "source": "https://mapledb.kr/item.php",
+      "reference_count": 3956,
+      "db_count": 12889,
+      "db_not_in_reference": 9243,
+      "reference_missing_in_db": 310,
+      "value_mismatches": 20,
+      "name_mismatches": 63,
+      "db_not_in_reference_samples": [
+        {
+          "id": 20000,
+          "name": "Motivated Look (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "도전적인 얼굴"
+        },
+        {
+          "id": 20001,
+          "name": "Perplexed Stare (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "자신있는 얼굴"
+        },
+        {
+          "id": 20002,
+          "name": "Leisure Look (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "신중한 얼굴"
+        },
+        {
+          "id": 20003,
+          "name": "Dramatic Face (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴4"
+        },
+        {
+          "id": 20004,
+          "name": "Rebel's Fire (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴5"
+        },
+        {
+          "id": 20005,
+          "name": "Alert Face (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴6"
+        },
+        {
+          "id": 20006,
+          "name": "Babyface Pout (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴7"
+        },
+        {
+          "id": 20007,
+          "name": "Sad Innocence (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴8"
+        },
+        {
+          "id": 20008,
+          "name": "Worrisome Glare (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴9"
+        },
+        {
+          "id": 20009,
+          "name": "Smart Aleck (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "심술쟁이 얼굴"
+        },
+        {
+          "id": 20010,
+          "name": "Anger's Blaze (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": null
+        },
+        {
+          "id": 20011,
+          "name": "Cool Guy Gaze (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "뚱-한 얼굴"
+        },
+        {
+          "id": 20012,
+          "name": "Curious Dog (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴10"
+        },
+        {
+          "id": 20013,
+          "name": "Insomniac Daze (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴15"
+        },
+        {
+          "id": 20014,
+          "name": "Look of Wonder (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴11"
+        },
+        {
+          "id": 20015,
+          "name": "Eye of the Lion (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "화난 얼굴"
+        },
+        {
+          "id": 20016,
+          "name": "Ghostface Stare (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴12"
+        },
+        {
+          "id": 20017,
+          "name": "Demure Poise (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴14"
+        },
+        {
+          "id": 20018,
+          "name": "Champion Focus (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "진지한 얼굴"
+        },
+        {
+          "id": 20019,
+          "name": "Irritable Face (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": null
+        },
+        {
+          "id": 20020,
+          "name": "Fierce Edge (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴13"
+        },
+        {
+          "id": 20021,
+          "name": "Overjoyed Smile (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "좋은사람 얼굴"
+        },
+        {
+          "id": 20022,
+          "name": "Child's Play (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴16"
+        },
+        {
+          "id": 20023,
+          "name": "Hypnotized Look (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": null
+        },
+        {
+          "id": 20024,
+          "name": "Intense Stare (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": null
+        },
+        {
+          "id": 20025,
+          "name": "Edge of Emotion (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴17"
+        },
+        {
+          "id": 20026,
+          "name": "Shuteye (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": null
+        },
+        {
+          "id": 20027,
+          "name": "Pensive Look (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴18"
+        },
+        {
+          "id": 20028,
+          "name": "Sarcastic Face (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴19"
+        },
+        {
+          "id": 20029,
+          "name": "Shade of Cool (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴20"
+        },
+        {
+          "id": 20031,
+          "name": "Fearful Glance (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴21"
+        },
+        {
+          "id": 20032,
+          "name": "Undecided Face (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴22"
+        },
+        {
+          "id": 20036,
+          "name": "Male Aran Face (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "아란 얼굴"
+        },
+        {
+          "id": 20037,
+          "name": "Male Evan Face (Black)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "개구쟁이 얼굴"
+        },
+        {
+          "id": 20100,
+          "name": "Motivated Look (Blue)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "도전적인 얼굴"
+        },
+        {
+          "id": 20101,
+          "name": "Perplexed Stare (Blue)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "자신있는 얼굴"
+        },
+        {
+          "id": 20102,
+          "name": "Leisure Look (Blue)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "신중한 얼굴"
+        },
+        {
+          "id": 20103,
+          "name": "Dramatic Face (Blue)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴4"
+        },
+        {
+          "id": 20104,
+          "name": "Rebel's Fire (Blue)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴5"
+        },
+        {
+          "id": 20105,
+          "name": "Alert Face (Blue)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴6"
+        },
+        {
+          "id": 20106,
+          "name": "Babyface Pout (Blue)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴7"
+        },
+        {
+          "id": 20107,
+          "name": "Sad Innocence (Blue)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴8"
+        },
+        {
+          "id": 20108,
+          "name": "Worrisome Glare (Blue)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴9"
+        },
+        {
+          "id": 20109,
+          "name": "Smart Aleck (Blue)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "심술쟁이 얼굴"
+        },
+        {
+          "id": 20110,
+          "name": "Anger's Blaze (Blue)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "사나이 얼굴"
+        },
+        {
+          "id": 20111,
+          "name": "Cool Guy Gaze (Blue)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "뚱-한 얼굴"
+        },
+        {
+          "id": 20112,
+          "name": "Curious Dog (Blue)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴10"
+        },
+        {
+          "id": 20113,
+          "name": "Insomniac Daze (Blue)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴15"
+        },
+        {
+          "id": 20114,
+          "name": "Look of Wonder (Blue)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "남자얼굴11"
+        },
+        {
+          "id": 20115,
+          "name": "Eye of the Lion (Blue)",
+          "level_req": 0,
+          "category": "Character",
+          "subcategory": "Face",
+          "name_kr": "화난 얼굴"
+        }
+      ],
+      "reference_missing_in_db_samples": [
+        {
+          "id": 1002454,
+          "name_kr": "빨간별 검은 두건",
+          "level": 30,
+          "jobs": "공용"
+        },
+        {
+          "id": 1002455,
+          "name_kr": "검은별 빨간 두건",
+          "level": 30,
+          "jobs": "공용"
+        },
+        {
+          "id": 1002509,
+          "name_kr": "메이플 모자 (1단계)",
+          "level": 8,
+          "jobs": "공용"
+        },
+        {
+          "id": 1002510,
+          "name_kr": "메이플 모자 (2단계)",
+          "level": 30,
+          "jobs": "공용"
+        },
+        {
+          "id": 1002511,
+          "name_kr": "메이플 모자 (3단계)",
+          "level": 70,
+          "jobs": "공용"
+        },
+        {
+          "id": 1002547,
+          "name_kr": "레드 헌터",
+          "level": 110,
+          "jobs": "궁수"
+        },
+        {
+          "id": 1002572,
+          "name_kr": "데비존의 모자",
+          "level": 70,
+          "jobs": "공용"
+        },
+        {
+          "id": 1002573,
+          "name_kr": "평범한 데비존의 모자",
+          "level": 80,
+          "jobs": "공용"
+        },
+        {
+          "id": 1002574,
+          "name_kr": "무난한 데비존의 모자",
+          "level": 90,
+          "jobs": "공용"
+        },
+        {
+          "id": 1002749,
+          "name_kr": "엘프 두건",
+          "level": 50,
+          "jobs": "궁수"
+        },
+        {
+          "id": 1012012,
+          "name_kr": "루돌프의 빨간코",
+          "level": 0,
+          "jobs": "공용"
+        },
+        {
+          "id": 1012013,
+          "name_kr": "루돌프의 빨간코",
+          "level": 0,
+          "jobs": "공용"
+        },
+        {
+          "id": 1012014,
+          "name_kr": "루돌프의 빨간코",
+          "level": 0,
+          "jobs": "공용"
+        },
+        {
+          "id": 1012015,
+          "name_kr": "루돌프의 빨간코",
+          "level": 0,
+          "jobs": "공용"
+        },
+        {
+          "id": 1012016,
+          "name_kr": "루돌프의 빨간코",
+          "level": 0,
+          "jobs": "공용"
+        },
+        {
+          "id": 1012017,
+          "name_kr": "루돌프의 빨간코",
+          "level": 0,
+          "jobs": "공용"
+        },
+        {
+          "id": 1012018,
+          "name_kr": "루돌프의 빨간코",
+          "level": 0,
+          "jobs": "공용"
+        },
+        {
+          "id": 1012019,
+          "name_kr": "루돌프의 빨간코",
+          "level": 0,
+          "jobs": "공용"
+        },
+        {
+          "id": 1012020,
+          "name_kr": "루돌프의 빨간코",
+          "level": 0,
+          "jobs": "공용"
+        },
+        {
+          "id": 1012059,
+          "name_kr": "민첩한 피노키오 코",
+          "level": 10,
+          "jobs": "공용"
+        },
+        {
+          "id": 1012060,
+          "name_kr": "현명한 피노키오 코",
+          "level": 10,
+          "jobs": "공용"
+        },
+        {
+          "id": 1012061,
+          "name_kr": "행운의 피노키오 코",
+          "level": 10,
+          "jobs": "공용"
+        },
+        {
+          "id": 1012086,
+          "name_kr": "화이트 마우스 분장",
+          "level": 10,
+          "jobs": "공용"
+        },
+        {
+          "id": 1012087,
+          "name_kr": "화이트 마우스 분장",
+          "level": 10,
+          "jobs": "공용"
+        },
+        {
+          "id": 1012088,
+          "name_kr": "화이트 마우스 분장",
+          "level": 10,
+          "jobs": "공용"
+        },
+        {
+          "id": 1012101,
+          "name_kr": "메이플 리프",
+          "level": 0,
+          "jobs": "공용"
+        },
+        {
+          "id": 1012102,
+          "name_kr": "메이플 리프",
+          "level": 0,
+          "jobs": "공용"
+        },
+        {
+          "id": 1012103,
+          "name_kr": "메이플 리프",
+          "level": 0,
+          "jobs": "공용"
+        },
+        {
+          "id": 1032041,
+          "name_kr": "메이플 이어링",
+          "level": 40,
+          "jobs": "공용"
+        },
+        {
+          "id": 1032042,
+          "name_kr": "메이플 이어링",
+          "level": 70,
+          "jobs": "공용"
+        },
+        {
+          "id": 1032047,
+          "name_kr": "코-크 귀고리",
+          "level": 30,
+          "jobs": "공용"
+        },
+        {
+          "id": 1041032,
+          "name_kr": "그린 이너스 체인메일",
+          "level": 25,
+          "jobs": "궁수"
+        },
+        {
+          "id": 1041033,
+          "name_kr": "레드 이너스 체인메일",
+          "level": 25,
+          "jobs": "궁수"
+        },
+        {
+          "id": 1041034,
+          "name_kr": "블루 이너스 체인메일",
+          "level": 25,
+          "jobs": "궁수"
+        },
+        {
+          "id": 1041036,
+          "name_kr": "홍몽",
+          "level": 10,
+          "jobs": "도적"
+        },
+        {
+          "id": 1041037,
+          "name_kr": "청몽",
+          "level": 10,
+          "jobs": "도적"
+        },
+        {
+          "id": 1041038,
+          "name_kr": "흑몽",
+          "level": 10,
+          "jobs": "도적"
+        },
+        {
+          "id": 1041076,
+          "name_kr": "다크 쉐도우",
+          "level": 40,
+          "jobs": "도적"
+        },
+        {
+          "id": 1041078,
+          "name_kr": "청월",
+          "level": 50,
+          "jobs": "도적"
+        },
+        {
+          "id": 1041115,
+          "name_kr": "그린 미스트슈트",
+          "level": 90,
+          "jobs": "도적"
+        },
+        {
+          "id": 1041116,
+          "name_kr": "브라운 미스트슈트",
+          "level": 90,
+          "jobs": "도적"
+        },
+        {
+          "id": 1041117,
+          "name_kr": "퍼플 미스트슈트",
+          "level": 90,
+          "jobs": "도적"
+        },
+        {
+          "id": 1041118,
+          "name_kr": "레드 미스트슈트",
+          "level": 90,
+          "jobs": "도적"
+        },
+        {
+          "id": 1051094,
+          "name_kr": "녹견랑포",
+          "level": 88,
+          "jobs": "법사"
+        },
+        {
+          "id": 1051095,
+          "name_kr": "청견랑포",
+          "level": 88,
+          "jobs": "법사"
+        },
+        {
+          "id": 1051096,
+          "name_kr": "적견랑포",
+          "level": 88,
+          "jobs": "법사"
+        },
+        {
+          "id": 1051097,
+          "name_kr": "흑견랑포",
+          "level": 88,
+          "jobs": "법사"
+        },
+        {
+          "id": 1061029,
+          "name_kr": "홍몽 바지",
+          "level": 10,
+          "jobs": "도적"
+        },
+        {
+          "id": 1061030,
+          "name_kr": "청몽 바지",
+          "level": 10,
+          "jobs": "도적"
+        },
+        {
+          "id": 1061031,
+          "name_kr": "흑몽 바지",
+          "level": 10,
+          "jobs": "도적"
+        }
+      ],
+      "value_mismatch_samples": [
+        {
+          "id": 1002517,
+          "name_kr": "메이플 2000일 두건",
+          "diff": {
+            "level": {
+              "db": 30,
+              "mapleland": 0
+            }
+          }
+        },
+        {
+          "id": 2331000,
+          "name_kr": "블레이즈 캡슐",
+          "diff": {
+            "level": {
+              "db": 70,
+              "mapleland": 0
+            }
+          }
+        },
+        {
+          "id": 2332000,
+          "name_kr": "글레이스 캡슐",
+          "diff": {
+            "level": {
+              "db": 70,
+              "mapleland": 0
+            }
+          }
+        },
+        {
+          "id": 1402000,
+          "name_kr": "양손검",
+          "diff": {
+            "level": {
+              "db": 0,
+              "mapleland": 20
+            }
+          }
+        },
+        {
+          "id": 1402008,
+          "name_kr": "클러디",
+          "diff": {
+            "level": {
+              "db": 0,
+              "mapleland": 25
+            }
+          }
+        },
+        {
+          "id": 1402010,
+          "name_kr": "알루미늄 야구 방망이",
+          "diff": {
+            "level": {
+              "db": 0,
+              "mapleland": 30
+            }
+          }
+        },
+        {
+          "id": 1082008,
+          "name_kr": "스틸 브리건",
+          "diff": {
+            "level": {
+              "db": 0,
+              "mapleland": 35
+            }
+          }
+        },
+        {
+          "id": 1402006,
+          "name_kr": "하이랜더",
+          "diff": {
+            "level": {
+              "db": 0,
+              "mapleland": 35
+            }
+          }
+        },
+        {
+          "id": 1402007,
+          "name_kr": "쟈드",
+          "diff": {
+            "level": {
+              "db": 0,
+              "mapleland": 40
+            }
+          }
+        },
+        {
+          "id": 1082065,
+          "name_kr": "청월 장갑",
+          "diff": {
+            "level": {
+              "db": 0,
+              "mapleland": 50
+            }
+          }
+        },
+        {
+          "id": 1082066,
+          "name_kr": "황월 장갑",
+          "diff": {
+            "level": {
+              "db": 0,
+              "mapleland": 50
+            }
+          }
+        },
+        {
+          "id": 1082067,
+          "name_kr": "적월 장갑",
+          "diff": {
+            "level": {
+              "db": 0,
+              "mapleland": 50
+            }
+          }
+        },
+        {
+          "id": 1041091,
+          "name_kr": "그린 트란도트",
+          "diff": {
+            "level": {
+              "db": 0,
+              "mapleland": 60
+            }
+          }
+        },
+        {
+          "id": 1041092,
+          "name_kr": "레드 트란도트",
+          "diff": {
+            "level": {
+              "db": 0,
+              "mapleland": 60
+            }
+          }
+        },
+        {
+          "id": 1041093,
+          "name_kr": "블루 트란도트",
+          "diff": {
+            "level": {
+              "db": 0,
+              "mapleland": 60
+            }
+          }
+        },
+        {
+          "id": 1032031,
+          "name_kr": "타임리스 이어링",
+          "diff": {
+            "level": {
+              "db": 120,
+              "mapleland": 100
+            }
+          }
+        },
+        {
+          "id": 1050097,
+          "name_kr": "블루 카티나스",
+          "diff": {
+            "level": {
+              "db": 0,
+              "mapleland": 100
+            }
+          }
+        },
+        {
+          "id": 1050098,
+          "name_kr": "레드 카티나스",
+          "diff": {
+            "level": {
+              "db": 0,
+              "mapleland": 100
+            }
+          }
+        },
+        {
+          "id": 1051091,
+          "name_kr": "블루 카테",
+          "diff": {
+            "level": {
+              "db": 0,
+              "mapleland": 100
+            }
+          }
+        },
+        {
+          "id": 1051092,
+          "name_kr": "레드 카테",
+          "diff": {
+            "level": {
+              "db": 0,
+              "mapleland": 100
+            }
+          }
+        }
+      ],
+      "name_mismatch_samples": [
+        {
+          "id": 1112202,
+          "db_name_kr": "파란 말풍선 반지",
+          "mapleland_name_kr": "MSW 아바타 코디 반지 (30일)"
+        },
+        {
+          "id": 1112206,
+          "db_name_kr": "핑크리본 말풍선 반지",
+          "mapleland_name_kr": "MSW 아바타 코디 반지 (90일)"
+        },
+        {
+          "id": 2290000,
+          "db_name_kr": "[마스터리북]몬스터 마그넷 20",
+          "mapleland_name_kr": "[마스터리북] 몬스터 마그넷 20"
+        },
+        {
+          "id": 2290002,
+          "db_name_kr": "[마스터리북]아킬레스 20",
+          "mapleland_name_kr": "[마스터리북] 아킬레스 20"
+        },
+        {
+          "id": 2290004,
+          "db_name_kr": "[마스터리북]돌진 20",
+          "mapleland_name_kr": "[마스터리북] 돌진 20"
+        },
+        {
+          "id": 2290006,
+          "db_name_kr": "[마스터리북]스탠스 20",
+          "mapleland_name_kr": "[마스터리북] 스탠스 20"
+        },
+        {
+          "id": 2290008,
+          "db_name_kr": "[마스터리북]어드밴스드콤보 20",
+          "mapleland_name_kr": "[마스터리북] 어드밴스드콤보 20"
+        },
+        {
+          "id": 2290010,
+          "db_name_kr": "[마스터리북]브레이브 슬래시 20",
+          "mapleland_name_kr": "[마스터리북] 브랜디쉬 20"
+        },
+        {
+          "id": 2290012,
+          "db_name_kr": "[마스터리북]블래스트 20",
+          "mapleland_name_kr": "[마스터리북] 블래스트 20"
+        },
+        {
+          "id": 2290014,
+          "db_name_kr": "[마스터리북]가디언 스피릿 20",
+          "mapleland_name_kr": "[마스터리북] 블로킹 20"
+        },
+        {
+          "id": 2290016,
+          "db_name_kr": "[마스터리북]인레이지 20",
+          "mapleland_name_kr": "[마스터리북] 인레이지 20"
+        },
+        {
+          "id": 2290018,
+          "db_name_kr": "[마스터리북]디바인 차지 20",
+          "mapleland_name_kr": "[마스터리북] 홀리 차지 20"
+        },
+        {
+          "id": 2290019,
+          "db_name_kr": "[마스터리북]디바인 차지 20",
+          "mapleland_name_kr": "[마스터리북] 디바인 차지 20"
+        },
+        {
+          "id": 2290020,
+          "db_name_kr": "[마스터리북]생츄어리 20",
+          "mapleland_name_kr": "[마스터리북] 생츄어리 20"
+        },
+        {
+          "id": 2290022,
+          "db_name_kr": "[마스터리북]다크포스 20",
+          "mapleland_name_kr": "[마스터리북] 버서크 20"
+        },
+        {
+          "id": 2290024,
+          "db_name_kr": "[마스터리북]아케인 에임 20",
+          "mapleland_name_kr": "[마스터리북] 마나 리플렉션 20"
+        },
+        {
+          "id": 2290026,
+          "db_name_kr": "[마스터리북]빅뱅 20",
+          "mapleland_name_kr": "[마스터리북] 빅뱅 20"
+        },
+        {
+          "id": 2290028,
+          "db_name_kr": "[마스터리북]인피니티 20",
+          "mapleland_name_kr": "[마스터리북] 인피니티 20"
+        },
+        {
+          "id": 2290030,
+          "db_name_kr": "[마스터리북]페럴라이즈 20",
+          "mapleland_name_kr": "[마스터리북] 페럴라이즈 20"
+        },
+        {
+          "id": 2290032,
+          "db_name_kr": "[마스터리북]체인 라이트닝 20",
+          "mapleland_name_kr": "[마스터리북] 체인 라이트닝 20"
+        },
+        {
+          "id": 2290034,
+          "db_name_kr": "[마스터리북]어드밴스드 블레스 20",
+          "mapleland_name_kr": "[마스터리북] 홀리 실드 20"
+        },
+        {
+          "id": 2290035,
+          "db_name_kr": "[마스터리북]어드밴스드 블레스 30",
+          "mapleland_name_kr": "[마스터리북] 홀리 실드 30"
+        },
+        {
+          "id": 2290036,
+          "db_name_kr": "[마스터리북]미스트 이럽션 20",
+          "mapleland_name_kr": "[마스터리북] 파이어 데몬 20"
+        },
+        {
+          "id": 2290038,
+          "db_name_kr": "[마스터리북]이프리트 20",
+          "mapleland_name_kr": "[마스터리북] 엘퀴네스 20"
+        },
+        {
+          "id": 2290040,
+          "db_name_kr": "[마스터리북]메테오 20",
+          "mapleland_name_kr": "[마스터리북] 메테오 20"
+        },
+        {
+          "id": 2290042,
+          "db_name_kr": "[마스터리북]글레이셜 체인 20",
+          "mapleland_name_kr": "[마스터리북] 아이스 데몬 20"
+        },
+        {
+          "id": 2290044,
+          "db_name_kr": "[마스터리북]엘퀴네스 20",
+          "mapleland_name_kr": "[마스터리북] 이프리트 20"
+        },
+        {
+          "id": 2290046,
+          "db_name_kr": "[마스터리북]블리자드 20",
+          "mapleland_name_kr": "[마스터리북] 블리자드 20"
+        },
+        {
+          "id": 2290048,
+          "db_name_kr": "[마스터리북]제네시스 20",
+          "mapleland_name_kr": "[마스터리북] 제네시스 20"
+        },
+        {
+          "id": 2290050,
+          "db_name_kr": "[마스터리북]엔젤레이 20",
+          "mapleland_name_kr": "[마스터리북] 엔젤레이 20"
+        },
+        {
+          "id": 2290052,
+          "db_name_kr": "[마스터리북]샤프 아이즈 20",
+          "mapleland_name_kr": "[마스터리북] 샤프 아이즈 20"
+        },
+        {
+          "id": 2290054,
+          "db_name_kr": "[마스터리북]샤프 아이즈 20",
+          "mapleland_name_kr": "[마스터리북] 드래곤 펄스 20"
+        },
+        {
+          "id": 2290056,
+          "db_name_kr": "[마스터리북]보우 엑스퍼트 20",
+          "mapleland_name_kr": "[마스터리북] 보우 엑스퍼트 20"
+        },
+        {
+          "id": 2290058,
+          "db_name_kr": "[마스터리북]일루젼 스탭 20",
+          "mapleland_name_kr": "[마스터리북] 햄스트링 20"
+        },
+        {
+          "id": 2290060,
+          "db_name_kr": "[마스터리북]폭풍의 시 20",
+          "mapleland_name_kr": "[마스터리북] 폭풍의 시 20"
+        },
+        {
+          "id": 2290062,
+          "db_name_kr": "[마스터리북]스피릿 링크 : 피닉스 20",
+          "mapleland_name_kr": "[마스터리북] 피닉스 20"
+        },
+        {
+          "id": 2290064,
+          "db_name_kr": "[마스터리북]어드밴스드 파이널 어택 20",
+          "mapleland_name_kr": "[마스터리북] 집중 20"
+        },
+        {
+          "id": 2290066,
+          "db_name_kr": "[마스터리북]크로스보우 엑스퍼트 20",
+          "mapleland_name_kr": "[마스터리북] 크로스보우 엑스퍼트 20"
+        },
+        {
+          "id": 2290068,
+          "db_name_kr": "[마스터리북]일루젼 스탭 20",
+          "mapleland_name_kr": "[마스터리북] 블라인드 20"
+        },
+        {
+          "id": 2290070,
+          "db_name_kr": "[마스터리북]피어싱 20",
+          "mapleland_name_kr": "[마스터리북] 피어싱 20"
+        },
+        {
+          "id": 2290072,
+          "db_name_kr": "[마스터리북]스피릿 링크 : 프리져 20",
+          "mapleland_name_kr": "[마스터리북] 프리져 20"
+        },
+        {
+          "id": 2290074,
+          "db_name_kr": "[마스터리북]스나이핑 20",
+          "mapleland_name_kr": "[마스터리북] 스나이핑 20"
+        },
+        {
+          "id": 2290076,
+          "db_name_kr": "[마스터리북]페이크 20",
+          "mapleland_name_kr": "[마스터리북] 페이크 20"
+        },
+        {
+          "id": 2290078,
+          "db_name_kr": "[마스터리북]베놈 20",
+          "mapleland_name_kr": "[마스터리북] 베놈 20"
+        },
+        {
+          "id": 2290080,
+          "db_name_kr": "[마스터리북]쇼다운 20",
+          "mapleland_name_kr": "[마스터리북] 쇼다운 20"
+        },
+        {
+          "id": 2290082,
+          "db_name_kr": "[마스터리북]닌자 앰부쉬 20",
+          "mapleland_name_kr": "[마스터리북] 닌자 앰부쉬 20"
+        },
+        {
+          "id": 2290084,
+          "db_name_kr": "[마스터리북]트리플스로우 20",
+          "mapleland_name_kr": "[마스터리북] 트리플스로우 20"
+        },
+        {
+          "id": 2290086,
+          "db_name_kr": "[마스터리북]닌자 스톰 20",
+          "mapleland_name_kr": "[마스터리북] 닌자 스톰 20"
+        },
+        {
+          "id": 2290088,
+          "db_name_kr": "[마스터리북]스피릿 자벨린 20",
+          "mapleland_name_kr": "[마스터리북] 스피릿 자벨린 20"
+        },
+        {
+          "id": 2290090,
+          "db_name_kr": "[마스터리북]부메랑 스텝 20",
+          "mapleland_name_kr": "[마스터리북] 부메랑 스텝 20"
+        }
+      ]
+    },
+    "maps_vs_mapleland_reference": {
+      "source": "https://mapledb.kr/map.php",
+      "reference_count": 1082,
+      "db_count": 4771,
+      "db_not_in_reference": 3691,
+      "reference_missing_in_db": 2,
+      "value_mismatches": 0,
+      "name_mismatches": 0,
+      "db_not_in_reference_samples": [
+        {
+          "id": 1,
+          "name": "Upper level of the Training Camp",
+          "street_name": "Maple Road",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 2,
+          "name": "Lower level of the Training Camp",
+          "street_name": "Maple Road",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 3,
+          "name": "Entrance - Mushroom Town Training Camp",
+          "street_name": "Maple Road",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 10000,
+          "name": "Mushroom Town",
+          "street_name": "Maple Road",
+          "area": "",
+          "name_kr": "단풍나무 언덕"
+        },
+        {
+          "id": 20001,
+          "name": "Mushroom Town Townstreet",
+          "street_name": "Maple Road",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 30001,
+          "name": "Mushroom Town Townstreet",
+          "street_name": "Maple Road",
+          "area": "",
+          "name_kr": "버섯마을민가"
+        },
+        {
+          "id": 40001,
+          "name": "Snail Hunting Ground II",
+          "street_name": "Maple Road",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 40002,
+          "name": "Snail Hunting Ground III",
+          "street_name": "Maple Road",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 50001,
+          "name": "The Field West of Southperry",
+          "street_name": "Maple Road",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 60000,
+          "name": "Southperry",
+          "street_name": "Maple Road",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 60001,
+          "name": "Southperry Armor Store",
+          "street_name": "Maple Road",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 1000004,
+          "name": "Snail Garden",
+          "street_name": "Rainbow Street",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 1000005,
+          "name": "Hunting Ground Middle of the Forest I",
+          "street_name": "Rainbow Street",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 1000006,
+          "name": "Hunting Ground Middle of the Forest II",
+          "street_name": "Rainbow Street",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 1010001,
+          "name": "Amherst Weapon Store",
+          "street_name": "Rainbow Street",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 1010002,
+          "name": "Amherst Townstreet",
+          "street_name": "Rainbow Street",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 1010003,
+          "name": "Amherst Department Store",
+          "street_name": "Rainbow Street",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 1010004,
+          "name": "Snail Field of Flowers",
+          "street_name": "Rainbow Street",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 1010100,
+          "name": "Adventurer Training Center 1",
+          "street_name": "Maple Road",
+          "area": "",
+          "name_kr": "모험가의 수련장1"
+        },
+        {
+          "id": 1010200,
+          "name": "Adventurer Training Center 2",
+          "street_name": "Maple Road",
+          "area": "",
+          "name_kr": "모험가의 수련장2"
+        },
+        {
+          "id": 1010300,
+          "name": "Adventurer Training Center 3",
+          "street_name": "Maple Road",
+          "area": "",
+          "name_kr": "모험가의 수련장3"
+        },
+        {
+          "id": 1010400,
+          "name": "Adventurer Training Center 4",
+          "street_name": "Maple Road",
+          "area": "",
+          "name_kr": "모험가의 수련장4"
+        },
+        {
+          "id": 1020001,
+          "name": "Tomato Field",
+          "street_name": "Rainbow Street",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 2000000,
+          "name": "Southperry",
+          "street_name": "Maple Road",
+          "area": "",
+          "name_kr": "사우스페리"
+        },
+        {
+          "id": 2000001,
+          "name": "Southperry Armor Store",
+          "street_name": "Maple Road",
+          "area": "",
+          "name_kr": "사우스페리 방어구상점"
+        },
+        {
+          "id": 100000110,
+          "name": "Henesys Free Market Entrance",
+          "street_name": "Victoria Road",
+          "area": "",
+          "name_kr": "헤네시스자유시장입구"
+        },
+        {
+          "id": 100000111,
+          "name": "Henesys Free Market <1>",
+          "street_name": "Victoria Road",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 100000112,
+          "name": "Henesys Free Market <2>",
+          "street_name": "Victoria Road",
+          "area": "",
+          "name_kr": "헤네시스자유시장<2>"
+        },
+        {
+          "id": 100000113,
+          "name": "Henesys Free Market <3>",
+          "street_name": "Victoria Road",
+          "area": "",
+          "name_kr": "헤네시스자유시장<3>"
+        },
+        {
+          "id": 100000114,
+          "name": "Henesys Free Market <4>",
+          "street_name": "Victoria Road",
+          "area": "",
+          "name_kr": "헤네시스자유시장<4>"
+        },
+        {
+          "id": 100000115,
+          "name": "Henesys Free Market <5>",
+          "street_name": "Victoria Road",
+          "area": "",
+          "name_kr": "헤네시스자유시장<5>"
+        },
+        {
+          "id": 100000116,
+          "name": "Henesys Free Market <6>",
+          "street_name": "Victoria Road",
+          "area": "",
+          "name_kr": "헤네시스자유시장<6>"
+        },
+        {
+          "id": 100000117,
+          "name": "Henesys Free Market <7>",
+          "street_name": "Victoria Road",
+          "area": "",
+          "name_kr": "헤네시스자유시장<7>"
+        },
+        {
+          "id": 100000118,
+          "name": "Henesys Free Market <8>",
+          "street_name": "Victoria Road",
+          "area": "",
+          "name_kr": "헤네시스자유시장<8>"
+        },
+        {
+          "id": 100000119,
+          "name": "Henesys Free Market <9>",
+          "street_name": "Victoria Road",
+          "area": "",
+          "name_kr": "헤네시스자유시장<9>"
+        },
+        {
+          "id": 100000204,
+          "name": "Hall of Bowmen",
+          "street_name": "Victoria Road",
+          "area": "",
+          "name_kr": "궁수의 전당"
+        },
+        {
+          "id": 100000205,
+          "name": "Hall of Bowmen",
+          "street_name": "Victoria Road",
+          "area": "",
+          "name_kr": "궁수의 전당"
+        },
+        {
+          "id": 100010100,
+          "name": "Nefarious Hill",
+          "street_name": "Hidden Street",
+          "area": "",
+          "name_kr": "꿈꾸는 오솔길"
+        },
+        {
+          "id": 100020100,
+          "name": "Henesys Pig Farm",
+          "street_name": "Mini Dungeon",
+          "area": "",
+          "name_kr": "콧노래 오솔길"
+        },
+        {
+          "id": 100020101,
+          "name": "Henesys Pig Farm",
+          "street_name": "Mini Dungeon",
+          "area": "",
+          "name_kr": "머쉬맘의 오솔길"
+        },
+        {
+          "id": 100020102,
+          "name": "Henesys Pig Farm",
+          "street_name": "Mini Dungeon",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 100020103,
+          "name": "Henesys Pig Farm",
+          "street_name": "Mini Dungeon",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 100020104,
+          "name": "Henesys Pig Farm",
+          "street_name": "Mini Dungeon",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 100020105,
+          "name": "Henesys Pig Farm",
+          "street_name": "Mini Dungeon",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 100020106,
+          "name": "Henesys Pig Farm",
+          "street_name": "Mini Dungeon",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 100020107,
+          "name": "Henesys Pig Farm",
+          "street_name": "Mini Dungeon",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 100020108,
+          "name": "Henesys Pig Farm",
+          "street_name": "Mini Dungeon",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 100020109,
+          "name": "Henesys Pig Farm",
+          "street_name": "Mini Dungeon",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 100020110,
+          "name": "Henesys Pig Farm",
+          "street_name": "Mini Dungeon",
+          "area": "",
+          "name_kr": null
+        },
+        {
+          "id": 100020111,
+          "name": "Henesys Pig Farm",
+          "street_name": "Mini Dungeon",
+          "area": "",
+          "name_kr": null
+        }
+      ],
+      "reference_missing_in_db_samples": [
+        {
+          "id": 802000100,
+          "name_kr": "일본: 망각의 숲"
+        },
+        {
+          "id": 802000101,
+          "name_kr": "일본: 카무나"
+        }
+      ],
+      "value_mismatch_samples": [],
+      "name_mismatch_samples": []
+    },
+    "npcs_vs_mapleland_reference": {
+      "source": "https://mapledb.kr/npc.php",
+      "reference_count": 826,
+      "db_count": 1598,
+      "db_not_in_reference": 773,
+      "reference_missing_in_db": 1,
+      "value_mismatches": 0,
+      "name_mismatches": 0,
+      "db_not_in_reference_samples": [
+        {
+          "id": 2007,
+          "name": "Maple Administrator",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "메이플 운영자"
+        },
+        {
+          "id": 10200,
+          "name": "Athena Pierce",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "헬레나"
+        },
+        {
+          "id": 10201,
+          "name": "Grendel the Really Old",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "하인즈"
+        },
+        {
+          "id": 10202,
+          "name": "Dances with Balrog",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "주먹펴고 일어서"
+        },
+        {
+          "id": 10203,
+          "name": "Dark Lord",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "다크로드"
+        },
+        {
+          "id": 10204,
+          "name": "Kyrin",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "카이린"
+        },
+        {
+          "id": 1002007,
+          "name": "Regular Cab at Lith Harbor",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "리스항구 중형택시"
+        },
+        {
+          "id": 1002102,
+          "name": "Eels",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "일스"
+        },
+        {
+          "id": 1002103,
+          "name": "Captain Al",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "리더 알"
+        },
+        {
+          "id": 1002104,
+          "name": "Tru",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "트루"
+        },
+        {
+          "id": 1011101,
+          "name": "General Mau",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "오심마"
+        },
+        {
+          "id": 1012115,
+          "name": "Henesys Forest",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "헤네시스 풀숲"
+        },
+        {
+          "id": 1012116,
+          "name": "Henesys Forest",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "헤네시스 풀숲"
+        },
+        {
+          "id": 1012117,
+          "name": "Big Headward",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "빅 헤드워드"
+        },
+        {
+          "id": 1012118,
+          "name": "Power B. Fore",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "왕연해"
+        },
+        {
+          "id": 1012119,
+          "name": "Power B. Fore",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "왕연해"
+        },
+        {
+          "id": 1012120,
+          "name": "Stray Cat",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "버려진 고양이"
+        },
+        {
+          "id": 1013000,
+          "name": "Mir",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "미르"
+        },
+        {
+          "id": 1013001,
+          "name": "Dragon",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "드래곤"
+        },
+        {
+          "id": 1013002,
+          "name": "Dragon Nest",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "드래곤의 둥지"
+        },
+        {
+          "id": 1013100,
+          "name": "Anna",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "애나"
+        },
+        {
+          "id": 1013101,
+          "name": "Utah",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "유타"
+        },
+        {
+          "id": 1013102,
+          "name": "Bull Dog",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "불독"
+        },
+        {
+          "id": 1013103,
+          "name": "Gustav",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "그리드"
+        },
+        {
+          "id": 1013104,
+          "name": "Hen",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "달걀통"
+        },
+        {
+          "id": 1013105,
+          "name": "Dairy Cow",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "젖소"
+        },
+        {
+          "id": 1013106,
+          "name": "Glowing Stele",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "빛나는 비석"
+        },
+        {
+          "id": 1013200,
+          "name": "Piglet",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "아기 돼지"
+        },
+        {
+          "id": 1013201,
+          "name": "Camila",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "카밀라"
+        },
+        {
+          "id": 1013202,
+          "name": "Black Shadow",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "검은 그림자"
+        },
+        {
+          "id": 1013203,
+          "name": "Hiver",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "이베흐"
+        },
+        {
+          "id": 1013204,
+          "name": "Hiver",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "이베흐"
+        },
+        {
+          "id": 1013205,
+          "name": "Afrien",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "아프리엔"
+        },
+        {
+          "id": 1013206,
+          "name": "Hiver",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "이베흐"
+        },
+        {
+          "id": 1013207,
+          "name": "Olaf",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "쿤"
+        },
+        {
+          "id": 1022104,
+          "name": "Power B. Fore",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "왕연해"
+        },
+        {
+          "id": 1022105,
+          "name": "Power B. Fore",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "왕연해"
+        },
+        {
+          "id": 1022106,
+          "name": "Christopher",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "지미"
+        },
+        {
+          "id": 1022107,
+          "name": "Perion Warning Post",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "페리온 경고판"
+        },
+        {
+          "id": 1032109,
+          "name": "Corner of the Magic Library",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "마법도서관 구석"
+        },
+        {
+          "id": 1032110,
+          "name": "Corner of the Magic Library",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "마법도서관 구석"
+        },
+        {
+          "id": 1032111,
+          "name": "Small Tree Stump",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "작은 그루터기"
+        },
+        {
+          "id": 1032112,
+          "name": "Talking Tree",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "말하는 나무"
+        },
+        {
+          "id": 1032113,
+          "name": "Power B. Fore",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "왕연해"
+        },
+        {
+          "id": 1032114,
+          "name": "Power B. Fore",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "왕연해"
+        },
+        {
+          "id": 1043002,
+          "name": "Empty Wall",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "빈 벽"
+        },
+        {
+          "id": 1043003,
+          "name": "Blue Bottle",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "파란 술병"
+        },
+        {
+          "id": 1052107,
+          "name": "Small Street Light",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "작은 가로등"
+        },
+        {
+          "id": 1052109,
+          "name": "Subway Trash Can",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "지하철 휴지통"
+        },
+        {
+          "id": 1052110,
+          "name": "Subway Trash Can",
+          "map_id": null,
+          "map_name": "",
+          "name_kr": "지하철 휴지통"
+        }
+      ],
+      "reference_missing_in_db_samples": [
+        {
+          "id": 9120025,
+          "name_kr": "아시아"
+        }
+      ],
+      "value_mismatch_samples": [],
+      "name_mismatch_samples": []
+    },
+    "quests_vs_mapleland_reference": {
+      "source": "https://mapledb.kr/quest.php",
+      "schema_warning": "quests.id is an AUTOINCREMENT surrogate key in the current DB, so MapleLand quest ID comparisons are not reliable. Name-based comparison is used as a weaker signal.",
+      "reference_count": 778,
+      "db_count": 419,
+      "db_id_matches_reference_id": 0,
+      "reference_id_missing_in_db_surrogate_space": 778,
+      "db_name_not_in_reference": 241,
+      "reference_name_missing_in_db": 595,
+      "db_name_not_in_reference_samples": [
+        {
+          "id": 1,
+          "name": "장로스탄의 편지",
+          "level_req": 1,
+          "area": "빅토리아 아일랜드",
+          "start_location": "헤네시스",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "월드이동"
+        },
+        {
+          "id": 4,
+          "name": "내 딸을 찾고 싶어",
+          "level_req": 10,
+          "area": "빅토리아 아일랜드",
+          "start_location": "헤네시스",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 6,
+          "name": "심심해요",
+          "level_req": 10,
+          "area": "빅토리아 아일랜드",
+          "start_location": "커닝시티",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 7,
+          "name": "신기한 고양이 펜시 (넬라의 꿈)",
+          "level_req": 10,
+          "area": "빅토리아 아일랜드",
+          "start_location": "커닝시티",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "히든"
+        },
+        {
+          "id": 9,
+          "name": "마야와 이상한 약",
+          "level_req": 15,
+          "area": "빅토리아 아일랜드",
+          "start_location": "헤네시스 민가",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 11,
+          "name": "넬라와 커닝시티 주민들의 의뢰 1",
+          "level_req": 15,
+          "area": "빅토리아 아일랜드",
+          "start_location": "커닝시티",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 12,
+          "name": "넬라와 커닝시티 주민들의 의뢰 2",
+          "level_req": 15,
+          "area": "빅토리아 아일랜드",
+          "start_location": "커닝시티",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 13,
+          "name": "넬라와 커닝시티 주민들의 의뢰 3",
+          "level_req": 15,
+          "area": "빅토리아 아일랜드",
+          "start_location": "커닝시티",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 14,
+          "name": "존의 분홍색 꽃 바구니",
+          "level_req": 15,
+          "area": "빅토리아 아일랜드",
+          "start_location": "리스항구",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 15,
+          "name": "존이 준비한 선물",
+          "level_req": 30,
+          "area": "빅토리아 아일랜드",
+          "start_location": "리스항구",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 16,
+          "name": "존이 준비한 마지막 선물",
+          "level_req": 60,
+          "area": "빅토리아 아일랜드",
+          "start_location": "리스항구",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 19,
+          "name": "(~Lv.29) 만지와 비밀조직",
+          "level_req": 18,
+          "area": "빅토리아 아일랜드",
+          "start_location": "페리온",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "히든"
+        },
+        {
+          "id": 20,
+          "name": "윈스턴의 화석발굴",
+          "level_req": 20,
+          "area": "빅토리아 아일랜드",
+          "start_location": "동쪽바위산 2",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 27,
+          "name": "가출소년 알렉스",
+          "level_req": 20,
+          "area": "빅토리아 아일랜드",
+          "start_location": "커닝시티",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 28,
+          "name": "슈미가 잃어버린 동전",
+          "level_req": 20,
+          "area": "빅토리아 아일랜드",
+          "start_location": "커닝시티",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 29,
+          "name": "잃어버린 돈뭉치",
+          "level_req": 30,
+          "area": "빅토리아 아일랜드",
+          "start_location": "커닝시티",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 30,
+          "name": "잃어버린 돈주머니",
+          "level_req": 40,
+          "area": "빅토리아 아일랜드",
+          "start_location": "커닝시티",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 38,
+          "name": "메이플 고서를 되찾아라 1",
+          "level_req": 25,
+          "area": "빅토리아 아일랜드",
+          "start_location": "헤네시스",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "월드이동"
+        },
+        {
+          "id": 39,
+          "name": "메이플 고서를 되찾아라 2",
+          "level_req": 25,
+          "area": "빅토리아 아일랜드",
+          "start_location": "헤네시스",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "월드이동"
+        },
+        {
+          "id": 42,
+          "name": "니오라 병원의 미스테리",
+          "level_req": 25,
+          "area": "빅토리아 아일랜드",
+          "start_location": "커닝시티",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 43,
+          "name": "넬라와 커닝시티 주민들의 의뢰 4",
+          "level_req": 25,
+          "area": "빅토리아 아일랜드",
+          "start_location": "커닝시티",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 44,
+          "name": "넬라와 커닝시티 주민들의 의뢰 5",
+          "level_req": 25,
+          "area": "빅토리아 아일랜드",
+          "start_location": "커닝시티",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 45,
+          "name": "넬라와 커닝시티 주민들의 의뢰 6",
+          "level_req": 25,
+          "area": "빅토리아 아일랜드",
+          "start_location": "커닝시티",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 46,
+          "name": "사비트라마의 살 빼는 약 만들기",
+          "level_req": 25,
+          "area": "빅토리아 아일랜드",
+          "start_location": "슬리피우드",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 49,
+          "name": "모래그림단의 지령! (특별한 지령)",
+          "level_req": 30,
+          "area": "빅토리아 아일랜드",
+          "start_location": "페리온",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "월드이동"
+        },
+        {
+          "id": 51,
+          "name": "시워언해의 비밀의 책",
+          "level_req": 30,
+          "area": "빅토리아 아일랜드",
+          "start_location": "슬리피우드 사우나 <고급>",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 56,
+          "name": "이카루스의 하늘을 나는 약",
+          "level_req": 42,
+          "area": "빅토리아 아일랜드",
+          "start_location": "커닝시티",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 57,
+          "name": "오염된 던전! <3-주니어부기>",
+          "level_req": 33,
+          "area": "빅토리아 아일랜드",
+          "start_location": "이블아이의 굴 4",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 58,
+          "name": "아랫마을을 찾아서...",
+          "level_req": 35,
+          "area": "빅토리아 아일랜드",
+          "start_location": "헤네시스",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "월드이동"
+        },
+        {
+          "id": 59,
+          "name": "요정 로웬과 저주받은 인형 1",
+          "level_req": 35,
+          "area": "빅토리아 아일랜드",
+          "start_location": "엘리니아",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 60,
+          "name": "요정 로웬과 저주받은 인형 2",
+          "level_req": 35,
+          "area": "빅토리아 아일랜드",
+          "start_location": "엘리니아",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 61,
+          "name": "요정 로웬과 저주받은 인형 3",
+          "level_req": 35,
+          "area": "빅토리아 아일랜드",
+          "start_location": "엘리니아",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 62,
+          "name": "요정 로웬과 저주받은 인형 4",
+          "level_req": 35,
+          "area": "빅토리아 아일랜드",
+          "start_location": "엘리니아",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 63,
+          "name": "요정 로웬과 저주받은 인형 5",
+          "level_req": 35,
+          "area": "빅토리아 아일랜드",
+          "start_location": "엘리니아",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 64,
+          "name": "플로리나비치의 별미 1",
+          "level_req": 35,
+          "area": "빅토리아 아일랜드",
+          "start_location": "플로리나 비치",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 65,
+          "name": "플로리나비치의 별미 2",
+          "level_req": 35,
+          "area": "빅토리아 아일랜드",
+          "start_location": "플로리나 비치",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 66,
+          "name": "플로리나비치의 별미 3",
+          "level_req": 35,
+          "area": "빅토리아 아일랜드",
+          "start_location": "플로리나 비치",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 67,
+          "name": "플로리나비치의 별미 4",
+          "level_req": 35,
+          "area": "빅토리아 아일랜드",
+          "start_location": "플로리나 비치",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 69,
+          "name": "연금술사 제인 1",
+          "level_req": 40,
+          "area": "빅토리아 아일랜드",
+          "start_location": "리스항구",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 70,
+          "name": "연금술사 제인 2",
+          "level_req": 40,
+          "area": "빅토리아 아일랜드",
+          "start_location": "리스항구",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 71,
+          "name": "연금술사 제인 3",
+          "level_req": 40,
+          "area": "빅토리아 아일랜드",
+          "start_location": "리스항구",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 72,
+          "name": "만지의 낡은 글라디우스",
+          "level_req": 45,
+          "area": "빅토리아 아일랜드",
+          "start_location": "페리온",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 73,
+          "name": "사비트라마의 젊어지는 약 만들기",
+          "level_req": 50,
+          "area": "빅토리아 아일랜드",
+          "start_location": "슬리피우드",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 76,
+          "name": "(전사) 경비병 루크의 모험 결심",
+          "level_req": 50,
+          "area": "빅토리아 아일랜드",
+          "start_location": "헤네시스 던전 입구",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 77,
+          "name": "늪지대의 악어 1",
+          "level_req": 52,
+          "area": "빅토리아 아일랜드",
+          "start_location": "페리온",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 78,
+          "name": "늪지대의 악어 2",
+          "level_req": 52,
+          "area": "빅토리아 아일랜드",
+          "start_location": "페리온",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 79,
+          "name": "(궁수) 마야를 위한 수집",
+          "level_req": 55,
+          "area": "빅토리아 아일랜드",
+          "start_location": "헤네시스 민가",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 80,
+          "name": "(도적) 피아의 친구를 위한 선물",
+          "level_req": 55,
+          "area": "빅토리아 아일랜드",
+          "start_location": "헤네시스 공원",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 81,
+          "name": "(법사) 로니와 요정들의 새집 짓기",
+          "level_req": 55,
+          "area": "빅토리아 아일랜드",
+          "start_location": "북쪽숲나무통로",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        },
+        {
+          "id": 89,
+          "name": "봉달이를 위한 먹이사냥 1",
+          "level_req": 30,
+          "area": "엘나스/아쿠아로드",
+          "start_location": "오르비스 탑 <10층>",
+          "start_level": 0,
+          "end_level": 0,
+          "quest_type": "일반"
+        }
+      ],
+      "reference_name_missing_in_db_samples": [
+        {
+          "id": 1000,
+          "name_kr": "세라에게 거울 빌려오기"
+        },
+        {
+          "id": 1001,
+          "name_kr": "히나에게 거울 가져가기"
+        },
+        {
+          "id": 1003,
+          "name_kr": "센이 먹고 싶어 하는 것은?"
+        },
+        {
+          "id": 1004,
+          "name_kr": "니나에게 돌아가기"
+        },
+        {
+          "id": 1005,
+          "name_kr": "장로에게 전해줄 편지"
+        },
+        {
+          "id": 1006,
+          "name_kr": "장로의 답장"
+        },
+        {
+          "id": 1007,
+          "name_kr": "빅스의 아이템 수집"
+        },
+        {
+          "id": 1008,
+          "name_kr": "피오의 재활용품 수거"
+        },
+        {
+          "id": 1009,
+          "name_kr": "레인의 메이플 퀴즈1"
+        },
+        {
+          "id": 1010,
+          "name_kr": "레인의 메이플 퀴즈2"
+        },
+        {
+          "id": 1011,
+          "name_kr": "레인의 메이플 퀴즈3"
+        },
+        {
+          "id": 1012,
+          "name_kr": "레인의 메이플 퀴즈4"
+        },
+        {
+          "id": 1013,
+          "name_kr": "레인의 메이플 퀴즈5"
+        },
+        {
+          "id": 1014,
+          "name_kr": "레인의 메이플 퀴즈6"
+        },
+        {
+          "id": 1015,
+          "name_kr": "레인의 메이플 퀴즈7"
+        },
+        {
+          "id": 1016,
+          "name_kr": "마이의 수련"
+        },
+        {
+          "id": 1017,
+          "name_kr": "마이의 마지막 수련"
+        },
+        {
+          "id": 1018,
+          "name_kr": "토드의 사냥법"
+        },
+        {
+          "id": 1019,
+          "name_kr": "쌤의 제안"
+        },
+        {
+          "id": 1020,
+          "name_kr": "피오의 재활용품 활용"
+        },
+        {
+          "id": 1021,
+          "name_kr": "로저와 사과"
+        },
+        {
+          "id": 1022,
+          "name_kr": "루카스의 귀여운 딸"
+        },
+        {
+          "id": 1023,
+          "name_kr": "돼지 퇴치"
+        },
+        {
+          "id": 1024,
+          "name_kr": "사랑의 고민 해결?!"
+        },
+        {
+          "id": 1025,
+          "name_kr": "마리아의 영양 주스"
+        },
+        {
+          "id": 1026,
+          "name_kr": "샹크스에게 영양 주스 전달하기"
+        },
+        {
+          "id": 1027,
+          "name_kr": "마이의 부탁"
+        },
+        {
+          "id": 1028,
+          "name_kr": "리스항구로!"
+        },
+        {
+          "id": 1029,
+          "name_kr": "쌤의 조언"
+        },
+        {
+          "id": 1030,
+          "name_kr": "마리아의 지도 보기"
+        },
+        {
+          "id": 1031,
+          "name_kr": "히나와 세라"
+        },
+        {
+          "id": 1032,
+          "name_kr": "다나의 동생 센"
+        },
+        {
+          "id": 1033,
+          "name_kr": "센이 먹고 싶은 것"
+        },
+        {
+          "id": 1034,
+          "name_kr": "맛있는 버섯사탕"
+        },
+        {
+          "id": 1035,
+          "name_kr": "토드의 사냥법"
+        },
+        {
+          "id": 1036,
+          "name_kr": "만물박사 로빈"
+        },
+        {
+          "id": 1037,
+          "name_kr": "달팽이 사냥 돕기"
+        },
+        {
+          "id": 1038,
+          "name_kr": "마리아의 편지"
+        },
+        {
+          "id": 1039,
+          "name_kr": "유나 도와주기"
+        },
+        {
+          "id": 1040,
+          "name_kr": "장로의 소개"
+        },
+        {
+          "id": 1041,
+          "name_kr": "마이의 첫번째 수련"
+        },
+        {
+          "id": 1042,
+          "name_kr": "마이의 두번째 수련"
+        },
+        {
+          "id": 1043,
+          "name_kr": "마이의 세번째 수련"
+        },
+        {
+          "id": 1044,
+          "name_kr": "마이의 마지막 수련"
+        },
+        {
+          "id": 1045,
+          "name_kr": "바리의 테스트"
+        },
+        {
+          "id": 1046,
+          "name_kr": "빅스의 빅토리아 아일랜드 이야기"
+        },
+        {
+          "id": 2002,
+          "name_kr": "리스 항구의 테오"
+        },
+        {
+          "id": 2003,
+          "name_kr": "소피아를 찾아서..."
+        },
+        {
+          "id": 2004,
+          "name_kr": "반짝이는 돌의 재료"
+        },
+        {
+          "id": 2005,
+          "name_kr": "아르콘의 피?"
+        }
+      ]
+    }
+  }
+}

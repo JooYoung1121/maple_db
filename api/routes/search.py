@@ -3,6 +3,7 @@ from fastapi import APIRouter, Query
 from typing import Optional
 
 from crawler.db import get_connection
+from api.routes.mapleland_reference import search_entity_filter_sql
 
 router = APIRouter()
 
@@ -29,6 +30,8 @@ def search_suggest(
     try:
         # FTS5 prefix search + JOIN으로 KMS name, icon_url을 한 번에 가져옴
         fts_query = query + "*"
+        mapleland_filter = search_entity_filter_sql("s.entity_type", "s.entity_id")
+        extra_filter = f"AND {mapleland_filter}" if mapleland_filter else ""
         fts_rows = conn.execute(
             """SELECT s.entity_type, s.entity_id, s.name,
                       en.name_en AS name_kr,
@@ -43,6 +46,7 @@ def search_suggest(
                 AND en.entity_id = s.entity_id
                 AND en.source = 'kms'
                WHERE search_index MATCH ?
+                 """ + extra_filter + """
                  AND NOT (s.entity_type = 'mob'
                           AND EXISTS (SELECT 1 FROM mobs WHERE id = s.entity_id AND COALESCE(is_hidden,0)=1))
                ORDER BY rank
@@ -67,6 +71,8 @@ def search_suggest(
         # Fallback: LIKE on entity_names_en if not enough results
         if len(suggestions) < limit:
             remaining = limit - len(suggestions)
+            en_filter = search_entity_filter_sql("e.entity_type", "e.entity_id")
+            en_extra_filter = f"AND {en_filter}" if en_filter else ""
             en_rows = conn.execute(
                 """SELECT DISTINCT e.entity_type, e.entity_id, e.name_en,
                     CASE e.entity_type
@@ -78,6 +84,7 @@ def search_suggest(
                     END as name
                 FROM entity_names_en e
                 WHERE name_en LIKE ?
+                """ + en_extra_filter + """
                 LIMIT ?""",
                 [f"%{query}%", remaining],
             ).fetchall()
@@ -129,6 +136,10 @@ def search(
             base_where += " AND entity_type = ?"
             params.append(type)
 
+        mapleland_filter = search_entity_filter_sql("entity_type", "entity_id")
+        if mapleland_filter:
+            base_where += f" AND {mapleland_filter}"
+
         # Total count
         count_sql = f"SELECT COUNT(*) FROM search_index WHERE {base_where}"
         total = conn.execute(count_sql, params).fetchone()[0]
@@ -161,6 +172,10 @@ def search(
             if type and type in VALID_TYPES:
                 en_where += " AND entity_type = ?"
                 en_params.append(type)
+
+            en_filter = search_entity_filter_sql("e.entity_type", "e.entity_id")
+            if en_filter:
+                en_where += f" AND {en_filter}"
 
             # 이미 찾은 entity_id 제외
             found_ids = {(r["entity_type"], r["entity_id"]) for r in results}

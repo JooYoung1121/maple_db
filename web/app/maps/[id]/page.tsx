@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getMap } from "@/lib/api";
-import type { MapData, Npc } from "@/lib/types";
+import type { MapData, MapMobSpawn, Npc } from "@/lib/types";
 
 export default function MapDetailPage() {
   const { id } = useParams();
   const [map, setMap] = useState<MapData | null>(null);
-  const [monsters, setMonsters] = useState<{ mob_id: number; mob_name: string; level: number }[]>([]);
+  const [monsters, setMonsters] = useState<MapMobSpawn[]>([]);
   const [npcs, setNpcs] = useState<Npc[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -63,8 +63,8 @@ export default function MapDetailPage() {
           <h2 className="text-lg font-semibold mb-3">출현 몬스터</h2>
           <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl divide-y divide-gray-100">
             {monsters.map((m) => (
-              <Link key={m.mob_id} href={`/mobs/${m.mob_id}`} className="flex items-center justify-between px-4 py-3 hover:bg-orange-50">
-                <span className="font-medium">{m.mob_name}</span>
+                <Link key={m.mob_id} href={`/mobs/${m.mob_id}`} className="flex items-center justify-between px-4 py-3 hover:bg-orange-50">
+                <span className="font-medium">{m.mob_name_kr || m.mob_name}</span>
                 <span className="text-sm text-gray-400">Lv. {m.level}</span>
               </Link>
             ))}
@@ -78,7 +78,7 @@ export default function MapDetailPage() {
           <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl divide-y divide-gray-100">
             {npcs.map((n) => (
               <Link key={n.id} href={`/npcs/${n.id}`} className="block px-4 py-3 hover:bg-orange-50 font-medium">
-                {n.name}
+                {n.name_kr || n.name}
               </Link>
             ))}
           </div>
