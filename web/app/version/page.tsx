@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "3.2.0";
+const VERSION = "3.3.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,45 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "3.3.0",
+    date: "2026-06-05",
+    type: "minor",
+    title: "메이플랜드 기준 데이터 정합성 정리 + 테스피아 2.0 소식 반영",
+    features: [
+      {
+        category: "데이터 — 메이플랜드 기준 필터링",
+        items: [
+          "몬스터, 아이템, 맵, NPC, 보스, 드롭 검색 API를 메이플랜드 기준 참조 데이터로 필터링",
+          "아이스드라코, 주니어와이번 등 현재 메이플랜드에 없는 데이터가 주요 목록과 검색 결과에 노출되지 않도록 정리",
+          "상세 페이지의 드롭/출현/연관 정보도 메이플랜드 기준 ID만 연결되도록 보정",
+        ],
+      },
+      {
+        category: "소식 — 공홈/테스피아 분리",
+        items: [
+          "공홈 소식과 테스피아 2.0 패치노트를 분리해서 볼 수 있는 소식 탭 추가",
+          "테스피아 패치 요약 API와 요약 패널 추가",
+          "메이플랜드 공지 DB에 source 필드를 추가해 본섭/테스피아 출처 구분",
+        ],
+      },
+      {
+        category: "가이드/계산기 — 메랜 기준 보정",
+        items: [
+          "엔방컷 계산기의 추천 몬스터와 스킬 레벨 계산 흐름을 메이플랜드 기준으로 정리",
+          "사냥터 추천, 파티퀘스트, 전직 가이드의 비메랜/오류성 항목 정리",
+          "퀘스트와 스킬 페이지에는 정규 DB 리빌드 전까지 데이터 주의 안내 표시",
+        ],
+      },
+      {
+        category: "배포 — Railway 최적화",
+        items: [
+          "Railway Docker 빌드 컨텍스트에서 대용량 개발 산출물과 백업 DB 제외",
+          "배포 이미지에는 실제 서비스용 maple.db만 포함되도록 Dockerfile 정리",
+        ],
+      },
+    ],
+  },
   {
     version: "3.2.0",
     date: "2026-04-08",
