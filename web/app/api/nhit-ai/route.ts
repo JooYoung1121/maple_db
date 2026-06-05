@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
+const GEMINI_NHIT_MODEL =
+  process.env.GEMINI_NHIT_MODEL ||
+  process.env.GEMINI_MODEL ||
+  "gemini-2.5-flash-lite";
+
 interface NhitAiRequest {
   jobName: string;
   skillName: string;
@@ -54,14 +59,14 @@ async function queryGeminiAI(req: NhitAiRequest): Promise<string> {
 
   const prompt = buildPrompt(req);
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_NHIT_MODEL}:generateContent?key=${apiKey}`,
     {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] }),
     }
   );
-  if (!res.ok) return `Gemini API 오류: ${res.status}`;
+  if (!res.ok) return `Gemini API 오류(${GEMINI_NHIT_MODEL}): ${res.status}`;
   const data = await res.json();
   return data.candidates?.[0]?.content?.parts?.[0]?.text ?? "응답 없음";
 }
