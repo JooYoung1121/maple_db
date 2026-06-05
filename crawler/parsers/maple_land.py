@@ -278,9 +278,11 @@ async def crawl_maple_land(conn: sqlite3.Connection, client, force: bool = False
         print(f"[maple-land] AI 요약 백필 대상 {len(backfill_rows)}건")
         for row in backfill_rows:
             try:
-                summary = await summarize_post(row["title"], row["content"])
-                if not summary and row["source"] == "tespia":
+                summary = None
+                if row["source"] == "tespia":
                     summary = local_patch_summary(row["title"], row["content"])
+                if not summary:
+                    summary = await summarize_post(row["title"], row["content"])
                 if summary:
                     conn.execute(
                         "UPDATE maple_land_posts SET summary = ? WHERE post_id = ?",
@@ -371,9 +373,10 @@ async def crawl_maple_land(conn: sqlite3.Connection, client, force: bool = False
                         # 업데이트/이벤트 카테고리만 요약 생성
                         summary = None
                         if cat in SUMMARY_CATEGORIES and content:
-                            summary = await summarize_post(title, content)
-                            if not summary and source == "tespia":
+                            if source == "tespia":
                                 summary = local_patch_summary(title, content)
+                            if not summary:
+                                summary = await summarize_post(title, content)
 
                         merged = {
                             "post_id": entry["post_id"],

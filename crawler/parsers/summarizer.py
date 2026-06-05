@@ -2,14 +2,17 @@
 from __future__ import annotations
 
 import os
+import time
 import httpx
 
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY", "")
 GEMINI_MODEL = "gemini-2.5-flash-lite"
+GEMINI_BACKOFF_SEC = int(os.environ.get("GEMINI_BACKOFF_SEC", "1800"))
 GEMINI_URL = (
     "https://generativelanguage.googleapis.com/v1beta/models/"
     f"{GEMINI_MODEL}:generateContent"
 )
+_skip_until = 0.0
 
 PROMPT_TEMPLATE = """너는 메이플랜드(게임) 소식을 전해주는 친근한 요약봇이야.
 아래 공식 공지사항을 읽고, 유저 입장에서 핵심만 쏙쏙 뽑아서 편하게 정리해 줘.
@@ -36,7 +39,10 @@ PROMPT_TEMPLATE = """너는 메이플랜드(게임) 소식을 전해주는 친�
 
 async def summarize_post(title: str, content: str) -> str | None:
     """Gemini로 게시글을 요약한다. API 키가 없거나 실패 시 None 반환."""
+    global _skip_until
     if not GOOGLE_API_KEY:
+        return None
+    if _skip_until and time.monotonic() < _skip_until:
         return None
     if not content or len(content.strip()) < 50:
         return None
@@ -60,6 +66,14 @@ async def summarize_post(title: str, content: str) -> str | None:
             data = res.json()
             text = data["candidates"][0]["content"]["parts"][0]["text"]
             return text.strip() if text else None
+    except httpx.HTTPStatusError as e:
+        status = e.response.status_code
+        if status == 429:
+            _skip_until = time.monotonic() + GEMINI_BACKOFF_SEC
+            print(f"[summarizer] 요약 실패: Gemini 429 Too Many Requests, {GEMINI_BACKOFF_SEC}s 동안 AI 요약 생략")
+        else:
+            print(f"[summarizer] 요약 실패: Gemini HTTP {status}")
+        return None
     except Exception as e:
-        print(f"[summarizer] 요약 실패: {e}")
+        print(f"[summarizer] 요약 실패: {type(e).__name__}")
         return None

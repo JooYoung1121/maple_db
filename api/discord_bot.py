@@ -7,6 +7,10 @@ bot_instance: discord.Client | None = None
 
 
 class MapleBot(discord.Client):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._invalid_channel_ids: set[int] = set()
+
     async def on_ready(self):
         print(f"[discord] 로그인: {self.user}")
 
@@ -57,8 +61,20 @@ class MapleBot(discord.Client):
             if raise_on_error:
                 raise RuntimeError(msg)
             return None
+        if ch_id in self._invalid_channel_ids:
+            msg = f"채널 조회 실패 ({ch_id}): 이전 조회에서 채널을 찾을 수 없어 알림 생략"
+            if raise_on_error:
+                raise RuntimeError(msg)
+            return None
         try:
             return await self.fetch_channel(ch_id)
+        except discord.NotFound as e:
+            self._invalid_channel_ids.add(ch_id)
+            msg = f"채널 조회 실패 ({ch_id}): {e}"
+            print(f"[discord] {msg}")
+            if raise_on_error:
+                raise RuntimeError(msg)
+            return None
         except Exception as e:
             msg = f"채널 조회 실패 ({ch_id}): {e}"
             print(f"[discord] {msg}")
