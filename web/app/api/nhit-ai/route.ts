@@ -49,8 +49,8 @@ async function queryClaudeAI(req: NhitAiRequest): Promise<string> {
 }
 
 async function queryGeminiAI(req: NhitAiRequest): Promise<string> {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) return "GEMINI_API_KEY 미설정";
+  const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY;
+  if (!apiKey) return "GEMINI_API_KEY 또는 GOOGLE_API_KEY 미설정";
 
   const prompt = buildPrompt(req);
   const res = await fetch(

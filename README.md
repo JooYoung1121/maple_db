@@ -230,11 +230,14 @@ Railway 대시보드 → Variables:
 | `NEXT_PUBLIC_API_URL` | (빈 값) — Railway 자동 라우팅 사용 |
 | `GAME_ADMIN_PASSWORD` | 게임 기록 삭제 비밀번호 (기본값: `1004`) |
 | `GEMINI_API_KEY` | 운세 AI, 공지 요약, N방컷 AI 분석에 사용하는 Gemini 키 |
-| `GOOGLE_API_KEY` | 선택 사항. 예전 Gemini 키 이름 호환용 |
+| `GOOGLE_API_KEY` | 선택 사항. `GEMINI_API_KEY` 대신 있어도 Gemini 기능에 사용됨 |
+| `MAPLE_LAND_CRAWLER_ENABLED` | 공홈/테스피아 공지 자동 확인 여부. 기본값: `true` |
+| `MAPLE_LAND_CRAWL_INTERVAL_MINUTES` | 공홈/테스피아 공지 확인 주기. 기본값: `30` |
 | `DISCORD_BOT_TOKEN` | 디스코드 알림봇 토큰. 없으면 봇은 비활성화됨 |
 
 디스코드 알림 채널과 멘션 설정은 배포 후 `/guild/discord` 페이지에서 관리자 비밀번호로 저장합니다.
 로컬 개발에서는 루트 `.env`, `.env.local`, `web/.env.local`이 `./scripts/dev.sh` 실행 시 함께 로드됩니다.
+운영 중 자동으로 도는 크롤러는 메랜 공홈/테스피아 공지·이벤트 게시판 확인뿐이며, 몬스터/아이템/퀘스트 전체 크롤링은 수동 CLI로만 실행합니다.
 
 ### 배포
 

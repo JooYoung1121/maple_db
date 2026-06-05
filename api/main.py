@@ -1,5 +1,6 @@
 """FastAPI application entry point"""
 import asyncio
+import os
 import sys
 from pathlib import Path
 
@@ -26,9 +27,25 @@ from api.routes import fortune
 from api.discord_bot import start_bot, get_bot
 
 
+def _env_bool(name: str, default: bool) -> bool:
+    value = os.environ.get(name)
+    if value is None:
+        return default
+    return value.strip().lower() not in {"0", "false", "no", "off"}
+
+
+def _crawl_interval_seconds() -> int:
+    raw = os.environ.get("MAPLE_LAND_CRAWL_INTERVAL_MINUTES", "30")
+    try:
+        minutes = int(raw)
+    except ValueError:
+        minutes = 30
+    return max(minutes, 5) * 60
+
+
 async def _maple_land_crawl_job():
-    """30분마다 maple.land 신규 공지 크롤링."""
-    # 첫 실행은 앱 시작 직후 (DB가 비어 있을 경우 초기 수집)
+    """Periodically check MapleLand/Tespia notice boards."""
+    interval = _crawl_interval_seconds()
     while True:
         try:
             from crawler.parsers.maple_land import crawl_maple_land
@@ -39,7 +56,7 @@ async def _maple_land_crawl_job():
                 r[0] for r in conn.execute("SELECT post_id FROM maple_land_posts").fetchall()
             }
             async with ThrottledClient() as client:
-                n = await crawl_maple_land(conn, client, force=False)
+                n = await crawl_maple_land(conn, client, force=False, refresh_lists=True)
                 if n:
                     print(f"[scheduler] maple-land 신규 {n}건 저장")
                     # 신규 포스트에 대해 디스코드 알림
@@ -62,7 +79,7 @@ async def _maple_land_crawl_job():
             conn.close()
         except Exception as e:
             print(f"[scheduler] maple-land 크롤링 오류: {e}")
-        await asyncio.sleep(30 * 60)  # 30분 대기
+        await asyncio.sleep(interval)
 
 
 @asynccontextmanager
@@ -84,10 +101,15 @@ async def lifespan(app: FastAPI):
         conn.close()
     except Exception as e:
         print(f"[startup] date normalize warning: {e}")
-    crawl_task = asyncio.create_task(_maple_land_crawl_job())
+    crawl_task = None
+    if _env_bool("MAPLE_LAND_CRAWLER_ENABLED", True):
+        crawl_task = asyncio.create_task(_maple_land_crawl_job())
+    else:
+        print("[scheduler] maple-land crawler disabled")
     bot_task = asyncio.create_task(start_bot())
     yield
-    crawl_task.cancel()
+    if crawl_task:
+        crawl_task.cancel()
     bot_task.cancel()
 
 

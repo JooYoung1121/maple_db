@@ -333,7 +333,8 @@ def cli():
 @click.option("--type", "entity_type", type=click.Choice(ALL_CRAWL_TYPES), default=None, help="크롤링할 엔티티 타입")
 @click.option("--all", "crawl_all", is_flag=True, default=False, help="모든 타입 크롤링")
 @click.option("--force", is_flag=True, default=False, help=f"최근 {CRAWL_STALE_DAYS}일 이내 크롤링된 항목도 재수집")
-def crawl(entity_type: str | None, crawl_all: bool, force: bool):
+@click.option("--cached-lists", is_flag=True, default=False, help="maple-land 게시판 목록도 캐시 사용")
+def crawl(entity_type: str | None, crawl_all: bool, force: bool, cached_lists: bool):
     """데이터 크롤링 실행."""
     if not entity_type and not crawl_all:
         raise click.UsageError("--type 또는 --all 중 하나를 지정하세요.")
@@ -350,7 +351,7 @@ def crawl(entity_type: str | None, crawl_all: bool, force: bool):
             from .parsers.maple_land import crawl_maple_land
             async def _run_maple_land():
                 async with ThrottledClient() as client:
-                    n = await crawl_maple_land(conn, client, force=force)
+                    n = await crawl_maple_land(conn, client, force=force, refresh_lists=not cached_lists)
                     print(f"[maple-land] 완료: 신규 {n}건")
             asyncio.run(_run_maple_land())
         elif t == "tistory":

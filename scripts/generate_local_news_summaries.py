@@ -139,17 +139,30 @@ def main() -> None:
 
     output = Path(args.output)
     output.parent.mkdir(parents=True, exist_ok=True)
+    payload_body = {
+        "summary_count": len(records),
+        "summaries": records,
+    }
+    if output.exists():
+        try:
+            existing = json.loads(output.read_text(encoding="utf-8"))
+            existing_body = {
+                "summary_count": existing.get("summary_count"),
+                "summaries": existing.get("summaries", []),
+            }
+            if existing_body == payload_body:
+                print(f"local summaries unchanged: {len(records)}")
+                print(f"db summaries updated: {changed}")
+                return
+        except Exception:
+            pass
+
+    payload = {
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        **payload_body,
+    }
     output.write_text(
-        json.dumps(
-            {
-                "generated_at": datetime.now(timezone.utc).isoformat(),
-                "summary_count": len(records),
-                "summaries": records,
-            },
-            ensure_ascii=False,
-            indent=2,
-        )
-        + "\n",
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
 

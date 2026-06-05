@@ -265,7 +265,12 @@ class MapleLandParser(BaseParser):
 SUMMARY_CATEGORIES = {"업데이트", "이벤트", "진행중", "종료", "안내"}
 
 
-async def crawl_maple_land(conn: sqlite3.Connection, client, force: bool = False) -> int:
+async def crawl_maple_land(
+    conn: sqlite3.Connection,
+    client,
+    force: bool = False,
+    refresh_lists: bool = True,
+) -> int:
     """maple.land + Tespia notices/events crawler. Returns new/updated count."""
     new_count = 0
 
@@ -335,7 +340,7 @@ async def crawl_maple_land(conn: sqlite3.Connection, client, force: bool = False
                     html = await client.get(
                         url,
                         cache_key=f"maple_land/{source}/{board}/p{page}",
-                        use_cache=not force,
+                        use_cache=not (force or refresh_lists),
                     )
                 except Exception as e:
                     print(f"[maple-land] {source}/{board} p{page} 오류: {e}")
