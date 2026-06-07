@@ -11,7 +11,7 @@ import { useQueryState } from "@/lib/useQueryState";
 
 
 const columns: Column<Npc>[] = [
-  { key: "name", label: "이름" },
+  { key: "name", label: "이름", render: (r) => r.name_kr ? <><span>{r.name_kr}</span> <span className="text-gray-400 text-xs">({r.name})</span></> : r.name },
   { key: "map_name", label: "위치" },
   { key: "is_shop", label: "상점", render: (r) => r.is_shop ? "Y" : "" },
 ];

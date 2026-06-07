@@ -130,12 +130,17 @@ def get_map(map_id: int):
             (map_id,),
         ).fetchall()
         map_data["names_en"] = [dict(r) for r in en_rows]
+        map_data["name_kr"] = next(
+            (r["name_en"] for r in map_data["names_en"] if r.get("source") == "kms"),
+            None,
+        )
 
         # Parse portals
         portals_raw = map_data.get("portals_json")
         if portals_raw:
             try:
-                map_data["portals"] = json.loads(portals_raw)
+                portals = json.loads(portals_raw)
+                map_data["portals"] = [p for p in portals if isinstance(p, dict)] if isinstance(portals, list) else []
             except Exception:
                 map_data["portals"] = []
         else:

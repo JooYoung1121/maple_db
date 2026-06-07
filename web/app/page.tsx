@@ -42,6 +42,7 @@ const SECTION_GROUPS = [
     items: [
       { href: "/pq", label: "파티퀘스트", icon: "🏰", desc: "PQ 공략 및 보상" },
       { href: "/hunt", label: "사냥터 추천", icon: "🎯", desc: "레벨별 사냥터 가이드" },
+      { href: "/tespia-bosses", label: "테스피아 보스", icon: "⚔️", desc: "카오스 자쿰 · 핑크빈 메모" },
       { href: "/job", label: "전직 가이드", icon: "📋", desc: "직업별 전직 경로" },
       { href: "/ship", label: "배 시간표", icon: "🚢", desc: "정기선 운항 시간" },
       { href: "/trap", label: "트랩 타이머", icon: "⏱️", desc: "트랩 주기 타이머" },

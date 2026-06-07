@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getMap } from "@/lib/api";
-import type { MapData, MapMobSpawn, Npc } from "@/lib/types";
+import type { MapData, MapMobSpawn, Npc, Portal } from "@/lib/types";
 
 export default function MapDetailPage() {
   const { id } = useParams();
@@ -25,6 +25,10 @@ export default function MapDetailPage() {
   if (loading) return <div className="text-center py-12 text-gray-400">로딩 중...</div>;
   if (!map) return <div className="text-center py-12 text-gray-400">맵을 찾을 수 없습니다</div>;
 
+  const portalLinks = (map.portals || []).filter(
+    (p): p is Portal => Boolean(p && p.toMap && p.toMap !== 999999999)
+  );
+
   return (
     <div className="max-w-3xl mx-auto">
       <Link href="/maps" className="text-sm text-orange-500 hover:underline">&larr; 맵 목록</Link>
@@ -43,11 +47,11 @@ export default function MapDetailPage() {
           <div><span className="text-sm text-gray-500 dark:text-gray-400">지역</span><p className="font-medium">{map.area || "-"}</p></div>
         </div>
 
-        {map.portals && map.portals.length > 0 && (
+        {portalLinks.length > 0 && (
           <div className="mt-6">
             <h2 className="text-lg font-semibold mb-3">포탈</h2>
             <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl divide-y divide-gray-100">
-              {map.portals.filter(p => p.toMap && p.toMap !== 999999999).map((p, i) => (
+              {portalLinks.map((p, i) => (
                 <Link key={i} href={`/maps/${p.toMap}`} className="flex items-center justify-between px-4 py-3 hover:bg-orange-50">
                   <span className="font-medium">{p.portalName || `포탈 ${i + 1}`}</span>
                   <span className="text-sm text-gray-400">{p.toName || `맵 #${p.toMap}`}</span>

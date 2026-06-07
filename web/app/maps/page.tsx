@@ -11,7 +11,7 @@ import { useQueryState } from "@/lib/useQueryState";
 
 
 const columns: Column<MapData>[] = [
-  { key: "name", label: "이름" },
+  { key: "name", label: "이름", render: (r) => r.name_kr ? <><span>{r.name_kr}</span> <span className="text-gray-400 text-xs">({r.name})</span></> : r.name },
   { key: "street_name", label: "거리명" },
   { key: "area", label: "지역" },
   { key: "is_town", label: "마을", render: (r) => r.is_town ? "Y" : "" },
