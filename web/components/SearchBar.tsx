@@ -11,6 +11,7 @@ const TYPE_LABELS: Record<string, string> = {
   map: "맵",
   npc: "NPC",
   quest: "퀘스트",
+  skill: "스킬",
   blog: "블로그",
 };
 
@@ -20,6 +21,7 @@ const TYPE_PATHS: Record<string, string> = {
   map: "/maps",
   npc: "/npcs",
   quest: "/quests",
+  skill: "/skills",
 };
 
 const TYPE_COLORS: Record<string, { bg: string; text: string }> = {
@@ -28,6 +30,7 @@ const TYPE_COLORS: Record<string, { bg: string; text: string }> = {
   map: { bg: "bg-green-100", text: "text-green-700" },
   npc: { bg: "bg-purple-100", text: "text-purple-700" },
   quest: { bg: "bg-yellow-100", text: "text-yellow-700" },
+  skill: { bg: "bg-cyan-100", text: "text-cyan-700" },
   blog: { bg: "bg-gray-100 dark:bg-gray-700", text: "text-gray-700 dark:text-gray-300" },
 };
 
@@ -38,7 +41,7 @@ interface GroupedSuggestions {
 }
 
 function groupByType(suggestions: SearchSuggestion[]): GroupedSuggestions[] {
-  const order = ["item", "mob", "map", "npc", "quest", "blog"];
+  const order = ["item", "mob", "map", "npc", "quest", "skill", "blog"];
   const map = new Map<string, SearchSuggestion[]>();
   for (const s of suggestions) {
     const list = map.get(s.entity_type) || [];

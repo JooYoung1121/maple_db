@@ -79,7 +79,7 @@ function ItemsPageContent() {
   }, [page, filterValues, sortValue]);
 
   const filters: FilterDef[] = [
-    { key: "q", label: "이름 검색", type: "text", placeholder: "아이템 이름" },
+    { key: "q", label: "이름 검색", type: "text", placeholder: "아이템 이름", suggestType: "item" },
     { key: "category", label: "분류", type: "select", options: categories },
     { key: "subcategory", label: "세부분류", type: subcategoryOptions.length > 0 ? "select" : "text", options: subcategoryOptions, placeholder: "세부 분류" },
     { key: "level_min", label: "최소 레벨", type: "number", placeholder: "0" },

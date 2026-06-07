@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { getNhitMobPresets } from "@/lib/api";
 import type { NHitMobPreset } from "@/lib/types";
 
@@ -421,6 +421,7 @@ interface Monster {
   exp: number;
   map: string;
   isBoss?: boolean;
+  isUndead?: boolean;
   weakness?: "fire" | "ice" | "lightning" | "holy" | "poison" | "dark";
 }
 
@@ -525,6 +526,7 @@ function highestMastery(jobData: JobSkillData): number {
 }
 
 function mapPresetMob(mob: NHitMobPreset): Monster {
+  const isUndead = mob.is_undead === 1;
   return {
     id: mob.id,
     name: mob.name_kr || mob.name,
@@ -536,6 +538,8 @@ function mapPresetMob(mob: NHitMobPreset): Monster {
     exp: mob.exp ?? 0,
     map: mob.is_boss ? "보스" : "DB",
     isBoss: !!mob.is_boss,
+    isUndead,
+    weakness: isUndead ? "holy" : undefined,
   };
 }
 
@@ -765,6 +769,164 @@ function NumberInput({
         max={max}
         className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
       />
+    </div>
+  );
+}
+
+function formatMonsterOption(monster: Monster, optionSuffix = "") {
+  const tags = [
+    `Lv.${monster.level}`,
+    `HP ${monster.hp.toLocaleString()}`,
+    `방어 ${monster.wdef}/${monster.mdef}`,
+  ];
+  const weakLabel = monster.weakness ? `${ELEMENT_LABEL[monster.weakness]} 약점` : "";
+  const extra = [weakLabel, monster.map ? monster.map : "", optionSuffix.replace(/^ \/ /, "")]
+    .filter(Boolean)
+    .join(" · ");
+  return `${monster.name} (${tags.join(" / ")})${extra ? ` — ${extra}` : ""}`;
+}
+
+function MonsterSearchSelect({
+  monsters,
+  selectedIndex,
+  onSelect,
+  optionSuffix,
+}: {
+  monsters: Monster[];
+  selectedIndex: number;
+  onSelect: (index: number) => void;
+  optionSuffix: string;
+}) {
+  const [query, setQuery] = useState("");
+  const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const selected = monsters[selectedIndex] ?? monsters[0];
+
+  useEffect(() => {
+    if (selected) setQuery(formatMonsterOption(selected, optionSuffix));
+  }, [selected, optionSuffix]);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  const filtered = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    const list = monsters
+      .map((monster, index) => ({ monster, index }))
+      .filter(({ monster }) => {
+        if (!needle || !open) return true;
+        const haystack = [
+          monster.name,
+          monster.nameEn,
+          monster.map,
+          String(monster.level),
+          String(monster.id ?? ""),
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+        return haystack.includes(needle);
+      });
+    return list.slice(0, 80);
+  }, [monsters, query, open]);
+
+  useEffect(() => {
+    setActiveIndex(0);
+  }, [query]);
+
+  function choose(index: number) {
+    onSelect(index);
+    const next = monsters[index];
+    if (next) setQuery(formatMonsterOption(next, optionSuffix));
+    setOpen(false);
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (!open) {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setOpen(true);
+      }
+      return;
+    }
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex((prev) => (prev < filtered.length - 1 ? prev + 1 : 0));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex((prev) => (prev > 0 ? prev - 1 : filtered.length - 1));
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      const target = filtered[activeIndex];
+      if (target) choose(target.index);
+    } else if (e.key === "Escape") {
+      setOpen(false);
+      if (selected) setQuery(formatMonsterOption(selected, optionSuffix));
+    }
+  }
+
+  return (
+    <div ref={ref} className="relative">
+      <input
+        type="text"
+        value={query}
+        onFocus={() => {
+          setOpen(true);
+          setQuery("");
+        }}
+        onChange={(e) => {
+          setQuery(e.target.value);
+          setOpen(true);
+        }}
+        onKeyDown={handleKeyDown}
+        placeholder="몬스터 이름, 영문명, 레벨로 검색"
+        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-400"
+      />
+      {open && (
+        <div className="absolute z-50 mt-1 w-full max-h-96 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-xl dark:border-gray-700 dark:bg-gray-900">
+          {filtered.length > 0 ? (
+            filtered.map(({ monster, index }, listIndex) => (
+              <button
+                key={monster.id ?? `${monster.name}-${index}`}
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => choose(index)}
+                onMouseEnter={() => setActiveIndex(listIndex)}
+                className={`flex w-full items-start justify-between gap-3 px-3 py-2 text-left transition-colors ${
+                  listIndex === activeIndex
+                    ? "bg-orange-50 text-orange-700 dark:bg-orange-500/15 dark:text-orange-200"
+                    : "text-gray-800 hover:bg-orange-50 dark:text-gray-100 dark:hover:bg-orange-500/15"
+                }`}
+              >
+                <span className="min-w-0">
+                  <span className="block truncate text-sm font-medium">
+                    {monster.name}
+                    {monster.nameEn && monster.nameEn !== monster.name && (
+                      <span className="ml-1 text-xs font-normal text-gray-400">({monster.nameEn})</span>
+                    )}
+                  </span>
+                  <span className="mt-0.5 block truncate text-xs text-gray-500 dark:text-gray-400">
+                    Lv.{monster.level} · HP {monster.hp.toLocaleString()} · 방어 {monster.wdef}/{monster.mdef} · {monster.map}{optionSuffix}
+                  </span>
+                </span>
+                {monster.weakness && (
+                  <span className="flex-shrink-0 rounded-full bg-yellow-100 px-2 py-0.5 text-xs font-medium text-yellow-700">
+                    {ELEMENT_LABEL[monster.weakness]} 약점
+                  </span>
+                )}
+              </button>
+            ))
+          ) : (
+            <div className="px-3 py-3 text-sm text-gray-500 dark:text-gray-400">검색 결과가 없습니다.</div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
@@ -1867,17 +2029,12 @@ function CalcTab({
         </div>
 
         {usePreset ? (
-          <select
-            value={selectedMonster}
-            onChange={(e) => setSelectedMonster(Number(e.target.value))}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-orange-400"
-          >
-            {monsterPresets.map((m, i) => (
-              <option key={m.id ?? `${m.name}-${i}`} value={i}>
-                {m.name} (Lv.{m.level} / HP {m.hp.toLocaleString()} / 방어 {m.wdef}/{m.mdef}) — {m.map}{optionSuffix}
-              </option>
-            ))}
-          </select>
+          <MonsterSearchSelect
+            monsters={monsterPresets}
+            selectedIndex={selectedMonster}
+            onSelect={setSelectedMonster}
+            optionSuffix={optionSuffix}
+          />
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
             <div className="sm:col-span-2">

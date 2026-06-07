@@ -20,9 +20,9 @@ export async function searchAll(q: string, type?: string, page = 1, perPage = 20
   );
 }
 
-export async function searchSuggest(q: string, limit = 10) {
+export async function searchSuggest(q: string, limit = 10, type?: string) {
   return fetchJSON<{ suggestions: import("./types").SearchSuggestion[] }>(
-    `/api/search/suggest?${qs({ q, limit })}`
+    `/api/search/suggest?${qs({ q, limit, type })}`
   );
 }
 

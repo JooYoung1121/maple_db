@@ -136,19 +136,27 @@ export default function ItemDetailPage() {
         )}
       </div>
 
-      {droppedBy.length > 0 && (
-        <div className="mt-6">
-          <h2 className="text-lg font-semibold mb-3">드롭 몬스터</h2>
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl divide-y divide-gray-100">
+      <div className="mt-6">
+        <h2 className="text-lg font-semibold mb-3">드롭 몬스터</h2>
+        {droppedBy.length > 0 ? (
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl divide-y divide-gray-100 dark:divide-gray-700">
             {droppedBy.map((m) => (
-              <Link key={m.mob_id} href={`/mobs/${m.mob_id}`} className="flex items-center justify-between px-4 py-3 hover:bg-orange-50">
+              <Link
+                key={m.mob_id}
+                href={`/mobs/${m.mob_id}`}
+                className="flex items-center justify-between px-4 py-3 hover:bg-orange-50 dark:hover:bg-orange-500/10"
+              >
                 <span className="font-medium">{m.mob_name_kr || m.mob_name}</span>
                 {m.drop_rate != null && <span className="text-sm text-gray-400">{(m.drop_rate * 100).toFixed(2)}%</span>}
               </Link>
             ))}
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="rounded-xl border border-dashed border-gray-200 bg-gray-50 px-4 py-5 text-sm text-gray-500 dark:border-gray-700 dark:bg-gray-900/60 dark:text-gray-400">
+            현재 DB에 연결된 드롭 몬스터 정보가 없습니다.
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -7,13 +7,14 @@ from api.routes.mapleland_reference import search_entity_filter_sql
 
 router = APIRouter()
 
-VALID_TYPES = {"item", "mob", "map", "npc", "quest", "blog"}
+VALID_TYPES = {"item", "mob", "map", "npc", "quest", "skill", "blog"}
 
 
 @router.get("/search/suggest")
 def search_suggest(
     q: str = Query(default=""),
     limit: int = Query(default=10, ge=1, le=30),
+    type: Optional[str] = Query(default=None),
 ):
     """Lightweight autocomplete endpoint — no snippets, fast response."""
     if not q.strip():
@@ -32,6 +33,11 @@ def search_suggest(
         fts_query = query + "*"
         mapleland_filter = search_entity_filter_sql("s.entity_type", "s.entity_id")
         extra_filter = f"AND {mapleland_filter}" if mapleland_filter else ""
+        type_filter = ""
+        fts_params: list = [fts_query]
+        if type and type in VALID_TYPES:
+            type_filter = "AND s.entity_type = ?"
+            fts_params.append(type)
         fts_rows = conn.execute(
             """SELECT s.entity_type, s.entity_id, s.name,
                       en.name_en AS name_kr,
@@ -46,12 +52,13 @@ def search_suggest(
                 AND en.entity_id = s.entity_id
                 AND en.source = 'kms'
                WHERE search_index MATCH ?
+                 """ + type_filter + """
                  """ + extra_filter + """
                  AND NOT (s.entity_type = 'mob'
                           AND EXISTS (SELECT 1 FROM mobs WHERE id = s.entity_id AND COALESCE(is_hidden,0)=1))
                ORDER BY rank
                LIMIT ?""",
-            [fts_query, limit],
+            fts_params + [limit],
         ).fetchall()
 
         seen = set()
@@ -73,6 +80,11 @@ def search_suggest(
             remaining = limit - len(suggestions)
             en_filter = search_entity_filter_sql("e.entity_type", "e.entity_id")
             en_extra_filter = f"AND {en_filter}" if en_filter else ""
+            en_type_filter = ""
+            en_params: list = [f"%{query}%"]
+            if type and type in VALID_TYPES:
+                en_type_filter = "AND e.entity_type = ?"
+                en_params.append(type)
             en_rows = conn.execute(
                 """SELECT DISTINCT e.entity_type, e.entity_id, e.name_en,
                     CASE e.entity_type
@@ -81,12 +93,14 @@ def search_suggest(
                         WHEN 'map'  THEN (SELECT name FROM maps WHERE id = e.entity_id)
                         WHEN 'npc'  THEN (SELECT name FROM npcs WHERE id = e.entity_id)
                         WHEN 'quest' THEN (SELECT name FROM quests WHERE id = e.entity_id)
+                        WHEN 'skill' THEN (SELECT skill_name FROM skills WHERE id = e.entity_id)
                     END as name
                 FROM entity_names_en e
                 WHERE name_en LIKE ?
+                """ + en_type_filter + """
                 """ + en_extra_filter + """
                 LIMIT ?""",
-                [f"%{query}%", remaining],
+                en_params + [remaining],
             ).fetchall()
 
             for row in en_rows:
@@ -188,6 +202,7 @@ def search(
                         WHEN 'map'  THEN (SELECT name FROM maps WHERE id = e.entity_id)
                         WHEN 'npc'  THEN (SELECT name FROM npcs WHERE id = e.entity_id)
                         WHEN 'quest' THEN (SELECT name FROM quests WHERE id = e.entity_id)
+                        WHEN 'skill' THEN (SELECT skill_name FROM skills WHERE id = e.entity_id)
                     END as name
                 FROM entity_names_en e
                 WHERE {en_where}

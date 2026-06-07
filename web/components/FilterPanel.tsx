@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { searchSuggest } from "@/lib/api";
+import type { SearchSuggestion } from "@/lib/types";
 
 export interface SortOption {
   value: string;
@@ -13,6 +15,7 @@ export interface FilterDef {
   type: "text" | "number" | "select" | "checkbox" | "toggle";
   options?: { value: string; label: string }[];
   placeholder?: string;
+  suggestType?: "item" | "mob" | "map" | "npc" | "quest" | "skill";
 }
 
 interface Props {
@@ -74,6 +77,155 @@ function DebouncedInput({
       placeholder={placeholder}
       className={className}
     />
+  );
+}
+
+function SuggestionInput({
+  value,
+  onChange,
+  placeholder,
+  className,
+  suggestType,
+  delay = 350,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  className?: string;
+  suggestType: NonNullable<FilterDef["suggestType"]>;
+  delay?: number;
+}) {
+  const [local, setLocal] = useState(value);
+  const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
+  const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const timer = useRef<ReturnType<typeof setTimeout>>(null);
+  const ref = useRef<HTMLDivElement>(null);
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
+
+  useEffect(() => {
+    setLocal(value);
+  }, [value]);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  const fetchSuggestions = useCallback(
+    async (q: string) => {
+      if (!q.trim()) {
+        setSuggestions([]);
+        setOpen(false);
+        return;
+      }
+      try {
+        const data = await searchSuggest(q, 8, suggestType);
+        setSuggestions(data.suggestions);
+        setOpen(data.suggestions.length > 0);
+        setActiveIndex(-1);
+      } catch {
+        setSuggestions([]);
+        setOpen(false);
+      }
+    },
+    [suggestType]
+  );
+
+  const handleChange = useCallback(
+    (v: string) => {
+      setLocal(v);
+      if (timer.current) clearTimeout(timer.current);
+      timer.current = setTimeout(() => {
+        onChangeRef.current(v);
+        void fetchSuggestions(v);
+      }, delay);
+      if (!v.trim()) {
+        setSuggestions([]);
+        setOpen(false);
+      }
+    },
+    [delay, fetchSuggestions]
+  );
+
+  useEffect(() => {
+    return () => {
+      if (timer.current) clearTimeout(timer.current);
+    };
+  }, []);
+
+  function applySuggestion(s: SearchSuggestion) {
+    const next = s.name_kr || s.name;
+    if (timer.current) clearTimeout(timer.current);
+    setLocal(next);
+    setOpen(false);
+    setActiveIndex(-1);
+    onChangeRef.current(next);
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (!open || suggestions.length === 0) {
+      if (e.key === "Enter") onChangeRef.current(local);
+      return;
+    }
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex((prev) => (prev < suggestions.length - 1 ? prev + 1 : 0));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex((prev) => (prev > 0 ? prev - 1 : suggestions.length - 1));
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (activeIndex >= 0) applySuggestion(suggestions[activeIndex]);
+      else onChangeRef.current(local);
+    } else if (e.key === "Escape") {
+      setOpen(false);
+    }
+  }
+
+  return (
+    <div ref={ref} className="relative">
+      <input
+        type="text"
+        value={local}
+        onChange={(e) => handleChange(e.target.value)}
+        onFocus={() => {
+          if (suggestions.length > 0) setOpen(true);
+          else void fetchSuggestions(local);
+        }}
+        onKeyDown={handleKeyDown}
+        placeholder={placeholder}
+        className={className}
+      />
+      {open && suggestions.length > 0 && (
+        <div className="absolute z-50 mt-1 w-full max-h-72 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-900">
+          {suggestions.map((s, idx) => (
+            <button
+              key={`${s.entity_type}-${s.entity_id}`}
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => applySuggestion(s)}
+              onMouseEnter={() => setActiveIndex(idx)}
+              className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm transition-colors ${
+                idx === activeIndex
+                  ? "bg-orange-50 text-orange-700 dark:bg-orange-500/15 dark:text-orange-200"
+                  : "text-gray-800 hover:bg-orange-50 dark:text-gray-100 dark:hover:bg-orange-500/15"
+              }`}
+            >
+              {s.icon_url && <img src={s.icon_url} alt="" className="h-6 w-6 flex-shrink-0 object-contain" />}
+              <span className="min-w-0 flex-1 truncate">{s.name_kr || s.name}</span>
+              {s.name_kr && s.name_kr !== s.name && (
+                <span className="hidden max-w-28 truncate text-xs text-gray-400 sm:inline">{s.name}</span>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -144,6 +296,14 @@ export default function FilterPanel({ filters, values, onChange, sortOptions, so
                   />
                   <span className="text-sm text-gray-600 dark:text-gray-400">{f.placeholder || "예"}</span>
                 </label>
+              ) : f.suggestType && f.type === "text" ? (
+                <SuggestionInput
+                  value={values[f.key] || ""}
+                  onChange={(v) => update(f.key, v)}
+                  placeholder={f.placeholder}
+                  suggestType={f.suggestType}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-400"
+                />
               ) : (
                 <DebouncedInput
                   type={f.type}

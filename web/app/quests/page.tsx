@@ -2,8 +2,8 @@
 
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getQuests } from "@/lib/api";
-import type { Quest } from "@/lib/types";
+import { getQuests, searchSuggest } from "@/lib/api";
+import type { Quest, SearchSuggestion } from "@/lib/types";
 import Pagination from "@/components/Pagination";
 import QuestCard from "@/components/QuestCard";
 import { useQueryState } from "@/lib/useQueryState";
@@ -79,6 +79,137 @@ function useLocalSet(key: string) {
     });
   }, [key]);
   return { set, toggle };
+}
+
+function QuestSearchInput({
+  value,
+  onChange,
+  placeholder,
+  compact = false,
+  icon = false,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+  compact?: boolean;
+  icon?: boolean;
+}) {
+  const [local, setLocal] = useState(value);
+  const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
+  const [open, setOpen] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const ref = useRef<HTMLDivElement>(null);
+  const timer = useRef<ReturnType<typeof setTimeout>>(null);
+
+  useEffect(() => {
+    setLocal(value);
+  }, [value]);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  const fetchSuggestions = useCallback(async (q: string) => {
+    if (!q.trim()) {
+      setSuggestions([]);
+      setOpen(false);
+      return;
+    }
+    try {
+      const data = await searchSuggest(q, 8, "quest");
+      setSuggestions(data.suggestions);
+      setOpen(data.suggestions.length > 0);
+      setActiveIndex(-1);
+    } catch {
+      setSuggestions([]);
+      setOpen(false);
+    }
+  }, []);
+
+  function handleChange(next: string) {
+    setLocal(next);
+    onChange(next);
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(() => void fetchSuggestions(next), 250);
+  }
+
+  function choose(suggestion: SearchSuggestion) {
+    const next = suggestion.name_kr || suggestion.name;
+    if (timer.current) clearTimeout(timer.current);
+    setLocal(next);
+    onChange(next);
+    setOpen(false);
+    setActiveIndex(-1);
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (!open || suggestions.length === 0) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveIndex((prev) => (prev < suggestions.length - 1 ? prev + 1 : 0));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveIndex((prev) => (prev > 0 ? prev - 1 : suggestions.length - 1));
+    } else if (e.key === "Enter" && activeIndex >= 0) {
+      e.preventDefault();
+      choose(suggestions[activeIndex]);
+    } else if (e.key === "Escape") {
+      setOpen(false);
+    }
+  }
+
+  return (
+    <div ref={ref} className="relative w-full">
+      {icon && (
+        <svg className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+          <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" strokeLinecap="round" />
+        </svg>
+      )}
+      <input
+        type="text"
+        value={local}
+        onChange={(e) => handleChange(e.target.value)}
+        onFocus={() => {
+          if (suggestions.length > 0) setOpen(true);
+          else void fetchSuggestions(local);
+        }}
+        onKeyDown={handleKeyDown}
+        placeholder={placeholder}
+        className={
+          compact
+            ? "w-full px-3 py-1.5 border border-slate-600 rounded-lg text-xs bg-slate-700 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-orange-400"
+            : "w-full pl-10 pr-4 py-2 bg-slate-800/80 border border-slate-700/50 rounded-lg text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/40 focus:border-orange-500/40 transition-all"
+        }
+      />
+      {open && suggestions.length > 0 && (
+        <div className="absolute z-50 mt-1 max-h-72 w-full overflow-y-auto rounded-lg border border-slate-700 bg-slate-900 shadow-xl">
+          {suggestions.map((s, idx) => (
+            <button
+              key={`${s.entity_type}-${s.entity_id}`}
+              type="button"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => choose(s)}
+              onMouseEnter={() => setActiveIndex(idx)}
+              className={`block w-full px-3 py-2 text-left text-sm transition-colors ${
+                idx === activeIndex
+                  ? "bg-orange-500/20 text-orange-200"
+                  : "text-slate-200 hover:bg-orange-500/15"
+              }`}
+            >
+              <span className="block truncate">{s.name_kr || s.name}</span>
+              {s.name_kr && s.name_kr !== s.name && (
+                <span className="block truncate text-xs text-slate-500">{s.name}</span>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 }
 
 /* ── 인라인 범례 바 (항상 표시) ── */
@@ -518,12 +649,11 @@ function QuestsListView({
 
             {/* 검색 */}
             <div className="flex-1 min-w-[180px]">
-              <input
-                type="text"
+              <QuestSearchInput
                 value={filterValues.q || ""}
-                onChange={(e) => updateFilter("q", e.target.value)}
+                onChange={(value) => updateFilter("q", value)}
                 placeholder="퀘스트 검색..."
-                className="w-full px-3 py-1.5 border border-slate-600 rounded-lg text-xs bg-slate-700 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-orange-400"
+                compact
               />
             </div>
 
@@ -705,16 +835,12 @@ function QuestsTableView({
         {/* 두 번째 줄: 검색 + 레벨 + 정렬 + 뷰 모드 */}
         <div className="flex flex-wrap items-center gap-2">
           {/* 검색 */}
-          <div className="relative flex-1 min-w-[200px]">
-            <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-              <circle cx="11" cy="11" r="8" /><path d="m21 21-4.35-4.35" strokeLinecap="round" />
-            </svg>
-            <input
-              type="text"
+          <div className="flex-1 min-w-[200px]">
+            <QuestSearchInput
               value={filterValues.q || ""}
-              onChange={(e) => updateFilter("q", e.target.value)}
+              onChange={(value) => updateFilter("q", value)}
               placeholder="퀘스트 이름, 위치, 보상 검색..."
-              className="w-full pl-10 pr-4 py-2 bg-slate-800/80 border border-slate-700/50 rounded-lg text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500/40 focus:border-orange-500/40 transition-all"
+              icon
             />
           </div>
 

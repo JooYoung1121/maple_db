@@ -50,7 +50,7 @@ function SkillsPageContent() {
   }, [page, filterValues]);
 
   const filters: FilterDef[] = [
-    { key: "q", label: "스킬 검색", type: "text", placeholder: "스킬 이름" },
+    { key: "q", label: "스킬 검색", type: "text", placeholder: "스킬 이름", suggestType: "skill" },
     { key: "job_branch", label: "차수", type: "select", options: [
       { value: "1차", label: "1차" }, { value: "2차", label: "2차" },
       { value: "3차", label: "3차" }, { value: "4차", label: "4차" },
