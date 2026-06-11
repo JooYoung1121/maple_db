@@ -35,6 +35,12 @@ const NAV_CATEGORIES: NavCategory[] = [
     ],
   },
   {
+    label: "전문기술",
+    items: [
+      { href: "/maker", label: "메이커" },
+    ],
+  },
+  {
     label: "가이드",
     items: [
       { href: "/pq", label: "파티퀘스트" },

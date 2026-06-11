@@ -467,3 +467,14 @@ export async function sendDiscordGuildPost(postId: number, pw: string) {
   if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
   return res.json();
 }
+
+/* ── 메이커(Maker) ─────────────────────────────────────── */
+export async function getMakerData() {
+  return fetchJSON<import("./types").MakerData>(`/api/maker/data`);
+}
+
+export async function getMakerMaterialSources(params: { level_min: number; level_max: number; limit?: number }) {
+  return fetchJSON<{ mobs: import("./types").MakerMobSource[]; level_min: number; level_max: number; count: number }>(
+    `/api/maker/material-sources?${qs(params as Record<string, number>)}`
+  );
+}

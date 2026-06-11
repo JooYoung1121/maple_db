@@ -217,3 +217,70 @@ export interface TespiaPatchSummary {
   url: string | null;
   summary_lines: string[];
 }
+
+/* ── 메이커(Maker) ─────────────────────────────────────── */
+export interface MakerMaterial {
+  name: string;
+  qty: number;
+  note?: string;
+}
+export interface MakerSkillQuest {
+  skill_level: number;
+  name: string;
+  req_level: number;
+  cost_meso: number;
+  materials: MakerMaterial[];
+  reward_exp: number;
+  note?: string;
+}
+export interface MakerGem {
+  name: string;
+  kind: string;
+  stat: string;
+  values: Record<string, number>;
+  weapon_only: boolean;
+}
+export interface MakerMonsterCrystal {
+  grade: string;
+  sub: string;
+  level_min: number;
+  level_max: number;
+  loot_qty: number;
+}
+export interface MakerScroll {
+  name: string;
+  effect: string;
+  fee: number;
+  req_quest?: string;
+  materials: MakerMaterial[];
+}
+export interface MakerEquipGrade {
+  stats: Record<string, number>;
+  fee: number;
+  materials: MakerMaterial[];
+}
+export interface MakerEquipment {
+  name: string;
+  slot: string;
+  job: string;
+  reverse?: MakerEquipGrade;
+  timeless?: MakerEquipGrade;
+}
+export interface MakerData {
+  meta: { source: string; note: string; updated: string; sources: string[] };
+  skill_quests: MakerSkillQuest[];
+  gem_process: { fee: number; input: MakerMaterial; grades: Record<string, number>; note: string };
+  gem_refine: { from: string; to: string; input_qty: number; fee: number; fail_loss: number; note: string }[];
+  gems: MakerGem[];
+  monster_crystals: MakerMonsterCrystal[];
+  scrolls: MakerScroll[];
+  equipment: MakerEquipment[];
+  material_sources: { name: string; how: string }[];
+}
+export interface MakerMobSource {
+  id: number;
+  name: string;
+  name_kr: string;
+  level: number;
+  is_boss: number;
+}
