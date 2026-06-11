@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "3.3.0";
+const VERSION = "3.4.0";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,28 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "3.4.0",
+    date: "2026-06-11",
+    type: "patch",
+    title: "보스 탭 전체 노출 + 소식 정렬 안정화",
+    features: [
+      {
+        category: "보스 — 전체 보스 노출",
+        items: [
+          "보스 탭이 좀비머쉬맘·자쿰 2종만 보이던 문제 수정 (메이플랜드 ID 화이트리스트에 보스 ID 대부분이 누락돼 있었음)",
+          "보스 목록·상세는 화이트리스트와 무관하게 is_boss 기준으로 노출 (머쉬맘·붉은발록·파우스트 등 30종)",
+        ],
+      },
+      {
+        category: "소식 — 같은 날짜 정렬 보정",
+        items: [
+          "공홈/테스피아 소식이 같은 날짜일 때 정렬 순서가 불안정하던 문제 보정",
+          "날짜 내림차순 + id 오름차순(크롤 기준 최신 우선) 명시적 정렬 적용",
+        ],
+      },
+    ],
+  },
   {
     version: "3.3.0",
     date: "2026-06-05",

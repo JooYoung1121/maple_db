@@ -213,10 +213,9 @@ def list_bosses(
     offset = (page - 1) * per_page
     conditions = ["is_boss = 1", "COALESCE(is_hidden,0) = 0"]
     params: list = []
-    mapleland_filter = id_filter_sql("id", "mobs")
-    if mapleland_filter:
-        conditions.append(mapleland_filter)
-
+    # NOTE: 보스 엔드포인트는 메이플랜드 ID 화이트리스트(id_filter_sql)를 적용하지 않는다.
+    # 화이트리스트(data/mapleland_reference.json)에 보스 ID가 대부분 누락돼 있어
+    # 필터를 걸면 is_boss=1 30종 중 좀비머쉬맘/자쿰 2종만 통과하는 문제가 있었다.
     if level_min is not None:
         conditions.append("level >= ?")
         params.append(level_min)
@@ -277,9 +276,6 @@ def list_bosses(
 
 @router.get("/mobs/{mob_id}")
 def get_mob(mob_id: int):
-    if not require_mapleland_id(mob_id, "mobs"):
-        raise HTTPException(status_code=404, detail="Mob not found")
-
     try:
         conn = get_connection()
     except Exception:
@@ -288,6 +284,11 @@ def get_mob(mob_id: int):
     try:
         row = conn.execute("SELECT * FROM mobs WHERE id = ?", (mob_id,)).fetchone()
         if row is None:
+            raise HTTPException(status_code=404, detail="Mob not found")
+
+        # 화이트리스트 밖 몹이라도 보스는 상세 진입을 허용한다.
+        # (보스 탭은 is_boss=1 전체를 노출하므로 상세도 404 없이 열려야 함)
+        if not require_mapleland_id(mob_id, "mobs") and not row["is_boss"]:
             raise HTTPException(status_code=404, detail="Mob not found")
 
         mob = dict(row)

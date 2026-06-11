@@ -72,7 +72,8 @@ def list_news(
             {where}
             ORDER BY
                 CASE WHEN published_at IS NOT NULL
-                     THEN published_at ELSE created_at END DESC
+                     THEN published_at ELSE created_at END DESC,
+                id ASC
             LIMIT ? OFFSET ?
             """,
             params + [per_page, offset],
@@ -124,7 +125,8 @@ def get_tespia_summary(limit: int = Query(default=12, ge=1, le=30)):
               AND category = '업데이트'
             ORDER BY
                 CASE WHEN published_at IS NOT NULL
-                     THEN published_at ELSE created_at END DESC
+                     THEN published_at ELSE created_at END DESC,
+                id ASC
             LIMIT ?
             """,
             (limit,),
