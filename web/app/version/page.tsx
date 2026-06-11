@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "3.4.0";
+const VERSION = "3.4.1";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,20 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "3.4.1",
+    date: "2026-06-11",
+    type: "patch",
+    title: "운세 일일 제한 복원",
+    features: [
+      {
+        category: "운세 — 일일 제한",
+        items: [
+          "운세 일일 이용 횟수 제한을 디버그용 임시값(999)에서 정상값 3회로 복원",
+        ],
+      },
+    ],
+  },
   {
     version: "3.4.0",
     date: "2026-06-11",

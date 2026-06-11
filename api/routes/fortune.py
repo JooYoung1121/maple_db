@@ -49,8 +49,7 @@ router = APIRouter()
 KST = timezone(timedelta(hours=9))
 MAX_CACHE_PER_COMBO = 3
 COOLDOWN_SEC = 30
-# 2026-04-07 이후 3으로 복원할 것
-DAILY_LIMIT = 999
+DAILY_LIMIT = 3
 
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY", "")
 
