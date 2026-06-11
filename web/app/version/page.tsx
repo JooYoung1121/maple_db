@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "3.4.1";
+const VERSION = "3.4.2";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,21 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "3.4.2",
+    date: "2026-06-11",
+    type: "patch",
+    title: "테스피아 소식 정렬 뒤집힘 수정",
+    features: [
+      {
+        category: "소식 — 테스피아 정렬 정상화",
+        items: [
+          "테스피아 공지가 같은 날짜에서 오래된 글이 위로 올라오던(차순 반대) 문제 수정",
+          "크롤 순서(id)에 의존하던 정렬을 패치 버전 번호(Ver. Test) 기반 최신순으로 변경해 환경과 무관하게 안정화",
+        ],
+      },
+    ],
+  },
   {
     version: "3.4.1",
     date: "2026-06-11",

@@ -13,6 +13,43 @@ def _row_to_dict(row) -> dict:
     return dict(row) if row else {}
 
 
+def _date_digits(*vals) -> str:
+    """published_at / created_at 를 'YYYYMMDD' 8자리로 정규화해 시간순 비교에 사용."""
+    for v in vals:
+        if v:
+            digits = re.sub(r"\D", "", str(v))
+            if len(digits) >= 8:
+                return digits[:8]
+    return ""
+
+
+def _version_tuple(title: str | None) -> tuple:
+    """제목의 'Ver. Test X.Y.Z' 를 (X, Y, Z) 숫자 튜플로 추출. 없으면 빈 튜플."""
+    match = re.search(r"Ver\.\s*Test\s*([0-9.]+)", title or "")
+    if not match:
+        return ()
+    parts = []
+    for seg in match.group(1).split("."):
+        if seg.isdigit():
+            parts.append(int(seg))
+    return tuple(parts)
+
+
+def _recency_sort_key(row):
+    """최신 우선 정렬 키 (reverse=True 와 함께 사용 → 큰 값이 위로).
+
+    id 는 크롤 순서라 환경마다 방향이 달라 신뢰할 수 없으므로 보조 키로만 쓴다:
+    - 테스피아: 증분 크롤이라 나중 글 = 큰 id → 큰 id 가 최신
+    - 공홈(main): 일괄 백필이라 최신 글 = 작은 id → 작은 id 가 최신 (부호 반전)
+    버전 번호(Ver. Test X.Y.Z)는 단조 증가하므로 같은 날짜 패치노트의 확실한 최신순 키.
+    """
+    source = (row["source"] or "main") if "source" in row.keys() else "main"
+    date_key = _date_digits(row["published_at"], row["created_at"])
+    version = _version_tuple(row["title"])
+    id_signed = row["id"] if source == "tespia" else -row["id"]
+    return (date_key, version, id_signed)
+
+
 @router.get("/news/recent-count")
 def get_recent_count(since: str | None = Query(default=None)):
     """최근 신규 공지 건수 (뱃지용). since: ISO 날짜 문자열, 기본 7일 전."""
@@ -60,27 +97,24 @@ def list_news(
 
         where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
 
-        total = conn.execute(
-            f"SELECT COUNT(*) as cnt FROM maple_land_posts {where}", params
-        ).fetchone()["cnt"]
-
-        offset = (page - 1) * per_page
-        rows = conn.execute(
+        # id 기반 정렬은 크롤 순서에 의존해 환경마다 방향이 뒤집히므로(특히 테스피아),
+        # 전체를 가져와 버전/날짜 기반 키로 Python 정렬 후 페이지네이션한다. (공지 총량이 작음)
+        all_rows = conn.execute(
             f"""
             SELECT id, post_id, COALESCE(source, 'main') as source, board, category, title, published_at, created_at, url, summary
             FROM maple_land_posts
             {where}
-            ORDER BY
-                CASE WHEN published_at IS NOT NULL
-                     THEN published_at ELSE created_at END DESC,
-                id ASC
-            LIMIT ? OFFSET ?
             """,
-            params + [per_page, offset],
+            params,
         ).fetchall()
 
+        ordered = sorted(all_rows, key=_recency_sort_key, reverse=True)
+        total = len(ordered)
+        offset = (page - 1) * per_page
+        page_rows = ordered[offset:offset + per_page]
+
         return {
-            "posts": [_row_to_dict(r) for r in rows],
+            "posts": [_row_to_dict(r) for r in page_rows],
             "total": total,
             "page": page,
             "per_page": per_page,
@@ -119,18 +153,13 @@ def get_tespia_summary(limit: int = Query(default=12, ge=1, le=30)):
     try:
         rows = conn.execute(
             """
-            SELECT post_id, title, category, published_at, url, summary, content
+            SELECT id, post_id, COALESCE(source, 'main') as source, title, category, published_at, created_at, url, summary, content
             FROM maple_land_posts
             WHERE COALESCE(source, 'main') = 'tespia'
               AND category = '업데이트'
-            ORDER BY
-                CASE WHEN published_at IS NOT NULL
-                     THEN published_at ELSE created_at END DESC,
-                id ASC
-            LIMIT ?
-            """,
-            (limit,),
+            """
         ).fetchall()
+        rows = sorted(rows, key=_recency_sort_key, reverse=True)[:limit]
 
         patches = []
         for row in rows:
