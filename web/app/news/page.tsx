@@ -16,6 +16,7 @@ const BOARDS = [
   { value: "", label: "전체" },
   { value: "notices", label: "공지사항" },
   { value: "events", label: "이벤트" },
+  { value: "devlog", label: "개발일지" },
 ];
 
 const CATEGORIES = [

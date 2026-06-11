@@ -12,17 +12,17 @@ SOURCES = {
     "main": {
         "label": "Mapleland",
         "base_url": "https://maple.land",
-        "boards": ["notices", "events"],
+        "boards": ["notices", "events", "devlog"],
     },
     "tespia": {
         "label": "Mapleland Tespia",
         "base_url": "https://tespia.maple.land",
-        "boards": ["notices", "events"],
+        "boards": ["notices", "events", "devlog"],
     },
 }
 BASE_URL = SOURCES["main"]["base_url"]
 BOARDS = SOURCES["main"]["boards"]
-CATEGORIES = ["업데이트", "점검", "안내", "제재", "이벤트", "진행중", "종료"]
+CATEGORIES = ["업데이트", "점검", "안내", "제재", "이벤트", "진행중", "종료", "개발일지"]
 DATE_RE = re.compile(r"\d{4}\.\d{2}\.\d{2}")
 SKIP_SUMMARY_PREFIXES = (
     "안녕하세요",
@@ -262,7 +262,7 @@ class MapleLandParser(BaseParser):
         conn.commit()
 
 
-SUMMARY_CATEGORIES = {"업데이트", "이벤트", "진행중", "종료", "안내"}
+SUMMARY_CATEGORIES = {"업데이트", "이벤트", "진행중", "종료", "안내", "개발일지"}
 
 
 async def crawl_maple_land(
@@ -370,6 +370,9 @@ async def crawl_maple_land(
                         )
                         detail = parser.parse_detail(detail_html, 0)
                         cat = entry.get("category") or detail.get("category")
+                        # 개발일지 게시판은 카테고리 배지가 없을 수 있어 기본값 부여
+                        if not cat and board == "devlog":
+                            cat = "개발일지"
                         title = entry.get("title") or detail.get("title", "")
                         content = detail.get("content", "")
 

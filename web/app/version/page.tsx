@@ -18,6 +18,22 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.8.0",
+    date: "2026-06-11",
+    type: "minor",
+    title: "공식 개발일지 수집 추가",
+    features: [
+      {
+        category: "소식 — 개발일지",
+        items: [
+          "공홈·테스피아의 개발일지(devlog) 게시판을 크롤링 대상에 추가 — 새 개발일지가 올라오면 자동으로 소식 탭에 표시·요약",
+          "소식 페이지에 '개발일지' 게시판 필터 추가",
+          "과거 개발일지(2.0 알파 테스트, 커스텀 엔진, 로드맵 등) 전부 수집",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.7.0",
     date: "2026-06-11",
     type: "minor",
