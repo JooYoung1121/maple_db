@@ -1,6 +1,8 @@
 "use client";
 
-const VERSION = "3.4.3";
+import { APP_VERSION } from "@/lib/version";
+
+const VERSION = APP_VERSION;
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +17,20 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "3.4.4",
+    date: "2026-06-11",
+    type: "patch",
+    title: "푸터 버전 표기 동기화",
+    features: [
+      {
+        category: "표기 — 버전 단일 소스화",
+        items: [
+          "푸터에 3.3.0으로 고정돼 있던 버전 표기를 실제 버전과 연동 (web/lib/version.ts 단일 소스로 푸터·버전 페이지 통합)",
+        ],
+      },
+    ],
+  },
   {
     version: "3.4.3",
     date: "2026-06-11",

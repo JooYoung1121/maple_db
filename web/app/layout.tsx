@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Sans_KR } from "next/font/google";
 import "./globals.css";
 import NavBar from "./NavBar";
+import { APP_VERSION } from "@/lib/version";
 
 const notoSansKR = Noto_Sans_KR({
   subsets: ["latin"],
@@ -35,7 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-gray-400">
             <span>추억길드 전용 메이플랜드 정보 사이트</span>
             <a href="/version" className="font-mono hover:text-orange-500 transition-colors">
-              v3.3.0
+              v{APP_VERSION}
             </a>
           </div>
         </footer>
