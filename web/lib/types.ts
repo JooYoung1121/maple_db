@@ -229,6 +229,9 @@ export interface MakerSkillQuest {
   name: string;
   req_level: number;
   cost_meso: number;
+  npc?: string;
+  location?: string;
+  flow?: string[];
   materials: MakerMaterial[];
   reward_exp: number;
   note?: string;

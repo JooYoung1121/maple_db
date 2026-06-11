@@ -9,24 +9,6 @@ type Grade = "하급" | "중급" | "상급";
 
 const won = (n: number) => n.toLocaleString("ko-KR");
 
-/* 음이항분포 몬테카를로: 확률 p 사건을 need번 성공할 때까지의 시도 횟수 분포 */
-function simulateAttempts(p: number, need: number, trials = 20000): number[] {
-  const results: number[] = [];
-  for (let t = 0; t < trials; t++) {
-    let success = 0;
-    let attempts = 0;
-    // 안전장치: 너무 큰 경우 컷
-    while (success < need && attempts < 2_000_000) {
-      attempts++;
-      if (Math.random() < p) success++;
-    }
-    results.push(attempts);
-  }
-  results.sort((a, b) => a - b);
-  return results;
-}
-const percentile = (sorted: number[], q: number) => sorted[Math.min(sorted.length - 1, Math.floor(sorted.length * q))];
-
 export default function MakerPage() {
   const [tab, setTab] = useState<Tab>("info");
   const [data, setData] = useState<MakerData | null>(null);
@@ -105,20 +87,33 @@ function InfoTab({ data }: { data: MakerData }) {
       )}
 
       {/* 스킬 습득 */}
-      <Section title="스킬 습득 (스탠 NPC)">
-        <div className="grid sm:grid-cols-3 gap-3">
+      <Section title="스킬 습득 퀘스트 (스탠 — 니할사막 마가티아)">
+        <div className="space-y-3">
           {data.skill_quests.map((q) => (
             <div key={q.skill_level} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-3">
-              <div className="text-xs text-orange-500 font-bold">메이커 Lv.{q.skill_level}</div>
-              <div className="font-bold text-sm mt-0.5">{q.name}</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">필요 레벨 {q.req_level}</div>
-              {q.cost_meso > 0 && <div className="text-xs text-gray-500">메소 {won(q.cost_meso)}</div>}
+              <div className="flex flex-wrap items-baseline gap-x-2">
+                <span className="text-xs text-orange-500 font-bold">메이커 Lv.{q.skill_level}</span>
+                <span className="font-bold text-sm">{q.name}</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">필요 레벨 {q.req_level}</span>
+                {q.location && <span className="text-xs text-gray-400">· {q.location}</span>}
+              </div>
+              {q.cost_meso > 0 && <div className="text-xs text-gray-500 mt-1">준비물: 메소 {won(q.cost_meso)}</div>}
               {q.materials.map((m) => (
                 <div key={m.name} className="text-xs text-gray-600 dark:text-gray-300 mt-1">
-                  · {m.name} ×{m.qty}
+                  준비물: {m.name} ×{m.qty}
                   {m.note && <span className="text-gray-400"> ({m.note})</span>}
                 </div>
               ))}
+              {q.flow && q.flow.length > 0 && (
+                <ol className="mt-2 space-y-1 border-t border-gray-100 dark:border-gray-800 pt-2">
+                  {q.flow.map((step, i) => (
+                    <li key={i} className="flex gap-2 text-xs text-gray-600 dark:text-gray-300">
+                      <span className="shrink-0 w-4 h-4 rounded-full bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-300 text-[10px] font-bold flex items-center justify-center mt-0.5">{i + 1}</span>
+                      <span>{step}</span>
+                    </li>
+                  ))}
+                </ol>
+              )}
             </div>
           ))}
         </div>
@@ -240,53 +235,62 @@ function SimTab({ data }: { data: MakerData }) {
   );
 }
 
+const GRADE_STYLE: Record<Grade, string> = {
+  하급: "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300",
+  중급: "bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300",
+  상급: "bg-orange-100 dark:bg-orange-900/40 text-orange-600 dark:text-orange-300 font-bold",
+};
+
+function rollGrade(grades: Record<string, number>): Grade {
+  const r = Math.random();
+  let acc = 0;
+  for (const g of ["상급", "중급", "하급"] as Grade[]) {
+    acc += grades[g] ?? 0;
+    if (r < acc) return g;
+  }
+  return "하급";
+}
+
 function GemSim({ data }: { data: MakerData }) {
   const fee = data.gem_process.fee;
   const grades = data.gem_process.grades;
   const [target, setTarget] = useState<Grade>("상급");
-  const [qty, setQty] = useState(1);
-  const [useRefine, setUseRefine] = useState(false);
-  const [refineRate, setRefineRate] = useState(100); // 성공률(%) — 미확정, 사용자 조정
+  const [priceInput, setPriceInput] = useState("");  // 원석 시세 — 문자열로 보관해 지워도 안전
+  const [log, setLog] = useState<Grade[]>([]);
 
+  const gemPrice = Math.max(0, parseInt(priceInput.replace(/[^0-9]/g, ""), 10) || 0);
   const p = grades[target] ?? 0;
-  const safeQty = Math.max(1, Math.min(999, qty || 1));
+  const costPerTry = fee + gemPrice;
 
-  const sim = useMemo(() => (p > 0 ? simulateAttempts(p, safeQty) : []), [p, safeQty]);
+  const counts = useMemo(() => {
+    const c: Record<Grade, number> = { 하급: 0, 중급: 0, 상급: 0 };
+    for (const g of log) c[g]++;
+    return c;
+  }, [log]);
+  const attempts = log.length;
+  const firstHit = log.indexOf(target); // -1이면 아직
+  const totalCost = attempts * costPerTry;
 
-  // 직접 가공 경로
-  const expAttempts = p > 0 ? safeQty / p : 0;
-  const expMeso = expAttempts * fee;
-
-  // 제련 경로(상급 목표일 때만 의미): 가공으로 하급 확보 → 33만으로 중급 → 55만으로 상급
-  const refine = data.gem_refine;
-  const refinePath = useMemo(() => {
-    if (target !== "상급") return null;
-    const r1 = refine.find((r) => r.to === "중급"); // 하급10→중급1
-    const r2 = refine.find((r) => r.to === "상급"); // 중급10→상급1
-    if (!r1 || !r2) return null;
-    const rate = Math.max(1, Math.min(100, refineRate)) / 100;
-    // 상급 safeQty개 → 중급 필요수 = safeQty*10/rate, 그 중급 → 하급 필요수 = (중급수)*10/rate
-    const midNeeded = (safeQty * r2.input_qty) / rate;
-    const lowNeeded = (midNeeded * r1.input_qty) / rate;
-    // 하급은 가공으로 확보 (하급 확률)
-    const lowP = grades["하급"] ?? 0.7;
-    const processAttempts = lowP > 0 ? lowNeeded / lowP : 0;
-    const processMeso = processAttempts * fee;
-    const refineMidCount = midNeeded / rate;
-    const refineHighCount = safeQty / rate;
-    const refineMeso = refineMidCount * r1.fee + refineHighCount * r2.fee;
-    return {
-      lowNeeded: Math.ceil(lowNeeded),
-      midNeeded: Math.ceil(midNeeded),
-      processAttempts: Math.ceil(processAttempts),
-      total: Math.round(processMeso + refineMeso),
-    };
-  }, [target, safeQty, refineRate, refine, grades, fee]);
+  const roll = (n: number) => {
+    const next: Grade[] = [];
+    for (let i = 0; i < n; i++) next.push(rollGrade(grades));
+    setLog((prev) => [...prev, ...next]);
+  };
+  const rollUntilTarget = () => {
+    const next: Grade[] = [];
+    for (let i = 0; i < 1000; i++) {
+      const g = rollGrade(grades);
+      next.push(g);
+      if (g === target) break;
+    }
+    setLog((prev) => [...prev, ...next]);
+  };
 
   return (
     <div className="space-y-4">
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 space-y-3">
-        <div className="flex flex-wrap items-end gap-3">
+      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 space-y-4">
+        {/* 설정 */}
+        <div className="flex flex-wrap items-end gap-4">
           <label className="text-sm">
             <span className="block text-gray-500 dark:text-gray-400 mb-1">목표 등급</span>
             <div className="flex gap-1">
@@ -299,59 +303,60 @@ function GemSim({ data }: { data: MakerData }) {
             </div>
           </label>
           <label className="text-sm">
-            <span className="block text-gray-500 dark:text-gray-400 mb-1">목표 개수</span>
-            <input type="number" min={1} max={999} value={qty} onChange={(e) => setQty(parseInt(e.target.value) || 1)}
-              className="w-24 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-300" />
+            <span className="block text-gray-500 dark:text-gray-400 mb-1">원석(일반 보석) 시세 — 1개당 메소</span>
+            <input type="text" inputMode="numeric" placeholder="예: 1000000" value={priceInput}
+              onChange={(e) => setPriceInput(e.target.value)}
+              className="w-36 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm bg-white dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-300" />
           </label>
         </div>
-
-        {/* 직접 가공 결과 */}
-        <div className="bg-orange-50 dark:bg-orange-950/30 rounded-lg p-3">
-          <div className="text-sm font-bold text-orange-600 dark:text-orange-300 mb-1.5">직접 가공 (수수료 {won(fee)}/회)</div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm">
-            <Stat label="기대 가공 횟수" value={`${Math.ceil(expAttempts)}회`} />
-            <Stat label="기대 원석 소모" value={`${Math.ceil(expAttempts)}개`} />
-            <Stat label="기대 총 수수료" value={`${won(Math.round(expMeso))} 메소`} />
-            <Stat label="해당 등급 확률" value={`${(p * 100).toFixed(0)}%`} />
-          </div>
-          {sim.length > 0 && (
-            <div className="mt-2 text-xs text-gray-600 dark:text-gray-400">
-              운에 따른 가공 횟수(몬테카를로 2만회): 중앙값 <b>{percentile(sim, 0.5)}회</b> · 상위 90% 안 <b>{percentile(sim, 0.9)}회</b> · 95% <b>{percentile(sim, 0.95)}회</b>
-              <div>→ 90% 안에 끝내려면 약 <b>{won(percentile(sim, 0.9) * fee)} 메소</b> 예상</div>
-            </div>
-          )}
+        <div className="text-xs text-gray-500 dark:text-gray-400">
+          1회 비용 = 수수료 {won(fee)} {gemPrice > 0 && <>+ 원석 {won(gemPrice)}</>} = <b>{won(costPerTry)} 메소</b>
+          {p > 0 && <> · {target} 1개 기대: 약 {Math.ceil(1 / p)}회 / {won(Math.round(costPerTry / p))} 메소</>}
         </div>
 
-        {/* 제련 경로 비교 (상급 목표) */}
-        {target === "상급" && refinePath && (
-          <div className="bg-gray-50 dark:bg-gray-900/40 rounded-lg p-3">
-            <label className="flex items-center gap-2 text-sm font-bold mb-1.5">
-              <input type="checkbox" checked={useRefine} onChange={(e) => setUseRefine(e.target.checked)} />
-              제련 경로로 비교 (하급→중급→상급)
-            </label>
-            {useRefine && (
-              <div className="text-sm space-y-1.5">
-                <div className="flex items-center gap-2 text-xs">
-                  <span className="text-gray-500">제련 성공률(미확정 — 직접 입력)</span>
-                  <input type="number" min={1} max={100} value={refineRate} onChange={(e) => setRefineRate(parseInt(e.target.value) || 100)}
-                    className="w-16 border border-gray-300 dark:border-gray-600 rounded px-2 py-0.5 bg-white dark:bg-gray-900" />
-                  <span>%</span>
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  <Stat label="필요 하급(가공)" value={`${refinePath.lowNeeded}개`} />
-                  <Stat label="가공 횟수" value={`${refinePath.processAttempts}회`} />
-                  <Stat label="제련 경로 총 메소" value={`${won(refinePath.total)}`} />
-                </div>
-                <div className="text-[11px] text-gray-500">
-                  제련 비용: 중급 33만/회 + 상급 55만/회. 성공률이 확정되지 않아 입력값 기준 근사치입니다.
-                  {refinePath.total < expMeso
-                    ? " → 현재 입력 기준 제련 경로가 더 저렴."
-                    : " → 현재 입력 기준 직접 가공이 더 저렴."}
-                </div>
-              </div>
-            )}
+        {/* 가공 버튼 */}
+        <div className="flex flex-wrap gap-2">
+          {[1, 10, 100].map((n) => (
+            <button key={n} onClick={() => roll(n)}
+              className="px-4 py-2 rounded-lg bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold">
+              {n}회 가공
+            </button>
+          ))}
+          <button onClick={rollUntilTarget}
+            className="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white text-sm font-bold">
+            {target} 나올 때까지
+          </button>
+          <button onClick={() => setLog([])}
+            className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-sm text-gray-600 dark:text-gray-300">
+            초기화
+          </button>
+        </div>
+
+        {/* 결과 */}
+        {attempts > 0 && (
+          <div className="bg-orange-50 dark:bg-orange-950/30 rounded-lg p-3 space-y-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm">
+              <Stat label="총 가공 횟수" value={`${attempts}회`} />
+              <Stat label="결과" value={`하급 ${counts.하급} · 중급 ${counts.중급} · 상급 ${counts.상급}`} />
+              <Stat label="총 비용 (수수료+원석)" value={`${won(totalCost)} 메소`} />
+              <Stat
+                label={`첫 ${target}`}
+                value={firstHit >= 0 ? `${firstHit + 1}번째 (${won((firstHit + 1) * costPerTry)} 메소)` : "아직 ❌"}
+              />
+            </div>
+            <div className="flex flex-wrap gap-1">
+              {log.slice(-40).map((g, i) => (
+                <span key={i} className={`px-1.5 py-0.5 rounded text-[11px] ${GRADE_STYLE[g]}`}>{g}</span>
+              ))}
+              {attempts > 40 && <span className="text-[11px] text-gray-400 self-center">… 최근 40개만 표시</span>}
+            </div>
           </div>
         )}
+
+        {/* 제련 안내 */}
+        <div className="text-xs text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-gray-800 pt-2">
+          상위 등급 제련: 동일 하급 10개 + {won(data.gem_refine[0]?.fee ?? 330000)} 메소 → 중급, 동일 중급 10개 + {won(data.gem_refine[1]?.fee ?? 550000)} 메소 → 상급 (성공률 미공개)
+        </div>
         <p className="text-[11px] text-gray-400">
           ※ 수수료({won(fee)} 등)는 테스피아 기준 확인값이지만, 등급 확률(하급 {((grades["하급"] ?? 0) * 100).toFixed(0)}% / 중급 {((grades["중급"] ?? 0) * 100).toFixed(0)}% / 상급 {((grades["상급"] ?? 0) * 100).toFixed(0)}%)은 <b>공식 미공개 커뮤니티 추정치</b>라 실제와 다를 수 있습니다.
         </p>
