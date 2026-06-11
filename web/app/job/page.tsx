@@ -318,6 +318,67 @@ const JOB_PATHS: JobPath[] = [
       },
     ],
   },
+  {
+    id: "pirate",
+    name: "해적",
+    icon: "⚓",
+    color: "amber",
+    description: "타격(인파이터)과 사격(건슬링거)으로 나뉘는 직업. 메이플랜드 2.0에서 추가 예정",
+    branches: [
+      {
+        name: "인파이터 → 버서커",
+        advancements: [
+          {
+            order: 1, level: 10, jobName: "해적",
+            npc: "카이린", location: "노틸러스 선착장 - 항해실",
+            quest: "빅토리아 아일랜드 남동쪽 노틸러스호의 카이린에게 전직",
+            skills: ["퀵모션", "대쉬"],
+            tip: "DEX 20 이상 필요",
+          },
+          {
+            order: 2, level: 30, jobName: "인파이터",
+            npc: "카이린", location: "노틸러스 - 해적의 시험장",
+            quest: "시험장에서 파일렛옥토 사냥 → 강력한 힘의 결정 15개 획득",
+            skills: ["스크류 펀치", "더블 어퍼", "너클 부스터"],
+            tip: "타격(근접) 계열. STR 위주, 너클 착용",
+          },
+          {
+            order: 3, level: 70, jobName: "버서커",
+            npc: "페드로 → 카이린", location: "노틸러스 / 엘나스 설원의 성지",
+            quest: "카이린의 분신 처치(검은 부적)·설원의 성지 문제풀이로 목걸이 획득 후 전직",
+            skills: ["에너지 차지", "트랜스폼", "쇼크 웨이브"],
+            tip: "에너지 차지로 변신·버프. 4차 바이퍼로 이어짐",
+          },
+        ],
+      },
+      {
+        name: "건슬링거 → 발키리",
+        advancements: [
+          {
+            order: 1, level: 10, jobName: "해적",
+            npc: "카이린", location: "노틸러스 선착장 - 항해실",
+            quest: "빅토리아 아일랜드 남동쪽 노틸러스호의 카이린에게 전직",
+            skills: ["퀵모션", "대쉬"],
+            tip: "DEX 20 이상 필요",
+          },
+          {
+            order: 2, level: 30, jobName: "건슬링거",
+            npc: "카이린", location: "노틸러스 - 해적의 시험장",
+            quest: "시험장에서 파일렛옥토 사냥 → 강력한 바람의 결정 15개 획득",
+            skills: ["인비저블 샷", "스로잉 붐", "건 부스터"],
+            tip: "사격(원거리) 계열. DEX 위주, 건(권총) 착용",
+          },
+          {
+            order: 3, level: 70, jobName: "발키리",
+            npc: "페드로 → 카이린", location: "노틸러스 / 엘나스 설원의 성지",
+            quest: "카이린의 분신 처치(검은 부적)·설원의 성지 문제풀이로 목걸이 획득 후 전직",
+            skills: ["트리플 파이어", "옥토퍼스", "호밍 미사일"],
+            tip: "원거리 화력 특화. 4차 캡틴으로 이어짐",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 /* ── 3차 전직 퀴즈 족보 ── */
@@ -383,6 +444,7 @@ const COLOR_MAP: Record<string, { bg: string; border: string; text: string; badg
   blue: { bg: "bg-blue-50 dark:bg-blue-900/20", border: "border-blue-200 dark:border-blue-800", text: "text-blue-600 dark:text-blue-400", badge: "bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300" },
   green: { bg: "bg-green-50 dark:bg-green-900/20", border: "border-green-200 dark:border-green-800", text: "text-green-600 dark:text-green-400", badge: "bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300" },
   purple: { bg: "bg-purple-50 dark:bg-purple-900/20", border: "border-purple-200 dark:border-purple-800", text: "text-purple-600 dark:text-purple-400", badge: "bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300" },
+  amber: { bg: "bg-amber-50 dark:bg-amber-900/20", border: "border-amber-200 dark:border-amber-800", text: "text-amber-600 dark:text-amber-400", badge: "bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300" },
 };
 
 export default function JobAdvancementPage() {

@@ -18,6 +18,27 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.6.0",
+    date: "2026-06-11",
+    type: "minor",
+    title: "해적 직업 정보 완성",
+    features: [
+      {
+        category: "해적 — 전직 가이드 추가",
+        items: [
+          "전직 가이드에 해적 추가 (인파이터→버서커, 건슬링거→발키리 2개 분기, 1~3차 전직·NPC·스킬)",
+          "오늘의 운세 직업 선택에 해적 추가",
+        ],
+      },
+      {
+        category: "참고",
+        items: [
+          "시그너스·아란은 데이터 확보 후 별도 추가 예정 (현재 DB에 미수록)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.5.1",
     date: "2026-06-11",
     type: "patch",

@@ -26,6 +26,7 @@ const JOBS = [
   { key: "궁수", icon: "🏹", color: "green" },
   { key: "마법사", icon: "🪄", color: "blue" },
   { key: "도적", icon: "🗡️", color: "purple" },
+  { key: "해적", icon: "⚓", color: "amber" },
 ] as const;
 
 const COOLDOWN_SEC = 30;
@@ -163,7 +164,7 @@ export default function FortunePage() {
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
             직업
           </label>
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-5 gap-2">
             {JOBS.map((j) => (
               <button
                 key={j.key}
