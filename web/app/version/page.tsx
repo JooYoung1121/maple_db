@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.4.5",
+    date: "2026-06-11",
+    type: "patch",
+    title: "운세 별자리 경계 표준 정렬",
+    features: [
+      {
+        category: "운세 — 별자리 경계 보정",
+        items: [
+          "천칭(9.24)·사수(11.23)·염소(12.25) 시작일을 국내 운세 통용 기준에 맞게 정정 (예: 12월 23일 → 사수자리로 정상 표시)",
+          "12개 별자리 구간 전체를 표준과 대조해 일치 확인",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.4.4",
     date: "2026-06-11",
     type: "patch",
