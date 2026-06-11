@@ -1,2 +1,2 @@
 // 앱 버전 단일 소스. 버전 업데이트 시 이 값만 바꾸면 푸터·버전 페이지에 모두 반영된다.
-export const APP_VERSION = "3.6.0";
+export const APP_VERSION = "3.6.1";

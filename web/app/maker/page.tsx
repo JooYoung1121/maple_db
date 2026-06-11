@@ -40,7 +40,10 @@ export default function MakerPage() {
   }, []);
 
   if (loading) return <div className="max-w-4xl mx-auto py-10 text-center text-gray-500">불러오는 중...</div>;
-  if (!data) return <div className="max-w-4xl mx-auto py-10 text-center text-gray-500">메이커 데이터를 불러올 수 없습니다.</div>;
+  // 데이터 누락/에러 폴백(meta·equipment 없음) 시 크래시 대신 안내
+  if (!data || !data.meta || !Array.isArray(data.equipment) || data.equipment.length === 0) {
+    return <div className="max-w-4xl mx-auto py-10 text-center text-gray-500">메이커 데이터를 불러올 수 없습니다. 잠시 후 다시 시도해주세요.</div>;
+  }
 
   return (
     <div className="max-w-4xl mx-auto space-y-5">
@@ -350,7 +353,7 @@ function GemSim({ data }: { data: MakerData }) {
           </div>
         )}
         <p className="text-[11px] text-gray-400">
-          ※ 확률(하급 {((grades["하급"] ?? 0) * 100).toFixed(0)}% / 중급 {((grades["중급"] ?? 0) * 100).toFixed(0)}% / 상급 {((grades["상급"] ?? 0) * 100).toFixed(0)}%)과 수수료는 커뮤니티/구버전 기준 참고값입니다.
+          ※ 수수료({won(fee)} 등)는 테스피아 기준 확인값이지만, 등급 확률(하급 {((grades["하급"] ?? 0) * 100).toFixed(0)}% / 중급 {((grades["중급"] ?? 0) * 100).toFixed(0)}% / 상급 {((grades["상급"] ?? 0) * 100).toFixed(0)}%)은 <b>공식 미공개 커뮤니티 추정치</b>라 실제와 다를 수 있습니다.
         </p>
       </div>
     </div>

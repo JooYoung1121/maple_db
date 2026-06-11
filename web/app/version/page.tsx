@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.6.1",
+    date: "2026-06-11",
+    type: "patch",
+    title: "메이커 페이지 오류 수정",
+    features: [
+      {
+        category: "메이커 — 로딩 오류 수정",
+        items: [
+          "배포 이미지에 메이커 데이터 파일이 누락돼 페이지가 흰 화면(client-side exception)으로 뜨던 문제 수정",
+          "데이터 누락 시 크래시 대신 안내 메시지를 표시하도록 보강",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.6.0",
     date: "2026-06-11",
     type: "minor",
