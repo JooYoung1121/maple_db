@@ -9,13 +9,42 @@ from crawler.db import get_connection
 router = APIRouter()
 
 
-@router.post("/admin/verify")
-def admin_verify(request: Request):
-    """관리자 비밀번호 확인용 엔드포인트"""
+def _require_admin(request: Request):
     admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "1004")
     if request.headers.get("X-Admin-Password", "") != admin_pw:
         raise HTTPException(status_code=403, detail="비밀번호가 틀립니다.")
+
+
+@router.post("/admin/verify")
+def admin_verify(request: Request):
+    """관리자 비밀번호 확인용 엔드포인트"""
+    _require_admin(request)
     return {"ok": True}
+
+
+@router.post("/admin/fortune/reset-rate-limit")
+def admin_reset_fortune_rate_limit(request: Request, all_dates: bool = Query(default=False)):
+    """운세 일일 조회 제한 리셋. 기본은 오늘치만, all_dates=true면 전체 삭제.
+
+    fortune_rate_limit 은 IP·날짜별 사용 횟수만 담는 일시적 테이블이라 삭제해도 안전하다.
+    """
+    _require_admin(request)
+    from datetime import datetime, timezone, timedelta
+
+    today = datetime.now(timezone(timedelta(hours=9))).strftime("%Y-%m-%d")
+    try:
+        conn = get_connection()
+    except Exception:
+        raise HTTPException(status_code=503, detail="Database unavailable")
+    try:
+        if all_dates:
+            cur = conn.execute("DELETE FROM fortune_rate_limit")
+        else:
+            cur = conn.execute("DELETE FROM fortune_rate_limit WHERE request_date = ?", [today])
+        conn.commit()
+        return {"ok": True, "deleted": cur.rowcount, "scope": "all" if all_dates else today}
+    finally:
+        conn.close()
 
 
 class MobUpdate(BaseModel):

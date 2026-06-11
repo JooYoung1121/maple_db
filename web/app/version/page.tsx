@@ -1,6 +1,6 @@
 "use client";
 
-const VERSION = "3.4.2";
+const VERSION = "3.4.3";
 
 const SEMVER_EXPLANATION = [
   { label: "패치 (1.0.X)", desc: "버그 수정", color: "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300" },
@@ -15,6 +15,29 @@ const CHANGELOG: {
   title: string;
   features: { category: string; items: string[] }[];
 }[] = [
+  {
+    version: "3.4.3",
+    date: "2026-06-11",
+    type: "patch",
+    title: "운세 정상화 — 별자리·AI 생성·중복 운세 수정",
+    features: [
+      {
+        category: "운세 — 별자리 매핑 정상화",
+        items: [
+          "생일로 계산되는 별자리가 실제보다 한 칸씩 밀려 다음 별자리로 나오던 오류 수정 (예: 4월 25일 → 쌍둥이자리로 잘못 표시되던 것을 황소자리로 정정)",
+          "별자리 경계 날짜는 표준과 동일하며, 12개 별자리 경계 전 구간 검증 완료",
+        ],
+      },
+      {
+        category: "운세 — AI 생성 복구 + 중복 제거",
+        items: [
+          "운세 AI가 미설치된 SDK를 호출해 매번 실패하고 고정 문구로 대체되던 문제 수정 (httpx REST 직접 호출로 전환)",
+          "같은 띠·별자리·직업이면 모든 사용자가 동일한 운세를 보던 캐시 제거 → 요청마다 새로 생성",
+          "관리자용 운세 일일 제한 리셋 엔드포인트 추가",
+        ],
+      },
+    ],
+  },
   {
     version: "3.4.2",
     date: "2026-06-11",

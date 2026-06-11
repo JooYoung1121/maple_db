@@ -1,11 +1,12 @@
-"""오늘의 운세 — 캐시 + Rate Limiting + Gemini AI 생성"""
-import asyncio
+"""오늘의 운세 — Rate Limiting + Gemini AI 생성 (매 요청마다 새로 생성, 캐시 미사용)"""
 import json
 import os
 import random
 import time
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
+
+import httpx
 from fastapi import APIRouter, Query, HTTPException, Request
 from pydantic import BaseModel
 from typing import Optional
@@ -47,7 +48,6 @@ except Exception as e:
 router = APIRouter()
 
 KST = timezone(timedelta(hours=9))
-MAX_CACHE_PER_COMBO = 3
 COOLDOWN_SEC = 30
 DAILY_LIMIT = 3
 
@@ -73,12 +73,13 @@ def _get_zodiac(year: int) -> str:
 
 
 def _get_constellation(month: int, day: int) -> str:
+    # CONSTELLATIONS[i] = (별자리명, 시작 월, 시작 일).
+    # 해당 월의 시작일 이상이면 그 별자리, 미만이면 직전(이전 달에서 시작한) 별자리.
     for i, (name, m, start_day) in enumerate(CONSTELLATIONS):
-        next_name = CONSTELLATIONS[(i + 1) % len(CONSTELLATIONS)][0]
-        if month == m and day >= start_day:
-            return next_name
-        if month == m and day < start_day:
-            return name
+        if month == m:
+            if day >= start_day:
+                return name
+            return CONSTELLATIONS[(i - 1) % len(CONSTELLATIONS)][0]
     return "염소자리"
 
 
@@ -277,14 +278,23 @@ def _generate_fortune_local(
     }
 
 
+GEMINI_FORTUNE_MODEL = os.environ.get("GEMINI_FORTUNE_MODEL", "gemini-2.5-flash")
+GEMINI_FORTUNE_URL = (
+    "https://generativelanguage.googleapis.com/v1beta/models/"
+    f"{GEMINI_FORTUNE_MODEL}:generateContent"
+)
+
+
 async def _generate_fortune_ai(
     zodiac: str, constellation: str, job: str, date_str: str, conn,
 ) -> dict:
-    """Gemini API로 운세를 생성한다. DB에서 실제 게임 데이터를 프롬프트에 포함."""
+    """Gemini API(httpx REST)로 운세를 생성한다. DB에서 실제 게임 데이터를 프롬프트에 포함.
+
+    google-generativeai SDK는 설치돼 있지 않으므로 httpx REST 직접 호출을 사용한다
+    (summarizer/nhit과 동일한 방식). 캐시 없이 매 요청마다 호출되므로 사용자마다 다른 운세가 나온다.
+    """
     if not GEMINI_API_KEY:
         raise HTTPException(status_code=503, detail="AI API 키가 설정되지 않았습니다.")
-
-    import google.generativeai as genai
 
     monsters, maps, items = _sample_game_data(conn)
 
@@ -293,15 +303,23 @@ async def _generate_fortune_ai(
         monsters=monsters, maps=maps, items=items,
     )
 
-    def _sync_generate() -> dict:
-        genai.configure(api_key=GEMINI_API_KEY)
-        model = genai.GenerativeModel("gemini-2.5-flash")
-        response = model.generate_content(prompt)
-        text = response.text.strip() if response.text else ""
-        cleaned = text.replace("```json", "").replace("```", "").strip()
-        return json.loads(cleaned)
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {"responseMimeType": "application/json", "temperature": 1.0},
+    }
 
-    return await asyncio.to_thread(_sync_generate)
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        resp = await client.post(
+            GEMINI_FORTUNE_URL,
+            params={"key": GEMINI_API_KEY},
+            json=payload,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+
+    text = data["candidates"][0]["content"]["parts"][0]["text"].strip()
+    cleaned = text.replace("```json", "").replace("```", "").strip()
+    return json.loads(cleaned)
 
 
 # ── 메인 운세 엔드포인트 (통합) ────────────────────────────
@@ -367,53 +385,16 @@ async def get_fortune(body: FortuneRequest, request: Request):
             remaining_count = DAILY_LIMIT - 1
         conn.commit()
 
-        # 2. 캐시 확인
-        cache_rows = conn.execute(
-            """SELECT id, maple_fortune, real_fortune,
-                      lucky_monster, lucky_map, lucky_item, enhance_luck, created_at
-               FROM fortune_cache
-               WHERE cache_date = ? AND zodiac = ? AND constellation = ? AND job = ?
-               ORDER BY created_at DESC""",
-            [date_str, zodiac, constellation, body.job],
-        ).fetchall()
-
-        if len(cache_rows) >= MAX_CACHE_PER_COMBO:
-            # 이미 3개 → 랜덤 반환
-            cached = dict(random.choice(cache_rows))
-            return {
-                **cached,
-                "zodiac": zodiac,
-                "constellation": constellation,
-                "job": body.job,
-                "cached": True,
-                "remaining": max(remaining_count, 0),
-            }
-
-        # 3. 운세 생성: Gemini 키가 없거나 실패하면 DB 기반 로컬 운세로 fallback
+        # 2. 운세 생성: 캐시 없이 매 요청마다 새로 생성한다.
+        #    일일 3회 제한이 있어 매번 모델을 새로 돌려도 부담이 적고,
+        #    캐시를 쓰면 같은 조합(띠/별자리/직업)의 모든 사용자가 동일한 운세를 보던 문제가 있었다.
+        #    Gemini 키가 없거나 호출이 실패하면 DB 기반 로컬 운세로 fallback.
         try:
             fortune = await _generate_fortune_ai(zodiac, constellation, body.job, date_str, conn)
             fortune["source"] = "ai"
         except Exception as e:
-            print(f"[fortune] AI 운세 실패, 로컬 운세 사용: {type(e).__name__}")
+            print(f"[fortune] AI 운세 실패, 로컬 운세 사용: {type(e).__name__}: {e}")
             fortune = _generate_fortune_local(zodiac, constellation, body.job, date_str, conn)
-
-        # 4. 캐시 저장
-        conn.execute(
-            """INSERT INTO fortune_cache
-               (cache_date, zodiac, constellation, job,
-                maple_fortune, real_fortune, lucky_monster, lucky_map, lucky_item, enhance_luck)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-            [
-                date_str, zodiac, constellation, body.job,
-                fortune.get("maple_fortune", ""),
-                fortune.get("real_fortune", ""),
-                fortune.get("lucky_monster"),
-                fortune.get("lucky_map"),
-                fortune.get("lucky_item"),
-                fortune.get("enhance_luck", 3),
-            ],
-        )
-        conn.commit()
 
         return {
             **fortune,
