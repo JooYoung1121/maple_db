@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.5.1",
+    date: "2026-06-11",
+    type: "patch",
+    title: "메이커 테스피아 정보 보강",
+    features: [
+      {
+        category: "메이커 — 테스피아 기준 보정",
+        items: [
+          "테스피아 메이커 4대 기능(강화보석/몬스터결정/옵션 부여/무기·방어구 제작) 표시",
+          "테스피아 메이커가 임시 버전이라 수치 변경 가능함을 명시, 제련 실패 처리 불확실 안내 추가",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.5.0",
     date: "2026-06-11",
     type: "minor",

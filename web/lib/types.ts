@@ -267,7 +267,7 @@ export interface MakerEquipment {
   timeless?: MakerEquipGrade;
 }
 export interface MakerData {
-  meta: { source: string; note: string; updated: string; sources: string[] };
+  meta: { source: string; note: string; updated: string; sources: string[]; tespia_functions?: string[] };
   skill_quests: MakerSkillQuest[];
   gem_process: { fee: number; input: MakerMaterial; grades: Record<string, number>; note: string };
   gem_refine: { from: string; to: string; input_qty: number; fee: number; fail_loss: number; note: string }[];

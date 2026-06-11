@@ -1,7 +1,8 @@
 {
   "meta": {
     "source": "maplekibun.tistory.com + 커뮤니티(메이플랜드 갤러리/아카라이브/나무위키)",
-    "note": "참고용 데이터입니다. 확률·수수료는 커뮤니티/구버전 메이플 기준이며 테스피아(메이플랜드 2.0) 정식 수치와 다를 수 있습니다.",
+    "note": "참고용 데이터입니다. 확률·수수료는 커뮤니티/구버전 메이플 기준이며, 테스피아(메이플랜드 2.0) 메이커는 공식적으로 임시 버전이라 스탯·수수료가 정식 출시 시 변경될 수 있습니다. 제련 실패 시 처리(재료 손실 여부)는 아직 불확실합니다.",
+    "tespia_functions": ["강화보석 제작", "몬스터 결정 제작", "옵션 부여(보석/크리스탈 부착)", "무기·방어구 제작"],
     "updated": "2026-06-11",
     "sources": [
       "https://maplekibun.tistory.com/910",
@@ -10,6 +11,7 @@
       "https://maplekibun.tistory.com/548",
       "https://maplekibun.tistory.com/205",
       "https://arca.live/b/mapleland/137362881",
+      "https://arca.live/b/mapleland/170335419",
       "https://arca.live/b/mapleland/98884086",
       "https://namu.wiki/w/메이플스토리/전문기술"
     ]

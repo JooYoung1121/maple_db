@@ -91,6 +91,16 @@ function InfoTab({ data }: { data: MakerData }) {
 
   return (
     <div className="space-y-6">
+      {data.meta.tespia_functions && data.meta.tespia_functions.length > 0 && (
+        <Section title="테스피아 메이커 기능">
+          <div className="flex flex-wrap gap-1.5">
+            {data.meta.tespia_functions.map((f) => (
+              <span key={f} className="px-2.5 py-1 text-xs rounded-full bg-sky-50 dark:bg-sky-950/30 border border-sky-200 dark:border-sky-900 text-sky-700 dark:text-sky-300">{f}</span>
+            ))}
+          </div>
+        </Section>
+      )}
+
       {/* 스킬 습득 */}
       <Section title="스킬 습득 (스탠 NPC)">
         <div className="grid sm:grid-cols-3 gap-3">
