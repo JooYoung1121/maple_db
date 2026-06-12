@@ -47,6 +47,32 @@ def admin_reset_fortune_rate_limit(request: Request, all_dates: bool = Query(def
         conn.close()
 
 
+class NewsSummaryUpdate(BaseModel):
+    post_id: str
+    summary: str
+
+
+@router.post("/admin/news/summary")
+def admin_update_news_summary(body: NewsSummaryUpdate, request: Request):
+    """공지/개발일지 요약을 큐레이션 요약으로 교체 (자동 요약이 부실할 때 사용)."""
+    _require_admin(request)
+    try:
+        conn = get_connection()
+    except Exception:
+        raise HTTPException(status_code=503, detail="Database unavailable")
+    try:
+        cur = conn.execute(
+            "UPDATE maple_land_posts SET summary = ? WHERE post_id = ?",
+            (body.summary, body.post_id),
+        )
+        conn.commit()
+        if cur.rowcount == 0:
+            raise HTTPException(status_code=404, detail="해당 post_id가 없습니다.")
+        return {"ok": True, "post_id": body.post_id}
+    finally:
+        conn.close()
+
+
 class MobUpdate(BaseModel):
     is_hidden: Optional[int] = None
     is_boss: Optional[int] = None
