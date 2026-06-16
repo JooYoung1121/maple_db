@@ -18,6 +18,25 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.10.0",
+    date: "2026-06-16",
+    type: "minor",
+    title: "몬스터 드롭 테이블 대폭 보강 (드롭률 수록)",
+    features: [
+      {
+        category: "몬스터 — 드롭 정보",
+        items: [
+          "드롭 보유 몬스터 301 → 674마리, 드롭 항목 2,588 → 14,200건으로 확대",
+          "정확한 드롭률 12,061건 수록 (이전엔 드롭률 0건) — 빨간 달팽이 껍질 80%·빨간 포션 7.46% 등",
+          "기존엔 maplekibun.tistory.com/892(드롭률 통합) 원문이 DB에 저장돼 있었으나 파서 포맷 불일치로 미반영 상태였던 것을 전용 파서(scripts/rebuild_drops_from_blog.py)로 재구축",
+          "구·신버전 명칭 차이 보정(민첩성→민첩, 명중률→명중치, 물리 방어력→방어력), 보스명 '[★]' 접두어 매칭 보강",
+          "출현맵(서식지)을 드롭으로 오인했던 마을-토큰 가짜 드롭 51건 정리",
+          "출처: maplekibun.tistory.com/892",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.9.2",
     date: "2026-06-12",
     type: "patch",
