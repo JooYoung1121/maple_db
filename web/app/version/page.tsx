@@ -18,6 +18,22 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.11.1",
+    date: "2026-06-16",
+    type: "patch",
+    title: "배포 동기화 수정 — 드롭/출현맵 라이브 반영",
+    features: [
+      {
+        category: "인프라 — 배포 DB 동기화",
+        items: [
+          "운영 볼륨 DB가 quests 테이블만 시드에서 갱신하던 탓에 v3.10.0/v3.11.0 드롭·출현맵 데이터가 라이브에 반영되지 않던 문제 수정",
+          "start.sh 시드 동기화 화이트리스트에 mob_drops·mob_spawns 추가 (quests와 동일한 DROP+CREATE)",
+          "유저 데이터 테이블(bimae_posts·free_board_*·community_* 등)은 참조조차 하지 않아 그대로 보존",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.11.0",
     date: "2026-06-16",
     type: "minor",

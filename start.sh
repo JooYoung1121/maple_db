@@ -11,26 +11,37 @@ echo "=== DB Sync ==="
 
 if [ -d "/data" ]; then
   if [ -f "$VOLUME_DB" ]; then
-    echo "Volume DB exists. Replacing quests table from seed..."
+    echo "Volume DB exists. Replacing reference tables from seed..."
 
-    # 퀘스트 테이블을 시드 DB 기준으로 완전 교체 (DROP+CREATE)
-    # 다른 테이블은 절대 건드리지 않음
+    # 레퍼런스 테이블만 시드 DB 기준으로 완전 교체 (DROP+CREATE)
+    # 유저 데이터 테이블(bimae_posts, free_board_*, community_*, game_results 등)은 절대 건드리지 않음
     python -c "
 import sqlite3
 
 VOLUME = '$VOLUME_DB'
 SEED = '$APP_DB'
 
+# 시드에서 교체할 레퍼런스 테이블 화이트리스트 (유저 데이터 아님)
+SEED_TABLES = ['quests', 'mob_drops', 'mob_spawns']
+
 try:
     vol = sqlite3.connect(VOLUME)
     vol.execute(f\"ATTACH '{SEED}' AS seed\")
 
-    # quests 테이블 완전 교체 (스키마 차이 문제 해결)
-    vol.execute('DROP TABLE IF EXISTS quests')
-    vol.execute('CREATE TABLE quests AS SELECT * FROM seed.quests')
-    qcount = vol.execute('SELECT COUNT(*) FROM quests').fetchone()[0]
+    for tbl in SEED_TABLES:
+        # 시드에 해당 테이블이 있을 때만 교체 (스키마 차이는 CREATE AS SELECT로 흡수)
+        exists = vol.execute(
+            \"SELECT 1 FROM seed.sqlite_master WHERE type='table' AND name=?\", (tbl,)
+        ).fetchone()
+        if not exists:
+            print(f'Seed table missing, skip: {tbl}')
+            continue
+        vol.execute(f'DROP TABLE IF EXISTS {tbl}')
+        vol.execute(f'CREATE TABLE {tbl} AS SELECT * FROM seed.{tbl}')
+        cnt = vol.execute(f'SELECT COUNT(*) FROM {tbl}').fetchone()[0]
+        print(f'Replaced {tbl}: {cnt} rows')
 
-    # 검증: 조건 데이터가 제대로 들어왔는지
+    # 검증: 퀘스트 조건 데이터가 제대로 들어왔는지
     sample = vol.execute(\"SELECT name, quest_conditions FROM quests WHERE name='버섯 몬스터를 연구하는 이유'\").fetchone()
     if sample:
         print(f'Sample: {sample[0]} -> {sample[1][:50]}')
@@ -38,10 +49,10 @@ try:
     vol.execute('DETACH seed')
     vol.commit()
     vol.close()
-    print(f'Quests replaced: {qcount} rows. Other tables untouched.')
+    print('Reference tables replaced. User tables untouched.')
 
 except Exception as e:
-    print(f'Quest sync error: {e}')
+    print(f'Seed sync error: {e}')
     import traceback
     traceback.print_exc()
 " 2>&1
