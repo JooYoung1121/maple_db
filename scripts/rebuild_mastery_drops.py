@@ -162,6 +162,12 @@ def parse_mastery(content: str, mob_cache, mob_nospace, item_cache):
                 pending = {"skill": skill, "level": level, "item": item,
                            "value": [inline] if inline else []}
             continue
+        # 레벨 없는 콜론 줄("용사의 의지 :" 등 퀘스트/무레벨 스킬)도 블록 경계로 처리.
+        # (몬스터 목록 줄에는 콜론이 없으므로, 콜론이 있으면 새 헤더로 간주해 현재 블록 종료)
+        if ":" in line or "：" in line:
+            flush()
+            pending = None
+            continue
         # 값(몬스터 목록) 줄
         if pending is not None:
             pending["value"].append(line)
