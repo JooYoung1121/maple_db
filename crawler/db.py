@@ -305,6 +305,46 @@ CREATE TABLE IF NOT EXISTS free_board_comment_votes (
   FOREIGN KEY (comment_id) REFERENCES free_board_comments(id)
 );
 
+-- 정보공유 게시판 (엑셀 업로드 지원: 표 뷰 JSON + 원본 스타일 HTML)
+CREATE TABLE IF NOT EXISTS info_posts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  nickname TEXT NOT NULL,
+  title TEXT NOT NULL,
+  content TEXT,
+  excel_filename TEXT,
+  excel_json TEXT,
+  excel_html TEXT,
+  upvotes INTEGER DEFAULT 0,
+  views INTEGER DEFAULT 0,
+  created_at TEXT DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS info_post_votes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  post_id INTEGER NOT NULL,
+  voter_ip TEXT NOT NULL,
+  UNIQUE(post_id, voter_ip),
+  FOREIGN KEY (post_id) REFERENCES info_posts(id)
+);
+
+CREATE TABLE IF NOT EXISTS info_comments (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  post_id INTEGER NOT NULL,
+  nickname TEXT NOT NULL,
+  content TEXT NOT NULL,
+  upvotes INTEGER DEFAULT 0,
+  created_at TEXT DEFAULT (datetime('now')),
+  FOREIGN KEY (post_id) REFERENCES info_posts(id)
+);
+
+CREATE TABLE IF NOT EXISTS info_comment_votes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  comment_id INTEGER NOT NULL,
+  voter_ip TEXT NOT NULL,
+  UNIQUE(comment_id, voter_ip),
+  FOREIGN KEY (comment_id) REFERENCES info_comments(id)
+);
+
 -- 오늘의 운세 캐시 (같은 조합 최대 3개)
 CREATE TABLE IF NOT EXISTS fortune_cache (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

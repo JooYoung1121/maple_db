@@ -75,6 +75,7 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/guild/members", label: "길드원 명단" },
       { href: "/guild/boss", label: "보스" },
       { href: "/guild/board", label: "자유게시판" },
+      { href: "/guild/info", label: "정보공유" },
       { href: "/guild/discord", label: "디스코드 봇" },
     ],
   },

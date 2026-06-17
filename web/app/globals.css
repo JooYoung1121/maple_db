@@ -63,3 +63,21 @@
 .animate-trapShake {
   animation: trapShake 0.4s ease-in-out infinite;
 }
+
+/* 정보공유 게시판 — 엑셀 원본 스타일 표 (excel_html) */
+.xl-wrap { overflow-x: auto; }
+table.xl {
+  border-collapse: collapse;
+  width: max-content;
+  min-width: 100%;
+  font-size: 13px;
+  line-height: 1.5;
+}
+table.xl td {
+  border: 1px solid #cbd5e1;
+  padding: 6px 10px;
+  vertical-align: middle;
+  white-space: pre-wrap;
+}
+.dark table.xl td { border-color: #475569; }
+.xl-sheet { font-weight: 700; margin: 12px 0 6px; }

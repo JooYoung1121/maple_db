@@ -71,6 +71,9 @@ fi
 
 python -c "from crawler.db import init_db; init_db()" 2>/dev/null || true
 
+# 정보공유 게시판 첫 글 1회 시드 (info_posts 비었을 때만, 유저 글 보호)
+python scripts/seed_info_board_quest_guide.py 2>&1 || true
+
 if [ -f "/app/data/local_news_summaries.json" ]; then
   python -c "
 import json
