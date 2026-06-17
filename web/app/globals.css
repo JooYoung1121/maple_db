@@ -81,3 +81,21 @@ table.xl td {
 }
 .dark table.xl td { border-color: #475569; }
 .xl-sheet { font-weight: 700; margin: 12px 0 6px; }
+
+/* 정보공유 — 표 뷰(clean): 검색·고정헤더·줄무늬 */
+table.xl-clean { border-collapse: collapse; width: 100%; font-size: 13px; }
+table.xl-clean th, table.xl-clean td {
+  border: 1px solid #e2e8f0; padding: 7px 10px; vertical-align: middle; white-space: pre-wrap;
+}
+.dark table.xl-clean th, .dark table.xl-clean td { border-color: #3a4658; }
+table.xl-clean thead th {
+  position: sticky; top: 0; z-index: 1;
+  background: #eef2ff; font-weight: 700; color: #334155;
+}
+.dark table.xl-clean thead th { background: #334155; color: #e2e8f0; }
+table.xl-clean tbody tr:nth-child(even) { background: #f8fafc; }
+.dark table.xl-clean tbody tr:nth-child(even) { background: rgba(255,255,255,0.035); }
+table.xl-clean tbody tr:hover { background: #fff7ed; }
+.dark table.xl-clean tbody tr:hover { background: rgba(249,115,22,0.12); }
+.xl-clean-scroll { max-height: 70vh; overflow: auto; }
+.xl-search-hl { background: #fde68a; border-radius: 2px; }

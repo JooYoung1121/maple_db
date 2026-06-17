@@ -72,6 +72,7 @@ export default function InfoBoardPage() {
   const [detail, setDetail] = useState<PostDetail | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
   const [excelTab, setExcelTab] = useState<ExcelTab>("table");
+  const [tableQuery, setTableQuery] = useState("");
 
   // write
   const [nickname, setNickname] = useState("");
@@ -121,6 +122,7 @@ export default function InfoBoardPage() {
       const data: PostDetail = await res.json();
       setDetail(data);
       setExcelTab("table");
+      setTableQuery("");
     } catch {
       setDetail(null);
     } finally {
@@ -332,7 +334,7 @@ export default function InfoBoardPage() {
               <div className="mt-3">
                 <div className="text-xs text-gray-500 mb-1">미리보기 (표 뷰)</div>
                 <div className="xl-wrap max-h-72 overflow-auto border rounded">
-                  <ExcelTableView sheet={excelPreview.sheets[0]} clean />
+                  <ExcelTableView sheet={excelPreview.sheets[0]} />
                 </div>
               </div>
             )}
@@ -362,18 +364,31 @@ export default function InfoBoardPage() {
           {/* 엑셀 2뷰 */}
           {detail.excel_json && (
             <div className="mb-5">
-              <div className="flex gap-2 mb-2 text-sm">
-                <button onClick={() => setExcelTab("table")} className={`px-3 py-1 rounded ${excelTab === "table" ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-700"}`}>📋 표 뷰</button>
-                <button onClick={() => setExcelTab("original")} className={`px-3 py-1 rounded ${excelTab === "original" ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-700"}`}>🎨 원본 스타일</button>
-                {detail.excel_filename && <span className="text-xs text-gray-400 self-center ml-1">{detail.excel_filename}</span>}
+              <div className="flex gap-2 mb-2 text-sm items-center flex-wrap">
+                <button onClick={() => setExcelTab("table")} className={`px-3 py-1 rounded ${excelTab === "table" ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-700"}`}>📋 표 뷰 <span className="opacity-70 text-xs">검색·정리</span></button>
+                <button onClick={() => setExcelTab("original")} className={`px-3 py-1 rounded ${excelTab === "original" ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-700"}`}>🎨 원본 <span className="opacity-70 text-xs">엑셀 그대로</span></button>
+                {detail.excel_filename && <span className="text-xs text-gray-400 ml-1">{detail.excel_filename}</span>}
               </div>
-              <div className="xl-wrap border border-gray-200 dark:border-gray-700 rounded">
-                {excelTab === "table" ? (
-                  <ExcelTableView sheet={detail.excel_json.sheets[0]} clean />
-                ) : (
-                  <div className="p-2" dangerouslySetInnerHTML={{ __html: detail.excel_html ?? "" }} />
-                )}
-              </div>
+              {excelTab === "table" ? (
+                <>
+                  <input
+                    value={tableQuery}
+                    onChange={(e) => setTableQuery(e.target.value)}
+                    placeholder="🔎 표 안에서 검색 (예: 자쿰, 주문서, 25LV)"
+                    className="w-full sm:w-80 mb-2 px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded bg-transparent text-sm"
+                  />
+                  <div className="xl-wrap xl-clean-scroll border border-gray-200 dark:border-gray-700 rounded">
+                    <ExcelTableView sheet={detail.excel_json.sheets[0]} query={tableQuery} />
+                  </div>
+                  <div className="text-xs text-gray-400 mt-1">표 뷰: 병합 셀을 펼쳐 모든 행에 상위 항목(LV 등)을 표시하고, 검색·정렬이 쉽도록 정리한 화면입니다.</div>
+                </>
+              ) : (
+                <>
+                  <div className="xl-wrap border border-gray-200 dark:border-gray-700 rounded p-2"
+                       dangerouslySetInnerHTML={{ __html: detail.excel_html ?? "" }} />
+                  <div className="text-xs text-gray-400 mt-1">원본: 작성자가 만든 엑셀의 색상·병합·레이아웃을 그대로 보존한 화면입니다.</div>
+                </>
+              )}
             </div>
           )}
 
@@ -430,37 +445,98 @@ export default function InfoBoardPage() {
   );
 }
 
-/** 표 뷰: excel_json 그리드를 렌더. clean=true 면 사이트 테마(원본 배경색 무시, 줄무늬). */
-function ExcelTableView({ sheet, clean }: { sheet: ExcelSheet; clean?: boolean }) {
+function renderLines(v?: string, hl?: string) {
+  const text = v ?? "";
+  const lines = text.split("\n");
+  return lines.map((line, i, arr) => (
+    <span key={i}>
+      {hl ? highlight(line, hl) : line}
+      {i < arr.length - 1 && <br />}
+    </span>
+  ));
+}
+
+function highlight(line: string, q: string) {
+  const lower = line.toLowerCase();
+  const ql = q.toLowerCase();
+  if (!ql || !lower.includes(ql)) return line;
+  const parts: React.ReactNode[] = [];
+  let idx = 0;
+  while (true) {
+    const found = lower.indexOf(ql, idx);
+    if (found === -1) { parts.push(line.slice(idx)); break; }
+    if (found > idx) parts.push(line.slice(idx, found));
+    parts.push(<mark key={found} className="xl-search-hl">{line.slice(found, found + ql.length)}</mark>);
+    idx = found + ql.length;
+  }
+  return <>{parts}</>;
+}
+
+interface FlatCell { v?: string; colspan?: number; bold?: boolean; align?: string; }
+
+/** 표 뷰: 병합셀을 펼쳐(세로 병합값을 각 행에 채움) 검색 가능한 평면 표로 렌더. 1행은 헤더로 고정. */
+function ExcelTableView({ sheet, query }: { sheet: ExcelSheet; query?: string }) {
   if (!sheet) return null;
+  const ncols = sheet.ncols;
+  type Carry = { col0: number; col1: number; startRow: number; endRow: number; cell: ExcelCell };
+  let carries: Carry[] = [];
+  const flat: FlatCell[][] = [];
+
+  for (let r = 0; r < sheet.rows.length; r++) {
+    carries = carries.filter((k) => k.endRow >= r);
+    const rowOut: FlatCell[] = [];
+    let c = 0;
+    while (c < ncols) {
+      const car = carries.find((k) => c >= k.col0 && c <= k.col1 && k.startRow < r && k.endRow >= r);
+      if (car) {
+        if (c === car.col0)
+          rowOut.push({ v: car.cell.v, colspan: car.col1 - car.col0 + 1, bold: car.cell.bold, align: car.cell.align });
+        c = car.col1 + 1;
+        continue;
+      }
+      const cell = sheet.rows[r]?.[c];
+      if (!cell || cell.hidden) { c++; continue; }
+      const cs = cell.colspan ?? 1;
+      const rs = cell.rowspan ?? 1;
+      rowOut.push({ v: cell.v, colspan: cs, bold: cell.bold, align: cell.align });
+      if (rs > 1) carries.push({ col0: c, col1: c + cs - 1, startRow: r, endRow: r + rs - 1, cell });
+      c += cs;
+    }
+    flat.push(rowOut);
+  }
+
+  const header = flat[0] ?? [];
+  const body = flat.slice(1);
+  const q = (query ?? "").trim();
+  const ql = q.toLowerCase();
+  const filtered = ql ? body.filter((row) => row.some((cell) => (cell.v ?? "").toLowerCase().includes(ql))) : body;
+
   return (
-    <table className="xl">
+    <table className="xl-clean">
+      <thead>
+        <tr>
+          {header.map((cell, ci) => (
+            <th key={ci} colSpan={cell.colspan} style={{ textAlign: (cell.align as React.CSSProperties["textAlign"]) || "left" }}>
+              {renderLines(cell.v)}
+            </th>
+          ))}
+        </tr>
+      </thead>
       <tbody>
-        {sheet.rows.map((row, ri) => (
-          <tr key={ri} className={clean && ri > 0 ? (ri % 2 === 0 ? "bg-gray-50 dark:bg-gray-800/40" : "") : ""}>
-            {row.map((cell, ci) => {
-              if (cell.hidden) return null;
-              const style: React.CSSProperties = {};
-              if (!clean && cell.bg) style.backgroundColor = cell.bg;
-              if (!clean && cell.color) style.color = cell.color;
-              if (cell.bold) style.fontWeight = 700;
-              style.textAlign = (cell.align as React.CSSProperties["textAlign"]) || "left";
-              // clean 모드에서도 의미 색상(분홍/청록)은 옅게 살림
-              if (clean && cell.bg) {
-                const b = cell.bg.toLowerCase();
-                if (b.startsWith("#fce") || b.startsWith("#fcd")) style.backgroundColor = "rgba(244,114,182,0.12)";
-                else if (b.startsWith("#b7e") || b.startsWith("#b2d")) style.backgroundColor = "rgba(45,212,191,0.14)";
-              }
-              return (
-                <td key={ci} rowSpan={cell.rowspan} colSpan={cell.colspan} style={style}>
-                  {(cell.v ?? "").split("\n").map((line, i, arr) => (
-                    <span key={i}>{line}{i < arr.length - 1 && <br />}</span>
-                  ))}
+        {filtered.length === 0 ? (
+          <tr><td colSpan={ncols} className="text-center text-gray-400 py-4">검색 결과 없음</td></tr>
+        ) : (
+          filtered.map((row, ri) => (
+            <tr key={ri}>
+              {row.map((cell, ci) => (
+                <td key={ci} colSpan={cell.colspan}
+                    style={{ textAlign: (cell.align as React.CSSProperties["textAlign"]) || "left", fontWeight: cell.bold ? 700 : undefined }}>
+                  {renderLines(cell.v, q)}
                 </td>
-              );
-            })}
-          </tr>
-        ))}
+              ))}
+            </tr>
+          ))
+        )}
       </tbody>
     </table>
   );
