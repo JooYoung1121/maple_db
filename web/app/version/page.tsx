@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.15.1",
+    date: "2026-06-17",
+    type: "patch",
+    title: "퀘스트 육성 루트 가이드 확장 (1~70렙)",
+    features: [
+      {
+        category: "정보공유 게시판",
+        items: [
+          "첫 글 '퀘스트 육성 루트 가이드'를 1~25렙 → 1~70렙 확장본으로 갱신",
+          "마가티아 가운퀘·2차 전직, 루디브리엄/오르비스 파티퀘·사냥터, 55~70렙 엘나스까지 수록 (총 72행)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.15.0",
     date: "2026-06-17",
     type: "minor",

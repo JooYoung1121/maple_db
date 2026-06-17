@@ -20,7 +20,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from crawler.excel_render import parse_excel  # noqa: E402
 
 DB_PATH = Path(__file__).resolve().parent.parent / "data" / "maple.db"
-TITLE = "옛날메이플 1~25렙 퀘스트 육성 루트 가이드"
+TITLE = "옛날메이플 1~70렙 퀘스트 육성 루트 가이드"
+TITLE_LIKE = "옛날메이플%육성 루트 가이드"  # 기존 시드 글 식별(버전 갱신용)
 NICKNAME = "운영자"
 
 HEADER_FILL = PatternFill("solid", fgColor="E3EAF6")
@@ -106,16 +107,58 @@ ROWS = [
     ("23LV", "헤네시스", "<카밀라>의 유리 구슬",
      "히든스트리트 유타네 돼지농장 <유타> 유리 구슬 전달\n보상 케이크 30개 or 돼지도감", "normal"),
 
-    ("25LV", "리스항구", "<제인>과 와일드보어",
+    ("25LV~30LV", "리스항구", "<제인>과 와일드보어",
      "롤버섯의 갓 120개, 와일드 보어의 송곳니 100개\n보상 폴암 60퍼 or 완드 60퍼", "normal"),
-    ("25LV", "커닝시티", "<낼라> 소문난 의뢰",
+    ("25LV~30LV", "커닝시티", "<낼라> 소문난 의뢰",
      "주니어 네키의 가죽 50개, 롤버섯의 갓 100개\n보상 하얀 포션 100개", "normal"),
-    ("25LV", "커닝시티", "<낼라><크리스>의 의뢰", "동물의 가죽 20개, 뻣뻣한 깃털 50개\n보상 강철 1개, 청동 1개", "normal"),
-    ("25LV", "커닝시티", "<낼라><만수타인>의 의뢰", "이블아이의 의리 200개\n보상 30렙 직업 신발", "normal"),
-    ("25LV", "커닝시티", "<정체불명 그녀>의 부탁", "와일드보어 사냥 퀘스트 템 깨진 거울조각 20개\n보상 경험치 2,300", "normal"),
-    ("25LV", "커닝시티", "<정체불명 그녀>의 정체", "죽은 자의 부적 100개, 허름한 망토\n보상 경험치 2,300, 허름한 망토", "normal"),
-    ("25LV", "슬리피우드", "위험한 던전 <이블아이>",
+    ("25LV~30LV", "커닝시티", "<낼라><크리스>의 의뢰", "동물의 가죽 20개, 뻣뻣한 깃털 50개\n보상 강철 1개, 청동 1개", "normal"),
+    ("25LV~30LV", "커닝시티", "<낼라><만수타인>의 의뢰", "이블아이의 의리 200개\n보상 30렙 직업 신발", "normal"),
+    ("25LV~30LV", "커닝시티", "<정체불명 그녀>의 부탁", "와일드보어 사냥 퀘스트 템 깨진 거울조각 20개\n보상 경험치 2,300", "normal"),
+    ("25LV~30LV", "커닝시티", "<정체불명 그녀>의 정체", "죽은 자의 부적 100개, 허름한 망토\n보상 경험치 2,300, 허름한 망토", "normal"),
+    ("25LV~30LV", "슬리피우드", "위험한 던전 <이블아이>",
      "99 퀘스트 / 보상 마나 엘릭서 100개\n999 퀘스트 / 보상 마나 엘릭서 50개", "normal"),
+    ("25LV~30LV", "일본 (세계여행)", "일본 카게무라 성 안", "파사", "normal"),
+
+    ("18LV~29LV 레벨 제한 퀘스트", "엘리니아", "<하인즈> 요정 숲의 전령1",
+     "보상 오르비스 행 티켓 1개, 리프레 행 티켓 1개, 리프레 책자", "limit"),
+    ("18LV~29LV 레벨 제한 퀘스트", "페리온", "<만지> 사막으로... (29렙 제한 퀘스트 필수)",
+     "<만지>클의 아리안트 이동\n[선택*] 오르비스 이동 봉달이퀘\n사혈디표 1~3 사냥 1업 & 30렙 마가티아 망토 퀘\n<만지> > <봉달이>", "limit"),
+    ("18LV~29LV 레벨 제한 퀘스트", "오르비스", "<만지> 특별한 지령 (29렙 제한 퀘스트 선택)",
+     "만지 > 봉달이\n보상 봉달이의 작은 상자", "limit"),
+
+    ("30LV", "마가티아", "<브로큰 한> 알카드노의 망토",
+     "<브로큰 한>정보부 1만메소 >> 알카드노 협회\n정답: 리튬, 하이드, 알케미\n보상 알카드노의 망토 이속5 점프2 (교불)", "normal"),
+    ("30LV", "슬리피우드", "[가운퀘] <시간이행자> 비밀의 책 단서", "<시간이행자>대화", "normal"),
+    ("30LV", "엘리니아", "[가운퀘] <로니> 배고픈 로니",
+     "루팡의 바나나 50개, 특제 장어구이 1개, 신선한 우유 1개\n보상 비밀의 책", "normal"),
+    ("30LV", "헤네시스", "[가운퀘] <리나> 특제 장어구이",
+     "돼지의 머리 7개, 커즈아이의 꼬리 50개\n보상 특제 장어구이 1개", "normal"),
+    ("30LV", "엘리니아", "[가운퀘] <요정 로벤> 신선한 우유",
+     "다이아몬드 7개 (가공)\n보상 신선한 우유 1개", "normal"),
+    ("30LV", "엘리니아 / 슬리피우드", "[가운퀘] <시간이행자> 되찾은 비밀의 책",
+     "보상 10,000 메소, 기운", "normal"),
+    ("30LV", "슬리피우드", "위험한 던전 <좀비버섯>",
+     "99 퀘스트 / 보상 새벽이슬 3개 or 창805 3개 or 순록의 우유 5개 or 무기 주문서 60개 랜덤\n"
+     "999 퀘스트 / 보상 순록의 우유 3개 or 망토·무기 주문서 60개 랜덤", "normal"),
+    ("30LV", "전직 마을", "2차 전직", "검은구슬 30개 / 직업 선택", "normal"),
+
+    ("30LV~50LV 파티 퀘스트", "루디브리엄", "<슈퍼겜인> 몬스터 카니발", "난둥군 영상 추천", "party"),
+
+    ("30LV~35LV", "루디브리엄", "에오스 탑 100층", "파사 or 솔플", "normal"),
+
+    ("35LV~50LV 파티 퀘스트", "루디브리엄", "루디브리엄 파티퀘스트",
+     "보상 물약, 주문서, 원석, 35랩 달성 금이/안경괜", "party"),
+
+    ("35LV~45LV", "엘나스", "오르비스 탑 1층", "봉달이퀘 몰고괴 피망 달성", "normal"),
+    ("34LV~46LV", "루디브리엄", "시간의 길1", "파사 or 솔플", "normal"),
+    ("40LV~50LV", "오르비스", "산제곡", "파사", "normal"),
+    ("44LV~55LV", "오르비스", "구름공원 3", "파사", "normal"),
+    ("46LV~55LV", "루디브리엄", "시간의 길 4", "파사", "normal"),
+    ("50LV~60LV", "무릉 / 마가티아 / 오르비스", "초급 수련장 / 연구소 C-1 / 구름공원 6", "파사", "normal"),
+
+    ("50LV~55LV 파티 퀘스트", "오르비스", "오르비스 파티퀘스트", "경험치 파티 (퀘스트 완 X)", "party"),
+
+    ("55LV~70LV", "엘나스", "축소 2, 3, 4, 차가운 발판2", "파사", "normal"),
 ]
 
 KIND_FILL = {"normal": NORMAL_FILL, "party": PINK_FILL, "boss": PINK_FILL,
@@ -194,37 +237,56 @@ def _merge_runs(ws, col: int, start_row: int, end_row: int):
             prev = cur
 
 
+CONTENT = (
+    "옛날메이플(메이플랜드) 1~70레벨 퀘스트 위주 육성 루트 정리입니다.\n"
+    "표(엑셀) 뷰와 원본 스타일 보기로 모두 확인할 수 있어요.\n"
+    "※ 스크린샷에서 옮긴 자료라 일부 수치/표기는 확인 후 정정 부탁드립니다."
+)
+
+
 def main() -> int:
+    update = "--update" in sys.argv
     conn = sqlite3.connect(DB_PATH)
-    # 멱등: 정보공유 게시판에 글이 하나라도 있으면 시드하지 않음(유저 데이터 보호).
     try:
         count = conn.execute("SELECT COUNT(*) FROM info_posts").fetchone()[0]
     except sqlite3.OperationalError:
         print("info_posts 테이블 없음 — init_db 먼저 필요")
         conn.close()
         return 0
-    if count > 0:
+
+    # 기본(시드): 글이 하나라도 있으면 건너뜀(유저 데이터 보호).
+    # --update: 기존 시드 글을 새 버전으로 갱신(없으면 새로 등록).
+    existing = conn.execute(
+        "SELECT id FROM info_posts WHERE title LIKE ? ORDER BY id LIMIT 1", (TITLE_LIKE,)
+    ).fetchone()
+    if not update and count > 0:
         print(f"info_posts 이미 {count}건 — 시드 건너뜀")
         conn.close()
         return 0
 
     data = build_xlsx()
     excel_json, excel_html = parse_excel(data)
+    ej = json.dumps(excel_json, ensure_ascii=False)
     print(f"파싱 OK: 시트 {len(excel_json['sheets'])}, "
           f"행 {len(excel_json['sheets'][0]['rows'])}, HTML {len(excel_html)}자")
-    content = (
-        "옛날메이플(메이플랜드) 1~25레벨 퀘스트 위주 육성 루트 정리입니다.\n"
-        "표(엑셀) 뷰와 원본 스타일 보기로 모두 확인할 수 있어요.\n"
-        "※ 스크린샷에서 옮긴 자료라 일부 수치/표기는 확인 후 정정 부탁드립니다."
-    )
-    cur = conn.execute(
-        """INSERT INTO info_posts (nickname, title, content, excel_filename, excel_json, excel_html)
-           VALUES (?, ?, ?, ?, ?, ?)""",
-        [NICKNAME, TITLE, content, "quest_route_1-25.xlsx",
-         json.dumps(excel_json, ensure_ascii=False), excel_html],
-    )
-    conn.commit()
-    print(f"[등록] info_posts id={cur.lastrowid}")
+
+    if update and existing:
+        conn.execute(
+            """UPDATE info_posts
+               SET title=?, content=?, excel_filename=?, excel_json=?, excel_html=?
+               WHERE id=?""",
+            [TITLE, CONTENT, "quest_route_1-70.xlsx", ej, excel_html, existing[0]],
+        )
+        conn.commit()
+        print(f"[갱신] info_posts id={existing[0]} → {TITLE}")
+    else:
+        cur = conn.execute(
+            """INSERT INTO info_posts (nickname, title, content, excel_filename, excel_json, excel_html)
+               VALUES (?, ?, ?, ?, ?, ?)""",
+            [NICKNAME, TITLE, CONTENT, "quest_route_1-70.xlsx", ej, excel_html],
+        )
+        conn.commit()
+        print(f"[등록] info_posts id={cur.lastrowid}")
     conn.close()
     return 0
 
