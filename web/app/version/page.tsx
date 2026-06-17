@@ -18,6 +18,23 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.16.1",
+    date: "2026-06-17",
+    type: "patch",
+    title: "정보공유 게시물 고유 URL · 공유 링크 · 뒤로가기 수정",
+    features: [
+      {
+        category: "정보공유 게시판",
+        items: [
+          "게시물을 실제 페이지(/guild/info/[글번호])로 분리 → 글마다 고유 URL 생성",
+          "공유 버튼 추가 (모바일 공유 시트 / 링크 복사)",
+          "뒤로가기 시 사이트 밖이 아니라 정보공유 목록으로 정상 이동",
+          "목록 ↔ 글 이동이 브라우저 히스토리에 정상 반영",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.16.0",
     date: "2026-06-17",
     type: "minor",
