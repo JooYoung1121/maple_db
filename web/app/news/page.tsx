@@ -8,8 +8,8 @@ import type { MapleLandPost, TespiaPatchSummary } from "@/lib/types";
 type SourceKey = "main" | "tespia";
 
 const SOURCES: { value: SourceKey; label: string; caption: string }[] = [
-  { value: "main", label: "본섭 공홈", caption: "maple.land" },
-  { value: "tespia", label: "테스피아 2.0", caption: "tespia.maple.land" },
+  { value: "main", label: "본 월드 (2.0)", caption: "maple.land" },
+  { value: "tespia", label: "테스피아 (테스트)", caption: "tespia.maple.land" },
 ];
 
 const BOARDS = [
@@ -218,7 +218,7 @@ function TespiaSummaryPanel({ enabled }: { enabled: boolean }) {
             <span className="text-[10px] font-bold tracking-wide px-1.5 py-0.5 rounded bg-sky-600 text-white">
               TEST
             </span>
-            <h2 className="text-sm font-bold text-sky-900 dark:text-sky-100">테스피아 2.0 최신 패치 요약</h2>
+            <h2 className="text-sm font-bold text-sky-900 dark:text-sky-100">테스피아(테스트) 최신 패치 요약</h2>
           </div>
           <p className="text-xs text-sky-700/80 dark:text-sky-300/80 mt-1">
             테스트 서버 변경점은 본섭 반영 전 수치가 바뀔 수 있습니다.
@@ -345,8 +345,37 @@ export default function NewsPage() {
       <div>
         <h1 className="font-pixel text-xl font-bold text-ink">메이플랜드 공식 소식</h1>
         <p className="text-sm text-dim mt-1">
-          본섭 공홈 공지와 Mapleland 2.0 테스피아 공지를 나눠서 확인합니다.
+          본 월드(2.0)·테스피아(테스트) 공지를 나눠서 확인합니다.
         </p>
+      </div>
+
+      {/* 버닝 월드 안내 배너 */}
+      <div className="pixel-panel p-4">
+        <div className="flex items-start gap-3">
+          <span className="text-2xl shrink-0">🔥</span>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="font-pixel text-sm text-maple">버닝 월드 진행 중</span>
+              <span className="pixel-badge font-pixel text-[10px] bg-[color-mix(in_srgb,var(--c-mush)_18%,transparent)] text-mush">
+                기간한정
+              </span>
+            </div>
+            <p className="text-sm text-dim mt-1.5 leading-relaxed">
+              2.0 콘텐츠가 즉시 적용된 이벤트 월드 ·{" "}
+              <span className="text-ink">2026.6.19 ~ 9.11</span> 운영 ·{" "}
+              Lv.120 미만 <span className="text-ink">경험치 1.5배</span>, 공·마/이속/점프 상시 버프.
+              종료 후 <span className="text-ink">월드 리프</span>(본 월드 이전) ~2026.9.25.
+            </p>
+            <a
+              href="https://maple.land/board/events"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-2 text-xs text-maple hover:underline font-pixel"
+            >
+              공식 이벤트 페이지 →
+            </a>
+          </div>
+        </div>
       </div>
 
       {/* 소스 탭 */}

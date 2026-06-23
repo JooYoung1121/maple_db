@@ -4,24 +4,15 @@ import { useState, useMemo, useCallback, useEffect } from "react";
 import { getFeeRecords, createFeeRecord, deleteFeeRecord, type FeeRecord } from "@/lib/api";
 
 // ─── 수수료 구간 ───
+// Mapleland 2.0 (2026.6.30~): 거래 방식·금액 무관 모든 거래 수수료 5% 정률 통일.
+// 구버전 구간제(0.8~7%)는 폐기됨 → 정률이라 '수수료작'(분할) 효과 없음.
+const FLAT_FEE_RATE = 0.05;
 const NORMAL_FEE_BRACKETS = [
-  { min: 100_000_000, rate: 0.06, label: "1억 이상" },
-  { min: 25_000_000, rate: 0.05, label: "2500만 이상" },
-  { min: 10_000_000, rate: 0.04, label: "1000만 이상" },
-  { min: 5_000_000, rate: 0.03, label: "500만 이상" },
-  { min: 1_000_000, rate: 0.018, label: "100만 이상" },
-  { min: 100_000, rate: 0.008, label: "10만 이상" },
-  { min: 0, rate: 0, label: "10만 미만" },
+  { min: 0, rate: FLAT_FEE_RATE, label: "전 구간" },
 ];
 
 const DELIVERY_FEE_BRACKETS = [
-  { min: 100_000_000, rate: 0.07, label: "1억 이상" },
-  { min: 25_000_000, rate: 0.06, label: "2500만 이상" },
-  { min: 10_000_000, rate: 0.05, label: "1000만 이상" },
-  { min: 5_000_000, rate: 0.04, label: "500만 이상" },
-  { min: 1_000_000, rate: 0.027, label: "100만 이상" },
-  { min: 100_000, rate: 0.012, label: "10만 이상" },
-  { min: 0, rate: 0, label: "10만 미만" },
+  { min: 0, rate: FLAT_FEE_RATE, label: "전 구간" },
 ];
 
 type TradeType = "direct" | "normal" | "delivery";
@@ -155,9 +146,19 @@ export default function FeePage() {
   return (
     <div className="max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-1 font-pixel">수수료 계산기</h1>
-      <p className="text-sm text-dim mb-6">
+      <p className="text-sm text-dim mb-4">
         거래 수수료 계산 · 공대 분배금 계산
       </p>
+
+      {/* 2.0 수수료 정책 안내 */}
+      <div className="pixel-panel p-3 mb-6 text-sm flex items-start gap-2">
+        <span className="text-base shrink-0">🪙</span>
+        <span className="text-dim">
+          <span className="font-pixel text-maple">2.0 거래 수수료</span> — 2026.6.30 업데이트부터 거래소·택배 등{" "}
+          <span className="text-ink font-medium">모든 거래 수수료가 금액과 무관하게 5%로 통일</span>되었습니다.
+          정률이라 분할(수수료작) 절약 효과는 사라졌습니다. (직접 거래 제외)
+        </span>
+      </div>
 
       <div className="flex gap-1 mb-6 bg-surface2 p-1 w-fit">
         {([
@@ -437,11 +438,8 @@ function CalcTab({ onSaved }: { onSaved: () => void }) {
         </>
       )}
 
-      {/* 수수료 참고표 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <FeeTable title="일반 거래 수수료" brackets={NORMAL_FEE_BRACKETS} />
-        <FeeTable title="택배 수수료" brackets={DELIVERY_FEE_BRACKETS} />
-      </div>
+      {/* 수수료 참고표 (2.0 정률) */}
+      <FeeTable title="거래 수수료 (2.0 · 거래소·택배 공통)" brackets={NORMAL_FEE_BRACKETS} />
     </div>
   );
 }

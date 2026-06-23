@@ -5,7 +5,7 @@ import { APP_VERSION } from "@/lib/version";
 
 export const metadata: Metadata = {
   title: "추억길드 전용 메랜 관련 정보 조회 페이지",
-  description: "추억길드 전용 메이플랜드 게임 데이터 통합 검색",
+  description: "추억길드 전용 메이플랜드 2.0 게임 데이터 통합 검색",
   icons: {
     icon: "/logo.png",
     apple: "/logo.png",
@@ -39,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-dim">
             <span className="flex items-center gap-1.5">
               <img src="/leaf.svg" alt="" className="w-3.5 h-3.5 opacity-70" />
-              추억길드 전용 메이플랜드 정보 사이트
+              추억길드 전용 메이플랜드 2.0 정보 사이트
             </span>
             <a href="/version" className="font-pixel text-[11px] hover:text-maple transition-colors">
               v{APP_VERSION}

@@ -42,7 +42,7 @@ const SECTION_GROUPS = [
     items: [
       { href: "/pq", label: "파티퀘스트", icon: "🏰", desc: "PQ 공략 및 보상" },
       { href: "/hunt", label: "사냥터 추천", icon: "🎯", desc: "레벨별 사냥터 가이드" },
-      { href: "/tespia-bosses", label: "테스피아 보스", icon: "⚔️", desc: "카오스 자쿰 · 핑크빈 메모" },
+      { href: "/tespia-bosses", label: "2.0 보스", icon: "⚔️", desc: "카오스 자쿰 · 핑크빈 · 무릉도장" },
       { href: "/job", label: "전직 가이드", icon: "📋", desc: "직업별 전직 경로" },
       { href: "/ship", label: "배 시간표", icon: "🚢", desc: "정기선 운항 시간" },
       { href: "/trap", label: "트랩 타이머", icon: "⏱️", desc: "트랩 주기 타이머" },
@@ -120,9 +120,14 @@ function HomeContent() {
           <div className="flex items-center justify-center gap-4">
             <img src="/mascot.png" alt="추억길드 마스코트" className="w-16 h-16 sm:w-20 sm:h-20 object-contain [image-rendering:pixelated]" />
             <div className="text-left">
-              <h1 className="font-pixel text-2xl sm:text-4xl leading-tight text-maple drop-shadow-[2px_2px_0_var(--c-border-lo)]">
-                메이플랜드 DB
-              </h1>
+              <div className="flex items-center gap-2">
+                <h1 className="font-pixel text-2xl sm:text-4xl leading-tight text-maple drop-shadow-[2px_2px_0_var(--c-border-lo)]">
+                  메이플랜드 DB
+                </h1>
+                <span className="pixel-badge font-pixel text-[10px] bg-[color-mix(in_srgb,var(--c-maple)_20%,transparent)] text-maple self-start mt-1">
+                  2.0
+                </span>
+              </div>
               <p className="font-pixel text-[11px] sm:text-xs text-dim mt-2">
                 아이템 · 몬스터 · 맵 · NPC · 퀘스트 한 곳에서
               </p>
