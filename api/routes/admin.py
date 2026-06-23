@@ -80,7 +80,8 @@ class MobUpdate(BaseModel):
 
 
 @router.get("/admin/stats")
-def admin_stats():
+def admin_stats(request: Request):
+    _require_admin(request)
     try:
         conn = get_connection()
     except Exception:
@@ -111,12 +112,14 @@ def admin_stats():
 
 @router.get("/admin/mobs")
 def admin_list_mobs(
+    request: Request,
     page: int = Query(default=1, ge=1),
     per_page: int = Query(default=50, ge=1, le=200),
     q: Optional[str] = Query(default=None),
     is_hidden: Optional[str] = Query(default="all"),
     is_boss: Optional[str] = Query(default="all"),
 ):
+    _require_admin(request)
     offset = (page - 1) * per_page
     conditions = []
     params: list = []
@@ -178,7 +181,8 @@ def admin_list_mobs(
 
 
 @router.patch("/admin/mobs/{mob_id}")
-def admin_update_mob(mob_id: int, body: MobUpdate):
+def admin_update_mob(mob_id: int, body: MobUpdate, request: Request):
+    _require_admin(request)
     try:
         conn = get_connection()
     except Exception:
@@ -219,7 +223,8 @@ def admin_update_mob(mob_id: int, body: MobUpdate):
 
 
 @router.delete("/admin/mobs/{mob_id}")
-def admin_delete_mob(mob_id: int):
+def admin_delete_mob(mob_id: int, request: Request):
+    _require_admin(request)
     try:
         conn = get_connection()
     except Exception:

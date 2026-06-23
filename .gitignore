@@ -2,7 +2,17 @@ data/cache/
 data/*.db-journal
 data/*.db-wal
 data/*.db-shm
-# maple.db는 배포용으로 포함
+# maple.db는 배포용으로 포함 (data/maple.db 는 추적 유지)
+# 백업/임시 DB 스냅샷은 추적 제외
+data/*.db.bak*
+data/maple_canonical.db
+data/*.json.bak
+# 대용량 원본 아카이브/추출물 (메이플 클라 데이터 등)
+*.zip
+/62/
+/83/
+wz_data/
+wz_data_v*/
 __pycache__/
 *.pyc
 .env

@@ -32,16 +32,16 @@ export default function AdminPage() {
   const perPage = 50;
 
   const loadStats = useCallback(() => {
-    getAdminStats().then(setStats).catch(() => null);
-  }, []);
+    getAdminStats(passwordInput).then(setStats).catch(() => null);
+  }, [passwordInput]);
 
   const loadMobs = useCallback(() => {
     setLoading(true);
-    getAdminMobs({ page, per_page: perPage, q: q || undefined, is_hidden: isHidden, is_boss: isBoss })
+    getAdminMobs(passwordInput, { page, per_page: perPage, q: q || undefined, is_hidden: isHidden, is_boss: isBoss })
       .then((d) => { setMobs(d.mobs); setTotal(d.total); })
       .catch(() => setMobs([]))
       .finally(() => setLoading(false));
-  }, [page, q, isHidden, isBoss]);
+  }, [passwordInput, page, q, isHidden, isBoss]);
 
   useEffect(() => { if (authenticated) loadStats(); }, [loadStats, authenticated]);
   useEffect(() => { if (authenticated) loadMobs(); }, [loadMobs, authenticated]);
@@ -49,7 +49,7 @@ export default function AdminPage() {
   const handleToggleHidden = async (mob: AdminMob) => {
     setActionLoading(mob.id);
     try {
-      await patchAdminMob(mob.id, { is_hidden: mob.is_hidden ? 0 : 1 });
+      await patchAdminMob(passwordInput, mob.id, { is_hidden: mob.is_hidden ? 0 : 1 });
       loadMobs();
       loadStats();
     } finally {
@@ -60,7 +60,7 @@ export default function AdminPage() {
   const handleToggleBoss = async (mob: AdminMob) => {
     setActionLoading(mob.id);
     try {
-      await patchAdminMob(mob.id, { is_boss: mob.is_boss ? 0 : 1 });
+      await patchAdminMob(passwordInput, mob.id, { is_boss: mob.is_boss ? 0 : 1 });
       loadMobs();
       loadStats();
     } finally {
@@ -72,7 +72,7 @@ export default function AdminPage() {
     if (!confirm(`"${mob.name_kr || mob.name}" 몬스터를 영구 삭제하시겠습니까?\n드롭 및 스폰 데이터도 함께 삭제됩니다.`)) return;
     setActionLoading(mob.id);
     try {
-      await deleteAdminMob(mob.id);
+      await deleteAdminMob(passwordInput, mob.id);
       loadMobs();
       loadStats();
     } finally {

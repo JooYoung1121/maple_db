@@ -18,6 +18,32 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.17.1",
+    date: "2026-06-23",
+    type: "patch",
+    title: "보안·위생 점검 (관리자 인증 보강 등)",
+    features: [
+      {
+        category: "보안",
+        items: [
+          "관리자 몬스터 수정·삭제·조회 API에 비밀번호 인증 누락분 보강 (무인증 수정/삭제 차단)",
+        ],
+      },
+      {
+        category: "공식 소식",
+        items: [
+          "원문이 수정된 글이 '최근 소식' 뱃지·목록 최신순에 반영되도록 보강",
+        ],
+      },
+      {
+        category: "저장소 위생",
+        items: [
+          "백업 DB·대용량 아카이브(zip, wz_data 등)가 실수로 커밋되지 않도록 .gitignore 보강",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.17.0",
     date: "2026-06-19",
     type: "minor",

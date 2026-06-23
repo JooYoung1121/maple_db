@@ -1,7 +1,7 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
-async function fetchJSON<T>(path: string): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`);
+async function fetchJSON<T>(path: string, headers?: Record<string, string>): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`, headers ? { headers } : undefined);
   if (!res.ok) throw new Error(`API error: ${res.status}`);
   return res.json();
 }
@@ -136,7 +136,7 @@ export function getExportUrl(type: string) {
   return `${API_BASE}/api/export?type=${type}&format=xlsx`;
 }
 
-export async function getAdminStats() {
+export async function getAdminStats(pw: string) {
   return fetchJSON<{
     total_mobs: number;
     hidden_count: number;
@@ -145,10 +145,10 @@ export async function getAdminStats() {
     drop_count: number;
     spawn_count: number;
     no_kr_name: number;
-  }>(`/api/admin/stats`);
+  }>(`/api/admin/stats`, { "X-Admin-Password": pw });
 }
 
-export async function getAdminMobs(params: {
+export async function getAdminMobs(pw: string, params: {
   page?: number;
   per_page?: number;
   q?: string;
@@ -156,22 +156,26 @@ export async function getAdminMobs(params: {
   is_boss?: string;
 } = {}) {
   return fetchJSON<{ mobs: import("./types").AdminMob[]; total: number; page: number; per_page: number }>(
-    `/api/admin/mobs?${qs(params as Record<string, string | number>)}`
+    `/api/admin/mobs?${qs(params as Record<string, string | number>)}`,
+    { "X-Admin-Password": pw }
   );
 }
 
-export async function patchAdminMob(id: number, body: { is_hidden?: number; is_boss?: number; name_kr?: string }) {
+export async function patchAdminMob(pw: string, id: number, body: { is_hidden?: number; is_boss?: number; name_kr?: string }) {
   const res = await fetch(`${API_BASE}/api/admin/mobs/${id}`, {
     method: "PATCH",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "X-Admin-Password": pw },
     body: JSON.stringify(body),
   });
   if (!res.ok) throw new Error(`API error: ${res.status}`);
   return res.json();
 }
 
-export async function deleteAdminMob(id: number) {
-  const res = await fetch(`${API_BASE}/api/admin/mobs/${id}`, { method: "DELETE" });
+export async function deleteAdminMob(pw: string, id: number) {
+  const res = await fetch(`${API_BASE}/api/admin/mobs/${id}`, {
+    method: "DELETE",
+    headers: { "X-Admin-Password": pw },
+  });
   if (!res.ok) throw new Error(`API error: ${res.status}`);
   return res.json();
 }

@@ -45,6 +45,9 @@ def _recency_sort_key(row):
     """
     source = (row["source"] or "main") if "source" in row.keys() else "main"
     date_key = _date_digits(row["published_at"], row["created_at"])
+    # 원문이 수정된 글은 수정일을 활동일로 반영해 최신순에서 위로 올라오게 한다.
+    if "updated_at" in row.keys():
+        date_key = max(date_key, _date_digits(row["updated_at"]))
     version = _version_tuple(row["title"])
     id_signed = row["id"] if source == "tespia" else -row["id"]
     return (date_key, version, id_signed)
@@ -59,9 +62,11 @@ def get_recent_count(since: str | None = Query(default=None)):
             cutoff = since
         else:
             cutoff = (datetime.now(timezone.utc) - timedelta(days=7)).isoformat()
+        # 신규(created_at)뿐 아니라 원문이 수정된 글(updated_at)도 '최근 활동'으로 집계
         row = conn.execute(
-            "SELECT COUNT(*) as cnt FROM maple_land_posts WHERE created_at >= ?",
-            (cutoff,),
+            "SELECT COUNT(*) as cnt FROM maple_land_posts "
+            "WHERE created_at >= ? OR (updated_at IS NOT NULL AND updated_at >= ?)",
+            (cutoff, cutoff),
         ).fetchone()
         return {"count": row["cnt"] if row else 0}
     finally:
@@ -153,7 +158,7 @@ def get_tespia_summary(limit: int = Query(default=12, ge=1, le=30)):
     try:
         rows = conn.execute(
             """
-            SELECT id, post_id, COALESCE(source, 'main') as source, title, category, published_at, created_at, url, summary, content
+            SELECT id, post_id, COALESCE(source, 'main') as source, title, category, published_at, created_at, updated_at, url, summary, content
             FROM maple_land_posts
             WHERE COALESCE(source, 'main') = 'tespia'
               AND category = '업데이트'
