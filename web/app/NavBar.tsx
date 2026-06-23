@@ -45,6 +45,7 @@ const NAV_CATEGORIES: NavCategory[] = [
     items: [
       { href: "/pq", label: "파티퀘스트" },
       { href: "/hunt", label: "사냥터 추천" },
+      { href: "/leveling", label: "직업별 사냥터" },
       { href: "/tespia-bosses", label: "2.0 보스" },
       { href: "/job", label: "전직 가이드" },
       { href: "/ship", label: "배 시간표" },

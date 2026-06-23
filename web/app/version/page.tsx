@@ -18,6 +18,22 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.20.0",
+    date: "2026-06-24",
+    type: "minor",
+    title: "직업별 육성 사냥터 가이드 (버닝 월드 기준)",
+    features: [
+      {
+        category: "가이드",
+        items: [
+          "직업별 육성 사냥터 페이지 신설(/leveling) — 15개 직업(히어로·팔라딘·다크나이트·썬콜·불독·비숍·보우마스터·신궁·나이트로드·섀도어 + 시그너스 5종)",
+          "직업 선택 시 레벨 구간별 추천 사냥터·몬스터·꿀팁·출처를 필터링해 표시",
+          "커뮤니티(arca·dcinside·inven·나무위키·블로그) 수집 자료, 버닝 월드 1.5배 기준 정리",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.19.0",
     date: "2026-06-23",
     type: "minor",
