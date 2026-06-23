@@ -95,48 +95,71 @@ function HomeContent() {
 
   return (
     <div>
-      {/* Hero */}
-      <section className="text-center py-12">
-        <div className="flex items-center justify-center gap-4 mb-2">
-          <img src="/mascot.png" alt="추억길드 마스코트" className="w-20 h-20 object-contain drop-shadow-md" />
-          <div>
-            <h1 className="text-4xl font-bold">
-              <span className="text-orange-500">메이플랜드</span> DB
-            </h1>
-            <p className="text-gray-500 dark:text-gray-400 mt-1">아이템, 몬스터, 맵, NPC, 퀘스트를 한 곳에서 검색하세요</p>
-          </div>
+      {/* Hero — 필드가이드 표지 */}
+      <section className="relative py-8 sm:py-10">
+        {/* 단풍잎 흩날림 (reduced-motion이면 숨김) */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+          {[
+            { left: "8%", dur: "9s", delay: "0s", size: 14 },
+            { left: "26%", dur: "12s", delay: "3s", size: 10 },
+            { left: "52%", dur: "10s", delay: "1.5s", size: 12 },
+            { left: "73%", dur: "13s", delay: "5s", size: 9 },
+            { left: "90%", dur: "11s", delay: "2.5s", size: 13 },
+          ].map((l, i) => (
+            <img
+              key={i}
+              src="/leaf.svg"
+              alt=""
+              className="leaf-fall absolute -top-4"
+              style={{ left: l.left, width: l.size, height: l.size, animationDuration: l.dur, animationDelay: l.delay }}
+            />
+          ))}
         </div>
-        <div className="max-w-2xl mx-auto mt-6">
-          <SearchBar large />
+
+        <div className="pixel-panel relative max-w-3xl mx-auto px-6 py-8 text-center">
+          <div className="flex items-center justify-center gap-4">
+            <img src="/mascot.png" alt="추억길드 마스코트" className="w-16 h-16 sm:w-20 sm:h-20 object-contain [image-rendering:pixelated]" />
+            <div className="text-left">
+              <h1 className="font-pixel text-2xl sm:text-4xl leading-tight text-maple drop-shadow-[2px_2px_0_var(--c-border-lo)]">
+                메이플랜드 DB
+              </h1>
+              <p className="font-pixel text-[11px] sm:text-xs text-dim mt-2">
+                아이템 · 몬스터 · 맵 · NPC · 퀘스트 한 곳에서
+              </p>
+            </div>
+          </div>
+          <div className="max-w-2xl mx-auto mt-6">
+            <SearchBar large />
+          </div>
         </div>
       </section>
 
       {/* Search results */}
       {q ? (
-        <section className="max-w-3xl mx-auto">
-          <h2 className="text-lg font-semibold mb-4">
-            &ldquo;{q}&rdquo; 검색 결과 ({total}건)
+        <section className="max-w-3xl mx-auto mt-6">
+          <h2 className="font-pixel text-base mb-4 text-ink">
+            <span className="text-maple">&ldquo;{q}&rdquo;</span> 검색 결과 ({total}건)
           </h2>
           {loading ? (
-            <div className="text-center py-12 text-gray-400">검색 중...</div>
+            <div className="text-center py-12 text-dim font-pixel text-sm">검색 중...</div>
           ) : results.length === 0 ? (
-            <div className="text-center py-12 text-gray-400">결과가 없습니다</div>
+            <div className="text-center py-12 text-dim font-pixel text-sm">결과가 없습니다</div>
           ) : (
             <div className="space-y-2">
               {results.map((r, i) => (
                 <Link
                   key={`${r.entity_type}-${r.entity_id}-${i}`}
                   href={`${TYPE_PATHS[r.entity_type] || "/"}/${r.entity_id}`}
-                  className="block bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 hover:border-orange-300 dark:hover:border-orange-500 hover:shadow-sm transition"
+                  className="pixel-card block px-4 py-3"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-xs font-medium px-2 py-0.5 rounded bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300">
+                    <span className="pixel-badge text-[10px] bg-[color-mix(in_srgb,var(--c-maple)_18%,transparent)] text-maple">
                       {TYPE_LABELS[r.entity_type] || r.entity_type}
                     </span>
-                    <span className="font-medium">{r.name}</span>
+                    <span className="font-medium text-ink">{r.name}</span>
                   </div>
                   {r.snippet && (
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-1">{r.snippet}</p>
+                    <p className="text-sm text-dim mt-1 line-clamp-1">{r.snippet}</p>
                   )}
                 </Link>
               ))}
@@ -145,10 +168,11 @@ function HomeContent() {
         </section>
       ) : (
         /* Section groups */
-        <section className="max-w-3xl mx-auto space-y-8">
+        <section className="max-w-3xl mx-auto space-y-7 mt-8">
           {SECTION_GROUPS.map((group) => (
             <div key={group.label}>
-              <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3 px-1">
+              <h2 className="font-pixel text-[13px] text-maple mb-3 px-0.5 flex items-center gap-2">
+                <span className="inline-block w-2 h-2 bg-maple" />
                 {group.label}
               </h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -156,11 +180,11 @@ function HomeContent() {
                   <Link
                     key={c.href}
                     href={c.href}
-                    className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 text-center hover:border-orange-300 dark:hover:border-orange-500 hover:shadow-sm transition"
+                    className="pixel-card group p-4 text-center"
                   >
-                    <div className="text-3xl mb-2">{c.icon}</div>
-                    <div className="font-semibold text-gray-800 dark:text-gray-200 text-sm">{c.label}</div>
-                    <div className="text-xs text-gray-400 mt-1">{c.desc}</div>
+                    <div className="text-3xl mb-2 [image-rendering:pixelated] transition-transform group-hover:scale-110">{c.icon}</div>
+                    <div className="font-pixel text-[12px] text-ink">{c.label}</div>
+                    <div className="text-[11px] text-dim mt-1 leading-snug">{c.desc}</div>
                   </Link>
                 ))}
               </div>

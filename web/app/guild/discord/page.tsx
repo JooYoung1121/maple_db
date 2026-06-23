@@ -153,33 +153,33 @@ export default function DiscordBotPage() {
   const typeLabel = (t: string) => (t === "announcement" ? "공지" : "이벤트");
   const typeBadge = (t: string) =>
     t === "announcement"
-      ? "bg-orange-100 text-orange-700"
+      ? "bg-[color-mix(in_srgb,var(--c-maple)_18%,transparent)] text-maple"
       : "bg-purple-100 text-purple-700";
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">디스코드 봇 관리</h1>
+      <h1 className="text-2xl font-bold text-ink font-pixel">디스코드 봇 관리</h1>
 
       {/* 봇 상태 */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 flex items-center gap-3">
+      <div className="pixel-panel p-5 flex items-center gap-3">
         <span
           className={`w-3 h-3 rounded-full ${online ? "bg-green-500" : "bg-gray-400"}`}
         />
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+        <span className="text-sm font-medium text-ink">
           {online ? "온라인" : "오프라인"}
         </span>
         {botUser && (
-          <span className="text-xs text-gray-400 ml-auto font-mono">{botUser}</span>
+          <span className="text-xs text-dim ml-auto font-mono">{botUser}</span>
         )}
       </div>
 
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 space-y-2">
+      <div className="pixel-panel p-5 space-y-2">
         <div className="flex items-center justify-between gap-3">
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">알림 채널</span>
+          <span className="text-sm font-medium text-ink">알림 채널</span>
           <span
             className={`text-xs px-2 py-1 rounded-full ${
               !statusChannelId
-                ? "bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-300"
+                ? "bg-surface2 text-dim"
                 : channelOk
                 ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
                 : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300"
@@ -189,7 +189,7 @@ export default function DiscordBotPage() {
           </span>
         </div>
         {statusChannelId && (
-          <p className="text-xs text-gray-500 dark:text-gray-400 font-mono break-all">
+          <p className="text-xs text-dim font-mono break-all">
             {channelName ? `${channelName} (${statusChannelId})` : statusChannelId}
           </p>
         )}
@@ -205,8 +205,8 @@ export default function DiscordBotPage() {
 
       {/* 인증 */}
       {!authed ? (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 space-y-3">
-          <p className="text-sm text-gray-600 dark:text-gray-400">설정을 변경하려면 관리자 비밀번호를 입력하세요.</p>
+        <div className="pixel-panel p-5 space-y-3">
+          <p className="text-sm text-dim">설정을 변경하려면 관리자 비밀번호를 입력하세요.</p>
           <div className="flex gap-2">
             <input
               type="password"
@@ -215,11 +215,11 @@ export default function DiscordBotPage() {
               onChange={(e) => setPw(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleAuth()}
               placeholder="비밀번호"
-              className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-300 outline-none"
+              className="pixel-input flex-1 px-3 py-2 text-sm"
             />
             <button
               onClick={handleAuth}
-              className="bg-orange-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors"
+              className="pixel-btn px-4 py-2 text-sm font-pixel"
             >
               확인
             </button>
@@ -229,34 +229,34 @@ export default function DiscordBotPage() {
       ) : (
         <>
           {/* 설정 */}
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 space-y-4">
-            <h2 className="text-base font-semibold text-gray-800 dark:text-gray-200">봇 설정</h2>
+          <div className="pixel-panel p-5 space-y-4">
+            <h2 className="text-base font-semibold text-ink font-pixel">봇 설정</h2>
 
             <div>
-              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+              <label className="block text-xs font-medium text-dim mb-1">
                 알림 채널 ID
               </label>
               <input
                 type="text"
                 value={channelId}
                 onChange={(e) => setChannelId(e.target.value)}
-                className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-orange-300 outline-none"
+                className="pixel-input w-full px-3 py-2 text-sm font-mono"
               />
-              <p className="mt-1 text-[11px] leading-5 text-gray-400">
+              <p className="mt-1 text-[11px] leading-5 text-dim">
                 디스코드 개발자 모드에서 텍스트 채널을 우클릭한 뒤 ID를 복사하세요. 봇은 해당 서버에 초대되어 있어야 하고 채널 보기, 메시지 보내기, 임베드 링크 권한이 필요합니다.
               </p>
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-700 dark:text-gray-300">메랜 공홈 공지 알림</span>
+              <span className="text-sm text-ink">메랜 공홈 공지 알림</span>
               <button
                 onClick={() => setNotifyMapleLand(!notifyMapleLand)}
                 className={`relative w-11 h-6 rounded-full transition-colors ${
-                  notifyMapleLand ? "bg-orange-500" : "bg-gray-300"
+                  notifyMapleLand ? "bg-maple" : "bg-gray-300"
                 }`}
               >
                 <span
-                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white dark:bg-gray-800 rounded-full shadow transition-transform ${
+                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
                     notifyMapleLand ? "translate-x-5" : ""
                   }`}
                 />
@@ -264,30 +264,30 @@ export default function DiscordBotPage() {
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-700 dark:text-gray-300">길드 게시판 알림</span>
+              <span className="text-sm text-ink">길드 게시판 알림</span>
               <button
                 onClick={() => setNotifyGuildPost(!notifyGuildPost)}
                 className={`relative w-11 h-6 rounded-full transition-colors ${
-                  notifyGuildPost ? "bg-orange-500" : "bg-gray-300"
+                  notifyGuildPost ? "bg-maple" : "bg-gray-300"
                 }`}
               >
                 <span
-                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white dark:bg-gray-800 rounded-full shadow transition-transform ${
+                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
                     notifyGuildPost ? "translate-x-5" : ""
                   }`}
                 />
               </button>
             </div>
 
-            <div className="border-t border-gray-100 pt-4 space-y-3">
+            <div className="border-t border-edge/40 pt-4 space-y-3">
               <div>
-                <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+                <label className="block text-xs font-medium text-dim mb-1">
                   알림 멘션
                 </label>
                 <select
                   value={mentionType}
                   onChange={(e) => setMentionType(e.target.value)}
-                  className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-orange-300 outline-none bg-white dark:bg-gray-800"
+                  className="pixel-input w-full px-3 py-2 text-sm"
                 >
                   <option value="none">멘션 없음</option>
                   <option value="everyone">@everyone (전체)</option>
@@ -298,7 +298,7 @@ export default function DiscordBotPage() {
 
               {mentionType === "role" && (
                 <div>
-                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+                  <label className="block text-xs font-medium text-dim mb-1">
                     역할 ID
                   </label>
                   <input
@@ -306,9 +306,9 @@ export default function DiscordBotPage() {
                     value={mentionRoleId}
                     onChange={(e) => setMentionRoleId(e.target.value)}
                     placeholder="디스코드 역할 ID 입력"
-                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm font-mono focus:ring-2 focus:ring-orange-300 outline-none"
+                    className="pixel-input w-full px-3 py-2 text-sm font-mono"
                   />
-                  <p className="text-[11px] text-gray-400 mt-1">
+                  <p className="text-[11px] text-dim mt-1">
                     서버 설정 → 역할 → 우클릭 → ID 복사
                   </p>
                 </div>
@@ -317,36 +317,36 @@ export default function DiscordBotPage() {
 
             <button
               onClick={handleSaveSettings}
-              className="w-full bg-orange-500 text-white py-2 rounded-lg text-sm font-medium hover:bg-orange-600 transition-colors"
+              className="pixel-btn w-full py-2 text-sm font-pixel"
             >
               {settingsSaved ? "저장 완료!" : "설정 저장"}
             </button>
           </div>
 
           {/* 길드 게시글 전송 */}
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 space-y-3">
-            <h2 className="text-base font-semibold text-gray-800 dark:text-gray-200">길드 게시글 전송</h2>
-            <p className="text-xs text-gray-500 dark:text-gray-400">게시글을 선택하면 내용을 확인할 수 있고, 디스코드 채널로 전송할 수 있습니다.</p>
+          <div className="pixel-panel p-5 space-y-3">
+            <h2 className="text-base font-semibold text-ink font-pixel">길드 게시글 전송</h2>
+            <p className="text-xs text-dim">게시글을 선택하면 내용을 확인할 수 있고, 디스코드 채널로 전송할 수 있습니다.</p>
 
             {guildPosts.length === 0 ? (
-              <p className="text-sm text-gray-400 py-4 text-center">등록된 게시글이 없습니다.</p>
+              <p className="text-sm text-dim py-4 text-center">등록된 게시글이 없습니다.</p>
             ) : (
-              <div className="divide-y divide-gray-100 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden max-h-[400px] overflow-y-auto">
+              <div className="divide-y divide-edge/40 border-2 border-edge overflow-hidden max-h-[400px] overflow-y-auto">
                 {guildPosts.map((post) => (
                   <div key={post.id}>
                     {/* 제목 행 — 클릭으로 펼치기 */}
                     <button
                       onClick={() => setExpandedId(expandedId === post.id ? null : post.id)}
-                      className={`w-full flex items-center gap-2 px-3 py-2.5 text-left hover:bg-gray-50 dark:bg-gray-900 transition-colors ${
-                        expandedId === post.id ? "bg-gray-50 dark:bg-gray-900" : ""
+                      className={`w-full flex items-center gap-2 px-3 py-2.5 text-left hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] transition-colors ${
+                        expandedId === post.id ? "bg-surface2" : ""
                       }`}
                     >
                       <span className={`text-[10px] font-medium px-1.5 py-0.5 rounded ${typeBadge(post.post_type)}`}>
                         {typeLabel(post.post_type)}
                       </span>
-                      <span className="text-sm text-gray-800 dark:text-gray-200 flex-1 truncate">{post.title}</span>
+                      <span className="text-sm text-ink flex-1 truncate">{post.title}</span>
                       <svg
-                        className={`w-4 h-4 text-gray-400 shrink-0 transition-transform ${
+                        className={`w-4 h-4 text-dim shrink-0 transition-transform ${
                           expandedId === post.id ? "rotate-180" : ""
                         }`}
                         fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -357,11 +357,11 @@ export default function DiscordBotPage() {
 
                     {/* 펼침 — 내용 + 전송 버튼 */}
                     {expandedId === post.id && (
-                      <div className="px-3 pb-3 bg-gray-50 dark:bg-gray-900 space-y-2">
-                        <div className="text-xs text-gray-500 dark:text-gray-400 space-y-1 bg-white dark:bg-gray-800 rounded-lg p-3 border border-gray-100">
-                          <p><span className="font-medium text-gray-600 dark:text-gray-400">제목</span> : {post.title}</p>
-                          <p><span className="font-medium text-gray-600 dark:text-gray-400">내용</span> : {post.content || "(내용 없음)"}</p>
-                          <p><span className="font-medium text-gray-600 dark:text-gray-400">작성자</span> : {post.author}</p>
+                      <div className="px-3 pb-3 bg-surface2 space-y-2">
+                        <div className="text-xs text-dim space-y-1 bg-surface p-3 border-2 border-edge">
+                          <p><span className="font-medium text-ink">제목</span> : {post.title}</p>
+                          <p><span className="font-medium text-ink">내용</span> : {post.content || "(내용 없음)"}</p>
+                          <p><span className="font-medium text-ink">작성자</span> : {post.author}</p>
                         </div>
                         <button
                           onClick={() => handleSendGuildPost(post.id)}
@@ -383,14 +383,14 @@ export default function DiscordBotPage() {
           </div>
 
           {/* 수동 알림 (자유 텍스트) */}
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 space-y-3">
-            <h2 className="text-base font-semibold text-gray-800 dark:text-gray-200">수동 알림 전송</h2>
+          <div className="pixel-panel p-5 space-y-3">
+            <h2 className="text-base font-semibold text-ink font-pixel">수동 알림 전송</h2>
             <textarea
               value={manualMsg}
               onChange={(e) => setManualMsg(e.target.value)}
               placeholder="디스코드 채널에 전송할 메시지를 입력하세요..."
               rows={3}
-              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm resize-none focus:ring-2 focus:ring-orange-300 outline-none"
+              className="pixel-input w-full px-3 py-2 text-sm resize-none"
             />
             <button
               onClick={handleSendNotify}

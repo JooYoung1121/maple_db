@@ -61,9 +61,9 @@ function StatCard({ label, value, sub, color = "orange" }: { label: string; valu
   };
   return (
     <div className={`rounded-xl border-l-4 p-4 ${colors[color] || colors.orange}`}>
-      <div className="text-sm text-gray-500 dark:text-gray-400">{label}</div>
-      <div className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">{typeof value === "number" ? value.toLocaleString() : value}</div>
-      {sub && <div className="text-xs text-gray-400 mt-1">{sub}</div>}
+      <div className="text-sm text-dim font-pixel">{label}</div>
+      <div className="text-2xl font-bold text-ink mt-1">{typeof value === "number" ? value.toLocaleString() : value}</div>
+      {sub && <div className="text-xs text-dim mt-1">{sub}</div>}
     </div>
   );
 }
@@ -72,13 +72,13 @@ function StatCard({ label, value, sub, color = "orange" }: { label: string; valu
 function QualityBar({ label, count, total, pct, good }: { label: string; count: number; total: number; pct: number; good: boolean }) {
   return (
     <div className="flex items-center gap-3">
-      <span className="w-32 text-sm text-gray-600 dark:text-gray-300 shrink-0">{label}</span>
-      <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-5 relative overflow-hidden">
+      <span className="w-32 text-sm text-dim shrink-0">{label}</span>
+      <div className="flex-1 bg-surface2 rounded-full h-5 relative overflow-hidden">
         <div
           className={`h-full rounded-full transition-all ${good ? "bg-green-500" : "bg-red-400"}`}
           style={{ width: `${Math.min(pct, 100)}%` }}
         />
-        <span className="absolute inset-0 flex items-center justify-center text-xs font-medium text-gray-800 dark:text-gray-200">
+        <span className="absolute inset-0 flex items-center justify-center text-xs font-medium text-ink">
           {count.toLocaleString()} / {total.toLocaleString()} ({pct}%)
         </span>
       </div>
@@ -91,7 +91,7 @@ export default function AdminDataPage() {
   return (
     <Suspense fallback={
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-4 border-orange-500 border-t-transparent" />
+        <div className="animate-spin rounded-full h-10 w-10 border-4 border-maple border-t-transparent" />
       </div>
     }>
       <AdminDataContent />
@@ -181,7 +181,7 @@ function AdminDataContent() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-4 border-orange-500 border-t-transparent" />
+        <div className="animate-spin rounded-full h-10 w-10 border-4 border-maple border-t-transparent" />
       </div>
     );
   }
@@ -191,8 +191,8 @@ function AdminDataContent() {
       <div className="flex items-center justify-center min-h-[60vh]">
         <div className="text-center">
           <div className="text-6xl mb-4">🔒</div>
-          <h1 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-2">접근 제한</h1>
-          <p className="text-gray-500 dark:text-gray-400">{error || "인증이 필요합니다."}</p>
+          <h1 className="text-xl font-bold font-pixel text-ink mb-2">접근 제한</h1>
+          <p className="text-dim">{error || "인증이 필요합니다."}</p>
         </div>
       </div>
     );
@@ -207,7 +207,7 @@ function AdminDataContent() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">관리자 데이터 대시보드</h1>
+        <h1 className="text-2xl font-bold font-pixel text-ink">관리자 데이터 대시보드</h1>
         <div className="flex gap-2">
           <a
             href={`${API_BASE}/api/export/quests?format=xlsx&pw=${encodeURIComponent(pw)}`}
@@ -225,16 +225,16 @@ function AdminDataContent() {
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-gray-200 dark:border-gray-700">
+      <div className="border-b-2 border-edge">
         <div className="flex gap-0">
           {tabs.map((t) => (
             <button
               key={t.key}
               onClick={() => setTab(t.key)}
-              className={`px-5 py-3 text-sm font-medium border-b-2 transition-colors ${
+              className={`px-5 py-3 text-sm font-pixel border-b-2 transition-colors ${
                 tab === t.key
-                  ? "border-orange-500 text-orange-600 dark:text-orange-400"
-                  : "border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                  ? "border-maple text-maple"
+                  : "border-transparent text-dim hover:text-maple"
               }`}
             >
               {t.label}
@@ -268,7 +268,7 @@ function AdminDataContent() {
       )}
       {!stats && tab !== "table" && (
         <div className="flex items-center justify-center py-20">
-          <div className="animate-spin rounded-full h-8 w-8 border-4 border-orange-500 border-t-transparent" />
+          <div className="animate-spin rounded-full h-8 w-8 border-4 border-maple border-t-transparent" />
         </div>
       )}
     </div>
@@ -296,8 +296,8 @@ function QuestDashboard({ stats }: { stats: DashboardStats }) {
       {/* Charts Row */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Area Bar Chart */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5">
-          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">지역별 퀘스트 수</h3>
+        <div className="pixel-panel p-5">
+          <h3 className="text-sm font-semibold font-pixel text-ink mb-4">지역별 퀘스트 수</h3>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={area_distribution.slice(0, 12)} layout="vertical" margin={{ left: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -316,8 +316,8 @@ function QuestDashboard({ stats }: { stats: DashboardStats }) {
         </div>
 
         {/* Language Pie Chart */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5">
-          <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">이름 언어 분포</h3>
+        <div className="pixel-panel p-5">
+          <h3 className="text-sm font-semibold font-pixel text-ink mb-4">이름 언어 분포</h3>
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie data={langData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} label={({ name, percent }: { name?: string; percent?: number }) => `${name || ""} ${((percent || 0) * 100).toFixed(1)}%`}>
@@ -329,15 +329,15 @@ function QuestDashboard({ stats }: { stats: DashboardStats }) {
               <Legend />
             </PieChart>
           </ResponsiveContainer>
-          <div className="text-center text-xs text-gray-400 mt-2">
+          <div className="text-center text-xs text-dim mt-2">
             한국어 번역 보유: {name_language.has_kr_translation.toLocaleString()}건
           </div>
         </div>
       </div>
 
       {/* Level Distribution */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5">
-        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">레벨 분포 히스토그램</h3>
+      <div className="pixel-panel p-5">
+        <h3 className="text-sm font-semibold font-pixel text-ink mb-4">레벨 분포 히스토그램</h3>
         <ResponsiveContainer width="100%" height={250}>
           <BarChart data={level_distribution}>
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
@@ -350,8 +350,8 @@ function QuestDashboard({ stats }: { stats: DashboardStats }) {
       </div>
 
       {/* Data Quality */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5">
-        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">데이터 품질 지표</h3>
+      <div className="pixel-panel p-5">
+        <h3 className="text-sm font-semibold font-pixel text-ink mb-4">데이터 품질 지표</h3>
         <div className="space-y-3">
           <QualityBar label="area 비어있음" count={quality.area_null_count} total={quest_stats.total} pct={quality.area_null_pct} good={false} />
           <QualityBar label="level = 0" count={quality.level_zero_count} total={quest_stats.total} pct={quality.level_zero_pct} good={false} />
@@ -392,27 +392,27 @@ function DataOverview({ stats }: { stats: DashboardStats }) {
       </div>
 
       {/* Crawling status */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5">
-        <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">크롤링 상태</h3>
+      <div className="pixel-panel p-5">
+        <h3 className="text-sm font-semibold font-pixel text-ink mb-4">크롤링 상태</h3>
         <div className="space-y-4">
           {Object.entries(crawl_status).map(([key, info]) => {
             const meta = entityMeta[key] || { label: key, color: "orange", icon: "📦" };
             return (
               <div key={key}>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <span className="text-sm font-medium text-ink">
                     {meta.icon} {meta.label}
                   </span>
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-dim">
                     {info.latest ? `최근: ${info.latest}` : "크롤링 기록 없음"}
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 relative overflow-hidden">
+                <div className="w-full bg-surface2 rounded-full h-4 relative overflow-hidden">
                   <div
-                    className="h-full bg-orange-500 rounded-full transition-all"
+                    className="h-full bg-maple rounded-full transition-all"
                     style={{ width: `${Math.min(info.pct, 100)}%` }}
                   />
-                  <span className="absolute inset-0 flex items-center justify-center text-xs font-medium text-gray-800 dark:text-gray-200">
+                  <span className="absolute inset-0 flex items-center justify-center text-xs font-medium text-ink">
                     {info.crawled.toLocaleString()} / {info.total.toLocaleString()} ({info.pct}%)
                   </span>
                 </div>
@@ -454,14 +454,14 @@ function QuestTable({
     { key: "name", label: "이름", sortable: false, render: (r: QuestRow) => (
       <div>
         <div className="font-medium">{r.name}</div>
-        {r.name_kr && <div className="text-xs text-gray-400">{r.name_kr}</div>}
+        {r.name_kr && <div className="text-xs text-dim">{r.name_kr}</div>}
       </div>
     )},
     { key: "level_req", label: "레벨", sortable: false },
     { key: "area", label: "지역", sortable: false, render: (r: QuestRow) => r.area || "-" },
     { key: "difficulty", label: "난이도", sortable: false, render: (r: QuestRow) => r.difficulty || "-" },
     { key: "is_mapleland", label: "메랜", sortable: false, render: (r: QuestRow) => (
-      <span className={`px-2 py-0.5 rounded text-xs font-medium ${r.is_mapleland ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" : "bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400"}`}>
+      <span className={`px-2 py-0.5 rounded text-xs font-medium ${r.is_mapleland ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" : "bg-surface2 text-dim"}`}>
         {r.is_mapleland ? "O" : "X"}
       </span>
     )},
@@ -474,43 +474,43 @@ function QuestTable({
       {/* Filters */}
       <div className="flex flex-wrap gap-3 items-end">
         <div className="flex-1 min-w-[200px]">
-          <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">검색</label>
+          <label className="block text-xs text-dim mb-1 font-pixel">검색</label>
           <input
             type="text"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="퀘스트명 또는 ID..."
-            className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400"
+            className="pixel-input w-full px-3 py-2 text-sm"
           />
         </div>
         <div>
-          <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">지역</label>
+          <label className="block text-xs text-dim mb-1 font-pixel">지역</label>
           <select
             value={area}
             onChange={(e) => onAreaChange(e.target.value)}
-            className="px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+            className="pixel-input px-3 py-2 text-sm"
           >
             <option value="">전체</option>
             {areas.map((a) => <option key={a} value={a}>{a}</option>)}
           </select>
         </div>
         <div>
-          <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">난이도</label>
+          <label className="block text-xs text-dim mb-1 font-pixel">난이도</label>
           <select
             value={difficulty}
             onChange={(e) => onDifficultyChange(e.target.value)}
-            className="px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+            className="pixel-input px-3 py-2 text-sm"
           >
             <option value="">전체</option>
             {difficulties.map((c) => <option key={c} value={c}>{c}</option>)}
           </select>
         </div>
         <div>
-          <label className="block text-xs text-gray-500 dark:text-gray-400 mb-1">메이플랜드</label>
+          <label className="block text-xs text-dim mb-1 font-pixel">메이플랜드</label>
           <select
             value={mapleland}
             onChange={(e) => onMaplelandChange(e.target.value)}
-            className="px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+            className="pixel-input px-3 py-2 text-sm"
           >
             <option value="all">전체</option>
             <option value="1">메이플랜드만</option>
@@ -526,7 +526,7 @@ function QuestTable({
       </div>
 
       {/* Result count */}
-      <div className="text-sm text-gray-500 dark:text-gray-400">
+      <div className="text-sm text-dim">
         총 {total.toLocaleString()}건
       </div>
 

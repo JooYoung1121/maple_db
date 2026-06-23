@@ -18,6 +18,23 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.18.0",
+    date: "2026-06-23",
+    type: "minor",
+    title: "픽셀 어드벤처 UI 리뉴얼 (사이트 전체)",
+    features: [
+      {
+        category: "디자인",
+        items: [
+          "사이트 전체를 '픽셀 어드벤처' 테마로 리뉴얼 — 동굴 던전(다크)/낮의 필드(라이트) 메이플 팔레트",
+          "클래식 메이플 창 베벨 테두리(픽셀 패널·카드·버튼·입력) + 단풍잎 모티프",
+          "갈무리 픽셀 폰트(제목·네비·뱃지)로 노스탤지어 강화, 본문·표는 Pretendard로 가독성 유지",
+          "홈 히어로에 픽셀 로고타입 + 단풍잎 흩날림(움직임 줄이기 설정 존중)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.17.1",
     date: "2026-06-23",
     type: "patch",
@@ -1757,16 +1774,16 @@ export default function VersionPage() {
     <div className="max-w-4xl mx-auto px-4 py-10 space-y-8">
       {/* Header */}
       <div className="text-center space-y-3">
-        <span className="inline-block bg-orange-500 text-white text-2xl font-bold px-6 py-2 rounded-full tracking-wide">
+        <span className="inline-block bg-maple text-ink text-2xl font-bold px-6 py-2 rounded-full tracking-wide font-pixel">
           v{VERSION}
         </span>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">버전 정보 / 변경 이력</h1>
-        <p className="text-gray-500 dark:text-gray-400 text-sm">추억길드 전용 메랜 정보 사이트</p>
+        <h1 className="text-3xl font-bold text-ink font-pixel">버전 정보 / 변경 이력</h1>
+        <p className="text-dim text-sm">추억길드 전용 메랜 정보 사이트</p>
       </div>
 
       {/* Semver explanation */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 space-y-3">
-        <h2 className="text-base font-semibold text-gray-700 dark:text-gray-300">시맨틱 버전 안내</h2>
+      <div className="pixel-panel p-6 space-y-3">
+        <h2 className="text-base font-semibold text-ink font-pixel">시맨틱 버전 안내</h2>
         <div className="flex flex-col sm:flex-row gap-3">
           {SEMVER_EXPLANATION.map((s) => (
             <div key={s.label} className={`flex-1 rounded-lg px-4 py-3 ${s.color}`}>
@@ -1779,39 +1796,39 @@ export default function VersionPage() {
 
       {/* Changelog timeline */}
       <div className="space-y-4">
-        <h2 className="text-lg font-bold text-gray-800 dark:text-gray-200">변경 이력</h2>
+        <h2 className="text-lg font-bold text-ink font-pixel">변경 이력</h2>
 
         {CHANGELOG.map((entry) => (
           <div key={entry.version} className="flex gap-4">
             {/* Timeline line */}
             <div className="flex flex-col items-center">
-              <div className="w-3 h-3 rounded-full bg-orange-500 mt-1.5 shrink-0" />
-              <div className="w-px flex-1 bg-gray-200 mt-1" />
+              <div className="w-3 h-3 rounded-full bg-maple mt-1.5 shrink-0" />
+              <div className="w-px flex-1 bg-edge mt-1" />
             </div>
 
             {/* Card */}
-            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 mb-6 flex-1 space-y-4">
+            <div className="pixel-panel p-5 mb-6 flex-1 space-y-4">
               {/* Version header */}
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-lg font-bold text-gray-900 dark:text-gray-100">v{entry.version}</span>
+                <span className="text-lg font-bold text-ink font-pixel">v{entry.version}</span>
                 <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${TYPE_BADGE[entry.type]}`}>
                   {TYPE_LABEL[entry.type]}
                 </span>
-                <span className="text-xs text-gray-400 ml-auto">{entry.date}</span>
+                <span className="text-xs text-dim ml-auto">{entry.date}</span>
               </div>
-              <p className="text-sm font-medium text-orange-600">{entry.title}</p>
+              <p className="text-sm font-medium text-maple">{entry.title}</p>
 
               {/* Feature categories */}
               <div className="space-y-4">
                 {entry.features.map((cat) => (
                   <div key={cat.category}>
-                    <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1.5">
+                    <p className="text-xs font-semibold text-dim uppercase tracking-wider mb-1.5">
                       {cat.category}
                     </p>
                     <ul className="space-y-1">
                       {cat.items.map((item) => (
-                        <li key={item} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
-                          <span className="text-orange-400 mt-0.5 shrink-0">•</span>
+                        <li key={item} className="flex items-start gap-2 text-sm text-ink">
+                          <span className="text-maple mt-0.5 shrink-0">•</span>
                           {item}
                         </li>
                       ))}

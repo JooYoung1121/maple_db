@@ -18,7 +18,7 @@ interface ItemRow extends Item {
 }
 
 const columns: Column<ItemRow>[] = [
-  { key: "name", label: "이름", render: (r) => r.name_kr ? <><span>{r.name_kr}</span> <span className="text-gray-400 text-xs">({r.name})</span></> : r.name },
+  { key: "name", label: "이름", render: (r) => r.name_kr ? <><span>{r.name_kr}</span> <span className="text-dim text-xs">({r.name})</span></> : r.name },
   { key: "category", label: "분류", render: (r) => toCategoryKr(r.category) },
   { key: "level_req", label: "레벨" },
   { key: "job_req", label: "직업" },
@@ -90,16 +90,16 @@ function ItemsPageContent() {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">아이템</h1>
+        <h1 className="font-pixel text-2xl font-bold text-ink">아이템</h1>
 
       </div>
       <FilterPanel filters={filters} values={filterValues} onChange={setFilterValues} sortOptions={sortOptions} sortValue={sortValue} onSortChange={setSortValue} />
       <div className="mt-4">
         {loading ? (
-          <div className="text-center py-12 text-gray-400">로딩 중...</div>
+          <div className="text-center py-12 text-dim">로딩 중...</div>
         ) : (
           <>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">총 {total.toLocaleString()}건</p>
+            <p className="text-sm text-dim mb-2">총 {total.toLocaleString()}건</p>
             <DataTable columns={columns} data={items} onRowClick={(row) => router.push(`/items/${row.id}`)} />
             <Pagination page={page} totalPages={Math.ceil(total / perPage)} onChange={setPage} />
           </>
@@ -111,7 +111,7 @@ function ItemsPageContent() {
 
 export default function ItemsPage() {
   return (
-    <Suspense fallback={<div className="text-center py-12 text-gray-400">로딩 중...</div>}>
+    <Suspense fallback={<div className="text-center py-12 text-dim">로딩 중...</div>}>
       <ItemsPageContent />
     </Suspense>
   );

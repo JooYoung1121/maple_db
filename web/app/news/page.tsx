@@ -31,11 +31,11 @@ const CATEGORIES = [
 const CATEGORY_COLORS: Record<string, string> = {
   업데이트: "bg-blue-100 text-blue-700",
   점검: "bg-yellow-100 text-yellow-700",
-  안내: "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400",
+  안내: "bg-surface2 text-dim",
   이벤트: "bg-green-100 text-green-700",
   제재: "bg-red-100 text-red-600",
   진행중: "bg-green-100 text-green-700",
-  종료: "bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400",
+  종료: "bg-surface2 text-dim",
 };
 
 const KEYWORD_GUIDE = [
@@ -67,9 +67,9 @@ const KEYWORD_GUIDE = [
 
 function CategoryBadge({ category }: { category: string | null }) {
   if (!category) return null;
-  const color = CATEGORY_COLORS[category] ?? "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400";
+  const color = CATEGORY_COLORS[category] ?? "bg-surface2 text-dim";
   return (
-    <span className={`inline-block text-xs font-medium px-2 py-0.5 rounded-full shrink-0 ${color}`}>
+    <span className={`pixel-badge inline-block text-xs font-medium shrink-0 ${color}`}>
       {category}
     </span>
   );
@@ -88,23 +88,23 @@ function PostContent({ postId }: { postId: string }) {
 
   if (loading) {
     return (
-      <div className="flex items-center gap-2 py-6 text-gray-400 text-sm">
-        <div className="w-4 h-4 border-2 border-gray-300 dark:border-gray-600 border-t-orange-400 rounded-full animate-spin" />
+      <div className="flex items-center gap-2 py-6 text-dim text-sm">
+        <div className="w-4 h-4 border-2 border-edge border-t-maple rounded-full animate-spin" />
         불러오는 중...
       </div>
     );
   }
 
   if (!post) {
-    return <p className="text-sm text-gray-400 py-4">내용을 불러올 수 없습니다.</p>;
+    return <p className="text-sm text-dim py-4">내용을 불러올 수 없습니다.</p>;
   }
 
   const summaryCard = post.summary ? (
-    <div className="bg-gradient-to-br from-orange-50 to-amber-50 border border-orange-200 rounded-xl p-4 mb-4">
-      <p className="text-xs font-bold text-orange-500 mb-2 tracking-wide">
+    <div className="bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] border-2 border-maple p-4 mb-4">
+      <p className="font-pixel text-xs font-bold text-maple mb-2 tracking-wide">
         TL;DR
       </p>
-      <div className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+      <div className="text-sm text-ink leading-relaxed whitespace-pre-line">
         {post.summary}
       </div>
     </div>
@@ -115,7 +115,7 @@ function PostContent({ postId }: { postId: string }) {
       <>
         {summaryCard}
         <div
-          className="news-content text-sm text-gray-700 dark:text-gray-300 leading-relaxed"
+          className="news-content text-sm text-ink leading-relaxed"
           dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content_html) }}
         />
       </>
@@ -126,7 +126,7 @@ function PostContent({ postId }: { postId: string }) {
     return (
       <>
         {summaryCard}
-        <pre className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap font-sans">
+        <pre className="text-sm text-ink leading-relaxed whitespace-pre-wrap font-sans">
           {post.content}
         </pre>
       </>
@@ -138,7 +138,7 @@ function PostContent({ postId }: { postId: string }) {
       href={post.url ?? "#"}
       target="_blank"
       rel="noopener noreferrer"
-      className="text-sm text-orange-500 underline"
+      className="text-sm text-maple underline"
     >
       원문 보기 →
     </a>
@@ -149,13 +149,13 @@ function PostItem({ post }: { post: MapleLandPost }) {
   const [expanded, setExpanded] = useState(false);
 
   return (
-    <div className="border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 overflow-hidden">
+    <div className="pixel-card overflow-hidden">
       <button
         onClick={() => setExpanded((v) => !v)}
-        className="w-full text-left px-4 py-3.5 flex items-start gap-3 hover:bg-gray-50 dark:bg-gray-900 transition-colors"
+        className="w-full text-left px-4 py-3.5 flex items-start gap-3 hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] transition-colors"
       >
         <CategoryBadge category={post.category} />
-        <span className="flex-1 text-sm font-medium text-gray-800 dark:text-gray-200 leading-snug">
+        <span className="flex-1 text-sm font-medium text-ink leading-snug">
           {post.title}
           {post.updated_at && (
             <span className="ml-1.5 inline-block align-middle text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300">
@@ -163,9 +163,9 @@ function PostItem({ post }: { post: MapleLandPost }) {
             </span>
           )}
         </span>
-        <span className="text-xs text-gray-400 shrink-0 mt-0.5">{post.published_at ?? ""}</span>
+        <span className="text-xs text-dim shrink-0 mt-0.5">{post.published_at ?? ""}</span>
         <svg
-          className={`w-4 h-4 text-gray-400 shrink-0 mt-0.5 transition-transform ${expanded ? "rotate-180" : ""}`}
+          className={`w-4 h-4 text-dim shrink-0 mt-0.5 transition-transform ${expanded ? "rotate-180" : ""}`}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -175,15 +175,15 @@ function PostItem({ post }: { post: MapleLandPost }) {
       </button>
 
       {expanded && (
-        <div className="border-t border-gray-100 px-4 py-4">
+        <div className="border-t border-edge/40 px-4 py-4">
           <PostContent postId={post.post_id} />
           {post.url && (
-            <div className="mt-4 pt-3 border-t border-gray-100">
+            <div className="mt-4 pt-3 border-t border-edge/40">
               <a
                 href={post.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-orange-500 hover:underline"
+                className="text-xs text-maple hover:underline"
               >
                 {post.source === "tespia" ? "tespia.maple.land" : "maple.land"} 원문 보기 →
               </a>
@@ -241,7 +241,7 @@ function TespiaSummaryPanel({ enabled }: { enabled: boolean }) {
       ) : (
         <div className="space-y-3">
           {patches.slice(0, 4).map((patch) => (
-            <div key={patch.post_id} className="bg-white/80 dark:bg-gray-900/60 border border-sky-100 dark:border-sky-900 rounded-lg p-3">
+            <div key={patch.post_id} className="bg-surface border border-sky-100 dark:border-sky-900 rounded-lg p-3">
               <div className="flex flex-wrap items-center gap-2 mb-2">
                 {patch.version && (
                   <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-200">
@@ -252,16 +252,16 @@ function TespiaSummaryPanel({ enabled }: { enabled: boolean }) {
                   href={patch.url ?? "#"}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-sm font-semibold text-gray-800 dark:text-gray-100 hover:text-sky-600"
+                  className="text-sm font-semibold text-ink hover:text-sky-600"
                 >
                   {patch.title}
                 </a>
-                <span className="text-xs text-gray-400">{patch.published_at}</span>
+                <span className="text-xs text-dim">{patch.published_at}</span>
               </div>
               {patch.summary_lines.length > 0 && (
                 <ul className="space-y-1">
                   {patch.summary_lines.slice(0, 4).map((line) => (
-                    <li key={line} className="text-xs text-gray-600 dark:text-gray-300 flex gap-2">
+                    <li key={line} className="text-xs text-dim flex gap-2">
                       <span className="text-sky-500 shrink-0">-</span>
                       <span>{line}</span>
                     </li>
@@ -343,8 +343,8 @@ export default function NewsPage() {
     <div className="max-w-3xl mx-auto space-y-5">
       {/* 헤더 */}
       <div>
-        <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100">메이플랜드 공식 소식</h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+        <h1 className="font-pixel text-xl font-bold text-ink">메이플랜드 공식 소식</h1>
+        <p className="text-sm text-dim mt-1">
           본섭 공홈 공지와 Mapleland 2.0 테스피아 공지를 나눠서 확인합니다.
         </p>
       </div>
@@ -355,10 +355,10 @@ export default function NewsPage() {
           <button
             key={item.value}
             onClick={() => handleSourceChange(item.value)}
-            className={`text-left px-4 py-3 rounded-xl border transition-colors ${
+            className={`text-left px-4 py-3 transition-colors ${
               source === item.value
-                ? "border-orange-400 bg-orange-50 dark:bg-orange-950/30 text-orange-700 dark:text-orange-300"
-                : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:border-orange-300"
+                ? "border-2 border-maple bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] text-maple"
+                : "pixel-card text-dim hover:border-maple"
             }`}
           >
             <span className="block text-sm font-bold">{item.label}</span>
@@ -375,11 +375,11 @@ export default function NewsPage() {
           value={inputVal}
           onChange={(e) => setInputVal(e.target.value)}
           placeholder="제목 · 내용 검색..."
-          className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
+          className="pixel-input flex-1 px-3 py-2 text-sm"
         />
         <button
           type="submit"
-          className="px-4 py-2 bg-orange-500 text-white text-sm font-medium rounded-lg hover:bg-orange-600 transition-colors"
+          className="pixel-btn px-4 py-2 text-sm font-medium"
         >
           검색
         </button>
@@ -387,7 +387,7 @@ export default function NewsPage() {
           <button
             type="button"
             onClick={() => { setQuery(""); setInputVal(""); setPage(1); }}
-            className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:bg-gray-900"
+            className="px-3 py-2 text-sm text-dim border-2 border-edge hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]"
           >
             초기화
           </button>
@@ -400,24 +400,24 @@ export default function NewsPage() {
           <button
             key={b.value}
             onClick={() => handleBoardChange(b.value)}
-            className={`px-3 py-1.5 text-sm rounded-lg font-medium transition-colors ${
+            className={`px-3 py-1.5 text-sm font-medium transition-colors ${
               board === b.value
-                ? "bg-orange-500 text-white"
-                : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-orange-300"
+                ? "pixel-btn"
+                : "font-pixel text-dim hover:text-maple"
             }`}
           >
             {b.label}
           </button>
         ))}
-        <div className="w-px bg-gray-200 mx-1" />
+        <div className="w-px bg-edge mx-1" />
         {CATEGORIES.map((c) => (
           <button
             key={c.value}
             onClick={() => handleCategoryChange(c.value)}
-            className={`px-3 py-1.5 text-sm rounded-lg font-medium transition-colors ${
+            className={`px-3 py-1.5 text-sm font-medium transition-colors ${
               category === c.value
-                ? "bg-orange-500 text-white"
-                : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-orange-300"
+                ? "pixel-btn"
+                : "font-pixel text-dim hover:text-maple"
             }`}
           >
             {c.label}
@@ -426,11 +426,11 @@ export default function NewsPage() {
       </div>
 
       {/* 결과 수 */}
-      <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
+      <div className="flex items-center justify-between text-sm text-dim">
         <span>총 {total.toLocaleString()}건</span>
         <button
           onClick={() => setShowKeywordGuide((v) => !v)}
-          className="text-orange-500 hover:underline text-xs"
+          className="text-maple hover:underline text-xs"
         >
           {showKeywordGuide ? "키워드 가이드 닫기 ▲" : "검색 키워드 가이드 ▼"}
         </button>
@@ -438,12 +438,12 @@ export default function NewsPage() {
 
       {/* 키워드 가이드 */}
       {showKeywordGuide && (
-        <div className="bg-orange-50 border border-orange-100 rounded-xl p-4 space-y-3">
-          <p className="text-sm font-medium text-orange-700">검색 키워드 가이드</p>
+        <div className="bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] border-2 border-maple p-4 space-y-3">
+          <p className="font-pixel text-sm font-medium text-maple">검색 키워드 가이드</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {KEYWORD_GUIDE.map((group) => (
               <div key={group.label}>
-                <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">{group.label}</p>
+                <p className="text-xs font-semibold text-dim mb-1">{group.label}</p>
                 <div className="flex flex-wrap gap-1.5">
                   {group.keywords.map((kw) => (
                     <button
@@ -454,7 +454,7 @@ export default function NewsPage() {
                         setPage(1);
                         setShowKeywordGuide(false);
                       }}
-                      className="text-xs px-2 py-0.5 bg-white dark:bg-gray-800 border border-orange-200 text-orange-600 rounded-full hover:bg-orange-100 transition-colors"
+                      className="text-xs px-2 py-0.5 border-2 border-maple text-maple rounded-full hover:bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] transition-colors"
                     >
                       {kw}
                     </button>
@@ -469,10 +469,10 @@ export default function NewsPage() {
       {/* 포스트 목록 */}
       {loading ? (
         <div className="flex justify-center py-12">
-          <div className="w-6 h-6 border-2 border-gray-300 dark:border-gray-600 border-t-orange-400 rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-edge border-t-maple rounded-full animate-spin" />
         </div>
       ) : posts.length === 0 ? (
-        <div className="text-center py-12 text-gray-400 text-sm">
+        <div className="text-center py-12 text-dim text-sm">
           {query ? `"${query}" 검색 결과가 없습니다.` : "공지가 없습니다. 잠시 후 다시 확인해 주세요."}
         </div>
       ) : (
@@ -489,14 +489,14 @@ export default function NewsPage() {
           <button
             onClick={() => setPage(1)}
             disabled={page === 1}
-            className="px-2 py-1 text-sm text-gray-500 dark:text-gray-400 disabled:opacity-30 hover:text-orange-500"
+            className="px-2 py-1 text-sm text-dim disabled:opacity-30 hover:text-maple"
           >
             «
           </button>
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="px-2 py-1 text-sm text-gray-500 dark:text-gray-400 disabled:opacity-30 hover:text-orange-500"
+            className="px-2 py-1 text-sm text-dim disabled:opacity-30 hover:text-maple"
           >
             ‹
           </button>
@@ -507,8 +507,8 @@ export default function NewsPage() {
               <button
                 key={p}
                 onClick={() => setPage(p)}
-                className={`px-3 py-1 text-sm rounded-lg ${
-                  p === page ? "bg-orange-500 text-white font-medium" : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:bg-gray-700"
+                className={`px-3 py-1 text-sm ${
+                  p === page ? "pixel-btn font-medium" : "text-dim hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]"
                 }`}
               >
                 {p}
@@ -518,14 +518,14 @@ export default function NewsPage() {
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="px-2 py-1 text-sm text-gray-500 dark:text-gray-400 disabled:opacity-30 hover:text-orange-500"
+            className="px-2 py-1 text-sm text-dim disabled:opacity-30 hover:text-maple"
           >
             ›
           </button>
           <button
             onClick={() => setPage(totalPages)}
             disabled={page === totalPages}
-            className="px-2 py-1 text-sm text-gray-500 dark:text-gray-400 disabled:opacity-30 hover:text-orange-500"
+            className="px-2 py-1 text-sm text-dim disabled:opacity-30 hover:text-maple"
           >
             »
           </button>

@@ -26,19 +26,19 @@ export default function DataTable<T extends Record<string, any>>({
   onRowClick,
 }: Props<T>) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-gray-700">
+    <div className="overflow-x-auto pixel-panel">
       <table className="w-full text-sm">
         <thead>
-          <tr className="bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+          <tr className="bg-surface2 border-b-2 border-edge">
             {columns.map((col) => (
               <th
                 key={col.key}
                 onClick={() => col.sortable !== false && onSort?.(col.key)}
-                className={`px-4 py-3 text-left font-semibold text-gray-600 dark:text-gray-300 ${col.sortable !== false ? "cursor-pointer hover:text-orange-600 select-none" : ""}`}
+                className={`font-pixel px-4 py-3 text-left text-[12px] text-dim ${col.sortable !== false ? "cursor-pointer hover:text-maple select-none" : ""}`}
               >
                 {col.label}
                 {sortBy === col.key && (
-                  <span className="ml-1">{sortDir === "asc" ? "▲" : "▼"}</span>
+                  <span className="ml-1 text-maple">{sortDir === "asc" ? "▲" : "▼"}</span>
                 )}
               </th>
             ))}
@@ -47,7 +47,7 @@ export default function DataTable<T extends Record<string, any>>({
         <tbody>
           {data.length === 0 ? (
             <tr>
-              <td colSpan={columns.length} className="px-4 py-12 text-center text-gray-400">
+              <td colSpan={columns.length} className="px-4 py-12 text-center text-dim">
                 데이터가 없습니다
               </td>
             </tr>
@@ -56,10 +56,10 @@ export default function DataTable<T extends Record<string, any>>({
               <tr
                 key={i}
                 onClick={() => onRowClick?.(row)}
-                className={`border-b border-gray-100 dark:border-gray-700 ${onRowClick ? "cursor-pointer hover:bg-orange-50 dark:hover:bg-orange-900/20" : ""} ${i % 2 === 0 ? "bg-white dark:bg-gray-800" : "bg-gray-50 dark:bg-gray-900/50 dark:bg-gray-800/50"}`}
+                className={`border-b border-edge/40 ${onRowClick ? "cursor-pointer hover:bg-[color-mix(in_srgb,var(--c-maple)_12%,transparent)]" : ""} ${i % 2 === 0 ? "bg-surface" : "bg-surface2"}`}
               >
                 {columns.map((col) => (
-                  <td key={col.key} className="px-4 py-3 text-gray-700 dark:text-gray-300">
+                  <td key={col.key} className="px-4 py-3 text-ink">
                     {col.render ? col.render(row) : String(row[col.key] ?? "-")}
                   </td>
                 ))}

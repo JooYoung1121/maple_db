@@ -78,7 +78,7 @@ export default function StatGrid({ stats, title = "스탯" }: Props) {
 
   return (
     <div className="mt-4">
-      <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">{title}</span>
+      <span className="font-pixel text-[13px] text-ink">{title}</span>
       <div className="mt-2 space-y-3">
         {CATEGORY_ORDER.filter((cat) => grouped.has(cat)).map((cat) => {
           const meta = CATEGORY_META[cat];
@@ -90,7 +90,7 @@ export default function StatGrid({ stats, title = "스탯" }: Props) {
                 {items.map((item) => (
                   <span
                     key={item.key}
-                    className={`px-3 py-1.5 ${meta.bgColor} ${meta.color} rounded-lg text-sm font-medium`}
+                    className={`pixel-badge px-2.5 py-1 ${meta.bgColor} ${meta.color} text-sm`}
                   >
                     {item.label} +{item.value}
                   </span>

@@ -140,7 +140,7 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
     <div ref={ref} className="relative w-full">
       <form onSubmit={handleSubmit}>
         <div className="relative">
-          <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-dim z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <input
@@ -151,12 +151,12 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
             onFocus={() => suggestions.length > 0 && setOpen(true)}
             onKeyDown={handleKeyDown}
             placeholder="아이템, 몬스터, 맵, NPC, 퀘스트 검색..."
-            className={`w-full pl-12 pr-4 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent ${large ? "py-4 text-lg" : "py-2.5 text-sm"}`}
+            className={`pixel-input w-full pl-12 pr-4 ${large ? "py-4 text-base" : "py-2.5 text-sm"}`}
           />
         </div>
       </form>
       {open && grouped.length > 0 && (
-        <div className="absolute z-50 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg max-h-96 overflow-y-auto">
+        <div className="pixel-panel absolute z-50 w-full mt-2 max-h-96 overflow-y-auto">
           {grouped.map((group) => {
             const colors = TYPE_COLORS[group.type] || { bg: "bg-gray-100 dark:bg-gray-700", text: "text-gray-700 dark:text-gray-300" };
             return (
@@ -172,17 +172,17 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
                       key={`${s.entity_type}-${s.entity_id}`}
                       onClick={() => goTo(s)}
                       onMouseEnter={() => setActiveIndex(currentIdx)}
-                      className={`w-full text-left px-4 py-2.5 flex items-center gap-3 border-b border-gray-50 dark:border-gray-700 last:border-0 transition-colors ${isActive ? "bg-orange-50 dark:bg-orange-900/20" : "hover:bg-orange-50 dark:hover:bg-orange-900/20"}`}
+                      className={`w-full text-left px-4 py-2.5 flex items-center gap-3 border-b border-edge/50 last:border-0 transition-colors ${isActive ? "bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)]" : "hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]"}`}
                     >
                       {s.icon_url && (
                         <img src={s.icon_url} alt="" className="w-8 h-8 object-contain flex-shrink-0" />
                       )}
                       <div className="min-w-0 flex-1">
-                        <span className="font-medium text-gray-800 dark:text-gray-200 block truncate">
+                        <span className="font-medium text-ink block truncate">
                           {s.name_kr || s.name}
                         </span>
                         {s.name_kr && s.name_kr !== s.name && (
-                          <span className="text-xs text-gray-400 block truncate">{s.name}</span>
+                          <span className="text-xs text-dim block truncate">{s.name}</span>
                         )}
                       </div>
                       <span className={`text-xs font-medium px-2 py-0.5 rounded flex-shrink-0 ${colors.bg} ${colors.text}`}>

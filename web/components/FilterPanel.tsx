@@ -202,7 +202,7 @@ function SuggestionInput({
         className={className}
       />
       {open && suggestions.length > 0 && (
-        <div className="absolute z-50 mt-1 w-full max-h-72 overflow-y-auto rounded-lg border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-900">
+        <div className="pixel-panel absolute z-50 mt-2 w-full max-h-72 overflow-y-auto">
           {suggestions.map((s, idx) => (
             <button
               key={`${s.entity_type}-${s.entity_id}`}
@@ -212,14 +212,14 @@ function SuggestionInput({
               onMouseEnter={() => setActiveIndex(idx)}
               className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm transition-colors ${
                 idx === activeIndex
-                  ? "bg-orange-50 text-orange-700 dark:bg-orange-500/15 dark:text-orange-200"
-                  : "text-gray-800 hover:bg-orange-50 dark:text-gray-100 dark:hover:bg-orange-500/15"
+                  ? "bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] text-maple"
+                  : "text-ink hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]"
               }`}
             >
               {s.icon_url && <img src={s.icon_url} alt="" className="h-6 w-6 flex-shrink-0 object-contain" />}
               <span className="min-w-0 flex-1 truncate">{s.name_kr || s.name}</span>
               {s.name_kr && s.name_kr !== s.name && (
-                <span className="hidden max-w-28 truncate text-xs text-gray-400 sm:inline">{s.name}</span>
+                <span className="hidden max-w-28 truncate text-xs text-dim sm:inline">{s.name}</span>
               )}
             </button>
           ))}
@@ -237,23 +237,23 @@ export default function FilterPanel({ filters, values, onChange, sortOptions, so
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+    <div className="pixel-panel p-4">
       <button
         onClick={() => setExpanded(!expanded)}
-        className="flex items-center justify-between w-full text-sm font-semibold text-gray-700 dark:text-gray-200"
+        className="font-pixel flex items-center justify-between w-full text-[13px] text-ink"
       >
         <span>필터</span>
-        <span>{expanded ? "▲" : "▼"}</span>
+        <span className="text-maple">{expanded ? "▲" : "▼"}</span>
       </button>
       {expanded && (
         <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {sortOptions && sortOptions.length > 0 && (
             <div>
-              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">정렬</label>
+              <label className="block text-xs font-medium text-dim mb-1">정렬</label>
               <select
                 value={sortValue || ""}
                 onChange={(e) => onSortChange?.(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-400"
+                className="pixel-input w-full px-3 py-2 text-sm"
               >
                 {sortOptions.map((o) => (
                   <option key={o.value} value={o.value}>{o.label}</option>
@@ -263,12 +263,12 @@ export default function FilterPanel({ filters, values, onChange, sortOptions, so
           )}
           {filters.map((f) => (
             <div key={f.key}>
-              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">{f.label}</label>
+              <label className="block text-xs font-medium text-dim mb-1">{f.label}</label>
               {f.type === "select" ? (
                 <select
                   value={values[f.key] || ""}
                   onChange={(e) => update(f.key, e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-400"
+                  className="pixel-input w-full px-3 py-2 text-sm"
                 >
                   <option value="">전체</option>
                   {f.options?.map((o) => (
@@ -281,10 +281,10 @@ export default function FilterPanel({ filters, values, onChange, sortOptions, so
                   onClick={() => update(f.key, values[f.key] === "1" ? "" : "1")}
                   className="flex items-center gap-2"
                 >
-                  <div className={`relative w-11 h-6 rounded-full transition-colors ${values[f.key] === "1" ? "bg-orange-500" : "bg-gray-300"}`}>
+                  <div className={`relative w-11 h-6 rounded-full transition-colors ${values[f.key] === "1" ? "bg-maple" : "bg-edge"}`}>
                     <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${values[f.key] === "1" ? "translate-x-5" : "translate-x-0"}`} />
                   </div>
-                  <span className="text-sm text-gray-600 dark:text-gray-400">{f.placeholder || "예"}</span>
+                  <span className="text-sm text-dim">{f.placeholder || "예"}</span>
                 </button>
               ) : f.type === "checkbox" ? (
                 <label className="flex items-center gap-2">
@@ -292,9 +292,9 @@ export default function FilterPanel({ filters, values, onChange, sortOptions, so
                     type="checkbox"
                     checked={values[f.key] === "1"}
                     onChange={(e) => update(f.key, e.target.checked ? "1" : "")}
-                    className="rounded border-gray-300 dark:border-gray-600 text-orange-500 focus:ring-orange-400"
+                    className="rounded border-edge text-maple focus:ring-maple"
                   />
-                  <span className="text-sm text-gray-600 dark:text-gray-400">{f.placeholder || "예"}</span>
+                  <span className="text-sm text-dim">{f.placeholder || "예"}</span>
                 </label>
               ) : f.suggestType && f.type === "text" ? (
                 <SuggestionInput
@@ -302,7 +302,7 @@ export default function FilterPanel({ filters, values, onChange, sortOptions, so
                   onChange={(v) => update(f.key, v)}
                   placeholder={f.placeholder}
                   suggestType={f.suggestType}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-400"
+                  className="pixel-input w-full px-3 py-2 text-sm"
                 />
               ) : (
                 <DebouncedInput
@@ -310,7 +310,7 @@ export default function FilterPanel({ filters, values, onChange, sortOptions, so
                   value={values[f.key] || ""}
                   onChange={(v) => update(f.key, v)}
                   placeholder={f.placeholder}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-1 focus:ring-orange-400"
+                  className="pixel-input w-full px-3 py-2 text-sm"
                 />
               )}
             </div>

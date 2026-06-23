@@ -12,11 +12,11 @@ import { LevelBadge, DifficultyBadge, TypeBadge } from "@/components/QuestCard";
 /* -- 정보 행 -- */
 function InfoRow({ label, value }: { label: string; value: React.ReactNode }) {
   return (
-    <div className="flex items-start py-2.5 border-b border-gray-100 dark:border-gray-700 last:border-0">
-      <span className="w-24 flex-shrink-0 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider pt-0.5">
+    <div className="flex items-start py-2.5 border-b border-edge/40 last:border-0">
+      <span className="w-24 flex-shrink-0 text-xs font-semibold text-dim uppercase tracking-wider pt-0.5">
         {label}
       </span>
-      <div className="flex-1 text-sm text-gray-700 dark:text-gray-300">
+      <div className="flex-1 text-sm text-ink">
         {value}
       </div>
     </div>
@@ -29,55 +29,55 @@ function QuestSidebar({ quest }: { quest: Quest }) {
   const mesoReward = quest.meso_reward || 0;
 
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 space-y-3">
-      <h3 className="text-sm font-bold text-gray-700 dark:text-gray-200">빠른 정보</h3>
+    <div className="pixel-panel p-5 space-y-3">
+      <h3 className="font-pixel text-sm font-bold text-ink">빠른 정보</h3>
       <div className="space-y-2.5 text-sm">
         <div className="flex items-center justify-between">
-          <span className="text-gray-500 dark:text-gray-400">레벨</span>
+          <span className="text-dim">레벨</span>
           <LevelBadge level={quest.level_req || 0} />
         </div>
         <div className="flex items-center justify-between">
-          <span className="text-gray-500 dark:text-gray-400">유형</span>
-          {quest.quest_type ? <TypeBadge type={quest.quest_type} /> : <span className="text-gray-400">-</span>}
+          <span className="text-dim">유형</span>
+          {quest.quest_type ? <TypeBadge type={quest.quest_type} /> : <span className="text-dim">-</span>}
         </div>
         {quest.difficulty && (
           <div className="flex items-center justify-between">
-            <span className="text-gray-500 dark:text-gray-400">난이도</span>
+            <span className="text-dim">난이도</span>
             <DifficultyBadge difficulty={quest.difficulty} />
           </div>
         )}
         <div className="flex items-center justify-between">
-          <span className="text-gray-500 dark:text-gray-400">지역</span>
+          <span className="text-dim">지역</span>
           <span className="text-sm">{quest.area || "-"}</span>
         </div>
         {quest.start_location && (
           <div className="flex items-center justify-between">
-            <span className="text-gray-500 dark:text-gray-400">시작 장소</span>
+            <span className="text-dim">시작 장소</span>
             <span className="text-sm text-right max-w-[140px]">{quest.start_location}</span>
           </div>
         )}
-        <div className="border-t border-gray-100 dark:border-gray-700 pt-2.5">
-          <span className="text-xs font-semibold text-gray-500 dark:text-gray-400 block mb-2">보상</span>
+        <div className="border-t border-edge/40 pt-2.5">
+          <span className="text-xs font-semibold text-dim block mb-2">보상</span>
           {expReward > 0 && (
             <div className="flex items-center justify-between mb-1">
-              <span className="text-gray-500 dark:text-gray-400">EXP</span>
+              <span className="text-dim">EXP</span>
               <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">{expReward.toLocaleString()}</span>
             </div>
           )}
           {mesoReward > 0 && (
             <div className="flex items-center justify-between mb-1">
-              <span className="text-gray-500 dark:text-gray-400">메소</span>
+              <span className="text-dim">메소</span>
               <span className="text-sm font-semibold text-yellow-600 dark:text-yellow-400">{mesoReward.toLocaleString()}</span>
             </div>
           )}
           {quest.item_reward && (
             <div className="flex items-center justify-between mb-1">
-              <span className="text-gray-500 dark:text-gray-400">아이템</span>
+              <span className="text-dim">아이템</span>
               <span className="text-sm text-green-600 dark:text-green-400 text-right max-w-[140px]">{quest.item_reward}</span>
             </div>
           )}
           {!expReward && !mesoReward && !quest.item_reward && (
-            <span className="text-xs text-gray-400">보상 정보 없음</span>
+            <span className="text-xs text-dim">보상 정보 없음</span>
           )}
         </div>
       </div>
@@ -103,8 +103,8 @@ export default function QuestDetailPage() {
 
   if (loading) {
     return (
-      <div className="text-center py-16 text-gray-400">
-        <div className="inline-block w-8 h-8 border-4 border-gray-300 border-t-orange-500 rounded-full animate-spin mb-3" />
+      <div className="text-center py-16 text-dim">
+        <div className="inline-block w-8 h-8 border-4 border-edge border-t-maple rounded-full animate-spin mb-3" />
         <p>로딩 중...</p>
       </div>
     );
@@ -113,8 +113,8 @@ export default function QuestDetailPage() {
   if (!quest) {
     return (
       <div className="text-center py-16">
-        <p className="text-gray-400 text-lg">퀘스트를 찾을 수 없습니다</p>
-        <Link href="/quests" className="text-orange-500 hover:underline text-sm mt-2 inline-block">
+        <p className="text-dim text-lg">퀘스트를 찾을 수 없습니다</p>
+        <Link href="/quests" className="text-maple hover:underline text-sm mt-2 inline-block">
           퀘스트 목록으로 돌아가기
         </Link>
       </div>
@@ -128,8 +128,8 @@ export default function QuestDetailPage() {
   const overviewTab = (
     <div className="space-y-4">
       {/* 기본 정보 */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
-        <h3 className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">기본 정보</h3>
+      <div className="pixel-panel p-5">
+        <h3 className="font-pixel text-sm font-bold text-ink mb-3">기본 정보</h3>
         <InfoRow label="ID" value={String(quest.id)} />
         <InfoRow label="레벨" value={String(quest.level_req || 0)} />
         <InfoRow label="지역" value={quest.area || "-"} />
@@ -153,9 +153,9 @@ export default function QuestDetailPage() {
 
       {/* 비고 */}
       {quest.note && (
-        <div className="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
-          <h3 className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-2">비고</h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed whitespace-pre-line">
+        <div className="pixel-panel p-5">
+          <h3 className="font-pixel text-sm font-bold text-ink mb-2">비고</h3>
+          <p className="text-sm text-dim leading-relaxed whitespace-pre-line">
             {quest.note}
           </p>
         </div>
@@ -168,8 +168,8 @@ export default function QuestDetailPage() {
     <div className="space-y-4">
       {/* 퀘스트 조건 */}
       {hasConditions && (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
-          <h3 className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">퀘스트 조건</h3>
+        <div className="pixel-panel p-5">
+          <h3 className="font-pixel text-sm font-bold text-ink mb-3">퀘스트 조건</h3>
           <div className="space-y-1.5">
             {quest.quest_conditions!.map((cond, i) => {
               const isNumericOnly = /^\d+$/.test(cond);
@@ -179,14 +179,14 @@ export default function QuestDetailPage() {
                   className={`flex items-center gap-2 px-3 py-2 rounded-lg ${
                     isNumericOnly
                       ? "bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800/40"
-                      : "bg-gray-50 dark:bg-gray-700/50"
+                      : "bg-surface2"
                   }`}
                 >
-                  <span className="text-xs text-gray-400 font-mono w-5 text-right">{i + 1}.</span>
+                  <span className="text-xs text-dim font-mono w-5 text-right">{i + 1}.</span>
                   <span className={`text-sm ${
                     isNumericOnly
                       ? "text-yellow-700 dark:text-yellow-400"
-                      : "text-gray-700 dark:text-gray-300"
+                      : "text-ink"
                   }`}>
                     {isNumericOnly ? `조건 아이템 ${cond}개` : cond}
                   </span>
@@ -198,8 +198,8 @@ export default function QuestDetailPage() {
       )}
 
       {/* 보상 */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
-        <h3 className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-3">보상</h3>
+      <div className="pixel-panel p-5">
+        <h3 className="font-pixel text-sm font-bold text-ink mb-3">보상</h3>
         <div className="space-y-3">
           {(quest.exp_reward || 0) > 0 && (
             <div className="flex items-center gap-3 px-3 py-2.5 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
@@ -230,7 +230,7 @@ export default function QuestDetailPage() {
             </div>
           )}
           {!(quest.exp_reward || 0) && !(quest.meso_reward || 0) && !quest.item_reward && !quest.extra_reward && (
-            <p className="text-sm text-gray-400">보상 정보가 없습니다.</p>
+            <p className="text-sm text-dim">보상 정보가 없습니다.</p>
           )}
         </div>
       </div>
@@ -239,8 +239,8 @@ export default function QuestDetailPage() {
 
   /* -- 퀘스트 체인 탭 -- */
   const chainTab = (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
-      <h3 className="text-sm font-bold text-gray-700 dark:text-gray-200 mb-4">퀘스트 체인</h3>
+    <div className="pixel-panel p-5">
+      <h3 className="font-pixel text-sm font-bold text-ink mb-4">퀘스트 체인</h3>
       <QuestChain questId={quest.id} active={chainActive} />
     </div>
   );
@@ -254,7 +254,7 @@ export default function QuestDetailPage() {
   return (
     <div className="max-w-6xl mx-auto">
       {/* Breadcrumb */}
-      <Link href="/quests" className="inline-flex items-center gap-1 text-sm text-orange-500 hover:underline mb-4">
+      <Link href="/quests" className="inline-flex items-center gap-1 text-sm text-maple hover:underline mb-4">
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
@@ -262,22 +262,22 @@ export default function QuestDetailPage() {
       </Link>
 
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 mb-6">
+      <div className="pixel-panel p-6 mb-6">
         <div className="flex flex-wrap items-center gap-2 mb-2">
           <LevelBadge level={quest.level_req || 0} />
           {quest.quest_type && <TypeBadge type={quest.quest_type} />}
           {quest.difficulty && <DifficultyBadge difficulty={quest.difficulty} />}
           {quest.area && (
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-50 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400">
+            <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] text-maple">
               {quest.area}
             </span>
           )}
         </div>
-        <h1 className="text-2xl font-bold">
+        <h1 className="font-pixel text-2xl font-bold">
           {quest.name}
         </h1>
         {quest.is_chain === 1 && quest.chain_parent && (
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">체인: {quest.chain_parent}</p>
+          <p className="text-sm text-dim mt-1">체인: {quest.chain_parent}</p>
         )}
       </div>
 
@@ -285,7 +285,7 @@ export default function QuestDetailPage() {
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Tabs - main content */}
         <div className="flex-1 min-w-0">
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
+          <div className="pixel-panel p-5">
             <QuestTabs tabs={tabs} onTabChange={(key) => { if (key === "chain") setChainActive(true); }} />
           </div>
         </div>

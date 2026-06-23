@@ -113,38 +113,38 @@ export default function InfoBoardPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">📋 정보공유 게시판</h1>
+        <h1 className="font-pixel text-2xl font-bold text-ink">📋 정보공유 게시판</h1>
         {view === "list" ? (
           <button onClick={() => { setView("write"); setWriteError(""); }}
-                  className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-sm font-medium">글쓰기</button>
+                  className="pixel-btn px-4 py-2 text-sm font-medium">글쓰기</button>
         ) : (
-          <button onClick={() => setView("list")} className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg text-sm">목록</button>
+          <button onClick={() => setView("list")} className="pixel-btn px-4 py-2 text-sm">목록</button>
         )}
       </div>
 
       {view === "list" && (
         <div>
           <div className="flex gap-2 mb-3 text-sm">
-            <button onClick={() => setSort("newest")} className={`px-3 py-1 rounded ${sort === "newest" ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-700"}`}>최신순</button>
-            <button onClick={() => setSort("upvotes")} className={`px-3 py-1 rounded ${sort === "upvotes" ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-700"}`}>추천순</button>
+            <button onClick={() => setSort("newest")} className={`px-3 py-1 ${sort === "newest" ? "pixel-btn" : "font-pixel text-dim hover:text-maple"}`}>최신순</button>
+            <button onClick={() => setSort("upvotes")} className={`px-3 py-1 ${sort === "upvotes" ? "pixel-btn" : "font-pixel text-dim hover:text-maple"}`}>추천순</button>
           </div>
           {loading ? (
-            <div className="py-10 text-center text-gray-400">불러오는 중...</div>
+            <div className="py-10 text-center text-dim">불러오는 중...</div>
           ) : posts.length === 0 ? (
-            <div className="py-10 text-center text-gray-400">아직 글이 없습니다. 첫 정보를 공유해보세요!</div>
+            <div className="py-10 text-center text-dim">아직 글이 없습니다. 첫 정보를 공유해보세요!</div>
           ) : (
-            <ul className="divide-y divide-gray-200 dark:divide-gray-700 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+            <ul className="divide-y divide-edge/40 border-2 border-edge overflow-hidden">
               {posts.map((p) => (
                 <li key={p.id}>
-                  <Link href={`/guild/info/${p.id}`} className="px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 flex items-center gap-3">
+                  <Link href={`/guild/info/${p.id}`} className="px-4 py-3 hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] flex items-center gap-3">
                     <div className="flex-1 min-w-0">
-                      <div className="font-medium truncate">
+                      <div className="font-medium truncate text-ink">
                         {p.has_excel ? "📊 " : ""}{p.title}
-                        {p.comment_count > 0 && <span className="ml-2 text-orange-500 text-sm">[{p.comment_count}]</span>}
+                        {p.comment_count > 0 && <span className="ml-2 text-maple text-sm">[{p.comment_count}]</span>}
                       </div>
-                      <div className="text-xs text-gray-500 mt-0.5">{p.nickname} · {fmtDate(p.created_at)}</div>
+                      <div className="text-xs text-dim mt-0.5">{p.nickname} · {fmtDate(p.created_at)}</div>
                     </div>
-                    <div className="text-xs text-gray-500 text-right shrink-0">
+                    <div className="text-xs text-dim text-right shrink-0">
                       <div>👍 {p.upvotes}</div>
                       <div>👁 {p.views}</div>
                     </div>
@@ -155,9 +155,9 @@ export default function InfoBoardPage() {
           )}
           {totalPages > 1 && (
             <div className="flex justify-center gap-2 mt-4 text-sm">
-              <button disabled={page <= 1} onClick={() => setPage(page - 1)} className="px-3 py-1 rounded bg-gray-100 dark:bg-gray-700 disabled:opacity-40">이전</button>
-              <span className="px-3 py-1">{page} / {totalPages}</span>
-              <button disabled={page >= totalPages} onClick={() => setPage(page + 1)} className="px-3 py-1 rounded bg-gray-100 dark:bg-gray-700 disabled:opacity-40">다음</button>
+              <button disabled={page <= 1} onClick={() => setPage(page - 1)} className="pixel-btn px-3 py-1 disabled:opacity-40">이전</button>
+              <span className="px-3 py-1 text-ink">{page} / {totalPages}</span>
+              <button disabled={page >= totalPages} onClick={() => setPage(page + 1)} className="pixel-btn px-3 py-1 disabled:opacity-40">다음</button>
             </div>
           )}
         </div>
@@ -166,19 +166,19 @@ export default function InfoBoardPage() {
       {view === "write" && (
         <div className="space-y-3">
           <input value={nickname} onChange={(e) => setNickname(e.target.value)} placeholder="닉네임"
-                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-transparent" />
+                 className="pixel-input w-full px-3 py-2" />
           <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="제목"
-                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-transparent" />
+                 className="pixel-input w-full px-3 py-2" />
           <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="내용 (설명)" rows={6}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-transparent" />
-          <div className="border border-dashed border-gray-300 dark:border-gray-600 rounded p-3">
-            <label className="text-sm font-medium">📊 엑셀 첨부 (.xlsx)</label>
+                    className="pixel-input w-full px-3 py-2" />
+          <div className="border-2 border-edge p-3">
+            <label className="text-sm font-medium text-ink">📊 엑셀 첨부 (.xlsx)</label>
             <input type="file" accept=".xlsx,.xls" onChange={(e) => onExcelFile(e.target.files?.[0] ?? null)} className="block mt-2 text-sm" />
             {excelName && <div className="text-xs text-green-600 mt-1">첨부됨: {excelName}</div>}
             {excelPreview && (
               <div className="mt-3">
-                <div className="text-xs text-gray-500 mb-1">미리보기 (표 뷰)</div>
-                <div className="xl-wrap max-h-72 overflow-auto border rounded">
+                <div className="text-xs text-dim mb-1">미리보기 (표 뷰)</div>
+                <div className="xl-wrap max-h-72 overflow-auto border-2 border-edge">
                   <ExcelTableView sheet={excelPreview.sheets[0]} />
                 </div>
               </div>
@@ -186,7 +186,7 @@ export default function InfoBoardPage() {
           </div>
           {writeError && <div className="text-red-500 text-sm">{writeError}</div>}
           <button onClick={handleWrite} disabled={writeLoading}
-                  className="px-5 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded font-medium disabled:opacity-50">
+                  className="pixel-btn px-5 py-2 font-medium disabled:opacity-50">
             {writeLoading ? "등록 중..." : "등록"}
           </button>
         </div>

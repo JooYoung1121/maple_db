@@ -117,25 +117,25 @@ export default function InfoPostDetailPage() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">
       <div className="flex items-center justify-between mb-4">
-        <Link href="/guild/info" className="text-sm text-gray-500 hover:text-orange-500">← 정보공유 목록</Link>
+        <Link href="/guild/info" className="font-pixel text-sm text-dim hover:text-maple">← 정보공유 목록</Link>
         {detail && (
-          <button onClick={share} className="px-3 py-1.5 bg-gray-100 dark:bg-gray-700 rounded-lg text-sm">🔗 공유</button>
+          <button onClick={share} className="pixel-btn px-3 py-1.5 text-sm">🔗 공유</button>
         )}
       </div>
 
       {msg && <div className="mb-3 px-4 py-2 bg-amber-100 text-amber-800 rounded text-sm break-all">{msg}</div>}
 
       {loading ? (
-        <div className="py-10 text-center text-gray-400">불러오는 중...</div>
+        <div className="py-10 text-center text-dim">불러오는 중...</div>
       ) : notFound || !detail ? (
-        <div className="py-10 text-center text-gray-400">
+        <div className="py-10 text-center text-dim">
           글을 찾을 수 없습니다.
-          <div className="mt-3"><Link href="/guild/info" className="text-orange-500">목록으로</Link></div>
+          <div className="mt-3"><Link href="/guild/info" className="text-maple">목록으로</Link></div>
         </div>
       ) : (
         <div>
-          <h1 className="text-xl font-bold">{detail.title}</h1>
-          <div className="text-sm text-gray-500 mt-1 mb-4">
+          <h1 className="font-pixel text-xl font-bold text-ink">{detail.title}</h1>
+          <div className="text-sm text-dim mt-1 mb-4">
             {detail.nickname} · {fmtDate(detail.created_at)} · 👁 {detail.views}
           </div>
 
@@ -144,25 +144,25 @@ export default function InfoPostDetailPage() {
           {detail.excel_json && (
             <div className="mb-5">
               <div className="flex gap-2 mb-2 text-sm items-center flex-wrap">
-                <button onClick={() => setExcelTab("table")} className={`px-3 py-1 rounded ${excelTab === "table" ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-700"}`}>📋 표 뷰 <span className="opacity-70 text-xs">검색·정리</span></button>
-                <button onClick={() => setExcelTab("original")} className={`px-3 py-1 rounded ${excelTab === "original" ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-700"}`}>🎨 원본 <span className="opacity-70 text-xs">엑셀 그대로</span></button>
-                {detail.excel_filename && <span className="text-xs text-gray-400 ml-1">{detail.excel_filename}</span>}
+                <button onClick={() => setExcelTab("table")} className={`px-3 py-1 ${excelTab === "table" ? "pixel-btn" : "font-pixel text-dim hover:text-maple"}`}>📋 표 뷰 <span className="opacity-70 text-xs">검색·정리</span></button>
+                <button onClick={() => setExcelTab("original")} className={`px-3 py-1 ${excelTab === "original" ? "pixel-btn" : "font-pixel text-dim hover:text-maple"}`}>🎨 원본 <span className="opacity-70 text-xs">엑셀 그대로</span></button>
+                {detail.excel_filename && <span className="text-xs text-dim ml-1">{detail.excel_filename}</span>}
               </div>
               {excelTab === "table" ? (
                 <>
                   <input value={tableQuery} onChange={(e) => setTableQuery(e.target.value)}
                          placeholder="🔎 표 안에서 검색 (예: 자쿰, 주문서, 25LV)"
-                         className="w-full sm:w-80 mb-2 px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded bg-transparent text-sm" />
-                  <div className="xl-wrap xl-clean-scroll border border-gray-200 dark:border-gray-700 rounded">
+                         className="pixel-input w-full sm:w-80 mb-2 px-3 py-1.5 text-sm" />
+                  <div className="xl-wrap xl-clean-scroll border-2 border-edge">
                     <ExcelTableView sheet={detail.excel_json.sheets[0]} query={tableQuery} />
                   </div>
-                  <div className="text-xs text-gray-400 mt-1">표 뷰: 병합 셀을 펼쳐 모든 행에 상위 항목(LV 등)을 표시하고, 검색이 쉽도록 정리한 화면입니다.</div>
+                  <div className="text-xs text-dim mt-1">표 뷰: 병합 셀을 펼쳐 모든 행에 상위 항목(LV 등)을 표시하고, 검색이 쉽도록 정리한 화면입니다.</div>
                 </>
               ) : (
                 <>
-                  <div className="xl-wrap border border-gray-200 dark:border-gray-700 rounded p-2"
+                  <div className="xl-wrap border-2 border-edge p-2"
                        dangerouslySetInnerHTML={{ __html: detail.excel_html ?? "" }} />
-                  <div className="text-xs text-gray-400 mt-1">원본: 작성자가 만든 엑셀의 색상·병합·레이아웃을 그대로 보존한 화면입니다.</div>
+                  <div className="text-xs text-dim mt-1">원본: 작성자가 만든 엑셀의 색상·병합·레이아웃을 그대로 보존한 화면입니다.</div>
                 </>
               )}
             </div>
@@ -170,44 +170,44 @@ export default function InfoPostDetailPage() {
 
           <div className="flex items-center gap-3 my-5">
             <button onClick={upvotePost} className="px-5 py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-lg font-medium">👍 추천 {detail.upvotes}</button>
-            <button onClick={share} className="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-lg font-medium">🔗 공유</button>
+            <button onClick={share} className="pixel-btn px-4 py-2 font-medium">🔗 공유</button>
           </div>
 
           <details className="mb-5 text-sm">
-            <summary className="cursor-pointer text-gray-400">관리</summary>
+            <summary className="cursor-pointer text-dim">관리</summary>
             <div className="flex gap-2 mt-2">
               <input type="password" value={adminPw} onChange={(e) => setAdminPw(e.target.value)} placeholder="관리자 비밀번호"
-                     className="px-2 py-1 border rounded bg-transparent" />
+                     className="pixel-input px-2 py-1" />
               <button onClick={deletePost} className="px-3 py-1 bg-red-500 text-white rounded">글 삭제</button>
             </div>
           </details>
 
-          <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+          <div className="border-t-2 border-edge pt-4">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="font-bold">댓글 {detail.comments.length}</h3>
+              <h3 className="font-pixel font-bold text-ink">댓글 {detail.comments.length}</h3>
               <div className="flex gap-1 text-xs">
-                <button onClick={() => changeCommentSort("newest")} className={`px-2 py-1 rounded ${commentSort === "newest" ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-700"}`}>최신순</button>
-                <button onClick={() => changeCommentSort("upvotes")} className={`px-2 py-1 rounded ${commentSort === "upvotes" ? "bg-orange-500 text-white" : "bg-gray-100 dark:bg-gray-700"}`}>추천순</button>
+                <button onClick={() => changeCommentSort("newest")} className={`px-2 py-1 ${commentSort === "newest" ? "pixel-btn" : "font-pixel text-dim hover:text-maple"}`}>최신순</button>
+                <button onClick={() => changeCommentSort("upvotes")} className={`px-2 py-1 ${commentSort === "upvotes" ? "pixel-btn" : "font-pixel text-dim hover:text-maple"}`}>추천순</button>
               </div>
             </div>
             <div className="space-y-2 mb-4">
               {detail.comments.map((c) => (
-                <div key={c.id} className="px-3 py-2 bg-gray-50 dark:bg-gray-800 rounded">
+                <div key={c.id} className="pixel-panel px-3 py-2">
                   <div className="flex justify-between items-start gap-2">
-                    <span className="text-sm font-medium">{c.nickname}</span>
-                    <span className="text-xs text-gray-400">{fmtDate(c.created_at)}</span>
+                    <span className="text-sm font-medium text-ink">{c.nickname}</span>
+                    <span className="text-xs text-dim">{fmtDate(c.created_at)}</span>
                   </div>
-                  <div className="text-sm mt-1 whitespace-pre-wrap">{c.content}</div>
+                  <div className="text-sm mt-1 whitespace-pre-wrap text-ink">{c.content}</div>
                   <button onClick={() => upvoteComment(c.id)} className="text-xs text-rose-500 mt-1">👍 {c.upvotes}</button>
                 </div>
               ))}
             </div>
             <div className="space-y-2">
               <input value={commentNickname} onChange={(e) => setCommentNickname(e.target.value)} placeholder="닉네임"
-                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-transparent text-sm" />
+                     className="pixel-input w-full px-3 py-2 text-sm" />
               <textarea value={commentContent} onChange={(e) => setCommentContent(e.target.value)} placeholder="댓글" rows={2}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded bg-transparent text-sm" />
-              <button onClick={submitComment} className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded text-sm">댓글 등록</button>
+                        className="pixel-input w-full px-3 py-2 text-sm" />
+              <button onClick={submitComment} className="pixel-btn px-4 py-2 text-sm">댓글 등록</button>
             </div>
           </div>
         </div>

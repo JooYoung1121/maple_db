@@ -136,7 +136,7 @@ const bosses = [
 
 function Badge({ children }: { children: string }) {
   return (
-    <span className="inline-flex rounded-full bg-orange-100 px-2.5 py-1 text-xs font-semibold text-orange-700 dark:bg-orange-900/30 dark:text-orange-300">
+    <span className="pixel-badge inline-flex font-pixel bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] px-2.5 py-1 text-xs text-maple">
       {children}
     </span>
   );
@@ -151,10 +151,10 @@ export default function TespiaBossesPage() {
           <Badge>Ver. Test 2.2.62</Badge>
           <Badge>드롭/밸런스 변동 가능</Badge>
         </div>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 md:text-3xl">
+        <h1 className="text-2xl font-bold text-ink md:text-3xl font-pixel">
           테스피아 엔드 보스 공략 메모
         </h1>
-        <p className="max-w-3xl text-sm leading-6 text-gray-600 dark:text-gray-300">
+        <p className="max-w-3xl text-sm leading-6 text-dim">
           카오스 자쿰, 카오스 혼테일, 핑크빈은 테스피아 공지에서 진행 가능 보스로 확인됐습니다.
           이 페이지는 현재 사이트 DB와 v62 WZ 대조 결과를 기준으로 정리한 초안이며, 실제 메랜 테스피아의 드롭과 밸런스는 추후 변경될 수 있습니다.
         </p>
@@ -172,35 +172,35 @@ export default function TespiaBossesPage() {
         {bosses.map((boss) => (
           <article
             key={boss.name}
-            className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800"
+            className="pixel-panel p-5"
           >
             <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">{boss.name}</h2>
+                  <h2 className="text-xl font-bold text-ink font-pixel">{boss.name}</h2>
                   <Badge>{boss.status}</Badge>
                 </div>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{boss.subtitle}</p>
+                <p className="mt-1 text-sm text-dim">{boss.subtitle}</p>
               </div>
             </div>
 
-            <div className="mt-4 rounded-md bg-gray-50 p-3 text-sm text-gray-700 dark:bg-gray-900/50 dark:text-gray-300">
+            <div className="mt-4 bg-surface2 border-2 border-edge p-3 text-sm text-ink">
               {boss.dataWarning}
             </div>
 
             <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_1fr]">
               <section>
-                <h3 className="mb-2 text-sm font-bold text-gray-900 dark:text-gray-100">체력/파츠</h3>
-                <div className="overflow-hidden rounded-md border border-gray-200 dark:border-gray-700">
+                <h3 className="mb-2 text-sm font-bold text-ink font-pixel">체력/파츠</h3>
+                <div className="overflow-hidden border-2 border-edge">
                   {boss.parts.map(([part, hp, note]) => (
                     <div
                       key={part}
-                      className="grid grid-cols-[1fr_1.2fr] gap-3 border-b border-gray-200 px-3 py-2 text-sm last:border-b-0 dark:border-gray-700"
+                      className="grid grid-cols-[1fr_1.2fr] gap-3 border-b border-edge/40 px-3 py-2 text-sm last:border-b-0"
                     >
-                      <span className="font-medium text-gray-800 dark:text-gray-200">{part}</span>
-                      <span className="text-gray-600 dark:text-gray-300">
+                      <span className="font-medium text-ink">{part}</span>
+                      <span className="text-dim">
                         {hp}
-                        <span className="block text-xs text-gray-400">{note}</span>
+                        <span className="block text-xs text-dim">{note}</span>
                       </span>
                     </div>
                   ))}
@@ -208,35 +208,35 @@ export default function TespiaBossesPage() {
               </section>
 
               <section>
-                <h3 className="mb-2 text-sm font-bold text-gray-900 dark:text-gray-100">드롭테이블</h3>
-                <div className="rounded-md border border-gray-200 p-3 text-sm leading-6 dark:border-gray-700">
-                  <p className="font-medium text-gray-800 dark:text-gray-200">{boss.drops.db}</p>
-                  <p className="mt-2 text-gray-600 dark:text-gray-300">{boss.drops.note}</p>
+                <h3 className="mb-2 text-sm font-bold text-ink font-pixel">드롭테이블</h3>
+                <div className="border-2 border-edge p-3 text-sm leading-6">
+                  <p className="font-medium text-ink">{boss.drops.db}</p>
+                  <p className="mt-2 text-dim">{boss.drops.note}</p>
                 </div>
               </section>
             </div>
 
             <section className="mt-5">
-              <h3 className="mb-2 text-sm font-bold text-gray-900 dark:text-gray-100">패턴/기믹</h3>
-              <ul className="grid gap-2 text-sm leading-6 text-gray-700 dark:text-gray-300 md:grid-cols-2">
+              <h3 className="mb-2 text-sm font-bold text-ink font-pixel">패턴/기믹</h3>
+              <ul className="grid gap-2 text-sm leading-6 text-ink md:grid-cols-2">
                 {boss.patterns.map((pattern) => (
-                  <li key={pattern} className="rounded-md bg-gray-50 px-3 py-2 dark:bg-gray-900/50">
+                  <li key={pattern} className="bg-surface2 border-2 border-edge px-3 py-2">
                     {pattern}
                   </li>
                 ))}
               </ul>
             </section>
 
-            <section className="mt-5 rounded-md border border-gray-200 p-3 text-sm leading-6 text-gray-700 dark:border-gray-700 dark:text-gray-300">
-              <h3 className="mb-1 font-bold text-gray-900 dark:text-gray-100">공략 정리 방향</h3>
+            <section className="mt-5 border-2 border-edge p-3 text-sm leading-6 text-ink">
+              <h3 className="mb-1 font-bold text-ink font-pixel">공략 정리 방향</h3>
               <p>{boss.strategy}</p>
             </section>
           </article>
         ))}
       </section>
 
-      <section className="rounded-lg border border-gray-200 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
-        <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">참고한 자료</h2>
+      <section className="pixel-panel p-5">
+        <h2 className="text-lg font-bold text-ink font-pixel">참고한 자료</h2>
         <div className="mt-3 flex flex-wrap gap-2">
           {sourceLinks.map((source) => (
             <a
@@ -244,7 +244,7 @@ export default function TespiaBossesPage() {
               href={source.href}
               target="_blank"
               rel="noreferrer"
-              className="rounded-md border border-gray-200 px-3 py-2 text-sm text-gray-700 transition-colors hover:border-orange-300 hover:text-orange-600 dark:border-gray-700 dark:text-gray-300 dark:hover:border-orange-700 dark:hover:text-orange-300"
+              className="border-2 border-edge px-3 py-2 text-sm text-ink transition-colors hover:border-maple hover:text-maple"
             >
               {source.label}
             </a>

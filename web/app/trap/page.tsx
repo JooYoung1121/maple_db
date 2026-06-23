@@ -67,7 +67,7 @@ const TRAPS: TrapData[] = [
     visibleDuration: null,
     effect: "스턴",
     note: "주기 미확인 — 타이머 사용 불가",
-    color: "bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700",
+    color: "bg-surface2 border-edge",
   },
   {
     id: "pig-park-spike",
@@ -78,7 +78,7 @@ const TRAPS: TrapData[] = [
     visibleDuration: null,
     effect: "데미지 + 넉백",
     note: "상시 활성 함정 (매크로 방지) — 타이머 불필요",
-    color: "bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700",
+    color: "bg-surface2 border-edge",
   },
   {
     id: "sky-nest-rock",
@@ -89,7 +89,7 @@ const TRAPS: TrapData[] = [
     visibleDuration: null,
     effect: "스턴 + 넉백, 약 300 데미지",
     note: "주기 미확인 — 타이머 사용 불가",
-    color: "bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700",
+    color: "bg-surface2 border-edge",
   },
   {
     id: "elnath-cave-lava",
@@ -100,7 +100,7 @@ const TRAPS: TrapData[] = [
     visibleDuration: null,
     effect: "폐광 맵으로 강제 이동",
     note: "지형 함정 — 빠지면 폐광 중앙으로 떨어짐",
-    color: "bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700",
+    color: "bg-surface2 border-edge",
   },
 ];
 
@@ -462,8 +462,8 @@ export default function TrapTimerPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-1">맵 함정 타이머</h1>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+      <h1 className="text-2xl font-bold mb-1 font-pixel">맵 함정 타이머</h1>
+      <p className="text-sm text-dim mb-6">
         {selectedTrap.name} 사이클 타이머 — {cycleTotal}초 주기
         {selectedTrap.hiddenDuration !== null && selectedTrap.visibleDuration !== null
           ? ` (은신 ${selectedTrap.hiddenDuration}초 + 출현 ${selectedTrap.visibleDuration}초)`
@@ -472,7 +472,7 @@ export default function TrapTimerPage() {
 
       {/* ─── 함정 선택 ─── */}
       <div className="mb-4">
-        <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">
+        <label className="block text-xs font-medium text-dim mb-2">
           타이머 대상 함정
         </label>
         <div className="flex flex-wrap gap-2">
@@ -480,17 +480,17 @@ export default function TrapTimerPage() {
             <button
               key={trap.id}
               onClick={() => handleTrapChange(trap.id)}
-              className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors border ${
+              className={`px-3 py-2 text-sm transition-colors ${
                 selectedTrapId === trap.id
-                  ? "bg-orange-500 text-white border-orange-500"
-                  : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-700 hover:border-orange-400 hover:text-orange-600 dark:hover:text-orange-400"
+                  ? "pixel-btn"
+                  : "pixel-card font-pixel text-dim hover:text-maple"
               }`}
             >
               {trap.name}
               <span className={`ml-1.5 text-xs ${
                 selectedTrapId === trap.id
-                  ? "text-orange-100"
-                  : "text-gray-400 dark:text-gray-500"
+                  ? "text-ink"
+                  : "text-dim"
               }`}>
                 ({trap.cycleDuration}초)
               </span>
@@ -505,10 +505,10 @@ export default function TrapTimerPage() {
           <button
             key={m.key}
             onClick={() => setMode(m.key)}
-            className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+            className={`px-3 py-1.5 text-sm transition-colors ${
               mode === m.key
-                ? "bg-orange-500 text-white"
-                : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                ? "pixel-btn"
+                : "bg-surface2 font-pixel text-dim hover:text-maple"
             }`}
           >
             {m.label}
@@ -521,19 +521,19 @@ export default function TrapTimerPage() {
         <div className="flex items-center gap-3 mb-4">
           <button
             onClick={handleSync}
-            className="px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-medium text-sm transition-colors"
+            className="px-5 py-2.5 pixel-btn text-sm transition-colors"
           >
             {startedAt === null ? "시작" : "재동기화"}
           </button>
           {startedAt !== null && (
             <button
               onClick={handleReset}
-              className="px-5 py-2.5 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-medium text-sm transition-colors"
+              className="px-5 py-2.5 bg-surface2 border-2 border-edge text-dim font-pixel text-sm hover:text-maple transition-colors"
             >
               리셋
             </button>
           )}
-          <span className="text-xs text-gray-400 hidden sm:inline">
+          <span className="text-xs text-dim hidden sm:inline">
             스페이스바로도 시작/재동기화 가능
           </span>
         </div>
@@ -541,7 +541,7 @@ export default function TrapTimerPage() {
 
       {/* ─── Mode 1: 컬러 그라데이션 상태바 ─── */}
       {mode === "gradient" && (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 mb-6">
+        <div className="pixel-panel p-6 mb-6">
           <div className="text-center mb-4">
             <div
               className={`text-6xl font-mono font-bold tabular-nums transition-colors ${
@@ -557,7 +557,7 @@ export default function TrapTimerPage() {
               {startedAt === null ? "--" : remaining.toFixed(1)}
               <span className="text-2xl ml-1">초</span>
             </div>
-            <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            <div className="text-sm text-dim mt-1">
               {startedAt === null
                 ? "시작 버튼 또는 스페이스바를 눌러 함정 발동에 맞춰 동기화하세요"
                 : phase === "appearing"
@@ -570,7 +570,7 @@ export default function TrapTimerPage() {
             </div>
           </div>
           {/* 프로그레스 바 */}
-          <div className="w-full h-6 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div className="w-full h-6 bg-surface2 rounded-full overflow-hidden">
             <div
               className={`h-full rounded-full transition-all duration-100 ${
                 phase === "appearing"
@@ -589,7 +589,7 @@ export default function TrapTimerPage() {
               }}
             />
           </div>
-          <div className="flex justify-between text-xs text-gray-400 mt-1">
+          <div className="flex justify-between text-xs text-dim mt-1">
             <span>안전</span>
             <span>주의 ({Math.round(warnAt)}초)</span>
             <span>위험 ({Math.round(dangerAt)}초)</span>
@@ -636,7 +636,7 @@ export default function TrapTimerPage() {
 
       {/* ─── Mode 3: 알림음 + 진동 효과 ─── */}
       {mode === "sound" && (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 mb-6">
+        <div className="pixel-panel p-6 mb-6">
           <div className="text-center mb-4">
             <div
               className={`text-6xl font-mono font-bold tabular-nums transition-colors ${
@@ -652,7 +652,7 @@ export default function TrapTimerPage() {
               {startedAt === null ? "--" : remaining.toFixed(1)}
               <span className="text-2xl ml-1">초</span>
             </div>
-            <div className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            <div className="text-sm text-dim mt-1">
               {startedAt === null
                 ? "시작 버튼을 눌러 동기화하세요"
                 : phase === "appearing"
@@ -665,7 +665,7 @@ export default function TrapTimerPage() {
             </div>
           </div>
           {/* 프로그레스 바 */}
-          <div className="w-full h-6 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden mb-4">
+          <div className="w-full h-6 bg-surface2 rounded-full overflow-hidden mb-4">
             <div
               className={`h-full rounded-full transition-all duration-100 ${
                 phase === "appearing"
@@ -685,13 +685,13 @@ export default function TrapTimerPage() {
             />
           </div>
           {/* 사운드 컨트롤 */}
-          <div className="flex items-center gap-3 bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
+          <div className="flex items-center gap-3 bg-surface2 border-2 border-edge p-3">
             <button
               onClick={() => setMuted(!muted)}
               className={`p-1.5 rounded-lg transition-colors ${
                 muted
                   ? "bg-red-100 dark:bg-red-900/30 text-red-500"
-                  : "bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300"
+                  : "bg-surface2 border-2 border-edge text-dim"
               }`}
               title={muted ? "음소거 해제" : "음소거"}
             >
@@ -720,13 +720,13 @@ export default function TrapTimerPage() {
               step={0.05}
               value={volume}
               onChange={(e) => setVolume(parseFloat(e.target.value))}
-              className="flex-1 accent-orange-500"
+              className="flex-1 accent-maple"
             />
-            <span className="text-xs text-gray-500 dark:text-gray-400 min-w-[3rem] text-right">
+            <span className="text-xs text-dim min-w-[3rem] text-right">
               {Math.round(volume * 100)}%
             </span>
           </div>
-          <p className="text-xs text-gray-400 mt-2 text-center">
+          <p className="text-xs text-dim mt-2 text-center">
             {Math.round(warnAt)}초 전: 경고음 / {Math.round(dangerAt)}초 이내: 긴급음 / 발동 시: 알림음
           </p>
         </div>
@@ -747,22 +747,22 @@ export default function TrapTimerPage() {
               return (
                 <div
                   key={timer.id}
-                  className={`bg-white dark:bg-gray-800 border rounded-xl p-4 transition-colors ${
+                  className={`pixel-panel border-2 p-4 transition-colors ${
                     p === "appearing" || p === "danger"
                       ? "border-red-400 dark:border-red-600"
                       : p === "caution"
                       ? "border-yellow-400 dark:border-yellow-600"
-                      : "border-gray-200 dark:border-gray-700"
+                      : "border-edge"
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-xs text-gray-400 w-5">#{idx + 1}</span>
+                    <span className="text-xs text-dim w-5">#{idx + 1}</span>
                     <input
                       type="text"
                       value={timer.label}
                       onChange={(e) => updateMultiLabel(timer.id, e.target.value)}
                       placeholder="라벨 (예: 남둥 1ch)"
-                      className="flex-1 min-w-0 text-sm bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-orange-400"
+                      className="flex-1 min-w-0 text-sm pixel-input px-3 py-1.5"
                     />
                     <div
                       className={`text-3xl font-mono font-bold tabular-nums min-w-[5rem] text-right ${
@@ -774,21 +774,21 @@ export default function TrapTimerPage() {
                           ? "text-yellow-500"
                           : timer.startedAt !== null
                           ? "text-green-500"
-                          : "text-gray-300 dark:text-gray-600"
+                          : "text-dim"
                       }`}
                     >
                       {timer.startedAt === null ? "--" : r.toFixed(1)}
                     </div>
                     <button
                       onClick={() => syncMultiTimer(timer.id)}
-                      className="px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-xs font-medium transition-colors whitespace-nowrap"
+                      className="px-3 py-1.5 pixel-btn text-xs transition-colors whitespace-nowrap"
                     >
                       {timer.startedAt === null ? "시작" : "재동기화"}
                     </button>
                     {timer.startedAt !== null && (
                       <button
                         onClick={() => resetMultiTimer(timer.id)}
-                        className="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 rounded-lg text-xs font-medium transition-colors"
+                        className="px-3 py-1.5 bg-surface2 border-2 border-edge text-dim font-pixel text-xs hover:text-maple transition-colors"
                       >
                         리셋
                       </button>
@@ -796,7 +796,7 @@ export default function TrapTimerPage() {
                     {multiTimers.length > 1 && (
                       <button
                         onClick={() => removeMultiTimer(timer.id)}
-                        className="p-1.5 text-gray-400 hover:text-red-500 transition-colors"
+                        className="p-1.5 text-dim hover:text-red-500 transition-colors"
                         title="삭제"
                       >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -810,7 +810,7 @@ export default function TrapTimerPage() {
             })}
           <button
             onClick={addMultiTimer}
-            className="w-full py-2.5 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl text-sm text-gray-500 dark:text-gray-400 hover:border-orange-400 hover:text-orange-500 transition-colors"
+            className="w-full py-2.5 border-2 border-dashed border-edge text-sm text-dim hover:border-maple hover:text-maple transition-colors"
           >
             + 타이머 추가
           </button>
@@ -819,7 +819,7 @@ export default function TrapTimerPage() {
 
       {/* ─── Mode 5: PiP 오버레이 모드 ─── */}
       {mode === "pip" && (
-        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 mb-6">
+        <div className="pixel-panel p-6 mb-6">
           {/* 시작/리셋 버튼은 싱글 모드 공통에서 이미 표시 */}
           {/* 컴팩트 프리뷰 */}
           <div
@@ -862,11 +862,11 @@ export default function TrapTimerPage() {
             <div className="text-center">
               <button
                 onClick={openPiP}
-                className="px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-xl font-medium text-sm transition-colors"
+                className="px-5 py-2.5 pixel-btn text-sm transition-colors"
               >
                 PiP로 띄우기
               </button>
-              <p className="text-xs text-gray-400 mt-2">
+              <p className="text-xs text-dim mt-2">
                 작은 항상-위 창으로 타이머가 표시됩니다. 먼저 &quot;시작&quot; 버튼으로 타이머를 동기화하세요.
               </p>
               {pipWindow && !pipWindow.closed && (
@@ -878,7 +878,7 @@ export default function TrapTimerPage() {
               <p className="text-sm text-yellow-600 dark:text-yellow-400">
                 이 브라우저는 Document Picture-in-Picture API를 지원하지 않습니다.
               </p>
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-xs text-dim mt-1">
                 Chrome 116+ 또는 Edge 116+ 브라우저를 사용해주세요.
               </p>
             </div>
@@ -887,14 +887,14 @@ export default function TrapTimerPage() {
       )}
 
       {/* ─── 오버레이 설정 가이드 ─── */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl mb-6 overflow-hidden">
+      <div className="pixel-panel mb-6 overflow-hidden">
         <button
           onClick={() => setGuideOpen(!guideOpen)}
           className="w-full flex items-center justify-between px-5 py-4 text-left"
         >
-          <span className="font-bold text-sm">오버레이 설정 가이드</span>
+          <span className="font-bold text-sm font-pixel">오버레이 설정 가이드</span>
           <svg
-            className={`w-4 h-4 text-gray-400 transition-transform ${guideOpen ? "rotate-180" : ""}`}
+            className={`w-4 h-4 text-dim transition-transform ${guideOpen ? "rotate-180" : ""}`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -903,13 +903,13 @@ export default function TrapTimerPage() {
           </svg>
         </button>
         {guideOpen && (
-          <div className="px-5 pb-5 space-y-5 border-t border-gray-100 dark:border-gray-700 pt-4">
+          <div className="px-5 pb-5 space-y-5 border-t-2 border-edge pt-4">
             {/* 방법 1 */}
             <div>
-              <h3 className="font-bold text-sm text-orange-600 mb-2">
+              <h3 className="font-bold text-sm text-maple mb-2 font-pixel">
                 방법 1: PiP 모드 (추천 — 설치 불필요)
               </h3>
-              <ol className="list-decimal list-inside text-sm text-gray-600 dark:text-gray-400 space-y-1">
+              <ol className="list-decimal list-inside text-sm text-dim space-y-1">
                 <li>Chrome/Edge 브라우저에서 이 페이지를 엽니다</li>
                 <li>위의 &quot;PiP로 띄우기&quot; 버튼을 클릭합니다</li>
                 <li>작은 타이머 창이 화면 구석에 고정됩니다</li>
@@ -919,33 +919,33 @@ export default function TrapTimerPage() {
             </div>
             {/* 방법 2 */}
             <div>
-              <h3 className="font-bold text-sm text-orange-600 mb-2">
+              <h3 className="font-bold text-sm text-maple mb-2 font-pixel">
                 방법 2: PowerToys Always on Top (Windows)
               </h3>
-              <ol className="list-decimal list-inside text-sm text-gray-600 dark:text-gray-400 space-y-1">
+              <ol className="list-decimal list-inside text-sm text-dim space-y-1">
                 <li>
                   Microsoft PowerToys를 설치합니다 (
                   <a
                     href="https://aka.ms/installpowertoys"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-orange-500 hover:underline"
+                    className="text-maple hover:underline"
                   >
                     https://aka.ms/installpowertoys
                   </a>
                   )
                 </li>
                 <li>이 페이지를 작은 브라우저 창으로 엽니다</li>
-                <li>해당 브라우저 창에서 <code className="bg-gray-100 dark:bg-gray-700 px-1 rounded text-xs">Win + Ctrl + T</code>를 누르면 항상 위에 고정됩니다</li>
+                <li>해당 브라우저 창에서 <code className="bg-surface2 border border-edge px-1 text-xs">Win + Ctrl + T</code>를 누르면 항상 위에 고정됩니다</li>
                 <li>메이플랜드를 창모드로 실행하세요</li>
               </ol>
             </div>
             {/* 방법 3 */}
             <div>
-              <h3 className="font-bold text-sm text-orange-600 mb-2">
+              <h3 className="font-bold text-sm text-maple mb-2 font-pixel">
                 방법 3: 브라우저 창 수동 배치
               </h3>
-              <ol className="list-decimal list-inside text-sm text-gray-600 dark:text-gray-400 space-y-1">
+              <ol className="list-decimal list-inside text-sm text-dim space-y-1">
                 <li>이 페이지를 별도 브라우저 창으로 엽니다</li>
                 <li>창 크기를 작게 줄입니다</li>
                 <li>메이플랜드를 창모드로 실행합니다</li>
@@ -964,12 +964,12 @@ export default function TrapTimerPage() {
 
       {/* ─── 맵 함정 정보 ─── */}
       <div className="mb-6">
-        <h2 className="font-bold text-lg mb-3">맵 함정 정보</h2>
+        <h2 className="font-bold text-lg mb-3 font-pixel">맵 함정 정보</h2>
         <div className="space-y-2">
           {TRAPS.map((trap) => (
             <div
               key={trap.id}
-              className={`border rounded-xl p-4 ${trap.color}`}
+              className={`border-2 p-4 ${trap.color}`}
             >
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">
                 <div>
@@ -980,16 +980,16 @@ export default function TrapTimerPage() {
                         타이머 사용 가능
                       </span>
                     ) : (
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-600">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-surface2 text-dim border border-edge">
                         타이머 불가
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">{trap.location}</p>
+                  <p className="text-xs text-dim">{trap.location}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-sm font-medium">{trap.effect}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                  <p className="text-xs text-dim">
                     사이클: {trap.cycleDuration !== null
                       ? `${trap.cycleDuration}초${trap.hiddenDuration !== null && trap.visibleDuration !== null ? ` (은신 ${trap.hiddenDuration}초 + 출현 ${trap.visibleDuration}초)` : ""}`
                       : "불명"}
@@ -997,7 +997,7 @@ export default function TrapTimerPage() {
                 </div>
               </div>
               {trap.note && (
-                <p className="text-xs text-orange-600 dark:text-orange-400 mt-1.5">{trap.note}</p>
+                <p className="text-xs text-maple mt-1.5">{trap.note}</p>
               )}
             </div>
           ))}
@@ -1005,27 +1005,27 @@ export default function TrapTimerPage() {
       </div>
 
       {/* ─── 참고사항 ─── */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
-        <h2 className="font-bold mb-3">참고사항</h2>
+      <div className="pixel-panel p-5">
+        <h2 className="font-bold mb-3 font-pixel">참고사항</h2>
         <ul className="space-y-1.5">
-          <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
-            <span className="text-orange-400 flex-shrink-0">-</span>
+          <li className="text-sm text-dim flex gap-2">
+            <span className="text-maple flex-shrink-0">-</span>
             타이머는 게임 내 실제 함정 발동에 맞춰 수동으로 동기화해야 합니다.
           </li>
-          <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
-            <span className="text-orange-400 flex-shrink-0">-</span>
+          <li className="text-sm text-dim flex gap-2">
+            <span className="text-maple flex-shrink-0">-</span>
             함정이 발동하는 순간 시작 버튼(또는 스페이스바)을 누르면 다음 사이클부터 정확하게 예측됩니다.
           </li>
-          <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
-            <span className="text-orange-400 flex-shrink-0">-</span>
+          <li className="text-sm text-dim flex gap-2">
+            <span className="text-maple flex-shrink-0">-</span>
             리프레 두더지: 은신 30초 + 출현 1초 = 총 31초. 출현 시 3초 스턴 (모든 내성 무시).
           </li>
-          <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
-            <span className="text-orange-400 flex-shrink-0">-</span>
+          <li className="text-sm text-dim flex gap-2">
+            <span className="text-maple flex-shrink-0">-</span>
             엘나스/슬리피우드 증기: 은신 7초 + 분출 2초 = 총 9초 주기.
           </li>
-          <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
-            <span className="text-orange-400 flex-shrink-0">-</span>
+          <li className="text-sm text-dim flex gap-2">
+            <span className="text-maple flex-shrink-0">-</span>
             장시간 사용 시 타이머와 게임 간 미세한 오차가 발생할 수 있습니다. 필요 시 재동기화하세요.
           </li>
         </ul>

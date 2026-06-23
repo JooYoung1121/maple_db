@@ -71,22 +71,22 @@ export default function LottoPage() {
 
   return (
     <div className="max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-1 text-gray-900 dark:text-gray-100">로또 번호 생성기</h1>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">1~45 중 무작위로 6개 + 보너스 번호를 추첨합니다.</p>
+      <h1 className="font-pixel text-2xl font-bold mb-1 text-ink">로또 번호 생성기</h1>
+      <p className="text-sm text-dim mb-6">1~45 중 무작위로 6개 + 보너스 번호를 추첨합니다.</p>
 
       {/* Controls */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm mb-6">
+      <div className="pixel-panel p-5 mb-6">
         <div className="flex items-center gap-4 mb-5">
-          <span className="text-sm font-medium text-gray-700 dark:text-gray-300">생성 개수</span>
+          <span className="font-pixel text-sm font-medium text-ink">생성 개수</span>
           <div className="flex gap-2">
             {[1, 3, 5].map((n) => (
               <button
                 key={n}
                 onClick={() => setCount(n)}
-                className={`w-10 h-10 rounded-lg text-sm font-bold border-2 transition-colors ${
+                className={`w-10 h-10 text-sm font-bold border-2 transition-colors ${
                   count === n
-                    ? "bg-orange-500 text-white border-orange-500"
-                    : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-600 hover:border-orange-300"
+                    ? "pixel-btn"
+                    : "bg-surface2 text-dim border-edge hover:border-maple"
                 }`}
               >
                 {n}
@@ -96,7 +96,7 @@ export default function LottoPage() {
         </div>
         <button
           onClick={generate}
-          className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl text-base transition-colors shadow-md"
+          className="pixel-btn font-pixel w-full py-3 text-base"
         >
           🎱 번호 생성
         </button>
@@ -106,18 +106,18 @@ export default function LottoPage() {
       {results.length > 0 && (
         <div className="space-y-3 mb-6">
           {results.map((r, i) => (
-            <div key={r.id} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+            <div key={r.id} className="pixel-panel p-5">
               {count > 1 && (
-                <p className="text-xs font-semibold text-gray-400 mb-3">{i + 1}번 게임</p>
+                <p className="font-pixel text-xs font-semibold text-dim mb-3">{i + 1}번 게임</p>
               )}
               <div className="flex items-center gap-2.5 flex-wrap">
                 {r.numbers.map((n) => (
                   <LottoBall key={n} number={n} large />
                 ))}
-                <span className="text-gray-300 font-bold text-2xl mx-0.5">+</span>
+                <span className="text-dim font-bold text-2xl mx-0.5">+</span>
                 <div className="flex flex-col items-center gap-1">
                   <LottoBall number={r.bonus} large />
-                  <span className="text-[10px] text-gray-400">보너스</span>
+                  <span className="text-[10px] text-dim">보너스</span>
                 </div>
               </div>
             </div>
@@ -126,11 +126,11 @@ export default function LottoPage() {
       )}
 
       {/* Legend */}
-      <div className="bg-gray-50 dark:bg-gray-900 rounded-xl p-4">
-        <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">번호별 색상</p>
+      <div className="pixel-panel p-4">
+        <p className="font-pixel text-xs font-semibold text-dim mb-2">번호별 색상</p>
         <div className="flex flex-wrap gap-3">
           {LEGEND.map(({ range, color }) => (
-            <div key={range} className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-400">
+            <div key={range} className="flex items-center gap-1.5 text-xs text-dim">
               <span className="inline-block w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: color }} />
               {range}
             </div>

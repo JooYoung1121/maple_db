@@ -469,8 +469,8 @@ export default function JobAdvancementPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-2">전직 가이드</h1>
-      <p className="text-gray-500 dark:text-gray-400 mb-6">
+      <h1 className="font-pixel text-2xl font-bold mb-2 text-ink">전직 가이드</h1>
+      <p className="text-dim mb-6">
         직업별 전직 경로, 요구 조건, 추천 스킬을 확인하세요
       </p>
 
@@ -480,10 +480,10 @@ export default function JobAdvancementPage() {
           <button
             key={j.id}
             onClick={() => { setSelectedJob(j.id); setExpandedBranch(0); }}
-            className={`flex items-center gap-2 px-4 py-3 rounded-xl font-medium text-sm whitespace-nowrap transition-all ${
+            className={`font-pixel flex items-center gap-2 px-4 py-3 rounded-xl font-medium text-sm whitespace-nowrap transition-all ${
               selectedJob === j.id
                 ? `${COLOR_MAP[j.color].bg} ${COLOR_MAP[j.color].border} ${COLOR_MAP[j.color].text} border-2`
-                : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600"
+                : "bg-surface border-2 border-edge text-dim hover:text-maple"
             }`}
           >
             <span className="text-xl">{j.icon}</span>
@@ -497,8 +497,8 @@ export default function JobAdvancementPage() {
         <div className="flex items-center gap-3">
           <span className="text-3xl">{job.icon}</span>
           <div>
-            <h2 className={`text-xl font-bold ${colors.text}`}>{job.name}</h2>
-            <p className="text-sm text-gray-600 dark:text-gray-400">{job.description}</p>
+            <h2 className={`font-pixel text-xl font-bold ${colors.text}`}>{job.name}</h2>
+            <p className="text-sm text-dim">{job.description}</p>
           </div>
         </div>
       </div>
@@ -510,10 +510,10 @@ export default function JobAdvancementPage() {
             <button
               key={idx}
               onClick={() => setExpandedBranch(idx)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
+              className={`font-pixel px-4 py-2 rounded-lg text-sm font-medium transition ${
                 expandedBranch === idx
                   ? `${colors.badge}`
-                  : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                  : "bg-surface2 text-dim hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]"
               }`}
             >
               {branch.name}
@@ -526,7 +526,7 @@ export default function JobAdvancementPage() {
       <div className="mb-6">
         <button
           onClick={() => setShowQuiz(!showQuiz)}
-          className="w-full flex items-center justify-between bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl px-5 py-4 hover:shadow-sm transition"
+          className="w-full flex items-center justify-between bg-amber-50 dark:bg-amber-900/20 border-2 border-amber-200 dark:border-amber-800 rounded-xl px-5 py-4 transition"
         >
           <div className="flex items-center gap-3">
             <span className="text-2xl">📝</span>
@@ -541,7 +541,7 @@ export default function JobAdvancementPage() {
         </button>
 
         {showQuiz && (
-          <div className="mt-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
+          <div className="mt-3 pixel-panel p-5">
             {/* 검색 + 카테고리 */}
             <div className="flex flex-col sm:flex-row gap-3 mb-4">
               <div className="relative flex-1">
@@ -553,7 +553,7 @@ export default function JobAdvancementPage() {
                   value={quizSearch}
                   onChange={(e) => setQuizSearch(e.target.value)}
                   placeholder="질문 또는 정답 검색..."
-                  className="w-full pl-10 pr-4 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
+                  className="pixel-input w-full pl-10 pr-4 py-2 text-sm"
                 />
               </div>
               <div className="flex gap-1 flex-wrap">
@@ -561,10 +561,10 @@ export default function JobAdvancementPage() {
                   <button
                     key={cat}
                     onClick={() => setQuizCategory(cat)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition ${
+                    className={`font-pixel px-3 py-1.5 rounded-lg text-xs font-medium transition ${
                       quizCategory === cat
                         ? "bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300"
-                        : "bg-gray-100 dark:bg-gray-700 text-gray-500 hover:bg-gray-200"
+                        : "bg-surface2 text-dim hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]"
                     }`}
                   >
                     {cat}
@@ -573,22 +573,22 @@ export default function JobAdvancementPage() {
               </div>
             </div>
 
-            <div className="text-xs text-gray-400 mb-3">{filteredQuiz.length}문제</div>
+            <div className="text-xs text-dim mb-3">{filteredQuiz.length}문제</div>
 
             {/* 퀴즈 리스트 */}
             <div className="space-y-2 max-h-96 overflow-y-auto">
               {filteredQuiz.map((quiz, i) => (
-                <div key={i} className="flex items-start gap-3 bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
-                  <span className="text-xs text-gray-400 font-mono mt-0.5 shrink-0">
+                <div key={i} className="flex items-start gap-3 bg-surface2 rounded-lg p-3">
+                  <span className="text-xs text-dim font-mono mt-0.5 shrink-0">
                     Q{QUIZ_DATA.indexOf(quiz) + 1}
                   </span>
                   <div className="min-w-0">
-                    <div className="text-sm">{quiz.q}</div>
+                    <div className="text-sm text-ink">{quiz.q}</div>
                     <div className="mt-1 flex items-center gap-2">
                       <span className="text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/30 px-2 py-0.5 rounded">
                         {quiz.a}
                       </span>
-                      <span className="text-xs text-gray-400">{quiz.category}</span>
+                      <span className="text-xs text-dim">{quiz.category}</span>
                     </div>
                   </div>
                 </div>
@@ -604,19 +604,19 @@ export default function JobAdvancementPage() {
           <div key={idx} className="relative">
             {/* 연결선 */}
             {idx > 0 && (
-              <div className="absolute left-6 -top-4 w-0.5 h-4 bg-gray-300 dark:bg-gray-600" />
+              <div className="absolute left-6 -top-4 w-0.5 h-4 bg-edge" />
             )}
 
-            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5 hover:shadow-md transition">
+            <div className="pixel-panel p-5 transition">
               {/* 헤더 */}
               <div className="flex items-start justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <div className={`w-12 h-12 rounded-full ${colors.bg} ${colors.border} border-2 flex items-center justify-center font-bold ${colors.text}`}>
+                  <div className={`font-pixel w-12 h-12 rounded-full ${colors.bg} ${colors.border} border-2 flex items-center justify-center font-bold ${colors.text}`}>
                     {adv.order}차
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold">{adv.jobName}</h3>
-                    <span className="text-sm text-gray-400">Lv.{adv.level} 이상</span>
+                    <h3 className="font-pixel text-lg font-bold text-ink">{adv.jobName}</h3>
+                    <span className="text-sm text-dim">Lv.{adv.level} 이상</span>
                   </div>
                 </div>
               </div>
@@ -624,24 +624,24 @@ export default function JobAdvancementPage() {
               {/* 정보 그리드 */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
                 <div className="flex items-start gap-2">
-                  <span className="text-gray-400 text-sm shrink-0">NPC</span>
-                  <span className="text-sm font-medium">{adv.npc}</span>
+                  <span className="text-dim text-sm shrink-0">NPC</span>
+                  <span className="text-sm font-medium text-ink">{adv.npc}</span>
                 </div>
                 <div className="flex items-start gap-2">
-                  <span className="text-gray-400 text-sm shrink-0">위치</span>
-                  <span className="text-sm font-medium">{adv.location}</span>
+                  <span className="text-dim text-sm shrink-0">위치</span>
+                  <span className="text-sm font-medium text-ink">{adv.location}</span>
                 </div>
               </div>
 
               {/* 퀘스트 */}
-              <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3 mb-3">
-                <span className="text-xs text-gray-400 block mb-1">전직 방법</span>
-                <span className="text-sm">{adv.quest}</span>
+              <div className="bg-surface2 rounded-lg p-3 mb-3">
+                <span className="text-xs text-dim block mb-1">전직 방법</span>
+                <span className="text-sm text-ink">{adv.quest}</span>
               </div>
 
               {/* 핵심 스킬 */}
               <div className="mb-2">
-                <span className="text-xs text-gray-400 block mb-2">핵심 스킬</span>
+                <span className="text-xs text-dim block mb-2">핵심 스킬</span>
                 <div className="flex flex-wrap gap-1.5">
                   {adv.skills.map((skill) => (
                     <span key={skill} className={`text-xs px-2 py-1 rounded-full ${colors.badge}`}>
@@ -655,7 +655,7 @@ export default function JobAdvancementPage() {
               {adv.tip && (
                 <div className="mt-3 flex items-start gap-2 text-sm">
                   <span className="text-yellow-500">💡</span>
-                  <span className="text-gray-600 dark:text-gray-400">{adv.tip}</span>
+                  <span className="text-dim">{adv.tip}</span>
                 </div>
               )}
             </div>

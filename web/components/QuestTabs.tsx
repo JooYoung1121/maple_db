@@ -27,7 +27,7 @@ export default function QuestTabs({ tabs, defaultTab, onTabChange }: Props) {
   return (
     <div>
       {/* Tab headers */}
-      <div className="flex border-b border-gray-200 dark:border-gray-700 overflow-x-auto" role="tablist">
+      <div className="flex border-b-2 border-edge overflow-x-auto" role="tablist">
         {tabs.map((tab) => (
           <button
             key={tab.key}
@@ -35,10 +35,10 @@ export default function QuestTabs({ tabs, defaultTab, onTabChange }: Props) {
             aria-selected={activeTab === tab.key}
             aria-controls={`tabpanel-${tab.key}`}
             onClick={() => handleTabChange(tab.key)}
-            className={`px-4 py-3 text-sm font-medium whitespace-nowrap border-b-2 transition-colors ${
+            className={`font-pixel px-4 py-3 text-sm whitespace-nowrap border-b-2 transition-colors ${
               activeTab === tab.key
-                ? "border-orange-500 text-orange-600 dark:text-orange-400"
-                : "border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300"
+                ? "border-maple text-maple"
+                : "border-transparent text-dim hover:text-maple hover:border-maple"
             }`}
           >
             {tab.label}

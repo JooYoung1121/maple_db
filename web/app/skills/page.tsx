@@ -62,7 +62,7 @@ function SkillsPageContent() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">스킬</h1>
+      <h1 className="text-2xl font-bold mb-4 font-pixel">스킬</h1>
       <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-900 px-4 py-3 text-sm text-amber-800 dark:text-amber-200">
         현재 스킬 DB는 과거 수집 데이터가 섞여 있어 메랜 기준 정규 리빌드가 필요합니다. 직업별 스킬 배치와 마스터레벨은 검증 중인 참고 정보로 봐주세요.
       </div>
@@ -71,10 +71,10 @@ function SkillsPageContent() {
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
+            className={`px-4 py-2 text-sm whitespace-nowrap transition-colors ${
               activeTab === tab
-                ? "bg-orange-500 text-white"
-                : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200"
+                ? "pixel-btn"
+                : "bg-surface2 font-pixel text-dim hover:text-maple"
             }`}
           >
             {tab}
@@ -84,10 +84,10 @@ function SkillsPageContent() {
       <FilterPanel filters={filters} values={filterValues} onChange={setFilterValues} />
       <div className="mt-4">
         {loading ? (
-          <div className="text-center py-12 text-gray-400">로딩 중...</div>
+          <div className="text-center py-12 text-dim">로딩 중...</div>
         ) : (
           <>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">총 {total.toLocaleString()}건</p>
+            <p className="text-sm text-dim mb-2">총 {total.toLocaleString()}건</p>
             <DataTable columns={columns} data={skills} onRowClick={(row) => router.push(`/skills/${row.id}`)} />
             <Pagination page={page} totalPages={Math.ceil(total / perPage)} onChange={setPage} />
           </>
@@ -99,7 +99,7 @@ function SkillsPageContent() {
 
 export default function SkillsPage() {
   return (
-    <Suspense fallback={<div className="text-center py-12 text-gray-400">로딩 중...</div>}>
+    <Suspense fallback={<div className="text-center py-12 text-dim">로딩 중...</div>}>
       <SkillsPageContent />
     </Suspense>
   );

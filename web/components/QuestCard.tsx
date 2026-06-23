@@ -5,18 +5,18 @@ import type { Quest } from "@/lib/types";
 function LevelBadge({ level }: { level: number }) {
   if (level === 0) {
     return (
-      <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold bg-gray-100 text-gray-500 dark:bg-gray-600/60 dark:text-gray-300">
+      <span className="pixel-badge font-pixel inline-flex items-center px-2 py-0.5 text-xs font-bold bg-surface2 text-dim">
         Lv.-
       </span>
     );
   }
-  let color = "bg-gray-100 text-gray-600 dark:bg-gray-600/60 dark:text-gray-300";
+  let color = "bg-surface2 text-dim";
   if (level <= 30) color = "bg-green-100 text-green-700 dark:bg-green-900/60 dark:text-green-400";
   else if (level <= 70) color = "bg-blue-100 text-blue-700 dark:bg-blue-900/60 dark:text-blue-400";
   else if (level <= 120) color = "bg-purple-100 text-purple-700 dark:bg-purple-900/60 dark:text-purple-400";
   else color = "bg-red-100 text-red-700 dark:bg-red-900/60 dark:text-red-400";
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-bold ${color}`}>
+    <span className={`pixel-badge font-pixel inline-flex items-center px-2 py-0.5 text-xs font-bold ${color}`}>
       Lv.{level}
     </span>
   );
@@ -33,7 +33,7 @@ function DifficultyBadge({ difficulty }: { difficulty: string }) {
     "체인": "bg-purple-100 text-purple-700 dark:bg-purple-900/50 dark:text-purple-400",
   };
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${colors[difficulty] || "bg-gray-100 text-gray-600 dark:bg-gray-700/60 dark:text-gray-300"}`}>
+    <span className={`pixel-badge font-pixel inline-flex items-center px-2 py-0.5 text-xs font-medium ${colors[difficulty] || "bg-surface2 text-dim"}`}>
       {difficulty}
     </span>
   );
@@ -41,13 +41,13 @@ function DifficultyBadge({ difficulty }: { difficulty: string }) {
 
 function TypeBadge({ type }: { type: string }) {
   const colors: Record<string, string> = {
-    "일반": "bg-gray-100 text-gray-600 dark:bg-gray-700/60 dark:text-gray-300",
+    "일반": "bg-surface2 text-dim",
     "반복": "bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-400",
     "히든": "bg-orange-100 text-orange-700 dark:bg-orange-900/50 dark:text-orange-400",
     "월드이동": "bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-400",
   };
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${colors[type] || colors["일반"]}`}>
+    <span className={`pixel-badge font-pixel inline-flex items-center px-2 py-0.5 text-xs font-medium ${colors[type] || colors["일반"]}`}>
       {type}
     </span>
   );
@@ -70,10 +70,10 @@ export default function QuestCard({ quest, onClick, checked, onToggleCheck, favo
 
   return (
     <div
-      className={`relative bg-slate-800/80 border rounded-lg transition-all duration-150 hover:border-orange-500/60 hover:bg-slate-800 ${
+      className={`pixel-card relative ${
         checked
-          ? "border-green-700/50 opacity-50"
-          : "border-slate-700/80"
+          ? "border-slime/50 opacity-50"
+          : ""
       }`}
     >
       {/* Top row: star, level, name, badges, checkbox */}
@@ -82,7 +82,7 @@ export default function QuestCard({ quest, onClick, checked, onToggleCheck, favo
         <button
           onClick={(e) => { e.stopPropagation(); onToggleFavorite?.(); }}
           className={`flex-shrink-0 text-lg leading-none transition-colors ${
-            favorited ? "text-yellow-400" : "text-slate-600 hover:text-yellow-500"
+            favorited ? "text-yellow-400" : "text-dim hover:text-yellow-500"
           }`}
           title={favorited ? "즐겨찾기 해제" : "즐겨찾기"}
         >
@@ -100,11 +100,11 @@ export default function QuestCard({ quest, onClick, checked, onToggleCheck, favo
           onClick={onClick}
           onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onClick?.(); } }}
         >
-          <span className={`font-semibold text-sm text-gray-100 hover:text-orange-400 transition-colors ${checked ? "line-through opacity-60" : ""}`}>
+          <span className={`font-semibold text-sm text-ink hover:text-maple transition-colors ${checked ? "line-through opacity-60" : ""}`}>
             {quest.name}
           </span>
           {quest.is_chain === 1 && quest.chain_parent && (
-            <span className="text-xs text-gray-500 ml-1.5">(체인)</span>
+            <span className="text-xs text-dim ml-1.5">(체인)</span>
           )}
         </div>
 
@@ -119,8 +119,8 @@ export default function QuestCard({ quest, onClick, checked, onToggleCheck, favo
           onClick={(e) => { e.stopPropagation(); onToggleCheck?.(); }}
           className={`flex-shrink-0 w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
             checked
-              ? "bg-green-600 border-green-600 text-white"
-              : "border-slate-500 hover:border-orange-400"
+              ? "bg-slime border-slime text-white"
+              : "border-edge hover:border-maple"
           }`}
           title={checked ? "완료 취소" : "완료"}
         >
@@ -134,7 +134,7 @@ export default function QuestCard({ quest, onClick, checked, onToggleCheck, favo
         {/* Detail link */}
         <button
           onClick={onClick}
-          className="flex-shrink-0 text-xs text-orange-400/70 hover:text-orange-400 transition-colors px-1"
+          className="flex-shrink-0 text-xs text-maple/70 hover:text-maple transition-colors px-1"
           title="상세 보기"
         >
           Tip
@@ -142,27 +142,27 @@ export default function QuestCard({ quest, onClick, checked, onToggleCheck, favo
       </div>
 
       {/* Bottom row: area, start location, rewards */}
-      <div className="px-3 pb-2.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-400">
+      <div className="px-3 pb-2.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-dim">
         {/* Area */}
         {quest.area && (
           <span>
-            <span className="text-gray-500">지역</span>{" "}
-            <span className="text-gray-300">{quest.area}</span>
+            <span className="text-dim">지역</span>{" "}
+            <span className="text-ink">{quest.area}</span>
           </span>
         )}
 
         {/* Start location */}
         {quest.start_location && (
           <span>
-            <span className="text-gray-500">시작</span>{" "}
-            <span className="text-gray-300">{quest.start_location}</span>
+            <span className="text-dim">시작</span>{" "}
+            <span className="text-ink">{quest.start_location}</span>
           </span>
         )}
 
         {/* Rewards */}
         {hasRewards && (
           <span className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-gray-500">보상</span>
+            <span className="text-dim">보상</span>
             {expReward > 0 && (
               <span className="inline-flex items-center gap-0.5 bg-blue-900/30 text-blue-300 px-1.5 py-0.5 rounded">
                 EXP {expReward.toLocaleString()}

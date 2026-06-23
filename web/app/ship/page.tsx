@@ -199,7 +199,7 @@ function getStatusColor(minutesLeft: number): { bg: string; text: string; label:
   if (minutesLeft < 5) {
     return { bg: "bg-yellow-100 dark:bg-yellow-900/40", text: "text-yellow-700 dark:text-yellow-400", label: "대기 중" };
   }
-  return { bg: "bg-gray-100 dark:bg-gray-700", text: "text-gray-600 dark:text-gray-400", label: "대기 중" };
+  return { bg: "bg-surface2", text: "text-dim", label: "대기 중" };
 }
 
 // ─── 정기 노선 행 ───
@@ -216,11 +216,11 @@ function RouteRow({ route }: { route: ShipRoute }) {
   const status = getStatusColor(timer.minutesLeft);
 
   return (
-    <tr className="border-t border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+    <tr className="border-t border-edge/40 hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] transition-colors">
       <td className="px-4 py-3">
         <div className="font-medium text-sm">{route.from}</div>
       </td>
-      <td className="px-2 py-3 text-center text-gray-400">
+      <td className="px-2 py-3 text-center text-dim">
         <svg className="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
         </svg>
@@ -228,16 +228,16 @@ function RouteRow({ route }: { route: ShipRoute }) {
       <td className="px-4 py-3">
         <div className="font-medium text-sm">{route.to}</div>
       </td>
-      <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400 hidden sm:table-cell">
+      <td className="px-4 py-3 text-sm text-dim hidden sm:table-cell">
         {route.vehicle}
       </td>
-      <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400 hidden sm:table-cell">
+      <td className="px-4 py-3 text-sm text-dim hidden sm:table-cell">
         매 {route.intervalMinutes}분
       </td>
-      <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400 hidden sm:table-cell">
+      <td className="px-4 py-3 text-sm text-dim hidden sm:table-cell">
         약 {route.durationMinutes}분
       </td>
-      <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400 hidden md:table-cell">
+      <td className="px-4 py-3 text-sm text-dim hidden md:table-cell">
         {route.cost}
       </td>
       <td className="px-4 py-3">
@@ -245,7 +245,7 @@ function RouteRow({ route }: { route: ShipRoute }) {
           <span className={`text-xs px-2 py-0.5 rounded font-medium ${status.bg} ${status.text}`}>
             {status.label}
           </span>
-          <span className="text-sm font-mono font-bold text-gray-800 dark:text-gray-200 min-w-[4rem]">
+          <span className="text-sm font-mono font-bold text-ink min-w-[4rem]">
             {timer.minutesLeft}:{timer.secondsLeft.toString().padStart(2, "0")}
           </span>
         </div>
@@ -268,11 +268,11 @@ function RouteCard({ route }: { route: ShipRoute }) {
   const status = getStatusColor(timer.minutesLeft);
 
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+    <div className="pixel-panel p-4">
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <span className="font-medium text-sm">{route.from}</span>
-          <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 text-dim" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
           </svg>
           <span className="font-medium text-sm">{route.to}</span>
@@ -282,15 +282,15 @@ function RouteCard({ route }: { route: ShipRoute }) {
         </span>
       </div>
       <div className="flex items-center justify-between">
-        <div className="text-xs text-gray-500 dark:text-gray-400">
+        <div className="text-xs text-dim">
           {route.vehicle} / 매 {route.intervalMinutes}분 / 약 {route.durationMinutes}분 / {route.cost}
         </div>
-        <div className="text-lg font-mono font-bold text-orange-600">
+        <div className="text-lg font-mono font-bold text-maple">
           {timer.minutesLeft}:{timer.secondsLeft.toString().padStart(2, "0")}
         </div>
       </div>
       {route.note && (
-        <p className="text-xs text-orange-500 dark:text-orange-400 mt-1.5">{route.note}</p>
+        <p className="text-xs text-maple mt-1.5">{route.note}</p>
       )}
     </div>
   );
@@ -316,18 +316,18 @@ export default function ShipPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-1">배 시간표</h1>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+      <h1 className="text-2xl font-bold mb-1 font-pixel">배 시간표</h1>
+      <p className="text-sm text-dim mb-6">
         메이플랜드 배/이동수단 실시간 출발 타이머
       </p>
 
       {/* 현재 시간 */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 mb-6 text-center">
-        <p className="text-xs text-gray-400 mb-0.5">현재 시간</p>
-        <p className="text-2xl font-mono font-bold text-gray-800 dark:text-gray-200">
+      <div className="pixel-panel p-4 mb-6 text-center">
+        <p className="text-xs text-dim mb-0.5">현재 시간</p>
+        <p className="text-2xl font-mono font-bold text-ink">
           {now.toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
         </p>
-        <p className="text-xs text-gray-400 mt-1">
+        <p className="text-xs text-dim mt-1">
           타이머는 게임 내 서버 시간과 약간의 차이가 있을 수 있습니다
         </p>
       </div>
@@ -340,13 +340,13 @@ export default function ShipPage() {
 
       {/* 즉시 이동수단 */}
       <div className="mb-6">
-        <h2 className="font-bold text-lg mb-3">즉시 이동수단 (대기 없음)</h2>
+        <h2 className="font-bold text-lg mb-3 font-pixel">즉시 이동수단 (대기 없음)</h2>
 
         {/* Desktop table */}
-        <div className="hidden sm:block bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+        <div className="hidden sm:block pixel-panel overflow-hidden">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 text-xs">
+              <tr className="bg-surface2 text-dim text-xs">
                 <th className="text-left px-4 py-2.5 font-medium">출발지</th>
                 <th className="px-2 py-2.5" />
                 <th className="text-left px-4 py-2.5 font-medium">도착지</th>
@@ -357,17 +357,17 @@ export default function ShipPage() {
             </thead>
             <tbody>
               {INSTANT_ROUTES.map((route) => (
-                <tr key={route.id} className="border-t border-gray-100 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                <tr key={route.id} className="border-t border-edge/40 hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] transition-colors">
                   <td className="px-4 py-3 font-medium text-sm">{route.from}</td>
-                  <td className="px-2 py-3 text-center text-gray-400">
+                  <td className="px-2 py-3 text-center text-dim">
                     <svg className="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
                   </td>
                   <td className="px-4 py-3 font-medium text-sm">{route.to}</td>
-                  <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">{route.vehicle}</td>
-                  <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">{route.cost}</td>
-                  <td className="px-4 py-3 text-sm text-gray-500 dark:text-gray-400">{route.note || "-"}</td>
+                  <td className="px-4 py-3 text-sm text-dim">{route.vehicle}</td>
+                  <td className="px-4 py-3 text-sm text-dim">{route.cost}</td>
+                  <td className="px-4 py-3 text-sm text-dim">{route.note || "-"}</td>
                 </tr>
               ))}
             </tbody>
@@ -377,10 +377,10 @@ export default function ShipPage() {
         {/* Mobile cards */}
         <div className="sm:hidden space-y-2">
           {INSTANT_ROUTES.map((route) => (
-            <div key={route.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+            <div key={route.id} className="pixel-panel p-4">
               <div className="flex items-center gap-2 mb-1.5">
                 <span className="font-medium text-sm">{route.from}</span>
-                <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-dim" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
                 <span className="font-medium text-sm">{route.to}</span>
@@ -388,11 +388,11 @@ export default function ShipPage() {
                   즉시
                 </span>
               </div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">
+              <div className="text-xs text-dim">
                 {route.vehicle} / {route.cost}
               </div>
               {route.note && (
-                <p className="text-xs text-orange-500 dark:text-orange-400 mt-1">{route.note}</p>
+                <p className="text-xs text-maple mt-1">{route.note}</p>
               )}
             </div>
           ))}
@@ -418,31 +418,31 @@ export default function ShipPage() {
       </div>
 
       {/* 참고사항 */}
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-5">
-        <h2 className="font-bold mb-3">참고사항</h2>
+      <div className="pixel-panel p-5">
+        <h2 className="font-bold mb-3 font-pixel">참고사항</h2>
         <ul className="space-y-1.5">
-          <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
-            <span className="text-orange-400 flex-shrink-0">-</span>
+          <li className="text-sm text-dim flex gap-2">
+            <span className="text-maple flex-shrink-0">-</span>
             엘리니아↔오르비스 배 탑승 중 <strong className="text-red-500">크림슨 발록</strong>이 출현할 수 있습니다 (출발 후 약 1분 뒤, 미출현 시 해당 회차 없음).
           </li>
-          <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
-            <span className="text-orange-400 flex-shrink-0">-</span>
+          <li className="text-sm text-dim flex gap-2">
+            <span className="text-maple flex-shrink-0">-</span>
             정기 노선은 출발 시간 전에 탑승장에 도착해야 합니다. 출발 후에는 탑승 불가합니다.
           </li>
-          <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
-            <span className="text-orange-400 flex-shrink-0">-</span>
+          <li className="text-sm text-dim flex gap-2">
+            <span className="text-maple flex-shrink-0">-</span>
             티켓은 각 탑승장 근처 NPC에서 구매할 수 있습니다.
           </li>
-          <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
-            <span className="text-orange-400 flex-shrink-0">-</span>
+          <li className="text-sm text-dim flex gap-2">
+            <span className="text-maple flex-shrink-0">-</span>
             비용은 메이플랜드 기준이며, 실제 게임 내 가격과 다를 수 있습니다.
           </li>
-          <li className="text-sm text-gray-600 dark:text-gray-400 flex gap-2">
-            <span className="text-orange-400 flex-shrink-0">-</span>
+          <li className="text-sm text-dim flex gap-2">
+            <span className="text-maple flex-shrink-0">-</span>
             <span className="inline-flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-green-500 inline-block" /> 곧 출발 (2분 이내)
               <span className="w-2 h-2 rounded-full bg-yellow-500 inline-block ml-2" /> 대기 중 (2~5분)
-              <span className="w-2 h-2 rounded-full bg-gray-400 inline-block ml-2" /> 대기 중 (5분+)
+              <span className="w-2 h-2 rounded-full bg-dim inline-block ml-2" /> 대기 중 (5분+)
               <span className="w-2 h-2 rounded-full bg-blue-500 inline-block ml-2" /> 즉시 이동
             </span>
           </li>
@@ -456,13 +456,13 @@ export default function ShipPage() {
 function ScheduledRouteGroup({ title, routes }: { title: string; routes: ShipRoute[] }) {
   return (
     <div className="mb-6">
-      <h2 className="font-bold text-lg mb-3">{title}</h2>
+      <h2 className="font-bold text-lg mb-3 font-pixel">{title}</h2>
 
       {/* Desktop table */}
-      <div className="hidden sm:block bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
+      <div className="hidden sm:block pixel-panel overflow-hidden">
         <table className="w-full text-sm">
           <thead>
-            <tr className="bg-gray-50 dark:bg-gray-900 text-gray-500 dark:text-gray-400 text-xs">
+            <tr className="bg-surface2 text-dim text-xs">
               <th className="text-left px-4 py-2.5 font-medium">출발지</th>
               <th className="px-2 py-2.5" />
               <th className="text-left px-4 py-2.5 font-medium">도착지</th>

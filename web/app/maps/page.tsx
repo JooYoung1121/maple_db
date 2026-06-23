@@ -11,7 +11,7 @@ import { useQueryState } from "@/lib/useQueryState";
 
 
 const columns: Column<MapData>[] = [
-  { key: "name", label: "이름", render: (r) => r.name_kr ? <><span>{r.name_kr}</span> <span className="text-gray-400 text-xs">({r.name})</span></> : r.name },
+  { key: "name", label: "이름", render: (r) => r.name_kr ? <><span>{r.name_kr}</span> <span className="text-dim text-xs">({r.name})</span></> : r.name },
   { key: "street_name", label: "거리명" },
   { key: "area", label: "지역" },
   { key: "is_town", label: "마을", render: (r) => r.is_town ? "Y" : "" },
@@ -51,16 +51,16 @@ function MapsPageContent() {
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">맵</h1>
+        <h1 className="font-pixel text-2xl font-bold text-ink">맵</h1>
 
       </div>
       <FilterPanel filters={filters} values={filterValues} onChange={setFilterValues} />
       <div className="mt-4">
         {loading ? (
-          <div className="text-center py-12 text-gray-400">로딩 중...</div>
+          <div className="text-center py-12 text-dim">로딩 중...</div>
         ) : (
           <>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">총 {total.toLocaleString()}건</p>
+            <p className="text-sm text-dim mb-2">총 {total.toLocaleString()}건</p>
             <DataTable columns={columns} data={maps} onRowClick={(row) => router.push(`/maps/${row.id}`)} />
             <Pagination page={page} totalPages={Math.ceil(total / perPage)} onChange={setPage} />
           </>
@@ -72,7 +72,7 @@ function MapsPageContent() {
 
 export default function MapsPage() {
   return (
-    <Suspense fallback={<div className="text-center py-12 text-gray-400">로딩 중...</div>}>
+    <Suspense fallback={<div className="text-center py-12 text-dim">로딩 중...</div>}>
       <MapsPageContent />
     </Suspense>
   );

@@ -22,8 +22,8 @@ export default function MobDetailPage() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  if (loading) return <div className="text-center py-12 text-gray-400">로딩 중...</div>;
-  if (!mob) return <div className="text-center py-12 text-gray-400">몬스터를 찾을 수 없습니다</div>;
+  if (loading) return <div className="text-center py-12 text-dim">로딩 중...</div>;
+  if (!mob) return <div className="text-center py-12 text-dim">몬스터를 찾을 수 없습니다</div>;
 
   const statRows = [
     ["레벨", mob.level],
@@ -41,16 +41,16 @@ export default function MobDetailPage() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <Link href="/mobs" className="text-sm text-orange-500 hover:underline">&larr; 몬스터 목록</Link>
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 mt-3">
+      <Link href="/mobs" className="text-sm text-maple hover:underline">&larr; 몬스터 목록</Link>
+      <div className="pixel-panel p-6 mt-3">
         <div className="flex items-start gap-4">
           {mob.icon_url && <img src={mob.icon_url} alt={mob.name} className="w-16 h-16 object-contain" />}
           <div>
-            <h1 className="text-2xl font-bold">
+            <h1 className="font-pixel text-2xl font-bold">
               {(() => {
                 const kr = mob.names_en?.find(n => n.source === "kms");
                 return kr ? (
-                  <>{kr.name_en} <span className="text-lg font-normal text-gray-500 dark:text-gray-400">({mob.name})</span></>
+                  <>{kr.name_en} <span className="text-lg font-normal text-dim">({mob.name})</span></>
                 ) : mob.name;
               })()}
             </h1>
@@ -63,22 +63,22 @@ export default function MobDetailPage() {
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
           {statRows.map(([label, val]) => (
-            <div key={String(label)}><span className="text-sm text-gray-500 dark:text-gray-400">{label}</span><p className="font-medium">{val ?? "-"}</p></div>
+            <div key={String(label)}><span className="text-sm text-dim">{label}</span><p className="font-medium">{val ?? "-"}</p></div>
           ))}
         </div>
       </div>
 
       {drops.length > 0 && (
         <div className="mt-6">
-          <h2 className="text-lg font-semibold mb-3">드롭 아이템</h2>
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl divide-y divide-gray-100">
+          <h2 className="font-pixel text-lg font-semibold mb-3">드롭 아이템</h2>
+          <div className="pixel-panel divide-y divide-edge/40">
             {drops.map((d) => (
-              <Link key={d.id} href={`/items/${d.id}`} className="flex items-center justify-between px-4 py-3 hover:bg-orange-50">
+              <Link key={d.id} href={`/items/${d.id}`} className="flex items-center justify-between px-4 py-3 hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]">
                 <div className="flex items-center gap-2">
                   <span className="font-medium">{d.name_kr || d.name}</span>
-                  {d.category && <span className="text-xs text-gray-400 bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded">{d.category}</span>}
+                  {d.category && <span className="text-xs text-dim bg-surface2 px-1.5 py-0.5 rounded">{d.category}</span>}
                 </div>
-                {d.drop_rate != null && <span className="text-sm text-gray-400">{(d.drop_rate * 100).toFixed(2)}%</span>}
+                {d.drop_rate != null && <span className="text-sm text-dim">{(d.drop_rate * 100).toFixed(2)}%</span>}
               </Link>
             ))}
           </div>
@@ -87,12 +87,12 @@ export default function MobDetailPage() {
 
       {spawns.length > 0 && (
         <div className="mt-6">
-          <h2 className="text-lg font-semibold mb-3">출현 맵</h2>
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl divide-y divide-gray-100">
+          <h2 className="font-pixel text-lg font-semibold mb-3">출현 맵</h2>
+          <div className="pixel-panel divide-y divide-edge/40">
             {spawns.map((s) => (
-              <Link key={s.id} href={`/maps/${s.id}`} className="flex items-center justify-between px-4 py-3 hover:bg-orange-50">
+              <Link key={s.id} href={`/maps/${s.id}`} className="flex items-center justify-between px-4 py-3 hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]">
                 <span className="font-medium">{s.name_kr || s.name}</span>
-                {s.area && <span className="text-sm text-gray-400">{s.area}</span>}
+                {s.area && <span className="text-sm text-dim">{s.area}</span>}
               </Link>
             ))}
           </div>

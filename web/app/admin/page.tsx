@@ -100,8 +100,8 @@ export default function AdminPage() {
 
   if (!authenticated) {
     return (
-      <div className="max-w-sm mx-auto mt-24 p-6 bg-white rounded-xl border border-gray-200 shadow-sm">
-        <h1 className="text-xl font-bold text-gray-900 mb-4">관리자 인증</h1>
+      <div className="pixel-panel max-w-sm mx-auto mt-24 p-6">
+        <h1 className="text-xl font-bold font-pixel text-ink mb-4">관리자 인증</h1>
         <input
           type="password"
           autoComplete="off"
@@ -109,12 +109,12 @@ export default function AdminPage() {
           onChange={(e) => setPasswordInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleLogin()}
           placeholder="관리자 비밀번호"
-          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 mb-3"
+          className="pixel-input w-full px-3 py-2 text-sm mb-3"
         />
         {authError && <p className="text-sm text-red-500 mb-3">{authError}</p>}
         <button
           onClick={handleLogin}
-          className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 rounded-lg transition-colors"
+          className="pixel-btn font-pixel w-full py-2"
         >
           로그인
         </button>
@@ -124,7 +124,7 @@ export default function AdminPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
-      <h1 className="text-2xl font-bold mb-6">관리자 대시보드</h1>
+      <h1 className="text-2xl font-bold mb-6 font-pixel text-ink">관리자 대시보드</h1>
 
       {/* Stats bar */}
       {stats && (
@@ -138,9 +138,9 @@ export default function AdminPage() {
             { label: "스폰 데이터", value: stats.spawn_count },
             { label: "한국어명 없음", value: stats.no_kr_name },
           ].map((s) => (
-            <div key={s.label} className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-3 text-center">
-              <div className="text-xl font-bold text-orange-500">{s.value.toLocaleString()}</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{s.label}</div>
+            <div key={s.label} className="pixel-panel p-3 text-center">
+              <div className="text-xl font-bold text-maple">{s.value.toLocaleString()}</div>
+              <div className="text-xs text-dim mt-1 font-pixel">{s.label}</div>
             </div>
           ))}
         </div>
@@ -153,12 +153,12 @@ export default function AdminPage() {
           placeholder="몬스터 이름 검색"
           value={q}
           onChange={(e) => { setQ(e.target.value); setPage(1); }}
-          className="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-orange-400 w-48"
+          className="pixel-input px-3 py-2 text-sm w-48"
         />
         <select
           value={isHidden}
           onChange={(e) => { setIsHidden(e.target.value); setPage(1); }}
-          className="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-orange-400"
+          className="pixel-input px-3 py-2 text-sm"
         >
           <option value="all">숨김여부: 전체</option>
           <option value="0">노출</option>
@@ -167,7 +167,7 @@ export default function AdminPage() {
         <select
           value={isBoss}
           onChange={(e) => { setIsBoss(e.target.value); setPage(1); }}
-          className="border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:border-orange-400"
+          className="pixel-input px-3 py-2 text-sm"
         >
           <option value="all">보스여부: 전체</option>
           <option value="1">보스만</option>
@@ -175,43 +175,43 @@ export default function AdminPage() {
         </select>
       </div>
 
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">총 {total.toLocaleString()}건</p>
+      <p className="text-sm text-dim mb-2">총 {total.toLocaleString()}건</p>
 
       {/* Table */}
       {loading ? (
-        <div className="text-center py-12 text-gray-400">로딩 중...</div>
+        <div className="text-center py-12 text-dim">로딩 중...</div>
       ) : (
-        <div className="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
+        <div className="overflow-x-auto pixel-panel">
           <table className="min-w-full text-sm">
-            <thead className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+            <thead className="bg-surface2 border-b-2 border-edge">
               <tr>
-                <th className="px-3 py-2 text-left font-medium text-gray-600 dark:text-gray-400 w-16">ID</th>
-                <th className="px-3 py-2 text-left font-medium text-gray-600 dark:text-gray-400 w-12">아이콘</th>
-                <th className="px-3 py-2 text-left font-medium text-gray-600 dark:text-gray-400">이름 (영/한)</th>
-                <th className="px-3 py-2 text-right font-medium text-gray-600 dark:text-gray-400 w-16">레벨</th>
-                <th className="px-3 py-2 text-right font-medium text-gray-600 dark:text-gray-400 w-24">HP</th>
-                <th className="px-3 py-2 text-center font-medium text-gray-600 dark:text-gray-400 w-14">보스</th>
-                <th className="px-3 py-2 text-center font-medium text-gray-600 dark:text-gray-400 w-14">숨김</th>
-                <th className="px-3 py-2 text-right font-medium text-gray-600 dark:text-gray-400 w-16">드롭수</th>
-                <th className="px-3 py-2 text-center font-medium text-gray-600 dark:text-gray-400 w-32">액션</th>
+                <th className="px-3 py-2 text-left font-medium text-dim w-16 font-pixel">ID</th>
+                <th className="px-3 py-2 text-left font-medium text-dim w-12 font-pixel">아이콘</th>
+                <th className="px-3 py-2 text-left font-medium text-dim font-pixel">이름 (영/한)</th>
+                <th className="px-3 py-2 text-right font-medium text-dim w-16 font-pixel">레벨</th>
+                <th className="px-3 py-2 text-right font-medium text-dim w-24 font-pixel">HP</th>
+                <th className="px-3 py-2 text-center font-medium text-dim w-14 font-pixel">보스</th>
+                <th className="px-3 py-2 text-center font-medium text-dim w-14 font-pixel">숨김</th>
+                <th className="px-3 py-2 text-right font-medium text-dim w-16 font-pixel">드롭수</th>
+                <th className="px-3 py-2 text-center font-medium text-dim w-32 font-pixel">액션</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-edge/40">
               {mobs.map((mob) => {
                 const busy = actionLoading === mob.id;
                 return (
-                  <tr key={mob.id} className="hover:bg-gray-50 dark:bg-gray-900 transition-colors">
-                    <td className="px-3 py-2 text-gray-400 text-xs">{mob.id}</td>
+                  <tr key={mob.id} className="hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] transition-colors">
+                    <td className="px-3 py-2 text-dim text-xs">{mob.id}</td>
                     <td className="px-3 py-2">
                       {mob.icon_url ? (
                         <img src={mob.icon_url} alt={mob.name} className="w-8 h-8 object-contain" />
                       ) : (
-                        <div className="w-8 h-8 bg-gray-100 dark:bg-gray-700 rounded" />
+                        <div className="w-8 h-8 bg-surface2 rounded" />
                       )}
                     </td>
                     <td className="px-3 py-2">
                       {mob.name_kr && <div className="font-medium">{mob.name_kr}</div>}
-                      <div className={mob.name_kr ? "text-xs text-gray-400" : "font-medium"}>{mob.name}</div>
+                      <div className={mob.name_kr ? "text-xs text-dim" : "font-medium"}>{mob.name}</div>
                     </td>
                     <td className="px-3 py-2 text-right">{mob.level}</td>
                     <td className="px-3 py-2 text-right text-xs">{(mob.hp ?? 0).toLocaleString()}</td>
@@ -222,7 +222,7 @@ export default function AdminPage() {
                         className={`px-2 py-0.5 rounded text-xs font-medium transition-colors ${
                           mob.is_boss
                             ? "bg-orange-100 text-orange-700 hover:bg-orange-200"
-                            : "bg-gray-100 dark:bg-gray-700 text-gray-400 hover:bg-gray-200"
+                            : "bg-surface2 text-dim hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]"
                         }`}
                       >
                         {mob.is_boss ? "보스" : "-"}
@@ -242,7 +242,7 @@ export default function AdminPage() {
                         {mob.is_hidden ? "숨김" : "노출"}
                       </button>
                     </td>
-                    <td className="px-3 py-2 text-right text-xs text-gray-500 dark:text-gray-400">{mob.drop_count}</td>
+                    <td className="px-3 py-2 text-right text-xs text-dim">{mob.drop_count}</td>
                     <td className="px-3 py-2 text-center">
                       <button
                         onClick={() => handleDelete(mob)}
@@ -257,7 +257,7 @@ export default function AdminPage() {
               })}
               {mobs.length === 0 && (
                 <tr>
-                  <td colSpan={9} className="text-center py-10 text-gray-400">
+                  <td colSpan={9} className="text-center py-10 text-dim">
                     데이터가 없습니다.
                   </td>
                 </tr>

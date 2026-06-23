@@ -106,15 +106,15 @@ function DropdownMenu({ category, isActive, closeMobileMenu, newsBadge = 0 }: {
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className={`relative flex items-center gap-1 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+        className={`font-pixel relative flex items-center gap-1 px-3 py-2 text-[13px] transition-colors ${
           hasActiveChild
-            ? "bg-orange-50 dark:bg-orange-900/30 text-orange-600"
-            : "text-gray-600 dark:text-gray-300 hover:text-orange-600 hover:bg-gray-50 dark:hover:bg-gray-700"
+            ? "text-maple"
+            : "text-dim hover:text-maple"
         }`}
       >
         {category.label}
         {newsBadge > 0 && (
-          <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+          <span className="font-pixel absolute -top-1 -right-1 min-w-[16px] h-4 px-0.5 bg-mush text-white text-[9px] flex items-center justify-center border border-edge-lo">
             {newsBadge > 99 ? "99+" : newsBadge}
           </span>
         )}
@@ -128,7 +128,7 @@ function DropdownMenu({ category, isActive, closeMobileMenu, newsBadge = 0 }: {
         </svg>
       </button>
       {open && (
-        <div className="absolute top-full left-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg py-1 min-w-[160px] z-50">
+        <div className="pixel-panel absolute top-full left-0 mt-2 py-1 min-w-[170px] z-50">
           {category.items.map((item) => (
             <Link
               key={item.href}
@@ -137,10 +137,10 @@ function DropdownMenu({ category, isActive, closeMobileMenu, newsBadge = 0 }: {
                 setOpen(false);
                 closeMobileMenu?.();
               }}
-              className={`block px-4 py-2.5 text-sm transition-colors ${
+              className={`block px-4 py-2 text-sm transition-colors ${
                 isActive(item.href)
-                  ? "bg-orange-50 dark:bg-orange-900/30 text-orange-600 font-medium"
-                  : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-orange-600"
+                  ? "text-maple font-semibold bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)]"
+                  : "text-ink hover:text-maple hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]"
               }`}
             >
               {item.label}
@@ -182,20 +182,21 @@ export default function NavBar() {
   }
 
   return (
-    <nav className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-40">
+    <nav className="bg-surface border-b-2 border-edge sticky top-0 z-40 shadow-[0_2px_0_var(--c-border-lo)]">
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-14">
-        <Link href="/" className="text-lg font-bold text-orange-500 shrink-0">
-          추억길드 메랜 정보
+        <Link href="/" className="font-pixel flex items-center gap-2 text-base text-maple shrink-0 hover:text-maple-hi transition-colors">
+          <img src="/leaf.svg" alt="" className="w-5 h-5" />
+          추억길드 메랜정보
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden md:flex items-center gap-0.5">
           <Link
             href="/"
-            className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+            className={`font-pixel px-3 py-2 text-[13px] transition-colors ${
               isActive("/") && pathname === "/"
-                ? "bg-orange-50 dark:bg-orange-900/30 text-orange-600"
-                : "text-gray-600 dark:text-gray-300 hover:text-orange-600 hover:bg-gray-50 dark:hover:bg-gray-700"
+                ? "text-maple"
+                : "text-dim hover:text-maple"
             }`}
           >
             홈
@@ -209,7 +210,7 @@ export default function NavBar() {
         {/* Mobile hamburger */}
         <div className="flex items-center gap-1 md:hidden">
           <ThemeToggle />
-          <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 text-gray-600 dark:text-gray-300">
+          <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 text-dim hover:text-maple">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {menuOpen ? (
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -223,26 +224,26 @@ export default function NavBar() {
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className="md:hidden border-t border-gray-100 dark:border-gray-700 bg-white dark:bg-gray-800 max-h-[80vh] overflow-y-auto">
+        <div className="md:hidden border-t-2 border-edge bg-surface max-h-[80vh] overflow-y-auto">
           <Link
             href="/"
             onClick={() => setMenuOpen(false)}
-            className={`block px-4 py-3 text-sm font-medium ${
-              pathname === "/" ? "bg-orange-50 dark:bg-orange-900/30 text-orange-600" : "text-gray-600 dark:text-gray-300"
+            className={`font-pixel block px-4 py-3 text-[13px] ${
+              pathname === "/" ? "text-maple" : "text-dim"
             }`}
           >
             홈
           </Link>
           {NAV_CATEGORIES.map((cat) => (
-            <div key={cat.label} className="border-t border-gray-50 dark:border-gray-700">
+            <div key={cat.label} className="border-t border-edge/60">
               <button
                 onClick={() =>
                   setMobileExpanded(mobileExpanded === cat.label ? null : cat.label)
                 }
-                className={`w-full flex items-center justify-between px-4 py-3 text-sm font-medium ${
+                className={`font-pixel w-full flex items-center justify-between px-4 py-3 text-[13px] ${
                   cat.items.some((i) => isActive(i.href))
-                    ? "text-orange-600"
-                    : "text-gray-700 dark:text-gray-300"
+                    ? "text-maple"
+                    : "text-ink"
                 }`}
               >
                 <span>{cat.label}</span>
@@ -258,7 +259,7 @@ export default function NavBar() {
                 </svg>
               </button>
               {mobileExpanded === cat.label && (
-                <div className="bg-gray-50 dark:bg-gray-900">
+                <div className="bg-bg">
                   {cat.items.map((item) => (
                     <Link
                       key={item.href}
@@ -266,8 +267,8 @@ export default function NavBar() {
                       onClick={() => setMenuOpen(false)}
                       className={`block px-8 py-2.5 text-sm ${
                         isActive(item.href)
-                          ? "text-orange-600 font-medium"
-                          : "text-gray-600 dark:text-gray-400"
+                          ? "text-maple font-semibold"
+                          : "text-dim"
                       }`}
                     >
                       {item.label}

@@ -2,6 +2,150 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ───────────────────────────────────────────────
+   픽셀 어드벤처 디자인 시스템
+   - 팔레트는 메이플 세계에서 파생 (동굴 흑갈색 + 메이플 오렌지 + 슬라임 그린 + 버섯 레드)
+   - 시그니처: 클래식 메이플 창 베벨 테두리
+   - 픽셀 폰트(갈무리)는 헤더/네비/뱃지/버튼/히어로에만, 본문/표는 Pretendard
+─────────────────────────────────────────────── */
+
+/* 낮의 필드(라이트) */
+:root {
+  --c-bg: #f3e9d2;          /* 양피지 햇살 */
+  --c-surface: #fbf5e4;
+  --c-surface2: #ffffff;
+  --c-border: #c2a878;      /* 나무 테두리 */
+  --c-border-hi: #efe2c2;   /* 베벨 하이라이트 */
+  --c-border-lo: #93764a;   /* 베벨 그림자 */
+  --c-text: #3a2c1a;        /* 나무 잉크 */
+  --c-text-dim: #7c6a4d;
+  --c-maple: #e5780f;       /* 메이플 오렌지 */
+  --c-maple-hi: #ff9a2e;
+  --c-slime: #5ca524;       /* 슬라임 그린 */
+  --c-mush: #d23a4b;        /* 버섯 레드 */
+  --c-skill: #2e86c4;       /* 스킬 블루 */
+}
+
+/* 동굴 던전(다크) */
+.dark {
+  --c-bg: #17120e;          /* 슬리피우드 동굴 */
+  --c-surface: #221a13;
+  --c-surface2: #2c2218;
+  --c-border: #4a3a28;      /* 따뜻한 돌 */
+  --c-border-hi: #6b533a;
+  --c-border-lo: #0e0a07;
+  --c-text: #f0e6d6;        /* 양피지 */
+  --c-text-dim: #b09c80;
+  --c-maple: #f8941e;
+  --c-maple-hi: #ffae44;
+  --c-slime: #9bd43f;
+  --c-mush: #e2495a;
+  --c-skill: #46b1e0;
+}
+
+@theme inline {
+  --color-bg: var(--c-bg);
+  --color-surface: var(--c-surface);
+  --color-surface2: var(--c-surface2);
+  --color-edge: var(--c-border);
+  --color-edge-hi: var(--c-border-hi);
+  --color-edge-lo: var(--c-border-lo);
+  --color-ink: var(--c-text);
+  --color-dim: var(--c-text-dim);
+  --color-maple: var(--c-maple);
+  --color-maple-hi: var(--c-maple-hi);
+  --color-slime: var(--c-slime);
+  --color-mush: var(--c-mush);
+  --color-skill: var(--c-skill);
+  --font-pixel: "Galmuri11", "Galmuri9", monospace;
+}
+
+/* 픽셀 폰트는 안티앨리어싱 끄고 또렷하게 */
+.font-pixel {
+  font-family: "Galmuri11", "Galmuri9", monospace;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: 0.02em;
+}
+
+@layer components {
+  /* 클래식 메이플 창: 좌상 밝고 우하 어두운 베벨 + 청크 그림자 */
+  .pixel-panel {
+    background: var(--c-surface);
+    border: 2px solid var(--c-border);
+    border-radius: 0;
+    box-shadow:
+      inset 2px 2px 0 var(--c-border-hi),
+      inset -2px -2px 0 var(--c-border-lo),
+      4px 4px 0 rgba(0, 0, 0, 0.22);
+  }
+  .pixel-card {
+    background: var(--c-surface);
+    border: 2px solid var(--c-border);
+    border-radius: 0;
+    box-shadow:
+      inset 1px 1px 0 var(--c-border-hi),
+      inset -1px -1px 0 var(--c-border-lo);
+    transition: transform 0.08s steps(2), box-shadow 0.08s;
+  }
+  .pixel-card:hover {
+    border-color: var(--c-maple);
+    box-shadow:
+      inset 1px 1px 0 var(--c-maple-hi),
+      inset -1px -1px 0 var(--c-border-lo),
+      0 0 0 2px color-mix(in srgb, var(--c-maple) 35%, transparent);
+    transform: translate(-1px, -1px);
+  }
+  .pixel-btn {
+    font-family: "Galmuri11", monospace;
+    -webkit-font-smoothing: none;
+    background: var(--c-maple);
+    color: #1a1206;
+    border: 2px solid var(--c-border-lo);
+    border-radius: 0;
+    box-shadow:
+      inset 2px 2px 0 var(--c-maple-hi),
+      inset -2px -2px 0 rgba(0, 0, 0, 0.3),
+      3px 3px 0 rgba(0, 0, 0, 0.25);
+    transition: transform 0.05s, box-shadow 0.05s;
+  }
+  .pixel-btn:hover { background: var(--c-maple-hi); }
+  .pixel-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.25);
+  }
+  /* 픽셀 입력창: 안으로 눌린 베벨 */
+  .pixel-input {
+    background: var(--c-surface2);
+    border: 2px solid var(--c-border);
+    border-radius: 0;
+    box-shadow: inset 2px 2px 0 var(--c-border-lo);
+    color: var(--c-text);
+  }
+  .pixel-input::placeholder { color: var(--c-text-dim); }
+  .pixel-input:focus { outline: 2px solid var(--c-maple); outline-offset: 0; }
+  /* 뱃지(레벨표/태그) */
+  .pixel-badge {
+    font-family: "Galmuri9", monospace;
+    -webkit-font-smoothing: none;
+    border-radius: 0;
+    border: 1.5px solid var(--c-border-lo);
+    padding: 1px 6px;
+    line-height: 1.4;
+  }
+}
+
+/* 단풍잎 흩날림(히어로 시그니처) — reduced-motion 존중 */
+@keyframes leafDrift {
+  0% { transform: translateY(-8%) rotate(0deg); opacity: 0; }
+  12% { opacity: 0.9; }
+  100% { transform: translateY(120%) rotate(220deg); opacity: 0; }
+}
+.leaf-fall { animation: leafDrift linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  .leaf-fall { animation: none; display: none; }
+}
+
 /* 메이플랜드 공지 본문 스타일 */
 .news-content h2 {
   font-size: 0.95rem;

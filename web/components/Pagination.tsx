@@ -24,18 +24,18 @@ export default function Pagination({ page, totalPages, onChange }: Props) {
       <button
         onClick={() => onChange(page - 1)}
         disabled={page <= 1}
-        className="px-3 py-2 rounded-lg text-sm font-medium disabled:opacity-30 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
+        className="font-pixel px-3 py-2 text-[12px] disabled:opacity-30 text-dim hover:text-maple"
       >
         이전
       </button>
       {pages.map((p, i) =>
         p === "..." ? (
-          <span key={`dots-${i}`} className="px-2 text-gray-400">...</span>
+          <span key={`dots-${i}`} className="px-2 text-dim">...</span>
         ) : (
           <button
             key={p}
             onClick={() => onChange(p as number)}
-            className={`px-3 py-2 rounded-lg text-sm font-medium ${page === p ? "bg-orange-500 text-white" : "hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"}`}
+            className={`font-pixel text-[12px] ${page === p ? "pixel-btn px-3 py-1.5" : "px-3 py-2 text-dim hover:text-maple"}`}
           >
             {p}
           </button>
@@ -44,7 +44,7 @@ export default function Pagination({ page, totalPages, onChange }: Props) {
       <button
         onClick={() => onChange(page + 1)}
         disabled={page >= totalPages}
-        className="px-3 py-2 rounded-lg text-sm font-medium disabled:opacity-30 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300"
+        className="font-pixel px-3 py-2 text-[12px] disabled:opacity-30 text-dim hover:text-maple"
       >
         다음
       </button>

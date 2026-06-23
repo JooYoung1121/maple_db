@@ -150,16 +150,16 @@ export default function CommunityPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">커뮤니티 투표</h1>
+      <h1 className="text-2xl font-bold mb-6 font-pixel text-ink">커뮤니티 투표</h1>
 
       <div className="space-y-6">
         {/* Create poll */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
+        <div className="pixel-panel p-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">새 투표 만들기</h2>
+            <h2 className="text-lg font-semibold font-pixel text-ink">새 투표 만들기</h2>
             <button
               onClick={() => setShowForm((v) => !v)}
-              className="text-sm px-3 py-1.5 rounded-lg bg-orange-500 text-white hover:bg-orange-600 transition-colors font-medium"
+              className="pixel-btn font-pixel text-sm px-3 py-1.5"
             >
               {showForm ? "닫기" : "+ 투표 생성"}
             </button>
@@ -168,17 +168,17 @@ export default function CommunityPage() {
           {showForm && (
             <div className="mt-4 space-y-3">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">질문</label>
+                <label className="block text-sm font-medium text-ink mb-1 font-pixel">질문</label>
                 <textarea
                   value={question}
                   onChange={(e) => setQuestion(e.target.value)}
                   placeholder="투표 질문을 입력하세요"
                   rows={2}
-                  className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none"
+                  className="pixel-input w-full px-3 py-2 text-sm resize-none"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">선택지</label>
+                <label className="block text-sm font-medium text-ink mb-1 font-pixel">선택지</label>
                 <div className="space-y-2">
                   {options.map((opt, idx) => (
                     <div key={idx} className="flex gap-2 items-center">
@@ -187,48 +187,48 @@ export default function CommunityPage() {
                         value={opt}
                         onChange={(e) => handleOptionChange(idx, e.target.value)}
                         placeholder={`선택지 ${idx + 1}`}
-                        className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                        className="pixel-input flex-1 px-3 py-1.5 text-sm"
                       />
                       {options.length > 2 && (
-                        <button onClick={() => handleRemoveOption(idx)} className="text-gray-400 hover:text-red-500 text-lg leading-none">&times;</button>
+                        <button onClick={() => handleRemoveOption(idx)} className="text-dim hover:text-red-500 text-lg leading-none">&times;</button>
                       )}
                     </div>
                   ))}
                 </div>
                 {options.length < 10 && (
-                  <button onClick={handleAddOption} className="mt-2 text-sm text-orange-500 hover:text-orange-700 font-medium">+ 선택지 추가</button>
+                  <button onClick={handleAddOption} className="mt-2 text-sm text-maple hover:text-maple font-medium">+ 선택지 추가</button>
                 )}
               </div>
 
               {/* 새 옵션들 */}
               <div className="flex flex-wrap gap-4">
-                <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+                <label className="flex items-center gap-2 text-sm text-ink cursor-pointer">
                   <input
                     type="checkbox"
                     checked={allowMultiple}
                     onChange={(e) => setAllowMultiple(e.target.checked)}
-                    className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-orange-500 focus:ring-orange-400"
+                    className="w-4 h-4 rounded border-edge text-maple focus:ring-maple"
                   />
                   복수투표 허용
                 </label>
-                <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+                <label className="flex items-center gap-2 text-sm text-ink cursor-pointer">
                   <input
                     type="checkbox"
                     checked={allowUserOptions}
                     onChange={(e) => setAllowUserOptions(e.target.checked)}
-                    className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-orange-500 focus:ring-orange-400"
+                    className="w-4 h-4 rounded border-edge text-maple focus:ring-maple"
                   />
                   사용자 선택지 추가 허용
                 </label>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">마감일 (선택)</label>
+                <label className="block text-sm font-medium text-ink mb-1 font-pixel">마감일 (선택)</label>
                 <input
                   type="datetime-local"
                   value={deadline}
                   onChange={(e) => setDeadline(e.target.value)}
-                  className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                  className="pixel-input w-full px-3 py-1.5 text-sm"
                 />
               </div>
 
@@ -236,7 +236,7 @@ export default function CommunityPage() {
               <button
                 onClick={handleCreatePoll}
                 disabled={creating}
-                className="w-full bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white font-semibold py-2 rounded-lg transition-colors"
+                className="pixel-btn font-pixel w-full disabled:opacity-50 py-2"
               >
                 {creating ? "생성 중..." : "투표 생성"}
               </button>
@@ -246,9 +246,9 @@ export default function CommunityPage() {
 
         {/* Poll list */}
         {loading ? (
-          <div className="text-center py-12 text-gray-400">로딩 중...</div>
+          <div className="text-center py-12 text-dim">로딩 중...</div>
         ) : polls.length === 0 ? (
-          <div className="text-center py-12 text-gray-400">등록된 투표가 없습니다.</div>
+          <div className="text-center py-12 text-dim">등록된 투표가 없습니다.</div>
         ) : (
           <div className="space-y-4">
             {polls.map((poll) => {
@@ -258,13 +258,13 @@ export default function CommunityPage() {
               const isExpired = poll.expired;
 
               return (
-                <div key={poll.id} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
+                <div key={poll.id} className="pixel-panel p-5">
                   <div className="flex items-start justify-between gap-3 mb-3">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="font-semibold text-gray-800 dark:text-gray-200 leading-snug">{poll.question}</h3>
+                        <h3 className="font-semibold text-ink leading-snug">{poll.question}</h3>
                         {isExpired && (
-                          <span className="text-xs px-2 py-0.5 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 font-medium">마감됨</span>
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-surface2 text-dim font-medium">마감됨</span>
                         )}
                         {isMultiple && (
                           <span className="text-xs px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 font-medium">복수투표</span>
@@ -274,7 +274,7 @@ export default function CommunityPage() {
                         )}
                       </div>
                     </div>
-                    <button onClick={() => handleDelete(poll.id)} className="text-xs text-gray-400 hover:text-red-500 shrink-0 transition-colors">삭제</button>
+                    <button onClick={() => handleDelete(poll.id)} className="text-xs text-dim hover:text-red-500 shrink-0 transition-colors">삭제</button>
                   </div>
 
                   {msg && (
@@ -296,16 +296,16 @@ export default function CommunityPage() {
                               disabled={disabled}
                               className={`text-sm px-3 py-1 rounded-full border transition-colors font-medium ${
                                 disabled
-                                  ? "border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 cursor-default"
-                                  : "border-orange-400 text-orange-600 hover:bg-orange-50 cursor-pointer"
+                                  ? "border-edge text-dim cursor-default"
+                                  : "border-maple text-maple hover:bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] cursor-pointer"
                               }`}
                             >
                               {opt}
                             </button>
-                            <span className="text-xs text-gray-400">{count}표 ({pct}%)</span>
+                            <span className="text-xs text-dim">{count}표 ({pct}%)</span>
                           </div>
-                          <div className="h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                            <div className="h-full bg-orange-400 rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
+                          <div className="h-2 bg-surface2 rounded-full overflow-hidden">
+                            <div className="h-full bg-maple rounded-full transition-all duration-500" style={{ width: `${pct}%` }} />
                           </div>
                         </div>
                       );
@@ -321,19 +321,19 @@ export default function CommunityPage() {
                         onChange={(e) => setNewOptionInputs((prev) => ({ ...prev, [poll.id]: e.target.value }))}
                         placeholder="새 선택지 입력"
                         maxLength={50}
-                        className="flex-1 border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+                        className="pixel-input flex-1 px-3 py-1.5 text-sm"
                         onKeyDown={(e) => e.key === "Enter" && handleAddUserOption(poll.id)}
                       />
                       <button
                         onClick={() => handleAddUserOption(poll.id)}
-                        className="text-sm px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 transition-colors font-medium"
+                        className="text-sm px-3 py-1.5 bg-surface2 text-dim hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] transition-colors font-medium"
                       >
                         추가
                       </button>
                     </div>
                   )}
 
-                  <div className="flex items-center gap-2 mt-3 text-xs text-gray-400">
+                  <div className="flex items-center gap-2 mt-3 text-xs text-dim">
                     <span>총 {total}표 · {new Date(poll.created_at).toLocaleDateString("ko-KR")}</span>
                     {poll.deadline && (
                       <span className="ml-auto">

@@ -30,8 +30,8 @@ export default function ItemDetailPage() {
       .finally(() => setLoading(false));
   }, [id]);
 
-  if (loading) return <div className="text-center py-12 text-gray-400">로딩 중...</div>;
-  if (!item) return <div className="text-center py-12 text-gray-400">아이템을 찾을 수 없습니다</div>;
+  if (loading) return <div className="text-center py-12 text-dim">로딩 중...</div>;
+  if (!item) return <div className="text-center py-12 text-dim">아이템을 찾을 수 없습니다</div>;
 
   const stats = item.stats ? JSON.parse(item.stats) : null;
 
@@ -52,8 +52,8 @@ export default function ItemDetailPage() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <Link href="/items" className="text-sm text-orange-500 hover:underline">&larr; 아이템 목록</Link>
-      <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 mt-3">
+      <Link href="/items" className="text-sm text-maple hover:underline">&larr; 아이템 목록</Link>
+      <div className="pixel-panel p-6 mt-3">
         <div className="flex items-start gap-4">
           {item.icon_url && <img src={item.icon_url} alt={item.name} className="w-16 h-16 object-contain" />}
           <div>
@@ -61,35 +61,35 @@ export default function ItemDetailPage() {
               {(() => {
                 const kr = item.names_en?.find(n => n.source === "kms");
                 return kr ? (
-                  <>{kr.name_en} <span className="text-lg font-normal text-gray-500 dark:text-gray-400">({item.name})</span></>
+                  <>{kr.name_en} <span className="text-lg font-normal text-dim">({item.name})</span></>
                 ) : item.name;
               })()}
             </h1>
             <div className="flex gap-2 mt-1 flex-wrap">
-              {item.category && <span className="text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded">{toCategoryKr(item.category)}</span>}
-              {item.subcategory && <span className="text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded">{toSubcategoryKr(item.subcategory)}</span>}
+              {item.category && <span className="pixel-badge text-xs">{toCategoryKr(item.category)}</span>}
+              {item.subcategory && <span className="pixel-badge text-xs">{toSubcategoryKr(item.subcategory)}</span>}
             </div>
           </div>
         </div>
 
         {/* 요구 사항 */}
         <div className="mt-6">
-          <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">요구 사항</span>
+          <span className="font-pixel text-sm font-semibold text-ink">요구 사항</span>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-2">
-            <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
-              <span className="text-xs text-gray-500 dark:text-gray-400">레벨</span>
-              <p className="font-medium text-gray-800 dark:text-gray-200">{item.level_req || "-"}</p>
+            <div className="bg-surface2 border-2 border-edge p-3">
+              <span className="text-xs text-dim">레벨</span>
+              <p className="font-medium text-ink">{item.level_req || "-"}</p>
             </div>
-            <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
-              <span className="text-xs text-gray-500 dark:text-gray-400">직업</span>
-              <p className="font-medium text-gray-800 dark:text-gray-200">{item.job_req || "공용"}</p>
+            <div className="bg-surface2 border-2 border-edge p-3">
+              <span className="text-xs text-dim">직업</span>
+              <p className="font-medium text-ink">{item.job_req || "공용"}</p>
             </div>
             {Object.keys(reqStats).length > 0 && Object.entries(reqStats).map(([k, v]) => {
               const labels: Record<string, string> = { reqSTR: "힘(STR)", reqDEX: "민첩(DEX)", reqINT: "지능(INT)", reqLUK: "행운(LUK)" };
               return (
-                <div key={k} className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
-                  <span className="text-xs text-gray-500 dark:text-gray-400">{labels[k] || k}</span>
-                  <p className="font-medium text-gray-800 dark:text-gray-200">{v}</p>
+                <div key={k} className="bg-surface2 border-2 border-edge p-3">
+                  <span className="text-xs text-dim">{labels[k] || k}</span>
+                  <p className="font-medium text-ink">{v}</p>
                 </div>
               );
             })}
@@ -99,24 +99,24 @@ export default function ItemDetailPage() {
         {/* 장비 정보 */}
         {(item.attack_speed || item.upgrade_slots || item.price) && (
           <div className="mt-6">
-            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">장비 정보</span>
+            <span className="font-pixel text-sm font-semibold text-ink">장비 정보</span>
             <div className="grid grid-cols-3 gap-4 mt-2">
               {item.attack_speed && (
-                <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
-                  <span className="text-xs text-gray-500 dark:text-gray-400">공격속도</span>
-                  <p className="font-medium text-gray-800 dark:text-gray-200">{item.attack_speed}</p>
+                <div className="bg-surface2 border-2 border-edge p-3">
+                  <span className="text-xs text-dim">공격속도</span>
+                  <p className="font-medium text-ink">{item.attack_speed}</p>
                 </div>
               )}
               {item.upgrade_slots != null && item.upgrade_slots > 0 && (
-                <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
-                  <span className="text-xs text-gray-500 dark:text-gray-400">업그레이드 슬롯</span>
-                  <p className="font-medium text-gray-800 dark:text-gray-200">{item.upgrade_slots}</p>
+                <div className="bg-surface2 border-2 border-edge p-3">
+                  <span className="text-xs text-dim">업그레이드 슬롯</span>
+                  <p className="font-medium text-ink">{item.upgrade_slots}</p>
                 </div>
               )}
               {item.price != null && item.price > 0 && (
-                <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
-                  <span className="text-xs text-gray-500 dark:text-gray-400">가격</span>
-                  <p className="font-medium text-gray-800 dark:text-gray-200">{item.price.toLocaleString()} 메소</p>
+                <div className="bg-surface2 border-2 border-edge p-3">
+                  <span className="text-xs text-dim">가격</span>
+                  <p className="font-medium text-ink">{item.price.toLocaleString()} 메소</p>
                 </div>
               )}
             </div>
@@ -125,8 +125,8 @@ export default function ItemDetailPage() {
 
         {item.description && (
           <div className="mt-6">
-            <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">설명</span>
-            <p className="mt-1 text-gray-600 dark:text-gray-400">{item.description}</p>
+            <span className="font-pixel text-sm font-semibold text-ink">설명</span>
+            <p className="mt-1 text-dim">{item.description}</p>
           </div>
         )}
 
@@ -137,22 +137,22 @@ export default function ItemDetailPage() {
       </div>
 
       <div className="mt-6">
-        <h2 className="text-lg font-semibold mb-3">드롭 몬스터</h2>
+        <h2 className="font-pixel text-lg font-semibold mb-3 text-ink">드롭 몬스터</h2>
         {droppedBy.length > 0 ? (
-          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl divide-y divide-gray-100 dark:divide-gray-700">
+          <div className="pixel-panel divide-y divide-edge/40">
             {droppedBy.map((m) => (
               <Link
                 key={m.mob_id}
                 href={`/mobs/${m.mob_id}`}
-                className="flex items-center justify-between px-4 py-3 hover:bg-orange-50 dark:hover:bg-orange-500/10"
+                className="flex items-center justify-between px-4 py-3 hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]"
               >
                 <span className="font-medium">{m.mob_name_kr || m.mob_name}</span>
-                {m.drop_rate != null && <span className="text-sm text-gray-400">{(m.drop_rate * 100).toFixed(2)}%</span>}
+                {m.drop_rate != null && <span className="text-sm text-dim">{(m.drop_rate * 100).toFixed(2)}%</span>}
               </Link>
             ))}
           </div>
         ) : (
-          <div className="rounded-xl border border-dashed border-gray-200 bg-gray-50 px-4 py-5 text-sm text-gray-500 dark:border-gray-700 dark:bg-gray-900/60 dark:text-gray-400">
+          <div className="border-2 border-dashed border-edge bg-surface2 px-4 py-5 text-sm text-dim">
             현재 DB에 연결된 드롭 몬스터 정보가 없습니다.
           </div>
         )}

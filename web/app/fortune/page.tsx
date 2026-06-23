@@ -44,7 +44,7 @@ function StarRating({ value }: { value: number }) {
   return (
     <div className="flex gap-0.5">
       {[1, 2, 3, 4, 5].map((i) => (
-        <span key={i} className={i <= value ? "text-yellow-400" : "text-gray-300 dark:text-gray-600"}>
+        <span key={i} className={i <= value ? "text-yellow-400" : "text-dim"}>
           ★
         </span>
       ))}
@@ -134,18 +134,18 @@ export default function FortunePage() {
 
   return (
     <div className="max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-1 text-gray-900 dark:text-gray-100">
+      <h1 className="text-2xl font-bold mb-1 text-ink font-pixel">
         오늘의 운세
       </h1>
-      <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+      <p className="text-sm text-dim mb-6">
         생년월일과 직업을 선택하면 메이플랜드 운세와 현실 운세를 알려드려요.
       </p>
 
       {/* ── 입력 폼 ──────────────────────────────────── */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm mb-6">
+      <div className="pixel-panel p-5 mb-6">
         {/* 생년월일 */}
         <div className="mb-5">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-ink mb-2 font-pixel">
             생년월일
           </label>
           <input
@@ -153,15 +153,13 @@ export default function FortunePage() {
             value={birthdate}
             onChange={(e) => setBirthdate(e.target.value)}
             max={new Date().toISOString().slice(0, 10)}
-            className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg
-                       bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                       focus:ring-2 focus:ring-orange-400 focus:border-orange-400 transition-colors"
+            className="pixel-input w-full px-4 py-2.5 text-sm"
           />
         </div>
 
         {/* 직업 선택 */}
         <div className="mb-5">
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-ink mb-2 font-pixel">
             직업
           </label>
           <div className="grid grid-cols-5 gap-2">
@@ -169,10 +167,10 @@ export default function FortunePage() {
               <button
                 key={j.key}
                 onClick={() => setJob(j.key)}
-                className={`py-3 rounded-lg text-sm font-bold border-2 transition-all ${
+                className={`py-3 text-sm font-bold border-2 transition-all font-pixel ${
                   job === j.key
-                    ? "bg-orange-500 text-white border-orange-500 scale-105 shadow-md"
-                    : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border-gray-300 dark:border-gray-600 hover:border-orange-300"
+                    ? "bg-maple text-white border-maple scale-105"
+                    : "bg-surface text-dim border-edge hover:border-maple"
                 }`}
               >
                 <span className="block text-lg mb-0.5">{j.icon}</span>
@@ -193,10 +191,10 @@ export default function FortunePage() {
         <button
           onClick={fetchFortune}
           disabled={disabled}
-          className={`w-full font-bold py-3 rounded-xl text-base transition-all shadow-md ${
+          className={`w-full font-bold py-3 text-base transition-all font-pixel ${
             disabled
-              ? "bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed"
-              : "bg-orange-500 hover:bg-orange-600 text-white"
+              ? "bg-surface2 text-dim border-2 border-edge cursor-not-allowed"
+              : "pixel-btn"
           }`}
         >
           {loading
@@ -208,7 +206,7 @@ export default function FortunePage() {
 
         {/* 잔여 횟수 */}
         {remaining !== null && (
-          <p className="text-xs text-gray-400 dark:text-gray-500 mt-2 text-center">
+          <p className="text-xs text-dim mt-2 text-center">
             오늘 남은 횟수: {remaining}회
           </p>
         )}
@@ -216,9 +214,9 @@ export default function FortunePage() {
 
       {/* ── 로딩 애니메이션 ──────────────────────────── */}
       {loading && (
-        <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-8 shadow-sm mb-6 text-center">
+        <div className="pixel-panel p-8 mb-6 text-center">
           <div className="inline-block animate-spin text-4xl mb-3">🔮</div>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+          <p className="text-sm text-dim">
             별자리와 메이플 세계의 기운을 읽고 있습니다...
           </p>
         </div>
@@ -239,30 +237,30 @@ export default function FortunePage() {
               {result.job}
             </span>
             {result.cached && (
-              <span className="px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-xs">
+              <span className="px-3 py-1 rounded-full bg-surface2 text-dim text-xs">
                 캐시 결과
               </span>
             )}
           </div>
 
           {/* 탭 */}
-          <div className="flex rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
+          <div className="flex overflow-hidden border-2 border-edge">
             <button
               onClick={() => setActiveTab("maple")}
-              className={`flex-1 py-2.5 text-sm font-bold transition-colors ${
+              className={`flex-1 py-2.5 text-sm font-bold transition-colors font-pixel ${
                 activeTab === "maple"
-                  ? "bg-orange-500 text-white"
-                  : "bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700"
+                  ? "bg-maple text-white"
+                  : "bg-surface text-dim hover:text-maple"
               }`}
             >
               🍁 메이플 운세
             </button>
             <button
               onClick={() => setActiveTab("real")}
-              className={`flex-1 py-2.5 text-sm font-bold transition-colors ${
+              className={`flex-1 py-2.5 text-sm font-bold transition-colors font-pixel ${
                 activeTab === "real"
-                  ? "bg-orange-500 text-white"
-                  : "bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700"
+                  ? "bg-maple text-white"
+                  : "bg-surface text-dim hover:text-maple"
               }`}
             >
               🌟 현실 운세
@@ -270,16 +268,16 @@ export default function FortunePage() {
           </div>
 
           {/* 운세 내용 */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
-            <p className="text-gray-800 dark:text-gray-200 leading-relaxed whitespace-pre-line">
+          <div className="pixel-panel p-5">
+            <p className="text-ink leading-relaxed whitespace-pre-line">
               {activeTab === "maple" ? result.maple_fortune : result.real_fortune}
             </p>
           </div>
 
           {/* 행운 아이템 (메이플 탭에서만) */}
           {activeTab === "maple" && (
-            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
-              <h3 className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-3">
+            <div className="pixel-panel p-5">
+              <h3 className="text-sm font-bold text-ink mb-3 font-pixel">
                 오늘의 행운
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -316,8 +314,8 @@ export default function FortunePage() {
       )}
 
       {/* ── 안내 ──────────────────────────────────────── */}
-      <div className="mt-6 bg-gray-50 dark:bg-gray-900 rounded-xl p-4">
-        <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+      <div className="mt-6 bg-surface2 p-4">
+        <p className="text-xs text-dim leading-relaxed">
           운세는 메이플랜드 DB와 날짜별 운세 규칙을 바탕으로 생성되며 재미를 위한 것입니다. 같은 조합으로 하루 최대 3가지 다른 운세를 받을 수 있으며, 매일 자정(KST)에 초기화됩니다.
         </p>
       </div>

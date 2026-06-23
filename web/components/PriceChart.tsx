@@ -198,9 +198,9 @@ export default function PriceChart({ itemId }: Props) {
       : null;
 
   return (
-    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-6 mt-6">
+    <div className="pixel-panel p-6 mt-6">
       <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
-        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
+        <h2 className="font-pixel text-lg text-ink">
           시세 정보
         </h2>
         <div className="flex gap-1">
@@ -208,10 +208,10 @@ export default function PriceChart({ itemId }: Props) {
             <button
               key={r.key}
               onClick={() => setResolution(r.key)}
-              className={`px-3 py-1 text-sm rounded-lg transition-colors ${
+              className={`font-pixel px-3 py-1 text-sm transition-colors ${
                 resolution === r.key
-                  ? "bg-orange-500 text-white"
-                  : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                  ? "pixel-btn"
+                  : "bg-surface2 text-dim hover:text-maple"
               }`}
             >
               {r.label}
@@ -221,13 +221,13 @@ export default function PriceChart({ itemId }: Props) {
       </div>
 
       {loading && (
-        <div className="text-center py-12 text-gray-400 dark:text-gray-500">
+        <div className="text-center py-12 text-dim">
           시세 로딩 중...
         </div>
       )}
 
       {!loading && noData && (
-        <div className="text-center py-12 text-gray-400 dark:text-gray-500">
+        <div className="text-center py-12 text-dim">
           시세 정보 없음
         </div>
       )}
@@ -236,18 +236,18 @@ export default function PriceChart({ itemId }: Props) {
         <>
           {/* Summary stats */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
-            <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
-              <span className="text-xs text-gray-500 dark:text-gray-400">
+            <div className="bg-surface2 p-3">
+              <span className="text-xs text-dim">
                 현재 매도 평균가
               </span>
-              <p className="font-medium text-orange-600 dark:text-orange-400">
+              <p className="font-medium text-maple">
                 {latestSell?.sellAvg != null
                   ? formatMeso(latestSell.sellAvg)
                   : "-"}
               </p>
             </div>
-            <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
-              <span className="text-xs text-gray-500 dark:text-gray-400">
+            <div className="bg-surface2 p-3">
+              <span className="text-xs text-dim">
                 현재 매수 평균가
               </span>
               <p className="font-medium text-blue-600 dark:text-blue-400">
@@ -256,21 +256,21 @@ export default function PriceChart({ itemId }: Props) {
                   : "-"}
               </p>
             </div>
-            <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
-              <span className="text-xs text-gray-500 dark:text-gray-400">
+            <div className="bg-surface2 p-3">
+              <span className="text-xs text-dim">
                 최저가 / 최고가
               </span>
-              <p className="font-medium text-gray-800 dark:text-gray-200 text-sm">
+              <p className="font-medium text-ink text-sm">
                 {sellMinAll != null || buyMinAll != null
                   ? `${formatMeso(Math.min(sellMinAll ?? Infinity, buyMinAll ?? Infinity))} ~ ${formatMeso(Math.max(sellMaxAll ?? 0, buyMaxAll ?? 0))}`
                   : "-"}
               </p>
             </div>
-            <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3">
-              <span className="text-xs text-gray-500 dark:text-gray-400">
+            <div className="bg-surface2 p-3">
+              <span className="text-xs text-dim">
                 총 거래량
               </span>
-              <p className="font-medium text-gray-800 dark:text-gray-200">
+              <p className="font-medium text-ink">
                 {(sellTotalCount + buyTotalCount).toLocaleString()}건
               </p>
             </div>
@@ -286,20 +286,20 @@ export default function PriceChart({ itemId }: Props) {
                 <CartesianGrid
                   strokeDasharray="3 3"
                   stroke="currentColor"
-                  className="text-gray-200 dark:text-gray-700"
+                  className="text-edge"
                 />
                 <XAxis
                   dataKey="label"
                   tick={{ fontSize: 11 }}
                   stroke="currentColor"
-                  className="text-gray-400 dark:text-gray-500"
+                  className="text-dim"
                   interval="preserveStartEnd"
                 />
                 <YAxis
                   tickFormatter={formatMeso}
                   tick={{ fontSize: 11 }}
                   stroke="currentColor"
-                  className="text-gray-400 dark:text-gray-500"
+                  className="text-dim"
                   width={60}
                 />
                 <Tooltip
