@@ -101,7 +101,7 @@ def list_news(
         # 전체를 가져와 버전/날짜 기반 키로 Python 정렬 후 페이지네이션한다. (공지 총량이 작음)
         all_rows = conn.execute(
             f"""
-            SELECT id, post_id, COALESCE(source, 'main') as source, board, category, title, published_at, created_at, url, summary
+            SELECT id, post_id, COALESCE(source, 'main') as source, board, category, title, published_at, created_at, updated_at, url, summary
             FROM maple_land_posts
             {where}
             """,

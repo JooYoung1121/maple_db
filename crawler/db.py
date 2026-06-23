@@ -210,6 +210,8 @@ CREATE TABLE IF NOT EXISTS maple_land_posts (
     url TEXT UNIQUE,
     published_at TEXT,
     last_crawled_at TEXT,
+    content_hash TEXT,
+    updated_at TEXT,
     created_at TEXT DEFAULT (datetime('now'))
 );
 
@@ -412,6 +414,8 @@ def migrate_db(conn: sqlite3.Connection) -> None:
         ("community_polls", "deadline", "TEXT"),
         ("maple_land_posts", "summary", "TEXT"),
         ("maple_land_posts", "source", "TEXT DEFAULT 'main'"),
+        ("maple_land_posts", "content_hash", "TEXT"),  # 원문 수정 감지용 해시
+        ("maple_land_posts", "updated_at", "TEXT"),  # 원문 수정 반영 시각
         # Quest.wz 확장 컬럼
         ("quests", "category", "TEXT"),
         ("quests", "prerequisite_quests", "TEXT"),

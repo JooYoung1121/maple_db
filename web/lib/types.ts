@@ -205,6 +205,7 @@ export interface MapleLandPost {
   url: string | null;
   published_at: string | null;
   created_at: string;
+  updated_at?: string | null;
   summary: string | null;
 }
 

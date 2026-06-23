@@ -155,7 +155,14 @@ function PostItem({ post }: { post: MapleLandPost }) {
         className="w-full text-left px-4 py-3.5 flex items-start gap-3 hover:bg-gray-50 dark:bg-gray-900 transition-colors"
       >
         <CategoryBadge category={post.category} />
-        <span className="flex-1 text-sm font-medium text-gray-800 dark:text-gray-200 leading-snug">{post.title}</span>
+        <span className="flex-1 text-sm font-medium text-gray-800 dark:text-gray-200 leading-snug">
+          {post.title}
+          {post.updated_at && (
+            <span className="ml-1.5 inline-block align-middle text-[10px] font-semibold px-1.5 py-0.5 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300">
+              수정됨
+            </span>
+          )}
+        </span>
         <span className="text-xs text-gray-400 shrink-0 mt-0.5">{post.published_at ?? ""}</span>
         <svg
           className={`w-4 h-4 text-gray-400 shrink-0 mt-0.5 transition-transform ${expanded ? "rotate-180" : ""}`}

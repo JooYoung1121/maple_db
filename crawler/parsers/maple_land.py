@@ -1,12 +1,23 @@
 from __future__ import annotations
 """maple.land 공지사항 / 이벤트 파서"""
 
+import hashlib
 import re
 import sqlite3
 from datetime import datetime, timezone
 
 from .base import BaseParser
 from .summarizer import summarize_post
+
+
+def content_hash(title: str | None, content: str | None) -> str:
+    """제목+본문 기준 수정 감지용 해시. 공백 정규화로 사소한 변동 무시."""
+    norm = lambda s: re.sub(r"\s+", " ", (s or "")).strip()
+    h = hashlib.sha256()
+    h.update(norm(title).encode("utf-8"))
+    h.update(b"\x00")
+    h.update(norm(content).encode("utf-8"))
+    return h.hexdigest()
 
 SOURCES = {
     "main": {
@@ -232,9 +243,9 @@ class MapleLandParser(BaseParser):
         conn.execute(
             """
             INSERT INTO maple_land_posts
-                (post_id, source, board, category, title, content, content_html, url, published_at, last_crawled_at, summary)
+                (post_id, source, board, category, title, content, content_html, url, published_at, last_crawled_at, summary, content_hash, updated_at)
             VALUES
-                (:post_id, :source, :board, :category, :title, :content, :content_html, :url, :published_at, :last_crawled_at, :summary)
+                (:post_id, :source, :board, :category, :title, :content, :content_html, :url, :published_at, :last_crawled_at, :summary, :content_hash, :updated_at)
             ON CONFLICT(post_id) DO UPDATE SET
                 source = excluded.source,
                 category = excluded.category,
@@ -243,7 +254,9 @@ class MapleLandParser(BaseParser):
                 content_html = excluded.content_html,
                 published_at = excluded.published_at,
                 last_crawled_at = excluded.last_crawled_at,
-                summary = COALESCE(excluded.summary, maple_land_posts.summary)
+                summary = COALESCE(excluded.summary, maple_land_posts.summary),
+                content_hash = excluded.content_hash,
+                updated_at = COALESCE(excluded.updated_at, maple_land_posts.updated_at)
             """,
             {
                 "post_id": data.get("post_id"),
@@ -257,12 +270,18 @@ class MapleLandParser(BaseParser):
                 "published_at": data.get("published_at"),
                 "last_crawled_at": data.get("last_crawled_at"),
                 "summary": data.get("summary"),
+                "content_hash": data.get("content_hash"),
+                "updated_at": data.get("updated_at"),
             },
         )
         conn.commit()
 
 
 SUMMARY_CATEGORIES = {"업데이트", "이벤트", "진행중", "종료", "안내", "개발일지"}
+
+# 최근 N개 목록 페이지는 기존 글이라도 본문을 재확인해 원문 수정을 감지한다.
+# 공지/이벤트 수정은 보통 게시 직후(최상단)에 일어나므로 1페이지면 대부분 잡힌다.
+RECHECK_PAGES = 1
 
 
 async def crawl_maple_land(
@@ -296,9 +315,22 @@ async def crawl_maple_land(
             except Exception as e:
                 print(f"[maple-land] 요약 백필 오류 {row['post_id']}: {e}")
 
+    # content_hash 기준선 백필 (수정 감지 최초 1회) — updated_at은 건드리지 않음
+    hash_rows = conn.execute(
+        "SELECT post_id, title, content FROM maple_land_posts WHERE content_hash IS NULL"
+    ).fetchall()
+    if hash_rows:
+        print(f"[maple-land] content_hash 백필 {len(hash_rows)}건")
+        for row in hash_rows:
+            conn.execute(
+                "UPDATE maple_land_posts SET content_hash = ? WHERE post_id = ?",
+                (content_hash(row["title"], row["content"]), row["post_id"]),
+            )
+        conn.commit()
+
     # 본문 없는 기존 포스트 재크롤링 (파서 수정 후 자동 보정)
     empty_posts = conn.execute(
-        "SELECT post_id, source, board, url FROM maple_land_posts WHERE content IS NULL OR content = ''"
+        "SELECT post_id, source, board, url, title FROM maple_land_posts WHERE content IS NULL OR content = ''"
     ).fetchall()
     if empty_posts:
         print(f"[maple-land] 본문 없는 포스트 {len(empty_posts)}건 재수집")
@@ -313,7 +345,7 @@ async def crawl_maple_land(
                 detail = parser.parse_detail(detail_html, 0)
                 conn.execute(
                     """UPDATE maple_land_posts
-                       SET content=?, content_html=?, category=?, published_at=?, last_crawled_at=?
+                       SET content=?, content_html=?, category=?, published_at=?, last_crawled_at=?, content_hash=?
                        WHERE post_id=?""",
                     (
                         detail.get("content"),
@@ -321,6 +353,7 @@ async def crawl_maple_land(
                         detail.get("category"),
                         detail.get("published_at"),
                         detail["last_crawled_at"],
+                        content_hash(row["title"], detail.get("content")),
                         row["post_id"],
                     ),
                 )
@@ -351,22 +384,28 @@ async def crawl_maple_land(
                     print(f"[maple-land] {source}/{board} p{page}: 항목 없음, 중단")
                     break
 
+                # 최근 페이지는 기존 글이라도 본문을 재확인해 원문 수정을 감지한다.
+                recheck = page <= RECHECK_PAGES
                 all_known = True
                 for entry in entries:
                     existing = conn.execute(
-                        "SELECT id FROM maple_land_posts WHERE post_id = ?",
+                        "SELECT id, content_hash FROM maple_land_posts WHERE post_id = ?",
                         (entry["post_id"],),
                     ).fetchone()
 
-                    if existing and not force:
+                    is_new = existing is None
+                    # 기존 글: 재확인 대상 페이지가 아니면 스킵 (기존 동작)
+                    if existing and not force and not recheck:
                         continue
+                    if is_new:
+                        all_known = False
 
-                    all_known = False
                     try:
                         detail_html = await client.get(
                             entry["url"],
                             cache_key=f"maple_land/{source}/post/{entry['post_id']}",
-                            use_cache=not force,
+                            # 재확인 시에는 캐시를 우회해 최신 원문을 받아온다.
+                            use_cache=not (force or recheck),
                         )
                         detail = parser.parse_detail(detail_html, 0)
                         cat = entry.get("category") or detail.get("category")
@@ -375,6 +414,23 @@ async def crawl_maple_land(
                             cat = "개발일지"
                         title = entry.get("title") or detail.get("title", "")
                         content = detail.get("content", "")
+                        new_hash = content_hash(title, content)
+
+                        # 기존 글 재확인: 변경 없으면 스킵, 기준선 없으면 기록만
+                        is_edit = False
+                        if existing and not force:
+                            old_hash = existing["content_hash"]
+                            if old_hash == new_hash:
+                                continue  # 내용 동일 → 아무것도 안 함
+                            if old_hash is None:
+                                # 기준선만 기록 (수정으로 간주하지 않음)
+                                conn.execute(
+                                    "UPDATE maple_land_posts SET content_hash = ? WHERE post_id = ?",
+                                    (new_hash, entry["post_id"]),
+                                )
+                                conn.commit()
+                                continue
+                            is_edit = True  # 해시 변동 → 원문 수정
 
                         # 업데이트/이벤트 카테고리만 요약 생성
                         summary = None
@@ -395,10 +451,16 @@ async def crawl_maple_land(
                             "content_html": detail.get("content_html", ""),
                             "last_crawled_at": detail["last_crawled_at"],
                             "summary": summary,
+                            "content_hash": new_hash,
+                            # 수정 감지 시에만 갱신 시각 기록 (신규는 NULL 유지)
+                            "updated_at": detail["last_crawled_at"] if is_edit else None,
                         }
                         parser.save(conn, merged)
                         new_count += 1
-                        print(f"[maple-land] 저장: {source}/{entry['title'][:40]}")
+                        if is_edit:
+                            print(f"[maple-land] 수정 감지·갱신: {source}/{title[:40]}")
+                        else:
+                            print(f"[maple-land] 저장: {source}/{entry['title'][:40]}")
                     except Exception as e:
                         print(f"[maple-land] {entry['url']} 상세 오류: {e}")
 
