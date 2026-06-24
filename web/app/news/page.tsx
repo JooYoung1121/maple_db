@@ -2,15 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import DOMPurify from "dompurify";
-import { getNews, getNewsPost, getTespiaPatchSummary } from "@/lib/api";
-import type { MapleLandPost, TespiaPatchSummary } from "@/lib/types";
-
-type SourceKey = "main" | "tespia";
-
-const SOURCES: { value: SourceKey; label: string; caption: string }[] = [
-  { value: "main", label: "본 월드 (2.0)", caption: "maple.land" },
-  { value: "tespia", label: "테스피아 (테스트)", caption: "tespia.maple.land" },
-];
+import { getNews, getNewsPost } from "@/lib/api";
+import type { MapleLandPost } from "@/lib/types";
 
 const BOARDS = [
   { value: "", label: "전체" },
@@ -195,92 +188,11 @@ function PostItem({ post }: { post: MapleLandPost }) {
   );
 }
 
-function TespiaSummaryPanel({ enabled }: { enabled: boolean }) {
-  const [patches, setPatches] = useState<TespiaPatchSummary[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    if (!enabled) return;
-    setLoading(true);
-    getTespiaPatchSummary(8)
-      .then((d) => setPatches(d.patches || []))
-      .catch(() => setPatches([]))
-      .finally(() => setLoading(false));
-  }, [enabled]);
-
-  if (!enabled) return null;
-
-  return (
-    <div className="border border-sky-200 dark:border-sky-900 bg-sky-50 dark:bg-sky-950/30 rounded-xl p-4">
-      <div className="flex items-start justify-between gap-3 mb-3">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="text-[10px] font-bold tracking-wide px-1.5 py-0.5 rounded bg-sky-600 text-white">
-              TEST
-            </span>
-            <h2 className="text-sm font-bold text-sky-900 dark:text-sky-100">테스피아(테스트) 최신 패치 요약</h2>
-          </div>
-          <p className="text-xs text-sky-700/80 dark:text-sky-300/80 mt-1">
-            테스트 서버 변경점은 본섭 반영 전 수치가 바뀔 수 있습니다.
-          </p>
-        </div>
-        <a
-          href="https://tespia.maple.land/board/notices"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-xs text-sky-700 dark:text-sky-300 hover:underline shrink-0"
-        >
-          원문 목록
-        </a>
-      </div>
-
-      {loading ? (
-        <div className="text-sm text-sky-600 dark:text-sky-300 py-3">요약 불러오는 중...</div>
-      ) : patches.length === 0 ? (
-        <div className="text-sm text-sky-600 dark:text-sky-300 py-3">수집된 테스피아 패치노트가 없습니다.</div>
-      ) : (
-        <div className="space-y-3">
-          {patches.slice(0, 4).map((patch) => (
-            <div key={patch.post_id} className="bg-surface border border-sky-100 dark:border-sky-900 rounded-lg p-3">
-              <div className="flex flex-wrap items-center gap-2 mb-2">
-                {patch.version && (
-                  <span className="text-[11px] font-mono px-1.5 py-0.5 rounded bg-sky-100 dark:bg-sky-900 text-sky-700 dark:text-sky-200">
-                    {patch.version}
-                  </span>
-                )}
-                <a
-                  href={patch.url ?? "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm font-semibold text-ink hover:text-sky-600"
-                >
-                  {patch.title}
-                </a>
-                <span className="text-xs text-dim">{patch.published_at}</span>
-              </div>
-              {patch.summary_lines.length > 0 && (
-                <ul className="space-y-1">
-                  {patch.summary_lines.slice(0, 4).map((line) => (
-                    <li key={line} className="text-xs text-dim flex gap-2">
-                      <span className="text-sky-500 shrink-0">-</span>
-                      <span>{line}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
-
 export default function NewsPage() {
   const [posts, setPosts] = useState<MapleLandPost[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
-  const [source, setSource] = useState<SourceKey>("main");
+  const source = "main";
   const [board, setBoard] = useState("");
   const [category, setCategory] = useState("");
   const [query, setQuery] = useState("");
@@ -325,13 +237,6 @@ export default function NewsPage() {
     setPage(1);
   }
 
-  function handleSourceChange(v: SourceKey) {
-    setSource(v);
-    setBoard("");
-    setCategory("");
-    setPage(1);
-  }
-
   function handleCategoryChange(v: string) {
     setCategory(v);
     setPage(1);
@@ -345,7 +250,7 @@ export default function NewsPage() {
       <div>
         <h1 className="font-pixel text-xl font-bold text-ink">메이플랜드 공식 소식</h1>
         <p className="text-sm text-dim mt-1">
-          본 월드(2.0)·테스피아(테스트) 공지를 나눠서 확인합니다.
+          메이플랜드(2.0) 공식 공지 · 이벤트 · 개발일지를 최신순으로 모아봅니다.
         </p>
       </div>
 
@@ -377,26 +282,6 @@ export default function NewsPage() {
           </div>
         </div>
       </div>
-
-      {/* 소스 탭 */}
-      <div className="grid grid-cols-2 gap-2">
-        {SOURCES.map((item) => (
-          <button
-            key={item.value}
-            onClick={() => handleSourceChange(item.value)}
-            className={`text-left px-4 py-3 transition-colors ${
-              source === item.value
-                ? "border-2 border-maple bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] text-maple"
-                : "pixel-card text-dim hover:border-maple"
-            }`}
-          >
-            <span className="block text-sm font-bold">{item.label}</span>
-            <span className="block text-xs opacity-70 mt-0.5">{item.caption}</span>
-          </button>
-        ))}
-      </div>
-
-      <TespiaSummaryPanel enabled={source === "tespia"} />
 
       {/* 검색 */}
       <form onSubmit={handleSearch} className="flex gap-2">

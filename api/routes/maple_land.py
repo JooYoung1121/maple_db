@@ -38,19 +38,12 @@ def _version_tuple(title: str | None) -> tuple:
 def _recency_sort_key(row):
     """최신 우선 정렬 키 (reverse=True 와 함께 사용 → 큰 값이 위로).
 
-    id 는 크롤 순서라 환경마다 방향이 달라 신뢰할 수 없으므로 보조 키로만 쓴다:
-    - 테스피아: 증분 크롤이라 나중 글 = 큰 id → 큰 id 가 최신
-    - 공홈(main): 일괄 백필이라 최신 글 = 작은 id → 작은 id 가 최신 (부호 반전)
-    버전 번호(Ver. Test X.Y.Z)는 단조 증가하므로 같은 날짜 패치노트의 확실한 최신순 키.
+    게시일(published_at, 없으면 created_at) 기준 최신순. 같은 날짜면 최근 수집(큰 id)이 위로.
+    ※ 수정일(updated_at)은 정렬에 반영하지 않는다 — 수정된 옛 글이 맨 위로 튀어오르는 문제 방지.
+      (updated_at 은 '수정됨' 뱃지와 최근활동 집계에만 사용)
     """
-    source = (row["source"] or "main") if "source" in row.keys() else "main"
     date_key = _date_digits(row["published_at"], row["created_at"])
-    # 원문이 수정된 글은 수정일을 활동일로 반영해 최신순에서 위로 올라오게 한다.
-    if "updated_at" in row.keys():
-        date_key = max(date_key, _date_digits(row["updated_at"]))
-    version = _version_tuple(row["title"])
-    id_signed = row["id"] if source == "tespia" else -row["id"]
-    return (date_key, version, id_signed)
+    return (date_key, row["id"])
 
 
 @router.get("/news/recent-count")

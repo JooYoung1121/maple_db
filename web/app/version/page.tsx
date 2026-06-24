@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.20.2",
+    date: "2026-06-24",
+    type: "patch",
+    title: "공식 소식 최신순 정렬 + 테스피아 제거",
+    features: [
+      {
+        category: "메랜 공식 소식",
+        items: [
+          "게시일 기준 최신순 정렬로 수정 — 수정된 옛 글이 맨 위로 올라오던 문제 해결",
+          "테스피아(테스트 서버) 정보 제거 — 본 월드(2.0) 공지·이벤트·개발일지만 표시",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.20.1",
     date: "2026-06-24",
     type: "patch",
