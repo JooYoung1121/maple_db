@@ -81,7 +81,16 @@ def _save_mob_gms(conn: sqlite3.Connection, entry: dict, now: str) -> None:
     if not eid or not name:
         return
 
-    meta = entry.get("metaInfo", {}) if isinstance(entry.get("metaInfo"), dict) else {}
+    # bulk 응답은 metaInfo(=meta) 가 있을 때만 신뢰. 일부 엔드포인트는 stats 없이 id/name/level 만 반환하는데,
+    # 그 경우 level/hp 가 0 으로 INSERT OR REPLACE 되어 기존 양호 데이터를 전부 0 으로 덮어쓰는 사고가 난다.
+    # → meta 가 비어 스탯이 전부 0 이면 저장을 건너뛴다. (2026-06-24 안전장치)
+    meta = entry.get("metaInfo") if isinstance(entry.get("metaInfo"), dict) else entry.get("meta")
+    meta = meta if isinstance(meta, dict) else {}
+    _lvl = meta.get("level", 0) or 0
+    _hp = meta.get("maxHP", 0) or 0
+    _exp = meta.get("exp", 0) or 0
+    if _lvl == 0 and _hp == 0 and _exp == 0:
+        return
 
     conn.execute(
         """INSERT OR REPLACE INTO mobs
