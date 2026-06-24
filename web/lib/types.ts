@@ -68,6 +68,7 @@ export interface MobSpawn {
   name_kr?: string | null;
   street_name?: string | null;
   area?: string | null;
+  spawn_count?: number | null;
 }
 
 export interface MapMobSpawn {
@@ -75,6 +76,7 @@ export interface MapMobSpawn {
   mob_name: string;
   mob_name_kr?: string | null;
   level: number;
+  spawn_count?: number | null;
 }
 
 export interface MapData {

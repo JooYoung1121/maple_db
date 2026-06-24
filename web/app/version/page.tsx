@@ -18,6 +18,22 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.23.0",
+    date: "2026-06-24",
+    type: "minor",
+    title: "맵별 몹 젠 수 데이터 추가 (maplestory.io)",
+    features: [
+      {
+        category: "젠 수 데이터",
+        items: [
+          "maplestory.io GMS/62 맵 데이터로 맵별 몹 젠 수 수집(930행) — mapledb와 동일 소스",
+          "맵 상세: 출현 몬스터별 '젠 N마리' 표시 / 몹 상세: 출현 맵별 '젠 N마리' 표시",
+          "직업별 사냥터 카드: 주요 사냥터에 '총 N마리 젠' 표시(정확 매칭만)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.22.0",
     date: "2026-06-24",
     type: "minor",

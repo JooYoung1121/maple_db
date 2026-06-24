@@ -329,13 +329,13 @@ def get_mob(mob_id: int):
             spawn_conditions.append(map_filter)
         spawn_rows = conn.execute(
             f"""
-            SELECT m.id, m.name, m.street_name, m.area,
+            SELECT m.id, m.name, m.street_name, m.area, ms.spawn_count as spawn_count,
                    (SELECT name_en FROM entity_names_en
                     WHERE entity_type='map' AND entity_id=m.id AND source='kms') as name_kr
             FROM mob_spawns ms
             JOIN maps m ON m.id = ms.map_id
             WHERE {' AND '.join(spawn_conditions)}
-            ORDER BY m.name
+            ORDER BY ms.spawn_count DESC, m.name
             """,
             (mob_id,),
         ).fetchall()

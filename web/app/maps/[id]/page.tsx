@@ -69,7 +69,10 @@ export default function MapDetailPage() {
             {monsters.map((m) => (
                 <Link key={m.mob_id} href={`/mobs/${m.mob_id}`} className="flex items-center justify-between px-4 py-3 hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]">
                 <span className="font-medium">{m.mob_name_kr || m.mob_name}</span>
-                <span className="text-sm text-dim">Lv. {m.level}</span>
+                <span className="text-sm text-dim flex items-center gap-2">
+                  {m.spawn_count ? <span className="text-skill font-medium">젠 {m.spawn_count}마리</span> : null}
+                  <span>Lv. {m.level}</span>
+                </span>
               </Link>
             ))}
           </div>

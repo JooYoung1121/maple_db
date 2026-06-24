@@ -198,6 +198,21 @@ const MOB_LV: Record<string, number> = {
   "스켈로스": 113, "레비아탄": 120,
 };
 
+// 맵명 정확 일치 사냥터의 총 젠 수 (maplestory.io GMS/62 맵 데이터 기준, 정확 매칭만)
+const SPOT_SPAWN: Record<string, number> = {
+  "개미굴2 (미니던전)": 47,
+  "북치는 토끼의 은신처 (미니던전)": 24,
+  "골렘의 숲 (골숲)": 48,
+  "차가운 요람 (미니던전)": 42,
+  "빨간코 해적단 소굴2 (미니던전)": 21,
+  "붉은 켄타우로스의 영역": 11,
+  "불과 어둠의 전장 (붉켄/검켄)": 24,
+  "협곡의 동쪽길 / 죽은 용의 둥지 (미스트)": 13,
+  "블루 와이번의 둥지 (심알바)": 12,
+  "레드 와이번의 둥지 (얼음 약점)": 9,
+  "큰 둥지 봉우리 (큰둥)": 6,
+};
+
 function SpotCard({ s, showJobs }: { s: Spot; showJobs: boolean }) {
   const [open, setOpen] = useState(false);
   const url = firstUrl(s.source);
@@ -240,6 +255,12 @@ function SpotCard({ s, showJobs }: { s: Spot; showJobs: boolean }) {
             <p className="font-pixel text-[11px] text-maple mb-1">사냥 팁</p>
             <p className="text-sm text-ink leading-relaxed">{s.tip}</p>
           </div>
+          {SPOT_SPAWN[s.map] && (
+            <p className="text-xs text-dim">
+              이 맵 젠: <span className="text-skill font-medium">총 {SPOT_SPAWN[s.map]}마리</span>
+              <span className="opacity-70"> (maplestory.io 맵 데이터 기준)</span>
+            </p>
+          )}
           <div className="flex items-center justify-between gap-2 flex-wrap">
             {showJobs && !s.common && s.jobs && (
               <div className="flex flex-wrap gap-1">

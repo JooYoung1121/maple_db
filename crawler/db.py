@@ -416,6 +416,7 @@ def migrate_db(conn: sqlite3.Connection) -> None:
         ("maple_land_posts", "source", "TEXT DEFAULT 'main'"),
         ("maple_land_posts", "content_hash", "TEXT"),  # 원문 수정 감지용 해시
         ("maple_land_posts", "updated_at", "TEXT"),  # 원문 수정 반영 시각
+        ("mob_spawns", "spawn_count", "INTEGER"),  # 맵별 몹 젠 수 (maplestory.io GMS/62 map life 기준)
         # Quest.wz 확장 컬럼
         ("quests", "category", "TEXT"),
         ("quests", "prerequisite_quests", "TEXT"),

@@ -92,7 +92,10 @@ export default function MobDetailPage() {
             {spawns.map((s) => (
               <Link key={s.id} href={`/maps/${s.id}`} className="flex items-center justify-between px-4 py-3 hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]">
                 <span className="font-medium">{s.name_kr || s.name}</span>
-                {s.area && <span className="text-sm text-dim">{s.area}</span>}
+                <span className="text-sm text-dim flex items-center gap-2">
+                  {s.spawn_count ? <span className="text-skill font-medium">젠 {s.spawn_count}마리</span> : null}
+                  {s.area && <span>{s.area}</span>}
+                </span>
               </Link>
             ))}
           </div>

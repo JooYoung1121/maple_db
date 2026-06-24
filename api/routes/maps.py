@@ -154,12 +154,13 @@ def get_map(map_id: int):
         mob_rows = conn.execute(
             """
             SELECT m.id as mob_id, m.name as mob_name, m.level, m.hp, m.is_boss, m.icon_url,
+                   ms.spawn_count as spawn_count,
                    (SELECT name_en FROM entity_names_en
                     WHERE entity_type='mob' AND entity_id=m.id AND source='kms') as mob_name_kr
             FROM mob_spawns ms
             JOIN mobs m ON m.id = ms.mob_id
             WHERE """ + " AND ".join(mob_conditions) + """
-            ORDER BY m.level
+            ORDER BY ms.spawn_count DESC, m.level
             """,
             (map_id,),
         ).fetchall()
