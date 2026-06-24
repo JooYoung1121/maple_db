@@ -18,6 +18,23 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.23.1",
+    date: "2026-06-24",
+    type: "patch",
+    title: "사냥터 몹 목록 권위 데이터로 정정",
+    features: [
+      {
+        category: "직업별 사냥터",
+        items: [
+          "동쪽 바위산 6: 커즈아이(오류) → 파이어보어·와일드보어·다크 엑스텀프 (실제 출현)",
+          "골렘의 숲: 스톤골렘(미출현) → 믹스골렘·다크 스톤골렘·커즈아이·루팡",
+          "레드 와이번의 둥지: 다크 코니언(미출현) 제거",
+          "맵 정확 매칭 사냥터의 몹 목록을 maplestory.io 젠 데이터로 일괄 대조·정정",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.23.0",
     date: "2026-06-24",
     type: "minor",
