@@ -66,6 +66,12 @@ ALL_CRAWL_TYPES = ENTITY_TYPES + [
 ]
 
 
+# mapledb 상세 페이지가 (URL 스킴 변경 등으로) 개별 항목 대신 홈/제너릭 페이지를 반환하면
+# 이름이 사이트 제목으로 잡혀 INSERT OR REPLACE가 기존 양호 데이터를 0/제목으로 덮어쓰는 사고가 있었다.
+# (2026-06-24, 몹 749·맵 1082 전멸 → 롤백). 아래 정크 이름이면 저장을 건너뛴다.
+_JUNK_NAMES = {"메이플랜드 데이터베이스", "메이플랜드데이터베이스", "MapleLand DB", "Mapleland DB"}
+
+
 def _is_stale(conn: sqlite3.Connection, table: str, entity_id: int) -> bool:
     """엔티티가 CRAWL_STALE_DAYS 이내에 크롤링됐으면 False(스킵) 반환."""
     try:
@@ -131,6 +137,15 @@ async def _crawl_entity_type(
                 # 이름이 파싱 안 됐으면 목록에서 가져온 이름 사용
                 if not data.get("name"):
                     data["name"] = entry.get("name", "")
+                # 안전장치: 상세가 제너릭 페이지(사이트 제목)거나 이름이 비면 저장 스킵
+                # → 기존 양호 데이터를 정크로 덮어쓰는 사고 방지
+                _name = (data.get("name") or "").strip()
+                if (not _name) or _name in _JUNK_NAMES:
+                    skipped += 1
+                    done += 1
+                    if done % 50 == 0 or done == total:
+                        print(f"[{entity_type}] {done}/{total} (정크 응답 스킵 {skipped})")
+                    continue
                 data["source_url"] = detail_url
                 parser.save(conn, data)
             except Exception as e:
