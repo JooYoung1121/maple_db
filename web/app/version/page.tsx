@@ -18,6 +18,22 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.22.0",
+    date: "2026-06-24",
+    type: "minor",
+    title: "사냥터 카드 펼침 + 몹 레벨 표시",
+    features: [
+      {
+        category: "직업별 사냥터",
+        items: [
+          "사냥터 카드 클릭 시 사냥 팁·출처·직업이 펼쳐지도록 변경 (호버만 되고 클릭 안 되던 문제 해결)",
+          "몬스터 칩에 레벨 표시 (DB 기준, 74종 매핑)",
+          "오타 수정: '마약왕 카니발' → '몬스터 카니발'",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.21.1",
     date: "2026-06-24",
     type: "patch",

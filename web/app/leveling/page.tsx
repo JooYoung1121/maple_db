@@ -70,7 +70,7 @@ const SPOTS: Spot[] = [
   // ── 30~50 (중반) ──
   { levelMin: 30, levelMax: 40, map: "와일드보어의 땅 1·2", region: "페리온 동쪽", monsters: ["와일드보어", "주니어 부기"], tip: "1~3층 구조라 2인 파티 층 분담이 효율적. 광역 직업이 층 쓸기 유리.", source: "https://namu.wiki/w/Mapleland/사냥터", jobs: ["히어로","팔라딘","다크나이트","소울마스터","플레임위자드","윈드브레이커","나이트워커","스트라이커"] },
   { levelMin: 30, levelMax: 35, map: "북치는 토끼의 은신처 (미니던전)", region: "루디브리엄 에오스탑", monsters: ["북치는토끼"], tip: "에오스탑 76층 밑에서 진입. 지형이 평탄해 사냥이 쾌적, 개인화 2시간. 30대 초반 무난한 대안.", source: "https://vortexgaming.io/postdetail/843653", common: true, miniDungeon: true },
-  { levelMin: 30, levelMax: 45, map: "마약왕 카니발 쩔 (승작/폐작)", region: "루디브리엄 카니발", monsters: ["(쩔 — 직접 사냥 X)"], tip: "자본 있으면 승작쩔, 무자본은 폐작쩔로 메소 벌며 경험치. 솔플보다 압도적으로 빠르다.", source: "https://ssalmuk.com/community/hot/detail?code=B25041542", common: true },
+  { levelMin: 30, levelMax: 45, map: "몬스터 카니발 쩔 (승작/폐작)", region: "루디브리엄 카니발", monsters: ["(쩔 — 직접 사냥 X)"], tip: "자본 있으면 승작쩔, 무자본은 폐작쩔로 메소 벌며 경험치. 솔플보다 압도적으로 빠르다.", source: "https://ssalmuk.com/community/hot/detail?code=B25041542", common: true },
   { levelMin: 30, levelMax: 42, map: "오르비스 탑 1층 (주니어 페페)", region: "오르비스", monsters: ["주니어 페페"], tip: "밀집 지형이라 불 약점 광역(파이어 애로우)에 적합. 불독 무자본 손질용.", source: "https://vortexgaming.io/en/postdetail/505403", jobs: ["불독"] },
   { levelMin: 35, levelMax: 45, map: "동쪽 바위산 6", region: "페리온", monsters: ["커즈아이", "파이어 보어"], tip: "표창/단검 도적·해적 근접의 35~40대 인기 솔플. 2인 지형 분할도 가능.", source: "https://arca.live/b/mapleland/129219844", jobs: ["나이트로드","섀도어","나이트워커","스트라이커","바이퍼","캡틴"] },
   { levelMin: 37, levelMax: 45, map: "원숭이의 숲 1 (원숲1)", region: "엘리니아", monsters: ["루팡", "좀비루팡"], tip: "루팡 메소 110 + 루팡의 바나나 65% 드롭 환금. 왼쪽이 루팡 비중 높음. 저~중반 무자본 자본벌이.", source: "https://jsmu.xyz/mapleland-where-is-monky-forest/", common: true },
@@ -180,45 +180,85 @@ function sourceHost(url: string): string {
   catch { return "출처"; }
 }
 
+// 몬스터 한글명 → 레벨 (data/maple.db KMS 기준에서 추출, 보스는 제외)
+const MOB_LV: Record<string, number> = {
+  "달팽이": 1, "파란달팽이": 2, "슬라임": 6, "돼지": 7, "주황버섯": 8, "리본돼지": 10,
+  "주니어 네키": 21, "뿔버섯": 22, "좀비버섯": 24, "모래두더지": 24, "와일드보어": 25, "이블아이": 27,
+  "북치는토끼": 30, "파이어 보어": 32, "리게이터": 32, "주니어 부기": 35, "주니어 페페": 35, "커즈아이": 35,
+  "예티 인형": 36, "루팡": 37, "버블티": 38, "좀비 루팡": 40, "좀비루팡": 40, "로보": 41,
+  "플래툰 크로노스": 41, "아이언 뮤테": 42, "루나픽시": 45, "최신곡CD": 46, "마스터 크로노스": 46, "흘러간가요CD": 47,
+  "드레이크": 50, "러스터픽시": 52, "로이드": 54, "스톤골렘": 55, "헥터": 55, "삼미호": 56,
+  "쿨리 좀비": 57, "네오휴로이드": 58, "다크 스톤골렘": 58, "화이트팽": 58, "믹스골렘": 59, "물도깨비": 60, "페페": 60,
+  "와일드카고": 62, "루루모": 63, "아이스 드레이크": 64, "데스테니": 67, "다크 드레이크": 68, "다크드레이크": 68,
+  "다크 예티": 68, "캡틴": 70, "하프": 80, "블러드하프": 83, "망둥이": 85, "듀얼 파이렛": 87,
+  "검은 켄타우로스": 88, "검은켄타우로스": 88, "듀얼 버크": 88, "붉은 켄타우로스": 88, "붉은켄타우로스": 88,
+  "푸른 켄타우로스": 88, "푸른켄타우로스": 88, "마스터 데스테니": 89, "블루 드래곤터틀": 90, "폭렬 망둥이집": 90,
+  "스퀴드": 94, "레드 와이번": 97, "리셀스퀴드": 97, "브레스튼": 97, "파이어 스티드": 100, "블루 와이번": 101,
+  "다크 와이번": 103, "뉴트": 105, "뉴트주니어": 105, "다크 코니언": 105, "네스트골렘": 110, "스켈레곤": 110,
+  "스켈로스": 113, "레비아탄": 120,
+};
+
 function SpotCard({ s, showJobs }: { s: Spot; showJobs: boolean }) {
+  const [open, setOpen] = useState(false);
   const url = firstUrl(s.source);
+  const showLv = s.kind !== "boss"; // 보스는 DB 레벨이 부정확해 미표시
+
   return (
-    <div className="pixel-card p-4">
-      <div className="flex items-center gap-2 flex-wrap">
-        <span className="pixel-badge font-pixel text-[10px] bg-[color-mix(in_srgb,var(--c-skill)_18%,transparent)] text-skill">
-          Lv.{s.levelMin}~{s.levelMax}
-        </span>
-        {s.miniDungeon && (
-          <span className="pixel-badge font-pixel text-[10px] bg-[color-mix(in_srgb,var(--c-mush)_18%,transparent)] text-mush">미니던전</span>
-        )}
-        <span className="font-bold text-ink">{s.map}</span>
-      </div>
-      <p className="text-xs text-dim mt-0.5">📍 {s.region}</p>
-      {s.monsters.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 mt-2">
-          {s.monsters.map((m) => (
-            <span key={m} className="pixel-badge text-[11px] bg-surface2 text-dim">{m}</span>
-          ))}
+    <div className="pixel-card">
+      <button onClick={() => setOpen((v) => !v)} className="w-full text-left p-4">
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="pixel-badge font-pixel text-[10px] bg-[color-mix(in_srgb,var(--c-skill)_18%,transparent)] text-skill">
+            Lv.{s.levelMin}~{s.levelMax}
+          </span>
+          {s.miniDungeon && (
+            <span className="pixel-badge font-pixel text-[10px] bg-[color-mix(in_srgb,var(--c-mush)_18%,transparent)] text-mush">미니던전</span>
+          )}
+          <span className="font-bold text-ink">{s.map}</span>
+          <svg className={`w-4 h-4 text-dim shrink-0 ml-auto transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
         </div>
-      )}
-      <p className="text-sm text-ink mt-2 leading-relaxed">{s.tip}</p>
-      <div className="flex items-center justify-between gap-2 mt-2 flex-wrap">
-        {showJobs && !s.common && s.jobs && (
-          <div className="flex flex-wrap gap-1">
-            {s.jobs.length >= ALL_JOBS.length - 2
-              ? <span className="pixel-badge text-[10px] bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] text-maple">대부분 직업</span>
-              : s.jobs.map((j) => (
-                  <span key={j} className="pixel-badge text-[10px] bg-[color-mix(in_srgb,var(--c-maple)_12%,transparent)] text-maple">{j}</span>
-                ))}
+        <p className="text-xs text-dim mt-0.5">📍 {s.region}</p>
+        {s.monsters.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 mt-2">
+            {s.monsters.map((m) => {
+              const lv = showLv ? MOB_LV[m] : undefined;
+              return (
+                <span key={m} className="pixel-badge text-[11px] bg-surface2 text-dim">
+                  {m}{lv ? <span className="text-skill"> Lv.{lv}</span> : null}
+                </span>
+              );
+            })}
           </div>
         )}
-        {showJobs && s.common && (
-          <span className="pixel-badge text-[10px] bg-[color-mix(in_srgb,var(--c-slime)_16%,transparent)] text-slime">전 직업 공용</span>
-        )}
-        {url
-          ? <a href={url} target="_blank" rel="noopener noreferrer" className="text-[11px] text-dim hover:text-maple ml-auto">출처: {sourceHost(url)} →</a>
-          : <span className="text-[11px] text-dim ml-auto">출처: {s.source}</span>}
-      </div>
+        {!open && <p className="text-xs text-dim mt-2">자세히 보기 ▾</p>}
+      </button>
+
+      {open && (
+        <div className="border-t border-edge/40 px-4 py-3 space-y-2">
+          <div>
+            <p className="font-pixel text-[11px] text-maple mb-1">사냥 팁</p>
+            <p className="text-sm text-ink leading-relaxed">{s.tip}</p>
+          </div>
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            {showJobs && !s.common && s.jobs && (
+              <div className="flex flex-wrap gap-1">
+                {s.jobs.length >= ALL_JOBS.length - 2
+                  ? <span className="pixel-badge text-[10px] bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] text-maple">대부분 직업</span>
+                  : s.jobs.map((j) => (
+                      <span key={j} className="pixel-badge text-[10px] bg-[color-mix(in_srgb,var(--c-maple)_12%,transparent)] text-maple">{j}</span>
+                    ))}
+              </div>
+            )}
+            {showJobs && s.common && (
+              <span className="pixel-badge text-[10px] bg-[color-mix(in_srgb,var(--c-slime)_16%,transparent)] text-slime">전 직업 공용</span>
+            )}
+            {url
+              ? <a href={url} target="_blank" rel="noopener noreferrer" className="text-[11px] text-dim hover:text-maple ml-auto">출처: {sourceHost(url)} →</a>
+              : <span className="text-[11px] text-dim ml-auto">출처: {s.source}</span>}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
