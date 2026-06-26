@@ -54,6 +54,7 @@ interface Spot {
   common?: boolean;
   miniDungeon?: boolean;
   kind?: "meso" | "boss";
+  burningBuff?: string; // 버닝 월드 패치 버프 안내
 }
 
 const SPOTS: Spot[] = [
@@ -83,17 +84,17 @@ const SPOTS: Spot[] = [
   { levelMin: 50, levelMax: 65, map: "마가티아 C1 (미니던전)", region: "마가티아", monsters: ["로이드"], tip: "본섭 C-1 자리경쟁을 피하는 개인 던전 버전. 젠 양호, 솔플 효율 우수, 2시간 개인화.", source: "https://vortexgaming.io/postdetail/843653", common: true, miniDungeon: true },
   { levelMin: 50, levelMax: 65, map: "무너진 골렘의 성 (미니던전)", region: "슬리피우드", monsters: ["스톤골렘", "믹스골렘"], tip: "슬리피던전4까지 내려가 진입. 물약 소모가 적어 효율적. 인기 골렘 자리싸움 회피용.", source: "https://vortexgaming.io/postdetail/843653", common: true, miniDungeon: true },
   { levelMin: 50, levelMax: 65, map: "커닝스퀘어 8층 CD사냥", region: "커닝시티", monsters: ["흘러간가요CD", "최신곡CD"], tip: "썬콜 핵심 솔플. 올인트 55~65 분당 4만, 65+ 5만. 자리 경쟁 심하면 개인화맵으로 대체.", source: "https://m.dcinside.com/board/mapleplanet/43297", jobs: ["썬콜"] },
-  { levelMin: 50, levelMax: 60, map: "따뜻한 모래밭 / 차가운 벌판", region: "플로리나 비치 / 엘나스", monsters: ["화이트팽", "헥터"], tip: "현 50~60 최고 인기 파티 사냥터. 화이트팽이 불 약점이라 '불독팟'까지 존재. 비숍은 심/헤이스트로 환영.", source: "https://namu.wiki/w/Mapleland/사냥터", jobs: ["불독","비숍"] },
+  { levelMin: 50, levelMax: 60, map: "따뜻한 모래밭 / 차가운 벌판", region: "플로리나 비치 / 엘나스", burningBuff: "6/24 버닝 패치로 차디찬벌판 최대 몬스터 수 증가", monsters: ["화이트팽", "헥터"], tip: "현 50~60 최고 인기 파티 사냥터. 화이트팽이 불 약점이라 '불독팟'까지 존재. 비숍은 심/헤이스트로 환영.", source: "https://namu.wiki/w/Mapleland/사냥터", jobs: ["불독","비숍"] },
   { levelMin: 50, levelMax: 60, map: "오르비스 구름공원", region: "오르비스", monsters: ["루나픽시", "러스터픽시"], tip: "화독법(화염 광역)으로 시간당 40~45만. 플레임위자드·불독에 특히 좋다.", source: "https://vortexgaming.io/en/postdetail/543979", jobs: ["플레임위자드","불독"] },
   { levelMin: 50, levelMax: 60, map: "월하죽림 3", region: "일본 (세계여행)", monsters: ["삼미호", "물도깨비"], tip: "두 몹 모두 불 약점 + 일자맵이라 불독 최적 솔플. 단 삼미호 원킬 못하면 저주, 성수/만병통치약 필수.", source: "https://yulbin.com/메이플랜드-월하죽림3-가는법-사냥정보-정리/", jobs: ["불독"] },
   { levelMin: 51, levelMax: 58, map: "오르비스 경험치 파티 (올비경파)", region: "오르비스", monsters: ["(경험치 파티)"], tip: "51~58 최고 효율 파티, 시간당 35~40만. 텔포/헤이스트 없으면 입장이 까다로워 파티 구성 필요.", source: "https://vortexgaming.io/en/postdetail/498457", jobs: ["히어로","팔라딘","다크나이트","불독"] },
   { levelMin: 50, levelMax: 76, map: "드레이크의 푸른 동굴", region: "페리온 용의 계곡", monsters: ["드레이크", "와일드카고"], tip: "드레이크만 젠하고 드롭템이 좋다. 반시계로 돌며 솔플 또는 층 분할 파티. 와일드카고는 메소 드롭이 큰 편.", source: "https://namu.wiki/w/Mapleland/사냥터", common: true },
   { levelMin: 54, levelMax: 70, map: "마가티아 연구소 C-2", region: "마가티아", monsters: ["로이드", "네오휴로이드"], tip: "맵이 넓어 파티/몰이에 유리, 자리 구하기 쉬움. 네오휴로이드는 장갑 공격력 60% 드롭으로 쌀먹 인기(시간당 약 100만 메소). 네오휴로이드 마법공격 주의.", source: "https://vortexgaming.io/en/postdetail/625336", common: true },
   { levelMin: 50, levelMax: 75, map: "연구소 C-1~3 (지구방위본부)", region: "커닝시티 지하 연구소", monsters: ["로보", "마스터로보", "치명적 오류"], tip: "60+ 전 직업 입장 가능한 메인 구간. 층이 많아 설치/광역(플위)에 유리. 나이트워커는 45~75 핵심.", source: "https://arca.live/b/mapleland/173906185", jobs: ["소울마스터","플레임위자드","윈드브레이커","나이트워커","스트라이커"] },
-  { levelMin: 54, levelMax: 80, map: "골렘의 숲 (골숲)", region: "슬리피우드 히든스트리트", monsters: ["믹스골렘", "다크 스톤골렘", "커즈아이", "루팡"], tip: "젠률이 엄청나 솔플·파티 모두 좋고 드롭 가치도 높다. 바닥 분할 파티 가능. 근접 광역에 특히 적합.", source: "https://vortexgaming.io/en/postdetail/498457", jobs: ["히어로","팔라딘","다크나이트","썬콜","불독","비숍","소울마스터","스트라이커","바이퍼"] },
+  { levelMin: 54, levelMax: 80, map: "골렘의 숲 (골숲)", region: "슬리피우드 히든스트리트", burningBuff: "6/24 버닝 패치로 최대 몬스터 수 증가", monsters: ["믹스골렘", "다크 스톤골렘", "커즈아이", "루팡"], tip: "젠률이 엄청나 솔플·파티 모두 좋고 드롭 가치도 높다. 바닥 분할 파티 가능. 근접 광역에 특히 적합.", source: "https://vortexgaming.io/en/postdetail/498457", jobs: ["히어로","팔라딘","다크나이트","썬콜","불독","비숍","소울마스터","스트라이커","바이퍼"] },
   { levelMin: 58, levelMax: 77, map: "차가운 벌판 (차벌) 심쩔", region: "엘나스", monsters: ["드레이크", "아이스 드레이크", "다크 드레이크"], tip: "전사 최고 사냥터로 평가. 차벌 심쩔 1탐 55~70만. 썬콜은 약점은 못 찌르나 썬더볼트로 젠컷. 불독 58~76 거의 고정.", source: "https://arca.live/b/mapleland/146592374", jobs: ["히어로","팔라딘","다크나이트","썬콜","불독","바이퍼"] },
   { levelMin: 53, levelMax: 75, map: "죽은 나무의 숲 2·3 (죽숲)", region: "슬리피우드", monsters: ["쿨리 좀비", "좀비 루팡"], tip: "초창기부터 최고 인기. 53~60 죽숲2, 60~73 죽숲3은 파티 권장. ※ 죽숲1은 2025년 패치로 젠 너프+솔플 전용화 → 고렙 구간은 켄타우로스 원탁 미니던전이 대체재.", source: "https://vortexgaming.io/postdetail/521809", jobs: ["보우마스터","신궁","나이트로드","섀도어","소울마스터","플레임위자드","윈드브레이커","나이트워커","스트라이커"] },
-  { levelMin: 58, levelMax: 72, map: "엘나스 콜드필드 / 아이시필드", region: "엘나스", monsters: ["화이트팽", "헥터"], tip: "시간당 40~70만의 최고 효율급(명중 92 필요). 리치 파티 없으면 인접 아이시필드 솔플.", source: "https://vortexgaming.io/en/postdetail/498457", jobs: ["히어로","팔라딘","다크나이트"] },
+  { levelMin: 58, levelMax: 72, map: "엘나스 콜드필드 / 아이시필드", region: "엘나스", burningBuff: "6/24 버닝 패치로 차디찬벌판 최대 몬스터 수 증가", monsters: ["화이트팽", "헥터"], tip: "시간당 40~70만의 최고 효율급(명중 92 필요). 리치 파티 없으면 인접 아이시필드 솔플.", source: "https://vortexgaming.io/en/postdetail/498457", jobs: ["히어로","팔라딘","다크나이트"] },
   { levelMin: 65, levelMax: 75, map: "차가운 요람 (미니던전)", region: "슬리피우드 (드레이크 권역)", monsters: ["다크드레이크"], tip: "엘리니아→택시→개미굴광장→차가운 요람 경로. 다크드레이크(Lv68) 단일 출현. 접근성은 낮지만 드레이크만 나와 인기. 개인화 2시간.", source: "https://vortexgaming.io/postdetail/843653", common: true, miniDungeon: true },
   { levelMin: 68, levelMax: 78, map: "빨간코 해적단 소굴2 (미니던전)", region: "무릉도원 백초마을", monsters: ["캡틴"], tip: "백초마을→오래된 습지→소굴2 경로. 캡틴(Lv70) 출현. 개인 던전 2시간, 솔플·파티 모두 가능.", source: "https://vortexgaming.io/postdetail/843653", common: true, miniDungeon: true },
 
@@ -228,6 +229,9 @@ function SpotCard({ s, showJobs }: { s: Spot; showJobs: boolean }) {
           {s.miniDungeon && (
             <span className="pixel-badge font-pixel text-[10px] bg-[color-mix(in_srgb,var(--c-mush)_18%,transparent)] text-mush">미니던전</span>
           )}
+          {s.burningBuff && (
+            <span className="pixel-badge font-pixel text-[10px] bg-[color-mix(in_srgb,var(--c-mush)_24%,transparent)] text-mush">🔥 버닝버프</span>
+          )}
           <span className="font-bold text-ink">{s.map}</span>
           <svg className={`w-4 h-4 text-dim shrink-0 ml-auto transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -255,6 +259,9 @@ function SpotCard({ s, showJobs }: { s: Spot; showJobs: boolean }) {
             <p className="font-pixel text-[11px] text-maple mb-1">사냥 팁</p>
             <p className="text-sm text-ink leading-relaxed">{s.tip}</p>
           </div>
+          {s.burningBuff && (
+            <p className="text-xs text-mush">🔥 {s.burningBuff}</p>
+          )}
           {SPOT_SPAWN[s.map] && (
             <p className="text-xs text-dim">
               이 맵 젠: <span className="text-skill font-medium">총 {SPOT_SPAWN[s.map]}마리</span>
@@ -319,6 +326,8 @@ export default function LevelingPage() {
           <span className="font-pixel text-mush text-[12px]">미니던전</span> · 2.0에서 인기 사냥터에 추가된 <span className="text-ink">개인 던전</span>입니다.
           자리싸움 없이 1회 입장당 약 2시간 사냥, 파티 동반 가능. 젠은 원작 기준.
           버닝 월드(6/19~9/11)는 Lv120 미만 경험치 1.5배 + 상시 버프이며, <span className="text-ink">카에데 성은 버닝 진입 불가</span>입니다.
+          {" "}<span className="text-mush">최근 버닝 패치(6/24)</span>: 골렘의 숲·차디찬 벌판 <span className="text-ink">최대 몬스터 수 증가</span>,
+          경험치 2배 쿠폰 상자(120레벨 이전·매일 0시 6개) 지급.
         </p>
       </div>
 

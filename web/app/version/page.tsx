@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.24.0",
+    date: "2026-06-26",
+    type: "minor",
+    title: "버닝 월드 6/24 패치 반영 (사냥터 버프)",
+    features: [
+      {
+        category: "직업별 사냥터",
+        items: [
+          "6/24 버닝 패치 반영: 골렘의 숲·차디찬 벌판 '최대 몬스터 수 증가' → '🔥 버닝버프' 표시",
+          "안내문에 최근 패치 추가: 경험치 2배 쿠폰 상자(120레벨 이전·매일 0시 6개)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.23.1",
     date: "2026-06-24",
     type: "patch",
