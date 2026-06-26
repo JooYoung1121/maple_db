@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.24.1",
+    date: "2026-06-26",
+    type: "patch",
+    title: "젠 수 표기 정정 (원작 기준 명시)",
+    features: [
+      {
+        category: "젠 수 데이터",
+        items: [
+          "젠 수는 원작(KMS) 기준 참고값이며 메이플랜드 자체 젠과 다를 수 있음을 명시 (맵/몹/사냥터 페이지)",
+          "공개된 메랜 전용 젠표가 없어(mapledb도 동일 KMS 소스) 정확한 메랜/버닝 젠은 참고값으로 표기",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.24.0",
     date: "2026-06-26",
     type: "minor",

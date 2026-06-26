@@ -87,7 +87,10 @@ export default function MobDetailPage() {
 
       {spawns.length > 0 && (
         <div className="mt-6">
-          <h2 className="font-pixel text-lg font-semibold mb-3">출현 맵</h2>
+          <h2 className="font-pixel text-lg font-semibold mb-1">출현 맵</h2>
+          {spawns.some((s) => s.spawn_count) && (
+            <p className="text-[11px] text-dim mb-2">※ 젠 수는 원작(KMS) 기준 참고값 · 메이플랜드 자체 젠과 다를 수 있습니다</p>
+          )}
           <div className="pixel-panel divide-y divide-edge/40">
             {spawns.map((s) => (
               <Link key={s.id} href={`/maps/${s.id}`} className="flex items-center justify-between px-4 py-3 hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]">

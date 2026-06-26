@@ -264,8 +264,8 @@ function SpotCard({ s, showJobs }: { s: Spot; showJobs: boolean }) {
           )}
           {SPOT_SPAWN[s.map] && (
             <p className="text-xs text-dim">
-              이 맵 젠: <span className="text-skill font-medium">총 {SPOT_SPAWN[s.map]}마리</span>
-              <span className="opacity-70"> (maplestory.io 맵 데이터 기준)</span>
+              이 맵 젠(참고): <span className="text-skill font-medium">총 {SPOT_SPAWN[s.map]}마리</span>
+              <span className="opacity-70"> · 원작(KMS) 기준, 메랜 자체 젠과 다를 수 있음</span>
             </p>
           )}
           <div className="flex items-center justify-between gap-2 flex-wrap">

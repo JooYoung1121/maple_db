@@ -64,7 +64,10 @@ export default function MapDetailPage() {
 
       {monsters.length > 0 && (
         <div className="mt-6">
-          <h2 className="font-pixel text-lg font-semibold mb-3 text-ink">출현 몬스터</h2>
+          <h2 className="font-pixel text-lg font-semibold mb-1 text-ink">출현 몬스터</h2>
+          {monsters.some((m) => m.spawn_count) && (
+            <p className="text-[11px] text-dim mb-2">※ 젠 수는 원작(KMS) 기준 참고값 · 메이플랜드 자체 젠과 다를 수 있습니다</p>
+          )}
           <div className="pixel-panel divide-y divide-edge/40">
             {monsters.map((m) => (
                 <Link key={m.mob_id} href={`/mobs/${m.mob_id}`} className="flex items-center justify-between px-4 py-3 hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]">
