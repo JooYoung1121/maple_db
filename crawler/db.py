@@ -224,6 +224,18 @@ CREATE TABLE IF NOT EXISTS game_results (
     created_at TEXT DEFAULT (datetime('now'))
 );
 
+CREATE TABLE IF NOT EXISTS quiz_scores (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nickname TEXT NOT NULL,
+    score INTEGER NOT NULL,
+    total INTEGER NOT NULL,
+    best_streak INTEGER NOT NULL DEFAULT 0,
+    category TEXT NOT NULL DEFAULT 'all',
+    created_at TEXT DEFAULT (datetime('now'))
+);
+
+CREATE INDEX IF NOT EXISTS idx_quiz_scores_rank ON quiz_scores(total, score DESC, best_streak DESC);
+
 CREATE TABLE IF NOT EXISTS guild_posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     post_type TEXT NOT NULL,

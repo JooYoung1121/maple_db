@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { getMobs, getNpcs } from "@/lib/api";
+import { getMobs, getNpcs, getQuizScores, submitQuizScore, type QuizScore } from "@/lib/api";
 
 /* ── 타입 ── */
 interface QuizEntry {
@@ -15,7 +15,35 @@ interface QuizEntry {
 type Mode = "practice" | "jokbo";
 type Category = "all" | "mob" | "npc";
 
+const CATEGORY_LABELS: Record<string, string> = { all: "전체", mob: "몬스터", npc: "NPC" };
+
+function Leaderboard({ scores, questionCount }: { scores: QuizScore[]; questionCount: number }) {
+  return (
+    <div className="pixel-panel p-4">
+      <h3 className="font-pixel text-sm mb-3 text-ink">🏆 명예의 전당 ({questionCount}문제)</h3>
+      {scores.length === 0 ? (
+        <p className="text-sm text-dim text-center py-4">아직 기록이 없습니다. 첫 기록의 주인공이 되어보세요!</p>
+      ) : (
+        <div className="space-y-1">
+          {scores.map((s, i) => (
+            <div key={s.id} className="flex items-center gap-2 text-sm px-2 py-1.5 pixel-card">
+              <span className={`w-6 text-center font-pixel ${i === 0 ? "text-yellow-500" : i === 1 ? "text-gray-400" : i === 2 ? "text-amber-600" : "text-dim"}`}>
+                {i + 1}
+              </span>
+              <span className="font-medium text-ink flex-1 truncate">{s.nickname}</span>
+              <span className="text-xs text-dim">{CATEGORY_LABELS[s.category] ?? s.category}</span>
+              <span className="text-xs text-dim">연속 {s.best_streak}</span>
+              <strong className="text-maple w-14 text-right">{s.score}/{s.total}</strong>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 const TIME_LIMIT = 10; // 초
+const QUESTION_COUNTS = [10, 20, 30] as const;
 
 export default function QuizPage() {
   const [mode, setMode] = useState<Mode>("practice");
@@ -34,8 +62,14 @@ export default function QuizPage() {
   const [result, setResult] = useState<"correct" | "wrong" | "timeout" | null>(null);
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
+  const [questionCount, setQuestionCount] = useState<number>(10);
   const inputRef = useRef<HTMLInputElement>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // 기록 상태
+  const [nickname, setNickname] = useState("");
+  const [submitState, setSubmitState] = useState<"idle" | "saving" | "done" | "error">("idle");
+  const [scores, setScores] = useState<QuizScore[]>([]);
 
   // 족보 모드 상태
   const [jokboSearch, setJokboSearch] = useState("");
@@ -46,7 +80,10 @@ export default function QuizPage() {
     setLoading(true);
     Promise.all([
       getMobs({ per_page: 1000 }).then((d) =>
-        d.mobs.map((m) => ({ id: m.id, name: m.name, name_kr: m.name_kr ?? m.name, icon_url: m.icon_url, type: "mob" as const }))
+        d.mobs
+          // 900만번대는 튜토리얼·퀘스트·이벤트 특수몹 (일반몹 스프라이트 재사용, 예: 죽음의 공포=플라이아이)
+          .filter((m) => m.id < 9000000)
+          .map((m) => ({ id: m.id, name: m.name, name_kr: m.name_kr ?? m.name, icon_url: m.icon_url, type: "mob" as const }))
       ),
       getNpcs({ per_page: 1000 }).then((d) =>
         d.npcs.map((n) => ({ id: n.id, name: n.name, name_kr: n.name_kr ?? n.name, icon_url: n.icon_url, type: "npc" as const }))
@@ -55,6 +92,20 @@ export default function QuizPage() {
       .then(([mobs, npcs]) => setEntries([...mobs, ...npcs]))
       .catch(() => setEntries([]))
       .finally(() => setLoading(false));
+  }, []);
+
+  // 리더보드 로드 (시작 화면·결과 화면에서)
+  useEffect(() => {
+    if (gameStarted && !gameOver) return;
+    getQuizScores({ total: questionCount, limit: 20 })
+      .then((d) => setScores(d.scores))
+      .catch(() => setScores([]));
+  }, [gameStarted, gameOver, questionCount]);
+
+  // 닉네임 기억
+  useEffect(() => {
+    const saved = localStorage.getItem("quiz_nickname");
+    if (saved) setNickname(saved);
   }, []);
 
   // 필터된 목록
@@ -135,8 +186,25 @@ export default function QuizPage() {
     setTotal(0);
     setStreak(0);
     setBestStreak(0);
+    setSubmitState("idle");
     nextQuestion();
   }, [nextQuestion]);
+
+  // 기록 등록
+  const saveScore = useCallback(async () => {
+    const nick = nickname.trim();
+    if (!nick || submitState === "saving" || submitState === "done") return;
+    setSubmitState("saving");
+    try {
+      await submitQuizScore({ nickname: nick, score, total: questionCount, best_streak: bestStreak, category });
+      localStorage.setItem("quiz_nickname", nick);
+      setSubmitState("done");
+      const d = await getQuizScores({ total: questionCount, limit: 20 });
+      setScores(d.scores);
+    } catch {
+      setSubmitState("error");
+    }
+  }, [nickname, score, questionCount, bestStreak, category, submitState]);
 
   // 클립보드 복사 (족보 모드)
   const copyName = useCallback((name: string) => {
@@ -207,25 +275,99 @@ export default function QuizPage() {
       {mode === "practice" && (
         <div>
           {!gameStarted ? (
-            <div className="text-center py-16 pixel-panel">
-              <div className="text-6xl mb-4">❓</div>
-              <h2 className="text-xl font-bold mb-2 font-pixel">스피드퀴즈 연습</h2>
-              <p className="text-dim mb-6">
-                NPC/몬스터 이미지를 보고 {TIME_LIMIT}초 안에 이름을 맞추세요!
-              </p>
-              <button
-                onClick={startGame}
-                className="px-8 py-3 pixel-btn text-lg transition"
-              >
-                시작하기
-              </button>
+            <div className="space-y-4">
+              <div className="text-center py-12 pixel-panel">
+                <div className="text-6xl mb-4">❓</div>
+                <h2 className="text-xl font-bold mb-2 font-pixel">스피드퀴즈 연습</h2>
+                <p className="text-dim mb-6">
+                  NPC/몬스터 이미지를 보고 {TIME_LIMIT}초 안에 이름을 맞추세요!
+                </p>
+                <div className="mb-6">
+                  <div className="font-pixel text-xs text-dim mb-2">문제 수</div>
+                  <div className="flex justify-center gap-2">
+                    {QUESTION_COUNTS.map((n) => (
+                      <button
+                        key={n}
+                        onClick={() => setQuestionCount(n)}
+                        className={`px-5 py-2 transition ${
+                          questionCount === n ? "pixel-btn" : "pixel-card font-pixel text-dim"
+                        }`}
+                      >
+                        {n}문제
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <button
+                  onClick={startGame}
+                  className="px-8 py-3 pixel-btn text-lg transition"
+                >
+                  시작하기
+                </button>
+              </div>
+              <Leaderboard scores={scores} questionCount={questionCount} />
+            </div>
+          ) : gameOver ? (
+            <div className="space-y-4">
+              <div className="text-center py-10 pixel-panel">
+                <div className="text-5xl mb-3">{score === questionCount ? "👑" : score >= questionCount * 0.7 ? "🎉" : "💪"}</div>
+                <h2 className="text-xl font-bold mb-1 font-pixel">퀴즈 종료!</h2>
+                <p className="text-3xl font-bold text-maple my-3">
+                  {score} <span className="text-lg text-dim">/ {questionCount}</span>
+                </p>
+                <p className="text-sm text-dim mb-6">
+                  정답률 {Math.round((score / questionCount) * 100)}% · 최고 연속 {bestStreak}
+                </p>
+
+                {submitState === "done" ? (
+                  <p className="text-green-500 font-pixel text-sm mb-4">기록 등록 완료! ✅</p>
+                ) : (
+                  <div className="flex justify-center gap-2 mb-4">
+                    <input
+                      type="text"
+                      value={nickname}
+                      onChange={(e) => setNickname(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && saveScore()}
+                      placeholder="닉네임 (12자 이내)"
+                      maxLength={12}
+                      className="px-4 py-2 pixel-input w-44"
+                    />
+                    <button
+                      onClick={saveScore}
+                      disabled={!nickname.trim() || submitState === "saving"}
+                      className="px-5 py-2 pixel-btn transition disabled:opacity-50"
+                    >
+                      {submitState === "saving" ? "저장 중..." : "기록 등록"}
+                    </button>
+                  </div>
+                )}
+                {submitState === "error" && (
+                  <p className="text-red-500 text-xs mb-3">등록에 실패했습니다. 다시 시도해주세요.</p>
+                )}
+
+                <div className="flex justify-center gap-2">
+                  <button onClick={startGame} className="px-6 py-2 pixel-btn transition">
+                    다시 하기
+                  </button>
+                  <button
+                    onClick={() => { setGameStarted(false); setGameOver(false); }}
+                    className="px-6 py-2 pixel-card font-pixel text-dim transition"
+                  >
+                    처음으로
+                  </button>
+                </div>
+              </div>
+              <Leaderboard scores={scores} questionCount={questionCount} />
             </div>
           ) : (
             <div>
               {/* 스코어보드 */}
               <div className="flex items-center justify-between pixel-panel px-4 py-3 mb-4">
                 <div className="flex gap-4 text-sm">
-                  <span>정답 <strong className="text-green-500">{score}</strong>/{total}</span>
+                  <span className="font-pixel text-xs text-dim self-center">
+                    {Math.min(total + (result ? 0 : 1), questionCount)}/{questionCount}
+                  </span>
+                  <span>정답 <strong className="text-green-500">{score}</strong></span>
                   <span>연속 <strong className="text-maple">{streak}</strong></span>
                   <span>최고 <strong className="text-purple-500">{bestStreak}</strong></span>
                 </div>
@@ -293,10 +435,10 @@ export default function QuizPage() {
                         </div>
                       )}
                       <button
-                        onClick={nextQuestion}
+                        onClick={() => (total >= questionCount ? setGameOver(true) : nextQuestion())}
                         className="mt-4 px-6 py-2 pixel-btn transition"
                       >
-                        다음 문제
+                        {total >= questionCount ? "결과 보기 🏁" : "다음 문제"}
                       </button>
                     </div>
                   ) : (

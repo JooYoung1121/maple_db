@@ -482,3 +482,28 @@ export async function getMakerMaterialSources(params: { level_min: number; level
     `/api/maker/material-sources?${qs(params as Record<string, number>)}`
   );
 }
+
+/* ── 메이플 퀴즈 ─────────────────────────────────────── */
+export interface QuizScore {
+  id: number;
+  nickname: string;
+  score: number;
+  total: number;
+  best_streak: number;
+  category: string;
+  created_at: string;
+}
+
+export async function getQuizScores(params: { total?: number; category?: string; limit?: number } = {}) {
+  return fetchJSON<{ scores: QuizScore[] }>(`/api/quiz/scores?${qs(params as Record<string, string | number>)}`);
+}
+
+export async function submitQuizScore(payload: { nickname: string; score: number; total: number; best_streak: number; category: string }) {
+  const res = await fetch(`${API_BASE}/api/quiz/scores`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<{ id: number; ok: boolean }>;
+}
