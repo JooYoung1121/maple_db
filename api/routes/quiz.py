@@ -19,6 +19,40 @@ class QuizScoreCreate(BaseModel):
     category: str = "all"
 
 
+@router.get("/quiz/pool")
+def quiz_pool():
+    """퀴즈 출제용 경량 데이터 — 필요 필드만 (icon_url은 클라이언트에서 조립)"""
+    from api.routes.mapleland_reference import id_filter_sql
+
+    conn = get_connection()
+    try:
+        mob_filter = id_filter_sql("m.id", "mobs")
+        mob_where = f"AND {mob_filter}" if mob_filter else ""
+        mobs = conn.execute(
+            f"""SELECT m.id, m.name, en.name_en AS name_kr
+                FROM mobs m
+                LEFT JOIN entity_names_en en
+                  ON en.entity_type='mob' AND en.entity_id=m.id AND en.source='kms'
+                WHERE m.id < 9000000
+                  AND COALESCE(m.is_hidden, 0) = 0
+                  {mob_where}""",
+        ).fetchall()
+
+        npc_filter = id_filter_sql("n.id", "npcs")
+        npc_where = f"AND {npc_filter}" if npc_filter else ""
+        npcs = conn.execute(
+            f"""SELECT n.id, n.name, en.name_en AS name_kr
+                FROM npcs n
+                LEFT JOIN entity_names_en en
+                  ON en.entity_type='npc' AND en.entity_id=n.id AND en.source='kms'
+                WHERE 1=1 {npc_where}""",
+        ).fetchall()
+
+        return {"mobs": [dict(r) for r in mobs], "npcs": [dict(r) for r in npcs]}
+    finally:
+        conn.close()
+
+
 @router.post("/quiz/scores")
 def create_quiz_score(payload: QuizScoreCreate):
     nickname = payload.nickname.strip()

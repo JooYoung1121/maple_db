@@ -18,6 +18,27 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.26.3",
+    date: "2026-07-03",
+    type: "patch",
+    title: "퀴즈 로딩 속도 개선",
+    features: [
+      {
+        category: "메이플 퀴즈",
+        items: [
+          "전용 경량 API로 전환 — 로딩 데이터 565KB → 70KB (요청 2회 → 1회)",
+          "24시간 브라우저 캐시 — 재방문 시 즉시 로드",
+        ],
+      },
+      {
+        category: "내부",
+        items: [
+          "API 응답 gzip 압축 활성화 (전 페이지 전송량 감소)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.26.2",
     date: "2026-07-03",
     type: "patch",

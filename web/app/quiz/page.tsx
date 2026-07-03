@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import { getMobs, getNpcs, getQuizScores, submitQuizScore, type QuizScore } from "@/lib/api";
+import { getQuizPool, getQuizScores, submitQuizScore, type QuizPoolEntry, type QuizScore } from "@/lib/api";
 
 /* ── 타입 ── */
 interface QuizEntry {
@@ -98,27 +98,53 @@ export default function QuizPage() {
   const [jokboSearch, setJokboSearch] = useState("");
   const [copied, setCopied] = useState<string | null>(null);
 
-  // 데이터 로드
+  // 데이터 로드 (경량 풀 API + 24시간 localStorage 캐시)
   useEffect(() => {
+    const CACHE_KEY = "quiz_pool_v1";
+    const CACHE_TTL = 24 * 60 * 60 * 1000;
+
+    const toEntries = (pool: { mobs: QuizPoolEntry[]; npcs: QuizPoolEntry[] }): QuizEntry[] => [
+      ...pool.mobs
+        // 900만번대는 튜토리얼·퀘스트·이벤트 특수몹 (일반몹 스프라이트 재사용, 예: 죽음의 공포=플라이아이)
+        .filter((m) => m.id < 9000000 && !BROKEN_ICONS.has(`mob-${m.id}`))
+        .map((m) => ({
+          id: m.id, name: m.name, name_kr: cleanKmsName(m.name_kr) ?? m.name,
+          icon_url: `https://maplestory.io/api/gms/92/mob/${m.id}/icon`, type: "mob" as const,
+        })),
+      ...pool.npcs
+        // 한국어명이 없거나 결측 플레이스홀더('스트링 없음')인 NPC는 출제 불가
+        .filter((n) => {
+          const kr = (n.name_kr ?? "").trim();
+          return kr && kr !== "스트링 없음" && n.name !== "No String." && !BROKEN_ICONS.has(`npc-${n.id}`);
+        })
+        .map((n) => ({
+          id: n.id, name: n.name, name_kr: cleanKmsName(n.name_kr) ?? n.name,
+          icon_url: `https://maplestory.io/api/gms/92/npc/${n.id}/icon`, type: "npc" as const,
+        })),
+    ];
+
+    // 1) 캐시 히트 시 즉시 표시
+    try {
+      const cached = localStorage.getItem(CACHE_KEY);
+      if (cached) {
+        const { at, pool } = JSON.parse(cached);
+        if (Date.now() - at < CACHE_TTL && pool?.mobs?.length) {
+          setEntries(toEntries(pool));
+          setLoading(false);
+          return;
+        }
+      }
+    } catch { /* 캐시 손상 시 네트워크 로드로 진행 */ }
+
+    // 2) 네트워크 로드
     setLoading(true);
-    Promise.all([
-      getMobs({ per_page: 1000 }).then((d) =>
-        d.mobs
-          // 900만번대는 튜토리얼·퀘스트·이벤트 특수몹 (일반몹 스프라이트 재사용, 예: 죽음의 공포=플라이아이)
-          .filter((m) => m.id < 9000000 && !BROKEN_ICONS.has(`mob-${m.id}`))
-          .map((m) => ({ id: m.id, name: m.name, name_kr: cleanKmsName(m.name_kr) ?? m.name, icon_url: m.icon_url, type: "mob" as const }))
-      ),
-      getNpcs({ per_page: 1000 }).then((d) =>
-        d.npcs
-          // 한국어명이 없거나 결측 플레이스홀더('스트링 없음')인 NPC는 출제 불가
-          .filter((n) => {
-            const kr = (n.name_kr ?? "").trim();
-            return kr && kr !== "스트링 없음" && n.name !== "No String." && !BROKEN_ICONS.has(`npc-${n.id}`);
-          })
-          .map((n) => ({ id: n.id, name: n.name, name_kr: cleanKmsName(n.name_kr) ?? n.name, icon_url: n.icon_url, type: "npc" as const }))
-      ),
-    ])
-      .then(([mobs, npcs]) => setEntries([...mobs, ...npcs]))
+    getQuizPool()
+      .then((pool) => {
+        setEntries(toEntries(pool));
+        try {
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), pool }));
+        } catch { /* 저장 실패는 무시 */ }
+      })
       .catch(() => setEntries([]))
       .finally(() => setLoading(false));
   }, []);

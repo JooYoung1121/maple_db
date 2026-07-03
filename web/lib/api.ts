@@ -507,3 +507,9 @@ export async function submitQuizScore(payload: { nickname: string; score: number
   if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
   return res.json() as Promise<{ id: number; ok: boolean }>;
 }
+
+export interface QuizPoolEntry { id: number; name: string; name_kr: string | null }
+
+export async function getQuizPool() {
+  return fetchJSON<{ mobs: QuizPoolEntry[]; npcs: QuizPoolEntry[] }>(`/api/quiz/pool`);
+}
