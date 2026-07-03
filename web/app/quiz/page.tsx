@@ -52,6 +52,22 @@ function cleanKmsName(s: string | null | undefined): string | null {
   return cleaned || null;
 }
 
+// maplestory.io 아이콘이 4x4 투명 스프라이트/404인 엔티티 (2026-07 전수 스캔 결과)
+// 오브젝트형 NPC(책장·벽·무덤 등)와 아이콘 없는 보스. 런타임 onLoad 검사로도 이중 방어.
+const BROKEN_ICONS = new Set<string>([
+  "mob-8810018", "mob-8820014", // 혼테일, 핑크빈
+  "npc-2012023", "npc-2012027", "npc-2012028", "npc-2012029", "npc-2012031",
+  "npc-2012032", "npc-2012033", "npc-2103000", "npc-2103001", "npc-2103002",
+  "npc-2103003", "npc-2103004", "npc-2103005", "npc-2103006", "npc-2103008",
+  "npc-2103009", "npc-2103010", "npc-2103011", "npc-2103012", "npc-2111010",
+  "npc-2111011", "npc-2111012", "npc-2111013", "npc-2111014", "npc-2111015",
+  "npc-2111017", "npc-2111018", "npc-2111019", "npc-2111020", "npc-2111021",
+  "npc-2111022", "npc-2111023", "npc-2111024", "npc-2112007", "npc-2112013",
+  "npc-2121001", "npc-2121002", "npc-2121003", "npc-2121004", "npc-2121006",
+  "npc-2121007", "npc-2121008", "npc-2121009", "npc-2121010", "npc-2121011",
+  "npc-9100001", "npc-9100002", "npc-9100003", "npc-9100004", // 마네키네코 404
+]);
+
 export default function QuizPage() {
   const [mode, setMode] = useState<Mode>("practice");
   const [category, setCategory] = useState<Category>("all");
@@ -89,7 +105,7 @@ export default function QuizPage() {
       getMobs({ per_page: 1000 }).then((d) =>
         d.mobs
           // 900만번대는 튜토리얼·퀘스트·이벤트 특수몹 (일반몹 스프라이트 재사용, 예: 죽음의 공포=플라이아이)
-          .filter((m) => m.id < 9000000)
+          .filter((m) => m.id < 9000000 && !BROKEN_ICONS.has(`mob-${m.id}`))
           .map((m) => ({ id: m.id, name: m.name, name_kr: cleanKmsName(m.name_kr) ?? m.name, icon_url: m.icon_url, type: "mob" as const }))
       ),
       getNpcs({ per_page: 1000 }).then((d) =>
@@ -97,7 +113,7 @@ export default function QuizPage() {
           // 한국어명이 없거나 결측 플레이스홀더('스트링 없음')인 NPC는 출제 불가
           .filter((n) => {
             const kr = (n.name_kr ?? "").trim();
-            return kr && kr !== "스트링 없음" && n.name !== "No String.";
+            return kr && kr !== "스트링 없음" && n.name !== "No String." && !BROKEN_ICONS.has(`npc-${n.id}`);
           })
           .map((n) => ({ id: n.id, name: n.name, name_kr: cleanKmsName(n.name_kr) ?? n.name, icon_url: n.icon_url, type: "npc" as const }))
       ),
@@ -149,6 +165,20 @@ export default function QuizPage() {
     setTimeLeft(TIME_LIMIT);
     setTimeout(() => inputRef.current?.focus(), 100);
   }, [filtered]);
+
+  // 이미지가 깨진 문제는 카운트 없이 자동 교체 (풀에서도 제거)
+  const skipBrokenQuestion = useCallback(() => {
+    if (!currentQ || result) return;
+    const bad = currentQ;
+    setEntries((prev) => prev.filter((e) => !(e.type === bad.type && e.id === bad.id)));
+    const candidates = filtered.filter((e) => !(e.type === bad.type && e.id === bad.id));
+    if (candidates.length === 0) return;
+    const rand = candidates[Math.floor(Math.random() * candidates.length)];
+    setCurrentQ(rand);
+    setAnswer("");
+    setTimeLeft(TIME_LIMIT);
+    setTimeout(() => inputRef.current?.focus(), 100);
+  }, [currentQ, result, filtered]);
 
   // 타이머
   useEffect(() => {
@@ -412,6 +442,11 @@ export default function QuizPage() {
                         src={currentQ.icon_url}
                         alt="?"
                         className="w-24 h-24 mx-auto object-contain mb-2"
+                        onError={skipBrokenQuestion}
+                        onLoad={(e) => {
+                          const t = e.currentTarget;
+                          if (t.naturalWidth < 12 || t.naturalHeight < 12) skipBrokenQuestion();
+                        }}
                       />
                     ) : (
                       <div className="w-24 h-24 mx-auto bg-surface2 border-2 border-edge flex items-center justify-center text-4xl mb-2">

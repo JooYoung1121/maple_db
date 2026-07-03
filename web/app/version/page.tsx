@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.26.2",
+    date: "2026-07-03",
+    type: "patch",
+    title: "퀴즈 빈 이미지 문제 수정",
+    features: [
+      {
+        category: "메이플 퀴즈",
+        items: [
+          "이미지가 안 보이는 문제 출제 수정 — 4×4 투명 스프라이트/404 아이콘 51종 사전 제외 (책장·벽·무덤 등 오브젝트 NPC 45종, 마네키네코 4종, 혼테일·핑크빈)",
+          "런타임 이중 방어: 출제 이미지가 로드 실패하거나 12px 미만이면 카운트 없이 자동으로 다음 문제 교체",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.26.1",
     date: "2026-07-03",
     type: "patch",
