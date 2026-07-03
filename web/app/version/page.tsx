@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.26.1",
+    date: "2026-07-03",
+    type: "patch",
+    title: "퀴즈 출제 데이터 정리",
+    features: [
+      {
+        category: "메이플 퀴즈",
+        items: [
+          "정답이 '스트링 없음'으로 나오던 문제 수정 — 한국어명이 없는 NPC 28종 출제 제외",
+          "'[★] 버푼' 등 현대 KMS 스타포스 표기 22종 정리 — 몹 자체는 빅뱅 전 몹이 맞으며 이름만 정규화",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.26.0",
     date: "2026-07-03",
     type: "minor",

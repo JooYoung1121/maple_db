@@ -45,6 +45,13 @@ function Leaderboard({ scores, questionCount }: { scores: QuizScore[]; questionC
 const TIME_LIMIT = 10; // 초
 const QUESTION_COUNTS = [10, 20, 30] as const;
 
+// 현대 KMS 표기 유입 정리: "[★] 버푼" → "버푼" (스타포스 필드 접두어 등)
+function cleanKmsName(s: string | null | undefined): string | null {
+  if (!s) return null;
+  const cleaned = s.replace(/\[[^\]]*\]\s*/g, "").trim();
+  return cleaned || null;
+}
+
 export default function QuizPage() {
   const [mode, setMode] = useState<Mode>("practice");
   const [category, setCategory] = useState<Category>("all");
@@ -83,10 +90,16 @@ export default function QuizPage() {
         d.mobs
           // 900만번대는 튜토리얼·퀘스트·이벤트 특수몹 (일반몹 스프라이트 재사용, 예: 죽음의 공포=플라이아이)
           .filter((m) => m.id < 9000000)
-          .map((m) => ({ id: m.id, name: m.name, name_kr: m.name_kr ?? m.name, icon_url: m.icon_url, type: "mob" as const }))
+          .map((m) => ({ id: m.id, name: m.name, name_kr: cleanKmsName(m.name_kr) ?? m.name, icon_url: m.icon_url, type: "mob" as const }))
       ),
       getNpcs({ per_page: 1000 }).then((d) =>
-        d.npcs.map((n) => ({ id: n.id, name: n.name, name_kr: n.name_kr ?? n.name, icon_url: n.icon_url, type: "npc" as const }))
+        d.npcs
+          // 한국어명이 없거나 결측 플레이스홀더('스트링 없음')인 NPC는 출제 불가
+          .filter((n) => {
+            const kr = (n.name_kr ?? "").trim();
+            return kr && kr !== "스트링 없음" && n.name !== "No String.";
+          })
+          .map((n) => ({ id: n.id, name: n.name, name_kr: cleanKmsName(n.name_kr) ?? n.name, icon_url: n.icon_url, type: "npc" as const }))
       ),
     ])
       .then(([mobs, npcs]) => setEntries([...mobs, ...npcs]))
