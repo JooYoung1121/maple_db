@@ -29,7 +29,7 @@ def npc_filters():
 @router.get("/npcs")
 def list_npcs(
     page: int = Query(default=1, ge=1),
-    per_page: int = Query(default=20, ge=1, le=100),
+    per_page: int = Query(default=20, ge=1, le=1000),
     is_shop: Optional[bool] = Query(default=None),
     q: Optional[str] = Query(default=None),
     mapleland_only: bool = Query(default=True),

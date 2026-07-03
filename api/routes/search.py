@@ -147,37 +147,49 @@ def search(
         params: list = [fts_query]
 
         if type and type in VALID_TYPES:
-            base_where += " AND entity_type = ?"
+            base_where += " AND s.entity_type = ?"
             params.append(type)
 
-        mapleland_filter = search_entity_filter_sql("entity_type", "entity_id")
+        mapleland_filter = search_entity_filter_sql("s.entity_type", "s.entity_id")
         if mapleland_filter:
             base_where += f" AND {mapleland_filter}"
 
         # Total count
-        count_sql = f"SELECT COUNT(*) FROM search_index WHERE {base_where}"
+        count_sql = f"SELECT COUNT(*) FROM search_index s WHERE {base_where}"
         total = conn.execute(count_sql, params).fetchone()[0]
 
-        # Results
+        # Results — entity_names_en(source='kms')에 한국어명이 들어있음
         data_sql = f"""
-            SELECT entity_type, entity_id, name,
+            SELECT s.entity_type, s.entity_id, s.name,
+                   en.name_en AS name_kr,
                    snippet(search_index, 3, '<b>', '</b>', '...', 20) AS snippet
-            FROM search_index
+            FROM search_index s
+            LEFT JOIN entity_names_en en
+              ON en.entity_type = s.entity_type
+             AND en.entity_id = s.entity_id
+             AND en.source = 'kms'
             WHERE {base_where}
             ORDER BY rank
             LIMIT ? OFFSET ?
         """
         rows = conn.execute(data_sql, params + [per_page, offset]).fetchall()
 
-        results = [
-            {
+        results = []
+        seen_display = set()
+        for row in rows:
+            # 같은 타입·같은 표시명이면 중복으로 간주 (v62/v83 중복 엔티티)
+            display_key = (row["entity_type"], row["name_kr"] or row["name"])
+            if display_key in seen_display:
+                total -= 1
+                continue
+            seen_display.add(display_key)
+            results.append({
                 "entity_type": row["entity_type"],
                 "entity_id": row["entity_id"],
                 "name": row["name"],
+                "name_kr": row["name_kr"],
                 "snippet": row["snippet"],
-            }
-            for row in rows
-        ]
+            })
 
         # FTS에서 결과가 적으면 entity_names_en에서 영문명 직접 LIKE 검색 보완
         if total < per_page:
@@ -212,11 +224,14 @@ def search(
 
             for row in en_rows:
                 key = (row["entity_type"], row["entity_id"])
-                if key not in found_ids:
+                display_key = (row["entity_type"], row["name_en"])
+                if key not in found_ids and display_key not in seen_display:
+                    seen_display.add(display_key)
                     results.append({
                         "entity_type": row["entity_type"],
                         "entity_id": row["entity_id"],
                         "name": row["name"] or row["name_en"],
+                        "name_kr": row["name_en"],
                         "snippet": row["name_en"],
                     })
                     total += 1

@@ -10,6 +10,18 @@ import Link from "next/link";
 const TYPE_LABELS: Record<string, string> = {
   item: "아이템", mob: "몬스터", map: "맵", npc: "NPC", quest: "퀘스트", blog: "블로그",
 };
+
+/* FTS 스니펫의 <b>…</b> 마커를 실제 하이라이트로 렌더 (innerHTML 미사용) */
+function renderSnippet(snippet: string) {
+  const parts = snippet.split(/<\/?b>/);
+  return parts.map((part, i) =>
+    i % 2 === 1 ? (
+      <b key={i} className="text-maple font-semibold">{part}</b>
+    ) : (
+      <span key={i}>{part}</span>
+    )
+  );
+}
 const TYPE_PATHS: Record<string, string> = {
   item: "/items", mob: "/mobs", map: "/maps", npc: "/npcs", quest: "/quests",
 };
@@ -162,10 +174,13 @@ function HomeContent() {
                     <span className="pixel-badge text-[10px] bg-[color-mix(in_srgb,var(--c-maple)_18%,transparent)] text-maple">
                       {TYPE_LABELS[r.entity_type] || r.entity_type}
                     </span>
-                    <span className="font-medium text-ink">{r.name}</span>
+                    <span className="font-medium text-ink">{r.name_kr || r.name}</span>
+                    {r.name_kr && r.name !== r.name_kr && (
+                      <span className="text-xs text-dim">{r.name}</span>
+                    )}
                   </div>
                   {r.snippet && (
-                    <p className="text-sm text-dim mt-1 line-clamp-1">{r.snippet}</p>
+                    <p className="text-sm text-dim mt-1 line-clamp-1">{renderSnippet(r.snippet)}</p>
                   )}
                 </Link>
               ))}

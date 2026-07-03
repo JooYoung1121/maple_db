@@ -45,10 +45,10 @@ export default function QuizPage() {
   useEffect(() => {
     setLoading(true);
     Promise.all([
-      getMobs({ per_page: 200 }).then((d) =>
+      getMobs({ per_page: 1000 }).then((d) =>
         d.mobs.map((m) => ({ id: m.id, name: m.name, name_kr: m.name_kr ?? m.name, icon_url: m.icon_url, type: "mob" as const }))
       ),
-      getNpcs({ per_page: 200 }).then((d) =>
+      getNpcs({ per_page: 1000 }).then((d) =>
         d.npcs.map((n) => ({ id: n.id, name: n.name, name_kr: n.name_kr ?? n.name, icon_url: n.icon_url, type: "npc" as const }))
       ),
     ])

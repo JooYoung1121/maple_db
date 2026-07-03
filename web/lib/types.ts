@@ -171,6 +171,7 @@ export interface SearchResult {
   entity_type: string;
   entity_id: number;
   name: string;
+  name_kr: string | null;
   snippet: string;
 }
 

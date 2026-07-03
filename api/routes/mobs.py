@@ -45,7 +45,7 @@ def mob_filters():
 @router.get("/mobs")
 def list_mobs(
     page: int = Query(default=1, ge=1),
-    per_page: int = Query(default=20, ge=1, le=100),
+    per_page: int = Query(default=20, ge=1, le=1000),
     level_min: Optional[int] = Query(default=None, ge=0),
     level_max: Optional[int] = Query(default=None, ge=0),
     is_boss: Optional[bool] = Query(default=None),

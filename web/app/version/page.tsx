@@ -18,6 +18,34 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.25.0",
+    date: "2026-07-03",
+    type: "minor",
+    title: "검색 개선 · 메이플 퀴즈 활성화",
+    features: [
+      {
+        category: "검색",
+        items: [
+          "검색 결과에 한국어 이름 우선 표시 (기존: 영문명만 노출)",
+          "검색어 하이라이트가 <b> 태그 텍스트로 깨져 보이던 문제 수정",
+          "동일 몬스터가 중복으로 나오던 문제 수정 (v62/v83 중복 데이터 병합)",
+        ],
+      },
+      {
+        category: "메이플 퀴즈",
+        items: [
+          "퀴즈 데이터가 비어 보이던 문제 수정 — 몬스터 628종 · NPC 825종 전체 로드",
+        ],
+      },
+      {
+        category: "내부",
+        items: [
+          "미사용 AI 엔드포인트 제거 (외부 남용 시 과금 위험 차단)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.24.1",
     date: "2026-06-26",
     type: "patch",
