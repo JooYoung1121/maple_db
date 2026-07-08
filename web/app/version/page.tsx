@@ -18,6 +18,22 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.28.5",
+    date: "2026-07-08",
+    type: "patch",
+    title: "리마인더 일요일 오전 8시 정시 발송",
+    features: [
+      {
+        category: "주간 메랜",
+        items: [
+          "발행 리마인더를 크롤 주기 의존에서 분리 — 매주 일요일 오전 8시(KST) 정시 발송 전용 스케줄러",
+          "서버 재시작으로 정각을 놓쳐도 일요일 당일이면 즉시 캐치업 (주간 1회 중복 방지 유지)",
+          "WEEKLY_REMINDER_ENABLED / WEEKLY_REMINDER_HOUR 환경변수 추가",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.28.4",
     date: "2026-07-08",
     type: "patch",

@@ -96,14 +96,20 @@ def _community_interval_seconds() -> int:
     return max(minutes, 30) * 60
 
 
+def _reminder_hour() -> int:
+    raw = os.environ.get("WEEKLY_REMINDER_HOUR", "8")
+    try:
+        return min(max(int(raw), 0), 23)
+    except ValueError:
+        return 8
+
+
 async def _maybe_send_weekly_news_reminder(conn):
-    """일요일 18시(KST) 이후 첫 수집 사이클에서 주간 메랜 발행 리마인더를 1회 전송."""
+    """주간 메랜 발행 리마인더 전송 (주 1회 중복 방지). 시각 판단은 호출부가 담당."""
     from datetime import datetime, timedelta, timezone
 
     kst = timezone(timedelta(hours=9))
     now = datetime.now(kst)
-    if now.weekday() != 6 or now.hour < 18:
-        return
     week_start = (now - timedelta(days=now.weekday())).strftime("%Y-%m-%d")
     week_end = now.strftime("%Y-%m-%d")
 
@@ -162,14 +168,43 @@ async def _community_crawl_job():
                 n = await crawl_dcinside(conn, client)
                 if n:
                     print(f"[scheduler] community(dcinside) {n}건 수집")
-            try:
-                await _maybe_send_weekly_news_reminder(conn)
-            except Exception as re:
-                print(f"[scheduler] 주간 메랜 리마인더 오류: {re}")
             conn.close()
         except Exception as e:
             print(f"[scheduler] community 크롤링 오류: {e}")
         await asyncio.sleep(interval)
+
+
+async def _weekly_reminder_job():
+    """매주 일요일 WEEKLY_REMINDER_HOUR시(KST, 기본 8시)에 발행 리마인더 전송.
+
+    재시작으로 정각을 놓친 경우에도 일요일 당일이면 즉시 캐치업한다
+    (주간 중복 방지는 _maybe_send_weekly_news_reminder의 sent_week 키가 담당).
+    """
+    from datetime import datetime, timedelta, timezone
+
+    kst = timezone(timedelta(hours=9))
+    hour = _reminder_hour()
+    while True:
+        now = datetime.now(kst)
+        # 캐치업: 일요일이고 발송 시각이 지났으면 바로 시도 (이미 보냈으면 내부에서 스킵)
+        if now.weekday() == 6 and now.hour >= hour:
+            try:
+                conn = get_connection()
+                await _maybe_send_weekly_news_reminder(conn)
+                conn.close()
+            except Exception as e:
+                print(f"[scheduler] 주간 메랜 리마인더 오류: {e}")
+            now = datetime.now(kst)
+
+        # 다음 일요일 hour시까지 대기
+        days_ahead = (6 - now.weekday()) % 7
+        target = (now + timedelta(days=days_ahead)).replace(
+            hour=hour, minute=0, second=0, microsecond=0
+        )
+        if target <= now:
+            target += timedelta(days=7)
+        print(f"[scheduler] 주간 메랜 리마인더 다음 발송: {target.strftime('%Y-%m-%d %H:%M')} KST")
+        await asyncio.sleep(max((target - now).total_seconds(), 60))
 
 
 @asynccontextmanager
@@ -201,12 +236,19 @@ async def lifespan(app: FastAPI):
         community_task = asyncio.create_task(_community_crawl_job())
     else:
         print("[scheduler] community crawler disabled")
+    reminder_task = None
+    if _env_bool("WEEKLY_REMINDER_ENABLED", True):
+        reminder_task = asyncio.create_task(_weekly_reminder_job())
+    else:
+        print("[scheduler] weekly reminder disabled")
     bot_task = asyncio.create_task(start_bot())
     yield
     if crawl_task:
         crawl_task.cancel()
     if community_task:
         community_task.cancel()
+    if reminder_task:
+        reminder_task.cancel()
     bot_task.cancel()
 
 
