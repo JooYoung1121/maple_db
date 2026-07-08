@@ -18,6 +18,20 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.27.2",
+    date: "2026-07-08",
+    type: "patch",
+    title: "주간 메랜 발행 스크립트 호수 동기화 수정",
+    features: [
+      {
+        category: "내부",
+        items: [
+          "publish 시 라이브 서버가 부여한 호수를 로컬 DB에도 동일하게 기록 — 호수 불일치/중복 저장 수정",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.27.1",
     date: "2026-07-08",
     type: "patch",

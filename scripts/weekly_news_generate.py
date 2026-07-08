@@ -281,7 +281,9 @@ def publish(week_start: str | None, yes: bool, dry_run: bool, issue_no: int | No
             timeout=30,
         )
         resp.raise_for_status()
-        click.echo(f"[publish] 라이브 발행 완료: 제{resp.json()['issue_no']}호")
+        # 라이브가 부여한 호수를 로컬에도 그대로 사용 (호수 불일치/중복 방지)
+        payload["issue_no"] = resp.json()["issue_no"]
+        click.echo(f"[publish] 라이브 발행 완료: 제{payload['issue_no']}호")
     else:
         click.echo("[publish] WEEKLY_API_BASE 미설정 — 라이브 발행 생략")
 
