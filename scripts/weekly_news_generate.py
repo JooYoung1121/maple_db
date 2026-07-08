@@ -32,6 +32,22 @@ KST = timezone(timedelta(hours=9))
 OUT_DIR = ROOT / "data" / "weekly_news"
 PROMPT_FILE = ROOT / ".claude" / "commands" / "weekly-news.md"
 
+
+def _load_dotenv() -> None:
+    """루트 .env 를 읽어 미설정 env 에만 주입 (WEEKLY_API_BASE 등 매번 안 쳐도 되게)."""
+    env_file = ROOT / ".env"
+    if not env_file.exists():
+        return
+    for line in env_file.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        os.environ.setdefault(key.strip(), value.strip())
+
+
+_load_dotenv()
+
 REQUIRED_SECTION_IDS = {"headline", "official", "community"}
 
 

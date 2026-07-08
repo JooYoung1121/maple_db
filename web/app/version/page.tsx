@@ -18,6 +18,20 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.27.3",
+    date: "2026-07-08",
+    type: "patch",
+    title: "주간 메랜 발행 스크립트 .env 자동 로딩",
+    features: [
+      {
+        category: "내부",
+        items: [
+          "weekly_news_generate.py가 루트 .env(WEEKLY_API_BASE, GAME_ADMIN_PASSWORD)를 자동으로 읽음 — 리마인더 명령 그대로 실행 가능",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.27.2",
     date: "2026-07-08",
     type: "patch",
