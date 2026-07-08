@@ -100,6 +100,53 @@ class MapleBot(discord.Client):
             embed.add_field(name="카테고리", value=category)
         await ch.send(content=self.get_mention_text(), embed=embed)
 
+    async def send_weekly_news_reminder(
+        self,
+        week_start: str,
+        week_end: str,
+        official_count: int,
+        community_count: int,
+        top_titles: list[str],
+    ):
+        """주간 메랜 발행 리마인더 — 일요일 저녁, 이번 주 원자재 현황 알림."""
+        if not self.is_enabled("notify_weekly_news"):
+            return
+        ch = await self._get_channel()
+        if not ch:
+            return
+        desc_lines = [
+            f"**이번 주** {week_start} ~ {week_end}",
+            f"공식 소식 **{official_count}건** · 커뮤니티 인기글 **{community_count}건** 쌓였습니다.",
+        ]
+        if top_titles:
+            desc_lines.append("")
+            desc_lines.append("이번 주 커뮤니티 화제글:")
+            desc_lines.extend(f"- {t}" for t in top_titles)
+        desc_lines.append("")
+        desc_lines.append("로컬에서 발행을 실행하세요:")
+        desc_lines.append("```\npython scripts/weekly_news_generate.py all\n```")
+        embed = discord.Embed(
+            title="📰 주간 메랜 발행 시간!",
+            description="\n".join(desc_lines),
+            color=0xF39C12,
+        )
+        await ch.send(content=self.get_mention_text(), embed=embed)
+
+    async def send_weekly_news_published(self, issue_no: int, title: str, url: str | None):
+        """주간 메랜 새 호 발행 알림."""
+        if not self.is_enabled("notify_weekly_news"):
+            return
+        ch = await self._get_channel()
+        if not ch:
+            return
+        embed = discord.Embed(
+            title=f"🗞️ 주간 메랜 제{issue_no}호 발행!",
+            description=title,
+            url=url or None,
+            color=0xE67E22,
+        )
+        await ch.send(content=self.get_mention_text(), embed=embed)
+
     async def send_guild_post_embed(self, post_type: str, title: str, author: str):
         """길드 게시판 작성 알림"""
         if not self.is_enabled("notify_guild_post"):

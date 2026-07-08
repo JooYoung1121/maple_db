@@ -695,6 +695,7 @@ def seed_bot_settings(conn: sqlite3.Connection) -> None:
         ("channel_id", ""),
         ("notify_maple_land", "false"),
         ("notify_guild_post", "false"),
+        ("notify_weekly_news", "true"),
         ("mention_type", "none"),
         ("mention_role_id", ""),
     ]

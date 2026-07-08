@@ -38,6 +38,7 @@ export default function DiscordBotPage() {
   const [channelId, setChannelId] = useState("");
   const [notifyMapleLand, setNotifyMapleLand] = useState(true);
   const [notifyGuildPost, setNotifyGuildPost] = useState(true);
+  const [notifyWeeklyNews, setNotifyWeeklyNews] = useState(true);
   const [mentionType, setMentionType] = useState("none");
   const [mentionRoleId, setMentionRoleId] = useState("");
   const [settingsSaved, setSettingsSaved] = useState(false);
@@ -90,6 +91,7 @@ export default function DiscordBotPage() {
       setChannelId(s.channel_id ?? "");
       setNotifyMapleLand(s.notify_maple_land === "true");
       setNotifyGuildPost(s.notify_guild_post === "true");
+      setNotifyWeeklyNews(s.notify_weekly_news !== "false");
       setMentionType(s.mention_type ?? "none");
       setMentionRoleId(s.mention_role_id ?? "");
       setAuthed(true);
@@ -107,6 +109,7 @@ export default function DiscordBotPage() {
           channel_id: channelId,
           notify_maple_land: notifyMapleLand ? "true" : "false",
           notify_guild_post: notifyGuildPost ? "true" : "false",
+          notify_weekly_news: notifyWeeklyNews ? "true" : "false",
           mention_type: mentionType,
           mention_role_id: mentionRoleId,
         },
@@ -274,6 +277,22 @@ export default function DiscordBotPage() {
                 <span
                   className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
                     notifyGuildPost ? "translate-x-5" : ""
+                  }`}
+                />
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-ink">주간 메랜 알림 (발행 리마인더·새 호)</span>
+              <button
+                onClick={() => setNotifyWeeklyNews(!notifyWeeklyNews)}
+                className={`relative w-11 h-6 rounded-full transition-colors ${
+                  notifyWeeklyNews ? "bg-maple" : "bg-gray-300"
+                }`}
+              >
+                <span
+                  className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                    notifyWeeklyNews ? "translate-x-5" : ""
                   }`}
                 />
               </button>

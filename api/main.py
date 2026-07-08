@@ -96,6 +96,56 @@ def _community_interval_seconds() -> int:
     return max(minutes, 30) * 60
 
 
+async def _maybe_send_weekly_news_reminder(conn):
+    """일요일 18시(KST) 이후 첫 수집 사이클에서 주간 메랜 발행 리마인더를 1회 전송."""
+    from datetime import datetime, timedelta, timezone
+
+    kst = timezone(timedelta(hours=9))
+    now = datetime.now(kst)
+    if now.weekday() != 6 or now.hour < 18:
+        return
+    week_start = (now - timedelta(days=now.weekday())).strftime("%Y-%m-%d")
+    week_end = now.strftime("%Y-%m-%d")
+
+    row = conn.execute(
+        "SELECT value FROM bot_settings WHERE key='weekly_news_reminder_sent_week'"
+    ).fetchone()
+    if row and row[0] == week_start:
+        return  # 이번 주 이미 전송
+
+    bot = get_bot()
+    if not bot or not bot.is_ready():
+        return
+
+    official = conn.execute(
+        "SELECT COUNT(*) FROM maple_land_posts "
+        "WHERE REPLACE(COALESCE(published_at, SUBSTR(created_at, 1, 10)), '.', '-') BETWEEN ? AND ?",
+        (week_start, week_end),
+    ).fetchone()[0]
+    community = conn.execute(
+        "SELECT COUNT(*) FROM community_posts "
+        "WHERE SUBSTR(COALESCE(published_at, first_seen_at), 1, 10) BETWEEN ? AND ?",
+        (week_start, week_end),
+    ).fetchone()[0]
+    top_titles = [
+        r[0] for r in conn.execute(
+            "SELECT title FROM community_posts "
+            "WHERE SUBSTR(COALESCE(published_at, first_seen_at), 1, 10) BETWEEN ? AND ? "
+            "ORDER BY recommends DESC, views DESC LIMIT 3",
+            (week_start, week_end),
+        ).fetchall()
+    ]
+
+    await bot.send_weekly_news_reminder(week_start, week_end, official, community, top_titles)
+    conn.execute(
+        "INSERT INTO bot_settings (key, value) VALUES ('weekly_news_reminder_sent_week', ?) "
+        "ON CONFLICT(key) DO UPDATE SET value=excluded.value",
+        (week_start,),
+    )
+    conn.commit()
+    print(f"[scheduler] 주간 메랜 리마인더 전송 (공식 {official}건, 커뮤니티 {community}건)")
+
+
 async def _community_crawl_job():
     """주간 뉴스 원자료 수집 — 디시 메이플랜드 갤러리 (하루 4회 기본)."""
     interval = _community_interval_seconds()
@@ -108,6 +158,10 @@ async def _community_crawl_job():
                 n = await crawl_dcinside(conn, client)
                 if n:
                     print(f"[scheduler] community(dcinside) {n}건 수집")
+            try:
+                await _maybe_send_weekly_news_reminder(conn)
+            except Exception as re:
+                print(f"[scheduler] 주간 메랜 리마인더 오류: {re}")
             conn.close()
         except Exception as e:
             print(f"[scheduler] community 크롤링 오류: {e}")

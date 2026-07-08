@@ -18,6 +18,22 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.27.1",
+    date: "2026-07-08",
+    type: "patch",
+    title: "주간 메랜 디스코드 알림",
+    features: [
+      {
+        category: "주간 메랜",
+        items: [
+          "일요일 저녁 디스코드 발행 리마인더 — 이번 주 공식/커뮤니티 원자재 건수와 화제글 3건, 실행 명령 안내",
+          "새 호 발행 시 디스코드 알림 (제N호 발행!)",
+          "디스코드 봇 설정에 '주간 메랜 알림' 토글 추가 (기본 켜짐)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.27.0",
     date: "2026-07-08",
     type: "minor",

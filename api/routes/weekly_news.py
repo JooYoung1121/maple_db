@@ -6,6 +6,7 @@
 발행본(content_json)은 로컬에서 Claude Code로 생성해 admin POST로 올린다.
 """
 import json
+import os
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
@@ -223,8 +224,27 @@ class IssueUpsert(BaseModel):
     status: str = "published"
 
 
+async def _notify_published(request: Request, issue_no: int, title: str):
+    """발행 완료 디스코드 알림 (베스트에포트 — 실패해도 발행은 유지)."""
+    try:
+        from api.discord_bot import get_bot
+
+        bot = get_bot()
+        if not bot or not bot.is_ready():
+            return
+        origin = (
+            request.headers.get("origin")
+            or request.headers.get("referer", "")
+            or os.environ.get("PUBLIC_SITE_URL", "")
+        ).rstrip("/")
+        url = f"{origin}/weekly" if origin.startswith("http") else None
+        await bot.send_weekly_news_published(issue_no, title, url)
+    except Exception as e:
+        print(f"[weekly-news] 디스코드 알림 실패: {e}")
+
+
 @router.post("/weekly-news")
-def create_issue(body: IssueUpsert, request: Request):
+async def create_issue(body: IssueUpsert, request: Request):
     """주간호 발행 (관리자). issue_no 생략 시 자동 증가, 동일 호수는 덮어쓴다."""
     _require_admin(request)
     if body.status not in ("draft", "published"):
@@ -263,9 +283,11 @@ def create_issue(body: IssueUpsert, request: Request):
             ),
         )
         conn.commit()
-        return {"ok": True, "issue_no": issue_no}
     finally:
         conn.close()
+    if body.status == "published":
+        await _notify_published(request, issue_no, body.title)
+    return {"ok": True, "issue_no": issue_no}
 
 
 @router.put("/weekly-news/{issue_no}")
