@@ -18,6 +18,20 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.28.2",
+    date: "2026-07-08",
+    type: "patch",
+    title: "커뮤니티 수집 진단 API",
+    features: [
+      {
+        category: "내부",
+        items: [
+          "커뮤니티 수집 수동 트리거/진단 API 추가 (서버에서 디시 접근 가능 여부 프로브)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.28.1",
     date: "2026-07-08",
     type: "patch",

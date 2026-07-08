@@ -217,6 +217,35 @@ def get_weekly_material(
         conn.close()
 
 
+@router.post("/weekly-news/crawl-community")
+async def trigger_community_crawl(request: Request):
+    """커뮤니티 수집 수동 트리거 (관리자) — 서버에서 디시 크롤이 되는지 진단용."""
+    _require_admin(request)
+    from crawler.parsers.dcinside import crawl_dcinside
+    from crawler.client import ThrottledClient
+
+    from crawler.parsers.dcinside import BROWSER_HEADERS, LIST_URL
+
+    probe: dict = {}
+    conn = get_connection()
+    try:
+        async with ThrottledClient() as client:
+            # 원시 프로브: 서버 IP에서 디시 목록 페이지가 열리는지 확인 (차단 진단)
+            try:
+                html = await client.get(f"{LIST_URL}&page=1", use_cache=False, headers=BROWSER_HEADERS)
+                probe = {"status": "ok", "bytes": len(html), "rows_in_html": html.count("ub-content us-post")}
+            except Exception as pe:
+                probe = {"status": "error", "detail": f"{type(pe).__name__}: {pe}"}
+
+            n = await crawl_dcinside(conn, client, pages=1, recommend_pages=1)
+        total = conn.execute("SELECT COUNT(*) FROM community_posts").fetchone()[0]
+        return {"ok": True, "probe": probe, "crawled": n, "total_rows": total}
+    except Exception as e:
+        return {"ok": False, "probe": probe, "error": f"{type(e).__name__}: {e}"}
+    finally:
+        conn.close()
+
+
 class IssueImage(BaseModel):
     slot: str                      # 'cover' | 'card-1' | ...
     mime: str = "image/png"
