@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.27.4",
+    date: "2026-07-08",
+    type: "patch",
+    title: "주간 메랜 리마인더 채널 분리",
+    features: [
+      {
+        category: "주간 메랜",
+        items: [
+          "발행 리마인더를 별도 채널로 분리 가능 (봇 설정에 '리마인더 채널 ID' 추가, 미설정 시 기존 알림 채널)",
+          "이번 주 원자재가 0건이면 리마인더를 보내지 않음",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.27.3",
     date: "2026-07-08",
     type: "patch",

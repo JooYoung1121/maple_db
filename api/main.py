@@ -127,6 +127,10 @@ async def _maybe_send_weekly_news_reminder(conn):
         "WHERE SUBSTR(COALESCE(published_at, first_seen_at), 1, 10) BETWEEN ? AND ?",
         (week_start, week_end),
     ).fetchone()[0]
+    if official == 0 and community == 0:
+        print("[scheduler] 주간 메랜 리마인더 스킵 — 이번 주 원자재 없음")
+        return
+
     top_titles = [
         r[0] for r in conn.execute(
             "SELECT title FROM community_posts "

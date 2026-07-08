@@ -39,6 +39,7 @@ export default function DiscordBotPage() {
   const [notifyMapleLand, setNotifyMapleLand] = useState(true);
   const [notifyGuildPost, setNotifyGuildPost] = useState(true);
   const [notifyWeeklyNews, setNotifyWeeklyNews] = useState(true);
+  const [weeklyReminderChannelId, setWeeklyReminderChannelId] = useState("");
   const [mentionType, setMentionType] = useState("none");
   const [mentionRoleId, setMentionRoleId] = useState("");
   const [settingsSaved, setSettingsSaved] = useState(false);
@@ -92,6 +93,7 @@ export default function DiscordBotPage() {
       setNotifyMapleLand(s.notify_maple_land === "true");
       setNotifyGuildPost(s.notify_guild_post === "true");
       setNotifyWeeklyNews(s.notify_weekly_news !== "false");
+      setWeeklyReminderChannelId(s.weekly_reminder_channel_id ?? "");
       setMentionType(s.mention_type ?? "none");
       setMentionRoleId(s.mention_role_id ?? "");
       setAuthed(true);
@@ -110,6 +112,7 @@ export default function DiscordBotPage() {
           notify_maple_land: notifyMapleLand ? "true" : "false",
           notify_guild_post: notifyGuildPost ? "true" : "false",
           notify_weekly_news: notifyWeeklyNews ? "true" : "false",
+          weekly_reminder_channel_id: weeklyReminderChannelId,
           mention_type: mentionType,
           mention_role_id: mentionRoleId,
         },
@@ -280,6 +283,22 @@ export default function DiscordBotPage() {
                   }`}
                 />
               </button>
+            </div>
+
+            <div>
+              <label className="block text-xs font-medium text-dim mb-1">
+                주간 메랜 리마인더 채널 ID (선택)
+              </label>
+              <input
+                type="text"
+                value={weeklyReminderChannelId}
+                onChange={(e) => setWeeklyReminderChannelId(e.target.value)}
+                placeholder="비워두면 위 알림 채널로 전송"
+                className="pixel-input w-full px-3 py-2 text-sm font-mono"
+              />
+              <p className="mt-1 text-[11px] leading-5 text-dim">
+                일요일 저녁 &quot;발행 실행&quot; 리마인더만 이 채널로 갑니다. 새 호 발행 알림은 위 알림 채널로 전송됩니다.
+              </p>
             </div>
 
             <div className="flex items-center justify-between">

@@ -100,6 +100,16 @@ class MapleBot(discord.Client):
             embed.add_field(name="카테고리", value=category)
         await ch.send(content=self.get_mention_text(), embed=embed)
 
+    def get_weekly_reminder_channel_id(self) -> int | None:
+        """주간 메랜 리마인더 전용 채널 (미설정 시 None → 기본 알림 채널 사용)."""
+        conn = get_connection()
+        row = conn.execute(
+            "SELECT value FROM bot_settings WHERE key='weekly_reminder_channel_id'"
+        ).fetchone()
+        conn.close()
+        value = str(row[0]).strip() if row and row[0] else ""
+        return int(value) if value.isdigit() else None
+
     async def send_weekly_news_reminder(
         self,
         week_start: str,
@@ -108,10 +118,22 @@ class MapleBot(discord.Client):
         community_count: int,
         top_titles: list[str],
     ):
-        """주간 메랜 발행 리마인더 — 일요일 저녁, 이번 주 원자재 현황 알림."""
+        """주간 메랜 발행 리마인더 — 일요일 저녁, 이번 주 원자재 현황 알림.
+
+        발행 완료 알림(길드 공지 채널)과 달리, 별도 리마인더 채널이 설정돼 있으면
+        그쪽으로만 보낸다 (작성자 개인용 알림).
+        """
         if not self.is_enabled("notify_weekly_news"):
             return
-        ch = await self._get_channel()
+        ch = None
+        reminder_ch_id = self.get_weekly_reminder_channel_id()
+        if reminder_ch_id:
+            try:
+                ch = await self.fetch_channel(reminder_ch_id)
+            except Exception as e:
+                print(f"[discord] 리마인더 채널 조회 실패 ({reminder_ch_id}): {e} — 기본 채널로 대체")
+        if not ch:
+            ch = await self._get_channel()
         if not ch:
             return
         desc_lines = [
