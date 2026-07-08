@@ -311,10 +311,12 @@ export default function IssueView({ issue }: { issue: WeeklyIssue }) {
         </section>
       )}
 
-      {/* 나머지 섹션 — 2열 신문 지면 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+      {/* 나머지 섹션 — 신문식 다단 컬럼 (그리드와 달리 열 높이 차이로 빈 공간이 생기지 않음) */}
+      <div className="md:columns-2 md:gap-4">
         {rest.map((section) => (
-          <SectionBlock key={section.id} section={section} spriteMap={spriteMap} issueNo={issue.issue_no} />
+          <div key={section.id} className="mb-4 md:break-inside-avoid">
+            <SectionBlock section={section} spriteMap={spriteMap} issueNo={issue.issue_no} />
+          </div>
         ))}
       </div>
 

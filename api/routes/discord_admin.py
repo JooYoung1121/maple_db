@@ -97,6 +97,61 @@ def update_discord_settings(body: SettingsUpdate, request: Request):
     return {"ok": True, "updated": updates}
 
 
+@router.post("/discord/weekly-reminder-test")
+async def weekly_reminder_test(request: Request):
+    """주간 메랜 리마인더 테스트 전송 — 요일 조건·주간 중복 방지 없이 즉시 발송.
+
+    실제 일요일 알림과 동일한 채널(weekly_reminder_channel_id, 미설정 시 기본 채널)과
+    동일한 메시지 형식을 사용한다.
+    """
+    _check_admin(request)
+    bot = get_bot()
+    if not bot or not bot.is_ready():
+        raise HTTPException(status_code=503, detail="봇이 오프라인 상태입니다.")
+
+    from datetime import datetime, timedelta, timezone
+
+    kst = timezone(timedelta(hours=9))
+    now = datetime.now(kst)
+    week_start = (now - timedelta(days=now.weekday())).strftime("%Y-%m-%d")
+    week_end = now.strftime("%Y-%m-%d")
+
+    conn = get_connection()
+    try:
+        official = conn.execute(
+            "SELECT COUNT(*) FROM maple_land_posts "
+            "WHERE REPLACE(COALESCE(published_at, SUBSTR(created_at, 1, 10)), '.', '-') BETWEEN ? AND ?",
+            (week_start, week_end),
+        ).fetchone()[0]
+        community = conn.execute(
+            "SELECT COUNT(*) FROM community_posts "
+            "WHERE SUBSTR(COALESCE(published_at, first_seen_at), 1, 10) BETWEEN ? AND ?",
+            (week_start, week_end),
+        ).fetchone()[0]
+        top_titles = [
+            r[0] for r in conn.execute(
+                "SELECT title FROM community_posts "
+                "WHERE SUBSTR(COALESCE(published_at, first_seen_at), 1, 10) BETWEEN ? AND ? "
+                "ORDER BY recommends DESC, views DESC LIMIT 3",
+                (week_start, week_end),
+            ).fetchall()
+        ]
+    finally:
+        conn.close()
+
+    try:
+        await bot.send_weekly_news_reminder(week_start, week_end, official, community, top_titles)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"디스코드 전송 실패: {e}")
+    return {
+        "ok": True,
+        "week": f"{week_start} ~ {week_end}",
+        "official": official,
+        "community": community,
+        "reminder_channel": str(bot.get_weekly_reminder_channel_id() or bot.get_channel_id()),
+    }
+
+
 class ManualNotify(BaseModel):
     message: str
 

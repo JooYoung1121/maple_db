@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.28.1",
+    date: "2026-07-08",
+    type: "patch",
+    title: "주간 메랜 지면 빈 공간 수정 + 리마인더 테스트",
+    features: [
+      {
+        category: "주간 메랜",
+        items: [
+          "섹션 2열 배치를 그리드에서 다단 컬럼으로 변경 — 열 높이 차이로 생기던 큰 빈 공간 제거",
+          "리마인더 테스트 전송 API 추가 (실제 일요일 알림과 동일한 채널·형식으로 즉시 발송)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.28.0",
     date: "2026-07-08",
     type: "minor",
