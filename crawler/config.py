@@ -18,6 +18,8 @@ RATE_LIMIT = {
     "tistory.com": 2.0,      # 초당 0.5요청
     "maplestory.io": 0.5,    # 초당 2요청
     "bbb.hidden-street.net": 3.0,  # 초당 ~0.33요청
+    "gall.dcinside.com": 3.0,      # 커뮤니티 원자료 — 보수적 간격
+    "www.inven.co.kr": 3.0,
 }
 
 CRAWL_STALE_DAYS = 7       # 이 기간 내 크롤링된 건 스킵

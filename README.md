@@ -217,6 +217,63 @@ POST   /api/polls/{id}/vote              # 투표 참여
 DELETE /api/polls/{id}                   # 투표 삭제
 ```
 
+### 주간 메랜 API (주간 뉴스)
+
+```http
+GET    /api/weekly-news                  # 과월호 목록
+GET    /api/weekly-news/latest           # 최신호
+GET    /api/weekly-news/{issue_no}       # 특정 호
+GET    /api/weekly-news/sprites?refs=mob:100100,item:2000001   # 스프라이트 해석
+GET    /api/weekly-news/material?week_start=YYYY-MM-DD         # 원자재 번들 (admin)
+POST   /api/weekly-news                  # 발행 (admin, X-Admin-Password)
+PUT    /api/weekly-news/{issue_no}       # 수정 (admin)
+DELETE /api/weekly-news/{issue_no}       # 삭제 (admin)
+```
+
+---
+
+## 주간 메랜 발행 (주간 뉴스 파이프라인)
+
+공식 공지(maple.land)와 커뮤니티(디시 메이플랜드 갤러리) 원자료를 모아
+매주 신문 형식의 "주간 메랜"을 발행한다.
+
+- **원자재 수집(자동)**: API 서버가 `COMMUNITY_CRAWL_INTERVAL_MINUTES`(기본 360분)
+  간격으로 디시 갤러리를 수집해 `community_posts`에 적재한다.
+  수동 실행: `python -m crawler crawl --type dcinside`
+- **호 생성·발행(주 1회, 로컬)**:
+
+```bash
+export WEEKLY_API_BASE=https://<라이브 도메인>   # 없으면 로컬 DB만 사용
+export GAME_ADMIN_PASSWORD=<관리자 비밀번호>
+
+python scripts/weekly_news_generate.py collect    # 지난주 원자재 번들 생성
+python scripts/weekly_news_generate.py generate   # claude -p 로 호 JSON 생성 (요구: claude CLI)
+# data/weekly_news/issue-<주>.json 검토 후
+python scripts/weekly_news_generate.py publish --yes
+```
+
+- 생성 프롬프트: `.claude/commands/weekly-news.md` (발췌·출처 링크 원칙, 원문 복붙 금지)
+- 매주 자동 실행(macOS launchd) 예시 — `~/Library/LaunchAgents/com.mapledb.weekly-news.plist`:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>com.mapledb.weekly-news</string>
+  <key>ProgramArguments</key><array>
+    <string>/bin/zsh</string><string>-lc</string>
+    <string>cd /path/to/maple_db && .venv/bin/python scripts/weekly_news_generate.py all</string>
+  </array>
+  <key>StartCalendarInterval</key><dict>
+    <key>Weekday</key><integer>0</integer>  <!-- 일요일 -->
+    <key>Hour</key><integer>21</integer>
+    <key>Minute</key><integer>0</integer>
+  </dict>
+</dict></plist>
+```
+
+`all`은 발행 직전에 멈추므로(검토 권장) 완전 자동화하려면 `all --yes`를 사용한다.
+
 ---
 
 ## Railway 배포

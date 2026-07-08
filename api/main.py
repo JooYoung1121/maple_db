@@ -28,6 +28,7 @@ from api.routes import info_board
 from api.routes import fortune
 from api.routes import maker
 from api.routes import quiz
+from api.routes import weekly_news
 from api.discord_bot import start_bot, get_bot
 
 
@@ -86,6 +87,33 @@ async def _maple_land_crawl_job():
         await asyncio.sleep(interval)
 
 
+def _community_interval_seconds() -> int:
+    raw = os.environ.get("COMMUNITY_CRAWL_INTERVAL_MINUTES", "360")
+    try:
+        minutes = int(raw)
+    except ValueError:
+        minutes = 360
+    return max(minutes, 30) * 60
+
+
+async def _community_crawl_job():
+    """주간 뉴스 원자료 수집 — 디시 메이플랜드 갤러리 (하루 4회 기본)."""
+    interval = _community_interval_seconds()
+    while True:
+        try:
+            from crawler.parsers.dcinside import crawl_dcinside
+            from crawler.client import ThrottledClient
+            conn = get_connection()
+            async with ThrottledClient() as client:
+                n = await crawl_dcinside(conn, client)
+                if n:
+                    print(f"[scheduler] community(dcinside) {n}건 수집")
+            conn.close()
+        except Exception as e:
+            print(f"[scheduler] community 크롤링 오류: {e}")
+        await asyncio.sleep(interval)
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Startup: ensure DB and tables exist
@@ -110,10 +138,17 @@ async def lifespan(app: FastAPI):
         crawl_task = asyncio.create_task(_maple_land_crawl_job())
     else:
         print("[scheduler] maple-land crawler disabled")
+    community_task = None
+    if _env_bool("COMMUNITY_CRAWLER_ENABLED", True):
+        community_task = asyncio.create_task(_community_crawl_job())
+    else:
+        print("[scheduler] community crawler disabled")
     bot_task = asyncio.create_task(start_bot())
     yield
     if crawl_task:
         crawl_task.cancel()
+    if community_task:
+        community_task.cancel()
     bot_task.cancel()
 
 
@@ -157,6 +192,7 @@ app.include_router(matip.router, prefix="/api")
 app.include_router(fortune.router, prefix="/api")
 app.include_router(maker.router, prefix="/api")
 app.include_router(quiz.router, prefix="/api")
+app.include_router(weekly_news.router, prefix="/api")
 
 
 @app.get("/api/health")

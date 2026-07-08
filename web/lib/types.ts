@@ -291,3 +291,60 @@ export interface MakerMobSource {
   level: number;
   is_boss: number;
 }
+
+/* ── 주간 메랜 (주간 뉴스) ─────────────────────────── */
+export interface SpriteRef {
+  type: "mob" | "npc" | "item";
+  id: number;
+}
+
+export interface ResolvedSprite extends SpriteRef {
+  name: string;
+  icon_url: string;
+}
+
+export interface WeeklyArticleSource {
+  label: string;
+  url: string;
+}
+
+export interface WeeklyArticle {
+  title: string;
+  paragraphs?: string[];
+  sources?: WeeklyArticleSource[];
+  sprites?: SpriteRef[];
+  tag?: string;
+}
+
+export interface WeeklySection {
+  id: string;
+  heading: string;
+  articles: WeeklyArticle[];
+}
+
+export interface WeeklyIssueContent {
+  issue_no?: number;
+  title?: string;
+  subtitle?: string;
+  week_start?: string;
+  week_end?: string;
+  weather?: string;
+  sections: WeeklySection[];
+  credits?: string;
+}
+
+export interface WeeklyIssueSummary {
+  id: number;
+  issue_no: number;
+  title: string;
+  week_start: string;
+  week_end: string;
+  status: string;
+  published_at: string | null;
+  created_at: string;
+  updated_at: string | null;
+}
+
+export interface WeeklyIssue extends WeeklyIssueSummary {
+  content: WeeklyIssueContent | null;
+}

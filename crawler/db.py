@@ -215,6 +215,44 @@ CREATE TABLE IF NOT EXISTS maple_land_posts (
     created_at TEXT DEFAULT (datetime('now'))
 );
 
+-- 커뮤니티 원자료 (주간 뉴스 소스 — 발췌+링크+지표만 저장, 전문 미러 금지)
+CREATE TABLE IF NOT EXISTS community_posts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    source TEXT NOT NULL,
+    source_post_id TEXT NOT NULL,
+    board TEXT,
+    title TEXT NOT NULL,
+    excerpt TEXT,
+    url TEXT NOT NULL,
+    author TEXT,
+    views INTEGER DEFAULT 0,
+    recommends INTEGER DEFAULT 0,
+    comment_count INTEGER DEFAULT 0,
+    is_recommended INTEGER DEFAULT 0,
+    has_image INTEGER DEFAULT 0,
+    published_at TEXT,
+    first_seen_at TEXT DEFAULT (datetime('now')),
+    last_seen_at TEXT DEFAULT (datetime('now')),
+    UNIQUE(source, source_post_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_community_posts_week
+    ON community_posts(source, published_at, recommends DESC);
+
+-- 주간 메랜 발행본 (주간 뉴스 페이지)
+CREATE TABLE IF NOT EXISTS weekly_news_issues (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    issue_no INTEGER NOT NULL UNIQUE,
+    title TEXT NOT NULL,
+    week_start TEXT NOT NULL,
+    week_end TEXT NOT NULL,
+    content_json TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'published',
+    published_at TEXT,
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT
+);
+
 CREATE TABLE IF NOT EXISTS game_results (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     game_type TEXT NOT NULL,

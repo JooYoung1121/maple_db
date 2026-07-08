@@ -513,3 +513,26 @@ export interface QuizPoolEntry { id: number; name: string; name_kr: string | nul
 export async function getQuizPool() {
   return fetchJSON<{ mobs: QuizPoolEntry[]; npcs: QuizPoolEntry[] }>(`/api/quiz/pool`);
 }
+
+/* ── 주간 메랜 (주간 뉴스) ─────────────────────────── */
+export async function getWeeklyIssues(params: { page?: number; per_page?: number } = {}) {
+  return fetchJSON<{ issues: import("./types").WeeklyIssueSummary[]; total: number; page: number; per_page: number }>(
+    `/api/weekly-news?${qs(params as Record<string, string | number>)}`
+  );
+}
+
+export async function getWeeklyIssueLatest() {
+  return fetchJSON<{ issue: import("./types").WeeklyIssue }>(`/api/weekly-news/latest`);
+}
+
+export async function getWeeklyIssue(issueNo: number) {
+  return fetchJSON<{ issue: import("./types").WeeklyIssue }>(`/api/weekly-news/${issueNo}`);
+}
+
+export async function resolveWeeklySprites(refs: import("./types").SpriteRef[]) {
+  if (!refs.length) return { sprites: [] as import("./types").ResolvedSprite[] };
+  const param = refs.map((r) => `${r.type}:${r.id}`).join(",");
+  return fetchJSON<{ sprites: import("./types").ResolvedSprite[] }>(
+    `/api/weekly-news/sprites?refs=${encodeURIComponent(param)}`
+  );
+}

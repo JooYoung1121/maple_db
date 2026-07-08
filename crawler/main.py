@@ -44,6 +44,7 @@ _TABLE_MAP = {
 # 확장된 크롤 타입 목록
 ALL_CRAWL_TYPES = ENTITY_TYPES + [
     "maple-land",
+    "dcinside",
     "tistory",
     "maplestory-io-kms",
     "maplestory-io",
@@ -369,6 +370,13 @@ def crawl(entity_type: str | None, crawl_all: bool, force: bool, cached_lists: b
                     n = await crawl_maple_land(conn, client, force=force, refresh_lists=not cached_lists)
                     print(f"[maple-land] 완료: 신규 {n}건")
             asyncio.run(_run_maple_land())
+        elif t == "dcinside":
+            from .parsers.dcinside import crawl_dcinside
+            async def _run_dcinside():
+                async with ThrottledClient() as client:
+                    n = await crawl_dcinside(conn, client)
+                    print(f"[dcinside] 완료: {n}건")
+            asyncio.run(_run_dcinside())
         elif t == "tistory":
             asyncio.run(_crawl_tistory(conn, force))
         elif t == "maplestory-io-kms":

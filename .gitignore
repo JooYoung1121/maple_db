@@ -24,5 +24,9 @@ node_modules/
 .next/
 web/out/
 .omc/
-.claude/
+# .claude 는 로컬 설정만 무시, 커밋용 커맨드(프롬프트)는 추적
+.claude/*
+!.claude/commands/
 .venv/
+# 주간 메랜 생성 산출물 (material/issue 번들)
+data/weekly_news/

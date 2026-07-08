@@ -40,7 +40,13 @@ class ThrottledClient:
                 return delay
         return 1.0
 
-    async def get(self, url: str, use_cache: bool = True, cache_key: str | None = None) -> str:
+    async def get(
+        self,
+        url: str,
+        use_cache: bool = True,
+        cache_key: str | None = None,
+        headers: dict | None = None,
+    ) -> str:
         # 캐시 확인
         if use_cache and cache_key:
             cached = self._read_cache(cache_key)
@@ -58,7 +64,7 @@ class ThrottledClient:
         # 재시도 로직
         for attempt in range(MAX_RETRIES):
             try:
-                resp = await self._client.get(url)
+                resp = await self._client.get(url, headers=headers)
                 self._last_request[domain] = time.monotonic()
                 resp.raise_for_status()
                 html = resp.text
