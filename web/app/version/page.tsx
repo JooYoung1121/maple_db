@@ -18,6 +18,47 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.28.0",
+    date: "2026-07-08",
+    type: "minor",
+    title: "주간 메랜 표지·카드뉴스 이미지",
+    features: [
+      {
+        category: "주간 메랜",
+        items: [
+          "호마다 표지 이미지 자동 합성 — Claude가 사건에 맞는 장면을 연출하고 실제 게임 스프라이트로 콜라주 (배경 6종, 말풍선, 픽셀 폰트)",
+          "기사 중간 카드뉴스 이미지 2~4장 — 그림이 되는 사건을 카드로 연출",
+          "지면에 표지·카드 표시 (픽셀 렌더링, 이미지 없으면 자동 생략)",
+        ],
+      },
+      {
+        category: "내부",
+        items: [
+          "weekly_news_images 테이블 + 이미지 업로드/서빙 API (/api/weekly-news/{호}/images/{슬롯})",
+          "렌더러 scripts/weekly_news_render.py (Pillow), 파이프라인에 render 단계 추가",
+        ],
+      },
+    ],
+  },
+  {
+    version: "3.27.5",
+    date: "2026-07-08",
+    type: "patch",
+    title: "주간 메랜 지면 가독성 개선",
+    features: [
+      {
+        category: "주간 메랜",
+        items: [
+          "'이번 호 한눈에' 5줄 요약(TL;DR) 박스 추가",
+          "헤드라인 리드문 강조 (첫 문단 크게 + 괘선)",
+          "섹션 점프 칩, 기사 간 가는 구분선(카드 중첩 제거), 출처 각주 스타일",
+          "커뮤니티 기사에 추천·조회·댓글 지표 표시",
+          "생성 프롬프트: 문단당 2~3문장 제한, tldr/metrics 필드 추가",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.27.4",
     date: "2026-07-08",
     type: "patch",

@@ -28,5 +28,7 @@ web/out/
 .claude/*
 !.claude/commands/
 .venv/
-# 주간 메랜 생성 산출물 (material/issue 번들)
+# 주간 메랜 생성 산출물 (material/issue 번들, 렌더 이미지, 스프라이트 캐시)
 data/weekly_news/
+# 렌더러 픽셀 폰트 (최초 실행 시 자동 다운로드)
+data/fonts/

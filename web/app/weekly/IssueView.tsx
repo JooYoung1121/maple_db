@@ -27,6 +27,8 @@ const TAG_COLORS: Record<string, string> = {
   제재: "bg-red-100 text-red-600",
   논란: "bg-red-100 text-red-600",
   여론: "bg-surface2 text-dim",
+  공략: "bg-green-100 text-green-700",
+  유머: "bg-surface2 text-dim",
 };
 
 function spriteKey(ref: SpriteRef) {
@@ -37,22 +39,71 @@ function formatDate(d?: string) {
   return d ? d.replaceAll("-", ".") : "";
 }
 
+function formatCount(n?: number) {
+  if (n == null) return null;
+  return n >= 10000 ? `${(n / 10000).toFixed(1)}만` : n.toLocaleString();
+}
+
+function MetricsChips({ article }: { article: WeeklyArticle }) {
+  const m = article.metrics;
+  if (!m) return null;
+  const parts: string[] = [];
+  const rec = formatCount(m.recommends);
+  const views = formatCount(m.views);
+  const comments = formatCount(m.comments);
+  if (rec) parts.push(`👍 ${rec}`);
+  if (views) parts.push(`👁 ${views}`);
+  if (comments) parts.push(`💬 ${comments}`);
+  if (!parts.length) return null;
+  return (
+    <span className="text-[11px] text-dim whitespace-nowrap">{parts.join(" · ")}</span>
+  );
+}
+
+function IssueImage({
+  issueNo,
+  slot,
+  alt,
+  className = "",
+}: {
+  issueNo: number;
+  slot: string;
+  alt: string;
+  className?: string;
+}) {
+  const [failed, setFailed] = useState(false);
+  if (failed) return null;
+  return (
+    <img
+      src={`/api/weekly-news/${issueNo}/images/${slot}`}
+      alt={alt}
+      className={`w-full h-auto border-2 border-edge ${className}`}
+      style={{ imageRendering: "pixelated" }}
+      loading="lazy"
+      onError={() => setFailed(true)}
+    />
+  );
+}
+
 function ArticleCard({
   article,
   spriteMap,
+  issueNo,
   lead = false,
 }: {
   article: WeeklyArticle;
   spriteMap: Map<string, ResolvedSprite>;
+  issueNo: number;
   lead?: boolean;
 }) {
   const sprites = (article.sprites ?? [])
     .map((r) => spriteMap.get(spriteKey(r)))
     .filter((s): s is ResolvedSprite => Boolean(s));
+  const paragraphs = article.paragraphs ?? [];
 
   return (
-    <article className={lead ? "" : "pixel-card p-4"}>
-      <div className="flex items-start gap-2 mb-2">
+    <article>
+      <div className="flex items-start gap-2 mb-1.5 flex-wrap">
         {article.tag && (
           <span
             className={`pixel-badge inline-block text-xs font-medium shrink-0 ${
@@ -63,15 +114,22 @@ function ArticleCard({
           </span>
         )}
         <h3
-          className={`font-pixel font-bold text-ink leading-snug ${
+          className={`font-pixel font-bold text-ink leading-snug flex-1 min-w-0 ${
             lead ? "text-lg sm:text-xl" : "text-sm"
           }`}
         >
           {article.title}
         </h3>
+        <MetricsChips article={article} />
       </div>
 
-      {sprites.length > 0 && (
+      {article.card_slot && (
+        <div className="mb-2">
+          <IssueImage issueNo={issueNo} slot={article.card_slot} alt={article.title} />
+        </div>
+      )}
+
+      {sprites.length > 0 && !article.card_slot && (
         <div className="flex items-end gap-2 mb-2">
           {sprites.map((s) => (
             <img
@@ -87,23 +145,32 @@ function ArticleCard({
         </div>
       )}
 
-      <div className={`text-ink leading-relaxed space-y-2 ${lead ? "text-sm sm:text-base" : "text-sm"}`}>
-        {(article.paragraphs ?? []).map((p, i) => (
-          <p key={i}>{p}</p>
+      <div className="text-ink space-y-2">
+        {paragraphs.map((p, i) => (
+          <p
+            key={i}
+            className={
+              lead && i === 0
+                ? "text-base sm:text-lg font-medium leading-relaxed border-l-4 border-maple pl-3"
+                : "text-sm leading-relaxed"
+            }
+          >
+            {p}
+          </p>
         ))}
       </div>
 
       {(article.sources?.length ?? 0) > 0 && (
-        <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
+        <div className="mt-2 flex flex-wrap gap-x-3 gap-y-0.5">
           {article.sources!.map((src, i) => (
             <a
               key={i}
               href={src.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-maple hover:underline"
+              className="text-[11px] text-dim hover:text-maple hover:underline"
             >
-              출처: {src.label} →
+              ↗ {src.label}
             </a>
           ))}
         </div>
@@ -115,18 +182,22 @@ function ArticleCard({
 function SectionBlock({
   section,
   spriteMap,
+  issueNo,
 }: {
   section: WeeklySection;
   spriteMap: Map<string, ResolvedSprite>;
+  issueNo: number;
 }) {
   return (
-    <section className="pixel-panel p-4">
-      <h2 className="font-pixel text-sm font-bold text-maple mb-3 pb-2 border-b-2 border-edge tracking-wide">
+    <section id={`sec-${section.id}`} className="pixel-panel p-4 scroll-mt-20">
+      <h2 className="font-pixel text-sm font-bold text-maple mb-1 pb-2 border-b-2 border-edge tracking-wide">
         {SECTION_ICONS[section.id] ?? "📌"} {section.heading}
       </h2>
-      <div className="space-y-3">
+      <div className="divide-y divide-edge/60">
         {section.articles.map((a, i) => (
-          <ArticleCard key={i} article={a} spriteMap={spriteMap} />
+          <div key={i} className="py-3 first:pt-2 last:pb-0">
+            <ArticleCard article={a} spriteMap={spriteMap} issueNo={issueNo} />
+          </div>
         ))}
       </div>
     </section>
@@ -169,6 +240,7 @@ export default function IssueView({ issue }: { issue: WeeklyIssue }) {
 
   const headline = content.sections.find((s) => s.id === "headline");
   const rest = content.sections.filter((s) => s.id !== "headline");
+  const tldr = content.tldr ?? [];
 
   return (
     <div className="space-y-4">
@@ -190,15 +262,50 @@ export default function IssueView({ issue }: { issue: WeeklyIssue }) {
         )}
       </div>
 
+      {/* 표지 */}
+      {content.cover && (
+        <IssueImage issueNo={issue.issue_no} slot="cover" alt={content.subtitle || "표지"} />
+      )}
+
+      {/* 섹션 점프 칩 */}
+      <nav className="flex flex-wrap gap-1.5 justify-center">
+        {content.sections.map((s) => (
+          <a
+            key={s.id}
+            href={`#sec-${s.id}`}
+            className="pixel-badge text-xs bg-surface2 text-dim hover:text-maple"
+          >
+            {SECTION_ICONS[s.id] ?? "📌"} {s.heading}
+          </a>
+        ))}
+      </nav>
+
+      {/* 이번 호 한눈에 (TL;DR) */}
+      {tldr.length > 0 && (
+        <div className="bg-[color-mix(in_srgb,var(--c-maple)_12%,transparent)] border-2 border-maple p-4">
+          <p className="font-pixel text-xs font-bold text-maple mb-2 tracking-wide">
+            ⚡ 이번 호 한눈에
+          </p>
+          <ul className="space-y-1">
+            {tldr.map((line, i) => (
+              <li key={i} className="text-sm text-ink leading-relaxed flex gap-2">
+                <span className="text-maple shrink-0">▸</span>
+                <span>{line}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       {/* 헤드라인 */}
       {headline && headline.articles.length > 0 && (
-        <section className="pixel-panel p-5 border-maple">
+        <section id="sec-headline" className="pixel-panel p-5 border-maple scroll-mt-20">
           <h2 className="font-pixel text-sm font-bold text-maple mb-3 tracking-wide">
             {SECTION_ICONS.headline} {headline.heading}
           </h2>
           <div className="space-y-5">
             {headline.articles.map((a, i) => (
-              <ArticleCard key={i} article={a} spriteMap={spriteMap} lead />
+              <ArticleCard key={i} article={a} spriteMap={spriteMap} issueNo={issue.issue_no} lead />
             ))}
           </div>
         </section>
@@ -207,7 +314,7 @@ export default function IssueView({ issue }: { issue: WeeklyIssue }) {
       {/* 나머지 섹션 — 2열 신문 지면 */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
         {rest.map((section) => (
-          <SectionBlock key={section.id} section={section} spriteMap={spriteMap} />
+          <SectionBlock key={section.id} section={section} spriteMap={spriteMap} issueNo={issue.issue_no} />
         ))}
       </div>
 

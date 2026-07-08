@@ -253,6 +253,16 @@ CREATE TABLE IF NOT EXISTS weekly_news_issues (
     updated_at TEXT
 );
 
+-- 주간 메랜 합성 이미지 (표지·카드뉴스, 로컬 렌더 후 발행 시 업로드)
+CREATE TABLE IF NOT EXISTS weekly_news_images (
+    issue_no INTEGER NOT NULL,
+    slot TEXT NOT NULL,               -- 'cover' | 'card-1' | ...
+    mime TEXT NOT NULL DEFAULT 'image/png',
+    data BLOB NOT NULL,
+    created_at TEXT DEFAULT (datetime('now')),
+    PRIMARY KEY (issue_no, slot)
+);
+
 CREATE TABLE IF NOT EXISTS game_results (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     game_type TEXT NOT NULL,

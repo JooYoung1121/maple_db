@@ -5,12 +5,14 @@
 
 발행본(content_json)은 로컬에서 Claude Code로 생성해 admin POST로 올린다.
 """
+import base64
 import json
 import os
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 from fastapi import APIRouter, HTTPException, Query, Request
+from fastapi.responses import Response
 from pydantic import BaseModel
 
 from crawler.db import get_connection
@@ -215,6 +217,12 @@ def get_weekly_material(
         conn.close()
 
 
+class IssueImage(BaseModel):
+    slot: str                      # 'cover' | 'card-1' | ...
+    mime: str = "image/png"
+    data_b64: str
+
+
 class IssueUpsert(BaseModel):
     issue_no: Optional[int] = None
     title: str
@@ -222,6 +230,31 @@ class IssueUpsert(BaseModel):
     week_end: str
     content: dict
     status: str = "published"
+    images: Optional[list[IssueImage]] = None
+
+
+MAX_IMAGE_BYTES = 1_500_000  # 이미지당 1.5MB 상한 (픽셀 PNG면 충분)
+
+
+def _save_images(conn, issue_no: int, images: list[IssueImage]) -> None:
+    """호 이미지 교체 저장 — 새 이미지 세트가 오면 기존 슬롯 전체를 갈아끼운다."""
+    for img in images:
+        if not img.slot.replace("-", "").replace("_", "").isalnum():
+            raise HTTPException(status_code=422, detail=f"잘못된 이미지 슬롯명: {img.slot}")
+        if img.mime not in ("image/png", "image/webp", "image/jpeg"):
+            raise HTTPException(status_code=422, detail=f"허용되지 않는 mime: {img.mime}")
+    conn.execute("DELETE FROM weekly_news_images WHERE issue_no=?", (issue_no,))
+    for img in images:
+        try:
+            raw = base64.b64decode(img.data_b64)
+        except Exception:
+            raise HTTPException(status_code=422, detail=f"이미지 base64 디코드 실패: {img.slot}")
+        if len(raw) > MAX_IMAGE_BYTES:
+            raise HTTPException(status_code=422, detail=f"이미지가 너무 큽니다(>1.5MB): {img.slot}")
+        conn.execute(
+            "INSERT INTO weekly_news_images (issue_no, slot, mime, data) VALUES (?, ?, ?, ?)",
+            (issue_no, img.slot, img.mime, raw),
+        )
 
 
 async def _notify_published(request: Request, issue_no: int, title: str):
@@ -282,6 +315,8 @@ async def create_issue(body: IssueUpsert, request: Request):
                 body.status, published_at, now,
             ),
         )
+        if body.images:
+            _save_images(conn, issue_no, body.images)
         conn.commit()
     finally:
         conn.close()
@@ -310,9 +345,11 @@ def update_issue(issue_no: int, body: IssueUpsert, request: Request):
                 body.status, now, issue_no,
             ),
         )
-        conn.commit()
         if cur.rowcount == 0:
             raise HTTPException(status_code=404, detail="해당 호가 없습니다.")
+        if body.images:
+            _save_images(conn, issue_no, body.images)
+        conn.commit()
         return {"ok": True, "issue_no": issue_no}
     finally:
         conn.close()
@@ -324,10 +361,30 @@ def delete_issue(issue_no: int, request: Request):
     conn = get_connection()
     try:
         cur = conn.execute("DELETE FROM weekly_news_issues WHERE issue_no=?", (issue_no,))
+        conn.execute("DELETE FROM weekly_news_images WHERE issue_no=?", (issue_no,))
         conn.commit()
         if cur.rowcount == 0:
             raise HTTPException(status_code=404, detail="해당 호가 없습니다.")
         return {"ok": True}
+    finally:
+        conn.close()
+
+
+@router.get("/weekly-news/{issue_no}/images/{slot}")
+def get_issue_image(issue_no: int, slot: str):
+    conn = get_connection()
+    try:
+        row = conn.execute(
+            "SELECT mime, data FROM weekly_news_images WHERE issue_no=? AND slot=?",
+            (issue_no, slot),
+        ).fetchone()
+        if not row:
+            raise HTTPException(status_code=404, detail="이미지가 없습니다.")
+        return Response(
+            content=row["data"],
+            media_type=row["mime"],
+            headers={"Cache-Control": "public, max-age=86400"},
+        )
     finally:
         conn.close()
 

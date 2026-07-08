@@ -308,12 +308,21 @@ export interface WeeklyArticleSource {
   url: string;
 }
 
+export interface WeeklyArticleMetrics {
+  recommends?: number;
+  views?: number;
+  comments?: number;
+}
+
 export interface WeeklyArticle {
   title: string;
   paragraphs?: string[];
   sources?: WeeklyArticleSource[];
   sprites?: SpriteRef[];
   tag?: string;
+  metrics?: WeeklyArticleMetrics;
+  card?: Record<string, unknown>;
+  card_slot?: string;
 }
 
 export interface WeeklySection {
@@ -329,6 +338,8 @@ export interface WeeklyIssueContent {
   week_start?: string;
   week_end?: string;
   weather?: string;
+  tldr?: string[];
+  cover?: Record<string, unknown>;
   sections: WeeklySection[];
   credits?: string;
 }

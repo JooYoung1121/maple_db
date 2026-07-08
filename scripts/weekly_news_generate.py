@@ -186,10 +186,11 @@ def cli():
 
 @cli.command()
 @click.option("--week-start", default=None, help="YYYY-MM-DD (기본: 지난주 월요일)")
-def collect(week_start: str | None):
+@click.option("--local", "use_local", is_flag=True, default=False, help="라이브 대신 로컬 DB에서 수집")
+def collect(week_start: str | None, use_local: bool = False):
     """주간 원자재 번들 수집 → data/weekly_news/material-<주>.json"""
     week_start = week_start or _default_week_start()
-    api_base = _api_base()
+    api_base = None if use_local else _api_base()
     if api_base:
         click.echo(f"[collect] 라이브 서버에서 수집: {api_base}")
         material = _collect_remote(week_start, api_base)
@@ -253,6 +254,43 @@ def generate(week_start: str | None, model: str | None):
 
 @cli.command()
 @click.option("--week-start", default=None)
+def render(week_start: str | None):
+    """호 JSON의 cover/card 연출을 이미지로 합성 → data/weekly_news/images-<주>/"""
+    week_start = week_start or _default_week_start()
+    issue_file = _issue_path(week_start)
+    if not issue_file.exists():
+        raise click.ClickException(f"호 파일이 없습니다. 먼저 generate 실행: {issue_file}")
+    from weekly_news_render import render_issue_images  # scripts/ 내 모듈
+
+    issue = json.loads(issue_file.read_text(encoding="utf-8"))
+    out_dir = OUT_DIR / f"images-{week_start}"
+    rendered = render_issue_images(issue, out_dir)
+    # card_slot이 심어진 content를 다시 저장
+    issue_file.write_text(json.dumps(issue, ensure_ascii=False, indent=2), encoding="utf-8")
+    if rendered:
+        click.echo(f"[render] {len(rendered)}장 합성: {', '.join(rendered)} → {out_dir}")
+    else:
+        click.echo("[render] cover/card 연출이 없어 합성한 이미지가 없습니다.")
+
+
+def _collect_images(week_start: str) -> list[dict]:
+    """렌더된 이미지 디렉토리 → 발행 페이로드용 base64 목록."""
+    import base64
+
+    img_dir = OUT_DIR / f"images-{week_start}"
+    images = []
+    if img_dir.is_dir():
+        for path in sorted(img_dir.glob("*.png")):
+            images.append({
+                "slot": path.stem,
+                "mime": "image/png",
+                "data_b64": base64.b64encode(path.read_bytes()).decode(),
+            })
+    return images
+
+
+@cli.command()
+@click.option("--week-start", default=None)
 @click.option("--yes", is_flag=True, default=False, help="확인 없이 발행")
 @click.option("--dry-run", is_flag=True, default=False, help="발행 없이 페이로드만 출력")
 @click.option("--issue-no", type=int, default=None, help="호수 지정 (기본: 자동 증가)")
@@ -279,6 +317,10 @@ def publish(week_start: str | None, yes: bool, dry_run: bool, issue_no: int | No
         "content": content,
         "status": "published",
     }
+    images = _collect_images(week_start)
+    if images:
+        payload["images"] = images
+        click.echo(f"[publish] 이미지 {len(images)}장 첨부: {', '.join(i['slot'] for i in images)}")
 
     if dry_run:
         click.echo(json.dumps(payload, ensure_ascii=False, indent=2)[:3000])
@@ -330,6 +372,15 @@ def publish(week_start: str | None, yes: bool, dry_run: bool, issue_no: int | No
                 json.dumps(content, ensure_ascii=False), now, now,
             ),
         )
+        if images:
+            import base64 as _b64
+
+            conn.execute("DELETE FROM weekly_news_images WHERE issue_no=?", (no,))
+            for img in images:
+                conn.execute(
+                    "INSERT INTO weekly_news_images (issue_no, slot, mime, data) VALUES (?, ?, ?, ?)",
+                    (no, img["slot"], img["mime"], _b64.b64decode(img["data_b64"])),
+                )
         conn.commit()
         click.echo(f"[publish] 로컬 DB 반영 완료: 제{no}호")
     finally:
@@ -345,6 +396,7 @@ def run_all(ctx: click.Context, week_start: str | None, yes: bool):
     week_start = week_start or _default_week_start()
     ctx.invoke(collect, week_start=week_start)
     ctx.invoke(generate, week_start=week_start, model=None)
+    ctx.invoke(render, week_start=week_start)
     if yes:
         ctx.invoke(publish, week_start=week_start, yes=True, dry_run=False, issue_no=None)
     else:
