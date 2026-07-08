@@ -230,12 +230,17 @@ async def trigger_community_crawl(request: Request):
     conn = get_connection()
     try:
         async with ThrottledClient() as client:
-            # 원시 프로브: 서버 IP에서 디시 목록 페이지가 열리는지 확인 (차단 진단)
-            try:
-                html = await client.get(f"{LIST_URL}&page=1", use_cache=False, headers=BROWSER_HEADERS)
-                probe = {"status": "ok", "bytes": len(html), "rows_in_html": html.count("ub-content us-post")}
-            except Exception as pe:
-                probe = {"status": "error", "detail": f"{type(pe).__name__}: {pe}"}
+            # 원시 프로브: 서버 IP에서 디시(데스크톱/모바일) 목록이 열리는지 확인 (차단 진단)
+            probe_targets = {
+                "desktop": (f"{LIST_URL}&page=1", "ub-content us-post"),
+                "mobile": ("https://m.dcinside.com/board/mapleland?page=1", "gall-detail-lst"),
+            }
+            for name, (url, marker) in probe_targets.items():
+                try:
+                    html = await client.get(url, use_cache=False, headers=BROWSER_HEADERS)
+                    probe[name] = {"status": "ok", "bytes": len(html), "marker_hits": html.count(marker)}
+                except Exception as pe:
+                    probe[name] = {"status": "error", "detail": f"{type(pe).__name__}: {pe}"}
 
             n = await crawl_dcinside(conn, client, pages=1, recommend_pages=1)
         total = conn.execute("SELECT COUNT(*) FROM community_posts").fetchone()[0]

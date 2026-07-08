@@ -19,6 +19,7 @@ RATE_LIMIT = {
     "maplestory.io": 0.5,    # 초당 2요청
     "bbb.hidden-street.net": 3.0,  # 초당 ~0.33요청
     "gall.dcinside.com": 3.0,      # 커뮤니티 원자료 — 보수적 간격
+    "m.dcinside.com": 3.0,
     "www.inven.co.kr": 3.0,
 }
 

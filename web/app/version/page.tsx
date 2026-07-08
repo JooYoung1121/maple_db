@@ -18,6 +18,20 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.28.3",
+    date: "2026-07-08",
+    type: "patch",
+    title: "커뮤니티 수집 진단 확장",
+    features: [
+      {
+        category: "내부",
+        items: [
+          "진단 프로브에 디시 모바일(m.dcinside.com) 추가 — 서버 IP 차단 우회 경로 탐색",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.28.2",
     date: "2026-07-08",
     type: "patch",
