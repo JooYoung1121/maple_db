@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.28.4",
+    date: "2026-07-08",
+    type: "patch",
+    title: "주간 메랜 수집을 로컬 크롤 기반으로 전환",
+    features: [
+      {
+        category: "주간 메랜",
+        items: [
+          "디시인사이드가 서버(Railway) IP를 차단하는 것으로 확인 — all 실행 시 공홈+디시를 로컬에서 자동 크롤하도록 변경",
+          "일요일 리마인더 문구 조정 (커뮤니티 수집은 실행 시 로컬에서 진행됨을 안내)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.28.3",
     date: "2026-07-08",
     type: "patch",

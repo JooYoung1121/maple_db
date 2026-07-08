@@ -237,9 +237,10 @@ DELETE /api/weekly-news/{issue_no}       # 삭제 (admin)
 공식 공지(maple.land)와 커뮤니티(디시 메이플랜드 갤러리) 원자료를 모아
 매주 신문 형식의 "주간 메랜"을 발행한다.
 
-- **원자재 수집(자동)**: API 서버가 `COMMUNITY_CRAWL_INTERVAL_MINUTES`(기본 360분)
-  간격으로 디시 갤러리를 수집해 `community_posts`에 적재한다.
-  수동 실행: `python -m crawler crawl --type dcinside`
+- **원자재 수집**: 디시인사이드는 데이터센터 IP(Railway)를 차단하므로 서버 수집이 아닌
+  **로컬 크롤링**으로 진행한다 — `all` 실행 시 공홈+디시를 자동으로 로컬 크롤한다.
+  (서버의 `COMMUNITY_CRAWL_INTERVAL_MINUTES` 잡은 남아 있으나 차단으로 0건 수집됨.
+  수동 실행: `python -m crawler crawl --type dcinside`)
 - **호 생성·발행(주 1회, 로컬)**:
 
 ```bash

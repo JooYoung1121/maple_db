@@ -185,6 +185,29 @@ def cli():
 
 
 @cli.command()
+def crawl():
+    """공홈 + 디시 갤러리를 로컬에서 크롤링 (디시는 서버 IP가 차단돼 로컬 수집 필수)."""
+    import asyncio
+
+    from crawler.client import ThrottledClient
+    from crawler.db import init_db
+    from crawler.parsers.dcinside import crawl_dcinside
+    from crawler.parsers.maple_land import crawl_maple_land
+
+    conn = init_db()
+
+    async def _run():
+        async with ThrottledClient() as client:
+            n1 = await crawl_maple_land(conn, client, force=False, refresh_lists=True)
+            n2 = await crawl_dcinside(conn, client)
+            return n1, n2
+
+    n1, n2 = asyncio.run(_run())
+    conn.close()
+    click.echo(f"[crawl] 공홈 {n1}건, 디시 {n2}건 수집/갱신")
+
+
+@cli.command()
 @click.option("--week-start", default=None, help="YYYY-MM-DD (기본: 지난주 월요일)")
 @click.option("--local", "use_local", is_flag=True, default=False, help="라이브 대신 로컬 DB에서 수집")
 def collect(week_start: str | None, use_local: bool = False):
@@ -394,7 +417,9 @@ def publish(week_start: str | None, yes: bool, dry_run: bool, issue_no: int | No
 def run_all(ctx: click.Context, week_start: str | None, yes: bool):
     """collect → generate → publish 연속 실행 (publish는 --yes 필요)."""
     week_start = week_start or _default_week_start()
-    ctx.invoke(collect, week_start=week_start)
+    ctx.invoke(crawl)
+    # 디시는 서버 IP가 차단돼 라이브 DB에 커뮤니티 글이 없다 → 로컬 크롤 후 로컬에서 수집
+    ctx.invoke(collect, week_start=week_start, use_local=True)
     ctx.invoke(generate, week_start=week_start, model=None)
     ctx.invoke(render, week_start=week_start)
     if yes:

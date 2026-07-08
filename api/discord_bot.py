@@ -136,10 +136,16 @@ class MapleBot(discord.Client):
             ch = await self._get_channel()
         if not ch:
             return
-        desc_lines = [
-            f"**이번 주** {week_start} ~ {week_end}",
-            f"공식 소식 **{official_count}건** · 커뮤니티 인기글 **{community_count}건** 쌓였습니다.",
-        ]
+        desc_lines = [f"**이번 주** {week_start} ~ {week_end}"]
+        if community_count > 0:
+            desc_lines.append(
+                f"공식 소식 **{official_count}건** · 커뮤니티 인기글 **{community_count}건** 쌓였습니다."
+            )
+        else:
+            # 디시는 서버 IP가 차단돼 커뮤니티 글은 발행 시 로컬에서 수집된다
+            desc_lines.append(
+                f"공식 소식 **{official_count}건** 쌓였습니다. (커뮤니티 글은 실행 시 로컬에서 수집)"
+            )
         if top_titles:
             desc_lines.append("")
             desc_lines.append("이번 주 커뮤니티 화제글:")
