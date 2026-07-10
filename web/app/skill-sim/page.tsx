@@ -31,12 +31,16 @@ function renderEffect(tpl: string | null, props?: Record<string, string | number
 }
 
 /* ── 공유 해시 인코딩 ── */
-function encodeBuild(faction: string, jobClass: string, path2: number | null, levels: Record<number, number>): string {
+function encodeBuild(
+  faction: string, jobClass: string, path2: number | null,
+  levels: Record<number, number>, targetLevel: number | null
+): string {
   const lv = Object.entries(levels)
     .filter(([, v]) => v > 0)
     .map(([id, v]) => `${id}.${v}`)
     .join("_");
-  return `f=${faction === "cygnus" ? "c" : "a"}&j=${encodeURIComponent(jobClass)}&p=${path2 ?? ""}&s=${lv}`;
+  const l = targetLevel !== null ? `&l=${targetLevel}` : "";
+  return `f=${faction === "cygnus" ? "c" : "a"}&j=${encodeURIComponent(jobClass)}&p=${path2 ?? ""}&s=${lv}${l}`;
 }
 function decodeBuild(hash: string) {
   const sp = new URLSearchParams(hash.replace(/^#/, ""));
@@ -44,17 +48,18 @@ function decodeBuild(hash: string) {
   if (!jobClass || !(JOB_CLASSES as readonly string[]).includes(jobClass)) return null;
   const faction = sp.get("f") === "c" ? "cygnus" : "adventurer";
   const path2 = sp.get("p") ? Number(sp.get("p")) : null;
+  const targetLevel = sp.get("l") ? Number(sp.get("l")) : null;
   const levels: Record<number, number> = {};
   for (const pair of (sp.get("s") ?? "").split("_")) {
     const [id, v] = pair.split(".");
     if (id && v && Number(v) > 0) levels[Number(id)] = Number(v);
   }
-  return { faction, jobClass, path2, levels };
+  return { faction, jobClass, path2, levels, targetLevel };
 }
 
 /* ── 스킬 한 줄 ── */
 function SkillRow({
-  skill, level, allSkillsById, levels, onChange, expanded, onToggle,
+  skill, level, allSkillsById, levels, onChange, expanded, onToggle, plusLocked = false,
 }: {
   skill: SimSkill;
   level: number;
@@ -63,6 +68,7 @@ function SkillRow({
   onChange: (skill: SimSkill, delta: number, big: boolean) => void;
   expanded: boolean;
   onToggle: () => void;
+  plusLocked?: boolean;
 }) {
   const reqEntries = Object.entries(skill.required_skills);
   const reqMet = reqEntries.every(([rid, rlv]) => (levels[Number(rid)] ?? 0) >= rlv);
@@ -101,7 +107,7 @@ function SkillRow({
           </button>
           <button
             onClick={(e) => onChange(skill, +1, e.shiftKey)}
-            disabled={maxed || !reqMet}
+            disabled={maxed || !reqMet || plusLocked}
             className="w-7 h-7 pixel-btn text-sm disabled:opacity-30"
             title="Shift+클릭: +5"
           >
@@ -159,6 +165,9 @@ export default function SkillSimPage() {
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
   const [hashApplied, setHashApplied] = useState(false);
+  // 배분 모드: free = 자유 배분(필요 레벨 역산), target = 목표 레벨의 SP 예산 안에서만 배분
+  const [mode, setMode] = useState<"free" | "target">("free");
+  const [targetLevel, setTargetLevel] = useState<number>(30);
 
   // 최초 진입 시 공유 해시 복원
   useEffect(() => {
@@ -169,6 +178,10 @@ export default function SkillSimPage() {
       setJobClass(decoded.jobClass);
       setPath2(decoded.path2);
       setLevels(decoded.levels);
+      if (decoded.targetLevel !== null && Number.isFinite(decoded.targetLevel)) {
+        setMode("target");
+        setTargetLevel(decoded.targetLevel);
+      }
     }
     setHashApplied(true);
   }, []);
@@ -254,6 +267,24 @@ export default function SkillSimPage() {
 
   const remainingSP = requiredLevel !== null ? totalSP(requiredLevel) - invested.total : 0;
 
+  // 목표 레벨 모드: SP 예산과 잔여, 차수 잠금
+  const maxLevel = faction === "adventurer" ? 200 : 120;
+  const budget = mode === "target" ? totalSP(Math.min(Math.max(targetLevel, 1), maxLevel)) : null;
+  const budgetRemaining = budget !== null ? budget - invested.total : null;
+  const isBranchLocked = useCallback(
+    (branch: number) => {
+      if (mode !== "target") return false;
+      const need = branch === 1 ? first : unlocks[branch] ?? 999;
+      return targetLevel < need;
+    },
+    [mode, targetLevel, first, unlocks]
+  );
+
+  const chainSkillIds = useMemo(
+    () => chainSkills.flatMap(({ list }) => list.map((s) => s.id)),
+    [chainSkills]
+  );
+
   // 스킬 증감 (Shift = 5)
   const changeLevel = useCallback(
     (skill: SimSkill, delta: number, big: boolean) => {
@@ -263,6 +294,13 @@ export default function SkillSimPage() {
         let next = cur + delta * step;
         if (delta > 0) {
           next = Math.min(next, skill.master_level);
+          // 목표 레벨 모드: 잔여 SP 예산을 넘지 못함
+          if (budget !== null) {
+            const investedNow = chainSkillIds.reduce((acc, id) => acc + (prev[id] ?? 0), 0);
+            const rem = budget - investedNow;
+            if (rem <= 0) return prev;
+            next = Math.min(next, cur + rem);
+          }
         } else {
           // 이 스킬을 선행으로 요구하는(포인트가 찍힌) 스킬이 있으면 그 요구 레벨 밑으로 못 내림
           let floor = 0;
@@ -277,20 +315,20 @@ export default function SkillSimPage() {
         return { ...prev, [skill.id]: next };
       });
     },
-    [skills]
+    [skills, budget, chainSkillIds]
   );
 
   const resetAll = useCallback(() => setLevels({}), []);
 
   const share = useCallback(() => {
-    const hash = encodeBuild(faction, jobClass, path2, levels);
+    const hash = encodeBuild(faction, jobClass, path2, levels, mode === "target" ? targetLevel : null);
     const url = `${window.location.origin}${window.location.pathname}#${hash}`;
     window.history.replaceState(null, "", `#${hash}`);
     navigator.clipboard.writeText(url).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     });
-  }, [faction, jobClass, path2, levels]);
+  }, [faction, jobClass, path2, levels, mode, targetLevel]);
 
   // 직업/진영 변경 시 빌드 초기화 (해시 복원 직후는 제외)
   const switchClass = (cls: string) => {
@@ -369,42 +407,109 @@ export default function SkillSimPage() {
         <div className="grid lg:grid-cols-[1fr_280px] gap-4 items-start">
           {/* 스킬북 (차수별) */}
           <div className="space-y-4">
-            {chainSkills.map(({ job, list }) => (
-              <div key={job.id} className="pixel-panel p-4">
-                <div className="flex items-center justify-between mb-3">
-                  <h2 className="font-pixel text-sm text-ink">
-                    <span className="text-maple">{BRANCH_LABELS[job.branch]}</span> {job.name_ko}
-                    <span className="text-xs text-dim ml-2">
-                      Lv.{job.branch === 1 ? first : unlocks[job.branch]}~
+            {chainSkills.map(({ job, list }) => {
+              const locked = isBranchLocked(job.branch);
+              const spExhausted = budgetRemaining !== null && budgetRemaining <= 0;
+              return (
+                <div key={job.id} className={`pixel-panel p-4 ${locked ? "opacity-60" : ""}`}>
+                  <div className="flex items-center justify-between mb-3">
+                    <h2 className="font-pixel text-sm text-ink">
+                      <span className="text-maple">{BRANCH_LABELS[job.branch]}</span> {job.name_ko}
+                      <span className="text-xs text-dim ml-2">
+                        Lv.{job.branch === 1 ? first : unlocks[job.branch]}~
+                      </span>
+                      {locked && (
+                        <span className="font-pixel text-[10px] text-red-500 ml-2">🔒 레벨 부족</span>
+                      )}
+                    </h2>
+                    <span className="font-pixel text-xs text-dim">
+                      투자 SP {invested.byBranch[job.branch] ?? 0}
                     </span>
-                  </h2>
-                  <span className="font-pixel text-xs text-dim">
-                    투자 SP {invested.byBranch[job.branch] ?? 0}
-                  </span>
+                  </div>
+                  <div className="space-y-1.5">
+                    {list.map((s) => (
+                      <SkillRow
+                        key={s.id}
+                        skill={s}
+                        level={levels[s.id] ?? 0}
+                        allSkillsById={skillsById}
+                        levels={levels}
+                        onChange={changeLevel}
+                        expanded={expandedId === s.id}
+                        onToggle={() => setExpandedId(expandedId === s.id ? null : s.id)}
+                        plusLocked={locked || spExhausted}
+                      />
+                    ))}
+                  </div>
                 </div>
-                <div className="space-y-1.5">
-                  {list.map((s) => (
-                    <SkillRow
-                      key={s.id}
-                      skill={s}
-                      level={levels[s.id] ?? 0}
-                      allSkillsById={skillsById}
-                      levels={levels}
-                      onChange={changeLevel}
-                      expanded={expandedId === s.id}
-                      onToggle={() => setExpandedId(expandedId === s.id ? null : s.id)}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* 요약 패널 */}
           <div className="pixel-panel p-4 lg:sticky lg:top-20 space-y-3">
             <h2 className="font-pixel text-sm text-ink">빌드 요약</h2>
+
+            {/* 배분 모드 */}
+            <div className="flex bg-surface2 p-1">
+              <button
+                onClick={() => setMode("free")}
+                className={`flex-1 px-2 py-1.5 text-xs transition ${mode === "free" ? "pixel-btn" : "font-pixel text-dim hover:text-maple"}`}
+              >
+                자유 배분
+              </button>
+              <button
+                onClick={() => setMode("target")}
+                className={`flex-1 px-2 py-1.5 text-xs transition ${mode === "target" ? "pixel-btn" : "font-pixel text-dim hover:text-maple"}`}
+              >
+                레벨 지정
+              </button>
+            </div>
+
+            {mode === "target" && (
+              <div className="flex items-center gap-2">
+                <span className="font-pixel text-xs text-dim shrink-0">목표 레벨</span>
+                <input
+                  type="number"
+                  min={first}
+                  max={maxLevel}
+                  value={targetLevel}
+                  onChange={(e) => {
+                    const v = Number(e.target.value);
+                    if (Number.isFinite(v)) setTargetLevel(Math.min(Math.max(Math.round(v), 1), maxLevel));
+                  }}
+                  className="pixel-input px-2 py-1.5 w-20 text-sm"
+                />
+                <div className="flex gap-1">
+                  {[30, 70, 120].filter((l) => l <= maxLevel).map((l) => (
+                    <button
+                      key={l}
+                      onClick={() => setTargetLevel(l)}
+                      className={`font-pixel text-[10px] px-1.5 py-1 ${targetLevel === l ? "pixel-btn" : "pixel-card text-dim"}`}
+                    >
+                      {l}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div className="text-center py-3 bg-surface2 border-2 border-edge">
-              {requiredLevel !== null ? (
+              {mode === "target" ? (
+                <>
+                  <div className={`font-pixel text-2xl ${budgetRemaining !== null && budgetRemaining < 0 ? "text-red-500" : "text-maple"}`}>
+                    SP {budgetRemaining}
+                  </div>
+                  <div className="text-xs text-dim mt-1">
+                    Lv.{targetLevel} 기준 잔여 SP (총 {budget})
+                  </div>
+                  {budgetRemaining !== null && budgetRemaining < 0 && (
+                    <div className="text-xs text-red-500 mt-1">
+                      SP 초과! 레벨을 올리거나 스킬을 빼주세요
+                    </div>
+                  )}
+                </>
+              ) : requiredLevel !== null ? (
                 <>
                   <div className="font-pixel text-2xl text-maple">Lv.{requiredLevel}</div>
                   <div className="text-xs text-dim mt-1">이 빌드에 필요한 레벨</div>
