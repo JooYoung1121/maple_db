@@ -86,8 +86,11 @@ class MapleBot(discord.Client):
                 raise RuntimeError(msg)
             return None
 
-    async def send_maple_land_embed(self, title: str, url: str, category: str | None, board: str):
-        """maple.land 신규 포스트 알림"""
+    async def send_maple_land_embed(
+        self, title: str, url: str, category: str | None, board: str,
+        post_id: str | None = None,
+    ):
+        """maple.land 신규 포스트 알림 — 공홈 원문 + 우리 사이트 링크 함께 전송"""
         if not self.is_enabled("notify_maple_land"):
             return
         ch = await self._get_channel()
@@ -98,6 +101,13 @@ class MapleBot(discord.Client):
         embed.set_author(name=f"메랜 공홈 {'이벤트' if board == 'events' else '공지'}")
         if category:
             embed.add_field(name="카테고리", value=category)
+        site_base = os.environ.get("PUBLIC_SITE_URL", "https://memorymapledb.up.railway.app").rstrip("/")
+        if post_id and site_base.startswith("http"):
+            embed.add_field(
+                name="바로가기",
+                value=f"[공홈 원문]({url}) · [메랜DB에서 보기]({site_base}/news?post={post_id})",
+                inline=False,
+            )
         await ch.send(content=self.get_mention_text(), embed=embed)
 
     def get_weekly_reminder_channel_id(self) -> int | None:

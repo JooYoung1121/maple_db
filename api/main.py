@@ -32,6 +32,7 @@ from api.routes import weekly_news
 from api.routes import skill_sim
 from api.routes import channels
 from api.routes import daily_mob
+from api.routes import events
 from api.discord_bot import start_bot, get_bot
 
 
@@ -71,9 +72,9 @@ async def _maple_land_crawl_job():
                     bot = get_bot()
                     if bot and bot.is_ready():
                         new_posts = conn.execute(
-                            "SELECT title, url, category, board FROM maple_land_posts WHERE post_id NOT IN ({})".format(
+                            "SELECT post_id, title, url, category, board FROM maple_land_posts WHERE post_id NOT IN ({})".format(
                                 ",".join("?" for _ in existing_ids)
-                            ) if existing_ids else "SELECT title, url, category, board FROM maple_land_posts",
+                            ) if existing_ids else "SELECT post_id, title, url, category, board FROM maple_land_posts",
                             list(existing_ids) if existing_ids else [],
                         ).fetchall()
                         for post in new_posts:
@@ -81,6 +82,7 @@ async def _maple_land_crawl_job():
                                 await bot.send_maple_land_embed(
                                     post["title"], post["url"],
                                     post["category"], post["board"],
+                                    post_id=post["post_id"],
                                 )
                             except Exception as be:
                                 print(f"[discord] 알림 오류: {be}")
@@ -329,6 +331,7 @@ app.include_router(weekly_news.router, prefix="/api")
 app.include_router(skill_sim.router, prefix="/api")
 app.include_router(channels.router, prefix="/api")
 app.include_router(daily_mob.router, prefix="/api")
+app.include_router(events.router, prefix="/api")
 
 
 @app.get("/api/health")

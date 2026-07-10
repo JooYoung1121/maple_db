@@ -57,6 +57,7 @@ const SECTION_GROUPS = [
       { href: "/hunt", label: "사냥터 추천", icon: "🎯", desc: "레벨별 사냥터 가이드" },
       { href: "/leveling", label: "직업별 사냥터", icon: "🗺️", desc: "직업·레벨 구간별 육성 루트" },
       { href: "/tespia-bosses", label: "2.0 보스", icon: "⚔️", desc: "카오스 자쿰 · 핑크빈 · 무릉도장" },
+      { href: "/events", label: "이벤트 정리", icon: "🗂️", desc: "진행 중 이벤트 요약 · 아카이브" },
       { href: "/job", label: "전직 가이드", icon: "📋", desc: "직업별 전직 경로" },
       { href: "/ship", label: "배 시간표", icon: "🚢", desc: "정기선 운항 시간" },
       { href: "/trap", label: "트랩 타이머", icon: "⏱️", desc: "트랩 주기 타이머" },

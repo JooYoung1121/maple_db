@@ -634,6 +634,76 @@ export async function getSkillSimData(jobClass: string, faction = "adventurer") 
   );
 }
 
+/* ── 이벤트 정리 아카이브 ─────────────────────────── */
+export interface EventGuideSummary {
+  id: number;
+  slug: string;
+  title: string;
+  world: string | null;
+  status: "active" | "ended";
+  period_start: string | null;
+  period_end: string | null;
+  updated_at: string;
+}
+
+export interface EventGuideSection {
+  heading: string;
+  body?: string;
+  table?: { headers: string[]; rows: string[][] };
+  note?: string;
+}
+
+export interface EventGuideContent {
+  tldr: string[];
+  sections: EventGuideSection[];
+  links: { label: string; url: string }[];
+}
+
+export interface EventGuide extends EventGuideSummary {
+  source_post_id: string | null;
+  content: EventGuideContent;
+  created_at: string;
+}
+
+export async function getEvents() {
+  return fetchJSON<{ events: EventGuideSummary[] }>(`/api/events`);
+}
+
+export async function getEvent(slug: string) {
+  return fetchJSON<{ event: EventGuide }>(`/api/events/${encodeURIComponent(slug)}`);
+}
+
+export interface EventGuidePayload {
+  slug: string;
+  title: string;
+  world: string | null;
+  status: string;
+  period_start: string | null;
+  period_end: string | null;
+  source_post_id: string | null;
+  content_json: string;
+}
+
+export async function updateEvent(slug: string, data: EventGuidePayload, pw: string) {
+  const res = await fetch(`${API_BASE}/api/events/${encodeURIComponent(slug)}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", "X-Admin-Password": pw },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json();
+}
+
+export async function createEvent(data: EventGuidePayload, pw: string) {
+  const res = await fetch(`${API_BASE}/api/events`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Admin-Password": pw },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json();
+}
+
 /* ── 오늘의 몬스터 ─────────────────────────────────── */
 export interface DailyMobMeta {
   date: string;

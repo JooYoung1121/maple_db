@@ -18,6 +18,29 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.31.0",
+    date: "2026-07-10",
+    type: "minor",
+    title: "이벤트 정리 아카이브 + 디스코드 알림에 사이트 링크",
+    features: [
+      {
+        category: "이벤트 정리",
+        items: [
+          "이벤트 정리 아카이브 페이지 신설 (/events) — 진행 중 이벤트 핵심 요약 + 종료 이벤트 아카이브",
+          "첫 정리본: 버닝 월드 '테마던전 : 몬스터 파크' — 입장 조건·티켓·등급, 맵별 클리어 경험치 표(커뮤니티 정리), 팁, 출처 링크",
+          "관리자 정리본 수정(⚙, X-Admin-Password) — 수치 변동 시 라이브에서 바로 갱신",
+        ],
+      },
+      {
+        category: "디스코드",
+        items: [
+          "공홈 새 글 알림에 '공홈 원문 · 메랜DB에서 보기' 링크 병기 (PUBLIC_SITE_URL)",
+          "/news?post={id} 딥링크 — 알림에서 누르면 해당 글이 상단에 펼쳐진 채로 열림",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.30.0",
     date: "2026-07-10",
     type: "minor",

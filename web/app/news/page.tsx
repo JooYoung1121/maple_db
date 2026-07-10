@@ -138,8 +138,8 @@ function PostContent({ postId }: { postId: string }) {
   );
 }
 
-function PostItem({ post }: { post: MapleLandPost }) {
-  const [expanded, setExpanded] = useState(false);
+function PostItem({ post, defaultExpanded = false }: { post: MapleLandPost; defaultExpanded?: boolean }) {
+  const [expanded, setExpanded] = useState(defaultExpanded);
 
   return (
     <div className="pixel-card overflow-hidden">
@@ -218,6 +218,16 @@ export default function NewsPage() {
   useEffect(() => {
     fetchPosts();
   }, [fetchPosts]);
+
+  // 디스코드 알림 등에서 ?post={id} 딥링크로 진입 시 해당 글을 상단에 펼쳐서 표시
+  const [pinnedPost, setPinnedPost] = useState<MapleLandPost | null>(null);
+  useEffect(() => {
+    const pid = new URLSearchParams(window.location.search).get("post");
+    if (!pid) return;
+    getNewsPost(pid)
+      .then((d) => setPinnedPost(d.post))
+      .catch(() => setPinnedPost(null));
+  }, []);
 
   // /news 방문 시 배지 초기화
   useEffect(() => {
@@ -391,9 +401,17 @@ export default function NewsPage() {
         </div>
       ) : (
         <div className="space-y-2">
-          {posts.map((post) => (
-            <PostItem key={post.post_id} post={post} />
-          ))}
+          {pinnedPost && (
+            <div>
+              <div className="font-pixel text-[10px] text-maple mb-1">📌 알림으로 열어본 글</div>
+              <PostItem key={`pinned-${pinnedPost.post_id}`} post={pinnedPost} defaultExpanded />
+            </div>
+          )}
+          {posts
+            .filter((post) => post.post_id !== pinnedPost?.post_id)
+            .map((post) => (
+              <PostItem key={post.post_id} post={post} />
+            ))}
         </div>
       )}
 
