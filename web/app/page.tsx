@@ -47,6 +47,7 @@ const SECTION_GROUPS = [
       { href: "/exp", label: "경험치", icon: "📈", desc: "레벨업 계산" },
       { href: "/nhit", label: "엔방컷", icon: "⚔️", desc: "젠컷 계산" },
       { href: "/fee", label: "수수료", icon: "💰", desc: "거래 수수료" },
+      { href: "/skill-sim", label: "스킬 시뮬레이터", icon: "✨", desc: "직업별 스킬 빌드 설계" },
     ],
   },
   {
@@ -65,6 +66,7 @@ const SECTION_GROUPS = [
     label: "커뮤니티",
     items: [
       { href: "/news", label: "메랜 공홈 소식", icon: "📰", desc: "메이플랜드 공지/이벤트" },
+      { href: "/channels", label: "채널 가이드", icon: "📺", desc: "스트리머 · 유튜브 · 커뮤니티" },
       { href: "/bimae", label: "비매박제", icon: "🚫", desc: "비매 유저 신고" },
       { href: "/community", label: "투표", icon: "🗳️", desc: "유저 투표 참여" },
     ],
@@ -75,7 +77,8 @@ const SECTION_GROUPS = [
       { href: "/play", label: "룰렛 · 주사위", icon: "🎰", desc: "룰렛, 주사위 굴리기" },
       { href: "/lotto", label: "로또", icon: "🎱", desc: "랜덤 번호 생성" },
       { href: "/fortune", label: "오늘의 운세", icon: "🔮", desc: "메이플 운세 보기" },
-      { href: "/quiz", label: "메이플 퀴즈", icon: "❓", desc: "스피드퀴즈 연습" },
+      { href: "/quiz", label: "메이플 퀴즈", icon: "❓", desc: "스피드퀴즈 · 실루엣 퀴즈" },
+      { href: "/daily-mob", label: "오늘의 몬스터", icon: "👾", desc: "매일 바뀌는 몬스터 추리" },
     ],
   },
   {

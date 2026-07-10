@@ -8,7 +8,7 @@ from crawler.db import get_connection
 router = APIRouter()
 
 ALLOWED_TOTALS = {10, 20, 30}
-ALLOWED_CATEGORIES = {"all", "mob", "npc"}
+ALLOWED_CATEGORIES = {"all", "mob", "npc", "silhouette"}
 
 
 class QuizScoreCreate(BaseModel):

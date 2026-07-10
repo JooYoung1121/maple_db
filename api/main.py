@@ -29,6 +29,9 @@ from api.routes import fortune
 from api.routes import maker
 from api.routes import quiz
 from api.routes import weekly_news
+from api.routes import skill_sim
+from api.routes import channels
+from api.routes import daily_mob
 from api.discord_bot import start_bot, get_bot
 
 
@@ -174,6 +177,29 @@ async def _community_crawl_job():
         await asyncio.sleep(interval)
 
 
+def _channel_video_interval_seconds() -> int:
+    raw = os.environ.get("CHANNEL_VIDEO_INTERVAL_MINUTES", "360")
+    try:
+        minutes = int(raw)
+    except ValueError:
+        minutes = 360
+    return max(minutes, 30) * 60
+
+
+async def _channel_video_job():
+    """커뮤니티 채널 가이드 — 유튜브 최신 영상 수집 (기본 6시간)."""
+    interval = _channel_video_interval_seconds()
+    while True:
+        try:
+            from api.routes.channels import refresh_channel_videos
+            n = await refresh_channel_videos()
+            if n:
+                print(f"[scheduler] 채널 영상 수집 — {n}개 채널 갱신")
+        except Exception as e:
+            print(f"[scheduler] 채널 영상 수집 오류: {e}")
+        await asyncio.sleep(interval)
+
+
 async def _weekly_reminder_job():
     """매주 일요일 WEEKLY_REMINDER_HOUR시(KST, 기본 8시)에 발행 리마인더 전송.
 
@@ -241,6 +267,11 @@ async def lifespan(app: FastAPI):
         reminder_task = asyncio.create_task(_weekly_reminder_job())
     else:
         print("[scheduler] weekly reminder disabled")
+    channel_video_task = None
+    if _env_bool("CHANNEL_VIDEO_CRAWLER_ENABLED", True):
+        channel_video_task = asyncio.create_task(_channel_video_job())
+    else:
+        print("[scheduler] channel video crawler disabled")
     bot_task = asyncio.create_task(start_bot())
     yield
     if crawl_task:
@@ -249,6 +280,8 @@ async def lifespan(app: FastAPI):
         community_task.cancel()
     if reminder_task:
         reminder_task.cancel()
+    if channel_video_task:
+        channel_video_task.cancel()
     bot_task.cancel()
 
 
@@ -293,6 +326,9 @@ app.include_router(fortune.router, prefix="/api")
 app.include_router(maker.router, prefix="/api")
 app.include_router(quiz.router, prefix="/api")
 app.include_router(weekly_news.router, prefix="/api")
+app.include_router(skill_sim.router, prefix="/api")
+app.include_router(channels.router, prefix="/api")
+app.include_router(daily_mob.router, prefix="/api")
 
 
 @app.get("/api/health")

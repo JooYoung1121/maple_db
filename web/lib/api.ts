@@ -514,6 +514,188 @@ export async function getQuizPool() {
   return fetchJSON<{ mobs: QuizPoolEntry[]; npcs: QuizPoolEntry[] }>(`/api/quiz/pool`);
 }
 
+/* ── 커뮤니티 채널 가이드 ─────────────────────────── */
+export interface ChannelEntry {
+  id: number;
+  category: string;
+  name: string;
+  platform: string | null;
+  url: string;
+  channel_key: string | null;
+  description: string | null;
+  tags: string | null;
+  sort_order: number;
+  is_active: number;
+}
+
+export interface ChannelVideo {
+  channel_id: number;
+  video_id: string;
+  title: string | null;
+  url: string | null;
+  thumbnail: string | null;
+  published_at: string | null;
+}
+
+export interface CommunityHotPost {
+  title: string;
+  url: string;
+  author: string | null;
+  views: number | null;
+  recommends: number | null;
+  comment_count: number | null;
+  is_recommended: number;
+  published_at: string | null;
+}
+
+export async function getChannels() {
+  return fetchJSON<{ channels: ChannelEntry[]; videos: Record<string, ChannelVideo[]> }>(`/api/channels`);
+}
+
+export async function getChannelsLive() {
+  return fetchJSON<{ live: Record<string, boolean | null> }>(`/api/channels/live`);
+}
+
+export async function getCommunityHot(days = 7, limit = 8) {
+  return fetchJSON<{ posts: CommunityHotPost[] }>(`/api/channels/community-hot?${qs({ days, limit })}`);
+}
+
+export async function getChannelsAdmin(pw: string) {
+  return fetchJSON<{ channels: ChannelEntry[] }>(`/api/channels/all`, { "X-Admin-Password": pw });
+}
+
+export type ChannelPayload = Omit<ChannelEntry, "id">;
+
+export async function createChannel(data: ChannelPayload, pw: string) {
+  const res = await fetch(`${API_BASE}/api/channels`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Admin-Password": pw },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<{ id: number; ok: boolean }>;
+}
+
+export async function updateChannel(id: number, data: ChannelPayload, pw: string) {
+  const res = await fetch(`${API_BASE}/api/channels/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json", "X-Admin-Password": pw },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json();
+}
+
+export async function deleteChannel(id: number, pw: string) {
+  const res = await fetch(`${API_BASE}/api/channels/${id}`, {
+    method: "DELETE",
+    headers: { "X-Admin-Password": pw },
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json();
+}
+
+export async function refreshChannelVideos(pw: string) {
+  const res = await fetch(`${API_BASE}/api/channels/refresh-videos`, {
+    method: "POST",
+    headers: { "X-Admin-Password": pw },
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<{ ok: boolean; updated_channels: number }>;
+}
+
+/* ── 스킬 시뮬레이터 ─────────────────────────────── */
+export interface SimJob {
+  id: number;
+  name_ko: string;
+  name_en: string | null;
+  job_class: string;
+  faction: string;
+  branch: number;
+  parent_id: number | null;
+}
+
+export interface SimSkill {
+  id: number;
+  job_id: number;
+  name: string;
+  description: string | null;
+  detail_template: string | null;
+  master_level: number;
+  weapons: string[];
+  required_skills: Record<string, number>;
+  level_properties: Record<string, string | number>[];
+  icon_path: string | null;
+}
+
+export async function getSkillSimData(jobClass: string, faction = "adventurer") {
+  return fetchJSON<{ jobs: SimJob[]; skills: SimSkill[] }>(
+    `/api/skill-sim/data?${qs({ job_class: jobClass, faction })}`
+  );
+}
+
+/* ── 오늘의 몬스터 ─────────────────────────────────── */
+export interface DailyMobMeta {
+  date: string;
+  puzzle_no: number;
+  pool: { id: number; name: string }[];
+  stats: { solvers: number; avg_attempts: number | null };
+}
+
+export interface DailyMobNumFeedback {
+  dir: "match" | "up" | "down";
+  close: boolean;
+}
+
+export interface DailyMobGuessResult {
+  date: string;
+  correct: boolean;
+  guess: {
+    id: number;
+    name: string;
+    icon_url: string;
+    level: number;
+    hp: number;
+    exp: number;
+    is_boss: number;
+    is_undead: number;
+    region: string;
+  };
+  feedback: {
+    level: DailyMobNumFeedback;
+    hp: DailyMobNumFeedback;
+    exp: DailyMobNumFeedback;
+    is_boss: boolean;
+    is_undead: boolean;
+    region: "match" | "partial" | "none";
+  };
+  answer?: { id: number; name: string; icon_url: string };
+}
+
+export async function getDailyMob() {
+  return fetchJSON<DailyMobMeta>(`/api/daily-mob`);
+}
+
+export async function guessDailyMob(name: string) {
+  const res = await fetch(`${API_BASE}/api/daily-mob/guess`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name }),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<DailyMobGuessResult>;
+}
+
+export async function solveDailyMob(attempts: number) {
+  const res = await fetch(`${API_BASE}/api/daily-mob/solve`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ attempts }),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json();
+}
+
 /* ── 주간 메랜 (주간 뉴스) ─────────────────────────── */
 export async function getWeeklyIssues(params: { page?: number; per_page?: number } = {}) {
   return fetchJSON<{ issues: import("./types").WeeklyIssueSummary[]; total: number; page: number; per_page: number }>(

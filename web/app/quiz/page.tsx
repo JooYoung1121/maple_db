@@ -13,9 +13,9 @@ interface QuizEntry {
 }
 
 type Mode = "practice" | "jokbo";
-type Category = "all" | "mob" | "npc";
+type Category = "all" | "mob" | "npc" | "silhouette";
 
-const CATEGORY_LABELS: Record<string, string> = { all: "전체", mob: "몬스터", npc: "NPC" };
+const CATEGORY_LABELS: Record<string, string> = { all: "전체", mob: "몬스터", npc: "NPC", silhouette: "실루엣" };
 
 function Leaderboard({ scores, questionCount }: { scores: QuizScore[]; questionCount: number }) {
   return (
@@ -163,10 +163,11 @@ export default function QuizPage() {
     if (saved) setNickname(saved);
   }, []);
 
-  // 필터된 목록
+  // 필터된 목록 (실루엣 모드는 몬스터만 출제)
   const filtered = useMemo(() => {
     let list = entries;
-    if (category !== "all") list = list.filter((e) => e.type === category);
+    if (category === "silhouette") list = list.filter((e) => e.type === "mob");
+    else if (category !== "all") list = list.filter((e) => e.type === category);
     return list;
   }, [entries, category]);
 
@@ -320,8 +321,8 @@ export default function QuizPage() {
           </button>
         </div>
 
-        <div className="flex gap-2">
-          {(["all", "mob", "npc"] as Category[]).map((c) => (
+        <div className="flex gap-2 flex-wrap">
+          {(["all", "mob", "npc", "silhouette"] as Category[]).map((c) => (
             <button
               key={c}
               onClick={() => setCategory(c)}
@@ -331,9 +332,11 @@ export default function QuizPage() {
                   : "pixel-card font-pixel text-dim"
               }`}
             >
-              {{ all: "전체", mob: "몬스터", npc: "NPC" }[c]}
+              {{ all: "전체", mob: "몬스터", npc: "NPC", silhouette: "실루엣" }[c]}
               <span className="ml-1 text-xs text-dim">
-                ({c === "all" ? entries.length : entries.filter((e) => e.type === c).length})
+                ({c === "all"
+                  ? entries.length
+                  : entries.filter((e) => e.type === (c === "silhouette" ? "mob" : c)).length})
               </span>
             </button>
           ))}
@@ -467,7 +470,9 @@ export default function QuizPage() {
                       <img
                         src={currentQ.icon_url}
                         alt="?"
-                        className="w-24 h-24 mx-auto object-contain mb-2"
+                        className={`w-24 h-24 mx-auto object-contain mb-2 transition-[filter] duration-300 ${
+                          category === "silhouette" && !result ? "brightness-0 dark:brightness-0 dark:invert" : ""
+                        }`}
                         onError={skipBrokenQuestion}
                         onLoad={(e) => {
                           const t = e.currentTarget;

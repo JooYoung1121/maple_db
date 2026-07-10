@@ -32,6 +32,7 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/exp", label: "경험치 계산기" },
       { href: "/nhit", label: "엔방컷 계산기" },
       { href: "/fee", label: "수수료 계산기" },
+      { href: "/skill-sim", label: "스킬 시뮬레이터" },
     ],
   },
   {
@@ -57,6 +58,7 @@ const NAV_CATEGORIES: NavCategory[] = [
     items: [
       { href: "/news", label: "공홈 · 테스피아 소식" },
       { href: "/weekly", label: "주간 메랜" },
+      { href: "/channels", label: "채널 가이드" },
       { href: "/bimae", label: "비매박제" },
       { href: "/community", label: "투표" },
     ],
@@ -68,6 +70,7 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/lotto", label: "로또" },
       { href: "/fortune", label: "오늘의 운세" },
       { href: "/quiz", label: "메이플 퀴즈" },
+      { href: "/daily-mob", label: "오늘의 몬스터" },
     ],
   },
   {
