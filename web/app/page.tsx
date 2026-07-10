@@ -66,7 +66,7 @@ const SECTION_GROUPS = [
     label: "커뮤니티",
     items: [
       { href: "/news", label: "메랜 공홈 소식", icon: "📰", desc: "메이플랜드 공지/이벤트" },
-      { href: "/channels", label: "채널 가이드", icon: "📺", desc: "스트리머 · 유튜브 · 커뮤니티" },
+      { href: "/channels", label: "스트리머 · 유튜버", icon: "📺", desc: "메랜 방송 · 영상 · 커뮤니티 모음" },
       { href: "/bimae", label: "비매박제", icon: "🚫", desc: "비매 유저 신고" },
       { href: "/community", label: "투표", icon: "🗳️", desc: "유저 투표 참여" },
     ],

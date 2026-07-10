@@ -263,8 +263,16 @@ def main():
     conn.executemany("INSERT INTO sim_skills VALUES (?,?,?,?,?,?,?,?,?,?,?)", skill_rows)
     conn.commit()
     conn.close()
+
+    # API 자가 복구용 JSON 번들 (배포 환경에서 sim 테이블이 없으면 이 파일로 재구축)
+    json_path = ROOT / "data" / "skill_sim_data.json"
+    json_path.write_text(
+        json.dumps({"jobs": jobs_rows, "skills": skill_rows}, ensure_ascii=False),
+        encoding="utf-8",
+    )
     print(f"완료: sim_jobs {len(jobs_rows)}개, sim_skills {len(skill_rows)}개, 경고 {warn}건")
     print(f"아이콘: {ICON_DIR}")
+    print(f"JSON 번들: {json_path}")
 
 
 if __name__ == "__main__":

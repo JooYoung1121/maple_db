@@ -300,7 +300,7 @@ export default function ChannelsPage() {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="flex items-start justify-between mb-2">
-        <h1 className="text-2xl font-bold font-pixel">📺 메랜 채널 가이드</h1>
+        <h1 className="text-2xl font-bold font-pixel">📺 메랜 스트리머 · 유튜버</h1>
         <button
           onClick={() => setShowAdmin(!showAdmin)}
           className="font-pixel text-xs text-dim hover:text-maple px-2 py-1"

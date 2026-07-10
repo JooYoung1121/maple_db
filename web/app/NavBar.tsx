@@ -58,7 +58,7 @@ const NAV_CATEGORIES: NavCategory[] = [
     items: [
       { href: "/news", label: "공홈 · 테스피아 소식" },
       { href: "/weekly", label: "주간 메랜" },
-      { href: "/channels", label: "채널 가이드" },
+      { href: "/channels", label: "스트리머 · 유튜버" },
       { href: "/bimae", label: "비매박제" },
       { href: "/community", label: "투표" },
     ],

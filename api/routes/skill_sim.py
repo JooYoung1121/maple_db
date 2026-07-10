@@ -6,6 +6,7 @@ import json
 
 from fastapi import APIRouter, HTTPException, Query
 
+from crawler.config import DATA_DIR
 from crawler.db import get_connection
 
 router = APIRouter()
@@ -17,12 +18,66 @@ def _table_exists(conn, name: str) -> bool:
     ).fetchone() is not None
 
 
+def _ensure_data(conn) -> bool:
+    """sim 테이블 존재 보장. 없거나 비어 있으면 JSON 번들에서 자가 복구.
+
+    배포 환경의 볼륨 DB는 start.sh 시드 동기화로 채워지지만, 동기화가 누락돼도
+    data/skill_sim_data.json(이미지에 포함)으로 즉시 복구되도록 이중화한다.
+    """
+    if (
+        _table_exists(conn, "sim_jobs")
+        and _table_exists(conn, "sim_skills")
+        and conn.execute("SELECT COUNT(*) FROM sim_skills").fetchone()[0] > 0
+    ):
+        return True
+    bundle = DATA_DIR / "skill_sim_data.json"
+    if not bundle.exists():
+        return False
+    try:
+        data = json.loads(bundle.read_text(encoding="utf-8"))
+        conn.executescript("""
+            DROP TABLE IF EXISTS sim_jobs;
+            DROP TABLE IF EXISTS sim_skills;
+            CREATE TABLE sim_jobs (
+                id INTEGER PRIMARY KEY,
+                name_ko TEXT NOT NULL,
+                name_en TEXT,
+                job_class TEXT NOT NULL,
+                faction TEXT NOT NULL,
+                branch INTEGER NOT NULL,
+                parent_id INTEGER
+            );
+            CREATE TABLE sim_skills (
+                id INTEGER PRIMARY KEY,
+                job_id INTEGER NOT NULL,
+                name TEXT NOT NULL,
+                description TEXT,
+                detail_template TEXT,
+                master_level INTEGER NOT NULL,
+                weapons TEXT,
+                required_skills TEXT,
+                level_properties TEXT,
+                icon_path TEXT,
+                source_url TEXT,
+                FOREIGN KEY (job_id) REFERENCES sim_jobs(id)
+            );
+        """)
+        conn.executemany("INSERT INTO sim_jobs VALUES (?,?,?,?,?,?,?)", data["jobs"])
+        conn.executemany("INSERT INTO sim_skills VALUES (?,?,?,?,?,?,?,?,?,?,?)", data["skills"])
+        conn.commit()
+        print(f"[skill-sim] JSON 번들에서 자가 복구 — 스킬 {len(data['skills'])}개")
+        return True
+    except Exception as e:
+        print(f"[skill-sim] 자가 복구 실패: {e}")
+        return False
+
+
 @router.get("/skill-sim/classes")
 def sim_classes():
     """직업 계열 목록 (진영별)."""
     conn = get_connection()
     try:
-        if not _table_exists(conn, "sim_jobs"):
+        if not _ensure_data(conn):
             raise HTTPException(status_code=503, detail="스킬 시뮬레이터 데이터가 아직 준비되지 않았습니다")
         rows = conn.execute(
             """SELECT faction, job_class, COUNT(*) AS job_count
@@ -44,7 +99,7 @@ def sim_data(
         raise HTTPException(status_code=400, detail="faction은 adventurer 또는 cygnus여야 합니다")
     conn = get_connection()
     try:
-        if not _table_exists(conn, "sim_skills"):
+        if not _ensure_data(conn):
             raise HTTPException(status_code=503, detail="스킬 시뮬레이터 데이터가 아직 준비되지 않았습니다")
         jobs = conn.execute(
             """SELECT id, name_ko, name_en, job_class, faction, branch, parent_id

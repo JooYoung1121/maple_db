@@ -28,12 +28,14 @@ DEFAULT_CHANNELS = [
      "치지직에서 방송 중인 메이플랜드 스트리머 모아보기", "라이브,검색", 10),
     ("stream", "SOOP 메이플랜드 방송", "SOOP", "https://www.sooplive.co.kr/search?szKeyword=%EB%A9%94%EC%9D%B4%ED%94%8C%EB%9E%9C%EB%93%9C", None,
      "SOOP에서 방송 중인 메이플랜드 스트리머 모아보기", "라이브,검색", 20),
-    ("youtube", "메이플 딘썽", "유튜브", "https://www.youtube.com/@Maple_Dinssung", None,
-     "메이플 소식·콘텐츠 유튜버", "공략,소식", 10),
-    ("youtube", "메이플스토리맑음", "유튜브", "https://www.youtube.com/@%EB%A9%94%EC%9D%B4%ED%94%8C%EC%8A%A4%ED%86%A0%EB%A6%AC%EB%A7%91%EC%9D%8C", None,
-     "메이플 소식을 가장 빠르게 전하는 채널", "소식", 20),
-    ("youtube", "메이플스토리 공식", "유튜브", "https://www.youtube.com/@MapleStoryKR", None,
-     "넥슨 메이플스토리 공식 유튜브", "공식", 30),
+    ("youtube", "괴임", "유튜브", "https://www.youtube.com/channel/UCiGOzh0XPcTmKw30nvPzEuA", "UCiGOzh0XPcTmKw30nvPzEuA",
+     "메이플랜드 대표 스트리머 — 다시보기·쇼츠", "방송,콘텐츠", 10),
+    ("youtube", "난동군", "유튜브", "https://www.youtube.com/channel/UCS0BFjcZZwZHhgLleDDY0ww", "UCS0BFjcZZwZHhgLleDDY0ww",
+     "메이플랜드 2.0 공략·이벤트 분석", "공략,소식", 20),
+    ("youtube", "썬더70", "유튜브", "https://www.youtube.com/channel/UCNSS5b_2wZuD19MrUw3WNow", "UCNSS5b_2wZuD19MrUw3WNow",
+     "직업 추천·티어리스트 등 메랜 정보", "공략,직업", 30),
+    ("youtube", "밥뒤", "유튜브", "https://www.youtube.com/channel/UCwk0MVSaWdu8-vCcBQh05yA", "UCwk0MVSaWdu8-vCcBQh05yA",
+     "직업별 솔플 육성기·버닝월드 콘텐츠", "육성,콘텐츠", 40),
     ("blog", "메이플기분", "티스토리", "https://maplekibun.tistory.com", None,
      "직업별 스킬·육성 공략 블로그 (본 사이트 스킬 데이터 출처)", "공략,스킬", 10),
     ("community", "디시 메이플랜드 갤러리", "디시인사이드", "https://gall.dcinside.com/mgallery/board/lists/?id=mapleland", None,
@@ -85,6 +87,53 @@ def ensure_tables(conn):
                VALUES (?,?,?,?,?,?,?,?)""",
             DEFAULT_CHANNELS,
         )
+    conn.commit()
+    _migrate_seeds(conn)
+
+
+# v1 시드에 들어갔던 본서버(메이플스토리) 유튜버 — 메이플랜드 채널로 교체 대상
+_V1_YOUTUBE_URLS = [
+    "https://www.youtube.com/@Maple_Dinssung",
+    "https://www.youtube.com/@%EB%A9%94%EC%9D%B4%ED%94%8C%EC%8A%A4%ED%86%A0%EB%A6%AC%EB%A7%91%EC%9D%8C",
+    "https://www.youtube.com/@MapleStoryKR",
+]
+SEED_VERSION = 2
+
+
+def _migrate_seeds(conn):
+    """시드 개편 마이그레이션 (1회). URL이 그대로인 구 시드만 제거 — 관리자 수정분은 보존."""
+    conn.execute(
+        "CREATE TABLE IF NOT EXISTS bot_settings (key TEXT PRIMARY KEY, value TEXT NOT NULL)"
+    )
+    row = conn.execute(
+        "SELECT value FROM bot_settings WHERE key='community_channels_seed_version'"
+    ).fetchone()
+    version = int(row[0]) if row else 1
+    if version >= SEED_VERSION:
+        return
+    for url in _V1_YOUTUBE_URLS:
+        old = conn.execute(
+            "SELECT id FROM community_channels WHERE category='youtube' AND url=?", (url,)
+        ).fetchone()
+        if old:
+            conn.execute("DELETE FROM community_channels WHERE id=?", (old[0],))
+            conn.execute("DELETE FROM channel_videos WHERE channel_id=?", (old[0],))
+    for ch in DEFAULT_CHANNELS:
+        exists = conn.execute(
+            "SELECT 1 FROM community_channels WHERE url=?", (ch[3],)
+        ).fetchone()
+        if not exists:
+            conn.execute(
+                """INSERT INTO community_channels
+                   (category, name, platform, url, channel_key, description, tags, sort_order)
+                   VALUES (?,?,?,?,?,?,?,?)""",
+                ch,
+            )
+    conn.execute(
+        "INSERT INTO bot_settings (key, value) VALUES ('community_channels_seed_version', ?) "
+        "ON CONFLICT(key) DO UPDATE SET value=excluded.value",
+        (str(SEED_VERSION),),
+    )
     conn.commit()
 
 
