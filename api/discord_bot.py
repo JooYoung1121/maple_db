@@ -105,7 +105,7 @@ class MapleBot(discord.Client):
         if post_id and site_base.startswith("http"):
             embed.add_field(
                 name="바로가기",
-                value=f"[공홈 원문]({url}) · [메랜DB에서 보기]({site_base}/news?post={post_id})",
+                value=f"[공홈 원문]({url}) · [추억길드 공홈]({site_base}/news?post={post_id})",
                 inline=False,
             )
         await ch.send(content=self.get_mention_text(), embed=embed)

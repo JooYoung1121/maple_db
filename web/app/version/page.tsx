@@ -18,6 +18,20 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.31.1",
+    date: "2026-07-10",
+    type: "patch",
+    title: "디스코드 알림 링크 문구 변경",
+    features: [
+      {
+        category: "디스코드",
+        items: [
+          "공홈 새 글 알림의 사이트 링크 문구를 '메랜DB에서 보기' → '추억길드 공홈'으로 변경",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.31.0",
     date: "2026-07-10",
     type: "minor",
