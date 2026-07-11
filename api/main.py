@@ -33,6 +33,7 @@ from api.routes import skill_sim
 from api.routes import channels
 from api.routes import daily_mob
 from api.routes import events
+from api.routes import kakao_bot
 from api.discord_bot import start_bot, get_bot
 
 
@@ -68,15 +69,28 @@ async def _maple_land_crawl_job():
                 n = await crawl_maple_land(conn, client, force=False, refresh_lists=True)
                 if n:
                     print(f"[scheduler] maple-land 신규 {n}건 저장")
-                    # 신규 포스트에 대해 디스코드 알림
+                    new_posts = conn.execute(
+                        "SELECT post_id, title, url, category, board FROM maple_land_posts WHERE post_id NOT IN ({})".format(
+                            ",".join("?" for _ in existing_ids)
+                        ) if existing_ids else "SELECT post_id, title, url, category, board FROM maple_land_posts",
+                        list(existing_ids) if existing_ids else [],
+                    ).fetchall()
+                    # 카카오봇 알림 큐 (디스코드와 독립 — 기기가 폴링해서 방에 전송)
+                    try:
+                        from api.routes.kakao_bot import queue_outbox, _site
+                        for post in new_posts:
+                            board_label = "이벤트" if post["board"] == "events" else "공지"
+                            queue_outbox(
+                                conn,
+                                f"📢 메랜 공홈 새 {board_label}\n{post['title']}\n"
+                                f"공홈 원문: {post['url']}\n"
+                                f"추억길드 공홈: {_site()}/news?post={post['post_id']}",
+                            )
+                    except Exception as ke:
+                        print(f"[kakao-bot] 알림 큐 적재 오류: {ke}")
+                    # 디스코드 알림
                     bot = get_bot()
                     if bot and bot.is_ready():
-                        new_posts = conn.execute(
-                            "SELECT post_id, title, url, category, board FROM maple_land_posts WHERE post_id NOT IN ({})".format(
-                                ",".join("?" for _ in existing_ids)
-                            ) if existing_ids else "SELECT post_id, title, url, category, board FROM maple_land_posts",
-                            list(existing_ids) if existing_ids else [],
-                        ).fetchall()
                         for post in new_posts:
                             try:
                                 await bot.send_maple_land_embed(
@@ -332,6 +346,7 @@ app.include_router(skill_sim.router, prefix="/api")
 app.include_router(channels.router, prefix="/api")
 app.include_router(daily_mob.router, prefix="/api")
 app.include_router(events.router, prefix="/api")
+app.include_router(kakao_bot.router, prefix="/api")
 
 
 @app.get("/api/health")
