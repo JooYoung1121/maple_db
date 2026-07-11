@@ -18,6 +18,20 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.32.1",
+    date: "2026-07-11",
+    type: "patch",
+    title: "카카오봇 Gemini 키 폴백",
+    features: [
+      {
+        category: "카카오봇",
+        items: [
+          "!질문 LLM 키를 운세와 동일한 우선순위(GEMINI_API_KEY → GOOGLE_API_KEY)로 읽도록 통일 — 라이브에 이미 설정된 키 재사용",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.32.0",
     date: "2026-07-11",
     type: "minor",

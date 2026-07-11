@@ -148,7 +148,8 @@ SYSTEM_PROMPT = (
 
 
 async def _ask_gemini(question: str) -> Optional[str]:
-    key = os.environ.get("GEMINI_API_KEY", "")
+    # 기존 운세(fortune.py)와 동일한 키 우선순위 — 라이브에 이미 설정된 키 재사용
+    key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY", "")
     if not key:
         return None
     models = [os.environ.get("GEMINI_MODEL", "gemini-2.5-flash"), "gemini-2.0-flash"]
