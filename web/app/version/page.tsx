@@ -18,6 +18,26 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.32.0",
+    date: "2026-07-11",
+    type: "minor",
+    title: "카카오 오픈채팅 봇 브릿지",
+    features: [
+      {
+        category: "카카오봇",
+        items: [
+          "오픈카톡방 봇 브릿지 API (/api/kakao-bot/*) — 메신저봇R 기기가 중계하는 구조",
+          "명령어: !도움말·!공지·!이벤트·!몹·!아이템·!맵·!스킬·!놀이터·!주간·!오늘의몬스터",
+          "!질문·푸확아 자유 대화 — 키워드 룰 매칭(사이트 링크 우선) 후 무료 LLM(Gemini) 답변, 유저 15초 쿨다운·방당 일 150회",
+          "공홈 새 글 → 카카오 알림 큐(kakao_outbox) 자동 적재, 기기 폴링 전송 (디스코드와 독립)",
+          "링크 룰 관리자 CRUD(kakao_link_rules, 기본 11종 시드) + 테스트 알림 API",
+          "메신저봇R 스크립트·설치 가이드 동봉 (docs/kakao-bot/)",
+          "KAKAO_BOT_TOKEN 미설정 시 전체 비활성 — 기존 서비스 영향 없음",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.31.1",
     date: "2026-07-10",
     type: "patch",
