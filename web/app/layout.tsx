@@ -8,8 +8,8 @@ export const metadata: Metadata = {
   title: "추억길드 전용 메랜 관련 정보 조회 페이지",
   description: "추억길드 전용 메이플랜드 2.0 게임 데이터 통합 검색",
   icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
+    icon: "/favicon-mascot.png",
+    apple: "/apple-touch-mascot.png",
   },
   openGraph: {
     siteName: "추억길드 메랜DB",

@@ -18,6 +18,26 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.33.2",
+    date: "2026-07-12",
+    type: "patch",
+    title: "카톡 미리보기 이미지 405 수정 + 마스코트 파비콘",
+    features: [
+      {
+        category: "주간 메랜",
+        items: [
+          "표지 이미지 엔드포인트가 HEAD 요청에 405를 반환해 카카오 스크레이퍼가 og:image를 무시하던 문제 수정 (GET+HEAD 허용)",
+        ],
+      },
+      {
+        category: "사이트",
+        items: [
+          "파비콘을 홈 상단 마스코트 캐릭터로 교체 (정사각 256px 가공, 애플 터치 아이콘 포함)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.33.1",
     date: "2026-07-12",
     type: "patch",

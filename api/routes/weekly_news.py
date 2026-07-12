@@ -404,7 +404,9 @@ def delete_issue(issue_no: int, request: Request):
         conn.close()
 
 
-@router.get("/weekly-news/{issue_no}/images/{slot}")
+# GET+HEAD 둘 다 허용 — 카카오 등 링크 스크레이퍼가 HEAD로 이미지를 확인할 때 405가 나면
+# og:image를 무시하고 파비콘으로 폴백해버린다 (Starlette가 HEAD 응답 본문은 자동 제거)
+@router.api_route("/weekly-news/{issue_no}/images/{slot}", methods=["GET", "HEAD"])
 def get_issue_image(issue_no: int, slot: str):
     conn = get_connection()
     try:
