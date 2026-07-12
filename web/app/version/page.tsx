@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.33.1",
+    date: "2026-07-12",
+    type: "patch",
+    title: "/weekly 목록 링크도 표지 미리보기",
+    features: [
+      {
+        category: "주간 메랜",
+        items: [
+          "/weekly(최신호) 링크 공유 시에도 최신호 표지가 미리보기로 표시 — 기존엔 사이트 로고(파비콘)만 노출",
+          "og:image에 크기(1200×630) 명시, 빌드 시점 폴백 고착 방지(force-dynamic)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.33.0",
     date: "2026-07-12",
     type: "minor",

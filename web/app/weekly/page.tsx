@@ -1,72 +1,47 @@
-"use client";
+import type { Metadata } from "next";
+import WeeklyClient from "./WeeklyClient";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { getWeeklyIssueLatest, getWeeklyIssues } from "@/lib/api";
-import type { WeeklyIssue, WeeklyIssueSummary } from "@/lib/types";
-import IssueView from "./IssueView";
+// 항상 요청 시 렌더 — 빌드 시점엔 API가 없어 OG 메타가 폴백으로 굳어버리는 것을 방지
+export const dynamic = "force-dynamic";
+
+// 서버 컴포넌트 래퍼 — /weekly 공유 시 최신호 제목·부제·표지가 미리보기로 뜨도록 OG 메타 생성
+const INTERNAL_API = process.env.INTERNAL_API_URL || "http://localhost:8000";
+const SITE = (process.env.NEXT_PUBLIC_SITE_URL || "https://memorymapledb.up.railway.app").replace(/\/$/, "");
+
+export async function generateMetadata(): Promise<Metadata> {
+  const fallback: Metadata = {
+    title: "주간 메랜 — 주간 메이플랜드 신문",
+    description: "메이플랜드의 한 주를 신문으로 정리합니다.",
+  };
+  try {
+    const res = await fetch(`${INTERNAL_API}/api/weekly-news/latest`, {
+      next: { revalidate: 300 },
+    });
+    if (!res.ok) return fallback;
+    const { issue } = await res.json();
+    const content = typeof issue?.content === "string" ? JSON.parse(issue.content) : issue?.content;
+    const title: string = issue?.title || content?.title || "주간 메랜";
+    const description: string =
+      content?.subtitle || content?.weather || "메이플랜드의 한 주를 신문으로 정리합니다.";
+    const cover = `${SITE}/api/weekly-news/${issue.issue_no}/images/cover`;
+    return {
+      title,
+      description,
+      openGraph: {
+        title,
+        description,
+        type: "article",
+        siteName: "주간 메랜",
+        url: `${SITE}/weekly`,
+        images: [{ url: cover, width: 1200, height: 630, alt: title }],
+      },
+      twitter: { card: "summary_large_image", title, description, images: [cover] },
+    };
+  } catch {
+    return fallback;
+  }
+}
 
 export default function WeeklyPage() {
-  const [issue, setIssue] = useState<WeeklyIssue | null>(null);
-  const [archive, setArchive] = useState<WeeklyIssueSummary[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    Promise.allSettled([getWeeklyIssueLatest(), getWeeklyIssues({ per_page: 12 })]).then(
-      ([latest, list]) => {
-        if (latest.status === "fulfilled") setIssue(latest.value.issue);
-        if (list.status === "fulfilled") setArchive(list.value.issues);
-        setLoading(false);
-      }
-    );
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex items-center gap-2 py-10 justify-center text-dim text-sm">
-        <div className="w-4 h-4 border-2 border-edge border-t-maple rounded-full animate-spin" />
-        이번 주 신문을 인쇄하는 중...
-      </div>
-    );
-  }
-
-  if (!issue) {
-    return (
-      <div className="pixel-panel p-8 text-center space-y-2">
-        <h1 className="font-pixel text-xl font-bold text-maple">주간 메랜</h1>
-        <p className="text-sm text-dim">
-          아직 발행된 호가 없습니다. 창간호를 준비 중이에요! 🍁
-        </p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="space-y-6">
-      <IssueView issue={issue} />
-
-      {archive.length > 1 && (
-        <div className="pixel-panel p-4">
-          <h2 className="font-pixel text-sm font-bold text-ink mb-3">지난 호 보기</h2>
-          <ul className="space-y-1">
-            {archive
-              .filter((a) => a.issue_no !== issue.issue_no)
-              .map((a) => (
-                <li key={a.issue_no}>
-                  <Link
-                    href={`/weekly/${a.issue_no}`}
-                    className="text-sm text-maple hover:underline"
-                  >
-                    제{a.issue_no}호 — {a.title}{" "}
-                    <span className="text-xs text-dim">
-                      ({a.week_start.replaceAll("-", ".")} ~ {a.week_end.replaceAll("-", ".")})
-                    </span>
-                  </Link>
-                </li>
-              ))}
-          </ul>
-        </div>
-      )}
-    </div>
-  );
+  return <WeeklyClient />;
 }

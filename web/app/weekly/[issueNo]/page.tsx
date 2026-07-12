@@ -35,7 +35,7 @@ export async function generateMetadata(
         type: "article",
         siteName: "주간 메랜",
         url: `${SITE}/weekly/${issueNo}`,
-        images: [{ url: cover, alt: title }],
+        images: [{ url: cover, width: 1200, height: 630, alt: title }],
       },
       twitter: {
         card: "summary_large_image",
