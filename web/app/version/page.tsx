@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.33.0",
+    date: "2026-07-12",
+    type: "minor",
+    title: "주간 메랜 카톡 링크 미리보기 (OG 메타)",
+    features: [
+      {
+        category: "주간 메랜",
+        items: [
+          "주간호 링크 공유 시 카톡/디스코드 미리보기에 호별 제목·부제·표지 이미지 표시 (Open Graph)",
+          "상세 페이지를 서버 컴포넌트로 감싸 generateMetadata 적용, 사이트 전역 기본 OG(로고)도 추가",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.32.1",
     date: "2026-07-11",
     type: "patch",

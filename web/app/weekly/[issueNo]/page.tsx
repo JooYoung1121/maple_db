@@ -1,55 +1,54 @@
-"use client";
+import type { Metadata } from "next";
+import WeeklyIssueClient from "./IssueClient";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { useParams } from "next/navigation";
-import { getWeeklyIssue } from "@/lib/api";
-import type { WeeklyIssue } from "@/lib/types";
-import IssueView from "../IssueView";
+// 서버 컴포넌트 래퍼 — 카톡/디스코드 링크 미리보기용 OG 메타(호별 제목·부제·표지)를 생성한다.
+// 컨테이너 안에서 API는 localhost:8000 (next.config rewrites와 동일한 가정)
+const INTERNAL_API = process.env.INTERNAL_API_URL || "http://localhost:8000";
+const SITE = (process.env.NEXT_PUBLIC_SITE_URL || "https://memorymapledb.up.railway.app").replace(/\/$/, "");
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ issueNo: string }> }
+): Promise<Metadata> {
+  const { issueNo } = await params;
+  const fallback: Metadata = {
+    title: "주간 메랜 — 주간 메이플랜드 신문",
+    description: "메이플랜드의 한 주를 신문으로 정리합니다.",
+  };
+  if (!/^\d+$/.test(issueNo)) return fallback;
+  try {
+    const res = await fetch(`${INTERNAL_API}/api/weekly-news/${issueNo}`, {
+      next: { revalidate: 300 },
+    });
+    if (!res.ok) return fallback;
+    const { issue } = await res.json();
+    const content = typeof issue?.content === "string" ? JSON.parse(issue.content) : issue?.content;
+    const title: string = issue?.title || content?.title || `주간 메랜 제${issueNo}호`;
+    const description: string =
+      content?.subtitle || content?.weather || "메이플랜드의 한 주를 신문으로 정리합니다.";
+    const cover = `${SITE}/api/weekly-news/${issueNo}/images/cover`;
+    return {
+      title,
+      description,
+      openGraph: {
+        title,
+        description,
+        type: "article",
+        siteName: "주간 메랜",
+        url: `${SITE}/weekly/${issueNo}`,
+        images: [{ url: cover, alt: title }],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+        images: [cover],
+      },
+    };
+  } catch {
+    return fallback;
+  }
+}
 
 export default function WeeklyIssuePage() {
-  const params = useParams<{ issueNo: string }>();
-  const issueNo = Number(params.issueNo);
-  const [issue, setIssue] = useState<WeeklyIssue | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!Number.isInteger(issueNo)) {
-      setLoading(false);
-      return;
-    }
-    getWeeklyIssue(issueNo)
-      .then((d) => setIssue(d.issue))
-      .catch(() => setIssue(null))
-      .finally(() => setLoading(false));
-  }, [issueNo]);
-
-  if (loading) {
-    return (
-      <div className="flex items-center gap-2 py-10 justify-center text-dim text-sm">
-        <div className="w-4 h-4 border-2 border-edge border-t-maple rounded-full animate-spin" />
-        지난 호를 꺼내오는 중...
-      </div>
-    );
-  }
-
-  if (!issue) {
-    return (
-      <div className="pixel-panel p-8 text-center space-y-3">
-        <p className="text-sm text-dim">해당 호를 찾을 수 없습니다.</p>
-        <Link href="/weekly" className="pixel-btn inline-block text-sm">
-          최신호로 돌아가기
-        </Link>
-      </div>
-    );
-  }
-
-  return (
-    <div className="space-y-4">
-      <Link href="/weekly" className="text-sm text-maple hover:underline">
-        ← 최신호 보기
-      </Link>
-      <IssueView issue={issue} />
-    </div>
-  );
+  return <WeeklyIssueClient />;
 }

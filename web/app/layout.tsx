@@ -4,11 +4,18 @@ import NavBar from "./NavBar";
 import { APP_VERSION } from "@/lib/version";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://memorymapledb.up.railway.app"),
   title: "추억길드 전용 메랜 관련 정보 조회 페이지",
   description: "추억길드 전용 메이플랜드 2.0 게임 데이터 통합 검색",
   icons: {
     icon: "/logo.png",
     apple: "/logo.png",
+  },
+  openGraph: {
+    siteName: "추억길드 메랜DB",
+    title: "추억길드 전용 메랜 관련 정보 조회 페이지",
+    description: "추억길드 전용 메이플랜드 2.0 게임 데이터 통합 검색",
+    images: ["/logo.png"],
   },
 };
 
