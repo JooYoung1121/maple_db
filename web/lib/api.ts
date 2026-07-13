@@ -634,6 +634,26 @@ export async function getSkillSimData(jobClass: string, faction = "adventurer") 
   );
 }
 
+/* ── 이세계 도감 ──────────────────────────────────── */
+export interface MuseumEntry {
+  id: number;
+  name_kr: string;
+  name: string;
+  level?: number;
+  hp?: number;
+  exp?: number;
+  is_boss?: number;
+  category?: string;
+  subcategory?: string;
+  level_req?: number;
+}
+
+export async function getMuseum(params: { type: "mob" | "item"; q?: string; page?: number; per_page?: number }) {
+  return fetchJSON<{ entries: MuseumEntry[]; total: number; page: number; per_page: number }>(
+    `/api/museum?${qs(params as Record<string, string | number>)}`
+  );
+}
+
 /* ── 이벤트 정리 아카이브 ─────────────────────────── */
 export interface EventGuideSummary {
   id: number;

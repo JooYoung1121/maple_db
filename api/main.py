@@ -34,6 +34,7 @@ from api.routes import channels
 from api.routes import daily_mob
 from api.routes import events
 from api.routes import kakao_bot
+from api.routes import museum
 from api.discord_bot import start_bot, get_bot
 
 
@@ -347,6 +348,7 @@ app.include_router(channels.router, prefix="/api")
 app.include_router(daily_mob.router, prefix="/api")
 app.include_router(events.router, prefix="/api")
 app.include_router(kakao_bot.router, prefix="/api")
+app.include_router(museum.router, prefix="/api")
 
 
 @app.get("/api/health")

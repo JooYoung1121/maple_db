@@ -72,6 +72,7 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/fortune", label: "오늘의 운세" },
       { href: "/quiz", label: "메이플 퀴즈" },
       { href: "/daily-mob", label: "오늘의 몬스터" },
+      { href: "/museum", label: "이세계 도감" },
     ],
   },
   {
