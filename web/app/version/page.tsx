@@ -18,6 +18,22 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.33.3",
+    date: "2026-07-13",
+    type: "patch",
+    title: "누락 아이템 보강 — 세라핌즈·실버 메이든",
+    features: [
+      {
+        category: "아이템",
+        items: [
+          "너클 세라핌즈(60제)·실버 메이든(35제)이 사이트에 안 보이던 문제 수정 — 메이플랜드 레퍼런스 목록 누락분 보강",
+          "두 아이템의 스탯(공격력·요구 능력치·공속·강화 횟수)을 v83 WZ 원본 기준으로 채움",
+          "배포 시드에 items 테이블 추가, entity_names_en은 관리자 수정 보존을 위해 '없는 행만 추가' 방식 동기화",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.33.2",
     date: "2026-07-12",
     type: "patch",

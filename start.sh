@@ -22,7 +22,7 @@ VOLUME = '$VOLUME_DB'
 SEED = '$APP_DB'
 
 # 시드에서 교체할 레퍼런스 테이블 화이트리스트 (유저 데이터 아님)
-SEED_TABLES = ['quests', 'mob_drops', 'mob_spawns', 'sim_jobs', 'sim_skills']
+SEED_TABLES = ['quests', 'mob_drops', 'mob_spawns', 'sim_jobs', 'sim_skills', 'items']
 
 try:
     vol = sqlite3.connect(VOLUME)
@@ -40,6 +40,19 @@ try:
         vol.execute(f'CREATE TABLE {tbl} AS SELECT * FROM seed.{tbl}')
         cnt = vol.execute(f'SELECT COUNT(*) FROM {tbl}').fetchone()[0]
         print(f'Replaced {tbl}: {cnt} rows')
+
+    # entity_names_en은 관리자가 라이브에서 몹 한글명을 수정하므로 통째 교체 금지 —
+    # 시드에만 있는 행을 추가만 한다 (기존 행은 INSERT OR IGNORE로 보존)
+    try:
+        added = vol.execute(
+            'INSERT OR IGNORE INTO entity_names_en '
+            '(entity_type, entity_id, name_en, source, source_url, last_crawled_at) '
+            'SELECT entity_type, entity_id, name_en, source, source_url, last_crawled_at '
+            'FROM seed.entity_names_en'
+        ).rowcount
+        print(f'entity_names_en: {added} rows added (additive only)')
+    except Exception as ne:
+        print(f'entity_names_en additive sync skip: {ne}')
 
     # 검증: 퀘스트 조건 데이터가 제대로 들어왔는지
     sample = vol.execute(\"SELECT name, quest_conditions FROM quests WHERE name='버섯 몬스터를 연구하는 이유'\").fetchone()
