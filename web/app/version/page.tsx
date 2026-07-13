@@ -18,6 +18,22 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.33.4",
+    date: "2026-07-13",
+    type: "patch",
+    title: "미반영 아이템 전수 점검 — 3종 보강 + 드롭 93종 재연결",
+    features: [
+      {
+        category: "아이템",
+        items: [
+          "레퍼런스 누락 3종 보강: 카오스 자쿰의 투구(100제)·다크 카티나스·다크 카테(100제 도적, v83 WZ 스탯)",
+          "드롭이 변형 ID에 붙어 몹 상세에서 안 보이던 아이템 93종 재연결 (올림푸스·호검·십자창·흑갑충 등 — scripts/remap_drop_items_to_mapleland.py)",
+          "라바나 투구·몬스터 카드 등 메이플랜드에 없는 드롭 데이터는 의도적으로 미노출 유지",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.33.3",
     date: "2026-07-13",
     type: "patch",
