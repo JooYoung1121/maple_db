@@ -730,6 +730,7 @@ export interface DailyMobMeta {
   puzzle_no: number;
   pool: { id: number; name: string }[];
   stats: { solvers: number; avg_attempts: number | null };
+  ranking: { nickname: string; attempts: number; solved_at: string }[];
 }
 
 export interface DailyMobNumFeedback {
@@ -776,11 +777,54 @@ export async function guessDailyMob(name: string) {
   return res.json() as Promise<DailyMobGuessResult>;
 }
 
-export async function solveDailyMob(attempts: number) {
+export async function solveDailyMob(attempts: number, nickname = "") {
   const res = await fetch(`${API_BASE}/api/daily-mob/solve`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ attempts }),
+    body: JSON.stringify({ attempts, nickname }),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json();
+}
+
+/* ── 메랜틀 (단어 유사도 추리) ────────────────────── */
+export interface MapletleMeta {
+  date: string;
+  puzzle_no: number;
+  enabled: boolean;
+  secret_len: number;
+  stats: { solvers: number; avg_attempts: number | null };
+  ranking: { nickname: string; attempts: number; solved_at: string }[];
+}
+
+export interface MapletleGuess {
+  date: string;
+  word: string;
+  correct: boolean;
+  similarity: number | null;
+  band: string;
+  answer?: string;
+}
+
+export async function getMapletle() {
+  return fetchJSON<MapletleMeta>(`/api/mapletle`);
+}
+
+export async function guessMapletle(word: string) {
+  const res = await fetch(`${API_BASE}/api/mapletle/guess`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ word }),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<MapletleGuess>;
+}
+
+export async function solveMapletle(attempts: number, nickname = "") {
+  const res = await fetch(`${API_BASE}/api/mapletle/solve`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ attempts, nickname }),
   });
   if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
   return res.json();

@@ -74,6 +74,8 @@ export default function DailyMobPage() {
   const [copied, setCopied] = useState(false);
   const [countdown, setCountdown] = useState("");
   const [streak, setStreak] = useState(0);
+  const [nickname, setNickname] = useState("");
+  const [regState, setRegState] = useState<"idle" | "saving" | "done">("idle");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const storageKey = meta ? `daily_mob_${meta.date}` : null;
@@ -99,6 +101,9 @@ export default function DailyMobPage() {
             const diff = Math.round((today.getTime() - last.getTime()) / 86400000);
             setStreak(diff <= 1 ? s.streak : 0);
           }
+          const savedNick = localStorage.getItem("daily_mob_nickname");
+          if (savedNick) setNickname(savedNick);
+          if (localStorage.getItem(`daily_mob_reg_${m.date}`)) setRegState("done");
         } catch { /* 저장 상태 손상 시 새로 시작 */ }
       })
       .catch(() => setError("퍼즐을 불러오지 못했습니다."))
@@ -151,7 +156,7 @@ export default function DailyMobPage() {
         persist({ guesses: next, solved: r.correct });
         if (r.correct) {
           setSolved(true);
-          solveDailyMob(next.length).catch(() => {});
+          // 랭킹 등록은 정답 배너에서 닉네임 입력 후 수동 진행
           // 연속 기록 갱신
           try {
             const sraw = localStorage.getItem("daily_mob_streak");
@@ -177,6 +182,24 @@ export default function DailyMobPage() {
       setTimeout(() => inputRef.current?.focus(), 50);
     }
   }, [submitting, solved, persist]);
+
+  // 랭킹 등록 (닉네임 또는 익명) — 날짜당 1회
+  const registerRank = useCallback(async (nick: string) => {
+    if (!meta || regState !== "idle") return;
+    setRegState("saving");
+    try {
+      await solveDailyMob(guesses.length, nick.trim());
+      try {
+        localStorage.setItem(`daily_mob_reg_${meta.date}`, "1");
+        if (nick.trim()) localStorage.setItem("daily_mob_nickname", nick.trim());
+      } catch { /* 무시 */ }
+      setRegState("done");
+      const m = await getDailyMob();
+      setMeta(m);
+    } catch {
+      setRegState("idle");
+    }
+  }, [meta, regState, guesses.length]);
 
   const share = useCallback(() => {
     if (!meta) return;
@@ -291,9 +314,57 @@ export default function DailyMobPage() {
           />
           <div className="font-pixel text-lg text-green-500 mb-1">정답: {answerRow.answer.name}</div>
           <p className="text-sm text-dim mb-4">{guesses.length}번 만에 맞췄습니다! 내일 자정에 새 퍼즐이 열립니다.</p>
+
+          {regState === "done" ? (
+            <p className="font-pixel text-xs text-green-500 mb-3">오늘의 랭킹 등록 완료! ✅</p>
+          ) : (
+            <div className="flex flex-wrap justify-center gap-2 mb-3">
+              <input
+                type="text"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && registerRank(nickname)}
+                placeholder="닉네임 (12자 이내)"
+                maxLength={12}
+                className="px-3 py-2 pixel-input w-40 text-sm"
+              />
+              <button
+                onClick={() => registerRank(nickname)}
+                disabled={regState === "saving"}
+                className="px-4 py-2 pixel-btn text-sm disabled:opacity-50"
+              >
+                {regState === "saving" ? "등록 중..." : "랭킹 등록"}
+              </button>
+              <button
+                onClick={() => registerRank("")}
+                disabled={regState === "saving"}
+                className="px-3 py-2 pixel-card font-pixel text-xs text-dim disabled:opacity-50"
+              >
+                익명으로
+              </button>
+            </div>
+          )}
+
           <button onClick={share} className="px-6 py-2 pixel-btn">
             {copied ? "복사 완료!" : "결과 공유 📋"}
           </button>
+        </div>
+      )}
+
+      {/* 오늘의 랭킹 */}
+      {meta.ranking.length > 0 && (
+        <div className="pixel-panel p-4 mb-4">
+          <h2 className="font-pixel text-sm text-ink mb-2">🏆 오늘의 랭킹 <span className="text-xs text-dim">(시도 횟수 순)</span></h2>
+          <div className="space-y-1">
+            {meta.ranking.map((r, i) => (
+              <div key={`${r.nickname}-${i}`} className="flex items-center gap-2 text-sm px-2 py-1 pixel-card">
+                <span className={`w-6 text-center font-pixel ${i === 0 ? "text-yellow-500" : i === 1 ? "text-gray-400" : i === 2 ? "text-amber-600" : "text-dim"}`}>{i + 1}</span>
+                <span className="flex-1 truncate text-ink">{r.nickname}</span>
+                <span className="font-pixel text-xs text-maple">{r.attempts}트</span>
+                <span className="font-pixel text-[10px] text-dim">{r.solved_at}</span>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 

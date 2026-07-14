@@ -5,7 +5,12 @@ import { APP_VERSION } from "@/lib/version";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://memorymapledb.up.railway.app"),
-  title: "추억길드 전용 메랜 관련 정보 조회 페이지",
+  // 페이지별 layout.tsx가 title을 지정하면 "오늘의 몬스터 — 추억길드 메랜DB" 형태로 조합된다.
+  // openGraph에 title/description을 넣지 않아야 각 페이지의 title이 og:title로 내려간다.
+  title: {
+    default: "추억길드 메랜DB — 메이플랜드 정보 조회",
+    template: "%s — 추억길드 메랜DB",
+  },
   description: "추억길드 전용 메이플랜드 2.0 게임 데이터 통합 검색",
   icons: {
     icon: "/favicon-mascot.png",
@@ -13,9 +18,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     siteName: "추억길드 메랜DB",
-    title: "추억길드 전용 메랜 관련 정보 조회 페이지",
-    description: "추억길드 전용 메이플랜드 2.0 게임 데이터 통합 검색",
-    images: ["/logo.png"],
+    images: ["/mascot.png"],
   },
 };
 

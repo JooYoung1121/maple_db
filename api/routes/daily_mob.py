@@ -71,9 +71,15 @@ def ensure_tables(conn):
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             puzzle_date TEXT NOT NULL,
             attempts INTEGER NOT NULL,
+            nickname TEXT,
             created_at TEXT DEFAULT (datetime('now', 'localtime'))
         )
     """)
+    # 기존 배포분 마이그레이션 — nickname 컬럼이 없으면 추가
+    try:
+        conn.execute("ALTER TABLE daily_mob_results ADD COLUMN nickname TEXT")
+    except Exception:
+        pass
     conn.commit()
 
 
@@ -156,11 +162,19 @@ def daily_mob_meta():
             "FROM daily_mob_results WHERE puzzle_date=?",
             (date_str,),
         ).fetchone()
+        ranking = conn.execute(
+            """SELECT COALESCE(NULLIF(TRIM(nickname), ''), '익명') AS nickname, attempts,
+                      SUBSTR(created_at, 12, 5) AS solved_at
+               FROM daily_mob_results WHERE puzzle_date=?
+               ORDER BY attempts ASC, created_at ASC LIMIT 20""",
+            (date_str,),
+        ).fetchall()
         return {
             "date": date_str,
             "puzzle_no": puzzle_no(date_str),
             "pool": [{"id": p["id"], "name": p["name"]} for p in pool],
             "stats": {"solvers": stats["solvers"], "avg_attempts": stats["avg_attempts"]},
+            "ranking": [dict(r) for r in ranking],
         }
     finally:
         conn.close()
@@ -234,19 +248,21 @@ def daily_mob_guess(payload: GuessPayload):
 
 class SolvePayload(BaseModel):
     attempts: int
+    nickname: str = ""
 
 
 @router.post("/daily-mob/solve")
 def daily_mob_solve(payload: SolvePayload):
-    """정답 기록 (통계용). 클라이언트가 정답 직후 1회 호출."""
+    """정답 기록 (통계·랭킹용). 클라이언트가 정답 직후 1회 호출."""
     if not (1 <= payload.attempts <= 100):
         raise HTTPException(status_code=400, detail="시도 횟수가 올바르지 않습니다")
+    nickname = payload.nickname.strip()[:12] or None
     conn = get_connection()
     try:
         ensure_tables(conn)
         conn.execute(
-            "INSERT INTO daily_mob_results (puzzle_date, attempts) VALUES (?, ?)",
-            (kst_today(), payload.attempts),
+            "INSERT INTO daily_mob_results (puzzle_date, attempts, nickname) VALUES (?, ?, ?)",
+            (kst_today(), payload.attempts, nickname),
         )
         conn.commit()
         return {"ok": True}

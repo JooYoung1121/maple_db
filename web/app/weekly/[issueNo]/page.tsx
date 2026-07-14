@@ -11,7 +11,7 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const { issueNo } = await params;
   const fallback: Metadata = {
-    title: "주간 메랜 — 주간 메이플랜드 신문",
+    title: { absolute: "주간 메랜 — 주간 메이플랜드 신문" },
     description: "메이플랜드의 한 주를 신문으로 정리합니다.",
   };
   if (!/^\d+$/.test(issueNo)) return fallback;
@@ -27,7 +27,7 @@ export async function generateMetadata(
       content?.subtitle || content?.weather || "메이플랜드의 한 주를 신문으로 정리합니다.";
     const cover = `${SITE}/api/weekly-news/${issueNo}/images/cover`;
     return {
-      title,
+      title: { absolute: title },
       description,
       openGraph: {
         title,
