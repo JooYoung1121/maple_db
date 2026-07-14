@@ -791,6 +791,8 @@ export async function solveDailyMob(attempts: number, nickname = "") {
 export interface MapletleMeta {
   date: string;
   puzzle_no: number;
+  round: number;
+  label: string;
   enabled: boolean;
   secret_len: number;
   stats: { solvers: number; avg_attempts: number | null };
@@ -799,11 +801,21 @@ export interface MapletleMeta {
 
 export interface MapletleGuess {
   date: string;
+  round: number;
   word: string;
   correct: boolean;
   similarity: number | null;
   band: string;
   answer?: string;
+}
+
+export async function newMapletleRound(pw: string) {
+  const res = await fetch(`${API_BASE}/api/mapletle/new-round`, {
+    method: "POST",
+    headers: { "X-Admin-Password": pw },
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<{ ok: boolean; round: number; secret_len: number }>;
 }
 
 export async function getMapletle() {

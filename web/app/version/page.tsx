@@ -18,6 +18,23 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.36.0",
+    date: "2026-07-14",
+    type: "minor",
+    title: "메랜틀 라운드 시스템 — 하루 여러 문제 출시",
+    features: [
+      {
+        category: "메랜틀",
+        items: [
+          "관리자가 당일에 새 라운드(새 단어)를 즉시 출시 가능 — 페이지 ⚙ 버튼 또는 API",
+          "라운드별로 풀이 상태·랭킹 완전 분리, 제목에 '#N · M라운드' 표시",
+          "라운드 전환 시 진행 중이던 유저는 자동 새로고침 안내",
+          "매일 자정 자동 리셋은 그대로 유지 (라운드는 다음 날 1로 초기화)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.35.2",
     date: "2026-07-14",
     type: "patch",

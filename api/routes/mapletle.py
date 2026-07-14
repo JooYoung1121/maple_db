@@ -72,9 +72,27 @@ def puzzle_no(date_str: str) -> int:
     return d.days + 1
 
 
-def result_key(date_str: str) -> str:
-    """랭킹/통계 저장 키 — 시드 버전 포함 (라운드 리셋 시 기록 분리)."""
-    return f"{SEED_VERSION}:{date_str}"
+def result_key(date_str: str, round_no: int = 1) -> str:
+    """랭킹/통계 저장 키 — 시드 버전·라운드 포함 (라운드별 기록 분리).
+
+    라운드 1은 기존 키 형식을 유지해 과거 기록과 호환된다.
+    """
+    base = f"{SEED_VERSION}:{date_str}"
+    return base if round_no <= 1 else f"{base}:r{round_no}"
+
+
+def current_round(conn, date_str: str) -> int:
+    """오늘의 라운드 번호 (관리자가 당일 추가 문제를 출시하면 증가). 기본 1."""
+    conn.execute(
+        "CREATE TABLE IF NOT EXISTS bot_settings (key TEXT PRIMARY KEY, value TEXT NOT NULL)"
+    )
+    row = conn.execute(
+        "SELECT value FROM bot_settings WHERE key=?", (f"mapletle_round:{date_str}",)
+    ).fetchone()
+    try:
+        return max(1, int(row[0])) if row else 1
+    except (TypeError, ValueError):
+        return 1
 
 
 def norm(w: str) -> str:
@@ -112,9 +130,11 @@ def secret_pool() -> list[str]:
     return sorted(names)
 
 
-def pick_secret(date_str: str) -> str:
+def pick_secret(date_str: str, round_no: int = 1) -> str:
     pool = secret_pool()
-    seed = int(hashlib.sha256(f"mapletle-{SEED_VERSION}-{date_str}".encode()).hexdigest(), 16)
+    # 라운드 1은 기존 시드 유지 (진행 중 게임 보호), 2라운드부터 -rN 접미사
+    suffix = "" if round_no <= 1 else f"-r{round_no}"
+    seed = int(hashlib.sha256(f"mapletle-{SEED_VERSION}-{date_str}{suffix}".encode()).hexdigest(), 16)
     return pool[seed % len(pool)]
 
 
@@ -201,23 +221,28 @@ def mapletle_meta():
     try:
         ensure_tables(conn)
         date_str = kst_today()
+        rnd = current_round(conn, date_str)
+        key = result_key(date_str, rnd)
         stats = conn.execute(
             "SELECT COUNT(*) AS solvers, ROUND(AVG(attempts),1) AS avg_attempts "
             "FROM mapletle_results WHERE puzzle_date=?",
-            (result_key(date_str),),
+            (key,),
         ).fetchone()
         ranking = conn.execute(
             """SELECT COALESCE(NULLIF(TRIM(nickname), ''), '익명') AS nickname, attempts,
                       SUBSTR(created_at, 12, 5) AS solved_at
                FROM mapletle_results WHERE puzzle_date=?
                ORDER BY attempts ASC, created_at ASC LIMIT 20""",
-            (result_key(date_str),),
+            (key,),
         ).fetchall()
+        no = puzzle_no(date_str)
         return {
             "date": date_str,
-            "puzzle_no": puzzle_no(date_str),
+            "puzzle_no": no,
+            "round": rnd,
+            "label": f"#{no}" if rnd <= 1 else f"#{no} · {rnd}라운드",
             "enabled": bool(_api_key()),
-            "secret_len": len(pick_secret(date_str).replace(" ", "")),
+            "secret_len": len(pick_secret(date_str, rnd).replace(" ", "")),
             "stats": {"solvers": stats["solvers"], "avg_attempts": stats["avg_attempts"]},
             "ranking": [dict(r) for r in ranking],
         }
@@ -245,23 +270,25 @@ async def mapletle_guess(payload: GuessPayload, request: Request):
     _ip_last[ip] = now
 
     date_str = kst_today()
-    secret = pick_secret(date_str)
-    if norm(word) == norm(secret):
-        return {"date": date_str, "word": word, "correct": True, "similarity": 100.0, "band": "🎉 정답!", "answer": secret}
-
     conn = get_connection()
     try:
         ensure_tables(conn)
+        rnd = current_round(conn, date_str)
+        secret = pick_secret(date_str, rnd)
+        if norm(word) == norm(secret):
+            return {"date": date_str, "round": rnd, "word": word, "correct": True,
+                    "similarity": 100.0, "band": "🎉 정답!", "answer": secret}
         if not _api_key():
-            return {"date": date_str, "word": word, "correct": False, "similarity": None,
+            return {"date": date_str, "round": rnd, "word": word, "correct": False, "similarity": None,
                     "band": "유사도 서비스 준비 중 (정답 판정만 가능)"}
         sv = await get_vector(conn, secret)
         gv = await get_vector(conn, word)
         if not sv or not gv:
-            return {"date": date_str, "word": word, "correct": False, "similarity": None,
+            return {"date": date_str, "round": rnd, "word": word, "correct": False, "similarity": None,
                     "band": "유사도 계산에 실패했어요. 잠시 후 다시!"}
         sim = rescale(cosine(sv, gv) * 100)
-        return {"date": date_str, "word": word, "correct": False, "similarity": sim, "band": band_for(sim)}
+        return {"date": date_str, "round": rnd, "word": word, "correct": False,
+                "similarity": sim, "band": band_for(sim)}
     finally:
         conn.close()
 
@@ -279,12 +306,39 @@ def mapletle_solve(payload: SolvePayload):
     conn = get_connection()
     try:
         ensure_tables(conn)
+        date_str = kst_today()
         conn.execute(
             "INSERT INTO mapletle_results (puzzle_date, attempts, nickname) VALUES (?, ?, ?)",
-            (result_key(kst_today()), payload.attempts, nickname),
+            (result_key(date_str, current_round(conn, date_str)), payload.attempts, nickname),
         )
         conn.commit()
         return {"ok": True}
+    finally:
+        conn.close()
+
+
+@router.post("/mapletle/new-round")
+def mapletle_new_round(request: Request):
+    """관리자용 — 오늘 새 라운드(새 비밀 단어)를 즉시 출시한다."""
+    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "1004")
+    if request.headers.get("X-Admin-Password", "") != admin_pw:
+        raise HTTPException(status_code=403, detail="비밀번호가 틀립니다.")
+    conn = get_connection()
+    try:
+        ensure_tables(conn)
+        date_str = kst_today()
+        rnd = current_round(conn, date_str) + 1
+        conn.execute(
+            "INSERT INTO bot_settings (key, value) VALUES (?, ?) "
+            "ON CONFLICT(key) DO UPDATE SET value=excluded.value",
+            (f"mapletle_round:{date_str}", str(rnd)),
+        )
+        conn.commit()
+        return {
+            "ok": True,
+            "round": rnd,
+            "secret_len": len(pick_secret(date_str, rnd).replace(" ", "")),
+        }
     finally:
         conn.close()
 

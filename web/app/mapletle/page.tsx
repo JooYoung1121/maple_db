@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  getMapletle, guessMapletle, solveMapletle,
+  getMapletle, guessMapletle, solveMapletle, newMapletleRound,
   type MapletleMeta, type MapletleGuess,
 } from "@/lib/api";
 
@@ -52,7 +52,7 @@ export default function MapletlePage() {
       .then((m) => {
         setMeta(m);
         try {
-          const raw = localStorage.getItem(`mapletle_${m.date}_${m.puzzle_no}`);
+          const raw = localStorage.getItem(`mapletle_${m.date}_${m.puzzle_no}_r${m.round}`);
           if (raw) {
             const st: StoredState = JSON.parse(raw);
             setGuesses(st.guesses ?? []);
@@ -60,7 +60,7 @@ export default function MapletlePage() {
           }
           const savedNick = localStorage.getItem("daily_mob_nickname");
           if (savedNick) setNickname(savedNick);
-          if (localStorage.getItem(`mapletle_reg_${m.date}_${m.puzzle_no}`)) setRegState("done");
+          if (localStorage.getItem(`mapletle_reg_${m.date}_${m.puzzle_no}_r${m.round}`)) setRegState("done");
         } catch { /* 저장 손상 시 새로 시작 */ }
       })
       .catch(() => setError("퍼즐을 불러오지 못했습니다."))
@@ -69,7 +69,7 @@ export default function MapletlePage() {
 
   const persist = useCallback((next: StoredState) => {
     if (!meta) return;
-    try { localStorage.setItem(`mapletle_${meta.date}_${meta.puzzle_no}`, JSON.stringify(next)); } catch { /* 무시 */ }
+    try { localStorage.setItem(`mapletle_${meta.date}_${meta.puzzle_no}_r${meta.round}`, JSON.stringify(next)); } catch { /* 무시 */ }
   }, [meta]);
 
   const bestSim = useMemo(
@@ -93,6 +93,11 @@ export default function MapletlePage() {
     setGuessError(null);
     try {
       const r = await guessMapletle(word);
+      if (meta && r.round !== meta.round) {
+        alert("새 라운드가 시작됐어요! 페이지를 새로고침합니다.");
+        window.location.reload();
+        return;
+      }
       setGuesses((prev) => {
         const next = [...prev, r];
         persist({ guesses: next, solved: r.correct });
@@ -106,7 +111,7 @@ export default function MapletlePage() {
       setSubmitting(false);
       setTimeout(() => inputRef.current?.focus(), 50);
     }
-  }, [input, submitting, solved, guesses, persist]);
+  }, [input, submitting, solved, guesses, persist, meta]);
 
   const registerRank = useCallback(async (nick: string) => {
     if (!meta || regState !== "idle") return;
@@ -114,7 +119,7 @@ export default function MapletlePage() {
     try {
       await solveMapletle(guesses.length, nick.trim());
       try {
-        localStorage.setItem(`mapletle_reg_${meta.date}_${meta.puzzle_no}`, "1");
+        localStorage.setItem(`mapletle_reg_${meta.date}_${meta.puzzle_no}_r${meta.round}`, "1");
         if (nick.trim()) localStorage.setItem("daily_mob_nickname", nick.trim());
       } catch { /* 무시 */ }
       setRegState("done");
@@ -127,7 +132,7 @@ export default function MapletlePage() {
 
   const share = useCallback(() => {
     if (!meta) return;
-    const text = `메랜틀 #${meta.puzzle_no} — ${guesses.length}트 만에 정답! (최고 유사도 여정: ${bestSim.toFixed(1)})\n${(process.env.NEXT_PUBLIC_SITE_URL || "https://memorymapledb.up.railway.app")}/mapletle`;
+    const text = `메랜틀 ${meta.label} — ${guesses.length}트 만에 정답! (최고 유사도 여정: ${bestSim.toFixed(1)})\n${(process.env.NEXT_PUBLIC_SITE_URL || "https://memorymapledb.up.railway.app")}/mapletle`;
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
@@ -150,7 +155,26 @@ export default function MapletlePage() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold mb-2 font-pixel">🌡️ 메랜틀 <span className="text-maple">#{meta.puzzle_no}</span></h1>
+      <div className="flex items-start justify-between mb-2">
+        <h1 className="text-2xl font-bold font-pixel">🌡️ 메랜틀 <span className="text-maple">{meta.label}</span></h1>
+        <button
+          onClick={async () => {
+            const pw = prompt("새 라운드를 출시합니다 (관리자 비밀번호):");
+            if (!pw) return;
+            try {
+              const r = await newMapletleRound(pw);
+              alert(`${r.round}라운드 출시! 새 단어는 ${r.secret_len}글자입니다.`);
+              window.location.reload();
+            } catch (e) {
+              alert(e instanceof Error ? e.message : "실패했습니다.");
+            }
+          }}
+          className="font-pixel text-xs text-dim hover:text-maple px-2 py-1 shrink-0"
+          title="새 라운드 출시 (관리자)"
+        >
+          ⚙
+        </button>
+      </div>
       <p className="text-dim mb-1">
         오늘의 비밀 단어는 <strong className="text-ink">메이플랜드의 몬스터 또는 아이템 이름</strong>({meta.secret_len}글자)!
         아무 단어나 입력하면 <strong className="text-ink">의미가 얼마나 가까운지</strong> 알려드려요.
