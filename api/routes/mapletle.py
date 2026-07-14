@@ -30,14 +30,25 @@ KST = timezone(timedelta(hours=9))
 EPOCH = "2026-07-14"  # 1번째 퍼즐 날짜
 REF_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "mapleland_reference.json"
 
-# 온도 밴드 (cosine*100 기준 — 배포 후 실측 보정 가능)
+# Gemini 임베딩은 무관한 단어도 코사인 ~0.60 기본치가 나오므로(2026-07-14 실측:
+# 무관 60~65, 관련 66~75, 근접 75~85, 거의동일 85+), 표시 점수는 0~100으로 재척도한다.
+RAW_FLOOR = 55.0   # 이하 = 0점
+RAW_CEIL = 88.0    # 이상 = 100점 근접
+
+
+def rescale(cos100: float) -> float:
+    scaled = (cos100 - RAW_FLOOR) / (RAW_CEIL - RAW_FLOOR) * 100
+    return round(max(0.0, min(scaled, 99.9)), 2)
+
+
+# 온도 밴드 (재척도 점수 기준)
 BANDS = [
-    (75.0, "🔥 매우 뜨거움"),
+    (90.0, "🔥 매우 뜨거움"),
     (65.0, "🌶️ 뜨거움"),
-    (55.0, "🌤️ 따뜻함"),
-    (45.0, "😐 미지근함"),
-    (35.0, "🌬️ 쌀쌀함"),
-    (-101.0, "🧊 차가움"),
+    (45.0, "🌤️ 따뜻함"),
+    (30.0, "😐 미지근함"),
+    (15.0, "🌬️ 쌀쌀함"),
+    (-1.0, "🧊 차가움"),
 ]
 
 DAILY_EMBED_BUDGET = int(os.environ.get("MAPLETLE_DAILY_BUDGET", "3000"))
@@ -241,8 +252,8 @@ async def mapletle_guess(payload: GuessPayload, request: Request):
         if not sv or not gv:
             return {"date": date_str, "word": word, "correct": False, "similarity": None,
                     "band": "유사도 계산에 실패했어요. 잠시 후 다시!"}
-        sim100 = round(cosine(sv, gv) * 100, 2)
-        return {"date": date_str, "word": word, "correct": False, "similarity": sim100, "band": band_for(sim100)}
+        sim = rescale(cosine(sv, gv) * 100)
+        return {"date": date_str, "word": word, "correct": False, "similarity": sim, "band": band_for(sim)}
     finally:
         conn.close()
 
@@ -288,7 +299,8 @@ async def mapletle_debug_sim(payload: DebugSimPayload, request: Request):
         vb = await get_vector(conn, payload.b)
         if not va or not vb:
             raise HTTPException(status_code=503, detail="임베딩 실패 (키/쿼터 확인)")
-        sim100 = round(cosine(va, vb) * 100, 2)
-        return {"a": payload.a, "b": payload.b, "similarity": sim100, "band": band_for(sim100)}
+        raw = round(cosine(va, vb) * 100, 2)
+        sim = rescale(raw)
+        return {"a": payload.a, "b": payload.b, "raw": raw, "similarity": sim, "band": band_for(sim)}
     finally:
         conn.close()

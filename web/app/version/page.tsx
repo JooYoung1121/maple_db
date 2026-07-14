@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.35.1",
+    date: "2026-07-14",
+    type: "patch",
+    title: "메랜틀 유사도 실측 보정",
+    features: [
+      {
+        category: "메랜틀",
+        items: [
+          "프로덕션 임베딩 실측 결과 무관 단어도 원점수 60+가 나와 표시 점수를 0~100 재척도 (무관≈10~25, 관련≈45~60, 근접 65+)",
+          "온도 밴드를 재척도 기준으로 보정",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.35.0",
     date: "2026-07-14",
     type: "minor",
