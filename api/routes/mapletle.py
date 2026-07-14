@@ -27,7 +27,10 @@ from crawler.db import get_connection
 router = APIRouter()
 
 KST = timezone(timedelta(hours=9))
-EPOCH = "2026-07-14"  # 1번째 퍼즐 날짜
+EPOCH = "2026-07-13"  # 퍼즐 번호 기점 (2026-07-14 = #2 — #1은 공개 연습 라운드로 종료)
+# 시드 버전: 올리면 같은 날짜라도 정답이 바뀐다 (#1 정답 공개 후 본게임 전환용).
+# 랭킹/통계 키에도 포함되어 라운드 간 기록이 섞이지 않는다.
+SEED_VERSION = "v2"
 REF_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "mapleland_reference.json"
 
 # Gemini 임베딩은 무관한 단어도 코사인 ~0.60 기본치가 나오므로(2026-07-14 실측:
@@ -69,6 +72,11 @@ def puzzle_no(date_str: str) -> int:
     return d.days + 1
 
 
+def result_key(date_str: str) -> str:
+    """랭킹/통계 저장 키 — 시드 버전 포함 (라운드 리셋 시 기록 분리)."""
+    return f"{SEED_VERSION}:{date_str}"
+
+
 def norm(w: str) -> str:
     return (w or "").replace(" ", "").strip().lower()
 
@@ -106,7 +114,7 @@ def secret_pool() -> list[str]:
 
 def pick_secret(date_str: str) -> str:
     pool = secret_pool()
-    seed = int(hashlib.sha256(f"mapletle-{date_str}".encode()).hexdigest(), 16)
+    seed = int(hashlib.sha256(f"mapletle-{SEED_VERSION}-{date_str}".encode()).hexdigest(), 16)
     return pool[seed % len(pool)]
 
 
@@ -196,14 +204,14 @@ def mapletle_meta():
         stats = conn.execute(
             "SELECT COUNT(*) AS solvers, ROUND(AVG(attempts),1) AS avg_attempts "
             "FROM mapletle_results WHERE puzzle_date=?",
-            (date_str,),
+            (result_key(date_str),),
         ).fetchone()
         ranking = conn.execute(
             """SELECT COALESCE(NULLIF(TRIM(nickname), ''), '익명') AS nickname, attempts,
                       SUBSTR(created_at, 12, 5) AS solved_at
                FROM mapletle_results WHERE puzzle_date=?
                ORDER BY attempts ASC, created_at ASC LIMIT 20""",
-            (date_str,),
+            (result_key(date_str),),
         ).fetchall()
         return {
             "date": date_str,
@@ -273,7 +281,7 @@ def mapletle_solve(payload: SolvePayload):
         ensure_tables(conn)
         conn.execute(
             "INSERT INTO mapletle_results (puzzle_date, attempts, nickname) VALUES (?, ?, ?)",
-            (kst_today(), payload.attempts, nickname),
+            (result_key(kst_today()), payload.attempts, nickname),
         )
         conn.commit()
         return {"ok": True}

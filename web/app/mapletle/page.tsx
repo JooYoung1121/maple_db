@@ -52,7 +52,7 @@ export default function MapletlePage() {
       .then((m) => {
         setMeta(m);
         try {
-          const raw = localStorage.getItem(`mapletle_${m.date}`);
+          const raw = localStorage.getItem(`mapletle_${m.date}_${m.puzzle_no}`);
           if (raw) {
             const st: StoredState = JSON.parse(raw);
             setGuesses(st.guesses ?? []);
@@ -60,7 +60,7 @@ export default function MapletlePage() {
           }
           const savedNick = localStorage.getItem("daily_mob_nickname");
           if (savedNick) setNickname(savedNick);
-          if (localStorage.getItem(`mapletle_reg_${m.date}`)) setRegState("done");
+          if (localStorage.getItem(`mapletle_reg_${m.date}_${m.puzzle_no}`)) setRegState("done");
         } catch { /* 저장 손상 시 새로 시작 */ }
       })
       .catch(() => setError("퍼즐을 불러오지 못했습니다."))
@@ -69,7 +69,7 @@ export default function MapletlePage() {
 
   const persist = useCallback((next: StoredState) => {
     if (!meta) return;
-    try { localStorage.setItem(`mapletle_${meta.date}`, JSON.stringify(next)); } catch { /* 무시 */ }
+    try { localStorage.setItem(`mapletle_${meta.date}_${meta.puzzle_no}`, JSON.stringify(next)); } catch { /* 무시 */ }
   }, [meta]);
 
   const bestSim = useMemo(
@@ -114,7 +114,7 @@ export default function MapletlePage() {
     try {
       await solveMapletle(guesses.length, nick.trim());
       try {
-        localStorage.setItem(`mapletle_reg_${meta.date}`, "1");
+        localStorage.setItem(`mapletle_reg_${meta.date}_${meta.puzzle_no}`, "1");
         if (nick.trim()) localStorage.setItem("daily_mob_nickname", nick.trim());
       } catch { /* 무시 */ }
       setRegState("done");

@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.35.2",
+    date: "2026-07-14",
+    type: "patch",
+    title: "메랜틀 본게임 전환 (#2 시작)",
+    features: [
+      {
+        category: "메랜틀",
+        items: [
+          "#1(정답 공개 연습 라운드) 종료 — 시드 버전 교체로 오늘 정답 즉시 변경, 오늘부터 #2 본게임",
+          "라운드 전환 시 이전 풀이 상태·랭킹이 섞이지 않도록 저장 키 분리 (#1을 푼 사람도 #2 새로 도전 가능)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.35.1",
     date: "2026-07-14",
     type: "patch",
