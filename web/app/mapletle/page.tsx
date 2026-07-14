@@ -132,7 +132,7 @@ export default function MapletlePage() {
 
   const share = useCallback(() => {
     if (!meta) return;
-    const text = `메랜틀 ${meta.label} — ${guesses.length}트 만에 정답! (최고 유사도 여정: ${bestSim.toFixed(1)})\n${(process.env.NEXT_PUBLIC_SITE_URL || "https://memorymapledb.up.railway.app")}/mapletle`;
+    const text = `추억틀 ${meta.label} — ${guesses.length}트 만에 정답! (최고 유사도 여정: ${bestSim.toFixed(1)})\n${(process.env.NEXT_PUBLIC_SITE_URL || "https://memorymapledb.up.railway.app")}/mapletle`;
     navigator.clipboard.writeText(text).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
@@ -156,7 +156,7 @@ export default function MapletlePage() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="flex items-start justify-between mb-2">
-        <h1 className="text-2xl font-bold font-pixel">🌡️ 메랜틀 <span className="text-maple">{meta.label}</span></h1>
+        <h1 className="text-2xl font-bold font-pixel">🌡️ 추억틀 <span className="text-maple">{meta.label}</span></h1>
         <button
           onClick={async () => {
             const pw = prompt("새 라운드를 출시합니다 (관리자 비밀번호):");

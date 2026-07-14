@@ -787,7 +787,7 @@ export async function solveDailyMob(attempts: number, nickname = "") {
   return res.json();
 }
 
-/* ── 메랜틀 (단어 유사도 추리) ────────────────────── */
+/* ── 추억틀 (단어 유사도 추리) ────────────────────── */
 export interface MapletleMeta {
   date: string;
   puzzle_no: number;

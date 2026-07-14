@@ -52,6 +52,7 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/job", label: "전직 가이드" },
       { href: "/ship", label: "배 시간표" },
       { href: "/trap", label: "함정 타이머" },
+      { href: "/boss-timer", label: "혼테일 타이머" },
     ],
   },
   {
@@ -72,7 +73,7 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/fortune", label: "오늘의 운세" },
       { href: "/quiz", label: "메이플 퀴즈" },
       { href: "/daily-mob", label: "오늘의 몬스터" },
-      { href: "/mapletle", label: "메랜틀" },
+      { href: "/mapletle", label: "추억틀" },
       { href: "/museum", label: "이세계 도감" },
     ],
   },

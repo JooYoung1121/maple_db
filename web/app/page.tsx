@@ -61,6 +61,7 @@ const SECTION_GROUPS = [
       { href: "/job", label: "전직 가이드", icon: "📋", desc: "직업별 전직 경로" },
       { href: "/ship", label: "배 시간표", icon: "🚢", desc: "정기선 운항 시간" },
       { href: "/trap", label: "트랩 타이머", icon: "⏱️", desc: "트랩 주기 타이머" },
+      { href: "/boss-timer", label: "혼테일 타이머", icon: "🐉", desc: "리저 · 공무 · 버프해제 쿨타임 보드" },
     ],
   },
   {
@@ -80,7 +81,7 @@ const SECTION_GROUPS = [
       { href: "/fortune", label: "오늘의 운세", icon: "🔮", desc: "메이플 운세 보기" },
       { href: "/quiz", label: "메이플 퀴즈", icon: "❓", desc: "스피드퀴즈 · 실루엣 퀴즈" },
       { href: "/daily-mob", label: "오늘의 몬스터", icon: "👾", desc: "매일 바뀌는 몬스터 추리" },
-      { href: "/mapletle", label: "메랜틀", icon: "🌡️", desc: "단어 유사도로 메랜 단어 추리" },
+      { href: "/mapletle", label: "추억틀", icon: "🌡️", desc: "단어 유사도로 메랜 단어 추리" },
       { href: "/museum", label: "이세계 도감", icon: "🗃️", desc: "메랜에 없는 몹·아이템 구경" },
     ],
   },
