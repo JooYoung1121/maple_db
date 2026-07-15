@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { createBossTimerRoom, pollBossTimerRoom, bossTimerAction } from "@/lib/api";
 
 /* ── 타입 ── */
 interface RaidTimer {
   id: string;
   label: string;
   duration: number; // 초
-  endAt: number | null; // 실행 중이면 종료 시각(ms), 아니면 null
+  endAt: number | null; // 실행 중이면 종료 시각(ms), 아니면 null. 공유 방에선 서버 시계 기준
   removable: boolean;
 }
 
@@ -17,6 +18,13 @@ interface TimerSection {
   icon: string;
   desc: string;
   timers: RaidTimer[];
+}
+
+interface RoomInfo {
+  code: string;
+  version: number;
+  members: number;
+  log: { at: number; text: string }[];
 }
 
 /* ── 혼테일 프리셋 ──
@@ -82,6 +90,7 @@ const HORNTAIL_SECTIONS: TimerSection[] = [
 ];
 
 const STORAGE_KEY = "boss_timer_horntail_v1";
+const POLL_INTERVAL = 2000;
 
 /* ── 유틸 ── */
 function fmt(sec: number): string {
@@ -118,12 +127,26 @@ function playBeep(audioCtxRef: React.MutableRefObject<AudioContext | null>, freq
   }
 }
 
+/* 만료 알림음 1회 재생 마커 — 같은 실행(endAt)당 한 번만 */
+const beepedKeys = new Set<string>();
+let sharedAudioCtx: { current: AudioContext | null } = { current: null };
+function ExpireBeeper({ beepKey }: { beepKey: string }) {
+  useEffect(() => {
+    if (beepedKeys.has(beepKey)) return;
+    beepedKeys.add(beepKey);
+    playBeep(sharedAudioCtx, 1100, 0.25, 0.5);
+    const t = setTimeout(() => playBeep(sharedAudioCtx, 1400, 0.35, 0.5), 300);
+    return () => clearTimeout(t);
+  }, [beepKey]);
+  return null;
+}
+
 /* ── 타이머 카드 ── */
 function TimerCard({
   timer, now, muted, onStart, onStop, onEdit, onRemove,
 }: {
   timer: RaidTimer;
-  now: number;
+  now: number; // 보정된 현재 시각(ms)
   muted: boolean;
   onStart: () => void;
   onStop: () => void;
@@ -213,7 +236,7 @@ function TimerCard({
             >
               {fmt(remaining)}
             </div>
-            {expired && !muted && <ExpireBeeper timerId={timer.id} />}
+            {expired && !muted && <ExpireBeeper beepKey={`${timer.id}-${timer.endAt}`} />}
           </>
         )}
       </div>
@@ -235,36 +258,61 @@ function TimerCard({
   );
 }
 
-/* 만료 순간 비프음을 1회만 내기 위한 마커 컴포넌트 (부모 리렌더와 분리) */
-const beepedIds = new Set<string>();
-let sharedAudioCtx: { current: AudioContext | null } = { current: null };
-function ExpireBeeper({ timerId }: { timerId: string }) {
-  useEffect(() => {
-    if (beepedIds.has(timerId)) return;
-    beepedIds.add(timerId);
-    playBeep(sharedAudioCtx, 1100, 0.25, 0.5);
-    const t = setTimeout(() => playBeep(sharedAudioCtx, 1400, 0.35, 0.5), 300);
-    return () => clearTimeout(t);
-  }, [timerId]);
-  return null;
-}
-
 /* ── 메인 ── */
 export default function BossTimerPage() {
   const [sections, setSections] = useState<TimerSection[]>(HORNTAIL_SECTIONS);
   const [now, setNow] = useState(0);
   const [muted, setMuted] = useState(false);
   const [loaded, setLoaded] = useState(false);
+
+  // 공유 방
+  const [room, setRoom] = useState<RoomInfo | null>(null);
+  const [nickname, setNickname] = useState("");
+  const [joinCode, setJoinCode] = useState("");
+  const [shareBusy, setShareBusy] = useState(false);
+  const [shareError, setShareError] = useState("");
+  const [copied, setCopied] = useState(false);
+  const clientIdRef = useRef("");
+  const serverOffsetRef = useRef(0); // server_now - Date.now()
+  const roomRef = useRef<RoomInfo | null>(null);
+  roomRef.current = room;
+  const nicknameRef = useRef("");
+  nicknameRef.current = nickname;
+
   const audioCtxRef = useRef<AudioContext | null>(null);
   sharedAudioCtx = audioCtxRef;
 
-  /* localStorage 복원 — endAt은 벽시계 기준이라 새로고침해도 이어짐 */
+  const inRoom = room !== null;
+
+  /* 응답 공통 반영 */
+  const applyResponse = useCallback((code: string, res: {
+    version: number; state?: TimerSection[]; log?: { at: number; text: string }[];
+    server_now: number; members: number; changed: boolean;
+  }) => {
+    serverOffsetRef.current = res.server_now - Date.now();
+    if (res.changed && res.state) setSections(res.state);
+    setRoom((prev) => ({
+      code,
+      version: res.version,
+      members: res.members,
+      log: res.log ?? prev?.log ?? [],
+    }));
+  }, []);
+
+  /* 초기화: 로컬 저장 복원 + 닉네임/클라이언트ID + URL·저장된 방 자동 참여 */
   useEffect(() => {
     try {
+      let cid = localStorage.getItem("boss_timer_client_id");
+      if (!cid) {
+        cid = Math.random().toString(36).slice(2, 12);
+        localStorage.setItem("boss_timer_client_id", cid);
+      }
+      clientIdRef.current = cid;
+      setNickname(localStorage.getItem("boss_timer_nickname") ?? "");
+
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         const saved: TimerSection[] = JSON.parse(raw);
-        // 프리셋 구조가 바뀌어도 저장본과 병합되도록 섹션 id 기준으로 복원
         setSections(
           HORNTAIL_SECTIONS.map((preset) => {
             const s = saved.find((x) => x.id === preset.id);
@@ -274,23 +322,58 @@ export default function BossTimerPage() {
       }
       const m = localStorage.getItem("boss_timer_muted");
       if (m) setMuted(m === "true");
+
+      // URL ?room=CODE 또는 이전 세션의 방으로 재참여
+      const urlCode = new URLSearchParams(window.location.search).get("room");
+      const savedCode = localStorage.getItem("boss_timer_room");
+      const code = (urlCode || savedCode || "").toUpperCase();
+      if (code) {
+        const nick = localStorage.getItem("boss_timer_nickname") || "익명";
+        pollBossTimerRoom(code, 0, cid, nick)
+          .then((res) => applyResponse(code, res))
+          .catch(() => localStorage.removeItem("boss_timer_room"));
+      }
     } catch {
       // ignore
     }
     setNow(Date.now());
     setLoaded(true);
-  }, []);
+  }, [applyResponse]);
 
+  /* 로컬 모드에서만 로컬 저장 */
   useEffect(() => {
-    if (!loaded) return;
+    if (!loaded || inRoom) return;
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(sections)); } catch { /* ignore */ }
-  }, [sections, loaded]);
+  }, [sections, loaded, inRoom]);
 
   useEffect(() => {
     localStorage.setItem("boss_timer_muted", String(muted));
   }, [muted]);
 
-  /* 틱 — 실행 중 타이머가 있을 때만 */
+  useEffect(() => {
+    if (nickname) localStorage.setItem("boss_timer_nickname", nickname);
+  }, [nickname]);
+
+  /* 방 폴링 — 2초마다 version 증가분 수신 */
+  useEffect(() => {
+    if (!inRoom) return;
+    const id = setInterval(() => {
+      const r = roomRef.current;
+      if (!r) return;
+      pollBossTimerRoom(r.code, r.version, clientIdRef.current, nicknameRef.current || "익명")
+        .then((res) => applyResponse(r.code, res))
+        .catch((e) => {
+          if (String(e.message).includes("찾을 수 없")) {
+            setShareError("방이 만료되었습니다");
+            setRoom(null);
+            localStorage.removeItem("boss_timer_room");
+          }
+        });
+    }, POLL_INTERVAL);
+    return () => clearInterval(id);
+  }, [inRoom, applyResponse]);
+
+  /* 틱 — 실행 중 타이머가 있을 때만 (방 모드에선 서버 시계 오프셋 보정) */
   const anyRunning = sections.some((s) => s.timers.some((t) => t.endAt !== null));
   useEffect(() => {
     if (!anyRunning) return;
@@ -298,7 +381,21 @@ export default function BossTimerPage() {
     return () => clearInterval(id);
   }, [anyRunning]);
 
-  const updateTimer = useCallback((sectionId: string, timerId: string, patch: Partial<RaidTimer>) => {
+  const correctedNow = inRoom ? now + serverOffsetRef.current : now;
+
+  /* ── 동작 디스패치: 로컬이면 즉시 변경, 방이면 서버 액션 ── */
+  const dispatch = useCallback((
+    action: { type: "start" | "stop" | "edit" | "add" | "remove"; section_id: string; timer_id?: string; label?: string; duration?: number },
+    localApply: () => void
+  ) => {
+    const r = roomRef.current;
+    if (!r) { localApply(); return; }
+    bossTimerAction(r.code, action, clientIdRef.current, nicknameRef.current || "익명")
+      .then((res) => applyResponse(r.code, res))
+      .catch((e) => setShareError(String(e.message)));
+  }, [applyResponse]);
+
+  const updateTimerLocal = useCallback((sectionId: string, timerId: string, patch: Partial<RaidTimer>) => {
     setSections((prev) =>
       prev.map((s) =>
         s.id !== sectionId ? s : { ...s, timers: s.timers.map((t) => (t.id === timerId ? { ...t, ...patch } : t)) }
@@ -307,48 +404,125 @@ export default function BossTimerPage() {
   }, []);
 
   const startTimer = useCallback((sectionId: string, timer: RaidTimer) => {
-    beepedIds.delete(timer.id);
-    updateTimer(sectionId, timer.id, { endAt: Date.now() + timer.duration * 1000 });
-    setNow(Date.now());
-  }, [updateTimer]);
+    beepedKeys.delete(`${timer.id}-${timer.endAt}`);
+    dispatch({ type: "start", section_id: sectionId, timer_id: timer.id }, () => {
+      updateTimerLocal(sectionId, timer.id, { endAt: Date.now() + timer.duration * 1000 });
+      setNow(Date.now());
+    });
+  }, [dispatch, updateTimerLocal]);
 
   const stopTimer = useCallback((sectionId: string, timerId: string) => {
-    beepedIds.delete(timerId);
-    updateTimer(sectionId, timerId, { endAt: null });
-  }, [updateTimer]);
+    dispatch({ type: "stop", section_id: sectionId, timer_id: timerId }, () => {
+      updateTimerLocal(sectionId, timerId, { endAt: null });
+    });
+  }, [dispatch, updateTimerLocal]);
+
+  const editTimer = useCallback((sectionId: string, timerId: string, label: string, duration: number) => {
+    dispatch({ type: "edit", section_id: sectionId, timer_id: timerId, label, duration }, () => {
+      updateTimerLocal(sectionId, timerId, { label, duration, endAt: null });
+    });
+  }, [dispatch, updateTimerLocal]);
 
   const addTimer = useCallback((sectionId: string) => {
-    setSections((prev) =>
-      prev.map((s) =>
-        s.id !== sectionId
-          ? s
-          : {
-              ...s,
-              timers: [
-                ...s.timers,
-                {
-                  id: `${sectionId}-${s.timers.length + 1}-${Math.floor(Math.random() * 1e6)}`,
-                  label: sectionId === "custom" ? "유혹" : `타이머 ${s.timers.length + 1}`,
-                  duration: 60,
-                  endAt: null,
-                  removable: true,
-                },
-              ],
-            }
-      )
-    );
-  }, []);
+    const label = sectionId === "custom" ? "유혹" : "타이머";
+    dispatch({ type: "add", section_id: sectionId, label, duration: 60 }, () => {
+      setSections((prev) =>
+        prev.map((s) =>
+          s.id !== sectionId
+            ? s
+            : {
+                ...s,
+                timers: [
+                  ...s.timers,
+                  {
+                    id: `${sectionId}-x${Math.random().toString(36).slice(2, 8)}`,
+                    label: s.timers.length > 0 && sectionId !== "custom" ? `타이머 ${s.timers.length + 1}` : label,
+                    duration: 60,
+                    endAt: null,
+                    removable: true,
+                  },
+                ],
+              }
+        )
+      );
+    });
+  }, [dispatch]);
 
   const removeTimer = useCallback((sectionId: string, timerId: string) => {
-    setSections((prev) =>
-      prev.map((s) => (s.id !== sectionId ? s : { ...s, timers: s.timers.filter((t) => t.id !== timerId) }))
-    );
-  }, []);
+    dispatch({ type: "remove", section_id: sectionId, timer_id: timerId }, () => {
+      setSections((prev) =>
+        prev.map((s) => (s.id !== sectionId ? s : { ...s, timers: s.timers.filter((t) => t.id !== timerId) }))
+      );
+    });
+  }, [dispatch]);
 
   const resetAll = useCallback(() => {
+    if (roomRef.current) {
+      alert("공유 방에서는 전체 리셋 대신 각 타이머를 개별 리셋(우클릭)해 주세요.");
+      return;
+    }
     if (!confirm("모든 타이머를 정지하고 초기 상태로 되돌릴까요? (이름·시간 설정은 유지)")) return;
-    beepedIds.clear();
+    beepedKeys.clear();
     setSections((prev) => prev.map((s) => ({ ...s, timers: s.timers.map((t) => ({ ...t, endAt: null })) })));
+  }, []);
+
+  /* ── 방 만들기 / 참여 / 나가기 ── */
+  const createRoom = useCallback(() => {
+    setShareBusy(true);
+    setShareError("");
+    createBossTimerRoom(sections, nickname || "익명", clientIdRef.current)
+      .then((res) => {
+        applyResponse(res.code!, { ...res, changed: true });
+        localStorage.setItem("boss_timer_room", res.code!);
+      })
+      .catch((e) => setShareError(String(e.message)))
+      .finally(() => setShareBusy(false));
+  }, [sections, nickname, applyResponse]);
+
+  const joinRoom = useCallback(() => {
+    const code = joinCode.trim().toUpperCase();
+    if (code.length !== 6) { setShareError("6자리 방 코드를 입력하세요"); return; }
+    setShareBusy(true);
+    setShareError("");
+    pollBossTimerRoom(code, 0, clientIdRef.current, nickname || "익명")
+      .then((res) => {
+        applyResponse(code, res);
+        localStorage.setItem("boss_timer_room", code);
+        setJoinCode("");
+      })
+      .catch((e) => setShareError(String(e.message)))
+      .finally(() => setShareBusy(false));
+  }, [joinCode, nickname, applyResponse]);
+
+  const leaveRoom = useCallback(() => {
+    setRoom(null);
+    localStorage.removeItem("boss_timer_room");
+    // 로컬 설정 복원
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const saved: TimerSection[] = JSON.parse(raw);
+        setSections(
+          HORNTAIL_SECTIONS.map((preset) => {
+            const s = saved.find((x) => x.id === preset.id);
+            return s ? { ...preset, timers: s.timers } : preset;
+          })
+        );
+      } else {
+        setSections(HORNTAIL_SECTIONS);
+      }
+    } catch {
+      setSections(HORNTAIL_SECTIONS);
+    }
+  }, []);
+
+  const copyShareLink = useCallback(() => {
+    if (!roomRef.current) return;
+    const url = `${window.location.origin}/boss-timer?room=${roomRef.current.code}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
   }, []);
 
   return (
@@ -372,10 +546,80 @@ export default function BossTimerPage() {
           </button>
         </div>
       </div>
-      <p className="text-sm text-dim mb-6">
+      <p className="text-sm text-dim mb-4">
         혼테일 공대용 쿨타임 보드 — 리저렉션·사망팅·공무·버프해제를 각각 독립 타이머로 잽니다.
-        모든 카드는 <span className="text-maple">수정</span> 버튼으로 이름과 시간을 바꿀 수 있고, 설정은 이 브라우저에 저장됩니다.
+        모든 카드는 <span className="text-maple">수정</span> 버튼으로 이름과 시간을 바꿀 수 있습니다.
       </p>
+
+      {/* ── 공대 공유 패널 ── */}
+      <div className="pixel-panel p-4 mb-6">
+        {inRoom ? (
+          <div>
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="font-pixel text-sm text-maple">📡 공유 중</span>
+              <span className="font-mono font-bold text-lg tracking-widest">{room.code}</span>
+              <span className="text-xs text-dim">👥 {room.members}명 접속</span>
+              <button onClick={copyShareLink} className="pixel-btn px-3 py-1.5 text-xs">
+                {copied ? "복사됨!" : "초대 링크 복사"}
+              </button>
+              <button
+                onClick={leaveRoom}
+                className="px-3 py-1.5 text-xs font-pixel border-2 border-edge text-dim hover:text-red-500 hover:border-red-400 transition-colors"
+              >
+                방 나가기
+              </button>
+              <input
+                type="text"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value.slice(0, 12))}
+                placeholder="내 닉네임"
+                className="pixel-input px-2 py-1.5 text-xs w-28"
+              />
+            </div>
+            {room.log.length > 0 && (
+              <div className="mt-3 pt-3 border-t border-edge/60 space-y-0.5">
+                {[...room.log].reverse().slice(0, 4).map((l, i) => (
+                  <p key={`${l.at}-${i}`} className={`text-xs ${i === 0 ? "text-ink" : "text-dim"}`}>
+                    <span className="text-dim font-mono">
+                      {new Date(l.at).toLocaleTimeString("ko-KR", { hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit" })}
+                    </span>{" "}
+                    {l.text}
+                  </p>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-pixel text-sm">📡 공대 공유</span>
+            <span className="text-xs text-dim mr-2">— 한 명이 누르면 전원 화면에 반영됩니다</span>
+            <input
+              type="text"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value.slice(0, 12))}
+              placeholder="내 닉네임"
+              className="pixel-input px-2 py-1.5 text-xs w-28"
+            />
+            <button onClick={createRoom} disabled={shareBusy} className="pixel-btn px-3 py-1.5 text-xs disabled:opacity-50">
+              방 만들기
+            </button>
+            <div className="flex items-center gap-1">
+              <input
+                type="text"
+                value={joinCode}
+                onChange={(e) => setJoinCode(e.target.value.toUpperCase().slice(0, 6))}
+                onKeyDown={(e) => e.key === "Enter" && joinRoom()}
+                placeholder="방 코드"
+                className="pixel-input px-2 py-1.5 text-xs font-mono w-24 uppercase"
+              />
+              <button onClick={joinRoom} disabled={shareBusy} className="px-3 py-1.5 text-xs font-pixel border-2 border-edge text-dim hover:text-maple transition-colors disabled:opacity-50">
+                참여
+              </button>
+            </div>
+          </div>
+        )}
+        {shareError && <p className="text-xs text-red-500 mt-2">{shareError}</p>}
+      </div>
 
       <div className="space-y-8">
         {sections.map((section) => (
@@ -389,13 +633,11 @@ export default function BossTimerPage() {
                 <TimerCard
                   key={timer.id}
                   timer={timer}
-                  now={now}
+                  now={correctedNow}
                   muted={muted}
                   onStart={() => startTimer(section.id, timer)}
                   onStop={() => stopTimer(section.id, timer.id)}
-                  onEdit={(label, duration) =>
-                    updateTimer(section.id, timer.id, { label, duration, endAt: null })
-                  }
+                  onEdit={(label, duration) => editTimer(section.id, timer.id, label, duration)}
                   onRemove={timer.removable ? () => removeTimer(section.id, timer.id) : undefined}
                 />
               ))}
@@ -420,6 +662,10 @@ export default function BossTimerPage() {
           </li>
           <li className="text-sm text-dim flex gap-2">
             <span className="text-maple flex-shrink-0">-</span>
+            <span><strong>공대 공유</strong>: 방을 만들어 초대 링크(또는 6자리 코드)를 공대원에게 보내면, 누가 타이머를 시작하든 전원 화면에 2초 안에 반영됩니다. 기록 로그에 누가 눌렀는지 표시됩니다.</span>
+          </li>
+          <li className="text-sm text-dim flex gap-2">
+            <span className="text-maple flex-shrink-0">-</span>
             실행 중 버튼을 다시 누르면 <strong>재시작</strong>(재동기화), 우클릭하면 리셋됩니다.
           </li>
           <li className="text-sm text-dim flex gap-2">
@@ -432,11 +678,11 @@ export default function BossTimerPage() {
           </li>
           <li className="text-sm text-dim flex gap-2">
             <span className="text-maple flex-shrink-0">-</span>
-            타이머 종료 시 알림음이 울리고 숫자가 붉게 깜빡입니다. 새로고침해도 진행 중인 타이머는 이어집니다.
+            타이머 종료 시 알림음이 울리고 숫자가 붉게 깜빡입니다. 새로고침해도 진행 중인 타이머와 방 참여가 이어집니다.
           </li>
           <li className="text-sm text-dim flex gap-2">
             <span className="text-maple flex-shrink-0">-</span>
-            기본값(리저 30분, 사망팅 15분, 인레이지 6분, 공무 45초 등)은 통용되는 공략 기준이며, 실측과 다르면 각 카드에서 수정해 쓰세요.
+            기본값(리저 30분, 사망팅 15분, 인레이지 6분, 공무 45초 등)은 통용되는 공략 기준이며, 실측과 다르면 각 카드에서 수정해 쓰세요. 방은 마지막 조작 후 48시간이 지나면 자동 삭제됩니다.
           </li>
         </ul>
       </div>

@@ -36,6 +36,7 @@ from api.routes import events
 from api.routes import kakao_bot
 from api.routes import museum
 from api.routes import mapletle
+from api.routes import boss_timer
 from api.discord_bot import start_bot, get_bot
 
 
@@ -351,6 +352,7 @@ app.include_router(events.router, prefix="/api")
 app.include_router(kakao_bot.router, prefix="/api")
 app.include_router(museum.router, prefix="/api")
 app.include_router(mapletle.router, prefix="/api")
+app.include_router(boss_timer.router, prefix="/api")
 
 
 @app.get("/api/health")

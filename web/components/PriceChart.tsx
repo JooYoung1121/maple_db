@@ -16,7 +16,7 @@ import {
 /* ── types ── */
 
 interface PricePoint {
-  time: number;
+  time: string; // matip: "2026-07-15 00:00" | "2026-07-15" | "2026-W25"
   avg: number;
   min: number;
   max: number;
@@ -28,7 +28,7 @@ interface QuoteResponse {
   buyActive: PricePoint[];
 }
 
-type Resolution = "hour" | "day" | "month";
+type Resolution = "hour" | "day" | "week";
 
 /* ── helpers ── */
 
@@ -49,21 +49,21 @@ function formatMeso(value: number): string {
   return sign + abs.toLocaleString();
 }
 
-function formatDate(ts: number, resolution: Resolution): string {
-  const d = new Date(ts * 1000);
-  if (resolution === "hour") {
-    return `${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}시`;
+function formatDate(t: string, resolution: Resolution): string {
+  if (resolution === "week") {
+    const m = t.match(/^(\d{4})-W(\d+)$/);
+    return m ? `${m[1].slice(2)}년 ${m[2]}주` : t;
   }
-  if (resolution === "month") {
-    return `${d.getFullYear()}.${d.getMonth() + 1}`;
-  }
-  return `${d.getMonth() + 1}/${d.getDate()}`;
+  const m = t.match(/^\d{4}-(\d{2})-(\d{2})(?: (\d{2}):\d{2})?$/);
+  if (!m) return t;
+  const md = `${Number(m[1])}/${Number(m[2])}`;
+  return resolution === "hour" && m[3] !== undefined ? `${md} ${Number(m[3])}시` : md;
 }
 
 const RESOLUTIONS: { key: Resolution; label: string }[] = [
   { key: "hour", label: "시간별" },
   { key: "day", label: "일별" },
-  { key: "month", label: "월별" },
+  { key: "week", label: "주별" },
 ];
 
 /* ── component ── */
@@ -73,7 +73,7 @@ interface Props {
 }
 
 interface MergedRow {
-  time: number;
+  time: string;
   label: string;
   sellAvg: number | null;
   sellMin: number | null;
@@ -115,7 +115,7 @@ export default function PriceChart({ itemId }: Props) {
       }
 
       // merge by time
-      const map = new Map<number, MergedRow>();
+      const map = new Map<string, MergedRow>();
       for (const p of sellArr) {
         map.set(p.time, {
           time: p.time,
@@ -156,7 +156,8 @@ export default function PriceChart({ itemId }: Props) {
         }
       }
 
-      const merged = Array.from(map.values()).sort((a, b) => a.time - b.time);
+      // ISO 형식(YYYY-MM-DD…, YYYY-Www)이라 문자열 비교로 시간순 정렬됨
+      const merged = Array.from(map.values()).sort((a, b) => a.time.localeCompare(b.time));
       setData(merged);
     } catch {
       setNoData(true);
@@ -437,6 +438,9 @@ export default function PriceChart({ itemId }: Props) {
               </div>
             )}
           </div>
+          <p className="mt-3 text-[11px] text-dim text-right">
+            자료: 메랜지지(mapleland.gg) 거래 등록 데이터 · 메팁(matip.kr) 집계
+          </p>
         </>
       )}
     </div>

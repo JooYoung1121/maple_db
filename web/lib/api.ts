@@ -864,3 +864,49 @@ export async function resolveWeeklySprites(refs: import("./types").SpriteRef[]) 
     `/api/weekly-news/sprites?refs=${encodeURIComponent(param)}`
   );
 }
+
+/* ── 공유 보스 타이머 (혼테일) ────────────────────── */
+export interface BossTimerRoomResponse {
+  changed: boolean;
+  version: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  state?: any[];
+  log?: { at: number; text: string }[];
+  server_now: number;
+  members: number;
+  code?: string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function createBossTimerRoom(state: any[], nickname: string, clientId: string) {
+  const res = await fetch(`${API_BASE}/api/boss-timer/rooms`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ state, nickname, client_id: clientId }),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<BossTimerRoomResponse>;
+}
+
+export async function pollBossTimerRoom(code: string, since: number, clientId: string, nickname: string) {
+  const res = await fetch(
+    `${API_BASE}/api/boss-timer/rooms/${encodeURIComponent(code)}?since=${since}&client_id=${encodeURIComponent(clientId)}&nickname=${encodeURIComponent(nickname)}`
+  );
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<BossTimerRoomResponse>;
+}
+
+export async function bossTimerAction(
+  code: string,
+  action: { type: string; section_id: string; timer_id?: string; label?: string; duration?: number },
+  clientId: string,
+  nickname: string
+) {
+  const res = await fetch(`${API_BASE}/api/boss-timer/rooms/${encodeURIComponent(code)}/action`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...action, client_id: clientId, nickname }),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<BossTimerRoomResponse>;
+}

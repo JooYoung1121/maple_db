@@ -6,6 +6,7 @@ import Link from "next/link";
 import { getItem } from "@/lib/api";
 import type { Item } from "@/lib/types";
 import StatGrid from "@/components/StatGrid";
+import PriceChart from "@/components/PriceChart";
 import { toCategoryKr, toSubcategoryKr } from "@/lib/translations";
 
 interface DroppedByMob {
@@ -157,6 +158,9 @@ export default function ItemDetailPage() {
           </div>
         )}
       </div>
+
+      {/* 시세 차트 — 메랜지지 데이터(메팁 집계) */}
+      <PriceChart itemId={item.id} />
     </div>
   );
 }
