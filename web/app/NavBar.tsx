@@ -33,6 +33,7 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/nhit", label: "엔방컷 계산기" },
       { href: "/fee", label: "수수료 계산기" },
       { href: "/skill-sim", label: "스킬 시뮬레이터" },
+      { href: "/gear-sim", label: "장비 세팅" },
     ],
   },
   {

@@ -26,7 +26,7 @@ export async function searchSuggest(q: string, limit = 10, type?: string) {
   );
 }
 
-export async function getItems(params: { page?: number; per_page?: number; category?: string; level_min?: number; level_max?: number; job?: string; q?: string; sort?: string } = {}) {
+export async function getItems(params: { page?: number; per_page?: number; category?: string; subcategory?: string; level_min?: number; level_max?: number; job?: string; q?: string; sort?: string } = {}) {
   return fetchJSON<{ items: import("./types").Item[]; total: number; page: number; per_page: number }>(
     `/api/items?${qs(params as Record<string, string | number>)}`
   );

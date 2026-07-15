@@ -48,6 +48,7 @@ const SECTION_GROUPS = [
       { href: "/nhit", label: "엔방컷", icon: "⚔️", desc: "젠컷 계산" },
       { href: "/fee", label: "수수료", icon: "💰", desc: "거래 수수료" },
       { href: "/skill-sim", label: "스킬 시뮬레이터", icon: "✨", desc: "직업별 스킬 빌드 설계" },
+      { href: "/gear-sim", label: "장비 세팅", icon: "🧰", desc: "장비 조합 스탯 · 데미지 시뮬" },
     ],
   },
   {
