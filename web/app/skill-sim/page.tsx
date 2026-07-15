@@ -11,13 +11,18 @@ const FACTIONS = [
 ] as const;
 const BRANCH_LABELS: Record<number, string> = { 1: "1차", 2: "2차", 3: "3차", 4: "4차" };
 
-// v1.2.x 기준 SP 규칙: 1차 전직 시 SP+1, 이후 레벨당 SP+3, 상위 전직(30/70/120) 시 SP+1
+// v1.2.x 기준 SP 규칙: 1차 전직 시 SP+1, 이후 레벨당 SP+3, 2·3차 전직(30/70) 시 SP+1, 4차 전직(120) 시 SP+3
 // 마법사는 8레벨 1차 전직. 시그너스는 3차(70)까지.
 function firstJobLevel(jobClass: string, faction: string): number {
   return faction === "adventurer" && jobClass === "마법사" ? 8 : 10;
 }
 function branchUnlocks(faction: string): Record<number, number> {
   return faction === "adventurer" ? { 2: 30, 3: 70, 4: 120 } : { 2: 30, 3: 70 };
+}
+
+// 전직 보너스 SP: 2·3차 +1, 4차 +3
+function advancementBonusSP(branch: number): number {
+  return branch === 4 ? 3 : 1;
 }
 
 /* ── 레벨별 효과 렌더링: detail 템플릿의 #토큰을 수치로 치환 ── */
@@ -248,7 +253,7 @@ export default function SkillSimPage() {
     (L: number) => {
       if (L < first) return 0;
       let sp = 1 + 3 * (L - first);
-      for (const u of Object.values(unlocks)) if (L >= u) sp += 1;
+      for (const [b, u] of Object.entries(unlocks)) if (L >= u) sp += advancementBonusSP(Number(b));
       return sp;
     },
     [first, unlocks]
@@ -542,7 +547,7 @@ export default function SkillSimPage() {
               </button>
             </div>
             <p className="text-[11px] text-dim leading-relaxed">
-              SP 규칙: 1차 전직 시 +1, 레벨당 +3, 상위 전직 시 +1.
+              SP 규칙: 1차 전직 시 +1, 레벨당 +3, 2·3차 전직 시 +1, 4차 전직 시 +3.
               {faction === "adventurer" && jobClass === "마법사" ? " 마법사는 8레벨 전직." : ""}
             </p>
           </div>

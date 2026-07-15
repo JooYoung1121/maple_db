@@ -18,6 +18,20 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.41.1",
+    date: "2026-07-15",
+    type: "patch",
+    title: "스킬 시뮬레이터 4차 전직 SP 보정",
+    features: [
+      {
+        category: "스킬 시뮬레이터",
+        items: [
+          "4차 전직(120레벨) 보너스 SP를 +1 → +3으로 수정 (길드원 제보) — 목표 레벨 모드 SP 예산·필요 레벨 역산에 반영",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.41.0",
     date: "2026-07-15",
     type: "minor",
