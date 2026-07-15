@@ -3,8 +3,9 @@
 import { useState, useEffect, useMemo } from "react";
 import { getMakerData, getMakerMaterialSources } from "@/lib/api";
 import type { MakerData, MakerEquipment, MakerEquipGrade, MakerMobSource } from "@/lib/types";
+import GemCalculator from "./GemCalculator";
 
-type Tab = "info" | "sim" | "material";
+type Tab = "info" | "sim" | "material" | "gem";
 type Grade = "하급" | "중급" | "상급";
 
 const won = (n: number) => n.toLocaleString("ko-KR");
@@ -48,7 +49,7 @@ export default function MakerPage() {
 
       {/* 탭 */}
       <div className="flex overflow-hidden border-2 border-edge">
-        {([["info", "제작 정보"], ["sim", "시뮬레이터"], ["material", "재료 획득"]] as [Tab, string][]).map(([t, label]) => (
+        {([["info", "제작 정보"], ["sim", "시뮬레이터"], ["material", "재료 획득"], ["gem", "보석 가성비"]] as [Tab, string][]).map(([t, label]) => (
           <button
             key={t}
             onClick={() => setTab(t)}
@@ -64,6 +65,7 @@ export default function MakerPage() {
       {tab === "info" && <InfoTab data={data} />}
       {tab === "sim" && <SimTab data={data} />}
       {tab === "material" && <MaterialTab data={data} />}
+      {tab === "gem" && <GemCalculator />}
     </div>
   );
 }
