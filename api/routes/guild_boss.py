@@ -236,3 +236,41 @@ def delete_recruit(recruit_id: int, request: Request):
         return {"ok": True}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+# ── 멤버별 보스 참여 통계 (클리어 기록 + 구인 참여 합산) ──
+
+@router.get("/guild/boss/participation")
+def participation_stats():
+    try:
+        conn = get_connection()
+    except Exception:
+        return {"members": []}
+    try:
+        counts: dict[str, dict[str, int]] = {}
+
+        def bump(nickname: str, key: str):
+            nick = nickname.strip()
+            if not nick:
+                return
+            entry = counts.setdefault(nick, {"runs": 0, "recruits": 0})
+            entry[key] += 1
+
+        for row in conn.execute("SELECT character_name FROM boss_runs").fetchall():
+            bump(row["character_name"] or "", "runs")
+        for row in conn.execute("SELECT participants_json FROM boss_recruitments").fetchall():
+            try:
+                for p in json.loads(row["participants_json"] or "[]"):
+                    bump(str(p), "recruits")
+            except Exception:
+                continue
+        members = [
+            {"nickname": nick, "runs": c["runs"], "recruits": c["recruits"], "total": c["runs"] + c["recruits"]}
+            for nick, c in counts.items()
+        ]
+        members.sort(key=lambda m: (-m["total"], m["nickname"]))
+        return {"members": members[:100]}
+    except Exception as e:
+        return {"members": [], "error": str(e)}
+    finally:
+        conn.close()

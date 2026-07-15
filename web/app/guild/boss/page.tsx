@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import {
   getBossRuns, createBossRun, deleteBossRun,
   getBossRecruits, createBossRecruit, joinBossRecruit, leaveBossRecruit, deleteBossRecruit,
+  getBossParticipation,
   type BossRun, type BossRecruitment,
 } from "@/lib/api";
 
@@ -37,7 +38,7 @@ function getBossInfo(name: string): BossInfo {
   return BOSSES.find((b) => b.name === name) ?? BOSSES[0];
 }
 
-type Tab = "cooldown" | "recruit" | "drops";
+type Tab = "cooldown" | "recruit" | "drops" | "participation";
 
 // ── 쿨타임 표시용 가공 ──
 interface CooldownEntry {
@@ -144,6 +145,7 @@ export default function BossPage() {
           { key: "cooldown" as Tab, label: "쿨타이머" },
           { key: "recruit" as Tab, label: "구인" },
           { key: "drops" as Tab, label: "드롭 기록" },
+          { key: "participation" as Tab, label: "참여 통계" },
         ]).map((t) => (
           <button
             key={t.key}
@@ -162,6 +164,56 @@ export default function BossPage() {
       {activeTab === "cooldown" && <CooldownTab />}
       {activeTab === "recruit" && <RecruitTab />}
       {activeTab === "drops" && <DropsTab />}
+      {activeTab === "participation" && <ParticipationTab />}
+    </div>
+  );
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  참여 통계 탭 — 드롭 기록 + 구인 참여 합산
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function ParticipationTab() {
+  const [members, setMembers] = useState<{ nickname: string; runs: number; recruits: number; total: number }[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getBossParticipation()
+      .then((d) => setMembers(d.members))
+      .catch(() => setMembers([]))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return <div className="text-center py-12 text-dim">로딩 중...</div>;
+  if (members.length === 0)
+    return <div className="text-center py-12 text-dim pixel-panel">아직 참여 기록이 없습니다 — 드롭 기록이나 구인 참여가 쌓이면 집계됩니다</div>;
+
+  return (
+    <div className="pixel-panel overflow-x-auto">
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="border-b-2 border-edge text-left">
+            <th className="px-4 py-2.5 font-pixel text-xs text-dim">#</th>
+            <th className="px-4 py-2.5 font-pixel text-xs text-dim">닉네임</th>
+            <th className="px-4 py-2.5 font-pixel text-xs text-dim text-right">클리어 기록</th>
+            <th className="px-4 py-2.5 font-pixel text-xs text-dim text-right">구인 참여</th>
+            <th className="px-4 py-2.5 font-pixel text-xs text-dim text-right">합계</th>
+          </tr>
+        </thead>
+        <tbody>
+          {members.map((m, i) => (
+            <tr key={m.nickname} className="border-b border-edge/40">
+              <td className="px-4 py-2 text-dim">{i < 3 ? ["🥇", "🥈", "🥉"][i] : i + 1}</td>
+              <td className="px-4 py-2 font-medium">{m.nickname}</td>
+              <td className="px-4 py-2 text-right font-mono">{m.runs}</td>
+              <td className="px-4 py-2 text-right font-mono">{m.recruits}</td>
+              <td className="px-4 py-2 text-right font-mono font-bold text-maple">{m.total}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p className="px-4 py-2.5 text-[11px] text-dim border-t border-edge/40">
+        드롭 기록의 참가 캐릭터와 구인 글 참여자를 합산한 수치입니다.
+      </p>
     </div>
   );
 }

@@ -910,3 +910,46 @@ export async function bossTimerAction(
   if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
   return res.json() as Promise<BossTimerRoomResponse>;
 }
+
+/* ── 길드 출석부 ────────────────────── */
+export async function checkInAttendance(nickname: string) {
+  const res = await fetch(`${API_BASE}/api/guild/attendance`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nickname }),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<{ ok: boolean; date: string; nickname: string }>;
+}
+
+export async function getAttendanceToday() {
+  return fetchJSON<{ date: string; checked_in: { nickname: string; created_at: string }[] }>(
+    `/api/guild/attendance/today`
+  );
+}
+
+export async function getAttendanceStats(month?: string, nickname?: string) {
+  return fetchJSON<{
+    month: string;
+    ranking: { nickname: string; days: number }[];
+    my_days: string[];
+    streak: number;
+  }>(`/api/guild/attendance/stats?${qs({ month: month ?? "", nickname: nickname ?? "" })}`);
+}
+
+/* ── 보스 참여 통계 ── */
+export async function getBossParticipation() {
+  return fetchJSON<{ members: { nickname: string; runs: number; recruits: number; total: number }[] }>(
+    `/api/guild/boss/participation`
+  );
+}
+
+/* ── 초성퀴즈 검색기 ── */
+export async function searchChosung(q: string, type?: string, mode: "exact" | "prefix" = "exact") {
+  return fetchJSON<{
+    q: string;
+    mode: string;
+    total: number;
+    results: { type: string; type_label: string; id: number; name: string }[];
+  }>(`/api/chosung?${qs({ q, type: type ?? "", mode })}`);
+}

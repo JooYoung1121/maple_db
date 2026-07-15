@@ -18,6 +18,27 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.40.0",
+    date: "2026-07-15",
+    type: "minor",
+    title: "길드 출석부 + 보스 참여 통계 + 초성퀴즈 검색기",
+    features: [
+      {
+        category: "추억길드",
+        items: [
+          "출석부 (/guild/attendance) — 하루 1회 출석 체크(KST), 오늘 출석자·월간 랭킹·내 달력·연속 출석 표시",
+          "보스 관리에 '참여 통계' 탭 — 드롭 기록 참가와 구인 참여를 합산한 멤버별 랭킹",
+        ],
+      },
+      {
+        category: "놀이터",
+        items: [
+          "초성퀴즈 검색기 (/chosung) — 초성으로 메랜DB 몬스터·아이템·맵·NPC 이름 검색, 클릭 복사·초성 키패드 지원",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.39.0",
     date: "2026-07-15",
     type: "minor",

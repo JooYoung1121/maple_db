@@ -75,6 +75,7 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/quiz", label: "메이플 퀴즈" },
       { href: "/daily-mob", label: "오늘의 몬스터" },
       { href: "/mapletle", label: "추억틀" },
+      { href: "/chosung", label: "초성퀴즈 검색기" },
       { href: "/museum", label: "이세계 도감" },
     ],
   },
@@ -83,6 +84,7 @@ const NAV_CATEGORIES: NavCategory[] = [
     items: [
       { href: "/guild", label: "공지 · 이벤트" },
       { href: "/guild/members", label: "길드원 명단" },
+      { href: "/guild/attendance", label: "출석부" },
       { href: "/guild/boss", label: "보스" },
       { href: "/guild/board", label: "자유게시판" },
       { href: "/guild/info", label: "정보공유" },

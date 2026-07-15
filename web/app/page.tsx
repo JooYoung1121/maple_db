@@ -83,6 +83,7 @@ const SECTION_GROUPS = [
       { href: "/quiz", label: "메이플 퀴즈", icon: "❓", desc: "스피드퀴즈 · 실루엣 퀴즈" },
       { href: "/daily-mob", label: "오늘의 몬스터", icon: "👾", desc: "매일 바뀌는 몬스터 추리" },
       { href: "/mapletle", label: "추억틀", icon: "🌡️", desc: "단어 유사도로 메랜 단어 추리" },
+      { href: "/chosung", label: "초성퀴즈 검색기", icon: "🔤", desc: "초성으로 메랜 이름 찾기" },
       { href: "/museum", label: "이세계 도감", icon: "🗃️", desc: "메랜에 없는 몹·아이템 구경" },
     ],
   },
@@ -91,6 +92,7 @@ const SECTION_GROUPS = [
     items: [
       { href: "/guild", label: "공지 · 이벤트", icon: "📢", desc: "길드 공지사항" },
       { href: "/guild/members", label: "길드원 명단", icon: "👥", desc: "길드원 정보" },
+      { href: "/guild/attendance", label: "출석부", icon: "📋", desc: "출석 체크 · 월간 랭킹" },
       { href: "/guild/boss", label: "보스", icon: "🐉", desc: "보스 파티 · 기록" },
       { href: "/guild/board", label: "자유게시판", icon: "💬", desc: "길드원 소통" },
       { href: "/guild/discord", label: "디스코드 봇", icon: "🤖", desc: "봇 설정 · 알림" },
