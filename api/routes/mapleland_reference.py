@@ -48,6 +48,20 @@ def mapleland_names(kind: str) -> tuple[str, ...]:
     return tuple(sorted(set(names)))
 
 
+@lru_cache(maxsize=None)
+def mapleland_name_kr_map(kind: str) -> dict[int, str]:
+    records = _reference().get("entities", {}).get(kind, {}).get("records", [])
+    out: dict[int, str] = {}
+    for row in records:
+        try:
+            name = str(row.get("name_kr") or "").strip()
+            if name:
+                out[int(row["id"])] = name
+        except Exception:
+            continue
+    return out
+
+
 def id_filter_sql(column: str, kind: str) -> str | None:
     ids = mapleland_ids(kind)
     if not ids:

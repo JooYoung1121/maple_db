@@ -63,9 +63,13 @@ export async function getMaps(params: { page?: number; per_page?: number; area?:
 }
 
 export async function getMap(id: number) {
-  return fetchJSON<{ map: import("./types").MapData; monsters: import("./types").MapMobSpawn[]; npcs: import("./types").Npc[] }>(
-    `/api/maps/${id}`
-  );
+  return fetchJSON<{
+    map: import("./types").MapData;
+    monsters: import("./types").MapMobSpawn[];
+    npcs: import("./types").Npc[];
+    detail: import("./types").MapDetailData | null;
+    drops: import("./types").MapDrop[];
+  }>(`/api/maps/${id}`);
 }
 
 export async function getNpcs(params: { page?: number; per_page?: number; q?: string } = {}) {

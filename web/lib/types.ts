@@ -76,7 +76,41 @@ export interface MapMobSpawn {
   mob_name: string;
   mob_name_kr?: string | null;
   level: number;
+  hp?: number | null;
+  is_boss?: number | null;
+  icon_url?: string | null;
   spawn_count?: number | null;
+  /** maplestory.io 스폰 포인트 기준 정확한 젠 수 */
+  spawn_points?: number | null;
+  in_reference?: boolean;
+}
+
+/** map_details 기반 맵 구조 데이터 — 숫자 배열은 [mob_id,x,y] / [x1,y1,x2,y2] / [x,y1,y2,isLadder] */
+export interface MapDetailData {
+  spawns: [number, number, number][];
+  npcs: [number, number, number][];
+  footholds: [number, number, number, number][];
+  ropes: [number, number, number, number][];
+  minimap: {
+    canvas: string;
+    width: number;
+    height: number;
+    centerX: number;
+    centerY: number;
+    magnification: number;
+  } | null;
+  vr: [number, number, number, number] | null;
+  bgm: string | null;
+  is_swim: boolean;
+}
+
+export interface MapDrop {
+  item_id: number;
+  item_name: string;
+  item_name_kr?: string | null;
+  category: string | null;
+  icon_url: string | null;
+  mob_ids: number[];
 }
 
 export interface MapData {
@@ -91,13 +125,17 @@ export interface MapData {
   portals?: Portal[];
   names_en?: NameEn[];
   name_kr?: string | null;
+  region_kr?: string | null;
 }
 
 export interface Portal {
   portalName?: string;
   toMap?: number;
   toName?: string;
+  to_name_kr?: string;
   type?: number;
+  x?: number;
+  y?: number;
 }
 
 export interface Npc {
