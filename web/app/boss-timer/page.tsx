@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { createBossTimerRoom, pollBossTimerRoom, bossTimerAction } from "@/lib/api";
 
 /* ── 타입 ── */
@@ -92,6 +92,15 @@ const HORNTAIL_SECTIONS: TimerSection[] = [
 const STORAGE_KEY = "boss_timer_horntail_v1";
 const POLL_INTERVAL = 2000;
 
+/* 섹션별 단축키 풀 — 키보드 한 줄이 섹션 하나에 대응. 타이머 순서대로 배정, 풀 소진 시 이후 타이머는 단축키 없음 */
+const SECTION_HOTKEYS: Record<string, string[]> = {
+  resurrection: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
+  "death-buff": ["Q", "W", "E", "R", "T"],
+  cancel: ["A", "S", "D", "F", "G"],
+  dispel: ["Z", "X", "C", "V", "B"],
+  custom: ["U", "I", "O", "P", "J", "K", "L"],
+};
+
 /* ── 유틸 ── */
 function fmt(sec: number): string {
   const s = Math.max(0, Math.ceil(sec));
@@ -143,11 +152,12 @@ function ExpireBeeper({ beepKey }: { beepKey: string }) {
 
 /* ── 타이머 카드 ── */
 function TimerCard({
-  timer, now, muted, onStart, onStop, onEdit, onRemove,
+  timer, now, muted, hotkey, onStart, onStop, onEdit, onRemove,
 }: {
   timer: RaidTimer;
   now: number; // 보정된 현재 시각(ms)
   muted: boolean;
+  hotkey?: string;
   onStart: () => void;
   onStop: () => void;
   onEdit: (label: string, duration: number) => void;
@@ -209,6 +219,14 @@ function TimerCard({
           <>
             <div className="flex items-center gap-1.5 mb-0.5">
               <span className="text-xs font-semibold truncate">{timer.label}</span>
+              {hotkey && (
+                <kbd
+                  className="shrink-0 font-mono text-[10px] leading-none text-dim border border-edge px-1 py-0.5 bg-surface2"
+                  title={`${hotkey}: 시작/재시작 · Shift+${hotkey}: 정지`}
+                >
+                  {hotkey}
+                </kbd>
+              )}
               <button
                 onClick={() => { setEditing(true); setLabelDraft(timer.label); setDurDraft(fmt(timer.duration)); }}
                 className="shrink-0 text-[10px] font-pixel text-dim border border-edge px-1.5 py-0.5 hover:text-maple hover:border-maple transition-colors"
@@ -240,20 +258,35 @@ function TimerCard({
           </>
         )}
       </div>
-      <button
-        onClick={running ? (expired ? onStop : onStart) : onStart}
-        onContextMenu={(e) => { e.preventDefault(); onStop(); }}
-        className={`w-16 shrink-0 font-pixel text-[13px] transition-colors border-l-2 border-edge ${
-          expired
-            ? "bg-red-500 text-white hover:bg-red-600"
-            : running
-            ? "bg-surface2 text-dim hover:text-maple"
-            : "bg-maple text-white hover:brightness-110"
-        }`}
-        title={running ? "클릭: 재시작 · 우클릭: 리셋" : "시작"}
-      >
-        {expired ? "완료" : running ? "재시작" : "시작"}
-      </button>
+      {running && !expired ? (
+        <div className="w-16 shrink-0 flex flex-col border-l-2 border-edge">
+          <button
+            onClick={onStart}
+            className="flex-1 font-pixel text-[12px] bg-surface2 text-dim hover:text-maple transition-colors"
+            title="재시작 (재동기화)"
+          >
+            재시작
+          </button>
+          <button
+            onClick={onStop}
+            className="flex-1 font-pixel text-[12px] border-t-2 border-edge bg-surface2 text-dim hover:text-red-500 transition-colors"
+            title="정지 (리셋)"
+          >
+            정지
+          </button>
+        </div>
+      ) : (
+        <button
+          onClick={expired ? onStop : onStart}
+          onContextMenu={(e) => { e.preventDefault(); onStop(); }}
+          className={`w-16 shrink-0 font-pixel text-[13px] transition-colors border-l-2 border-edge ${
+            expired ? "bg-red-500 text-white hover:bg-red-600" : "bg-maple text-white hover:brightness-110"
+          }`}
+          title={expired ? "리셋" : "시작"}
+        >
+          {expired ? "완료" : "시작"}
+        </button>
+      )}
     </div>
   );
 }
@@ -416,6 +449,45 @@ export default function BossTimerPage() {
       updateTimerLocal(sectionId, timerId, { endAt: null });
     });
   }, [dispatch, updateTimerLocal]);
+
+  /* ── 단축키 ── 섹션별 풀에서 타이머 순서대로 배정. 키: 시작/재시작 · Shift+키: 정지 */
+  const hotkeyOf = useMemo(() => {
+    const map = new Map<string, string>(); // timer.id → key
+    for (const s of sections) {
+      const pool = SECTION_HOTKEYS[s.id] ?? [];
+      s.timers.forEach((t, i) => {
+        if (i < pool.length) map.set(t.id, pool[i]);
+      });
+    }
+    return map;
+  }, [sections]);
+
+  const sectionsRef = useRef(sections);
+  sectionsRef.current = sections;
+
+  useEffect(() => {
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.metaKey || e.ctrlKey || e.altKey || e.repeat) return;
+      const el = e.target as HTMLElement | null;
+      if (el && (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable)) return;
+      // Shift+숫자는 e.key가 특수문자로 바뀌므로 물리 키(e.code) 기준으로 매칭
+      const m = e.code.match(/^(?:Digit|Numpad)(\d)$|^Key([A-Z])$/);
+      if (!m) return;
+      const key = m[1] ?? m[2];
+      for (const s of sectionsRef.current) {
+        const pool = SECTION_HOTKEYS[s.id] ?? [];
+        const idx = pool.indexOf(key);
+        if (idx < 0 || idx >= s.timers.length) continue;
+        e.preventDefault();
+        const t = s.timers[idx];
+        if (e.shiftKey) stopTimer(s.id, t.id);
+        else startTimer(s.id, t);
+        return;
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [startTimer, stopTimer]);
 
   const editTimer = useCallback((sectionId: string, timerId: string, label: string, duration: number) => {
     dispatch({ type: "edit", section_id: sectionId, timer_id: timerId, label, duration }, () => {
@@ -635,6 +707,7 @@ export default function BossTimerPage() {
                   timer={timer}
                   now={correctedNow}
                   muted={muted}
+                  hotkey={hotkeyOf.get(timer.id)}
                   onStart={() => startTimer(section.id, timer)}
                   onStop={() => stopTimer(section.id, timer.id)}
                   onEdit={(label, duration) => editTimer(section.id, timer.id, label, duration)}
@@ -666,7 +739,11 @@ export default function BossTimerPage() {
           </li>
           <li className="text-sm text-dim flex gap-2">
             <span className="text-maple flex-shrink-0">-</span>
-            실행 중 버튼을 다시 누르면 <strong>재시작</strong>(재동기화), 우클릭하면 리셋됩니다.
+            실행 중에는 <strong>재시작</strong>(재동기화)과 <strong>정지</strong> 버튼이 함께 표시됩니다. 버튼 우클릭으로도 리셋할 수 있습니다.
+          </li>
+          <li className="text-sm text-dim flex gap-2">
+            <span className="text-maple flex-shrink-0">-</span>
+            <span><strong>키보드 단축키</strong>: 각 카드 이름 옆의 키를 누르면 시작/재시작, <strong>Shift+키</strong>는 정지입니다. 키보드 줄별로 리저렉션 <span className="font-mono">1~0</span> · 사망&버프 <span className="font-mono">Q W E…</span> · 공무 <span className="font-mono">A S D…</span> · 버프해제 <span className="font-mono">Z X C…</span> · 커스텀 <span className="font-mono">U I O…</span> 순서로 배정됩니다. (입력창에 커서가 있을 땐 동작하지 않습니다)</span>
           </li>
           <li className="text-sm text-dim flex gap-2">
             <span className="text-maple flex-shrink-0">-</span>

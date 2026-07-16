@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.42.0",
+    date: "2026-07-16",
+    type: "minor",
+    title: "혼테일 타이머 단축키 + 정지 버튼",
+    features: [
+      {
+        category: "혼테일 타이머",
+        items: [
+          "키보드 단축키 추가 — 카드 이름 옆 키로 시작/재시작, Shift+키로 정지 (리저렉션 1~0 · 사망&버프 QWE · 공무 ASD · 버프해제 ZXC · 커스텀 UIO)",
+          "실행 중 타이머에 '정지' 버튼 추가 — 기존에는 우클릭으로만 리셋 가능했던 것을 버튼으로 분리",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.41.1",
     date: "2026-07-15",
     type: "patch",
