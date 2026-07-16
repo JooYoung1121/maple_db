@@ -630,7 +630,7 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
               placeholder="예: 시야 타오"
-              onKeyDown={(e) => e.key === "Enter" && addItem()}
+              onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && addItem()}
               className="pixel-input w-full px-3 py-2 text-sm"
             />
           </div>
@@ -641,7 +641,7 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
               value={newPrice}
               onChange={(e) => setNewPrice(e.target.value.replace(/[^0-9]/g, ""))}
               placeholder="금액 입력"
-              onKeyDown={(e) => e.key === "Enter" && addItem()}
+              onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && addItem()}
               className="pixel-input w-full px-3 py-2 text-sm"
             />
           </div>

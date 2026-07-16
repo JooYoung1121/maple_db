@@ -169,7 +169,7 @@ function SuggestionInput({
 
   function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
     if (!open || suggestions.length === 0) {
-      if (e.key === "Enter") onChangeRef.current(local);
+      if (e.key === "Enter" && !e.nativeEvent.isComposing) onChangeRef.current(local);
       return;
     }
     if (e.key === "ArrowDown") {
@@ -178,7 +178,7 @@ function SuggestionInput({
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setActiveIndex((prev) => (prev > 0 ? prev - 1 : suggestions.length - 1));
-    } else if (e.key === "Enter") {
+    } else if (e.key === "Enter" && !e.nativeEvent.isComposing) {
       e.preventDefault();
       if (activeIndex >= 0) applySuggestion(suggestions[activeIndex]);
       else onChangeRef.current(local);

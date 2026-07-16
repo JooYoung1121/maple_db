@@ -192,7 +192,7 @@ function TimerCard({
               type="text"
               value={labelDraft}
               onChange={(e) => setLabelDraft(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && saveEdit()}
+              onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && saveEdit()}
               className="w-full pixel-input px-2 py-1 text-xs"
               placeholder="이름"
               autoFocus
@@ -202,7 +202,7 @@ function TimerCard({
                 type="text"
                 value={durDraft}
                 onChange={(e) => setDurDraft(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && saveEdit()}
+                onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && saveEdit()}
                 className="w-20 pixel-input px-2 py-1 text-xs font-mono"
                 placeholder="분:초"
               />
@@ -680,7 +680,7 @@ export default function BossTimerPage() {
                 type="text"
                 value={joinCode}
                 onChange={(e) => setJoinCode(e.target.value.toUpperCase().slice(0, 6))}
-                onKeyDown={(e) => e.key === "Enter" && joinRoom()}
+                onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && joinRoom()}
                 placeholder="방 코드"
                 className="pixel-input px-2 py-1.5 text-xs font-mono w-24 uppercase"
               />

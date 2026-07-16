@@ -219,7 +219,7 @@ export default function DiscordBotPage() {
               autoComplete="off"
               value={pw}
               onChange={(e) => setPw(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleAuth()}
+              onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && handleAuth()}
               placeholder="비밀번호"
               className="pixel-input flex-1 px-3 py-2 text-sm"
             />

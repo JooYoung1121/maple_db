@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.42.1",
+    date: "2026-07-16",
+    type: "patch",
+    title: "한글 입력 후 엔터 시 중복 추가 버그 수정",
+    features: [
+      {
+        category: "전체",
+        items: [
+          "놀이터 참가자 입력 등에서 한글 입력 직후 엔터를 치면 마지막 글자가 한 번 더 추가되던 버그 수정 (IME 조합 중 엔터 중복 발생)",
+          "같은 패턴을 쓰는 사이트 전체 입력창(퀴즈 정답, 길드 출석, 검색창 등 19개 파일)에 일괄 적용",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.42.0",
     date: "2026-07-16",
     type: "minor",

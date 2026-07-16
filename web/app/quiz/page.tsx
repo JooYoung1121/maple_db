@@ -399,7 +399,7 @@ export default function QuizPage() {
                       type="text"
                       value={nickname}
                       onChange={(e) => setNickname(e.target.value)}
-                      onKeyDown={(e) => e.key === "Enter" && saveScore()}
+                      onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && saveScore()}
                       placeholder="닉네임 (12자 이내)"
                       maxLength={12}
                       className="px-4 py-2 pixel-input w-44"
@@ -527,7 +527,7 @@ export default function QuizPage() {
                         type="text"
                         value={answer}
                         onChange={(e) => setAnswer(e.target.value)}
-                        onKeyDown={(e) => e.key === "Enter" && checkAnswer()}
+                        onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && checkAnswer()}
                         placeholder="이름을 입력하세요"
                         className="flex-1 px-4 py-3 pixel-input"
                         autoComplete="off"

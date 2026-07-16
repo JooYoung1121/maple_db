@@ -160,7 +160,7 @@ function DiceTab({ onResult }: { onResult: (participants: string[], winner: stri
         <h2 className="font-pixel text-lg font-semibold text-ink mb-4">참가자 관리</h2>
         <div className="flex gap-2 mb-4">
           <input type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && addParticipant()} placeholder="닉네임 입력"
+            onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && addParticipant()} placeholder="닉네임 입력"
             className="pixel-input flex-1 px-3 py-2 text-sm" />
           <button onClick={addParticipant} className="pixel-btn font-semibold px-4 py-2 text-sm">추가</button>
         </div>
@@ -296,7 +296,7 @@ function RouletteTab({ onResult }: { onResult: (participants: string[], winner: 
         <h2 className="font-pixel text-lg font-semibold text-ink mb-4">참가자 관리</h2>
         <div className="flex gap-2 mb-4">
           <input type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && addParticipant()} placeholder="참가자 이름 입력"
+            onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && addParticipant()} placeholder="참가자 이름 입력"
             className="pixel-input flex-1 px-3 py-2 text-sm" />
           <button onClick={addParticipant} className="pixel-btn font-semibold px-4 py-2 text-sm">추가</button>
         </div>
@@ -485,7 +485,7 @@ function PinballTab({ onResult }: { onResult: (participants: string[], winner: s
                 type="text"
                 value={name}
                 onChange={(e) => updateRank(i, e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && i === rankings.length - 1 && addRank()}
+                onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && i === rankings.length - 1 && addRank()}
                 placeholder={`${i + 1}등 이름`}
                 className="pixel-input flex-1 px-3 py-1.5 text-sm"
               />
@@ -667,7 +667,7 @@ function LadderTab({ onResult }: { onResult: (participants: string[], winner: st
         <h2 className="font-pixel text-lg font-semibold text-ink mb-4">참가자 관리 <span className="text-sm font-normal text-dim">(최대 8명)</span></h2>
         <div className="flex gap-2 mb-4">
           <input type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && addParticipant()} placeholder="참가자 이름 입력"
+            onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && addParticipant()} placeholder="참가자 이름 입력"
             className="pixel-input flex-1 px-3 py-2 text-sm" />
           <button onClick={addParticipant} disabled={participants.length >= 8}
             className="pixel-btn disabled:opacity-40 font-semibold px-4 py-2 text-sm">추가</button>
@@ -916,7 +916,7 @@ function RaceTab({ onResult }: { onResult: (participants: string[], winner: stri
         <p className="text-xs text-dim mb-4">공이 동시에 낙하 — 먼저 FINISH 라인에 닿는 순서가 순위!</p>
         <div className="flex gap-2 mb-4">
           <input type="text" value={nameInput} onChange={(e) => setNameInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && addParticipant()} placeholder="참가자 이름 입력"
+            onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && addParticipant()} placeholder="참가자 이름 입력"
             className="pixel-input flex-1 px-3 py-2 text-sm" />
           <button onClick={addParticipant} disabled={participants.length >= 8}
             className="pixel-btn disabled:opacity-40 font-semibold px-4 py-2 text-sm">추가</button>
@@ -1034,7 +1034,7 @@ function GameRecords({ refreshKey }: { refreshKey: number }) {
             <h3 className="font-pixel text-base font-bold text-ink">기록 삭제</h3>
             <p className="text-sm text-dim">관리자 비밀번호를 입력하세요.</p>
             <input type="password" autoComplete="off" value={deleteState.password} onChange={(e) => setDeleteState((s) => s ? { ...s, password: e.target.value } : s)}
-              onKeyDown={(e) => e.key === "Enter" && handleDelete()} placeholder="비밀번호"
+              onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && handleDelete()} placeholder="비밀번호"
               className="pixel-input w-full px-3 py-2 text-sm" autoFocus />
             {deleteState.error && <p className="text-sm text-red-500">{deleteState.error}</p>}
             <div className="flex gap-2">

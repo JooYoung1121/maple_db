@@ -154,7 +154,7 @@ function QuestSearchInput({
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setActiveIndex((prev) => (prev > 0 ? prev - 1 : suggestions.length - 1));
-    } else if (e.key === "Enter" && activeIndex >= 0) {
+    } else if (e.key === "Enter" && !e.nativeEvent.isComposing && activeIndex >= 0) {
       e.preventDefault();
       choose(suggestions[activeIndex]);
     } else if (e.key === "Escape") {

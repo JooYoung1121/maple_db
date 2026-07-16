@@ -170,7 +170,7 @@ function AdminPanel({ onChanged }: { onChanged: () => void }) {
           type="password"
           value={pw}
           onChange={(e) => setPw(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && login()}
+          onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && login()}
           placeholder="관리자 비밀번호"
           className="px-3 py-2 pixel-input text-sm w-44"
         />

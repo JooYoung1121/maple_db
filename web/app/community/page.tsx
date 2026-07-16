@@ -322,7 +322,7 @@ export default function CommunityPage() {
                         placeholder="새 선택지 입력"
                         maxLength={50}
                         className="pixel-input flex-1 px-3 py-1.5 text-sm"
-                        onKeyDown={(e) => e.key === "Enter" && handleAddUserOption(poll.id)}
+                        onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && handleAddUserOption(poll.id)}
                       />
                       <button
                         onClick={() => handleAddUserOption(poll.id)}

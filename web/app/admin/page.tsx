@@ -107,7 +107,7 @@ export default function AdminPage() {
           autoComplete="off"
           value={passwordInput}
           onChange={(e) => setPasswordInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+          onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && handleLogin()}
           placeholder="관리자 비밀번호"
           className="pixel-input w-full px-3 py-2 text-sm mb-3"
         />

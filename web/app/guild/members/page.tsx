@@ -418,7 +418,7 @@ export default function GuildMembersPage() {
                           onChange={(e) => setEditingLevel({ id: m.id, value: e.target.value })}
                           onBlur={saveLevel}
                           onKeyDown={(e) => {
-                            if (e.key === "Enter") saveLevel();
+                            if (e.key === "Enter" && !e.nativeEvent.isComposing) saveLevel();
                             if (e.key === "Escape") setEditingLevel(null);
                           }}
                           disabled={savingLevel}
@@ -445,7 +445,7 @@ export default function GuildMembersPage() {
                           onChange={(e) => setEditingAlias({ id: m.id, value: e.target.value })}
                           onBlur={saveAlias}
                           onKeyDown={(e) => {
-                            if (e.key === "Enter") saveAlias();
+                            if (e.key === "Enter" && !e.nativeEvent.isComposing) saveAlias();
                             if (e.key === "Escape") setEditingAlias(null);
                           }}
                           disabled={savingAlias}

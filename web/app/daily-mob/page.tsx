@@ -263,7 +263,7 @@ export default function DailyMobPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
+                if (e.key === "Enter" && !e.nativeEvent.isComposing) {
                   const exact = suggestions.find((s) => s.name === input.trim());
                   submitGuess(exact ? exact.name : suggestions[0]?.name ?? input);
                 }
@@ -323,7 +323,7 @@ export default function DailyMobPage() {
                 type="text"
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && registerRank(nickname)}
+                onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && registerRank(nickname)}
                 placeholder="닉네임 (12자 이내)"
                 maxLength={12}
                 className="px-3 py-2 pixel-input w-40 text-sm"

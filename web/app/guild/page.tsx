@@ -173,7 +173,7 @@ function WriteModal({
           autoComplete="off"
           value={state.password}
           onChange={(e) => update("password", e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && onSubmit()}
+          onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && onSubmit()}
           placeholder="관리자 비밀번호"
           className="pixel-input w-full px-3 py-2 text-sm"
         />
@@ -222,7 +222,7 @@ function DeleteModal({
           autoComplete="off"
           value={state.password}
           onChange={(e) => setState((s) => s ? { ...s, password: e.target.value, error: "" } : s)}
-          onKeyDown={(e) => e.key === "Enter" && onSubmit()}
+          onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && onSubmit()}
           placeholder="관리자 비밀번호"
           className="pixel-input w-full px-3 py-2 text-sm"
           autoFocus

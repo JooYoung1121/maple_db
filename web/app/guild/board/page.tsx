@@ -283,7 +283,7 @@ export default function FreeBoardPage() {
                         onChange={(e) => setAdminPw(e.target.value)}
                         placeholder="비밀번호"
                         className="pixel-input px-2 py-1 text-xs w-20"
-                        onKeyDown={(e) => e.key === "Enter" && handleDeletePost(detail.id)}
+                        onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && handleDeletePost(detail.id)}
                       />
                       <button onClick={() => handleDeletePost(detail.id)} className="text-xs text-red-500 hover:text-red-700">확인</button>
                       <button onClick={() => { setShowAdminInput(null); setAdminPw(""); }} className="text-xs text-dim">취소</button>
@@ -352,7 +352,7 @@ export default function FreeBoardPage() {
                                 onChange={(e) => setAdminPw(e.target.value)}
                                 placeholder="PW"
                                 className="pixel-input px-2 py-1 text-xs w-16"
-                                onKeyDown={(e) => e.key === "Enter" && handleDeleteComment(c.id)}
+                                onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && handleDeleteComment(c.id)}
                               />
                               <button onClick={() => handleDeleteComment(c.id)} className="text-xs text-red-500">확인</button>
                               <button onClick={() => { setShowAdminInput(null); setAdminPw(""); }} className="text-xs text-dim">취소</button>

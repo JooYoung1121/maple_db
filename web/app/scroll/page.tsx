@@ -1039,7 +1039,7 @@ function SimTab() {
               placeholder="닉네임 입력"
               value={registerNickname}
               onChange={(e) => setRegisterNickname(e.target.value)}
-              onKeyDown={(e) => { if (e.key === "Enter") handleRegister(); }}
+              onKeyDown={(e) => { if (e.key === "Enter" && !e.nativeEvent.isComposing) handleRegister(); }}
               className="flex-1 px-3 py-2 pixel-input text-sm"
               maxLength={20}
             />

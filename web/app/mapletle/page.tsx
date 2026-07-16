@@ -208,7 +208,7 @@ export default function MapletlePage() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && submitGuess()}
+              onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && submitGuess()}
               placeholder="단어를 입력하세요 (자유 입력)..."
               className="flex-1 px-4 py-3 pixel-input"
               autoComplete="off"
@@ -240,7 +240,7 @@ export default function MapletlePage() {
                 type="text"
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && registerRank(nickname)}
+                onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && registerRank(nickname)}
                 placeholder="닉네임 (12자 이내)"
                 maxLength={12}
                 className="px-3 py-2 pixel-input w-40 text-sm"

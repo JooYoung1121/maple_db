@@ -67,7 +67,7 @@ export default function AttendancePage() {
             type="text"
             value={nickname}
             onChange={(e) => setNickname(e.target.value.slice(0, 20))}
-            onKeyDown={(e) => e.key === "Enter" && checkIn()}
+            onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && checkIn()}
             placeholder="닉네임"
             list="guild-member-names"
             className="pixel-input px-3 py-2 text-sm w-44"
