@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.44.1",
+    date: "2026-07-16",
+    type: "patch",
+    title: "마왕 발록 부위 데이터 보강 + 원정 공략 게시",
+    features: [
+      {
+        category: "마왕 발록",
+        items: [
+          "오른손(HP 264만)·왼손(HP 306만) 부위 몹 추가 — 2009 원작 공략 실측 HP로 개체 확정",
+          "정보게시판에 '마왕 발록 원정 공략 총정리' 게시 (원작 공략 출처 명시, 요약 재구성)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.44.0",
     date: "2026-07-16",
     type: "minor",
