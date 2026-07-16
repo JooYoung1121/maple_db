@@ -281,6 +281,13 @@ export default function MapDetailPage() {
                   </span>
                   {(m.spawn_points ?? 0) > 0 ? (
                     <span className="text-sm text-skill font-semibold shrink-0">×{m.spawn_points}</span>
+                  ) : detail && detail.spawns.length > 0 ? (
+                    <span
+                      className="text-[10px] text-dim border border-edge px-1.5 py-0.5 shrink-0"
+                      title="원작(2.0 기준) 배치에는 없는 몹 — 1.0 시절 수집 데이터로, 현재는 출현하지 않을 수 있습니다"
+                    >
+                      원작 미출현
+                    </span>
                   ) : m.spawn_count ? (
                     <span className="text-xs text-dim shrink-0">젠 {m.spawn_count}</span>
                   ) : null}
