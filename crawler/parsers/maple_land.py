@@ -25,11 +25,8 @@ SOURCES = {
         "base_url": "https://maple.land",
         "boards": ["notices", "events", "devlog"],
     },
-    "tespia": {
-        "label": "Mapleland Tespia",
-        "base_url": "https://tespia.maple.land",
-        "boards": ["notices", "events", "devlog"],
-    },
+    # tespia: 2026-07 도메인 접속 불가(DNS 실패)로 크롤 중단 — 공식 소식은 maple.land 기준.
+    # 기존 수집분(source='tespia')은 DB에 남아 있어 조회는 계속 동작한다.
 }
 BASE_URL = SOURCES["main"]["base_url"]
 BOARDS = SOURCES["main"]["boards"]

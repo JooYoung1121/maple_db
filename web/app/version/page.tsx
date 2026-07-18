@@ -18,6 +18,18 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.44.3",
+    date: "2026-07-19",
+    type: "patch",
+    title: "테스피아 크롤 중단",
+    features: [
+      {
+        category: "운영",
+        items: ["테스피아 도메인 접속 불가에 따라 공식 소식 크롤을 maple.land 단일 소스로 정리 (기존 테스피아 수집분 조회는 유지)"],
+      },
+    ],
+  },
+  {
     version: "3.44.2",
     date: "2026-07-19",
     type: "patch",
