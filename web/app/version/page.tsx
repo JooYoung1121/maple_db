@@ -18,6 +18,18 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.44.2",
+    date: "2026-07-19",
+    type: "patch",
+    title: "주간 메랜 발행 알림 명령어 수정",
+    features: [
+      {
+        category: "운영",
+        items: ["디스코드 발행 알림의 실행 명령어를 .venv/bin/python 경로로 수정 (python 별칭 없는 환경 대응)"],
+      },
+    ],
+  },
+  {
     version: "3.44.1",
     date: "2026-07-16",
     type: "patch",

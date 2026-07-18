@@ -162,7 +162,7 @@ class MapleBot(discord.Client):
             desc_lines.extend(f"- {t}" for t in top_titles)
         desc_lines.append("")
         desc_lines.append("로컬에서 발행을 실행하세요:")
-        desc_lines.append("```\npython scripts/weekly_news_generate.py all\n```")
+        desc_lines.append("```\n.venv/bin/python scripts/weekly_news_generate.py all\n```")
         embed = discord.Embed(
             title="📰 주간 메랜 발행 시간!",
             description="\n".join(desc_lines),
