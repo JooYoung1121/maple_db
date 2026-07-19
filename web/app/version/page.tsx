@@ -18,6 +18,20 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.44.4",
+    date: "2026-07-19",
+    type: "patch",
+    title: "시간 조각(시조) 아이템 노출",
+    features: [
+      {
+        category: "아이템",
+        items: [
+          "시간의 신전 고가 잡템 '시간 조각'(4020009)이 레퍼런스 미등록으로 사이트에서 안 보이던 것 수정 — 드랍 데이터(시신전 몹 13종 + 도도·릴리노흐·라이카·핑크빈 등 19몹)는 기보유 상태였음",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.44.3",
     date: "2026-07-19",
     type: "patch",

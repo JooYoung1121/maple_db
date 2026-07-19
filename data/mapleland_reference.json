@@ -29845,6 +29845,12 @@
           "name_kr": "운세 종이",
           "level": 0,
           "jobs": "not"
+        },
+        {
+          "id": 4020009,
+          "name_kr": "시간 조각",
+          "level": 0,
+          "jobs": "not"
         }
       ]
     },
