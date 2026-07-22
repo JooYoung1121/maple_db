@@ -18,6 +18,22 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.48.0",
+    date: "2026-07-22",
+    type: "minor",
+    title: "메랜 이상형 월드컵",
+    features: [
+      {
+        category: "놀이터",
+        items: [
+          "새 페이지 /worldcup — 몬스터 · 아이템(코디) 이상형 월드컵, 16강/32강 선택",
+          "레퍼런스 DB에서 랜덤 진출 (보스 부위몹·훈련용 더미 제외), 몬스터는 인게임 렌더 이미지",
+          "우승 결과 전체 집계 — 명예의 전당(우승 횟수·비율), 결과 공유 복사",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.47.0",
     date: "2026-07-22",
     type: "minor",

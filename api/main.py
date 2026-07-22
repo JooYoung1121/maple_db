@@ -16,6 +16,7 @@ from fastapi.middleware.gzip import GZipMiddleware
 from crawler.db import init_db, get_connection
 from api.routes import search, items, mobs, maps, npcs, quests, export, skills, admin, bimae, scroll_rankings, community
 from api.routes import maple_land
+from api.routes import worldcup
 from api.routes import matip
 from api.routes import game_results
 from api.routes import guild
@@ -335,6 +336,7 @@ app.include_router(scroll_rankings.router, prefix="/api")
 app.include_router(community.router, prefix="/api")
 app.include_router(maple_land.router, prefix="/api")
 app.include_router(game_results.router, prefix="/api")
+app.include_router(worldcup.router, prefix="/api")
 app.include_router(guild.router, prefix="/api")
 app.include_router(guild_members.router, prefix="/api")
 app.include_router(guild_boss.router, prefix="/api")
