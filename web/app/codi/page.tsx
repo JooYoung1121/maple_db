@@ -323,9 +323,40 @@ function CodiContent() {
         </div>
       )}
 
-      <p className="text-[11px] text-dim mt-6">
-        ※ 렌더는 원작(GMS v92) 데이터 기준 — 메랜 전용 신규 파트는 누락될 수 있습니다.
-        헤어·성형은 미리보기용 전체 목록이며, 실제 시술 가능한 마을 미용실 안내는 준비 중입니다.
+      {/* 미용실 안내 */}
+      <section className="pixel-panel p-5 mt-8">
+        <h2 className="font-pixel text-lg font-semibold mb-3">💇 미용실 · 성형 안내</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-sm">
+          <div>
+            <h3 className="font-pixel text-xs text-maple mb-2">미용실이 있는 마을</h3>
+            <ul className="space-y-1 text-dim text-xs">
+              <li>헤네시스 — 나탈리 · 브리트니 <span className="text-ink">(염색: 검정·빨강·보라·주황·초록)</span></li>
+              <li>커닝시티 — 돈 지오바네 · 안드레아 <span className="text-ink">(염색: 검정·주황·노랑·파랑)</span> · 헤어만 가능</li>
+              <li>오르비스 — 미노 · 린스 <span className="text-ink">(염색: 검정·빨강·노랑·초록·파랑)</span></li>
+              <li>루디브리엄 — 미유 · 미니 <span className="text-ink">(염색: 검정·주황·노랑·파랑·초록)</span></li>
+              <li>무릉 — 루오 할아범 · 리리슈슈</li>
+              <li>야시장 · 아리안트 — 헤어샵 있음</li>
+            </ul>
+            <p className="text-[11px] text-dim mt-2">엘리니아·페리온·엘나스·리스항구에는 미용실이 없습니다.</p>
+          </div>
+          <div>
+            <h3 className="font-pixel text-xs text-maple mb-2">쿠폰 시스템</h3>
+            <ul className="space-y-1 text-dim text-xs">
+              <li>캐시샵 &gt; 기타 &gt; <span className="text-ink">뷰티샵</span>에서 마을별 쿠폰 구매</li>
+              <li><span className="text-ink">일반 쿠폰 = 무작위</span> · <span className="text-ink">고급 쿠폰 = 원하는 스타일 선택</span></li>
+              <li>헤어 3,500 MP · 염색 2,000 MP · 성형 2,500 MP</li>
+              <li>성형·피부: 헤네시스 · 오르비스 · 루디브리엄 · 야시장 · 무릉 <span className="text-ink">(종류는 전 마을 동일)</span></li>
+            </ul>
+            <p className="text-[11px] text-dim mt-2">
+              ※ 마을별 제공 헤어스타일 목록은 커뮤니티 자료가 이미지 형태뿐이라 수집 중 — 확보되면 헤어 선택 시 마을 배지로 표시할 예정입니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <p className="text-[11px] text-dim mt-4">
+        ※ 렌더는 원작(GMS v92) 데이터 기준 — 메랜 전용 신규 파트(2026 아이돌·로얄 헤어 등)는 누락될 수 있습니다.
+        미용실 정보 출처: mapledb.kr 맵/NPC 데이터 · 커뮤니티 정리글 (2.0 뷰티샵 개편 기준).
       </p>
     </div>
   );

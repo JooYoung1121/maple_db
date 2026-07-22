@@ -18,6 +18,21 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.49.1",
+    date: "2026-07-22",
+    type: "patch",
+    title: "코디 시뮬 — 미용실 안내 추가",
+    features: [
+      {
+        category: "코디 시뮬레이터",
+        items: [
+          "미용실·성형 안내 섹션 — 마을별 미용실 위치·NPC(헤네시스 나탈리 등 7곳), 마을별 염색 색상, 뷰티샵 쿠폰 시스템(일반=랜덤/고급=선택, 가격)",
+          "성형·피부 가능 마을 안내 (커닝시티는 헤어만, 종류는 전 마을 동일)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.49.0",
     date: "2026-07-22",
     type: "minor",
