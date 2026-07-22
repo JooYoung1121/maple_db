@@ -51,7 +51,8 @@ const PRESET_STORAGE = "codi_presets_v1";
 
 /* 캐릭터 렌더 URL — maplestory.io GMS v92 */
 function renderUrl(outfit: Outfit, pose = "stand1", zoom = 3): string {
-  const ids: number[] = [outfit.skin];
+  // 몸(2000번대)과 머리(12000번대)는 별도 파트 — 둘 다 넣어야 머리·헤어·모자가 렌더된다
+  const ids: number[] = [outfit.skin, outfit.skin + 10000];
   for (const { key } of SLOTS) {
     const p = outfit[key];
     if (p) ids.push(p.id);

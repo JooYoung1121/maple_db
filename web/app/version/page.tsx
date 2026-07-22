@@ -18,6 +18,20 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.50.1",
+    date: "2026-07-22",
+    type: "patch",
+    title: "코디 시뮬 머리 렌더 수정",
+    features: [
+      {
+        category: "코디 시뮬레이터",
+        items: [
+          "캐릭터 미리보기에 머리가 나오지 않던 버그 수정 — 몸(2000번대)과 머리(12000번대)를 별도 파트로 함께 렌더하도록 수정 (헤어·모자·성형이 이제 정상 표시)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.50.0",
     date: "2026-07-22",
     type: "minor",
