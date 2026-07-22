@@ -128,6 +128,34 @@ export async function getMobFilters() {
   return fetchJSON<{ level_ranges: { min: number; max: number; count: number }[]; boss_count: number }>(`/api/mobs/filters`);
 }
 
+export interface RoadmapQuest {
+  quest_id: number;
+  name: string;
+  repeatable: number;
+  min_level: number;
+  max_level: number | null;
+  req_meso: number;
+  jobs: string | null;
+  start_npc: string | null;
+  end_npc: string | null;
+  exp: number;
+  meso: number;
+  fame: number;
+  prereq: [number | null, string][];
+  next: [number | null, string][];
+  requirements: { type: string | null; id: number | null; name: string; raw: string }[];
+  rewards: { type: string | null; id: number | null; name: string; raw: string }[];
+  cur_tip: string | null;
+  cur_category: string | null;
+  cur_area: string | null;
+  cur_difficulty: string | null;
+  has_skillbook: boolean;
+}
+
+export async function getQuestRoadmap() {
+  return fetchJSON<{ quests: RoadmapQuest[] }>(`/api/quests/roadmap/all`);
+}
+
 export async function getMapFilters() {
   return fetchJSON<{ areas: string[]; street_names: string[]; town_count: number }>(`/api/maps/filters`);
 }

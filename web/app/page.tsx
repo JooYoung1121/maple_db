@@ -36,6 +36,7 @@ const SECTION_GROUPS = [
       { href: "/maps", label: "맵", icon: "🗺️", desc: "사냥터, 마을, 던전" },
       { href: "/npcs", label: "NPC", icon: "🧑", desc: "상점, 퀘스트 NPC" },
       { href: "/quests", label: "퀘스트", icon: "📜", desc: "메인, 서브 퀘스트" },
+      { href: "/quest-roadmap", label: "퀘스트 로드맵", icon: "🧭", desc: "레벨별 퀘스트 진행 가이드" },
       { href: "/skills", label: "스킬", icon: "✨", desc: "직업별 스킬 정보" },
       { href: "/drop-search", label: "드롭 검색", icon: "🔍", desc: "아이템 드롭처 역검색" },
     ],

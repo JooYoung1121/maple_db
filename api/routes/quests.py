@@ -211,3 +211,52 @@ def get_quest_chain(quest_id: int):
         conn.close()
 
     return {"chain": chain, "quest_id": quest_id}
+
+
+@router.get("/quests/roadmap/all")
+def quest_roadmap():
+    """퀘스트 로드맵 — mapledb_quests 전체 + 수기 큐레이션(팁/카테고리) 이름 조인.
+
+    프론트가 한 번에 받아 클라이언트에서 필터한다 (778건, 수백 KB 미만).
+    """
+    try:
+        conn = get_connection()
+    except Exception:
+        return {"quests": []}
+    try:
+        try:
+            rows = conn.execute(
+                """
+                SELECT m.quest_id, m.name, m.repeatable, m.min_level, m.max_level,
+                       m.req_meso, m.jobs, m.start_npc, m.end_npc,
+                       m.exp, m.meso, m.fame,
+                       m.prereq_json, m.next_json, m.requirements_json, m.rewards_json,
+                       q.tip AS cur_tip, q.category AS cur_category, q.area AS cur_area,
+                       q.difficulty AS cur_difficulty
+                FROM mapledb_quests m
+                LEFT JOIN quests q ON q.name = m.name
+                ORDER BY m.min_level, m.quest_id
+                """
+            ).fetchall()
+        except Exception:
+            return {"quests": []}  # 테이블 미존재(시드 전) 허용
+
+        out = []
+        for r in rows:
+            d = dict(r)
+            for k in ("prereq_json", "next_json", "requirements_json", "rewards_json"):
+                try:
+                    d[k[:-5]] = json.loads(d.pop(k) or "[]")
+                except Exception:
+                    d[k[:-5]] = []
+            # 스킬북/마스터리북 보상 플래그
+            d["has_skillbook"] = any(
+                "마스터리북" in (x.get("name") or "") or "스킬의 책" in (x.get("name") or "")
+                or (isinstance(x.get("id"), int) and 2290000 <= x["id"] < 2300000)
+                for x in d["rewards"]
+            )
+            out.append(d)
+    finally:
+        conn.close()
+
+    return {"quests": out}

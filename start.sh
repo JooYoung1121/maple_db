@@ -22,7 +22,7 @@ VOLUME = '$VOLUME_DB'
 SEED = '$APP_DB'
 
 # 시드에서 교체할 레퍼런스 테이블 화이트리스트 (유저 데이터 아님)
-SEED_TABLES = ['quests', 'mob_drops', 'mob_spawns', 'sim_jobs', 'sim_skills', 'items', 'map_details']
+SEED_TABLES = ['quests', 'mob_drops', 'mob_spawns', 'sim_jobs', 'sim_skills', 'items', 'map_details', 'mapledb_quests']
 
 try:
     vol = sqlite3.connect(VOLUME)

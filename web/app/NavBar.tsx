@@ -21,6 +21,7 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/maps", label: "맵" },
       { href: "/npcs", label: "NPC" },
       { href: "/quests", label: "퀘스트" },
+      { href: "/quest-roadmap", label: "퀘스트 로드맵" },
       { href: "/skills", label: "스킬" },
       { href: "/drop-search", label: "드롭 검색" },
     ],
