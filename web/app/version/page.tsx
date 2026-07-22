@@ -18,6 +18,23 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.50.0",
+    date: "2026-07-22",
+    type: "minor",
+    title: "길드 코디 자랑 갤러리",
+    features: [
+      {
+        category: "코디 시뮬레이터",
+        items: [
+          "👑 자랑하기 — 만든 코디에 이름을 붙여 길드 갤러리에 등록",
+          "갤러리: 캐릭터 렌더 그리드, 최신순/좋아요순, 포즈 일괄 변경으로 서로 비교",
+          "좋아요(중복 방지) · '따라 입기'로 남의 코디를 내 시뮬레이터로 복사",
+          "관리자 삭제 API (X-Admin-Password)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.49.1",
     date: "2026-07-22",
     type: "patch",

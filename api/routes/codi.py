@@ -92,3 +92,136 @@ def codi_parts(
     finally:
         conn.close()
     return {"parts": parts, "total": total, "page": page, "per_page": per_page}
+
+
+# ── 코디 자랑 갤러리 ──
+import json as _json
+import os as _os
+
+from fastapi import Request
+from pydantic import BaseModel
+
+_ADMIN_PW = _os.environ.get("GAME_ADMIN_PASSWORD", "1004")
+_MAX_OUTFIT_ITEMS = 14
+
+
+class CodiPostCreate(BaseModel):
+    nickname: str
+    title: str
+    outfit: dict  # { skin: number, <slot>: {id, name} }
+
+
+@router.get("/codi/posts")
+def list_codi_posts(
+    sort: str = Query(default="latest", pattern="^(latest|likes)$"),
+    page: int = Query(default=1, ge=1),
+    per_page: int = Query(default=24, ge=1, le=60),
+):
+    try:
+        conn = get_connection()
+    except Exception:
+        return {"posts": [], "total": 0}
+    try:
+        order = "likes DESC, id DESC" if sort == "likes" else "id DESC"
+        total = conn.execute("SELECT COUNT(*) FROM codi_posts").fetchone()[0]
+        rows = conn.execute(
+            f"SELECT id, nickname, title, outfit_json, likes, created_at FROM codi_posts"
+            f" ORDER BY {order} LIMIT ? OFFSET ?",
+            (per_page, (page - 1) * per_page),
+        ).fetchall()
+        posts = []
+        for r in rows:
+            d = dict(r)
+            try:
+                d["outfit"] = _json.loads(d.pop("outfit_json"))
+            except Exception:
+                continue
+            posts.append(d)
+    except Exception:
+        return {"posts": [], "total": 0}  # 테이블 미생성(구버전 볼륨) 허용
+    finally:
+        conn.close()
+    return {"posts": posts, "total": total, "page": page, "per_page": per_page}
+
+
+@router.post("/codi/posts")
+def create_codi_post(body: CodiPostCreate):
+    nickname = body.nickname.strip()[:12]
+    title = body.title.strip()[:40]
+    if not nickname:
+        raise HTTPException(status_code=400, detail="닉네임을 입력하세요.")
+    if not title:
+        raise HTTPException(status_code=400, detail="코디 이름을 입력하세요.")
+    outfit = body.outfit or {}
+    skin = outfit.get("skin")
+    if not isinstance(skin, int) or not (2000 <= skin <= 2015):
+        raise HTTPException(status_code=400, detail="잘못된 코디 데이터입니다.")
+    # 슬롯 정제: 알려진 키만, {id:int, name:str}만 보존
+    clean: dict = {"skin": skin}
+    slot_keys = ("hair", "face", "hat", "overall", "top", "bottom", "shoes", "glove", "cape", "shield", "weapon")
+    worn = 0
+    for k in slot_keys:
+        v = outfit.get(k)
+        if isinstance(v, dict) and isinstance(v.get("id"), int) and v["id"] > 0:
+            clean[k] = {"id": v["id"], "name": str(v.get("name") or "")[:60]}
+            worn += 1
+    if worn == 0:
+        raise HTTPException(status_code=400, detail="한 가지 이상 착용한 코디만 등록할 수 있습니다.")
+    if worn > _MAX_OUTFIT_ITEMS:
+        raise HTTPException(status_code=400, detail="코디 데이터가 너무 큽니다.")
+
+    try:
+        conn = get_connection()
+    except Exception:
+        raise HTTPException(status_code=503, detail="Database unavailable")
+    try:
+        cur = conn.execute(
+            "INSERT INTO codi_posts (nickname, title, outfit_json) VALUES (?, ?, ?)",
+            (nickname, title, _json.dumps(clean, ensure_ascii=False)),
+        )
+        conn.commit()
+        return {"id": cur.lastrowid}
+    finally:
+        conn.close()
+
+
+@router.post("/codi/posts/{post_id}/like")
+def like_codi_post(post_id: int, request: Request):
+    voter_ip = request.client.host if request.client else "unknown"
+    try:
+        conn = get_connection()
+    except Exception:
+        raise HTTPException(status_code=503, detail="Database unavailable")
+    try:
+        if not conn.execute("SELECT id FROM codi_posts WHERE id = ?", (post_id,)).fetchone():
+            raise HTTPException(status_code=404, detail="코디를 찾을 수 없습니다.")
+        if conn.execute(
+            "SELECT id FROM codi_post_votes WHERE post_id = ? AND voter_ip = ?", (post_id, voter_ip)
+        ).fetchone():
+            raise HTTPException(status_code=409, detail="이미 좋아요를 눌렀습니다.")
+        conn.execute("INSERT INTO codi_post_votes (post_id, voter_ip) VALUES (?, ?)", (post_id, voter_ip))
+        conn.execute("UPDATE codi_posts SET likes = likes + 1 WHERE id = ?", (post_id,))
+        conn.commit()
+        n = conn.execute("SELECT likes FROM codi_posts WHERE id = ?", (post_id,)).fetchone()[0]
+        return {"id": post_id, "likes": n}
+    finally:
+        conn.close()
+
+
+@router.delete("/codi/posts/{post_id}")
+def delete_codi_post(post_id: int, request: Request):
+    if request.headers.get("X-Admin-Password") != _ADMIN_PW:
+        raise HTTPException(status_code=403, detail="관리자 인증 실패")
+    try:
+        conn = get_connection()
+    except Exception:
+        raise HTTPException(status_code=503, detail="Database unavailable")
+    try:
+        conn.execute("DELETE FROM codi_post_votes WHERE post_id = ?", (post_id,))
+        cur = conn.execute("DELETE FROM codi_posts WHERE id = ?", (post_id,))
+        conn.commit()
+        if cur.rowcount == 0:
+            raise HTTPException(status_code=404, detail="코디를 찾을 수 없습니다.")
+        return {"deleted": post_id}
+    finally:
+        conn.close()

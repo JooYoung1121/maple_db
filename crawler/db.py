@@ -433,6 +433,24 @@ CREATE TABLE IF NOT EXISTS fortune_rate_limit (
     last_request_at REAL NOT NULL,
     PRIMARY KEY (ip, request_date)
 );
+
+-- 코디 자랑 갤러리 (유저 데이터 — 시드 금지)
+CREATE TABLE IF NOT EXISTS codi_posts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nickname TEXT NOT NULL,
+    title TEXT NOT NULL,
+    outfit_json TEXT NOT NULL,
+    likes INTEGER DEFAULT 0,
+    created_at TEXT DEFAULT (datetime('now'))
+);
+
+CREATE TABLE IF NOT EXISTS codi_post_votes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    post_id INTEGER NOT NULL,
+    voter_ip TEXT NOT NULL,
+    UNIQUE(post_id, voter_ip),
+    FOREIGN KEY (post_id) REFERENCES codi_posts(id)
+);
 """
 
 FTS_SCHEMA = """

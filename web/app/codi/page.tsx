@@ -7,6 +7,14 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
 /* ── 타입 ── */
 interface Part { id: number; name: string; icon: string; level: number }
+interface GalleryPost {
+  id: number;
+  nickname: string;
+  title: string;
+  likes: number;
+  created_at: string;
+  outfit: { skin: number } & Partial<Record<SlotKey, { id: number; name: string }>>;
+}
 type SlotKey = "hair" | "face" | "hat" | "overall" | "top" | "bottom" | "shoes" | "glove" | "cape" | "shield" | "weapon";
 type Outfit = { skin: number } & Partial<Record<SlotKey, Part>>;
 
@@ -74,8 +82,17 @@ function CodiContent() {
   const [query, setQuery] = useState("");
   const [loadingParts, setLoadingParts] = useState(false);
   const [presets, setPresets] = useState<(Outfit | null)[]>(Array(PRESET_COUNT).fill(null));
-  const [compareMode, setCompareMode] = useState(false);
+  const [view, setView] = useState<"sim" | "compare" | "gallery">("sim");
   const [copied, setCopied] = useState(false);
+  /* 갤러리 */
+  const [posts, setPosts] = useState<GalleryPost[]>([]);
+  const [gallerySort, setGallerySort] = useState<"latest" | "likes">("latest");
+  const [galleryLoading, setGalleryLoading] = useState(false);
+  const [showBragForm, setShowBragForm] = useState(false);
+  const [bragNickname, setBragNickname] = useState("");
+  const [bragTitle, setBragTitle] = useState("");
+  const [bragBusy, setBragBusy] = useState(false);
+  const [likedIds, setLikedIds] = useState<Set<number>>(new Set());
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const perPage = 60;
 
@@ -161,6 +178,77 @@ function CodiContent() {
     });
   }, [outfit]);
 
+  /* ── 갤러리 ── */
+  const loadGallery = useCallback((sort: "latest" | "likes") => {
+    setGalleryLoading(true);
+    fetch(`${API_BASE}/api/codi/posts?sort=${sort}&per_page=48`)
+      .then((r) => r.json())
+      .then((d) => setPosts(d.posts || []))
+      .catch(() => setPosts([]))
+      .finally(() => setGalleryLoading(false));
+  }, []);
+
+  useEffect(() => {
+    if (view === "gallery") loadGallery(gallerySort);
+  }, [view, gallerySort, loadGallery]);
+
+  useEffect(() => {
+    try {
+      const n = localStorage.getItem("boss_timer_nickname") || localStorage.getItem("codi_nickname") || "";
+      if (n) setBragNickname(n);
+    } catch { /* ignore */ }
+  }, []);
+
+  const submitBrag = useCallback(() => {
+    if (bragBusy) return;
+    const worn = SLOTS.some(({ key }) => outfit[key]);
+    if (!worn) { alert("한 가지 이상 착용한 코디만 등록할 수 있어요."); return; }
+    if (!bragNickname.trim() || !bragTitle.trim()) { alert("닉네임과 코디 이름을 입력하세요."); return; }
+    setBragBusy(true);
+    fetch(`${API_BASE}/api/codi/posts`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nickname: bragNickname.trim(), title: bragTitle.trim(), outfit }),
+    })
+      .then(async (r) => {
+        if (!r.ok) throw new Error((await r.json()).detail || "등록 실패");
+        try { localStorage.setItem("codi_nickname", bragNickname.trim()); } catch { /* ignore */ }
+        setShowBragForm(false);
+        setBragTitle("");
+        setGallerySort("latest");
+        setView("gallery");
+      })
+      .catch((e) => alert(String(e.message || e)))
+      .finally(() => setBragBusy(false));
+  }, [outfit, bragNickname, bragTitle, bragBusy]);
+
+  const likePost = useCallback((id: number) => {
+    if (likedIds.has(id)) return;
+    fetch(`${API_BASE}/api/codi/posts/${id}/like`, { method: "POST" })
+      .then(async (r) => {
+        if (!r.ok) throw new Error((await r.json()).detail || "실패");
+        return r.json();
+      })
+      .then((d) => {
+        setLikedIds((prev) => new Set(prev).add(id));
+        setPosts((prev) => prev.map((p) => (p.id === id ? { ...p, likes: d.likes } : p)));
+      })
+      .catch((e) => {
+        setLikedIds((prev) => new Set(prev).add(id)); // 409(이미 누름)도 눌림 처리
+        void e;
+      });
+  }, [likedIds]);
+
+  const wearPost = useCallback((p: GalleryPost) => {
+    const o: Outfit = { skin: p.outfit.skin };
+    for (const { key } of SLOTS) {
+      const it = p.outfit[key];
+      if (it) o[key] = { id: it.id, name: it.name || `#${it.id}`, icon: `https://maplestory.io/api/gms/92/item/${it.id}/icon`, level: 0 };
+    }
+    setOutfit(o);
+    setView("sim");
+  }, []);
+
   const previewUrl = useMemo(() => renderUrl(outfit, pose), [outfit, pose]);
   const savedPresets = presets.map((p, i) => ({ p, i })).filter((x) => x.p !== null);
 
@@ -168,21 +256,96 @@ function CodiContent() {
     <div className="max-w-6xl mx-auto">
       <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
         <h1 className="font-pixel text-2xl font-bold">🎨 코디 시뮬레이터</h1>
-        <button
-          onClick={() => setCompareMode(!compareMode)}
-          disabled={!compareMode && savedPresets.length < 2}
-          className={`px-3 py-1.5 text-xs font-pixel border-2 transition-colors disabled:opacity-40 ${
-            compareMode ? "border-maple text-maple" : "border-edge text-dim hover:text-maple hover:border-maple"
-          }`}
-        >
-          {compareMode ? "시뮬레이터로" : `프리셋 비교 (${savedPresets.length})`}
-        </button>
+        <div className="flex gap-1.5">
+          {view !== "sim" && (
+            <button onClick={() => setView("sim")} className="px-3 py-1.5 text-xs font-pixel border-2 border-edge text-dim hover:text-maple hover:border-maple transition-colors">
+              시뮬레이터
+            </button>
+          )}
+          <button
+            onClick={() => setView(view === "compare" ? "sim" : "compare")}
+            disabled={view !== "compare" && savedPresets.length < 2}
+            className={`px-3 py-1.5 text-xs font-pixel border-2 transition-colors disabled:opacity-40 ${
+              view === "compare" ? "border-maple text-maple" : "border-edge text-dim hover:text-maple hover:border-maple"
+            }`}
+          >
+            프리셋 비교 ({savedPresets.length})
+          </button>
+          <button
+            onClick={() => setView(view === "gallery" ? "sim" : "gallery")}
+            className={`px-3 py-1.5 text-xs font-pixel border-2 transition-colors ${
+              view === "gallery" ? "border-maple text-maple" : "border-edge text-dim hover:text-maple hover:border-maple"
+            }`}
+          >
+            👑 길드 코디 자랑
+          </button>
+        </div>
       </div>
       <p className="text-sm text-dim mb-4">
         헤어 1,668종 · 성형 576종 · 메랜 장비 전체를 입혀보고, 프리셋에 저장해 나란히 비교하세요.
       </p>
 
-      {compareMode ? (
+      {view === "gallery" ? (
+        /* ── 길드 코디 자랑 갤러리 ── */
+        <div>
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex gap-1.5">
+              {(["latest", "likes"] as const).map((s) => (
+                <button key={s} onClick={() => setGallerySort(s)}
+                  className={`px-2.5 py-1 text-xs font-pixel border-2 transition-colors ${gallerySort === s ? "border-maple text-maple" : "border-edge text-dim hover:text-maple"}`}>
+                  {s === "latest" ? "최신순" : "좋아요순"}
+                </button>
+              ))}
+            </div>
+            <div className="flex gap-1.5">
+              {POSES.map((po) => (
+                <button key={po.key} onClick={() => setPose(po.key)}
+                  className={`px-2 py-1 text-[11px] font-pixel border-2 transition-colors ${pose === po.key ? "border-maple text-maple" : "border-edge text-dim hover:text-maple"}`}>
+                  {po.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          {galleryLoading ? (
+            <div className="text-center py-12 text-dim text-sm">로딩 중...</div>
+          ) : posts.length === 0 ? (
+            <div className="pixel-panel p-10 text-center">
+              <p className="text-sm text-dim mb-3">아직 등록된 코디가 없어요 — 첫 번째 자랑의 주인공이 되어보세요!</p>
+              <button onClick={() => setView("sim")} className="pixel-btn px-4 py-2 text-sm">코디 만들러 가기</button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {posts.map((p) => (
+                <div key={p.id} className="pixel-panel p-3 text-center flex flex-col">
+                  <div className="h-36 flex items-center justify-center bg-[#0d0f14] mb-2">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={renderUrl({ skin: p.outfit.skin, ...Object.fromEntries(SLOTS.map(({ key }) => [key, p.outfit[key] ? { id: p.outfit[key]!.id, name: "", icon: "", level: 0 } : undefined]).filter(([, v]) => v)) } as Outfit, pose)}
+                      alt={p.title}
+                      className="max-h-32 object-contain"
+                      style={{ imageRendering: "pixelated" }}
+                      loading="lazy"
+                    />
+                  </div>
+                  <p className="text-sm font-semibold truncate">{p.title}</p>
+                  <p className="text-[11px] text-dim mb-2">by {p.nickname}</p>
+                  <div className="mt-auto flex items-center justify-center gap-2">
+                    <button
+                      onClick={() => likePost(p.id)}
+                      className={`px-2.5 py-1 text-xs border-2 transition-colors ${likedIds.has(p.id) ? "border-maple text-maple" : "border-edge text-dim hover:text-maple hover:border-maple"}`}
+                    >
+                      ❤️ {p.likes}
+                    </button>
+                    <button onClick={() => wearPost(p)} className="px-2.5 py-1 text-xs border-2 border-edge text-dim hover:text-maple hover:border-maple transition-colors">
+                      따라 입기
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      ) : view === "compare" ? (
         /* ── 프리셋 비교 뷰 ── */
         <div>
           <div className={`grid gap-3 ${savedPresets.length <= 2 ? "grid-cols-2" : "grid-cols-2 lg:grid-cols-4"}`}>
@@ -204,7 +367,7 @@ function CodiContent() {
                   })}
                 </div>
                 <div className="flex justify-center gap-2 mt-2">
-                  <button onClick={() => { setOutfit(p!); setCompareMode(false); }} className="text-[11px] text-dim hover:text-maple">불러오기</button>
+                  <button onClick={() => { setOutfit(p!); setView("sim"); }} className="text-[11px] text-dim hover:text-maple">불러오기</button>
                   <button onClick={() => clearPreset(i)} className="text-[11px] text-dim hover:text-red-500">삭제</button>
                 </div>
               </div>
@@ -267,6 +430,9 @@ function CodiContent() {
 
               <div className="flex flex-wrap justify-center gap-1.5">
                 <button onClick={share} className="pixel-btn px-3 py-1.5 text-xs">{copied ? "복사됨!" : "코디 링크 공유"}</button>
+                <button onClick={() => setShowBragForm(!showBragForm)} className="px-3 py-1.5 text-xs font-pixel border-2 border-maple text-maple hover:brightness-110 transition-colors">
+                  👑 자랑하기
+                </button>
                 {Array.from({ length: PRESET_COUNT }, (_, i) => (
                   <button key={i} onClick={() => savePreset(i)}
                     title={presets[i] ? "덮어쓰기" : "저장"}
@@ -276,6 +442,31 @@ function CodiContent() {
                 ))}
               </div>
               <p className="text-[10px] text-dim mt-1.5">숫자 = 프리셋 슬롯 저장 · 2개 이상 저장하면 비교 가능</p>
+
+              {/* 자랑 등록 폼 */}
+              {showBragForm && (
+                <div className="mt-3 pt-3 border-t border-edge/60 space-y-1.5 text-left">
+                  <input
+                    type="text" value={bragNickname}
+                    onChange={(e) => setBragNickname(e.target.value.slice(0, 12))}
+                    placeholder="닉네임"
+                    className="w-full pixel-input px-2 py-1.5 text-xs"
+                  />
+                  <input
+                    type="text" value={bragTitle}
+                    onChange={(e) => setBragTitle(e.target.value.slice(0, 40))}
+                    onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && submitBrag()}
+                    placeholder="코디 이름 (예: 리스항구 갬성룩)"
+                    className="w-full pixel-input px-2 py-1.5 text-xs"
+                  />
+                  <div className="flex gap-1.5">
+                    <button onClick={submitBrag} disabled={bragBusy} className="pixel-btn flex-1 px-3 py-1.5 text-xs disabled:opacity-50">
+                      {bragBusy ? "등록 중..." : "갤러리에 등록"}
+                    </button>
+                    <button onClick={() => setShowBragForm(false)} className="px-3 py-1.5 text-xs text-dim hover:text-maple">취소</button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
