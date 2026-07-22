@@ -31,7 +31,6 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/scroll", label: "주문서 계산기" },
       { href: "/exp", label: "경험치 계산기" },
       { href: "/nhit", label: "엔방컷 계산기" },
-      { href: "/fee", label: "수수료 계산기" },
       { href: "/skill-sim", label: "스킬 시뮬레이터" },
       { href: "/gear-sim", label: "장비 세팅" },
     ],
@@ -48,7 +47,6 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/pq", label: "파티퀘스트" },
       { href: "/hunt", label: "사냥터 추천" },
       { href: "/leveling", label: "직업별 사냥터" },
-      { href: "/tespia-bosses", label: "2.0 보스" },
       { href: "/events", label: "이벤트 정리" },
       { href: "/job", label: "전직 가이드" },
       { href: "/ship", label: "배 시간표" },
@@ -59,7 +57,7 @@ const NAV_CATEGORIES: NavCategory[] = [
   {
     label: "커뮤니티",
     items: [
-      { href: "/news", label: "공홈 · 테스피아 소식" },
+      { href: "/news", label: "공홈 소식" },
       { href: "/weekly", label: "주간 메랜" },
       { href: "/channels", label: "스트리머 · 유튜버" },
       { href: "/bimae", label: "비매박제" },
@@ -77,6 +75,13 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/mapletle", label: "추억틀" },
       { href: "/chosung", label: "초성퀴즈 검색기" },
       { href: "/museum", label: "이세계 도감" },
+    ],
+  },
+  {
+    label: "유물창고",
+    items: [
+      { href: "/fee", label: "수수료 계산기" },
+      { href: "/tespia-bosses", label: "테스피아 2.0 보스" },
     ],
   },
   {

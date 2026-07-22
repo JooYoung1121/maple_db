@@ -46,7 +46,6 @@ const SECTION_GROUPS = [
       { href: "/scroll", label: "주문서", icon: "📖", desc: "강화 시뮬레이터" },
       { href: "/exp", label: "경험치", icon: "📈", desc: "레벨업 계산" },
       { href: "/nhit", label: "엔방컷", icon: "⚔️", desc: "젠컷 계산" },
-      { href: "/fee", label: "수수료", icon: "💰", desc: "거래 수수료" },
       { href: "/skill-sim", label: "스킬 시뮬레이터", icon: "✨", desc: "직업별 스킬 빌드 설계" },
       { href: "/gear-sim", label: "장비 세팅", icon: "🧰", desc: "장비 조합 스탯 · 데미지 시뮬" },
     ],
@@ -57,7 +56,6 @@ const SECTION_GROUPS = [
       { href: "/pq", label: "파티퀘스트", icon: "🏰", desc: "PQ 공략 및 보상" },
       { href: "/hunt", label: "사냥터 추천", icon: "🎯", desc: "레벨별 사냥터 가이드" },
       { href: "/leveling", label: "직업별 사냥터", icon: "🗺️", desc: "직업·레벨 구간별 육성 루트" },
-      { href: "/tespia-bosses", label: "2.0 보스", icon: "⚔️", desc: "카오스 자쿰 · 핑크빈 · 무릉도장" },
       { href: "/events", label: "이벤트 정리", icon: "🗂️", desc: "진행 중 이벤트 요약 · 아카이브" },
       { href: "/job", label: "전직 가이드", icon: "📋", desc: "직업별 전직 경로" },
       { href: "/ship", label: "배 시간표", icon: "🚢", desc: "정기선 운항 시간" },
@@ -85,6 +83,13 @@ const SECTION_GROUPS = [
       { href: "/mapletle", label: "추억틀", icon: "🌡️", desc: "단어 유사도로 메랜 단어 추리" },
       { href: "/chosung", label: "초성퀴즈 검색기", icon: "🔤", desc: "초성으로 메랜 이름 찾기" },
       { href: "/museum", label: "이세계 도감", icon: "🗃️", desc: "메랜에 없는 몹·아이템 구경" },
+    ],
+  },
+  {
+    label: "유물창고",
+    items: [
+      { href: "/fee", label: "수수료 계산기", icon: "🏺", desc: "1.0 구간제 수수료작의 추억" },
+      { href: "/tespia-bosses", label: "테스피아 2.0 보스", icon: "🏺", desc: "2.0 오픈 전 미리보기 아카이브" },
     ],
   },
   {

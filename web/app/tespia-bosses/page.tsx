@@ -1,3 +1,5 @@
+import RelicBanner from "@/components/RelicBanner";
+
 const sourceLinks = [
   {
     label: "테스피아 Ver. Test 2.2.62 공지",
@@ -175,6 +177,15 @@ function Badge({ children }: { children: string }) {
 export default function TespiaBossesPage() {
   return (
     <div className="mx-auto max-w-6xl space-y-8">
+      <RelicBanner
+        reason="테스피아(테스트 서버) 시절 2.0 엔드 보스를 미리 정리했던 페이지로, 2.0 정식 출시와 테스피아 종료로 임무를 다했습니다."
+        alternative={
+          <>
+            최신 보스 정보는 <a href="/bosses" className="text-maple hover:underline">보스</a> ·{" "}
+            <a href="/maps" className="text-maple hover:underline">맵 검색</a>에서 확인하세요.
+          </>
+        }
+      />
       <section className="space-y-3">
         <div className="flex flex-wrap items-center gap-2">
           <Badge>테스피아 2.0</Badge>

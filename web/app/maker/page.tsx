@@ -33,7 +33,7 @@ export default function MakerPage() {
       <div>
         <h1 className="font-pixel text-xl font-bold text-ink">메이커 (전문기술)</h1>
         <p className="text-sm text-dim mt-1">
-          메이플랜드 2.0(테스피아)에 추가되는 메이커 제작 정보·시뮬레이터·재료 획득 가이드입니다.
+          메이플랜드 2.0의 메이커 제작 정보·시뮬레이터·재료 획득 가이드입니다.
         </p>
       </div>
 
@@ -79,7 +79,7 @@ function InfoTab({ data }: { data: MakerData }) {
   return (
     <div className="space-y-6">
       {data.meta.tespia_functions && data.meta.tespia_functions.length > 0 && (
-        <Section title="테스피아 메이커 기능">
+        <Section title="메이커 기능">
           <div className="flex flex-wrap gap-1.5">
             {data.meta.tespia_functions.map((f) => (
               <span key={f} className="px-2.5 py-1 text-xs rounded-full bg-sky-50 dark:bg-sky-950/30 border border-sky-200 dark:border-sky-900 text-sky-700 dark:text-sky-300">{f}</span>
@@ -360,7 +360,7 @@ function GemSim({ data }: { data: MakerData }) {
           상위 등급 제련: 동일 하급 10개 + {won(data.gem_refine[0]?.fee ?? 330000)} 메소 → 중급, 동일 중급 10개 + {won(data.gem_refine[1]?.fee ?? 550000)} 메소 → 상급 (성공률 미공개)
         </div>
         <p className="text-[11px] text-dim">
-          ※ 수수료({won(fee)} 등)는 테스피아 기준 확인값이지만, 등급 확률(하급 {((grades["하급"] ?? 0) * 100).toFixed(0)}% / 중급 {((grades["중급"] ?? 0) * 100).toFixed(0)}% / 상급 {((grades["상급"] ?? 0) * 100).toFixed(0)}%)은 <b>공식 미공개 커뮤니티 추정치</b>라 실제와 다를 수 있습니다.
+          ※ 수수료({won(fee)} 등)는 2.0 기준 확인값이지만, 등급 확률(하급 {((grades["하급"] ?? 0) * 100).toFixed(0)}% / 중급 {((grades["중급"] ?? 0) * 100).toFixed(0)}% / 상급 {((grades["상급"] ?? 0) * 100).toFixed(0)}%)은 <b>공식 미공개 커뮤니티 추정치</b>라 실제와 다를 수 있습니다.
         </p>
       </div>
     </div>

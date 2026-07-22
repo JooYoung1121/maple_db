@@ -169,7 +169,7 @@ const TESPIA_PQ_NOTES = [
     title: "몬스터 카니발",
     version: "Test 2.2.62",
     level: "Lv.30~50",
-    note: "테스피아 2.0에서 테스트 가능. 카니발 필드 드롭률은 1배로 안내됨.",
+    note: "2.0 정식 적용. 카니발 필드 드롭률은 1배로 안내됨.",
   },
 ];
 
@@ -187,8 +187,8 @@ export default function PQPage() {
 
       <div className="mb-6 rounded-xl border border-sky-200 dark:border-sky-900 bg-sky-50 dark:bg-sky-950/30 p-4">
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-[10px] font-bold tracking-wide px-1.5 py-0.5 rounded bg-sky-600 text-white">TEST</span>
-          <h2 className="text-sm font-bold text-sky-900 dark:text-sky-100">테스피아 2.0 파티퀘스트 변경</h2>
+          <span className="text-[10px] font-bold tracking-wide px-1.5 py-0.5 rounded bg-sky-600 text-white">2.0</span>
+          <h2 className="text-sm font-bold text-sky-900 dark:text-sky-100">2.0 파티퀘스트 변경</h2>
         </div>
         <div className="space-y-1">
           {TESPIA_PQ_NOTES.map((item) => (

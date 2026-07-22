@@ -2,6 +2,7 @@
 
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { getFeeRecords, createFeeRecord, deleteFeeRecord, type FeeRecord } from "@/lib/api";
+import RelicBanner from "@/components/RelicBanner";
 
 // ─── 수수료 구간 ───
 // Mapleland 2.0 (2026.6.30~): 거래 방식·금액 무관 모든 거래 수수료 5% 정률 통일.
@@ -149,6 +150,10 @@ export default function FeePage() {
       <p className="text-sm text-dim mb-4">
         거래 수수료 계산 · 공대 분배금 계산
       </p>
+      <RelicBanner
+        reason="2.0부터 모든 거래 수수료가 금액과 무관하게 5% 정률로 통일되면서, 구간제(0.8~7%) 시절 '수수료작'을 도와주던 이 계산기는 임무를 다했습니다."
+        alternative="공대 분배금(N빵) 계산 용도로는 여전히 쓸 수 있어 그대로 보존합니다."
+      />
 
       {/* 2.0 수수료 정책 안내 */}
       <div className="pixel-panel p-3 mb-6 text-sm flex items-start gap-2">
