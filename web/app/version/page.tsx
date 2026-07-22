@@ -18,6 +18,18 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.50.2",
+    date: "2026-07-22",
+    type: "patch",
+    title: "마왕 발록 보스 탭 노출",
+    features: [
+      {
+        category: "보스",
+        items: ["마왕 발록이 보스 몬스터 목록에 빠져 있던 것 수정 (is_boss 플래그 누락)"],
+      },
+    ],
+  },
+  {
     version: "3.50.1",
     date: "2026-07-22",
     type: "patch",
