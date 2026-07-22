@@ -76,6 +76,7 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/daily-mob", label: "오늘의 몬스터" },
       { href: "/mapletle", label: "추억틀" },
       { href: "/worldcup", label: "이상형 월드컵" },
+      { href: "/codi", label: "코디 시뮬레이터" },
       { href: "/chosung", label: "초성퀴즈 검색기" },
       { href: "/museum", label: "이세계 도감" },
     ],

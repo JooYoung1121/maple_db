@@ -18,6 +18,23 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.49.0",
+    date: "2026-07-22",
+    type: "minor",
+    title: "코디 시뮬레이터",
+    features: [
+      {
+        category: "코디 시뮬레이터",
+        items: [
+          "새 페이지 /codi — 헤어 1,668종 · 성형 576종 · 메랜 장비를 캐릭터에 실시간으로 입혀보기 (maplestory.io 렌더)",
+          "포즈 5종(서기·걷기·점프·전투·앉기) · 피부 5종 · 한벌옷↔상하의 자동 배타",
+          "프리셋 4슬롯 저장 → 나란히 비교 뷰, 코디 링크 공유(URL 복원)",
+          "파트 검색·페이지네이션 (헤어/성형은 전체, 장비는 메랜 레퍼런스 기준)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.48.0",
     date: "2026-07-22",
     type: "minor",

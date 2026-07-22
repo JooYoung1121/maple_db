@@ -84,6 +84,7 @@ const SECTION_GROUPS = [
       { href: "/daily-mob", label: "오늘의 몬스터", icon: "👾", desc: "매일 바뀌는 몬스터 추리" },
       { href: "/mapletle", label: "추억틀", icon: "🌡️", desc: "단어 유사도로 메랜 단어 추리" },
       { href: "/worldcup", label: "이상형 월드컵", icon: "🏆", desc: "몬스터 · 코디템 최애 뽑기" },
+      { href: "/codi", label: "코디 시뮬레이터", icon: "🎨", desc: "헤어 · 성형 · 장비 입혀보기" },
       { href: "/chosung", label: "초성퀴즈 검색기", icon: "🔤", desc: "초성으로 메랜 이름 찾기" },
       { href: "/museum", label: "이세계 도감", icon: "🗃️", desc: "메랜에 없는 몹·아이템 구경" },
     ],
