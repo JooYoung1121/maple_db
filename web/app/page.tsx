@@ -58,6 +58,7 @@ const SECTION_GROUPS = [
       { href: "/leveling", label: "직업별 사냥터", icon: "🗺️", desc: "직업·레벨 구간별 육성 루트" },
       { href: "/events", label: "이벤트 정리", icon: "🗂️", desc: "진행 중 이벤트 요약 · 아카이브" },
       { href: "/job", label: "전직 가이드", icon: "📋", desc: "직업별 전직 경로" },
+      { href: "/medals", label: "훈장 가이드", icon: "🎖️", desc: "탐험가 트리 · 기부왕 · 레벨 훈장" },
       { href: "/ship", label: "배 시간표", icon: "🚢", desc: "정기선 운항 시간" },
       { href: "/trap", label: "트랩 타이머", icon: "⏱️", desc: "트랩 주기 타이머" },
       { href: "/boss-timer", label: "혼테일 타이머", icon: "🐉", desc: "리저 · 공무 · 버프해제 쿨타임 보드" },

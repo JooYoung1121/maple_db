@@ -18,6 +18,23 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.46.0",
+    date: "2026-07-22",
+    type: "minor",
+    title: "훈장 가이드",
+    features: [
+      {
+        category: "훈장 가이드",
+        items: [
+          "새 페이지 /medals — 탐험가 훈장 트리 11종(1단계 지역→대륙 통합→메이플 탐험가), 기부왕 6+12종, 레벨 훈장 4종, 이벤트 훈장",
+          "탐험가 훈장은 메이플랜드 정상화 수치 반영 (원작 v92보다 하향 — maplelandzzul.gg·메랜갤 정리 기준)",
+          "무릉도장 수행자 훈장 시리즈 예고 섹션 (7/24 무릉도장 오픈 대비)",
+          "훈장 아이템 66종 레퍼런스 등록 — 아이템 검색·상세 페이지 연결",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.45.0",
     date: "2026-07-22",
     type: "minor",
