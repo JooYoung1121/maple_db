@@ -6,6 +6,8 @@ import SearchBar from "@/components/SearchBar";
 import { searchAll } from "@/lib/api";
 import type { SearchResult } from "@/lib/types";
 import Link from "next/link";
+import { CHANGELOG } from "@/lib/changelog";
+import { isNewFeature } from "@/lib/newFeatures";
 
 const TYPE_LABELS: Record<string, string> = {
   item: "아이템", mob: "몬스터", map: "맵", npc: "NPC", quest: "퀘스트", blog: "블로그",
@@ -208,6 +210,28 @@ function HomeContent() {
         </section>
       ) : (
         /* Section groups */
+        <>
+        <section className="max-w-3xl mx-auto mt-8">
+          <div className="pixel-panel p-4">
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="font-pixel text-[13px] text-maple flex items-center gap-2">
+                <span className="inline-block w-2 h-2 bg-maple" />
+                최근 업데이트
+              </h2>
+              <Link href="/version" className="text-[11px] text-dim hover:text-maple transition-colors">전체 보기 →</Link>
+            </div>
+            <ul className="space-y-1">
+              {CHANGELOG.slice(0, 3).map((e) => (
+                <li key={e.version} className="flex items-baseline gap-2 text-sm">
+                  <span className="font-pixel text-[10px] text-dim shrink-0">v{e.version}</span>
+                  <span className="truncate">{e.title}</span>
+                  <span className="text-[10px] text-dim ml-auto shrink-0">{e.date.slice(5).replace("-", "/")}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
         <section className="max-w-3xl mx-auto space-y-7 mt-8">
           {SECTION_GROUPS.map((group) => (
             <div key={group.label}>
@@ -223,7 +247,12 @@ function HomeContent() {
                     className="pixel-card group p-4 text-center"
                   >
                     <div className="text-3xl mb-2 [image-rendering:pixelated] transition-transform group-hover:scale-110">{c.icon}</div>
-                    <div className="font-pixel text-[12px] text-ink">{c.label}</div>
+                    <div className="font-pixel text-[12px] text-ink">
+                      {c.label}
+                      {isNewFeature(c.href) && (
+                        <span className="font-pixel ml-1 text-[9px] text-mush border border-mush px-1 align-middle">N</span>
+                      )}
+                    </div>
                     <div className="text-[11px] text-dim mt-1 leading-snug">{c.desc}</div>
                   </Link>
                 ))}
@@ -231,6 +260,7 @@ function HomeContent() {
             </div>
           ))}
         </section>
+        </>
       )}
     </div>
   );

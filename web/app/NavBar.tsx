@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { getNewsRecentCount } from "@/lib/api";
 import ThemeToggle from "@/components/ThemeToggle";
+import { isNewFeature } from "@/lib/newFeatures";
 
 interface NavCategory {
   label: string;
@@ -64,6 +65,7 @@ const NAV_CATEGORIES: NavCategory[] = [
       { href: "/channels", label: "스트리머 · 유튜버" },
       { href: "/bimae", label: "비매박제" },
       { href: "/community", label: "투표" },
+      { href: "/version", label: "업데이트 소식" },
     ],
   },
   {
@@ -165,6 +167,9 @@ function DropdownMenu({ category, isActive, closeMobileMenu, newsBadge = 0 }: {
               }`}
             >
               {item.label}
+              {isNewFeature(item.href) && (
+                <span className="font-pixel ml-1.5 text-[9px] text-mush border border-mush px-1 align-middle">N</span>
+              )}
             </Link>
           ))}
         </div>
