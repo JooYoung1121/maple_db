@@ -14,10 +14,32 @@ interface Candidate {
 
 interface StatRow { name: string; wins: number; rate: number }
 
-type Mode = "mob" | "item";
+type Mode = "mob" | "item" | "guild";
 type Phase = "select" | "play" | "done";
 
-const MODE_LABEL: Record<Mode, string> = { mob: "몬스터", item: "아이템 · 코디" };
+const MODE_LABEL: Record<Mode, string> = { mob: "몬스터", item: "아이템 · 코디", guild: "추억길드 코디" };
+
+/* 추억길드 코디 월드컵 후보 — 길드원 캐릭터 스크린샷 (정적 자산) */
+const GUILD_CANDIDATES: Candidate[] = [
+  { id: 1, name: "감튀살", img: "/worldcup-guild/gamtwisal.png", fallback_img: null, sub: null },
+  { id: 2, name: "푸두", img: "/worldcup-guild/pudu.png", fallback_img: null, sub: null },
+  { id: 3, name: "5300그랜저1", img: "/worldcup-guild/granger1.png", fallback_img: null, sub: null },
+  { id: 4, name: "가다로진", img: "/worldcup-guild/gadarojin.png", fallback_img: null, sub: null },
+  { id: 5, name: "프라1", img: "/worldcup-guild/pra1.png", fallback_img: null, sub: null },
+  { id: 6, name: "프라2", img: "/worldcup-guild/pra2.png", fallback_img: null, sub: null },
+  { id: 7, name: "5300그랜저2", img: "/worldcup-guild/granger2.png", fallback_img: null, sub: null },
+  { id: 8, name: "프라3", img: "/worldcup-guild/pra3.png", fallback_img: null, sub: null },
+  { id: 9, name: "운반비", img: "/worldcup-guild/unbanbi.png", fallback_img: null, sub: null },
+];
+
+function shuffled<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 function roundLabel(remaining: number): string {
   if (remaining === 2) return "결승";
@@ -57,10 +79,19 @@ export default function WorldcupPage() {
   const start = useCallback(async (m: Mode, size: number) => {
     setBusy(true);
     try {
-      const res = await fetch(`${API_BASE}/api/worldcup/candidates?mode=${m}&count=${size}`);
-      const d = await res.json();
-      const cands: Candidate[] = (d.candidates || []).filter((c: Candidate) => c.name);
-      if (cands.length < 8) throw new Error("후보 부족");
+      let cands: Candidate[];
+      if (m === "guild") {
+        // 길드 모드: 정적 후보에서 2의 거듭제곱 수만큼 랜덤 진출
+        const pool = shuffled(GUILD_CANDIDATES);
+        const bracket = 2 ** Math.floor(Math.log2(pool.length));
+        cands = pool.slice(0, bracket);
+        if (cands.length < 2) throw new Error("후보 부족");
+      } else {
+        const res = await fetch(`${API_BASE}/api/worldcup/candidates?mode=${m}&count=${size}`);
+        const d = await res.json();
+        cands = (d.candidates || []).filter((c: Candidate) => c.name);
+        if (cands.length < 8) throw new Error("후보 부족");
+      }
       const even = cands.length % 2 === 0 ? cands : cands.slice(0, cands.length - 1);
       setMode(m);
       setPool(even);
@@ -129,7 +160,16 @@ export default function WorldcupPage() {
 
       {phase === "select" && (
         <div className="space-y-4">
-          {(Object.keys(MODE_LABEL) as Mode[]).map((m) => (
+          <div className="pixel-panel p-5 border-maple/60">
+            <h2 className="font-pixel text-lg font-semibold mb-2">👑 추억길드 코디 월드컵</h2>
+            <p className="text-xs text-dim mb-3">
+              길드원들의 실제 코디 {GUILD_CANDIDATES.length}종 등록 — 매판 랜덤 {2 ** Math.floor(Math.log2(GUILD_CANDIDATES.length))}강으로 진행됩니다. 최고의 코디왕을 가려주세요!
+            </p>
+            <button onClick={() => start("guild", 0)} disabled={busy} className="pixel-btn px-4 py-2 text-sm disabled:opacity-50">
+              {2 ** Math.floor(Math.log2(GUILD_CANDIDATES.length))}강 시작
+            </button>
+          </div>
+          {(["mob", "item"] as Mode[]).map((m) => (
             <div key={m} className="pixel-panel p-5">
               <h2 className="font-pixel text-lg font-semibold mb-2">{m === "mob" ? "👾" : "🎩"} {MODE_LABEL[m]} 월드컵</h2>
               <p className="text-xs text-dim mb-3">

@@ -18,6 +18,22 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.51.0",
+    date: "2026-07-24",
+    type: "minor",
+    title: "추억길드 코디 월드컵",
+    features: [
+      {
+        category: "이상형 월드컵",
+        items: [
+          "👑 추억길드 코디 월드컵 — 길드원 실제 코디 스크린샷 9종 등록 (감튀살 · 푸두 · 5300그랜저×2 · 가다로진 · 프라×3 · 운반비)",
+          "매판 랜덤 8강 진행, 우승 통계는 명예의 전당에 별도 집계",
+          "후보는 정적 매니페스트라 추가 등록은 이미지+한 줄이면 됨",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.50.2",
     date: "2026-07-22",
     type: "patch",

@@ -9,14 +9,15 @@ from api.routes.mapleland_reference import id_filter_sql
 
 router = APIRouter()
 
-MODES = {"mob", "item"}
+MODES = {"mob", "item", "guild"}  # guild 후보는 프론트 정적 매니페스트 (통계만 서버)
+CANDIDATE_MODES = {"mob", "item"}
 # 코디/외형 월드컵 대상 카테고리 (아이템 모드)
 ITEM_CATEGORIES = ("Armor", "Accessory", "One-Handed Weapon", "Two-Handed Weapon")
 
 
 @router.get("/worldcup/candidates")
 def worldcup_candidates(mode: str = Query(...), count: int = Query(default=32, ge=8, le=64)):
-    if mode not in MODES:
+    if mode not in CANDIDATE_MODES:
         raise HTTPException(status_code=400, detail="mode는 mob 또는 item")
     try:
         conn = get_connection()
@@ -88,7 +89,7 @@ def worldcup_candidates(mode: str = Query(...), count: int = Query(default=32, g
 @router.get("/worldcup/stats")
 def worldcup_stats(mode: str = Query(...), limit: int = Query(default=10, ge=1, le=30)):
     if mode not in MODES:
-        raise HTTPException(status_code=400, detail="mode는 mob 또는 item")
+        raise HTTPException(status_code=400, detail=f"mode는 {', '.join(sorted(MODES))} 중 하나")
     try:
         conn = get_connection()
     except Exception:
