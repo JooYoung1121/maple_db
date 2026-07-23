@@ -18,6 +18,18 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.51.1",
+    date: "2026-07-24",
+    type: "patch",
+    title: "추억길드 코디 월드컵 참가자 6명 추가",
+    features: [
+      {
+        category: "이상형 월드컵",
+        items: ["요정주영1 · 흥흥흥1 · 슈쇼슈 · scylladb · 후하이 · 박사야 추가 — 총 15명, 8강 유지 (16명부터 16강 자동 확대)"],
+      },
+    ],
+  },
+  {
     version: "3.51.0",
     date: "2026-07-24",
     type: "minor",

@@ -30,6 +30,12 @@ const GUILD_CANDIDATES: Candidate[] = [
   { id: 7, name: "5300그랜저2", img: "/worldcup-guild/granger2.png", fallback_img: null, sub: null },
   { id: 8, name: "프라3", img: "/worldcup-guild/pra3.png", fallback_img: null, sub: null },
   { id: 9, name: "운반비", img: "/worldcup-guild/unbanbi.png", fallback_img: null, sub: null },
+  { id: 10, name: "요정주영1", img: "/worldcup-guild/yojeongjuyoung1.png", fallback_img: null, sub: null },
+  { id: 11, name: "흥흥흥1", img: "/worldcup-guild/heungx3-1.png", fallback_img: null, sub: null },
+  { id: 12, name: "슈쇼슈", img: "/worldcup-guild/syusyosyu.png", fallback_img: null, sub: null },
+  { id: 13, name: "scylladb", img: "/worldcup-guild/scylladb.png", fallback_img: null, sub: null },
+  { id: 14, name: "후하이", img: "/worldcup-guild/huhai.png", fallback_img: null, sub: null },
+  { id: 15, name: "박사야", img: "/worldcup-guild/parksaya.png", fallback_img: null, sub: null },
 ];
 
 function shuffled<T>(arr: T[]): T[] {
