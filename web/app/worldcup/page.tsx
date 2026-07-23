@@ -24,7 +24,7 @@ const GUILD_CANDIDATES: Candidate[] = [
   { id: 1, name: "감튀살", img: "/worldcup-guild/gamtwisal.png", fallback_img: null, sub: null },
   { id: 2, name: "푸두", img: "/worldcup-guild/pudu.png", fallback_img: null, sub: null },
   { id: 3, name: "5300그랜저1", img: "/worldcup-guild/granger1.png", fallback_img: null, sub: null },
-  { id: 4, name: "가다로진", img: "/worldcup-guild/gadarojin.png", fallback_img: null, sub: null },
+  { id: 4, name: "가다로진1", img: "/worldcup-guild/gadarojin.png", fallback_img: null, sub: null },
   { id: 5, name: "프라1", img: "/worldcup-guild/pra1.png", fallback_img: null, sub: null },
   { id: 6, name: "프라2", img: "/worldcup-guild/pra2.png", fallback_img: null, sub: null },
   { id: 7, name: "5300그랜저2", img: "/worldcup-guild/granger2.png", fallback_img: null, sub: null },
@@ -36,6 +36,7 @@ const GUILD_CANDIDATES: Candidate[] = [
   { id: 13, name: "scylladb", img: "/worldcup-guild/scylladb.png", fallback_img: null, sub: null },
   { id: 14, name: "후하이", img: "/worldcup-guild/huhai.png", fallback_img: null, sub: null },
   { id: 15, name: "박사야", img: "/worldcup-guild/parksaya.png", fallback_img: null, sub: null },
+  { id: 16, name: "가다로진2", img: "/worldcup-guild/gadarojin2.png", fallback_img: null, sub: null },
 ];
 
 function shuffled<T>(arr: T[]): T[] {

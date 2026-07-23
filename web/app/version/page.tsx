@@ -18,6 +18,20 @@ const CHANGELOG: {
   features: { category: string; items: string[] }[];
 }[] = [
   {
+    version: "3.51.2",
+    date: "2026-07-24",
+    type: "patch",
+    title: "추억길드 코디 월드컵 — 16강 달성",
+    features: [
+      {
+        category: "이상형 월드컵",
+        items: [
+          "가다로진2 추가, 기존 가다로진 → 가다로진1 개명 — 총 16명으로 매판 전원 참전 16강 확정",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.51.1",
     date: "2026-07-24",
     type: "patch",
