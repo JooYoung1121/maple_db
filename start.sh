@@ -28,25 +28,42 @@ try:
     vol = sqlite3.connect(VOLUME)
     vol.execute(f\"ATTACH '{SEED}' AS seed\")
 
+    # 동기화 결과를 DB에 기록 — Railway 로그 없이 /api/admin/db-status로 원격 진단 가능
+    vol.execute('CREATE TABLE IF NOT EXISTS seed_sync_log (ts TEXT, tbl TEXT, status TEXT, detail TEXT)')
+    vol.execute('DELETE FROM seed_sync_log')
+    from datetime import datetime, timezone
+    now = datetime.now(timezone.utc).isoformat()
+
     for tbl in SEED_TABLES:
-        # 시드에 해당 테이블이 있을 때만 교체 (스키마 차이는 CREATE AS SELECT로 흡수)
+        # 시드에 해당 테이블이 있을 때만 교체
         # 테이블 하나 실패해도 나머지는 계속 진행 (과거: map_details 실패 → 이후 전부 스킵되는 사고)
         try:
             exists = vol.execute(
                 \"SELECT 1 FROM seed.sqlite_master WHERE type='table' AND name=?\", (tbl,)
             ).fetchone()
             if not exists:
+                vol.execute('INSERT INTO seed_sync_log VALUES (?,?,?,?)', (now, tbl, 'missing_in_seed', ''))
                 print(f'Seed table missing, skip: {tbl}')
                 continue
             vol.execute(f'DROP TABLE IF EXISTS {tbl}')
-            vol.execute(f'CREATE TABLE {tbl} AS SELECT * FROM seed.{tbl}')
+            create_sql = vol.execute(
+                \"SELECT sql FROM seed.sqlite_master WHERE type='table' AND name=?\", (tbl,)
+            ).fetchone()[0]
+            vol.execute(create_sql)
+            vol.execute(f'INSERT INTO {tbl} SELECT * FROM seed.{tbl}')
             vol.commit()
             cnt = vol.execute(f'SELECT COUNT(*) FROM {tbl}').fetchone()[0]
+            vol.execute('INSERT INTO seed_sync_log VALUES (?,?,?,?)', (now, tbl, 'ok', str(cnt)))
             print(f'Replaced {tbl}: {cnt} rows')
         except Exception as te:
             print(f'SEED SYNC FAIL [{tbl}]: {te!r}')
             try:
                 vol.rollback()
+            except Exception:
+                pass
+            try:
+                vol.execute('INSERT INTO seed_sync_log VALUES (?,?,?,?)', (now, tbl, 'fail', repr(te)[:500]))
+                vol.commit()
             except Exception:
                 pass
 

@@ -269,6 +269,13 @@ def admin_db_status(request: Request):
                 out["tables"][t] = f"ERROR: {e}"
     finally:
         conn.close()
+    conn = get_connection()
+    try:
+        out["sync_log"] = [dict(r) for r in conn.execute("SELECT * FROM seed_sync_log").fetchall()]
+    except Exception:
+        out["sync_log"] = None
+    finally:
+        conn.close()
     try:
         p = str(DB_PATH)
         out["db"]["path"] = p
