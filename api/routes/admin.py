@@ -288,3 +288,69 @@ def admin_db_status(request: Request):
     except Exception as e:
         out["db"]["error"] = str(e)
     return out
+
+
+@router.post("/admin/sync-tables")
+def admin_sync_tables(request: Request, tables: str = Query(default="map_details,mapledb_quests")):
+    """레퍼런스 테이블을 GitHub 시드에서 직접 당겨와 교체 (시작 스크립트 동기화 실패 시 수동 레버).
+
+    화이트리스트 테이블만 허용 — 유저 데이터 테이블은 건드릴 수 없다.
+    """
+    _require_admin(request)
+    import sqlite3
+    import tempfile
+    import urllib.request
+
+    ALLOWED = {"quests", "mob_drops", "mob_spawns", "sim_jobs", "sim_skills", "items", "map_details", "mapledb_quests"}
+    want = [t.strip() for t in tables.split(",") if t.strip()]
+    bad = [t for t in want if t not in ALLOWED]
+    if bad:
+        raise HTTPException(status_code=400, detail=f"허용되지 않는 테이블: {bad}")
+
+    SEED_URL = "https://raw.githubusercontent.com/JooYoung1121/maple_db/main/data/maple.db"
+    results: dict = {}
+    tmp = tempfile.NamedTemporaryFile(suffix=".db", delete=False)
+    try:
+        req = urllib.request.Request(SEED_URL, headers={"User-Agent": "maple-db-sync/1.0"})
+        with urllib.request.urlopen(req, timeout=180) as r:
+            while True:
+                chunk = r.read(1 << 20)
+                if not chunk:
+                    break
+                tmp.write(chunk)
+        tmp.close()
+
+        from crawler.db import get_connection
+        conn = get_connection()
+        try:
+            conn.execute(f"ATTACH '{tmp.name}' AS seed")
+            for tbl in want:
+                try:
+                    row = conn.execute(
+                        "SELECT sql FROM seed.sqlite_master WHERE type='table' AND name=?", (tbl,)
+                    ).fetchone()
+                    if not row or not row[0]:
+                        results[tbl] = "seed에 없음"
+                        continue
+                    conn.execute(f"DROP TABLE IF EXISTS {tbl}")
+                    conn.execute(row[0])
+                    conn.execute(f"INSERT INTO {tbl} SELECT * FROM seed.{tbl}")
+                    conn.commit()
+                    cnt = conn.execute(f"SELECT COUNT(*) FROM {tbl}").fetchone()[0]
+                    results[tbl] = f"ok: {cnt} rows"
+                except Exception as te:
+                    try:
+                        conn.rollback()
+                    except Exception:
+                        pass
+                    results[tbl] = f"fail: {te!r}"
+            conn.execute("DETACH seed")
+        finally:
+            conn.close()
+    finally:
+        import os as _os2
+        try:
+            _os2.unlink(tmp.name)
+        except Exception:
+            pass
+    return {"results": results}
