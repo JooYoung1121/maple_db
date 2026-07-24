@@ -9,6 +9,22 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.57.0",
+    date: "2026-07-24",
+    type: "minor",
+    title: "끝말잇기 — 메랜 사전 모드",
+    features: [
+      {
+        category: "대전 게임",
+        items: [
+          "끝말잇기 1:1 대전 — 자유 모드 + 🍁메랜 사전 모드(몹·아이템·맵·NPC·퀘스트 이름만 허용)",
+          "턴당 45초 제한(시간 초과 선언), 두음법칙 허용, 중복 단어 차단 — 전부 서버 판정",
+          "대전 게임 3종 완성: 오목 · 같은그림찾기 · 끝말잇기 (방 코드·관전·재대결 공통)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.56.0",
     date: "2026-07-24",
     type: "minor",

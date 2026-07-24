@@ -9,7 +9,7 @@ const POLL_MS = 1500;
 
 interface Seat { client_id: string; nickname: string }
 interface RoomState {
-  game: "omok" | "memory";
+  game: "omok" | "memory" | "wordchain";
   turn: string;
   seats: Record<string, Seat | null>;
   winner: string | null;
@@ -25,16 +25,105 @@ interface RoomState {
   flip?: number[];
   last_pair?: [number, number, boolean] | null;
   scores?: Record<string, number>;
+  /* wordchain */
+  mode?: "free" | "maple";
+  words?: { word: string; by: string }[];
+  deadline?: number | null;
 }
 interface Member { client_id: string; nickname: string }
 
 const GAME_META: Record<string, { title: string; icon: string; seats: string[]; seatIcon: (s: string) => string }> = {
   omok: { title: "오목", icon: "⚫⚪", seats: ["B", "W"], seatIcon: (s) => (s === "B" ? "⚫" : "⚪") },
   memory: { title: "같은그림찾기", icon: "🃏", seats: ["P1", "P2"], seatIcon: (s) => (s === "P1" ? "🔶" : "🔷") },
+  wordchain: { title: "끝말잇기", icon: "📝", seats: ["P1", "P2"], seatIcon: (s) => (s === "P1" ? "🔶" : "🔷") },
 };
 
 function mobIcon(id: number) {
   return `https://maplestory.io/api/gms/92/mob/${id}/icon`;
+}
+
+/* ── 끝말잇기 보드 ── */
+function WordchainBoard({ state, myTurn, mySeat, action }: {
+  state: RoomState;
+  myTurn: boolean;
+  mySeat: string | undefined;
+  action: (a: Record<string, unknown>) => void;
+}) {
+  const [input, setInput] = useState("");
+  const [remain, setRemain] = useState<number | null>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!state.deadline || state.winner) { setRemain(null); return; }
+    const id = setInterval(() => setRemain(Math.max(0, Math.ceil((state.deadline! - Date.now()) / 1000))), 250);
+    return () => clearInterval(id);
+  }, [state.deadline, state.winner]);
+
+  useEffect(() => {
+    listRef.current?.scrollTo({ top: listRef.current.scrollHeight });
+  }, [state.words?.length]);
+
+  const submit = () => {
+    const w = input.trim();
+    if (!w) return;
+    action({ type: "word", word: w });
+    setInput("");
+  };
+
+  const lastWord = state.words?.length ? state.words[state.words.length - 1].word : null;
+  const expired = remain === 0 && !state.winner && state.deadline;
+
+  return (
+    <div className="max-w-md mx-auto">
+      <div className="flex items-center justify-between mb-2 text-xs">
+        <span className="text-dim">
+          {state.mode === "maple" ? "🍁 메랜 사전 모드 — 몹·아이템·맵·NPC·퀘스트 이름만" : "자유 모드"}
+        </span>
+        {remain !== null && (
+          <span className={`font-pixel ${remain <= 10 ? "text-red-500" : "text-dim"}`}>⏱️ {remain}초</span>
+        )}
+      </div>
+      <div ref={listRef} className="h-64 overflow-y-auto pixel-panel p-3 space-y-1.5 mb-2">
+        {(state.words || []).length === 0 ? (
+          <p className="text-xs text-dim text-center py-8">
+            첫 단어를 기다리는 중{state.mode === "maple" ? " — 예: 달팽이, 리본돼지..." : ""}
+          </p>
+        ) : (
+          (state.words || []).map((w, i) => (
+            <p key={i} className="text-sm">
+              <span className="text-dim text-xs mr-2">{w.by}</span>
+              <span className={i === (state.words!.length - 1) ? "font-semibold text-maple" : ""}>{w.word}</span>
+            </p>
+          ))
+        )}
+      </div>
+      {lastWord && !state.winner && (
+        <p className="text-xs text-dim mb-2 text-center">
+          다음 단어는 <span className="text-maple font-semibold">{lastWord.replace(/\s/g, "").slice(-1)}</span> (두음법칙 허용)으로 시작
+        </p>
+      )}
+      {mySeat && !state.winner && (
+        <div className="flex gap-2">
+          <input
+            type="text" value={input}
+            onChange={(e) => setInput(e.target.value.slice(0, 30))}
+            onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && myTurn && submit()}
+            placeholder={myTurn ? "단어 입력 후 Enter!" : "상대 차례..."}
+            disabled={!myTurn}
+            className="flex-1 pixel-input px-3 py-2 text-sm disabled:opacity-50"
+          />
+          <button onClick={submit} disabled={!myTurn} className="pixel-btn px-4 py-2 text-sm disabled:opacity-40">제출</button>
+        </div>
+      )}
+      {expired ? (
+        <div className="text-center mt-2">
+          <button onClick={() => action({ type: "timeout_claim" })} className="pixel-btn px-3 py-1.5 text-xs">
+            ⏱️ 시간 초과 선언
+          </button>
+        </div>
+      ) : null}
+    </div>
+  );
 }
 
 function VersusContent() {
@@ -80,12 +169,12 @@ function VersusContent() {
     if (res.members) setMembers(res.members);
   }, []);
 
-  const create = useCallback((game: "omok" | "memory") => {
+  const create = useCallback((game: "omok" | "memory" | "wordchain", mode: "free" | "maple" = "free") => {
     setBusy(true); setError("");
     fetch(`${API_BASE}/api/versus/rooms`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ game, nickname: nicknameRef.current || "익명", client_id: clientIdRef.current }),
+      body: JSON.stringify({ game, mode, nickname: nicknameRef.current || "익명", client_id: clientIdRef.current }),
     })
       .then(async (r) => { if (!r.ok) throw new Error((await r.json()).detail || "실패"); return r.json(); })
       .then(applyRes)
@@ -146,8 +235,10 @@ function VersusContent() {
             className="w-full pixel-input px-3 py-2 text-sm"
           />
           <div className="flex flex-wrap gap-2">
-            <button onClick={() => create("omok")} disabled={busy} className="pixel-btn px-4 py-2 text-sm disabled:opacity-50">⚫⚪ 오목 방 만들기</button>
-            <button onClick={() => create("memory")} disabled={busy} className="pixel-btn px-4 py-2 text-sm disabled:opacity-50">🃏 같은그림찾기 방 만들기</button>
+            <button onClick={() => create("omok")} disabled={busy} className="pixel-btn px-4 py-2 text-sm disabled:opacity-50">⚫⚪ 오목</button>
+            <button onClick={() => create("memory")} disabled={busy} className="pixel-btn px-4 py-2 text-sm disabled:opacity-50">🃏 같은그림찾기</button>
+            <button onClick={() => create("wordchain", "free")} disabled={busy} className="pixel-btn px-4 py-2 text-sm disabled:opacity-50">📝 끝말잇기</button>
+            <button onClick={() => create("wordchain", "maple")} disabled={busy} className="pixel-btn px-4 py-2 text-sm disabled:opacity-50" title="몹·아이템·맵·NPC·퀘스트 이름만 허용">🍁 메랜 끝말잇기</button>
           </div>
           <div className="flex gap-2">
             <input
@@ -279,6 +370,11 @@ function VersusContent() {
                 );
               })}
             </div>
+          )}
+
+          {/* 끝말잇기 */}
+          {state.game === "wordchain" && (
+            <WordchainBoard state={state} myTurn={myTurn} mySeat={mySeat} action={action} />
           )}
 
           {state.winner && mySeat && (

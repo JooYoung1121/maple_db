@@ -102,6 +102,59 @@ def _new_memory_state(host_client: str, host_nick: str, first: str = "P1") -> di
     }
 
 
+WORDCHAIN_TURN_SECONDS = 45
+
+
+def _dueum_starts(ch: str) -> set[str]:
+    """두음법칙 허용 시작 글자 집합 (ㄹ→ㄴ/ㅇ, ㄴ+ㅣ계열→ㅇ)."""
+    out = {ch}
+    code = ord(ch) - 0xAC00
+    if not (0 <= code < 11172):
+        return out
+    cho, rest = divmod(code, 588)
+    jung = rest // 28
+    Y_VOWELS = {6, 2, 12, 17, 20, 7, 3}  # ㅕ,ㅑ,ㅛ,ㅠ,ㅣ,ㅖ,ㅒ (유니코드 중성 인덱스)
+    if cho == 5:  # ㄹ
+        out.add(chr(0xAC00 + 2 * 588 + rest))  # ㄴ
+        if jung in Y_VOWELS:
+            out.add(chr(0xAC00 + 11 * 588 + rest))  # ㅇ
+    elif cho == 2 and jung in Y_VOWELS:  # ㄴ + ㅣ계열
+        out.add(chr(0xAC00 + 11 * 588 + rest))  # ㅇ
+    return out
+
+
+def _maple_word_exists(word: str) -> bool:
+    """메랜 사전 모드 — 몹/아이템/맵/NPC 한글명 또는 퀘스트명과 정확 일치."""
+    conn = get_connection()
+    try:
+        r = conn.execute(
+            "SELECT 1 FROM entity_names_en WHERE source='kms' AND name_en = ? LIMIT 1", (word,)
+        ).fetchone()
+        if r:
+            return True
+        try:
+            r = conn.execute("SELECT 1 FROM mapledb_quests WHERE name = ? LIMIT 1", (word,)).fetchone()
+            return bool(r)
+        except Exception:
+            return False
+    finally:
+        conn.close()
+
+
+def _new_wordchain_state(host_client: str, host_nick: str, mode: str = "free") -> dict:
+    return {
+        "game": "wordchain",
+        "mode": mode,  # free | maple
+        "seats": {"P1": {"client_id": host_client, "nickname": host_nick} if host_client else None, "P2": None},
+        "turn": "P1",
+        "words": [],          # [{word, by}]
+        "winner": None,
+        "deadline": None,     # epoch ms — 양쪽 착석 후 턴 제한
+        "rematch": [],
+        "log": [],
+    }
+
+
 def _new_omok_state(host_client: str, host_nick: str) -> dict:
     return {
         "game": "omok",
@@ -143,6 +196,7 @@ class CreateRoom(BaseModel):
     game: str
     nickname: str = "익명"
     client_id: str
+    mode: str = "free"  # wordchain: free | maple
 
 
 class RoomAction(BaseModel):
@@ -153,7 +207,7 @@ class RoomAction(BaseModel):
 
 @router.post("/versus/rooms")
 def create_room(body: CreateRoom):
-    if body.game not in ("omok", "memory"):
+    if body.game not in ("omok", "memory", "wordchain"):
         raise HTTPException(status_code=400, detail="지원하지 않는 게임입니다.")
     if not body.client_id:
         raise HTTPException(status_code=400, detail="client_id 필요")
@@ -170,6 +224,10 @@ def create_room(body: CreateRoom):
         if body.game == "memory":
             state = _new_memory_state(body.client_id, nick)
             _log(state, f"{nick} 님이 같은그림찾기 방을 만들었습니다 (P1)")
+        elif body.game == "wordchain":
+            mode = "maple" if body.mode == "maple" else "free"
+            state = _new_wordchain_state(body.client_id, nick, mode)
+            _log(state, f"{nick} 님이 끝말잇기 방을 만들었습니다 ({'메랜 사전' if mode == 'maple' else '자유'} 모드)")
         else:
             state = _new_omok_state(body.client_id, nick)
             _log(state, f"{state['seats']['B']['nickname']} 님이 방을 만들었습니다 (흑)")
@@ -242,13 +300,19 @@ def room_action(code: str, body: RoomAction):
                 raise HTTPException(status_code=409, detail="이미 착석 중입니다")
             seats[seat] = {"client_id": body.client_id, "nickname": nickname}
             _log(state, f"{nickname} 님이 {seat_label(seat)}에 앉았습니다")
+            if game == "wordchain" and seats.get("P1") and seats.get("P2") and not state["winner"]:
+                state["deadline"] = int(time.time() * 1000) + WORDCHAIN_TURN_SECONDS * 1000
+                _log(state, f"⏱️ 시작! {seats[state['turn']]['nickname']} 님부터 — 턴당 {WORDCHAIN_TURN_SECONDS}초")
 
         elif a_type == "stand":
             if not my_seat:
                 raise HTTPException(status_code=400, detail="착석 중이 아닙니다")
-            started = (state.get("move_count", 0) > 0) if game == "omok" else (
-                bool(state.get("flip")) or any(state.get("revealed") or []) or sum((state.get("scores") or {}).values()) > 0
-            )
+            if game == "omok":
+                started = state.get("move_count", 0) > 0
+            elif game == "wordchain":
+                started = len(state.get("words") or []) > 0
+            else:
+                started = bool(state.get("flip")) or any(state.get("revealed") or []) or sum((state.get("scores") or {}).values()) > 0
             if started and not state["winner"]:
                 # 게임 중 이탈 = 기권
                 other = seat_keys[1] if my_seat == seat_keys[0] else seat_keys[0]
@@ -297,6 +361,52 @@ def room_action(code: str, body: RoomAction):
                 else:
                     state["turn"] = "P2" if my_seat == "P1" else "P1"
 
+        elif a_type == "word":
+            if game != "wordchain":
+                raise HTTPException(status_code=400, detail="이 방의 게임이 아닙니다")
+            if state["winner"]:
+                raise HTTPException(status_code=409, detail="이미 끝난 게임입니다")
+            if not my_seat:
+                raise HTTPException(status_code=403, detail="관전 중에는 참여할 수 없어요 — 빈 자리에 앉아주세요")
+            if not (seats.get("P1") and seats.get("P2")):
+                raise HTTPException(status_code=409, detail="상대가 앉을 때까지 기다려주세요")
+            if state["turn"] != my_seat:
+                raise HTTPException(status_code=409, detail="상대 차례입니다")
+            now_ms = int(time.time() * 1000)
+            if state.get("deadline") and now_ms > state["deadline"]:
+                other = "P2" if my_seat == "P1" else "P1"
+                state["winner"] = other
+                _log(state, f"⏱️ {nickname} 님 시간 초과 — {seats[other]['nickname']} 님 승리!")
+            else:
+                word = str(act.get("word") or "").strip()
+                if len(word) < 2:
+                    raise HTTPException(status_code=400, detail="두 글자 이상이어야 해요")
+                used = {w["word"] for w in state["words"]}
+                if word in used:
+                    raise HTTPException(status_code=409, detail="이미 나온 단어예요")
+                if state["words"]:
+                    last = state["words"][-1]["word"].replace(" ", "")
+                    allowed = _dueum_starts(last[-1])
+                    if word.replace(" ", "")[0] not in allowed:
+                        raise HTTPException(status_code=400, detail=f"'{'/'.join(sorted(allowed))}' 로 시작해야 해요")
+                if state["mode"] == "maple" and not _maple_word_exists(word):
+                    raise HTTPException(status_code=400, detail="메랜 사전에 없는 이름이에요 (몹·아이템·맵·NPC·퀘스트 정확한 이름만)")
+                state["words"].append({"word": word, "by": nickname})
+                state["turn"] = "P2" if my_seat == "P1" else "P1"
+                state["deadline"] = now_ms + WORDCHAIN_TURN_SECONDS * 1000
+
+        elif a_type == "timeout_claim":
+            if game != "wordchain":
+                raise HTTPException(status_code=400, detail="이 방의 게임이 아닙니다")
+            if state["winner"] or not state.get("deadline"):
+                raise HTTPException(status_code=409, detail="진행 중이 아닙니다")
+            if int(time.time() * 1000) <= state["deadline"]:
+                raise HTTPException(status_code=409, detail="아직 시간이 남았어요")
+            loser = state["turn"]
+            other = "P2" if loser == "P1" else "P1"
+            state["winner"] = other
+            _log(state, f"⏱️ {seats[loser]['nickname'] if seats.get(loser) else loser} 님 시간 초과 — {seats[other]['nickname']} 님 승리!")
+
         elif a_type == "place":
             if game != "omok":
                 raise HTTPException(status_code=400, detail="이 방의 게임이 아닙니다")
@@ -343,9 +453,13 @@ def room_action(code: str, body: RoomAction):
                 new_a, new_b = seats[b], seats[a]
                 if game == "memory":
                     state.update(_new_memory_state("", ""))
+                elif game == "wordchain":
+                    state.update(_new_wordchain_state("", "", state.get("mode", "free")))
                 else:
                     state.update(_new_omok_state("", ""))
                 state["seats"] = {a: new_a, b: new_b}
+                if game == "wordchain":
+                    state["deadline"] = int(time.time() * 1000) + WORDCHAIN_TURN_SECONDS * 1000
                 _log(state, "🔄 재대결 시작 — 자리 교대")
 
         else:
