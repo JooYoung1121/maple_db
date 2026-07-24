@@ -9,6 +9,22 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.58.1",
+    date: "2026-07-24",
+    type: "patch",
+    title: "카오스 자쿰 공략 갱신 — 7/24 신규 상태이상 3종",
+    features: [
+      {
+        category: "가이드",
+        items: [
+          "카오스 자쿰 공략글에 7/24 패치 신규 패턴 반영 — 물약봉인·언데드화·조작키 반전 (몸통 페이즈)",
+          "비숍 운용 변경: 언데드화 중 힐 즉시 중단, 물약봉인 대응 정리 (디스펠 해제는 현재 버그 논쟁 중)",
+          "정보공유 게시판 글 수정 API 추가 (관리자)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.58.0",
     date: "2026-07-24",
     type: "minor",

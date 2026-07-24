@@ -195,6 +195,40 @@ def delete_post(post_id: int, request: Request):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# ── 글 수정 (Admin — 공략 갱신용) ────────────────────────
+class PostUpdate(BaseModel):
+    title: Optional[str] = None
+    content: Optional[str] = None
+
+
+@router.patch("/guild/info/posts/{post_id}")
+def update_post(post_id: int, body: PostUpdate, request: Request):
+    if request.headers.get("X-Admin-Password", "") != ADMIN_PW:
+        raise HTTPException(status_code=403, detail="비밀번호가 틀립니다.")
+    if body.title is None and body.content is None:
+        raise HTTPException(status_code=400, detail="수정할 내용이 없습니다.")
+    try:
+        conn = get_connection()
+        if not conn.execute("SELECT id FROM info_posts WHERE id = ?", [post_id]).fetchone():
+            conn.close()
+            raise HTTPException(status_code=404, detail="글을 찾을 수 없습니다.")
+        sets, params = [], []
+        if body.title is not None:
+            sets.append("title = ?")
+            params.append(body.title.strip())
+        if body.content is not None:
+            sets.append("content = ?")
+            params.append(body.content.strip())
+        conn.execute(f"UPDATE info_posts SET {', '.join(sets)} WHERE id = ?", params + [post_id])
+        conn.commit()
+        conn.close()
+        return {"ok": True}
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 # ── 글 추천 (IP 중복방지) ────────────────────────────────
 @router.post("/guild/info/posts/{post_id}/upvote")
 def upvote_post(post_id: int, request: Request):
