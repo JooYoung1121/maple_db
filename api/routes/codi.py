@@ -167,6 +167,12 @@ def create_codi_post(body: CodiPostCreate):
         if isinstance(v, dict) and isinstance(v.get("id"), int) and v["id"] > 0:
             clean[k] = {"id": v["id"], "name": str(v.get("name") or "")[:60]}
             worn += 1
+    # 펫 (최대 3마리, 펫 아이템 ID 대역만)
+    pets = outfit.get("pets")
+    if isinstance(pets, list):
+        clean_pets = [p for p in pets if isinstance(p, int) and 5000000 <= p < 5001000][:3]
+        if clean_pets:
+            clean["pets"] = clean_pets
     if worn == 0:
         raise HTTPException(status_code=400, detail="한 가지 이상 착용한 코디만 등록할 수 있습니다.")
     if worn > _MAX_OUTFIT_ITEMS:

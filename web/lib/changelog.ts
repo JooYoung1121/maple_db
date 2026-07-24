@@ -9,6 +9,22 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.54.0",
+    date: "2026-07-24",
+    type: "minor",
+    title: "코디 시뮬 — 펫 데리고 다니기",
+    features: [
+      {
+        category: "코디 시뮬레이터",
+        items: [
+          "🐾 펫 탭 — 메랜 확인 펫 24종 중 최대 3마리를 골라 캐릭터 옆에 표시, 3마리 완성 시 하트 이펙트 안내(옛메 고증)",
+          "펫 포함 코디 링크 공유·프리셋·갤러리 등록 지원",
+          "멀티펫 팩트 정리 — 펫 조합 스탯 세트효과는 메랜에 없음(현행 메이플과 혼동 주의), 실질 이득은 자동버프 3개·줍기·펫장비 중첩",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.53.0",
     date: "2026-07-24",
     type: "minor",

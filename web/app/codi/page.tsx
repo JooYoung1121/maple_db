@@ -16,7 +16,25 @@ interface GalleryPost {
   outfit: { skin: number } & Partial<Record<SlotKey, { id: number; name: string }>>;
 }
 type SlotKey = "hair" | "face" | "hat" | "overall" | "top" | "bottom" | "shoes" | "glove" | "cape" | "shield" | "weapon";
-type Outfit = { skin: number } & Partial<Record<SlotKey, Part>>;
+type Outfit = { skin: number; pets?: number[] } & Partial<Record<SlotKey, Part>>;
+
+/* 메랜 확인 펫 (커뮤니티·캐시샵 조사 기준) — 아이콘은 maplestory.io 아이템 아이콘 */
+const PETS: { id: number; name: string }[] = [
+  { id: 5000000, name: "갈색 고양이" }, { id: 5000004, name: "검은 고양이" },
+  { id: 5000001, name: "갈색 강아지" }, { id: 5000006, name: "허스키" },
+  { id: 5000008, name: "팬더" }, { id: 5000009, name: "디노보이" }, { id: 5000010, name: "디노걸" },
+  { id: 5000002, name: "핑크 토끼" }, { id: 5000005, name: "흰 토끼" },
+  { id: 5000003, name: "미니카고" }, { id: 5000011, name: "원숭이" },
+  { id: 5000007, name: "검은 돼지" }, { id: 5000025, name: "황금 돼지" },
+  { id: 5000012, name: "백호" }, { id: 5000020, name: "미니예티" },
+  { id: 5000023, name: "펭귄" }, { id: 5000024, name: "발록" },
+  { id: 5000026, name: "손오공" }, { id: 5000022, name: "칠면조" },
+  { id: 5000039, name: "고슴도치" }, { id: 5000014, name: "루돌프" },
+  { id: 5000042, name: "키노" }, { id: 5000036, name: "리퍼" },
+  { id: 5000054, name: "달팽이 (이벤트)" },
+];
+const petName = (id: number) => PETS.find((p) => p.id === id)?.name || `#${id}`;
+const petIcon = (id: number) => `https://maplestory.io/api/gms/92/item/${id}/icon`;
 
 const SLOTS: { key: SlotKey; label: string }[] = [
   { key: "hair", label: "헤어" },
@@ -69,13 +87,14 @@ function outfitToQuery(outfit: Outfit): string {
     const p = outfit[key];
     if (p) parts.push(`${key}=${p.id}`);
   }
+  if (outfit.pets?.length) parts.push(`pets=${outfit.pets.join(",")}`);
   return parts.join("&");
 }
 
 function CodiContent() {
   const searchParams = useSearchParams();
   const [outfit, setOutfit] = useState<Outfit>(DEFAULT_OUTFIT);
-  const [activeSlot, setActiveSlot] = useState<SlotKey>("hair");
+  const [activeSlot, setActiveSlot] = useState<SlotKey | "pet">("hair");
   const [pose, setPose] = useState("stand1");
   const [parts, setParts] = useState<Part[]>([]);
   const [total, setTotal] = useState(0);
@@ -114,6 +133,10 @@ function CodiContent() {
           o[key] = { id, name: `#${id}`, icon: `https://maplestory.io/api/gms/92/item/${id}/icon`, level: 0 };
         }
       }
+      const pets = (searchParams.get("pets") || "")
+        .split(",").map((x) => parseInt(x, 10))
+        .filter((x) => x >= 5000000 && x < 5001000).slice(0, 3);
+      if (pets.length) o.pets = pets;
       void loads;
       setOutfit(o);
     }
@@ -122,6 +145,7 @@ function CodiContent() {
 
   /* 파트 목록 로드 */
   useEffect(() => {
+    if (activeSlot === "pet") return; // 펫은 로컬 목록
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
       setLoadingParts(true);
@@ -135,7 +159,17 @@ function CodiContent() {
 
   useEffect(() => { setPage(1); setQuery(""); }, [activeSlot]);
 
+  const togglePet = useCallback((id: number) => {
+    setOutfit((prev) => {
+      const cur = prev.pets || [];
+      if (cur.includes(id)) return { ...prev, pets: cur.filter((x) => x !== id) };
+      if (cur.length >= 3) return prev; // 최대 3마리
+      return { ...prev, pets: [...cur, id] };
+    });
+  }, []);
+
   const equip = useCallback((p: Part) => {
+    if (activeSlot === "pet") return;
     setOutfit((prev) => {
       const next = { ...prev, [activeSlot]: p };
       // 한벌옷 ↔ 상/하의 상호 배타
@@ -389,10 +423,21 @@ function CodiContent() {
           {/* 왼쪽: 미리보기 + 착용 목록 */}
           <div>
             <div className="pixel-panel p-4 text-center sticky top-4">
-              <div className="h-52 flex items-center justify-center bg-[#0d0f14] mb-3">
+              <div className="h-52 flex items-end justify-center gap-2 bg-[#0d0f14] mb-3 pb-3">
+                {(outfit.pets || []).slice(0, 1).map((id) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img key={id} src={petIcon(id)} alt={petName(id)} title={petName(id)} className="w-10 h-10 object-contain" style={{ imageRendering: "pixelated" }} />
+                ))}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={previewUrl} alt="캐릭터 미리보기" className="max-h-48 object-contain" style={{ imageRendering: "pixelated" }} />
+                <img src={previewUrl} alt="캐릭터 미리보기" className="max-h-44 object-contain" style={{ imageRendering: "pixelated" }} />
+                {(outfit.pets || []).slice(1, 3).map((id) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img key={id} src={petIcon(id)} alt={petName(id)} title={petName(id)} className="w-10 h-10 object-contain" style={{ imageRendering: "pixelated" }} />
+                ))}
               </div>
+              {(outfit.pets?.length ?? 0) >= 3 && (
+                <p className="text-[10px] text-maple mb-2">💕 3마리 완성 — 인게임에선 하트 이펙트가 뜹니다 (옛메 고증)</p>
+              )}
               <div className="flex flex-wrap items-center justify-center gap-1.5 mb-3">
                 {POSES.map((po) => (
                   <button key={po.key} onClick={() => setPose(po.key)}
@@ -480,7 +525,41 @@ function CodiContent() {
                   {label}
                 </button>
               ))}
+              <button onClick={() => setActiveSlot("pet")}
+                className={`px-3 py-1.5 text-xs font-pixel border-2 transition-colors ${activeSlot === "pet" ? "border-maple text-maple bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]" : "border-edge text-dim hover:text-maple"}`}>
+                🐾 펫 {(outfit.pets?.length ?? 0) > 0 ? `(${outfit.pets!.length}/3)` : ""}
+              </button>
             </div>
+
+            {activeSlot === "pet" && (
+              <>
+                <p className="text-xs text-dim mb-3">최대 3마리 — 클릭해서 데리고 다니기 / 다시 클릭하면 해제. 메랜 확인 펫 {PETS.length}종.</p>
+                <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-1.5 mb-4">
+                  {PETS.map((p) => {
+                    const selected = outfit.pets?.includes(p.id);
+                    return (
+                      <button key={p.id} onClick={() => togglePet(p.id)}
+                        title={p.name}
+                        className={`pixel-card p-1.5 flex flex-col items-center gap-1 hover:border-maple transition-colors ${selected ? "border-maple" : ""}`}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={petIcon(p.id)} alt={p.name} className="w-8 h-8 object-contain" style={{ imageRendering: "pixelated" }} loading="lazy" />
+                        <span className="text-[9px] leading-tight text-center text-dim line-clamp-2 w-full">{p.name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="pixel-panel p-4 text-xs text-dim space-y-1.5">
+                  <p className="font-pixel text-maple">🐾 멀티펫 알아두기</p>
+                  <p>· 2.0부터 <span className="text-ink">최대 3마리 동시 소환</span> — 별도 조건 없이 펫 보유·착용이면 됩니다 (각 30일, 생명의 물로 연장)</p>
+                  <p>· <span className="text-ink">펫 조합에 따른 스탯 세트 효과는 없습니다</span> — "조합 효과"로 알려진 건 3마리 시 하트 이펙트(옛메 고증). 스탯 세트효과는 현행 메이플 이야기예요</p>
+                  <p>· 실질 이득: <span className="text-ink">자동버프 슬롯 펫당 1개(최대 3개)</span> · 줍기 처리량 증가(줍지 않을 아이템 펫당 10개 설정) · 펫장비 이속/점프 주문서 중첩</p>
+                  <p>· 펫장비: 공용(모자류)과 전용(디노보이 등 특정 펫)이 있고, 이동속도·점프력 주문서로 강화합니다</p>
+                </div>
+              </>
+            )}
+
+            {activeSlot !== "pet" && (
+            <>
             <input
               type="text" value={query}
               onChange={(e) => { setQuery(e.target.value); setPage(1); }}
@@ -510,6 +589,8 @@ function CodiContent() {
                   </div>
                 )}
               </>
+            )}
+            </>
             )}
           </div>
         </div>
