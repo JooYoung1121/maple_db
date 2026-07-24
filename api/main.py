@@ -18,6 +18,7 @@ from api.routes import search, items, mobs, maps, npcs, quests, export, skills, 
 from api.routes import maple_land
 from api.routes import worldcup
 from api.routes import codi
+from api.routes import versus
 from api.routes import matip
 from api.routes import game_results
 from api.routes import guild
@@ -339,6 +340,7 @@ app.include_router(maple_land.router, prefix="/api")
 app.include_router(game_results.router, prefix="/api")
 app.include_router(worldcup.router, prefix="/api")
 app.include_router(codi.router, prefix="/api")
+app.include_router(versus.router, prefix="/api")
 app.include_router(guild.router, prefix="/api")
 app.include_router(guild_members.router, prefix="/api")
 app.include_router(guild_boss.router, prefix="/api")

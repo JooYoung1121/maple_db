@@ -5,6 +5,7 @@ export const NEW_FEATURES: Record<string, string> = {
   "/quest-roadmap": "2026-07-22",
   "/worldcup": "2026-07-22",
   "/codi": "2026-07-22",
+  "/versus": "2026-07-24",
 };
 
 const NEW_WINDOW_DAYS = 14;

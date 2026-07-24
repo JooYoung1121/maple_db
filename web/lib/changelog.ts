@@ -9,6 +9,23 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.55.0",
+    date: "2026-07-24",
+    type: "minor",
+    title: "대전 오목 — 방 만들고 1:1 대국, 관전 자유",
+    features: [
+      {
+        category: "놀이터",
+        items: [
+          "새 페이지 /versus — 방 코드로 모여서 오목 1:1 대국, 나머지는 자유 관전",
+          "서버 판정(순서·중복·5목·기권·재대결 흑백 교대), 웹소켓 없이 폴링 동기화라 서버 부하 최소",
+          "초대 링크 공유, 대국 중 이탈 시 기권 처리, 방은 6시간 후 자동 삭제",
+          "같은그림찾기 대전 · 끝말잇기는 같은 인프라로 준비 중",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.54.1",
     date: "2026-07-24",
     type: "patch",
