@@ -9,6 +9,21 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.54.1",
+    date: "2026-07-24",
+    type: "patch",
+    title: "펫 테마 이펙트 조합 판정",
+    features: [
+      {
+        category: "코디 시뮬레이터",
+        items: [
+          "펫 3마리 이펙트가 '하트' 일괄이 아니라 테마 조합별(정글·겨울·수다·얌얌·보스)임을 반영 — 선택한 3마리가 같은 테마면 이펙트 발동 표시 (길드원 제보 → StrategyWiki 원작 조합표 검증)",
+          "펫 카드에 테마 아이콘 표기, 멀티펫 안내 조합표 갱신",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.54.0",
     date: "2026-07-24",
     type: "minor",

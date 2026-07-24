@@ -18,23 +18,44 @@ interface GalleryPost {
 type SlotKey = "hair" | "face" | "hat" | "overall" | "top" | "bottom" | "shoes" | "glove" | "cape" | "shield" | "weapon";
 type Outfit = { skin: number; pets?: number[] } & Partial<Record<SlotKey, Part>>;
 
-/* 메랜 확인 펫 (커뮤니티·캐시샵 조사 기준) — 아이콘은 maplestory.io 아이템 아이콘 */
-const PETS: { id: number; name: string }[] = [
-  { id: 5000000, name: "갈색 고양이" }, { id: 5000004, name: "검은 고양이" },
-  { id: 5000001, name: "갈색 강아지" }, { id: 5000006, name: "허스키" },
-  { id: 5000008, name: "팬더" }, { id: 5000009, name: "디노보이" }, { id: 5000010, name: "디노걸" },
-  { id: 5000002, name: "핑크 토끼" }, { id: 5000005, name: "흰 토끼" },
-  { id: 5000003, name: "미니카고" }, { id: 5000011, name: "원숭이" },
-  { id: 5000007, name: "검은 돼지" }, { id: 5000025, name: "황금 돼지" },
-  { id: 5000012, name: "백호" }, { id: 5000020, name: "미니예티" },
-  { id: 5000023, name: "펭귄" }, { id: 5000024, name: "발록" },
-  { id: 5000026, name: "손오공" }, { id: 5000022, name: "칠면조" },
-  { id: 5000039, name: "고슴도치" }, { id: 5000014, name: "루돌프" },
-  { id: 5000042, name: "키노" }, { id: 5000036, name: "리퍼" },
+/* 메랜 확인 펫 (커뮤니티·캐시샵 조사 기준) — 아이콘은 maplestory.io 아이템 아이콘
+ * themes: 멀티펫 3마리 테마 이펙트 그룹 (StrategyWiki MapleStory/Pets#Multipet 원작 기준) */
+const PETS: { id: number; name: string; themes?: string[] }[] = [
+  { id: 5000000, name: "갈색 고양이", themes: ["수다"] },
+  { id: 5000004, name: "검은 고양이", themes: ["수다"] },
+  { id: 5000001, name: "갈색 강아지", themes: ["얌얌"] },
+  { id: 5000006, name: "허스키", themes: ["겨울"] },
+  { id: 5000008, name: "팬더", themes: ["얌얌"] },
+  { id: 5000009, name: "디노보이", themes: ["수다"] },
+  { id: 5000010, name: "디노걸", themes: ["수다"] },
+  { id: 5000002, name: "핑크 토끼", themes: ["정글"] },
+  { id: 5000005, name: "흰 토끼", themes: ["정글", "겨울", "수다"] },
+  { id: 5000003, name: "미니카고", themes: ["보스"] },
+  { id: 5000011, name: "원숭이", themes: ["정글"] },
+  { id: 5000007, name: "검은 돼지", themes: ["얌얌"] },
+  { id: 5000025, name: "황금 돼지", themes: ["얌얌"] },
+  { id: 5000012, name: "백호", themes: ["정글"] },
+  { id: 5000020, name: "미니예티", themes: ["보스"] },
+  { id: 5000023, name: "펭귄", themes: ["겨울"] },
+  { id: 5000024, name: "발록", themes: ["보스"] },
+  { id: 5000026, name: "손오공", themes: ["수다"] },
+  { id: 5000022, name: "칠면조", themes: ["수다"] },
+  { id: 5000039, name: "고슴도치", themes: ["정글"] },
+  { id: 5000014, name: "루돌프", themes: ["겨울"] },
+  { id: 5000042, name: "키노" },
+  { id: 5000036, name: "리퍼", themes: ["수다"] },
   { id: 5000054, name: "달팽이 (이벤트)" },
 ];
+const THEME_ICON: Record<string, string> = { 정글: "🌴", 겨울: "❄️", 수다: "💬", 얌얌: "🍖", 보스: "👹" };
 const petName = (id: number) => PETS.find((p) => p.id === id)?.name || `#${id}`;
 const petIcon = (id: number) => `https://maplestory.io/api/gms/92/item/${id}/icon`;
+
+/* 3마리가 공통 테마에 속하면 해당 이펙트 발동 */
+function petComboThemes(pets: number[] | undefined): string[] {
+  if (!pets || pets.length < 3) return [];
+  const sets = pets.map((id) => new Set(PETS.find((p) => p.id === id)?.themes || []));
+  return [...sets[0]].filter((t) => sets.every((s) => s.has(t)));
+}
 
 const SLOTS: { key: SlotKey; label: string }[] = [
   { key: "hair", label: "헤어" },
@@ -436,7 +457,13 @@ function CodiContent() {
                 ))}
               </div>
               {(outfit.pets?.length ?? 0) >= 3 && (
-                <p className="text-[10px] text-maple mb-2">💕 3마리 완성 — 인게임에선 하트 이펙트가 뜹니다 (옛메 고증)</p>
+                petComboThemes(outfit.pets).length > 0 ? (
+                  <p className="text-[10px] text-maple mb-2">
+                    {petComboThemes(outfit.pets).map((t) => `${THEME_ICON[t] || "✨"} ${t} 이펙트 발동!`).join(" · ")} — 인게임에서 캐릭터 뒤에 대형 이펙트가 뜹니다
+                  </p>
+                ) : (
+                  <p className="text-[10px] text-dim mb-2">3마리 소환 중 — 같은 테마 조합이 아니라 이펙트는 없어요</p>
+                )
               )}
               <div className="flex flex-wrap items-center justify-center gap-1.5 mb-3">
                 {POSES.map((po) => (
@@ -533,17 +560,21 @@ function CodiContent() {
 
             {activeSlot === "pet" && (
               <>
-                <p className="text-xs text-dim mb-3">최대 3마리 — 클릭해서 데리고 다니기 / 다시 클릭하면 해제. 메랜 확인 펫 {PETS.length}종.</p>
+                <p className="text-xs text-dim mb-3">
+                  최대 3마리 — 클릭해서 데리고 다니기 / 다시 클릭하면 해제. 메랜 확인 펫 {PETS.length}종.
+                  <span className="text-maple"> 같은 테마 아이콘 3마리를 모으면 이펙트 발동!</span>
+                </p>
                 <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-1.5 mb-4">
                   {PETS.map((p) => {
                     const selected = outfit.pets?.includes(p.id);
                     return (
                       <button key={p.id} onClick={() => togglePet(p.id)}
-                        title={p.name}
+                        title={`${p.name}${p.themes?.length ? ` — 테마: ${p.themes.join("·")}` : ""}`}
                         className={`pixel-card p-1.5 flex flex-col items-center gap-1 hover:border-maple transition-colors ${selected ? "border-maple" : ""}`}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={petIcon(p.id)} alt={p.name} className="w-8 h-8 object-contain" style={{ imageRendering: "pixelated" }} loading="lazy" />
                         <span className="text-[9px] leading-tight text-center text-dim line-clamp-2 w-full">{p.name}</span>
+                        <span className="text-[9px] leading-none">{(p.themes || []).map((t) => THEME_ICON[t]).join("")}</span>
                       </button>
                     );
                   })}
@@ -551,9 +582,13 @@ function CodiContent() {
                 <div className="pixel-panel p-4 text-xs text-dim space-y-1.5">
                   <p className="font-pixel text-maple">🐾 멀티펫 알아두기</p>
                   <p>· 2.0부터 <span className="text-ink">최대 3마리 동시 소환</span> — 별도 조건 없이 펫 보유·착용이면 됩니다 (각 30일, 생명의 물로 연장)</p>
-                  <p>· <span className="text-ink">펫 조합에 따른 스탯 세트 효과는 없습니다</span> — "조합 효과"로 알려진 건 3마리 시 하트 이펙트(옛메 고증). 스탯 세트효과는 현행 메이플 이야기예요</p>
-                  <p>· 실질 이득: <span className="text-ink">자동버프 슬롯 펫당 1개(최대 3개)</span> · 줍기 처리량 증가(줍지 않을 아이템 펫당 10개 설정) · 펫장비 이속/점프 주문서 중첩</p>
+                  <p>
+                    · <span className="text-ink">테마 이펙트</span>: 같은 테마 펫 3마리를 소환하면 캐릭터 뒤에 대형 이펙트가 뜹니다 (원작 고증) —
+                    {" "}🌴정글(고슴도치·원숭이·백호·토끼) · ❄️겨울(루돌프·허스키·펭귄·흰토끼) · 💬수다(고양이·디노·손오공·칠면조·리퍼) · 🍖얌얌(강아지·돼지·팬더) · 👹보스(발록·미니예티·미니카고)
+                  </p>
+                  <p>· 스탯을 주는 세트 효과는 아닙니다(시각 이펙트) — 실질 이득은 <span className="text-ink">자동버프 슬롯 펫당 1개(최대 3개)</span> · 줍기 처리량 · 펫장비 이속/점프 중첩</p>
                   <p>· 펫장비: 공용(모자류)과 전용(디노보이 등 특정 펫)이 있고, 이동속도·점프력 주문서로 강화합니다</p>
+                  <p className="text-[10px]">※ 테마 조합표는 원작(StrategyWiki) 기준 — 메랜 구현은 발록×3(보스 이펙트) 등 커뮤니티 실증 사례 기반이며, 조합별로 안 뜨는 경우 제보 주세요</p>
                 </div>
               </>
             )}
