@@ -11,18 +11,20 @@ from api.routes.mapleland_reference import id_filter_sql
 router = APIRouter()
 
 # type → (category, subcategory 목록, 레퍼런스 필터 적용 여부)
+# 코디는 "외형 미리보기" 도구라 레퍼런스 필터를 걸지 않는다 — 캐시샵 코디(목욕가운 등)가
+# 레퍼런스(드랍/제작 장비 목록)에 없어서 걸러지던 문제 수정 (2026-07-24)
 PART_TYPES: dict[str, tuple[str, tuple[str, ...], bool]] = {
     "hair": ("Character", ("Hair",), False),
     "face": ("Character", ("Face",), False),
-    "hat": ("Armor", ("Hat",), True),
-    "overall": ("Armor", ("Overall",), True),
-    "top": ("Armor", ("Top",), True),
-    "bottom": ("Armor", ("Bottom",), True),
-    "shoes": ("Armor", ("Shoes",), True),
-    "glove": ("Armor", ("Glove",), True),
-    "cape": ("Armor", ("Cape",), True),
-    "shield": ("Armor", ("Shield",), True),
-    "weapon": ("WEAPON", (), True),  # 특수 처리: 한손+두손 무기
+    "hat": ("Armor", ("Hat",), False),
+    "overall": ("Armor", ("Overall",), False),
+    "top": ("Armor", ("Top",), False),
+    "bottom": ("Armor", ("Bottom",), False),
+    "shoes": ("Armor", ("Shoes",), False),
+    "glove": ("Armor", ("Glove",), False),
+    "cape": ("Armor", ("Cape",), False),
+    "shield": ("Armor", ("Shield",), False),
+    "weapon": ("WEAPON", (), False),  # 특수 처리: 한손+두손 무기
 }
 
 

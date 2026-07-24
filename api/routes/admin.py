@@ -244,3 +244,40 @@ def admin_delete_mob(mob_id: int, request: Request):
         conn.close()
 
     return {"ok": True}
+
+
+@router.get("/admin/db-status")
+def admin_db_status(request: Request):
+    """시드 동기화 진단 — 주요 테이블 존재·행수 + DB 파일/디스크 상태."""
+    _require_admin(request)
+    import os
+    import shutil
+
+    from crawler.db import get_connection, DB_PATH
+
+    out: dict = {"tables": {}, "db": {}}
+    check_tables = [
+        "quests", "mob_drops", "mob_spawns", "items", "map_details", "mapledb_quests",
+        "sim_jobs", "sim_skills", "codi_posts", "game_results", "entity_names_en", "mobs", "maps",
+    ]
+    conn = get_connection()
+    try:
+        for t in check_tables:
+            try:
+                out["tables"][t] = conn.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0]
+            except Exception as e:
+                out["tables"][t] = f"ERROR: {e}"
+    finally:
+        conn.close()
+    try:
+        p = str(DB_PATH)
+        out["db"]["path"] = p
+        out["db"]["size_mb"] = round(os.path.getsize(p) / 1024 / 1024, 1)
+        real = os.path.realpath(p)
+        out["db"]["realpath"] = real
+        usage = shutil.disk_usage(os.path.dirname(real))
+        out["db"]["disk_free_mb"] = round(usage.free / 1024 / 1024, 1)
+        out["db"]["disk_total_mb"] = round(usage.total / 1024 / 1024, 1)
+    except Exception as e:
+        out["db"]["error"] = str(e)
+    return out

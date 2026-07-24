@@ -30,16 +30,25 @@ try:
 
     for tbl in SEED_TABLES:
         # 시드에 해당 테이블이 있을 때만 교체 (스키마 차이는 CREATE AS SELECT로 흡수)
-        exists = vol.execute(
-            \"SELECT 1 FROM seed.sqlite_master WHERE type='table' AND name=?\", (tbl,)
-        ).fetchone()
-        if not exists:
-            print(f'Seed table missing, skip: {tbl}')
-            continue
-        vol.execute(f'DROP TABLE IF EXISTS {tbl}')
-        vol.execute(f'CREATE TABLE {tbl} AS SELECT * FROM seed.{tbl}')
-        cnt = vol.execute(f'SELECT COUNT(*) FROM {tbl}').fetchone()[0]
-        print(f'Replaced {tbl}: {cnt} rows')
+        # 테이블 하나 실패해도 나머지는 계속 진행 (과거: map_details 실패 → 이후 전부 스킵되는 사고)
+        try:
+            exists = vol.execute(
+                \"SELECT 1 FROM seed.sqlite_master WHERE type='table' AND name=?\", (tbl,)
+            ).fetchone()
+            if not exists:
+                print(f'Seed table missing, skip: {tbl}')
+                continue
+            vol.execute(f'DROP TABLE IF EXISTS {tbl}')
+            vol.execute(f'CREATE TABLE {tbl} AS SELECT * FROM seed.{tbl}')
+            vol.commit()
+            cnt = vol.execute(f'SELECT COUNT(*) FROM {tbl}').fetchone()[0]
+            print(f'Replaced {tbl}: {cnt} rows')
+        except Exception as te:
+            print(f'SEED SYNC FAIL [{tbl}]: {te!r}')
+            try:
+                vol.rollback()
+            except Exception:
+                pass
 
     # entity_names_en은 관리자가 라이브에서 몹 한글명을 수정하므로 통째 교체 금지 —
     # 시드에만 있는 행을 추가만 한다 (기존 행은 INSERT OR IGNORE로 보존)

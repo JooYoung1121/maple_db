@@ -9,6 +9,27 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.53.0",
+    date: "2026-07-24",
+    type: "minor",
+    title: "코디에 캐시샵 외형 포함 + 시드 동기화 안정화",
+    features: [
+      {
+        category: "코디 시뮬레이터",
+        items: [
+          "캐시샵 코디(목욕가운 등)가 장비 목록에서 빠져 있던 것 수정 — 코디는 외형 미리보기 도구라 전체 외형 표시로 변경",
+        ],
+      },
+      {
+        category: "운영",
+        items: [
+          "배포 시드 동기화가 테이블 하나 실패 시 전체 중단되던 문제 수정 (퀘스트 로드맵·맵 구조도 라이브 미반영 원인) — 테이블별 독립 처리 + 실패 로그",
+          "관리자 DB 상태 진단 API 추가 (/api/admin/db-status)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.52.0",
     date: "2026-07-24",
     type: "minor",
