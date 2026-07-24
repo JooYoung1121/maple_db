@@ -9,6 +9,21 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.57.1",
+    date: "2026-07-24",
+    type: "patch",
+    title: "아이템 검색 누락 수정 — 영문명 중복 제거 버그",
+    features: [
+      {
+        category: "버그 수정",
+        items: [
+          "아이템 페이지에서 하의 민첩 주문서 100%·60%·10% 등 313개 아이템이 검색되지 않던 문제 수정",
+          "영문 이름이 같은 별개 아이템(메이플 모자 1~3단계, 데비존의 모자 등급별 등)을 중복으로 오판해 숨기던 정리 로직을 메랜 레퍼런스 우선으로 개선",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.57.0",
     date: "2026-07-24",
     type: "minor",

@@ -147,22 +147,36 @@ def cleanup_mobs(conn: sqlite3.Connection) -> dict:
 
 
 def cleanup_items(conn: sqlite3.Connection) -> dict:
-    """아이템 데이터 정리. 같은 이름 중복 → 대표 1개만 노출."""
+    """아이템 데이터 정리. 같은 영문 이름 중복 → 대표만 노출.
+
+    영문 이름이 같아도 메랜 레퍼런스에 있으면 별개 아이템일 수 있음
+    (예: Maple Hat = 메이플 모자 1~3단계, 하의 민첩 주문서 % 시리즈).
+    그룹에 레퍼런스 멤버가 있으면 레퍼런스 멤버 전부 노출,
+    없으면 기존대로 MIN(id)만 노출.
+    """
     stats = {"total_hidden": 0, "visible": 0}
 
     migrate_db(conn)
     conn.execute("UPDATE items SET is_hidden = 0")
 
-    # 같은 이름 중복 → 가장 낮은 ID만 남기기
-    conn.execute("""
-        UPDATE items SET is_hidden = 1
-        WHERE id NOT IN (
-            SELECT MIN(id) FROM items GROUP BY name
-        )
-        AND name IN (
-            SELECT name FROM items GROUP BY name HAVING COUNT(*) > 1
-        )
-    """)
+    try:
+        from api.routes.mapleland_reference import mapleland_ids
+        ref_ids = set(mapleland_ids("items"))
+    except Exception:
+        ref_ids = set()
+
+    dup_groups = conn.execute("""
+        SELECT name, GROUP_CONCAT(id) AS ids FROM items
+        GROUP BY name HAVING COUNT(*) > 1
+    """).fetchall()
+    hide: list[int] = []
+    for row in dup_groups:
+        members = sorted(int(x) for x in row["ids"].split(","))
+        ref_members = [m for m in members if m in ref_ids]
+        keep = set(ref_members) if ref_members else {members[0]}
+        hide.extend(m for m in members if m not in keep)
+    if hide:
+        conn.executemany("UPDATE items SET is_hidden = 1 WHERE id = ?", [(i,) for i in hide])
 
     conn.commit()
     stats["total_hidden"] = conn.execute("SELECT COUNT(*) FROM items WHERE is_hidden=1").fetchone()[0]
