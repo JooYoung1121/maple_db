@@ -56,6 +56,52 @@ def _touch(code: str, client_id: Optional[str], nickname: str) -> list[dict]:
     return [{"client_id": c, "nickname": n} for c, (n, _) in room.items()]
 
 
+MEMORY_PAIRS = 18  # 6x6
+
+
+def _pick_memory_mobs(n: int) -> list[int]:
+    """레퍼런스 몹 중 아이콘 있는 n종 랜덤 (부위몹·변종 제외)."""
+    from api.routes.mapleland_reference import id_filter_sql
+
+    conn = get_connection()
+    try:
+        flt = id_filter_sql("m.id", "mobs")
+        rows = conn.execute(
+            f"""SELECT m.id FROM mobs m
+                WHERE m.icon_url IS NOT NULL AND m.id < 9000000
+                {f'AND {flt}' if flt else ''}
+                AND NOT EXISTS (
+                    SELECT 1 FROM entity_names_en e
+                    WHERE e.entity_type='mob' AND e.entity_id=m.id AND e.source='kms'
+                      AND (e.name_en LIKE '%팔_' OR e.name_en LIKE '%의 다리' OR e.name_en LIKE '%훈련용%')
+                )
+                ORDER BY RANDOM() LIMIT ?""",
+            (n,),
+        ).fetchall()
+        return [r["id"] for r in rows]
+    finally:
+        conn.close()
+
+
+def _new_memory_state(host_client: str, host_nick: str, first: str = "P1") -> dict:
+    mobs = _pick_memory_mobs(MEMORY_PAIRS)
+    cards = mobs * 2
+    random.shuffle(cards)
+    return {
+        "game": "memory",
+        "cards": cards,
+        "revealed": [False] * len(cards),
+        "flip": [],
+        "last_pair": None,  # [i, j, matched]
+        "turn": first,
+        "seats": {"P1": {"client_id": host_client, "nickname": host_nick} if host_client else None, "P2": None},
+        "scores": {"P1": 0, "P2": 0},
+        "winner": None,
+        "rematch": [],
+        "log": [],
+    }
+
+
 def _new_omok_state(host_client: str, host_nick: str) -> dict:
     return {
         "game": "omok",
@@ -107,7 +153,7 @@ class RoomAction(BaseModel):
 
 @router.post("/versus/rooms")
 def create_room(body: CreateRoom):
-    if body.game not in ("omok",):
+    if body.game not in ("omok", "memory"):
         raise HTTPException(status_code=400, detail="지원하지 않는 게임입니다.")
     if not body.client_id:
         raise HTTPException(status_code=400, detail="client_id 필요")
@@ -120,8 +166,13 @@ def create_room(body: CreateRoom):
                 break
         else:
             raise HTTPException(status_code=500, detail="방 코드 생성 실패")
-        state = _new_omok_state(body.client_id, body.nickname.strip()[:12] or "익명")
-        _log(state, f"{state['seats']['B']['nickname']} 님이 방을 만들었습니다 (흑)")
+        nick = body.nickname.strip()[:12] or "익명"
+        if body.game == "memory":
+            state = _new_memory_state(body.client_id, nick)
+            _log(state, f"{nick} 님이 같은그림찾기 방을 만들었습니다 (P1)")
+        else:
+            state = _new_omok_state(body.client_id, nick)
+            _log(state, f"{state['seats']['B']['nickname']} 님이 방을 만들었습니다 (흑)")
         now = time.time()
         conn.execute(
             "INSERT INTO versus_rooms (code, game, state, version, created_at, updated_at) VALUES (?,?,?,1,?,?)",
@@ -176,31 +227,79 @@ def room_action(code: str, body: RoomAction):
             raise HTTPException(status_code=404, detail="방을 찾을 수 없습니다")
         state = json.loads(row["state"])
         seats = state["seats"]
-        my_seat = next((s for s in ("B", "W") if seats.get(s) and seats[s]["client_id"] == body.client_id), None)
+        game = row["game"]
+        seat_keys = ("B", "W") if game == "omok" else ("P1", "P2")
+        seat_label = (lambda s: ("흑" if s == "B" else "백")) if game == "omok" else (lambda s: s)
+        my_seat = next((s for s in seat_keys if seats.get(s) and seats[s]["client_id"] == body.client_id), None)
 
         if a_type == "sit":
             seat = act.get("seat")
-            if seat not in ("B", "W"):
+            if seat not in seat_keys:
                 raise HTTPException(status_code=400, detail="잘못된 좌석")
             if seats.get(seat):
                 raise HTTPException(status_code=409, detail="이미 다른 분이 앉아 있어요")
             if my_seat:
                 raise HTTPException(status_code=409, detail="이미 착석 중입니다")
             seats[seat] = {"client_id": body.client_id, "nickname": nickname}
-            _log(state, f"{nickname} 님이 {'흑' if seat == 'B' else '백'}에 앉았습니다")
+            _log(state, f"{nickname} 님이 {seat_label(seat)}에 앉았습니다")
 
         elif a_type == "stand":
             if not my_seat:
                 raise HTTPException(status_code=400, detail="착석 중이 아닙니다")
-            if state["move_count"] > 0 and not state["winner"]:
-                # 대국 중 이탈 = 기권
-                state["winner"] = "W" if my_seat == "B" else "B"
-                _log(state, f"{nickname} 님 기권 — {'백' if my_seat == 'B' else '흑'} 승리")
+            started = (state.get("move_count", 0) > 0) if game == "omok" else (
+                bool(state.get("flip")) or any(state.get("revealed") or []) or sum((state.get("scores") or {}).values()) > 0
+            )
+            if started and not state["winner"]:
+                # 게임 중 이탈 = 기권
+                other = seat_keys[1] if my_seat == seat_keys[0] else seat_keys[0]
+                state["winner"] = other
+                _log(state, f"{nickname} 님 기권 — {seat_label(other)} 승리")
             else:
                 _log(state, f"{nickname} 님이 자리에서 일어났습니다")
             seats[my_seat] = None
 
+        elif a_type == "flip":
+            if game != "memory":
+                raise HTTPException(status_code=400, detail="이 방의 게임이 아닙니다")
+            if state["winner"]:
+                raise HTTPException(status_code=409, detail="이미 끝난 게임입니다")
+            if not my_seat:
+                raise HTTPException(status_code=403, detail="관전 중에는 뒤집을 수 없어요 — 빈 자리에 앉아주세요")
+            if not (seats.get("P1") and seats.get("P2")):
+                raise HTTPException(status_code=409, detail="상대가 앉을 때까지 기다려주세요")
+            if state["turn"] != my_seat:
+                raise HTTPException(status_code=409, detail="상대 차례입니다")
+            i = act.get("index")
+            cards = state["cards"]
+            if not (isinstance(i, int) and 0 <= i < len(cards)):
+                raise HTTPException(status_code=400, detail="잘못된 카드")
+            if state["revealed"][i] or i in state["flip"]:
+                raise HTTPException(status_code=409, detail="이미 열린 카드입니다")
+            if not state["flip"]:
+                state["flip"] = [i]
+                state["last_pair"] = None
+            else:
+                j = state["flip"][0]
+                matched = cards[i] == cards[j]
+                state["flip"] = []
+                state["last_pair"] = [j, i, matched]
+                if matched:
+                    state["revealed"][i] = True
+                    state["revealed"][j] = True
+                    state["scores"][my_seat] += 1
+                    if all(state["revealed"]):
+                        s1, s2 = state["scores"]["P1"], state["scores"]["P2"]
+                        state["winner"] = "draw" if s1 == s2 else ("P1" if s1 > s2 else "P2")
+                        if state["winner"] == "draw":
+                            _log(state, f"게임 종료 — {s1}:{s2} 무승부!")
+                        else:
+                            _log(state, f"🏆 게임 종료 — {seats[state['winner']]['nickname']} 님 승리 ({max(s1,s2)}:{min(s1,s2)})")
+                else:
+                    state["turn"] = "P2" if my_seat == "P1" else "P1"
+
         elif a_type == "place":
+            if game != "omok":
+                raise HTTPException(status_code=400, detail="이 방의 게임이 아닙니다")
             if state["winner"]:
                 raise HTTPException(status_code=409, detail="이미 끝난 대국입니다")
             if not my_seat:
@@ -239,11 +338,15 @@ def room_action(code: str, body: RoomAction):
             state["rematch"] = sorted(votes)
             _log(state, f"{nickname} 님 재대결 신청 ({len(votes)}/2)")
             if len(votes) >= 2:
-                # 색 교대 재시작
-                new_b, new_w = seats["W"], seats["B"]
-                state.update(_new_omok_state("", ""))
-                state["seats"] = {"B": new_b, "W": new_w}
-                _log(state, "🔄 재대결 시작 — 흑백 교대")
+                # 자리 교대 재시작
+                a, b = seat_keys
+                new_a, new_b = seats[b], seats[a]
+                if game == "memory":
+                    state.update(_new_memory_state("", ""))
+                else:
+                    state.update(_new_omok_state("", ""))
+                state["seats"] = {a: new_a, b: new_b}
+                _log(state, "🔄 재대결 시작 — 자리 교대")
 
         else:
             raise HTTPException(status_code=400, detail="알 수 없는 액션")

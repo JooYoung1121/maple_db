@@ -9,6 +9,27 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.56.0",
+    date: "2026-07-24",
+    type: "minor",
+    title: "같은그림찾기 대전 + 맵 드랍 확률 표시",
+    features: [
+      {
+        category: "대전 게임",
+        items: [
+          "같은그림찾기(짝맞추기) 대전 — 몬스터 카드 18쌍(6×6), 맞추면 연속 턴, 많이 찾은 쪽 승리",
+          "오목과 같은 방 인프라 (방 코드·관전·재대결 자리 교대)",
+        ],
+      },
+      {
+        category: "맵",
+        items: [
+          "맵 상세 '이 맵 드랍템'에 드랍 확률 표시 — 카드 우측에 최고 드랍률, 마우스 오버 시 몹별 확률 (전체 드랍의 91% 확률 데이터 보유)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.55.0",
     date: "2026-07-24",
     type: "minor",

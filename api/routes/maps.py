@@ -252,18 +252,28 @@ def get_map(map_id: int):
                 f"""SELECT i.id as item_id, i.name as item_name, i.category, i.icon_url,
                            (SELECT name_en FROM entity_names_en
                             WHERE entity_type='item' AND entity_id=i.id AND source='kms') as item_name_kr,
-                           GROUP_CONCAT(DISTINCT md.mob_id) as mob_ids
+                           md.mob_id, md.drop_rate
                     FROM mob_drops md
                     JOIN items i ON i.id = md.item_id
                     WHERE md.mob_id IN ({mob_ph}){item_cond}
-                    GROUP BY i.id
                     ORDER BY i.category, i.name""",
                 all_mob_ids,
             ).fetchall()
+            by_item: dict[int, dict] = {}
             for r in drop_rows:
-                item = dict(r)
-                item["mob_ids"] = [int(x) for x in str(item["mob_ids"]).split(",") if x]
-                drops.append(item)
+                it = by_item.get(r["item_id"])
+                if it is None:
+                    it = by_item[r["item_id"]] = {
+                        "item_id": r["item_id"], "item_name": r["item_name"],
+                        "category": r["category"], "icon_url": r["icon_url"],
+                        "item_name_kr": r["item_name_kr"],
+                        "mob_ids": [], "sources": [], "max_rate": None,
+                    }
+                it["mob_ids"].append(r["mob_id"])
+                it["sources"].append({"mob_id": r["mob_id"], "rate": r["drop_rate"]})
+                if r["drop_rate"] is not None and (it["max_rate"] is None or r["drop_rate"] > it["max_rate"]):
+                    it["max_rate"] = r["drop_rate"]
+            drops = list(by_item.values())
 
         # 포탈 연결맵 한글명
         kr_map_names = mapleland_name_kr_map("maps")

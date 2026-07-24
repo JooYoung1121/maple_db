@@ -310,7 +310,9 @@ export default function MapDetailPage() {
       {drops.length > 0 && (
         <div className="mb-6">
           <h2 className="font-pixel text-lg font-semibold mb-1 text-ink">💰 이 맵에서 얻는 드랍템 <span className="text-sm font-normal text-dim">({drops.length}종)</span></h2>
-          <p className="text-[11px] text-dim mb-2">출현 몬스터들의 드랍 목록 합계 — 아이템에 마우스를 올리면 어떤 몹이 떨구는지 표시됩니다</p>
+          <p className="text-[11px] text-dim mb-2">
+            출현 몬스터들의 드랍 목록 합계 — 우측 %는 이 맵에서의 최고 드랍률, 마우스를 올리면 몹별 확률이 표시됩니다 (원작 데이터 기준 참고값)
+          </p>
           {Object.entries(dropsByCategory).map(([cat, list]) => (
             <div key={cat} className="mb-3">
               <h3 className="text-xs font-pixel text-dim mb-1.5">{CATEGORY_KR[cat] || cat} ({list.length})</h3>
@@ -319,14 +321,19 @@ export default function MapDetailPage() {
                   <Link
                     key={d.item_id}
                     href={`/items/${d.item_id}`}
-                    title={`드랍: ${d.mob_ids.map((mid) => mobNameOf.get(mid) || `#${mid}`).join(", ")}`}
+                    title={`드랍: ${(d.sources || d.mob_ids.map((m) => ({ mob_id: m, rate: null as number | null })))
+                      .map((s) => `${mobNameOf.get(s.mob_id) || `#${s.mob_id}`}${s.rate != null ? ` ${(s.rate * 100).toFixed(2)}%` : ""}`)
+                      .join(", ")}`}
                     className="pixel-card flex items-center gap-2 px-2.5 py-1.5 hover:border-maple transition-colors"
                   >
                     {d.icon_url && (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={d.icon_url} alt="" className="w-6 h-6 object-contain shrink-0" loading="lazy" />
                     )}
-                    <span className="text-xs truncate">{d.item_name_kr || d.item_name}</span>
+                    <span className="text-xs truncate flex-1">{d.item_name_kr || d.item_name}</span>
+                    {d.max_rate != null && (
+                      <span className="text-[10px] text-skill shrink-0 font-mono">{(d.max_rate * 100).toFixed(d.max_rate >= 0.1 ? 0 : 2)}%</span>
+                    )}
                   </Link>
                 ))}
               </div>

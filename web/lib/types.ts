@@ -111,6 +111,8 @@ export interface MapDrop {
   category: string | null;
   icon_url: string | null;
   mob_ids: number[];
+  sources?: { mob_id: number; rate: number | null }[];
+  max_rate?: number | null;
 }
 
 export interface MapData {
