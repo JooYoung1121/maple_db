@@ -9,6 +9,28 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.58.0",
+    date: "2026-07-24",
+    type: "minor",
+    title: "7/24 패치 반영 — 신규 파티퀘스트 2종",
+    features: [
+      {
+        category: "파티퀘스트",
+        items: [
+          "독안개의 숲(엘린숲 PQ, Lv45~70) 가이드 — 변신 시스템·6단계 진행·포이즌 골렘 3연전 (원작 기준)",
+          "위험에 빠진 켄타(아쿠아로드 PQ, Lv90~120, 일 10회) 가이드 — 켄타 보호·피아누스 2마리, 첫날 유저 체감 경험치 포함",
+          "차원의 거울(Lv35+) 안내 추가, 켄타 PQ 일일 10회 재입장 카운터",
+        ],
+      },
+      {
+        category: "데이터",
+        items: [
+          "독안개의 숲 PQ 맵 10개 + 알테어 이어링·빛나는 알테어 이어링·알테어 조각 검색 등록",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.57.1",
     date: "2026-07-24",
     type: "patch",

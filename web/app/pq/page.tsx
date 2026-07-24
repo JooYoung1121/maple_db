@@ -14,8 +14,8 @@ interface PQData {
   nameEn: string;
   levelMin: number;
   levelMax: number;
-  members: number;
-  dailyLimit: number;
+  members: number | string;
+  dailyLimit: number | string;
   timeLimit: string;
   location: string;
   npc: string;
@@ -154,6 +154,71 @@ const PQ_LIST: PQData[] = [
       "텔레포트, 헤이스트가 있으면 진행이 훨씬 빠름",
     ],
   },
+  {
+    id: "ellin",
+    name: "독안개의 숲",
+    nameEn: "엘린숲 PQ (Forest of Poison Haze) · 7/24 신규",
+    levelMin: 45,
+    levelMax: 70,
+    members: "3~6",
+    dailyLimit: "미확인",
+    timeLimit: "원작 기준 30분",
+    location: "알테어 숲 깊은 곳 — 차원의 거울로만 입장",
+    npc: "엘린",
+    requiredJobs: [],
+    stages: [
+      { name: "입장: 변신", desc: "엘린이 독을 막기 위해 변신 마법을 걸어줍니다. 직업 계열별로 알테어 캠프의 영웅(전사 칸데룬, 마법사 페르젠, 궁수 아테나 피어스, 도적 로드, 해적 유리스)으로 변신. 스킬은 그대로 사용합니다. (원작 기준)" },
+      { name: "1단계: 중독된 트리로드 섬멸", desc: "맵의 중독된 트리로드를 전부 처치하면 포탈이 열립니다." },
+      { name: "2단계: 희석된 독 수집", desc: "중독된 스톤버그를 맵 중앙 초록 나무(웅덩이) 근처로 유인해서 잡아야 '희석된 독'이 나옵니다. 다른 곳에서 잡으면 주울 수 없는 농축된 독이 드롭. 4개를 모아 오른쪽 가시덤불에 사용." },
+      { name: "3단계: 포탈 미로", desc: "포탈 미로를 흩어져 탐색 — 1명만 우측 하단 엘린 방에 도착해 대화하면 통과." },
+      { name: "4단계: 몬스터 생포", desc: "중독된 스프라이트의 체력을 절반쯤 깎은 뒤 정화의 구슬로 클릭해 생포 → 몬스터 구슬 수집. 여러 명이 같은 몹을 치면 죽어버리니 1인 1몹." },
+      { name: "5단계: 점프맵 상자 찾기", desc: "좌/중/우 3갈래 점프맵 꼭대기의 상자 9개 중 랜덤 1개에 보라색 마력석. 가짜 발판 주의." },
+      { name: "최종: 포이즌 골렘 3연전", desc: "마력석을 제단에 설치하면 보스 소환. 처치할 때마다 강화된 형태로 재등장(3연전). 봉인·암흑 등 상태이상 공격 주의." },
+    ],
+    rewards: {
+      exp: "클리어 경험치 (2.0에서 원작 대비 상향 조정 — 패치노트)",
+      items: ["알테어 조각 (1회 클리어당 1개)", "알테어 이어링 (조각 교환 · 2번 획득 가능 · 1회 거래 후 교환불가)", "빛나는 알테어 이어링 (조각 교환 · 동일 조건)"],
+    },
+    tips: [
+      "원작과 달리 시그너스 직업군도 입장 가능 (패치노트)",
+      "아직은 차원의 거울(Lv35+, 마을 화면 좌측 아이콘)로만 입장 가능",
+      "2단계가 최대 관문 — 스톤버그를 반드시 웅덩이 옆까지 유인해서 처치",
+      "4단계 정화의 구슬은 단축키 등록, 파트너 몹은 나눠서 1인 1몹",
+      "보스전 봉인·암흑 대비 만병통치약 지참, 클레릭 있으면 안정적",
+      "단계 구성은 원작(KMS/GMS) 기준 — 메랜에서 세부 수치가 다를 수 있음",
+    ],
+  },
+  {
+    id: "kenta",
+    name: "위험에 빠진 켄타",
+    nameEn: "아쿠아로드 PQ (Kenta in Danger) · 7/24 신규",
+    levelMin: 90,
+    levelMax: 120,
+    members: "3~6",
+    dailyLimit: 10,
+    timeLimit: "판당 6~10분 소요 (유저 체감)",
+    location: "아쿠아로드 깊은 곳 — 차원의 거울로만 입장",
+    npc: "켄타",
+    requiredJobs: ["프리스트 (디스펠·힐 — 사실상 필수 취급)"],
+    stages: [
+      { name: "1단계: 수중 몬스터 섬멸", desc: "맵의 몬스터(샤크·콜드샤크·본피쉬 등)를 전부 처치. 수중이라 가만히 있으면 가라앉으니 점프키로 부양하며 사냥. (원작 기준)" },
+      { name: "2단계: 공기방울 수집", desc: "숨을 쉬지 못하는 켄타를 위해 몬스터가 드롭하는 공기방울을 수집해 전달합니다." },
+      { name: "3단계: 켄타 보호", desc: "맵 중앙의 켄타를 몬스터로부터 보호. 켄타가 받은 피해는 회복되지 않으므로 좌우 전 방향을 막아야 합니다." },
+      { name: "최종: 피아누스 2마리", desc: "위험한 동굴에서 좌/우 피아누스 2마리 처치. 원본과 같은 1/1(HP·MP 1)·봉인·캔슬 패턴 + 블러디 붐 소환." },
+    ],
+    rewards: {
+      exp: "판당 약 75만 (첫날 유저 체감 · 일 10회 = 최대 750만)",
+      items: ["얼음결정 페이스페인팅 (최종 보스 확률 드롭 · 1회 거래 후 교환불가)"],
+    },
+    tips: [
+      "1/1·봉인이 잦아 물약 소모 극심 — 만병통치약·회복약 넉넉히 (판당 물약 100~150개 보고)",
+      "마법사는 매직가드 필수 (몹 몸박·마공 2,000 내외 보고)",
+      "본피쉬·샤크 요구 명중이 높음 — 110렙 이하는 미스 주의",
+      "얼음결정 페이스페인팅은 보스 드롭 — 파티 분배 규칙을 미리 정하고 시작",
+      "켄타 보호 단계는 좌우 광역 + 위쪽 커버 분담이 핵심",
+      "단계 구성은 원작(KMS 2011) 기준, 경험치·데미지 수치는 출시 첫날 커뮤니티 보고라 변동 가능",
+    ],
+  },
 ];
 
 // ─── 보상 비교 데이터 ───
@@ -162,9 +227,29 @@ const REWARD_COMPARE = [
   { id: "ludi", expPerRun: "40~50%", expPerHour: "약 2~3회/시간", efficiency: "최고 (35~50)", mainDrops: "전신 이속/지력, 귀지력 주문서" },
   { id: "orbis", expPerRun: "경파 15.5k / 완파 80~100k", expPerHour: "경파 15+회/시간", efficiency: "높음 (51~70)", mainDrops: "여신의 팔찌, 귀지력60, 장공60" },
   { id: "romeo", expPerRun: "20~30%", expPerHour: "약 1~2회/시간", efficiency: "보통 (70~119)", mainDrops: "호루스 눈, 연금술사 반지" },
+  { id: "ellin", expPerRun: "원작 대비 상향 (패치노트)", expPerHour: "원작 기준 판당 최대 30분", efficiency: "45~70", mainDrops: "알테어 조각 → 알테어 이어링" },
+  { id: "kenta", expPerRun: "약 75만 (유저 체감)", expPerHour: "판당 6~10분 · 일 10회", efficiency: "높음 (90~120)", mainDrops: "얼음결정 페이스페인팅 (보스 드롭)" },
 ];
 
 const TESPIA_PQ_NOTES = [
+  {
+    title: "차원의 거울",
+    version: "7/24 패치",
+    level: "Lv.35+",
+    note: "마을에서 화면 좌측 아이콘으로 파티퀘스트 장소로 바로 이동. 복귀 시 입장했던 맵으로 돌아옴.",
+  },
+  {
+    title: "독안개의 숲 (신규)",
+    version: "7/24 패치",
+    level: "Lv.45~70 · 3~6인",
+    note: "엘린숲 PQ. 시그너스도 입장 가능, 보상 경험치 상향. 차원의 거울로만 입장.",
+  },
+  {
+    title: "위험에 빠진 켄타 (신규)",
+    version: "7/24 패치",
+    level: "Lv.90~120 · 3~6인 · 일 10회",
+    note: "아쿠아로드 PQ. 최종 보스 드롭으로 얼음결정 페이스페인팅. 차원의 거울로만 입장.",
+  },
   {
     title: "몬스터 카니발",
     version: "Test 2.2.62",
@@ -276,7 +361,7 @@ function GuideTab() {
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 mb-5">
                 <InfoBadge label="레벨" value={`${pq.levelMin}~${pq.levelMax}`} />
                 <InfoBadge label="인원" value={`${pq.members}명`} />
-                <InfoBadge label="일일 제한" value={`${pq.dailyLimit}회`} />
+                <InfoBadge label="일일 제한" value={typeof pq.dailyLimit === "number" ? `${pq.dailyLimit}회` : pq.dailyLimit} />
                 <InfoBadge label="제한시간" value={pq.timeLimit} />
               </div>
 
@@ -449,9 +534,11 @@ function TimerTab() {
         <p className="text-xs text-dim mt-1">자정(00:00)에 모든 PQ 입장 횟수가 초기화됩니다</p>
       </div>
 
-      {/* PQ별 카운터 */}
+      {/* PQ별 카운터 — 일일 제한이 확인된 PQ만 */}
       <div className="space-y-3">
-        {PQ_LIST.map((pq) => {
+        {PQ_LIST.filter(
+          (pq): pq is PQData & { dailyLimit: number } => typeof pq.dailyLimit === "number"
+        ).map((pq) => {
           const today = getToday();
           const counter = counters[pq.id];
           const count = counter && counter.lastReset === today ? counter.count : 0;
