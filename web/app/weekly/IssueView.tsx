@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import type { ReactNode } from "react";
 import { resolveWeeklySprites } from "@/lib/api";
 import type {
   ResolvedSprite,
@@ -44,6 +45,16 @@ function formatCount(n?: number) {
   return n >= 10000 ? `${(n / 10000).toFixed(1)}만` : n.toLocaleString();
 }
 
+function weatherIcon(weather: string) {
+  if (weather.includes("천둥")) return "⛈";
+  if (weather.includes("비") || weather.includes("소나기")) return "🌧";
+  if (weather.includes("눈")) return "🌨";
+  if (weather.includes("안개")) return "🌫";
+  if (weather.includes("흐림") || weather.includes("구름")) return "☁";
+  if (weather.includes("맑")) return "☀";
+  return "🌤";
+}
+
 function MetricsChips({ article }: { article: WeeklyArticle }) {
   const m = article.metrics;
   if (!m) return null;
@@ -65,11 +76,13 @@ function IssueImage({
   slot,
   alt,
   className = "",
+  priority = false,
 }: {
   issueNo: number;
   slot: string;
   alt: string;
   className?: string;
+  priority?: boolean;
 }) {
   const [failed, setFailed] = useState(false);
   if (failed) return null;
@@ -79,7 +92,8 @@ function IssueImage({
       alt={alt}
       className={`w-full h-auto border-2 border-edge ${className}`}
       style={{ imageRendering: "pixelated" }}
-      loading="lazy"
+      loading={priority ? "eager" : "lazy"}
+      fetchPriority={priority ? "high" : "auto"}
       onError={() => setFailed(true)}
     />
   );
@@ -168,7 +182,7 @@ function ArticleCard({
               href={src.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[11px] text-dim hover:text-maple hover:underline"
+              className="inline-flex py-1 text-xs text-dim hover:text-maple hover:underline"
             >
               ↗ {src.label}
             </a>
@@ -204,7 +218,15 @@ function SectionBlock({
   );
 }
 
-export default function IssueView({ issue }: { issue: WeeklyIssue }) {
+export default function IssueView({
+  issue,
+  topNavigation,
+  bottomNavigation,
+}: {
+  issue: WeeklyIssue;
+  topNavigation?: ReactNode;
+  bottomNavigation?: ReactNode;
+}) {
   const content = issue.content;
   const [spriteMap, setSpriteMap] = useState<Map<string, ResolvedSprite>>(new Map());
 
@@ -255,16 +277,25 @@ export default function IssueView({ issue }: { issue: WeeklyIssue }) {
           <span>
             {formatDate(issue.week_start)} ~ {formatDate(issue.week_end)}
           </span>
-          {content.weather && <span>☀ {content.weather}</span>}
+          {content.weather && (
+            <span>{weatherIcon(content.weather)} {content.weather}</span>
+          )}
         </div>
         {content.subtitle && (
           <p className="mt-2 font-pixel text-sm text-ink">“{content.subtitle}”</p>
         )}
       </div>
 
+      {topNavigation}
+
       {/* 표지 */}
       {content.cover && (
-        <IssueImage issueNo={issue.issue_no} slot="cover" alt={content.subtitle || "표지"} />
+        <IssueImage
+          issueNo={issue.issue_no}
+          slot="cover"
+          alt={content.subtitle || "표지"}
+          priority
+        />
       )}
 
       {/* 섹션 점프 칩 */}
@@ -323,6 +354,8 @@ export default function IssueView({ issue }: { issue: WeeklyIssue }) {
       {content.credits && (
         <p className="text-center text-xs text-dim pt-2">{content.credits}</p>
       )}
+
+      {bottomNavigation}
     </div>
   );
 }

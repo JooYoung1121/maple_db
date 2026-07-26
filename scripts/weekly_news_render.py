@@ -32,6 +32,7 @@ SPRITE_CACHE = ROOT / "data" / "weekly_news" / "sprite_cache"
 COVER_SIZE = (1200, 630)
 CARD_SIZE = (800, 420)
 PIXEL_SCALE = 4  # 배경은 1/4 해상도로 그린 뒤 nearest 확대 → 도트 질감
+MIN_SPRITE_DIM = 12  # 4x4 placeholder 등 사실상 보이지 않는 icon 제외
 
 # (하늘 위, 하늘 아래, 땅 위, 땅 아래) — 메이플 감성 팔레트
 BG_PALETTES = {
@@ -144,15 +145,26 @@ def _load_sprite(ref_type: str, entity_id: int) -> Image.Image | None:
             return None
     try:
         img = Image.open(cache).convert("RGBA")
-        return img if img.getbbox() else None  # 투명 스프라이트 제외
+        bbox = img.getbbox()
+        if not bbox:
+            print(f"[render] 투명 스프라이트 제외 {ref_type}:{entity_id}")
+            return None
+        visible_w, visible_h = bbox[2] - bbox[0], bbox[3] - bbox[1]
+        if min(visible_w, visible_h) < MIN_SPRITE_DIM:
+            print(
+                f"[render] 너무 작은 스프라이트 제외 {ref_type}:{entity_id} "
+                f"({visible_w}x{visible_h})"
+            )
+            return None
+        return img
     except Exception:
         return None
 
 
-def _paste_sprite(canvas: Image.Image, spec: dict) -> None:
+def _paste_sprite(canvas: Image.Image, spec: dict) -> bool:
     sprite = _load_sprite(spec.get("type", ""), int(spec.get("id", 0)))
     if sprite is None:
-        return
+        return False
     scale = max(1, min(int(spec.get("scale", 3)), 8))
     # 원본이 큰 스프라이트(보스 등)는 캔버스 높이의 55%를 넘지 않게 자동 제한
     max_h = int(canvas.height * 0.55)
@@ -165,6 +177,41 @@ def _paste_sprite(canvas: Image.Image, spec: dict) -> None:
     x = int(float(spec.get("x", 0.5)) * canvas.width - sprite.width / 2)
     y = int(float(spec.get("y", 0.85)) * canvas.height - sprite.height)
     canvas.paste(sprite, (x, y), sprite)
+    return True
+
+
+def _iter_scene_sprite_refs(issue: dict):
+    scenes: list[dict] = []
+    cover = issue.get("cover")
+    if isinstance(cover, dict):
+        scenes.append(cover)
+    for section in issue.get("sections", []):
+        for article in section.get("articles", []):
+            card = article.get("card")
+            if isinstance(card, dict):
+                scenes.append(card)
+    for scene in scenes:
+        for ref in scene.get("sprites") or []:
+            if isinstance(ref, dict):
+                yield ref
+
+
+def validate_issue_sprite_assets(issue: dict) -> list[str]:
+    """발행본이 참조하는 모든 스프라이트가 실제로 표시 가능한지 사전 확인."""
+    problems: list[str] = []
+    seen: set[tuple[str, int]] = set()
+    for ref in _iter_scene_sprite_refs(issue):
+        try:
+            key = (str(ref["type"]), int(ref["id"]))
+        except (KeyError, TypeError, ValueError):
+            problems.append(f"스프라이트 형식 오류: {ref}")
+            continue
+        if key in seen:
+            continue
+        seen.add(key)
+        if _load_sprite(*key) is None:
+            problems.append(f"표시할 수 없는 스프라이트: {key[0]}:{key[1]}")
+    return problems
 
 
 def _wrap(draw: ImageDraw.ImageDraw, text: str, font: ImageFont.FreeTypeFont, max_w: int) -> list[str]:
@@ -214,8 +261,12 @@ def render_scene(spec: dict, kind: str = "cover") -> Image.Image:
     title = str(spec.get("title", ""))[:24]
     canvas = _draw_background(size, str(spec.get("bg", DEFAULT_BG)), _seed(title or "maple"))
 
-    for sprite_spec in (spec.get("sprites") or [])[:4]:
-        _paste_sprite(canvas, sprite_spec)
+    sprite_specs = (spec.get("sprites") or [])[:4]
+    pasted = sum(1 for sprite_spec in sprite_specs if _paste_sprite(canvas, sprite_spec))
+    if sprite_specs and pasted != len(sprite_specs):
+        raise ValueError(
+            f"{kind} 스프라이트 {len(sprite_specs)}개 중 {pasted}개만 렌더되었습니다."
+        )
     for bubble_spec in (spec.get("bubbles") or [])[:3]:
         _draw_bubble(canvas, bubble_spec)
 
@@ -251,6 +302,9 @@ def render_issue_images(issue: dict, out_dir: Path) -> dict[str, Path]:
     기사에 card 연출이 있으면 content에 card_slot을 심어 프론트가 참조하게 한다.
     """
     out_dir.mkdir(parents=True, exist_ok=True)
+    # 재렌더 시 이전 카드 슬롯이 발행 페이로드에 섞이지 않도록 정확히 정리한다.
+    for old_path in out_dir.glob("*.png"):
+        old_path.unlink()
     rendered: dict[str, Path] = {}
 
     cover_spec = issue.get("cover")
@@ -262,6 +316,7 @@ def render_issue_images(issue: dict, out_dir: Path) -> dict[str, Path]:
     card_idx = 0
     for section in issue.get("sections", []):
         for article in section.get("articles", []):
+            article.pop("card_slot", None)
             card_spec = article.get("card")
             if not isinstance(card_spec, dict):
                 continue

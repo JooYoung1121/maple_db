@@ -6,6 +6,7 @@
 발행본(content_json)은 로컬에서 Claude Code로 생성해 admin POST로 올린다.
 """
 import base64
+import hashlib
 import json
 import os
 from datetime import datetime, timedelta, timezone
@@ -21,6 +22,8 @@ from api.routes.admin import _require_admin
 router = APIRouter()
 
 KST = timezone(timedelta(hours=9))
+MATERIAL_SCHEMA_VERSION = 2
+OFFICIAL_EXCERPT_CHARS = 5_000
 
 # 유저 대면 기능에서 900만번대 퀘스트/이벤트 변종몹 제외 (스프라이트 재사용 몹)
 MOB_ID_LIMIT = 9_000_000
@@ -170,9 +173,10 @@ def get_weekly_material(
     try:
         # 공식 소식: published_at은 'YYYY.MM.DD' 표기라 비교 전 정규화
         official = conn.execute(
-            """
+            f"""
             SELECT post_id, source, board, category, title, url, published_at,
-                   summary, SUBSTR(COALESCE(content, ''), 1, 800) AS content_excerpt
+                   summary,
+                   SUBSTR(COALESCE(content, ''), 1, {OFFICIAL_EXCERPT_CHARS}) AS content_excerpt
             FROM maple_land_posts
             WHERE REPLACE(COALESCE(published_at, SUBSTR(created_at, 1, 10)), '.', '-')
                   BETWEEN ? AND ?
@@ -207,6 +211,8 @@ def get_weekly_material(
             sprite_pool.extend({"type": ref_type, "id": r["id"], "name": r["name"]} for r in rows)
 
         return {
+            "schema_version": MATERIAL_SCHEMA_VERSION,
+            "collected_at": datetime.now(KST).isoformat(),
             "week_start": week_start,
             "week_end": end_str,
             "official_posts": [dict(r) for r in official],
@@ -304,7 +310,7 @@ async def _notify_published(request: Request, issue_no: int, title: str):
             or request.headers.get("referer", "")
             or os.environ.get("PUBLIC_SITE_URL", "")
         ).rstrip("/")
-        url = f"{origin}/weekly" if origin.startswith("http") else None
+        url = f"{origin}/weekly/{issue_no}" if origin.startswith("http") else None
         await bot.send_weekly_news_published(issue_no, title, url)
     except Exception as e:
         print(f"[weekly-news] 디스코드 알림 실패: {e}")
@@ -320,12 +326,41 @@ async def create_issue(body: IssueUpsert, request: Request):
 
     conn = get_connection()
     try:
-        issue_no = body.issue_no
-        if issue_no is None:
+        requested_issue_no = body.issue_no
+        existing_week = conn.execute(
+            "SELECT issue_no, status FROM weekly_news_issues WHERE week_start=?",
+            (body.week_start,),
+        ).fetchone()
+        should_notify = body.status == "published" and (
+            not existing_week or existing_week["status"] != "published"
+        )
+        if existing_week:
+            existing_no = int(existing_week["issue_no"])
+            if requested_issue_no is not None and requested_issue_no != existing_no:
+                raise HTTPException(
+                    status_code=409,
+                    detail=f"{body.week_start} 주차는 이미 제{existing_no}호로 발행되었습니다.",
+                )
+            issue_no = existing_no
+        elif requested_issue_no is None:
             row = conn.execute(
                 "SELECT COALESCE(MAX(issue_no), 0) AS max_no FROM weekly_news_issues"
             ).fetchone()
             issue_no = row["max_no"] + 1
+        else:
+            number_owner = conn.execute(
+                "SELECT week_start FROM weekly_news_issues WHERE issue_no=?",
+                (requested_issue_no,),
+            ).fetchone()
+            if number_owner and number_owner["week_start"] != body.week_start:
+                raise HTTPException(
+                    status_code=409,
+                    detail=(
+                        f"제{requested_issue_no}호는 "
+                        f"{number_owner['week_start']} 주차에 이미 사용 중입니다."
+                    ),
+                )
+            issue_no = requested_issue_no
 
         now = datetime.now(KST).isoformat()
         published_at = now if body.status == "published" else None
@@ -354,7 +389,7 @@ async def create_issue(body: IssueUpsert, request: Request):
         conn.commit()
     finally:
         conn.close()
-    if body.status == "published":
+    if should_notify:
         await _notify_published(request, issue_no, body.title)
     return {"ok": True, "issue_no": issue_no}
 
@@ -407,7 +442,7 @@ def delete_issue(issue_no: int, request: Request):
 # GET+HEAD 둘 다 허용 — 카카오 등 링크 스크레이퍼가 HEAD로 이미지를 확인할 때 405가 나면
 # og:image를 무시하고 파비콘으로 폴백해버린다 (Starlette가 HEAD 응답 본문은 자동 제거)
 @router.api_route("/weekly-news/{issue_no}/images/{slot}", methods=["GET", "HEAD"])
-def get_issue_image(issue_no: int, slot: str):
+def get_issue_image(issue_no: int, slot: str, request: Request):
     conn = get_connection()
     try:
         row = conn.execute(
@@ -416,10 +451,17 @@ def get_issue_image(issue_no: int, slot: str):
         ).fetchone()
         if not row:
             raise HTTPException(status_code=404, detail="이미지가 없습니다.")
+        etag = f'"{hashlib.sha256(row["data"]).hexdigest()[:24]}"'
+        headers = {
+            "Cache-Control": "public, max-age=300, must-revalidate",
+            "ETag": etag,
+        }
+        if request.headers.get("if-none-match") == etag:
+            return Response(status_code=304, headers=headers)
         return Response(
             content=row["data"],
             media_type=row["mime"],
-            headers={"Cache-Control": "public, max-age=86400"},
+            headers=headers,
         )
     finally:
         conn.close()

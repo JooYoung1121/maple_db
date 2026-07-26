@@ -253,6 +253,9 @@ CREATE TABLE IF NOT EXISTS weekly_news_issues (
     updated_at TEXT
 );
 
+CREATE UNIQUE INDEX IF NOT EXISTS idx_weekly_news_week_start
+    ON weekly_news_issues(week_start);
+
 -- 주간 메랜 합성 이미지 (표지·카드뉴스, 로컬 렌더 후 발행 시 업로드)
 CREATE TABLE IF NOT EXISTS weekly_news_images (
     issue_no INTEGER NOT NULL,

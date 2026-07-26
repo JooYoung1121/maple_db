@@ -134,7 +134,7 @@ async def crawl_dcinside(
     conn: sqlite3.Connection,
     client,
     pages: int = 3,
-    recommend_pages: int = 2,
+    recommend_pages: int = 5,
 ) -> int:
     """디시 메이플랜드 갤러리 목록/개념글 수집. 저장·갱신 건수 반환.
 
@@ -211,3 +211,67 @@ async def crawl_dcinside(
 
     print(f"[dcinside] 완료: 저장/갱신 {saved}건 (개념글 {len(recommended_entries)}건)")
     return saved
+
+
+async def backfill_weekly_excerpts(
+    conn: sqlite3.Connection,
+    client,
+    *,
+    week_start: str,
+    week_end: str,
+    limit: int = 40,
+) -> int:
+    """발행 후보 상위 글 중 본문 발췌가 빈 글을 추가 수집한다.
+
+    목록 크롤 시점의 개념글 페이지만 상세 수집하면 주 초 인기글이 빠질 수 있으므로,
+    실제 material 정렬과 같은 상위 N건을 다시 확인한다.
+    """
+    parser = DcinsideParser()
+    rows = conn.execute(
+        """
+        SELECT source_post_id, url, excerpt
+        FROM community_posts
+        WHERE SUBSTR(COALESCE(published_at, first_seen_at), 1, 10) BETWEEN ? AND ?
+        ORDER BY is_recommended DESC, recommends DESC, views DESC
+        LIMIT ?
+        """,
+        (week_start, week_end, limit),
+    ).fetchall()
+
+    filled = 0
+    for row in rows:
+        if str(row["excerpt"] or "").strip():
+            continue
+        try:
+            html = await client.get(
+                row["url"],
+                cache_key=f"dcinside/view/{row['source_post_id']}",
+                use_cache=False,
+                headers=BROWSER_HEADERS,
+            )
+        except httpx.HTTPStatusError as e:
+            print(
+                f"[dcinside] 주간 발췌 차단/오류({e.response.status_code}) "
+                f"{row['source_post_id']}"
+            )
+            continue
+        except Exception as e:
+            print(f"[dcinside] 주간 발췌 오류 {row['source_post_id']}: {e}")
+            continue
+
+        excerpt = parser.parse_detail(html, 0).get("excerpt")
+        if excerpt:
+            conn.execute(
+                """
+                UPDATE community_posts
+                SET excerpt=?
+                WHERE source='dcinside' AND source_post_id=?
+                """,
+                (excerpt, row["source_post_id"]),
+            )
+            filled += 1
+
+    conn.commit()
+    if filled:
+        print(f"[dcinside] 주간 상위 {limit}건 중 빈 본문 {filled}건 보강")
+    return filled

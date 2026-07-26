@@ -3,14 +3,16 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { getWeeklyIssue } from "@/lib/api";
-import type { WeeklyIssue } from "@/lib/types";
+import { getWeeklyIssue, getWeeklyIssues } from "@/lib/api";
+import type { WeeklyIssue, WeeklyIssueSummary } from "@/lib/types";
+import { WeeklyIssueNavigator } from "../ArchiveNavigation";
 import IssueView from "../IssueView";
 
 export default function WeeklyIssueClient() {
   const params = useParams<{ issueNo: string }>();
   const issueNo = Number(params.issueNo);
   const [issue, setIssue] = useState<WeeklyIssue | null>(null);
+  const [archive, setArchive] = useState<WeeklyIssueSummary[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,10 +20,16 @@ export default function WeeklyIssueClient() {
       setLoading(false);
       return;
     }
-    getWeeklyIssue(issueNo)
-      .then((d) => setIssue(d.issue))
-      .catch(() => setIssue(null))
-      .finally(() => setLoading(false));
+    Promise.allSettled([
+      getWeeklyIssue(issueNo),
+      getWeeklyIssues({ per_page: 100 }),
+    ]).then(([issueResult, archiveResult]) => {
+      setIssue(issueResult.status === "fulfilled" ? issueResult.value.issue : null);
+      if (archiveResult.status === "fulfilled") {
+        setArchive(archiveResult.value.issues);
+      }
+      setLoading(false);
+    });
   }, [issueNo]);
 
   if (loading) {
@@ -44,12 +52,22 @@ export default function WeeklyIssueClient() {
     );
   }
 
+  const topNavigation = (
+    <WeeklyIssueNavigator
+      issues={archive}
+      currentIssueNo={issue.issue_no}
+      showRecent
+    />
+  );
+  const bottomNavigation = (
+    <WeeklyIssueNavigator issues={archive} currentIssueNo={issue.issue_no} />
+  );
+
   return (
-    <div className="space-y-4">
-      <Link href="/weekly" className="text-sm text-maple hover:underline">
-        ← 최신호 보기
-      </Link>
-      <IssueView issue={issue} />
-    </div>
+    <IssueView
+      issue={issue}
+      topNavigation={archive.length > 0 ? topNavigation : null}
+      bottomNavigation={archive.length > 1 ? bottomNavigation : null}
+    />
   );
 }

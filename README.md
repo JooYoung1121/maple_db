@@ -249,11 +249,15 @@ export GAME_ADMIN_PASSWORD=<관리자 비밀번호>
 
 python scripts/weekly_news_generate.py collect    # 지난주 원자재 번들 생성
 python scripts/weekly_news_generate.py generate   # claude -p 로 호 JSON 생성 (요구: claude CLI)
-# data/weekly_news/issue-<주>.json 검토 후
+# 출처·지표·스프라이트·원자재 해시 감사
+python scripts/weekly_news_generate.py audit
+# data/weekly_news/issue-<주>.json 및 렌더 이미지 검토 후
 python scripts/weekly_news_generate.py publish --yes
 ```
 
 - 생성 프롬프트: `.claude/commands/weekly-news.md` (발췌·출처 링크 원칙, 원문 복붙 금지)
+- 같은 `week_start`를 다시 발행하면 기존 호를 갱신하며 새 호가 중복 생성되지 않는다.
+- 발행본은 원자재 SHA-256을 기록하며, 생성 후 원자재가 바뀌면 재생성 전까지 발행을 차단한다.
 - 매주 자동 실행(macOS launchd) 예시 — `~/Library/LaunchAgents/com.mapledb.weekly-news.plist`:
 
 ```xml

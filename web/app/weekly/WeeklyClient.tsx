@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { getWeeklyIssueLatest, getWeeklyIssues } from "@/lib/api";
 import type { WeeklyIssue, WeeklyIssueSummary } from "@/lib/types";
+import { WeeklyIssueNavigator } from "./ArchiveNavigation";
 import IssueView from "./IssueView";
 
 export default function WeeklyClient() {
@@ -12,7 +12,7 @@ export default function WeeklyClient() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.allSettled([getWeeklyIssueLatest(), getWeeklyIssues({ per_page: 12 })]).then(
+    Promise.allSettled([getWeeklyIssueLatest(), getWeeklyIssues({ per_page: 100 })]).then(
       ([latest, list]) => {
         if (latest.status === "fulfilled") setIssue(latest.value.issue);
         if (list.status === "fulfilled") setArchive(list.value.issues);
@@ -41,32 +41,22 @@ export default function WeeklyClient() {
     );
   }
 
-  return (
-    <div className="space-y-6">
-      <IssueView issue={issue} />
+  const topNavigation = (
+    <WeeklyIssueNavigator
+      issues={archive}
+      currentIssueNo={issue.issue_no}
+      showRecent
+    />
+  );
+  const bottomNavigation = (
+    <WeeklyIssueNavigator issues={archive} currentIssueNo={issue.issue_no} />
+  );
 
-      {archive.length > 1 && (
-        <div className="pixel-panel p-4">
-          <h2 className="font-pixel text-sm font-bold text-ink mb-3">지난 호 보기</h2>
-          <ul className="space-y-1">
-            {archive
-              .filter((a) => a.issue_no !== issue.issue_no)
-              .map((a) => (
-                <li key={a.issue_no}>
-                  <Link
-                    href={`/weekly/${a.issue_no}`}
-                    className="text-sm text-maple hover:underline"
-                  >
-                    제{a.issue_no}호 — {a.title}{" "}
-                    <span className="text-xs text-dim">
-                      ({a.week_start.replaceAll("-", ".")} ~ {a.week_end.replaceAll("-", ".")})
-                    </span>
-                  </Link>
-                </li>
-              ))}
-          </ul>
-        </div>
-      )}
-    </div>
+  return (
+    <IssueView
+      issue={issue}
+      topNavigation={archive.length > 0 ? topNavigation : null}
+      bottomNavigation={archive.length > 1 ? bottomNavigation : null}
+    />
   );
 }

@@ -16,6 +16,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import os
 import re
 import subprocess
@@ -49,6 +50,9 @@ def _load_dotenv() -> None:
 _load_dotenv()
 
 REQUIRED_SECTION_IDS = {"headline", "official", "community"}
+MATERIAL_SCHEMA_VERSION = 2
+OFFICIAL_EXCERPT_CHARS = 5_000
+MAX_CARD_COUNT = 3
 
 
 def _default_week_start() -> str:
@@ -66,6 +70,14 @@ def _material_path(week_start: str) -> Path:
 
 def _issue_path(week_start: str) -> Path:
     return OUT_DIR / f"issue-{week_start}.json"
+
+
+def _material_digest(material: dict) -> str:
+    """포맷팅과 무관한 원자재 내용 해시."""
+    canonical = json.dumps(
+        material, ensure_ascii=False, sort_keys=True, separators=(",", ":"),
+    )
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
 def _api_base() -> str | None:
@@ -87,9 +99,10 @@ def _collect_local(week_start: str) -> dict:
     conn = get_connection()
     try:
         official = conn.execute(
-            """
+            f"""
             SELECT post_id, source, board, category, title, url, published_at,
-                   summary, SUBSTR(COALESCE(content, ''), 1, 800) AS content_excerpt
+                   summary,
+                   SUBSTR(COALESCE(content, ''), 1, {OFFICIAL_EXCERPT_CHARS}) AS content_excerpt
             FROM maple_land_posts
             WHERE REPLACE(COALESCE(published_at, SUBSTR(created_at, 1, 10)), '.', '-')
                   BETWEEN ? AND ?
@@ -118,6 +131,8 @@ def _collect_local(week_start: str) -> dict:
             ).fetchall()
             sprite_pool.extend({"type": ref_type, "id": r["id"], "name": r["name"]} for r in rows)
         return {
+            "schema_version": MATERIAL_SCHEMA_VERSION,
+            "collected_at": datetime.now(KST).isoformat(),
             "week_start": week_start,
             "week_end": week_end,
             "official_posts": [dict(r) for r in official],
@@ -141,7 +156,87 @@ def _collect_remote(week_start: str, api_base: str) -> dict:
     return resp.json()
 
 
-def validate_issue(content: dict) -> list[str]:
+def _local_issue_numbers() -> tuple[dict[str, int], int]:
+    """{week_start: issue_no}, max issue_no."""
+    from crawler.db import get_connection
+
+    conn = get_connection()
+    try:
+        rows = conn.execute(
+            "SELECT week_start, issue_no FROM weekly_news_issues ORDER BY issue_no"
+        ).fetchall()
+        by_week = {str(r["week_start"]): int(r["issue_no"]) for r in rows}
+        max_no = max((int(r["issue_no"]) for r in rows), default=0)
+        return by_week, max_no
+    finally:
+        conn.close()
+
+
+def _resolve_issue_no(week_start: str) -> int:
+    """같은 주는 기존 호수, 새 주는 다음 호수. 라이브 우선, 로컬 폴백."""
+    api_base = _api_base()
+    if api_base:
+        try:
+            import httpx
+
+            resp = httpx.get(
+                f"{api_base}/api/weekly-news",
+                params={"page": 1, "per_page": 100},
+                timeout=30,
+            )
+            resp.raise_for_status()
+            issues = resp.json().get("issues", [])
+            for issue in issues:
+                if issue.get("week_start") == week_start:
+                    return int(issue["issue_no"])
+            return max((int(i["issue_no"]) for i in issues), default=0) + 1
+        except Exception as e:
+            click.echo(f"[issue] 라이브 호수 확인 실패, 로컬 기준 사용: {e}", err=True)
+
+    by_week, max_no = _local_issue_numbers()
+    return by_week.get(week_start, max_no + 1)
+
+
+def _normalize_issue_title(title: str, issue_no: int) -> str:
+    subtitle = re.sub(
+        r"^주간\s*메랜(?:\s*제\d+호)?\s*(?:—|-)?\s*", "", str(title or ""),
+    ).strip()
+    return f"주간 메랜 제{issue_no}호 — {subtitle or '이번 주 메이플랜드 소식'}"
+
+
+def _iter_sprite_refs(value, path: str = "content"):
+    if isinstance(value, dict):
+        if value.get("type") in ("mob", "npc", "item") and "id" in value:
+            yield path, value
+        for key, nested in value.items():
+            yield from _iter_sprite_refs(nested, f"{path}.{key}")
+    elif isinstance(value, list):
+        for idx, nested in enumerate(value):
+            yield from _iter_sprite_refs(nested, f"{path}[{idx}]")
+
+
+def _validate_scene(scene: dict, label: str, *, cover: bool = False) -> list[str]:
+    problems: list[str] = []
+    title_limit = 16 if cover else 24
+    caption_limit = 30 if cover else 40
+    if len(str(scene.get("title", ""))) > title_limit:
+        problems.append(f"{label} 제목이 {title_limit}자를 초과합니다.")
+    if len(str(scene.get("caption", ""))) > caption_limit:
+        problems.append(f"{label} 캡션이 {caption_limit}자를 초과합니다.")
+    for bubble in scene.get("bubbles") or []:
+        if len(str(bubble.get("text", ""))) > 12:
+            problems.append(f"{label} 말풍선이 12자를 초과합니다: {bubble.get('text')}")
+    return problems
+
+
+def validate_issue(
+    content: dict,
+    *,
+    material: dict | None = None,
+    expected_week_start: str | None = None,
+    expected_issue_no: int | None = None,
+    require_provenance: bool = False,
+) -> list[str]:
     """발행 전 검증. 문제 목록 반환 (빈 리스트면 통과)."""
     problems: list[str] = []
     sections = content.get("sections")
@@ -151,21 +246,124 @@ def validate_issue(content: dict) -> list[str]:
     missing = REQUIRED_SECTION_IDS - ids
     if missing:
         problems.append(f"필수 섹션 누락: {', '.join(sorted(missing))}")
+    if len(content.get("tldr") or []) != 5:
+        problems.append("tldr은 정확히 5줄이어야 합니다.")
+    cover = content.get("cover")
+    if not isinstance(cover, dict):
+        problems.append("cover 연출이 없습니다.")
+    else:
+        problems.extend(_validate_scene(cover, "cover", cover=True))
+
+    if expected_week_start and content.get("week_start") != expected_week_start:
+        problems.append(
+            f"week_start 불일치: {content.get('week_start')} != {expected_week_start}"
+        )
+    if expected_issue_no is not None:
+        prefix = f"주간 메랜 제{expected_issue_no}호 —"
+        if not str(content.get("title", "")).startswith(prefix):
+            problems.append(f"호수 제목 불일치: '{prefix}'로 시작해야 합니다.")
+
+    material_urls: set[str] = set()
+    community_by_url: dict[str, dict] = {}
+    sprite_pool: set[tuple[str, int]] = set()
+    if material is not None:
+        for post in material.get("official_posts", []):
+            if post.get("url"):
+                material_urls.add(post["url"])
+        for post in material.get("community_posts", []):
+            if post.get("url"):
+                material_urls.add(post["url"])
+                community_by_url[post["url"]] = post
+        for ref in material.get("sprite_pool", []):
+            try:
+                sprite_pool.add((str(ref["type"]), int(ref["id"])))
+            except (KeyError, TypeError, ValueError):
+                continue
+
+        if content.get("week_start") != material.get("week_start"):
+            problems.append("발행본과 원자재의 week_start가 다릅니다.")
+        if content.get("week_end") != material.get("week_end"):
+            problems.append("발행본과 원자재의 week_end가 다릅니다.")
+
+        meta = content.get("_meta") or {}
+        digest = _material_digest(material)
+        if meta.get("material_sha256") and meta["material_sha256"] != digest:
+            problems.append("발행본 생성 후 원자재가 변경되었습니다. 다시 생성해야 합니다.")
+        if require_provenance and meta.get("material_sha256") != digest:
+            problems.append("원자재 해시가 없거나 일치하지 않습니다.")
+
+    card_count = 0
     for s in sections:
         if not isinstance(s, dict) or not {"id", "heading", "articles"} <= set(s):
             problems.append(f"섹션 형식 오류: {s!r:.80}")
             continue
+        section_id = str(s.get("id", ""))
         for a in s.get("articles", []):
             if not isinstance(a, dict) or not a.get("title"):
                 problems.append(f"[{s['id']}] 제목 없는 기사")
                 continue
             if not a.get("sources"):
                 problems.append(f"[{s['id']}] 출처 없는 기사: {a['title'][:30]}")
+            paragraphs = a.get("paragraphs") or []
+            if not isinstance(paragraphs, list):
+                problems.append(f"[{s['id']}] paragraphs 형식 오류: {a['title'][:30]}")
+            else:
+                for paragraph in paragraphs:
+                    if len(str(paragraph)) > 250:
+                        problems.append(f"[{s['id']}] 250자 초과 문단: {a['title'][:30]}")
+            if section_id == "humor" and len(paragraphs) > 1:
+                problems.append(f"[humor] 소개 문단은 최대 1개입니다: {a['title'][:30]}")
+
+            article_community_sources: list[dict] = []
+            for source in a.get("sources") or []:
+                url = source.get("url") if isinstance(source, dict) else None
+                if material is not None and url not in material_urls:
+                    problems.append(f"[{s['id']}] 원자재에 없는 출처: {url}")
+                if url in community_by_url:
+                    post = community_by_url[url]
+                    article_community_sources.append(post)
+                    if section_id != "humor" and not str(post.get("excerpt") or "").strip():
+                        problems.append(
+                            f"[{s['id']}] 본문 발췌 없는 커뮤니티 출처 사용: {url}"
+                        )
+
+            metrics = a.get("metrics")
+            if metrics:
+                matches = any(
+                    metrics == {
+                        "recommends": post.get("recommends"),
+                        "views": post.get("views"),
+                        "comments": post.get("comment_count"),
+                    }
+                    for post in article_community_sources
+                )
+                if material is not None and not matches:
+                    problems.append(f"[{s['id']}] 원자재와 지표 불일치: {a['title'][:30]}")
+            elif section_id in ("community", "humor") and article_community_sources:
+                problems.append(f"[{s['id']}] 커뮤니티 지표 누락: {a['title'][:30]}")
+
             for ref in a.get("sprites") or []:
                 if ref.get("type") not in ("mob", "npc", "item"):
                     problems.append(f"[{s['id']}] 잘못된 스프라이트 타입: {ref}")
                 elif ref["type"] == "mob" and int(ref.get("id", 0)) >= 9_000_000:
                     problems.append(f"[{s['id']}] 900만번대 특수몹 사용 금지: {ref}")
+            card = a.get("card")
+            if isinstance(card, dict):
+                card_count += 1
+                problems.extend(_validate_scene(card, f"[{s['id']}] card"))
+
+    if card_count > MAX_CARD_COUNT:
+        problems.append(f"카드 연출은 최대 {MAX_CARD_COUNT}개입니다: 현재 {card_count}개")
+
+    if material is not None:
+        for path, ref in _iter_sprite_refs(content):
+            try:
+                key = (str(ref["type"]), int(ref["id"]))
+            except (KeyError, TypeError, ValueError):
+                problems.append(f"스프라이트 형식 오류: {path}")
+                continue
+            if key not in sprite_pool:
+                problems.append(f"원자재 후보에 없는 스프라이트: {path}={key[0]}:{key[1]}")
     return problems
 
 
@@ -185,26 +383,37 @@ def cli():
 
 
 @cli.command()
-def crawl():
+@click.option("--week-start", default=None, help="YYYY-MM-DD (기본: 발행 대상 주 월요일)")
+def crawl(week_start: str | None):
     """공홈 + 디시 갤러리를 로컬에서 크롤링 (디시는 서버 IP가 차단돼 로컬 수집 필수)."""
     import asyncio
 
     from crawler.client import ThrottledClient
     from crawler.db import init_db
-    from crawler.parsers.dcinside import crawl_dcinside
+    from crawler.parsers.dcinside import backfill_weekly_excerpts, crawl_dcinside
     from crawler.parsers.maple_land import crawl_maple_land
 
+    week_start = week_start or _default_week_start()
+    week_end = (
+        datetime.strptime(week_start, "%Y-%m-%d") + timedelta(days=6)
+    ).strftime("%Y-%m-%d")
     conn = init_db()
 
     async def _run():
         async with ThrottledClient() as client:
             n1 = await crawl_maple_land(conn, client, force=False, refresh_lists=True)
             n2 = await crawl_dcinside(conn, client)
-            return n1, n2
+            n3 = await backfill_weekly_excerpts(
+                conn, client, week_start=week_start, week_end=week_end, limit=40,
+            )
+            return n1, n2, n3
 
-    n1, n2 = asyncio.run(_run())
+    n1, n2, n3 = asyncio.run(_run())
     conn.close()
-    click.echo(f"[crawl] 공홈 {n1}건, 디시 {n2}건 수집/갱신")
+    click.echo(
+        f"[crawl] 공홈 {n1}건, 디시 {n2}건 수집/갱신, "
+        f"주간 상위글 본문 {n3}건 보강"
+    )
 
 
 @cli.command()
@@ -221,6 +430,8 @@ def collect(week_start: str | None, use_local: bool = False):
         click.echo("[collect] WEEKLY_API_BASE 미설정 — 로컬 DB에서 수집")
         material = _collect_local(week_start)
 
+    material.setdefault("schema_version", MATERIAL_SCHEMA_VERSION)
+    material.setdefault("collected_at", datetime.now(KST).isoformat())
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     path = _material_path(week_start)
     path.write_text(json.dumps(material, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -243,17 +454,30 @@ def generate(week_start: str | None, model: str | None):
         raise click.ClickException(f"프롬프트 파일이 없습니다: {PROMPT_FILE}")
 
     prompt = PROMPT_FILE.read_text(encoding="utf-8")
-    material = material_file.read_text(encoding="utf-8")
-    full_prompt = f"{prompt}\n\n## 이번 주 원자재 JSON\n\n```json\n{material}\n```\n"
+    material_text = material_file.read_text(encoding="utf-8")
+    material = json.loads(material_text)
+    issue_no = _resolve_issue_no(week_start)
+    full_prompt = (
+        f"{prompt}\n\n"
+        f"## 이번 호 발행 정보\n\n"
+        f"- 이번 호수는 제{issue_no}호입니다.\n"
+        f"- title은 반드시 `주간 메랜 제{issue_no}호 — <부제>` 형식으로 작성하세요.\n\n"
+        f"## 이번 주 원자재 JSON\n\n```json\n{material_text}\n```\n"
+    )
 
     cmd = ["claude", "-p", "--output-format", "text"]
     if model:
         cmd += ["--model", model]
 
-    for attempt in (1, 2):
-        click.echo(f"[generate] claude 실행 (시도 {attempt}/2)...")
+    feedback = ""
+    for attempt in (1, 2, 3):
+        click.echo(f"[generate] claude 실행 (시도 {attempt}/3)...")
         result = subprocess.run(
-            cmd, input=full_prompt, capture_output=True, text=True, timeout=600,
+            cmd,
+            input=full_prompt + feedback,
+            capture_output=True,
+            text=True,
+            timeout=600,
         )
         if result.returncode != 0:
             click.echo(f"[generate] claude 오류: {result.stderr[:500]}", err=True)
@@ -263,16 +487,41 @@ def generate(week_start: str | None, model: str | None):
         except (ValueError, json.JSONDecodeError) as e:
             click.echo(f"[generate] JSON 파싱 실패: {e}", err=True)
             continue
-        problems = validate_issue(content)
+        content["title"] = _normalize_issue_title(content.get("title", ""), issue_no)
+        content["issue_no"] = issue_no
+        content["_meta"] = {
+            "material_schema_version": material.get("schema_version", 1),
+            "material_sha256": _material_digest(material),
+            "generated_at": datetime.now(KST).isoformat(),
+            "generator": "claude-cli",
+            "issue_no": issue_no,
+        }
+        problems = validate_issue(
+            content,
+            material=material,
+            expected_week_start=week_start,
+            expected_issue_no=issue_no,
+            require_provenance=True,
+        )
+        if not problems:
+            from weekly_news_render import validate_issue_sprite_assets
+
+            problems.extend(validate_issue_sprite_assets(content))
         if problems:
             click.echo("[generate] 검증 실패:\n  - " + "\n  - ".join(problems), err=True)
+            feedback = (
+                "\n\n## 이전 시도 검증 오류\n"
+                "아래 오류를 모두 고친 새로운 JSON 전체를 다시 출력하세요.\n"
+                + "\n".join(f"- {p}" for p in problems)
+                + "\n"
+            )
             continue
         path = _issue_path(week_start)
         path.write_text(json.dumps(content, ensure_ascii=False, indent=2), encoding="utf-8")
         click.echo(f"[generate] 완료: {path}")
         click.echo("발행 전 내용을 검토하세요. 발행: publish --yes")
         return
-    raise click.ClickException("생성 2회 모두 실패했습니다.")
+    raise click.ClickException("생성 3회 모두 실패했습니다.")
 
 
 @cli.command()
@@ -283,9 +532,14 @@ def render(week_start: str | None):
     issue_file = _issue_path(week_start)
     if not issue_file.exists():
         raise click.ClickException(f"호 파일이 없습니다. 먼저 generate 실행: {issue_file}")
-    from weekly_news_render import render_issue_images  # scripts/ 내 모듈
+    from weekly_news_render import render_issue_images, validate_issue_sprite_assets
 
     issue = json.loads(issue_file.read_text(encoding="utf-8"))
+    sprite_problems = validate_issue_sprite_assets(issue)
+    if sprite_problems:
+        raise click.ClickException(
+            "이미지 스프라이트 검증 실패:\n  - " + "\n  - ".join(sprite_problems)
+        )
     out_dir = OUT_DIR / f"images-{week_start}"
     rendered = render_issue_images(issue, out_dir)
     # card_slot이 심어진 content를 다시 저장
@@ -296,19 +550,36 @@ def render(week_start: str | None):
         click.echo("[render] cover/card 연출이 없어 합성한 이미지가 없습니다.")
 
 
-def _collect_images(week_start: str) -> list[dict]:
+def _collect_images(week_start: str, content: dict) -> list[dict]:
     """렌더된 이미지 디렉토리 → 발행 페이로드용 base64 목록."""
     import base64
 
     img_dir = OUT_DIR / f"images-{week_start}"
+    expected_slots: list[str] = []
+    if isinstance(content.get("cover"), dict):
+        expected_slots.append("cover")
+    for section in content.get("sections", []):
+        for article in section.get("articles", []):
+            slot = article.get("card_slot")
+            if slot:
+                expected_slots.append(str(slot))
+
     images = []
-    if img_dir.is_dir():
-        for path in sorted(img_dir.glob("*.png")):
-            images.append({
-                "slot": path.stem,
-                "mime": "image/png",
-                "data_b64": base64.b64encode(path.read_bytes()).decode(),
-            })
+    missing: list[str] = []
+    for slot in expected_slots:
+        path = img_dir / f"{slot}.png"
+        if not path.exists():
+            missing.append(slot)
+            continue
+        images.append({
+            "slot": slot,
+            "mime": "image/png",
+            "data_b64": base64.b64encode(path.read_bytes()).decode(),
+        })
+    if missing:
+        raise click.ClickException(
+            "렌더 이미지가 없습니다: " + ", ".join(missing) + ". render를 다시 실행하세요."
+        )
     return images
 
 
@@ -323,9 +594,20 @@ def publish(week_start: str | None, yes: bool, dry_run: bool, issue_no: int | No
     issue_file = _issue_path(week_start)
     if not issue_file.exists():
         raise click.ClickException(f"호 파일이 없습니다. 먼저 generate 실행: {issue_file}")
+    material_file = _material_path(week_start)
+    if not material_file.exists():
+        raise click.ClickException(f"원자재 파일이 없습니다: {material_file}")
 
     content = json.loads(issue_file.read_text(encoding="utf-8"))
-    problems = validate_issue(content)
+    material = json.loads(material_file.read_text(encoding="utf-8"))
+    resolved_issue_no = issue_no or _resolve_issue_no(week_start)
+    problems = validate_issue(
+        content,
+        material=material,
+        expected_week_start=week_start,
+        expected_issue_no=resolved_issue_no,
+        require_provenance=True,
+    )
     if problems:
         raise click.ClickException("검증 실패:\n  - " + "\n  - ".join(problems))
 
@@ -333,14 +615,14 @@ def publish(week_start: str | None, yes: bool, dry_run: bool, issue_no: int | No
         datetime.strptime(week_start, "%Y-%m-%d") + timedelta(days=6)
     ).strftime("%Y-%m-%d")
     payload = {
-        "issue_no": issue_no,
+        "issue_no": resolved_issue_no,
         "title": content.get("title") or f"주간 메랜 ({week_start}주)",
         "week_start": content.get("week_start") or week_start,
         "week_end": week_end,
         "content": content,
         "status": "published",
     }
-    images = _collect_images(week_start)
+    images = _collect_images(week_start, content)
     if images:
         payload["images"] = images
         click.echo(f"[publish] 이미지 {len(images)}장 첨부: {', '.join(i['slot'] for i in images)}")
@@ -410,6 +692,45 @@ def publish(week_start: str | None, yes: bool, dry_run: bool, issue_no: int | No
         conn.close()
 
 
+@cli.command()
+@click.option("--week-start", default=None)
+@click.option(
+    "--allow-legacy",
+    is_flag=True,
+    default=False,
+    help="원자재 해시가 없는 과거 발행본의 구조만 검사",
+)
+def audit(week_start: str | None, allow_legacy: bool):
+    """원자재 대비 출처·지표·스프라이트·호수·이미지 발행 전 감사."""
+    week_start = week_start or _default_week_start()
+    material_file = _material_path(week_start)
+    issue_file = _issue_path(week_start)
+    if not material_file.exists() or not issue_file.exists():
+        raise click.ClickException("material/issue 파일이 모두 필요합니다.")
+    material = json.loads(material_file.read_text(encoding="utf-8"))
+    content = json.loads(issue_file.read_text(encoding="utf-8"))
+    issue_no = int(content.get("issue_no") or _resolve_issue_no(week_start))
+    problems = validate_issue(
+        content,
+        material=material,
+        expected_week_start=week_start,
+        expected_issue_no=issue_no,
+        require_provenance=not allow_legacy,
+    )
+    if not problems:
+        from weekly_news_render import validate_issue_sprite_assets
+
+        problems.extend(validate_issue_sprite_assets(content))
+    if problems:
+        raise click.ClickException("감사 실패:\n  - " + "\n  - ".join(problems))
+    scope = (
+        "출처·지표·스프라이트 구조 일치(레거시)"
+        if allow_legacy
+        else "출처·지표·스프라이트·원자재 해시 일치"
+    )
+    click.echo(f"[audit] 통과: 제{issue_no}호 — {scope}")
+
+
 @cli.command(name="all")
 @click.option("--week-start", default=None)
 @click.option("--yes", is_flag=True, default=False)
@@ -417,7 +738,7 @@ def publish(week_start: str | None, yes: bool, dry_run: bool, issue_no: int | No
 def run_all(ctx: click.Context, week_start: str | None, yes: bool):
     """collect → generate → publish 연속 실행 (publish는 --yes 필요)."""
     week_start = week_start or _default_week_start()
-    ctx.invoke(crawl)
+    ctx.invoke(crawl, week_start=week_start)
     # 디시는 서버 IP가 차단돼 라이브 DB에 커뮤니티 글이 없다 → 로컬 크롤 후 로컬에서 수집
     ctx.invoke(collect, week_start=week_start, use_local=True)
     ctx.invoke(generate, week_start=week_start, model=None)

@@ -9,6 +9,23 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.59.0",
+    date: "2026-07-26",
+    type: "minor",
+    title: "주간 메랜 과월호·발행 안전성 개편",
+    features: [
+      {
+        category: "주간 메랜",
+        items: [
+          "마스트헤드 아래 이전호·다음호·호수 선택 탐색 바와 최근 과월호 표지 카드 추가",
+          "전체 과월호 아카이브 페이지 신설, 과월호 상세 하단에도 같은 탐색 동선 제공",
+          "원자재 해시·출처·커뮤니티 지표·스프라이트 후보 감사와 주차별 중복 발행 방지",
+          "긴 공식 공지 수집 범위 확대, 주간 상위 커뮤니티 글 본문 보강, 작은 스프라이트·이전 렌더 잔여 이미지 차단",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.58.1",
     date: "2026-07-24",
     type: "patch",
