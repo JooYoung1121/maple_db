@@ -16,6 +16,7 @@ export const SITE_SECTIONS: SiteSection[] = [
     label: "정보",
     items: [
       { href: "/my-maple", label: "내 메랜", icon: "🍁", description: "내 레벨·목표에 맞춘 바로가기" },
+      { href: "/brain", label: "메랜 브레인", icon: "🧠", description: "캐릭터 중심 지식 그래프 탐색" },
       { href: "/items", label: "아이템", icon: "🗡️", description: "무기, 방어구, 소비" },
       { href: "/mobs", label: "몬스터", icon: "👾", description: "일반 몬스터, 보스" },
       { href: "/bosses", label: "보스", icon: "💀", description: "보스 공략 정보" },

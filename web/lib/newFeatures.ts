@@ -2,6 +2,7 @@
 // 새 페이지를 출시하면 여기에 한 줄 추가하면 된다 (릴리즈 절차: version.ts + changelog.ts + 필요시 이 파일).
 export const NEW_FEATURES: Record<string, string> = {
   "/my-maple": "2026-07-27",
+  "/brain": "2026-07-27",
   "/medals": "2026-07-22",
   "/quest-roadmap": "2026-07-22",
   "/worldcup": "2026-07-22",

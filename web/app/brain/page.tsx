@@ -1,0 +1,695 @@
+"use client";
+
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { searchSuggest } from "@/lib/api";
+
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
+
+// ─── 타입 ───
+interface BrainNode {
+  id: string;
+  type: "char" | "map" | "mob" | "item" | "quest" | "goal" | "npc";
+  entity_id: number;
+  label: string;
+  sub?: string;
+  icon?: string | null;
+  detail_url?: string;
+  group?: string;
+  // 시뮬레이션 상태
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  fx?: number | null;
+  fy?: number | null;
+  phase: number;
+}
+
+interface BrainLink {
+  source: string;
+  target: string;
+  kind: string;
+}
+
+interface ApiNode {
+  id: string;
+  type: BrainNode["type"];
+  entity_id: number;
+  label: string;
+  sub?: string;
+  icon?: string | null;
+  detail_url?: string;
+  group?: string;
+}
+
+interface CharInfo {
+  level: number;
+  job: string;
+}
+
+const JOBS = ["전사", "마법사", "궁수", "도적", "해적"];
+
+// 타입별 색 (라이트/다크) — 캔버스는 CSS 토큰을 못 쓰므로 여기서 고정 팔레트로 정의
+const TYPE_COLORS: Record<string, { light: string; dark: string; emoji: string; name: string }> = {
+  char: { light: "#e8590c", dark: "#ff9f45", emoji: "⭐", name: "내 캐릭터" },
+  map: { light: "#1971c2", dark: "#63b3ff", emoji: "🗺️", name: "사냥터/맵" },
+  mob: { light: "#c2255c", dark: "#ff7eb0", emoji: "👾", name: "몬스터" },
+  item: { light: "#b08900", dark: "#ffd43b", emoji: "🎁", name: "아이템" },
+  quest: { light: "#6741d9", dark: "#b197fc", emoji: "📜", name: "퀘스트" },
+  goal: { light: "#2f9e44", dark: "#69db7c", emoji: "🚩", name: "다음 목표" },
+  npc: { light: "#0c8599", dark: "#66d9e8", emoji: "🧙", name: "NPC" },
+};
+
+const EXPANDABLE = new Set(["map", "mob", "item", "quest"]);
+
+async function fetchJSON<T>(path: string): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`);
+  if (!res.ok) throw new Error(`API ${res.status}`);
+  return res.json();
+}
+
+export default function BrainPage() {
+  const router = useRouter();
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+
+  const nodesRef = useRef<Map<string, BrainNode>>(new Map());
+  const linksRef = useRef<BrainLink[]>([]);
+  const linkKeysRef = useRef<Set<string>>(new Set());
+  const imagesRef = useRef<Map<string, HTMLImageElement | null>>(new Map());
+  const transformRef = useRef({ x: 0, y: 0, k: 1 });
+  const pointersRef = useRef<Map<number, { x: number; y: number }>>(new Map());
+  const pinchDistRef = useRef<number | null>(null);
+  const dragRef = useRef<{ node: BrainNode | null; panning: boolean; startX: number; startY: number; moved: boolean }>({
+    node: null, panning: false, startX: 0, startY: 0, moved: false,
+  });
+  const lastClickRef = useRef<{ id: string; t: number }>({ id: "", t: 0 });
+  const darkRef = useRef(false);
+  const selectedRef = useRef<string | null>(null);
+
+  const [char, setChar] = useState<CharInfo | null | undefined>(undefined); // undefined = 로딩 전
+  const [selected, setSelected] = useState<BrainNode | null>(null);
+  const [popPos, setPopPos] = useState<{ x: number; y: number } | null>(null);
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [expandLoading, setExpandLoading] = useState(false);
+  const [searchQ, setSearchQ] = useState("");
+  const [suggestions, setSuggestions] = useState<{ entity_type: string; entity_id: number; name: string; name_kr: string | null; icon_url: string | null }[]>([]);
+  const [setupLevel, setSetupLevel] = useState("");
+  const [setupJob, setSetupJob] = useState("");
+  const [showSetup, setShowSetup] = useState(false);
+
+  // ─── 이미지 로더 ───
+  const loadImage = useCallback((url: string | null | undefined) => {
+    if (!url) return null;
+    const cache = imagesRef.current;
+    if (cache.has(url)) return cache.get(url) ?? null;
+    cache.set(url, null);
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => cache.set(url, img);
+    img.onerror = () => cache.set(url, null);
+    img.src = url;
+    return null;
+  }, []);
+
+  // ─── 그래프 병합 ───
+  const mergeGraph = useCallback((apiNodes: ApiNode[], apiLinks: BrainLink[], near?: BrainNode) => {
+    const nodes = nodesRef.current;
+    for (const n of apiNodes) {
+      if (nodes.has(n.id)) continue;
+      const baseX = near ? near.x : 0;
+      const baseY = near ? near.y : 0;
+      const ang = Math.random() * Math.PI * 2;
+      const r = 60 + Math.random() * 60;
+      nodes.set(n.id, {
+        ...n,
+        x: baseX + Math.cos(ang) * r,
+        y: baseY + Math.sin(ang) * r,
+        vx: 0, vy: 0,
+        phase: Math.random() * Math.PI * 2,
+      });
+      if (n.icon) loadImage(n.icon);
+    }
+    for (const l of apiLinks) {
+      const key = `${l.source}→${l.target}`;
+      const rev = `${l.target}→${l.source}`;
+      if (linkKeysRef.current.has(key) || linkKeysRef.current.has(rev)) continue;
+      linkKeysRef.current.add(key);
+      linksRef.current.push(l);
+    }
+  }, [loadImage]);
+
+  const resetGraph = useCallback(() => {
+    nodesRef.current = new Map();
+    linksRef.current = [];
+    linkKeysRef.current = new Set();
+    setExpanded(new Set());
+    setSelected(null);
+    setPopPos(null);
+    const wrap = wrapRef.current;
+    transformRef.current = {
+      x: wrap ? wrap.clientWidth / 2 : 0,
+      y: wrap ? wrap.clientHeight / 2 : 0,
+      k: 1,
+    };
+  }, []);
+
+  // ─── ego 로드 ───
+  const loadEgo = useCallback(async (c: CharInfo) => {
+    resetGraph();
+    try {
+      const d = await fetchJSON<{ nodes: ApiNode[]; links: BrainLink[] }>(
+        `/api/brain/ego?level=${c.level}&job=${encodeURIComponent(c.job)}`
+      );
+      mergeGraph(d.nodes, d.links);
+      const me = nodesRef.current.get("char:me");
+      if (me) { me.fx = 0; me.fy = 0; me.x = 0; me.y = 0; }
+    } catch {
+      // 네트워크 오류 시 빈 화면 유지
+    }
+  }, [mergeGraph, resetGraph]);
+
+  // ─── 초기화: URL 파라미터(공유용) > localStorage 캐릭터 ───
+  useEffect(() => {
+    try {
+      const sp = new URLSearchParams(window.location.search);
+      const lv = parseInt(sp.get("lv") || "", 10);
+      if (lv >= 1 && lv <= 200) {
+        const c = { level: lv, job: sp.get("job") || "" };
+        localStorage.setItem("brain_char", JSON.stringify(c));
+        setChar(c);
+        loadEgo(c);
+        return;
+      }
+      const saved = localStorage.getItem("brain_char");
+      if (saved) {
+        const c = JSON.parse(saved) as CharInfo;
+        setChar(c);
+        loadEgo(c);
+        return;
+      }
+    } catch { /* ignore */ }
+    setChar(null);
+  }, [loadEgo]);
+
+  // ─── 노드 확장 ───
+  const expandNode = useCallback(async (node: BrainNode) => {
+    if (!EXPANDABLE.has(node.type)) return;
+    setExpandLoading(true);
+    try {
+      const d = await fetchJSON<{ nodes: ApiNode[]; links: BrainLink[] }>(
+        `/api/brain/expand?type=${node.type}&id=${node.entity_id}`
+      );
+      mergeGraph(d.nodes, d.links, node);
+      setExpanded((prev) => new Set(prev).add(node.id));
+    } catch { /* ignore */ } finally {
+      setExpandLoading(false);
+    }
+  }, [mergeGraph]);
+
+  // ─── 검색 ───
+  useEffect(() => {
+    if (!searchQ.trim()) { setSuggestions([]); return; }
+    const t = setTimeout(async () => {
+      try {
+        const d = await searchSuggest(searchQ.trim(), 8);
+        setSuggestions(d.suggestions.filter((s) => ["item", "mob", "map"].includes(s.entity_type)));
+      } catch { setSuggestions([]); }
+    }, 250);
+    return () => clearTimeout(t);
+  }, [searchQ]);
+
+  const pickSuggestion = useCallback(async (s: { entity_type: string; entity_id: number; name: string; name_kr: string | null; icon_url: string | null }) => {
+    setSearchQ("");
+    setSuggestions([]);
+    const id = `${s.entity_type}:${s.entity_id}`;
+    let node = nodesRef.current.get(id);
+    if (!node) {
+      mergeGraph([{
+        id, type: s.entity_type as BrainNode["type"], entity_id: s.entity_id,
+        label: s.name_kr || s.name, icon: s.icon_url,
+        detail_url: `/${s.entity_type}s/${s.entity_id}`,
+      }], []);
+      node = nodesRef.current.get(id)!;
+    }
+    // 카메라 이동 + 선택 + 자동 확장
+    const cv = canvasRef.current;
+    if (cv && node) {
+      const tr = transformRef.current;
+      tr.x = cv.clientWidth / 2 - node.x * tr.k;
+      tr.y = cv.clientHeight / 2 - node.y * tr.k;
+    }
+    if (node) {
+      setSelected(node);
+      await expandNode(node);
+    }
+  }, [expandNode, mergeGraph]);
+
+  // ─── 캐릭터 설정 저장 ───
+  const applySetup = useCallback(() => {
+    const lv = parseInt(setupLevel, 10);
+    if (!lv || lv < 1 || lv > 200) return;
+    const c = { level: lv, job: setupJob };
+    localStorage.setItem("brain_char", JSON.stringify(c));
+    setChar(c);
+    setShowSetup(false);
+    loadEgo(c);
+  }, [setupLevel, setupJob, loadEgo]);
+
+  useEffect(() => { selectedRef.current = selected?.id ?? null; }, [selected]);
+
+  // ─── 물리 시뮬 + 렌더 루프 ───
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const wrap = wrapRef.current;
+    if (!canvas || !wrap) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let raf = 0;
+    let t = 0;
+
+    const resize = () => {
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = wrap.clientWidth * dpr;
+      canvas.height = wrap.clientHeight * dpr;
+      canvas.style.width = `${wrap.clientWidth}px`;
+      canvas.style.height = `${wrap.clientHeight}px`;
+    };
+    resize();
+    // 첫 마운트: 월드 원점(내 캐릭터)을 화면 중앙에
+    if (transformRef.current.x === 0 && transformRef.current.y === 0) {
+      transformRef.current.x = wrap.clientWidth / 2;
+      transformRef.current.y = wrap.clientHeight / 2;
+    }
+    window.addEventListener("resize", resize);
+
+    const obs = new MutationObserver(() => {
+      darkRef.current = document.documentElement.classList.contains("dark");
+    });
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    darkRef.current = document.documentElement.classList.contains("dark");
+
+    const nodeRadius = (n: BrainNode) => (n.type === "char" ? 26 : n.type === "goal" ? 20 : 16);
+
+    const tick = () => {
+      t += 0.016;
+      const nodes = [...nodesRef.current.values()];
+      const links = linksRef.current;
+      const byId = nodesRef.current;
+
+      // 반발력
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const a = nodes[i], b = nodes[j];
+          let dx = b.x - a.x, dy = b.y - a.y;
+          let d2 = dx * dx + dy * dy;
+          if (d2 < 1) { dx = Math.random() - 0.5; dy = Math.random() - 0.5; d2 = 1; }
+          const d = Math.sqrt(d2);
+          const f = Math.min(2600 / d2, 8);
+          const fx = (dx / d) * f, fy = (dy / d) * f;
+          a.vx -= fx; a.vy -= fy;
+          b.vx += fx; b.vy += fy;
+        }
+      }
+      // 스프링
+      for (const l of links) {
+        const a = byId.get(l.source), b = byId.get(l.target);
+        if (!a || !b) continue;
+        const rest = l.kind === "hunt" || l.kind === "quest" || l.kind === "goal" ? 150 : 95;
+        const dx = b.x - a.x, dy = b.y - a.y;
+        const d = Math.max(Math.sqrt(dx * dx + dy * dy), 1);
+        const f = (d - rest) * 0.02;
+        const fx = (dx / d) * f, fy = (dy / d) * f;
+        a.vx += fx; a.vy += fy;
+        b.vx -= fx; b.vy -= fy;
+      }
+      // 중심 인력 + 둥둥 부유 + 적분
+      for (const n of nodes) {
+        n.vx += -n.x * 0.0008 + Math.sin(t * 0.7 + n.phase) * 0.02;
+        n.vy += -n.y * 0.0008 + Math.cos(t * 0.9 + n.phase) * 0.02;
+        n.vx *= 0.86; n.vy *= 0.86;
+        if (n.fx != null) { n.x = n.fx; n.vx = 0; } else n.x += n.vx;
+        if (n.fy != null) { n.y = n.fy; n.vy = 0; } else n.y += n.vy;
+      }
+
+      // ─ 렌더 ─
+      const dpr = window.devicePixelRatio || 1;
+      const W = canvas.width / dpr, H = canvas.height / dpr;
+      const dark = darkRef.current;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+
+      // 배경 점 패턴 (우주 느낌)
+      ctx.fillStyle = dark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)";
+      const tr = transformRef.current;
+      const grid = 90 * tr.k;
+      if (grid > 24) {
+        for (let gx = ((tr.x % grid) + grid) % grid; gx < W; gx += grid) {
+          for (let gy = ((tr.y % grid) + grid) % grid; gy < H; gy += grid) {
+            ctx.fillRect(gx, gy, 2, 2);
+          }
+        }
+      }
+
+      ctx.save();
+      ctx.translate(tr.x, tr.y);
+      ctx.scale(tr.k, tr.k);
+
+      // 링크
+      for (const l of links) {
+        const a = byId.get(l.source), b = byId.get(l.target);
+        if (!a || !b) continue;
+        ctx.strokeStyle = dark ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.15)";
+        ctx.lineWidth = 1.5 / tr.k;
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.stroke();
+      }
+
+      // 노드
+      const selId = selectedRef.current;
+      for (const n of nodes) {
+        const r = nodeRadius(n);
+        const col = TYPE_COLORS[n.type] ?? TYPE_COLORS.map;
+        const color = dark ? col.dark : col.light;
+
+        if (n.id === selId) {
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, r + 7 + Math.sin(t * 3) * 1.5, 0, Math.PI * 2);
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 2 / tr.k;
+          ctx.setLineDash([4, 4]);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+        ctx.fillStyle = dark ? "#1d2026" : "#ffffff";
+        ctx.fill();
+        ctx.lineWidth = n.type === "char" ? 3 : 2;
+        ctx.strokeStyle = color;
+        ctx.stroke();
+
+        const img = n.icon ? imagesRef.current.get(n.icon) : null;
+        if (img) {
+          const size = r * 1.3;
+          ctx.imageSmoothingEnabled = false;
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, r - 2, 0, Math.PI * 2);
+          ctx.clip();
+          ctx.drawImage(img, n.x - size / 2, n.y - size / 2, size, size);
+          ctx.restore();
+        } else {
+          ctx.font = `${r}px sans-serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(col.emoji, n.x, n.y + 1);
+        }
+
+        if (tr.k > 0.55) {
+          ctx.font = `${11 / Math.min(tr.k, 1.4)}px Galmuri11, monospace`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "top";
+          const label = n.label.length > 12 ? n.label.slice(0, 12) + "…" : n.label;
+          ctx.lineWidth = 3;
+          ctx.strokeStyle = dark ? "rgba(14,16,20,0.85)" : "rgba(255,255,255,0.85)";
+          ctx.strokeText(label, n.x, n.y + r + 5);
+          ctx.fillStyle = dark ? "#e8eaed" : "#2a2d33";
+          ctx.fillText(label, n.x, n.y + r + 5);
+        }
+      }
+      ctx.restore();
+
+      // 팝오버 위치 추적
+      if (selId) {
+        const n = byId.get(selId);
+        if (n) {
+          const sx = n.x * tr.k + tr.x;
+          const sy = n.y * tr.k + tr.y;
+          setPopPos((prev) => (prev && Math.abs(prev.x - sx) < 0.5 && Math.abs(prev.y - sy) < 0.5 ? prev : { x: sx, y: sy }));
+        }
+      }
+
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", resize);
+      obs.disconnect();
+    };
+  }, []);
+
+  // ─── 포인터 인터랙션 ───
+  const toWorld = useCallback((sx: number, sy: number) => {
+    const tr = transformRef.current;
+    return { x: (sx - tr.x) / tr.k, y: (sy - tr.y) / tr.k };
+  }, []);
+
+  const hitTest = useCallback((sx: number, sy: number): BrainNode | null => {
+    const { x, y } = toWorld(sx, sy);
+    let best: BrainNode | null = null;
+    let bestD = Infinity;
+    for (const n of nodesRef.current.values()) {
+      const r = (n.type === "char" ? 26 : 16) + 6;
+      const d = (n.x - x) ** 2 + (n.y - y) ** 2;
+      if (d < r * r && d < bestD) { best = n; bestD = d; }
+    }
+    return best;
+  }, [toWorld]);
+
+  const onPointerDown = useCallback((e: React.PointerEvent) => {
+    const rect = (e.target as HTMLElement).getBoundingClientRect();
+    const sx = e.clientX - rect.left, sy = e.clientY - rect.top;
+    pointersRef.current.set(e.pointerId, { x: sx, y: sy });
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    if (pointersRef.current.size === 2) {
+      const pts = [...pointersRef.current.values()];
+      pinchDistRef.current = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+      dragRef.current = { node: null, panning: false, startX: sx, startY: sy, moved: true };
+      return;
+    }
+    const node = hitTest(sx, sy);
+    dragRef.current = { node, panning: !node, startX: sx, startY: sy, moved: false };
+    if (node && node.type !== "char") { node.fx = node.x; node.fy = node.y; }
+  }, [hitTest]);
+
+  const onPointerMove = useCallback((e: React.PointerEvent) => {
+    const rect = (e.target as HTMLElement).getBoundingClientRect();
+    const sx = e.clientX - rect.left, sy = e.clientY - rect.top;
+    const prev = pointersRef.current.get(e.pointerId);
+    pointersRef.current.set(e.pointerId, { x: sx, y: sy });
+
+    if (pointersRef.current.size === 2 && pinchDistRef.current != null) {
+      const pts = [...pointersRef.current.values()];
+      const d = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+      const cx = (pts[0].x + pts[1].x) / 2, cy = (pts[0].y + pts[1].y) / 2;
+      const tr = transformRef.current;
+      const factor = d / pinchDistRef.current;
+      const k = Math.min(Math.max(tr.k * factor, 0.3), 3);
+      tr.x = cx - ((cx - tr.x) / tr.k) * k;
+      tr.y = cy - ((cy - tr.y) / tr.k) * k;
+      tr.k = k;
+      pinchDistRef.current = d;
+      return;
+    }
+    if (!prev) return;
+    const drag = dragRef.current;
+    const dx = sx - prev.x, dy = sy - prev.y;
+    if (Math.abs(sx - drag.startX) + Math.abs(sy - drag.startY) > 5) drag.moved = true;
+
+    if (drag.node && drag.node.type !== "char") {
+      const tr = transformRef.current;
+      drag.node.fx = (drag.node.fx ?? drag.node.x) + dx / tr.k;
+      drag.node.fy = (drag.node.fy ?? drag.node.y) + dy / tr.k;
+    } else if (drag.panning && e.buttons > 0) {
+      transformRef.current.x += dx;
+      transformRef.current.y += dy;
+    }
+  }, []);
+
+  const onPointerUp = useCallback((e: React.PointerEvent) => {
+    pointersRef.current.delete(e.pointerId);
+    pinchDistRef.current = null;
+    const drag = dragRef.current;
+    const node = drag.node;
+    if (node && node.type !== "char") { node.fx = null; node.fy = null; }
+
+    if (!drag.moved) {
+      if (node) {
+        const now = Date.now();
+        const last = lastClickRef.current;
+        if (last.id === node.id && now - last.t < 350 && node.detail_url) {
+          router.push(node.detail_url);
+          return;
+        }
+        lastClickRef.current = { id: node.id, t: now };
+        setSelected(node);
+      } else {
+        setSelected(null);
+        setPopPos(null);
+      }
+    }
+    dragRef.current = { node: null, panning: false, startX: 0, startY: 0, moved: false };
+  }, [router]);
+
+  const onWheel = useCallback((e: React.WheelEvent) => {
+    const rect = (e.target as HTMLElement).getBoundingClientRect();
+    const sx = e.clientX - rect.left, sy = e.clientY - rect.top;
+    const tr = transformRef.current;
+    const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
+    const k = Math.min(Math.max(tr.k * factor, 0.3), 3);
+    tr.x = sx - ((sx - tr.x) / tr.k) * k;
+    tr.y = sy - ((sy - tr.y) / tr.k) * k;
+    tr.k = k;
+  }, []);
+
+  // ─── UI ───
+  const needsSetup = char === null || showSetup;
+
+  return (
+    <div ref={wrapRef} className="fixed inset-x-0 bottom-0 top-14 overflow-hidden bg-bg touch-none select-none">
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 cursor-grab active:cursor-grabbing"
+        onPointerDown={onPointerDown}
+        onPointerMove={onPointerMove}
+        onPointerUp={onPointerUp}
+        onPointerCancel={onPointerUp}
+        onWheel={onWheel}
+      />
+
+      {/* 상단 바: 검색 + 캐릭터 칩 */}
+      <div className="absolute top-3 left-3 right-3 flex items-start gap-2 pointer-events-none">
+        <div className="relative flex-1 max-w-sm pointer-events-auto">
+          <input
+            value={searchQ}
+            onChange={(e) => setSearchQ(e.target.value)}
+            placeholder="🔍 아이템·몬스터·맵 검색 → 그래프에 추가"
+            className="w-full pixel-panel px-3 py-2 text-sm bg-surface text-ink placeholder:text-dim outline-none"
+          />
+          {suggestions.length > 0 && (
+            <div className="pixel-panel absolute top-full mt-1 left-0 right-0 bg-surface z-20 max-h-64 overflow-y-auto">
+              {suggestions.map((s) => (
+                <button
+                  key={`${s.entity_type}:${s.entity_id}`}
+                  onClick={() => pickSuggestion(s)}
+                  className="w-full flex items-center gap-2 px-3 py-2 text-left text-sm hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]"
+                >
+                  {s.icon_url && <img src={s.icon_url} alt="" className="w-6 h-6 object-contain" style={{ imageRendering: "pixelated" }} />}
+                  <span className="text-ink">{s.name_kr || s.name}</span>
+                  <span className="ml-auto text-[10px] text-dim font-pixel">
+                    {TYPE_COLORS[s.entity_type]?.name ?? s.entity_type}
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        {char && (
+          <button
+            onClick={() => { setShowSetup(true); setSetupLevel(String(char.level)); setSetupJob(char.job); }}
+            className="pixel-btn px-3 py-2 text-sm pointer-events-auto shrink-0"
+          >
+            ⭐ Lv.{char.level}{char.job ? ` ${char.job}` : ""}
+          </button>
+        )}
+      </div>
+
+      {/* 범례 + 안내 */}
+      <div className="absolute bottom-3 left-3 pointer-events-none space-y-1">
+        <div className="flex flex-wrap gap-2">
+          {(["map", "quest", "mob", "item", "goal"] as const).map((tk) => (
+            <span key={tk} className="pixel-panel bg-surface px-2 py-1 text-[10px] font-pixel text-dim flex items-center gap-1">
+              <span className="inline-block w-2.5 h-2.5 rounded-full border-2" style={{ borderColor: TYPE_COLORS[tk].light }} />
+              {TYPE_COLORS[tk].name}
+            </span>
+          ))}
+        </div>
+        <p className="text-[10px] text-dim font-pixel">
+          클릭 = 정보 · 더블클릭 = 상세 페이지 · 드래그 = 이동 · 휠/핀치 = 확대 — 사냥터 추천은 원작 수치(몹 EXP × 젠 수) 기반 근사치
+        </p>
+      </div>
+
+      {/* 노드 팝오버 */}
+      {selected && popPos && !needsSetup && (
+        <div
+          className="pixel-panel absolute z-10 bg-surface p-3 w-56 -translate-x-1/2"
+          style={{ left: popPos.x, top: popPos.y + 34 }}
+        >
+          <p className="font-pixel text-sm text-ink font-bold">{selected.label}</p>
+          {selected.sub && <p className="text-xs text-dim mt-0.5">{selected.sub}</p>}
+          <div className="flex flex-col gap-1.5 mt-2">
+            {selected.type === "char" ? (
+              <button onClick={() => { setShowSetup(true); setSetupLevel(String(char?.level ?? "")); setSetupJob(char?.job ?? ""); }} className="pixel-btn px-2 py-1.5 text-xs">
+                레벨·직업 변경
+              </button>
+            ) : (
+              <>
+                {EXPANDABLE.has(selected.type) && !expanded.has(selected.id) && (
+                  <button onClick={() => expandNode(selected)} disabled={expandLoading} className="pixel-btn px-2 py-1.5 text-xs disabled:opacity-50">
+                    {expandLoading ? "펼치는 중…" : "🔍 연결 펼치기"}
+                  </button>
+                )}
+                {selected.detail_url && (
+                  <button onClick={() => router.push(selected.detail_url!)} className="pixel-btn px-2 py-1.5 text-xs">
+                    상세 정보 →
+                  </button>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* 온보딩 / 설정 오버레이 */}
+      {needsSetup && char !== undefined && (
+        <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/40 p-4">
+          <div className="pixel-panel bg-surface p-6 w-full max-w-sm">
+            <h1 className="font-pixel text-lg text-maple font-bold mb-1">🧠 메랜 브레인</h1>
+            <p className="text-xs text-dim mb-4">
+              내 캐릭터를 중심으로 사냥터·퀘스트·드랍이 연결된 지식 그래프를 펼칩니다.
+            </p>
+            <label className="block text-xs font-pixel text-dim mb-1">레벨</label>
+            <input
+              type="number" min={1} max={200} value={setupLevel}
+              onChange={(e) => setSetupLevel(e.target.value)}
+              onKeyDown={(e) => { if (e.key === "Enter" && !e.nativeEvent.isComposing) applySetup(); }}
+              placeholder="예: 45"
+              className="w-full pixel-panel bg-bg px-3 py-2 text-sm text-ink outline-none mb-3"
+            />
+            <label className="block text-xs font-pixel text-dim mb-1">직업 (선택)</label>
+            <div className="flex flex-wrap gap-1.5 mb-4">
+              {JOBS.map((j) => (
+                <button
+                  key={j}
+                  onClick={() => setSetupJob(setupJob === j ? "" : j)}
+                  className={`px-2.5 py-1.5 text-xs font-pixel border-2 ${
+                    setupJob === j ? "border-maple text-maple bg-[color-mix(in_srgb,var(--c-maple)_12%,transparent)]" : "border-edge text-dim"
+                  }`}
+                >
+                  {j}
+                </button>
+              ))}
+            </div>
+            <div className="flex gap-2">
+              <button onClick={applySetup} disabled={!setupLevel} className="pixel-btn flex-1 px-3 py-2 text-sm disabled:opacity-40">
+                두뇌 연결 ⚡
+              </button>
+              {char && (
+                <button onClick={() => setShowSetup(false)} className="px-3 py-2 text-sm font-pixel text-dim border-2 border-edge">
+                  취소
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

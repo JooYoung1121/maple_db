@@ -9,6 +9,23 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.61.0",
+    date: "2026-07-27",
+    type: "minor",
+    title: "메랜 브레인 — 캐릭터 중심 지식 그래프",
+    features: [
+      {
+        category: "신규 페이지",
+        items: [
+          "/brain — 내 레벨·직업을 중심으로 사냥터·퀘스트·드랍이 둥둥 떠다니는 풀스크린 그래프 탐색",
+          "노드 클릭으로 연결 펼치기(맵→몹→드랍템), 더블클릭으로 상세 페이지 이동, 검색으로 그래프에 추가",
+          "사냥터 추천은 원작 수치(몹 EXP × 젠 수) 기반 근사치 — 레벨 창 자동 계산, Lv+5 다음 목표 분기",
+          "?lv=45&job=도적 형태의 공유 URL 지원",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.60.0",
     date: "2026-07-27",
     type: "minor",
