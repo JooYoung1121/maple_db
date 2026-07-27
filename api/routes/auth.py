@@ -27,7 +27,7 @@ router = APIRouter()
 DISCORD_API = "https://discord.com/api/v10"
 COOKIE_NAME = "ml_session"
 SESSION_TTL = 60 * 60 * 24 * 30  # 30일
-SETTINGS_KEYS = {"brain_char", "my_maple", "favorites"}
+SETTINGS_KEYS = {"brain_char", "brain_pins", "my_maple", "favorites"}
 MAX_SETTING_BYTES = 16 * 1024
 
 

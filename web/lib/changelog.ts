@@ -9,6 +9,23 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.64.0",
+    date: "2026-07-27",
+    type: "minor",
+    title: "브레인 — 나만의 지도: 직접 연결·저장",
+    features: [
+      {
+        category: "브레인",
+        items: [
+          "검색으로 추가한 노드가 내 캐릭터에 자동 연결(📌 점선) — 떠다니는 섬 없음",
+          "「🔗 연결」— 아무 노드끼리 직접 이어서 나만의 로드맵 구성 (주황 실선)",
+          "내 핀·연결이 자동 저장 — 로그인 시 계정에(기기 간 유지), 비로그인은 브라우저에",
+          "「🗑 제거」로 노드 정리, ⌖ 버튼으로 화면 리셋, 가이드 3단계를 나만의 지도 설명으로 갱신",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.63.0",
     date: "2026-07-27",
     type: "minor",

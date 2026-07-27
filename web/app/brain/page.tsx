@@ -130,6 +130,8 @@ export default function BrainPage() {
   const lastClickRef = useRef<{ id: string; t: number }>({ id: "", t: 0 });
   const darkRef = useRef(false);
   const selectedRef = useRef<string | null>(null);
+  const pinsRef = useRef<{ nodes: ApiNode[]; links: BrainLink[] } | null>(null);
+  const linkingFromRef = useRef<string | null>(null);
 
   const [char, setChar] = useState<CharInfo | null | undefined>(undefined); // undefined = 로딩 전
   const [selected, setSelected] = useState<BrainNode | null>(null);
@@ -138,6 +140,7 @@ export default function BrainPage() {
   const [expandLoading, setExpandLoading] = useState(false);
   const [searchQ, setSearchQ] = useState("");
   const [suggestions, setSuggestions] = useState<{ entity_type: string; entity_id: number; name: string; name_kr: string | null; icon_url: string | null }[]>([]);
+  const [linkingFrom, setLinkingFrom] = useState<string | null>(null);
   const [setupLevel, setSetupLevel] = useState("");
   const [setupJob, setSetupJob] = useState("");
   const [setupSubJob, setSetupSubJob] = useState("");
@@ -189,6 +192,52 @@ export default function BrainPage() {
     }
   }, [loadImage]);
 
+  // ─── 내 연결(핀·커스텀 링크) 저장/복원 ───
+  const persistPins = useCallback(() => {
+    const links = linksRef.current.filter((l) => l.kind === "pin" || l.kind === "custom");
+    const ids = new Set<string>();
+    links.forEach((l) => { ids.add(l.source); ids.add(l.target); });
+    ids.delete("char:me");
+    const nodes = [...nodesRef.current.values()]
+      .filter((n) => ids.has(n.id))
+      .map((n) => ({
+        id: n.id, type: n.type, entity_id: n.entity_id, label: n.label,
+        sub: n.sub, icon: n.icon, emoji: n.emoji, detail_url: n.detail_url,
+      }));
+    const payload = { nodes, links };
+    pinsRef.current = payload;
+    try { localStorage.setItem("brain_pins", JSON.stringify(payload)); } catch { /* ignore */ }
+    if (loggedInRef.current) {
+      fetch(`${API_BASE}/api/me/settings/brain_pins`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ value: payload }),
+      }).catch(() => {});
+    }
+  }, []);
+
+  const addLink = useCallback((source: string, target: string, kind: string) => {
+    const key = `${source}→${target}`;
+    const rev = `${target}→${source}`;
+    if (linkKeysRef.current.has(key) || linkKeysRef.current.has(rev)) return false;
+    linkKeysRef.current.add(key);
+    linksRef.current.push({ source, target, kind });
+    return true;
+  }, []);
+
+  const removeNode = useCallback((id: string) => {
+    if (id === "char:me") return;
+    nodesRef.current.delete(id);
+    linksRef.current = linksRef.current.filter((l) => {
+      const hit = l.source === id || l.target === id;
+      if (hit) linkKeysRef.current.delete(`${l.source}→${l.target}`);
+      return !hit;
+    });
+    setSelected(null);
+    setPopPos(null);
+    persistPins();
+  }, [persistPins]);
+
   const resetGraph = useCallback(() => {
     nodesRef.current = new Map();
     linksRef.current = [];
@@ -225,6 +274,10 @@ export default function BrainPage() {
         }
       }
       mergeGraph(toolNodes, toolLinks);
+      // 내 연결(핀·커스텀) 복원
+      if (pinsRef.current) {
+        mergeGraph(pinsRef.current.nodes, pinsRef.current.links);
+      }
       const me = nodesRef.current.get("char:me");
       if (me) {
         me.fx = 0; me.fy = 0; me.x = 0; me.y = 0;
@@ -242,6 +295,10 @@ export default function BrainPage() {
   const loggedInRef = useRef(false);
   useEffect(() => {
     fetch(`${API_BASE}/api/auth/config`).then((r) => r.json()).then((d) => setAuthEnabled(!!d.enabled)).catch(() => {});
+    try {
+      const savedPins = localStorage.getItem("brain_pins");
+      if (savedPins) pinsRef.current = JSON.parse(savedPins);
+    } catch { /* ignore */ }
     (async () => {
       try {
         const sp = new URLSearchParams(window.location.search);
@@ -266,6 +323,7 @@ export default function BrainPage() {
             loggedInRef.current = true;
             const bc = me.settings?.brain_char;
             if (bc && bc.level >= 1 && bc.level <= 200) account = bc as CharInfo;
+            if (me.settings?.brain_pins) pinsRef.current = me.settings.brain_pins;
           }
         } catch { /* 비로그인 */ }
         if (account) {
@@ -334,6 +392,10 @@ export default function BrainPage() {
       }], []);
       node = nodesRef.current.get(id)!;
     }
+    // 검색으로 넣은 노드는 내 캐릭터에 자동 연결(📌 핀) — 떠다니는 섬 방지 + 저장
+    if (nodesRef.current.has("char:me") && addLink("char:me", id, "pin")) {
+      persistPins();
+    }
     // 카메라 이동 + 선택 + 자동 확장
     const cv = canvasRef.current;
     if (cv && node) {
@@ -345,7 +407,7 @@ export default function BrainPage() {
       setSelected(node);
       await expandNode(node);
     }
-  }, [expandNode, mergeGraph]);
+  }, [expandNode, mergeGraph, addLink, persistPins]);
 
   // ─── 캐릭터 설정 저장 ───
   const applySetup = useCallback(() => {
@@ -379,6 +441,7 @@ export default function BrainPage() {
   }, [setupLevel, setupJob, setupSubJob, setupNickname, loadEgo]);
 
   useEffect(() => { selectedRef.current = selected?.id ?? null; }, [selected]);
+  useEffect(() => { linkingFromRef.current = linkingFrom; }, [linkingFrom]);
 
   // ─── 물리 시뮬 + 렌더 루프 ───
   useEffect(() => {
@@ -478,16 +541,42 @@ export default function BrainPage() {
       ctx.translate(tr.x, tr.y);
       ctx.scale(tr.k, tr.k);
 
-      // 링크
+      // 링크 — pin(검색 추가)·custom(직접 연결)은 구분 표시
       for (const l of links) {
         const a = byId.get(l.source), b = byId.get(l.target);
         if (!a || !b) continue;
-        ctx.strokeStyle = dark ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.15)";
-        ctx.lineWidth = 1.5 / tr.k;
+        if (l.kind === "custom") {
+          ctx.strokeStyle = dark ? "rgba(255,159,69,0.75)" : "rgba(232,89,12,0.6)";
+          ctx.lineWidth = 2.5 / tr.k;
+          ctx.setLineDash([]);
+        } else if (l.kind === "pin") {
+          ctx.strokeStyle = dark ? "rgba(255,159,69,0.4)" : "rgba(232,89,12,0.35)";
+          ctx.lineWidth = 1.5 / tr.k;
+          ctx.setLineDash([5, 4]);
+        } else {
+          ctx.strokeStyle = dark ? "rgba(255,255,255,0.18)" : "rgba(0,0,0,0.15)";
+          ctx.lineWidth = 1.5 / tr.k;
+          ctx.setLineDash([]);
+        }
         ctx.beginPath();
         ctx.moveTo(a.x, a.y);
         ctx.lineTo(b.x, b.y);
         ctx.stroke();
+      }
+      ctx.setLineDash([]);
+      // 연결 모드: 출발 노드 → 커서 방향 안내선은 출발 노드 강조로 대체
+      const linkingId = linkingFromRef.current;
+      if (linkingId) {
+        const ln = byId.get(linkingId);
+        if (ln) {
+          ctx.beginPath();
+          ctx.arc(ln.x, ln.y, 24 + Math.sin(t * 4) * 3, 0, Math.PI * 2);
+          ctx.strokeStyle = dark ? "#ff9f45" : "#e8590c";
+          ctx.lineWidth = 2 / tr.k;
+          ctx.setLineDash([3, 3]);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
       }
 
       // 노드
@@ -642,6 +731,16 @@ export default function BrainPage() {
     if (node && node.type !== "char") { node.fx = null; node.fy = null; }
 
     if (!drag.moved) {
+      // 연결 모드: 다음 클릭한 노드와 커스텀 링크 생성
+      const linking = linkingFromRef.current;
+      if (linking) {
+        if (node && node.id !== linking) {
+          if (addLink(linking, node.id, "custom")) persistPins();
+        }
+        setLinkingFrom(null);
+        dragRef.current = { node: null, panning: false, startX: 0, startY: 0, moved: false };
+        return;
+      }
       if (node) {
         const now = Date.now();
         const last = lastClickRef.current;
@@ -657,7 +756,7 @@ export default function BrainPage() {
       }
     }
     dragRef.current = { node: null, panning: false, startX: 0, startY: 0, moved: false };
-  }, [router]);
+  }, [router, addLink, persistPins]);
 
   const onWheel = useCallback((e: React.WheelEvent) => {
     const rect = (e.target as HTMLElement).getBoundingClientRect();
@@ -785,21 +884,56 @@ export default function BrainPage() {
                     {selected.type === "tool" ? "바로가기 →" : "상세 정보 →"}
                   </button>
                 )}
+                <div className="flex gap-1.5">
+                  <button
+                    onClick={() => { setLinkingFrom(selected.id); setSelected(null); setPopPos(null); }}
+                    className="flex-1 px-2 py-1.5 text-xs font-pixel border-2 border-edge text-dim hover:text-maple hover:border-maple"
+                  >
+                    🔗 연결
+                  </button>
+                  <button
+                    onClick={() => removeNode(selected.id)}
+                    className="flex-1 px-2 py-1.5 text-xs font-pixel border-2 border-edge text-dim hover:text-red-500 hover:border-red-500"
+                  >
+                    🗑 제거
+                  </button>
+                </div>
               </>
             )}
           </div>
         </div>
       )}
 
-      {/* 도움말 버튼 */}
+      {/* 연결 모드 안내 */}
+      {linkingFrom && (
+        <div className="pixel-panel absolute top-16 left-1/2 -translate-x-1/2 bg-surface px-4 py-2 text-sm text-ink z-20 flex items-center gap-2">
+          🔗 연결할 노드를 클릭하세요
+          <button onClick={() => setLinkingFrom(null)} className="text-xs text-dim hover:text-ink font-pixel">(취소: 빈 곳 클릭)</button>
+        </div>
+      )}
+
+      {/* 우하단 버튼: 줌 리셋 + 도움말 */}
       {!needsSetup && (
-        <button
-          onClick={() => { setGuideStep(0); setShowGuide(true); }}
-          className="pixel-btn absolute bottom-3 right-3 w-9 h-9 text-sm font-pixel z-10"
-          aria-label="사용법 가이드"
-        >
-          ?
-        </button>
+        <div className="absolute bottom-3 right-3 flex gap-1.5 z-10">
+          <button
+            onClick={() => {
+              const wrap = wrapRef.current;
+              if (wrap) transformRef.current = { x: wrap.clientWidth / 2, y: wrap.clientHeight / 2, k: 1 };
+            }}
+            className="pixel-btn w-9 h-9 text-sm font-pixel"
+            aria-label="화면 중앙으로"
+            title="내 캐릭터로 화면 리셋"
+          >
+            ⌖
+          </button>
+          <button
+            onClick={() => { setGuideStep(0); setShowGuide(true); }}
+            className="pixel-btn w-9 h-9 text-sm font-pixel"
+            aria-label="사용법 가이드"
+          >
+            ?
+          </button>
+        </div>
       )}
 
       {/* 사용법 가이드 */}
@@ -819,9 +953,9 @@ export default function BrainPage() {
                   body: "상단 검색창에 아이템·몬스터·맵 이름을 치면 그래프에 노드로 추가되고 자동으로 펼쳐집니다. \"이 아이템 어디서 나와?\" → 검색 → 드랍 몹 → 출현 맵까지 한눈에.",
                 },
                 {
-                  title: "③ 조작법 & 공유",
-                  emoji: "🧭",
-                  body: "더블클릭 = 상세 페이지 이동 · 드래그 = 노드 옮기기 · 빈 곳 드래그 = 화면 이동 · 휠/핀치 = 확대. 우측 상단 ⭐칩으로 레벨을 바꾸면 그래프가 다시 그려집니다. 주소에 ?lv=45&job=도적 을 붙여 길드원에게 공유할 수도 있어요.",
+                  title: "③ 나만의 지도 만들기",
+                  emoji: "📌",
+                  body: "검색으로 넣은 노드는 내 캐릭터에 점선(📌)으로 붙습니다. 노드 카드의 「🔗 연결」로 아무 노드끼리 직접 이을 수 있어요 — 예: Lv.90 목표 ← 켄타PQ ← 얼음결정. 이 연결은 자동 저장되고(로그인 시 계정에), 다음에 와도 그대로 남아 있습니다. 「🗑 제거」로 정리, 우하단 ⌖로 화면 리셋.",
                 },
               ];
               const s = steps[guideStep];
