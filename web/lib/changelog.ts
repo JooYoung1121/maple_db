@@ -9,6 +9,21 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.67.2",
+    date: "2026-07-27",
+    type: "patch",
+    title: "사이드바 기본 접힘",
+    features: [
+      {
+        category: "네비게이션",
+        items: [
+          "사이드바 카테고리 기본 전부 접힘 — 현재 보고 있는 페이지의 카테고리만 자동 펼침",
+          "직접 펼치고 접은 상태는 계속 기억",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.67.1",
     date: "2026-07-27",
     type: "patch",

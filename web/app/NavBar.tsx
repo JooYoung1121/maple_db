@@ -94,7 +94,7 @@ const RAIL_GROUPS: string[][] = [
 
 function SideBar({ isActive, newsBadge }: { isActive: (href: string) => boolean; newsBadge: number }) {
   const pathname = usePathname();
-  // 기본 전부 펼침 — 접은 섹션만 기억
+  // 기본 전부 접힘 — 펼친/접은 상태를 기억 (미기록 섹션은 접힘)
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
   const [loaded, setLoaded] = useState(false);
 
@@ -157,7 +157,8 @@ function SideBar({ isActive, newsBadge }: { isActive: (href: string) => boolean;
                 </Link>
               );
             }
-            const isCollapsed = loaded && collapsed[label];
+            // 현재 페이지가 속한 카테고리는 자동 펼침
+            const isCollapsed = (collapsed[label] ?? !sec.items.some((i) => isActive(i.href)));
             return (
               <div key={label}>
                 <button
