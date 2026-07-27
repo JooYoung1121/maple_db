@@ -474,6 +474,7 @@ CREATE TABLE IF NOT EXISTS users (
     guild_member INTEGER DEFAULT 0,   -- 추억길드 디스코드 서버 멤버 여부
     guild_nick TEXT,                  -- 길드 서버 별명
     guild_roles TEXT,                 -- 역할 이름 JSON 배열
+    site_nickname TEXT,               -- 사이트 표시 닉네임 (직접 설정, 최우선)
     created_at TEXT DEFAULT (datetime('now')),
     last_login_at TEXT
 );

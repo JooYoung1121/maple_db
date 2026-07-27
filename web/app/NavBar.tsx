@@ -58,6 +58,13 @@ function AuthChip({ compact = false, onNavigate }: { compact?: boolean; onNaviga
         </button>
         {open && (
           <div className="pixel-panel absolute top-full right-0 mt-2 py-1 min-w-[130px] z-50 bg-surface">
+            <Link
+              href="/me"
+              onClick={() => { setOpen(false); onNavigate?.(); }}
+              className="block px-4 py-2 text-sm text-ink hover:text-maple"
+            >
+              🍄 마이페이지
+            </Link>
             <button onClick={logout} className="w-full text-left px-4 py-2 text-sm text-ink hover:text-maple">
               로그아웃
             </button>

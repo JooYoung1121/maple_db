@@ -3,6 +3,7 @@
 export const NEW_FEATURES: Record<string, string> = {
   "/my-maple": "2026-07-27",
   "/brain": "2026-07-27",
+  "/me": "2026-07-27",
   "/medals": "2026-07-22",
   "/quest-roadmap": "2026-07-22",
   "/worldcup": "2026-07-22",

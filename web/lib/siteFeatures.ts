@@ -19,9 +19,15 @@ export const SITE_SECTIONS: SiteSection[] = [
     ],
   },
   {
+    label: "마이",
+    items: [
+      { href: "/me", label: "마이페이지", icon: "🍄", description: "프로필·닉네임·계정 설정" },
+      { href: "/my-maple", label: "내 메랜", icon: "🍁", description: "내 레벨·목표에 맞춘 바로가기" },
+    ],
+  },
+  {
     label: "정보",
     items: [
-      { href: "/my-maple", label: "내 메랜", icon: "🍁", description: "내 레벨·목표에 맞춘 바로가기" },
       { href: "/items", label: "아이템", icon: "🗡️", description: "무기, 방어구, 소비" },
       { href: "/mobs", label: "몬스터", icon: "👾", description: "일반 몬스터, 보스" },
       { href: "/bosses", label: "보스", icon: "💀", description: "보스 공략 정보" },

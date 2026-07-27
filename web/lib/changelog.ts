@@ -9,6 +9,23 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.66.0",
+    date: "2026-07-27",
+    type: "minor",
+    title: "마이페이지 — 프로필·닉네임·계정 허브",
+    features: [
+      {
+        category: "계정",
+        items: [
+          "마이페이지(/me) 신설 — 디스코드 프로필·길드 역할, 사이트 표시 닉네임 변경(댓글·게시판·출석부 반영)",
+          "내 캐릭터(브레인) 요약과 내 메랜 바로가기, 로그아웃",
+          "네비 「마이」 카테고리 신설 — 내 메랜을 정보에서 이동, 우상단 아바타 메뉴에도 마이페이지 추가",
+          "알림 설정 자리 마련 (준비 중 — 디스코드 알림 예정)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.65.0",
     date: "2026-07-27",
     type: "minor",

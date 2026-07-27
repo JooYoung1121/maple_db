@@ -494,7 +494,7 @@ def list_comments(issue_no: int):
         rows = conn.execute(
             """SELECT c.id, c.content, c.created_at, c.user_id,
                       u.avatar_url, u.guild_member,
-                      COALESCE(u.guild_nick, u.global_name, u.username) AS display_name
+                      COALESCE(u.site_nickname, u.guild_nick, u.global_name, u.username) AS display_name
                FROM weekly_comments c JOIN users u ON u.id = c.user_id
                WHERE c.issue_no = ? ORDER BY c.created_at""",
             (issue_no,),

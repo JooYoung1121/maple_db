@@ -24,6 +24,23 @@ from crawler.db import get_connection
 
 router = APIRouter()
 
+
+def _migrate() -> None:
+    """기존 DB에 site_nickname 컬럼 보강 (신규 DB는 SCHEMA에 포함)."""
+    try:
+        conn = get_connection()
+        try:
+            conn.execute("ALTER TABLE users ADD COLUMN site_nickname TEXT")
+            conn.commit()
+        except Exception:
+            pass  # 이미 존재
+        conn.close()
+    except Exception:
+        pass
+
+
+_migrate()
+
 DISCORD_API = "https://discord.com/api/v10"
 COOKIE_NAME = "ml_session"
 SESSION_TTL = 60 * 60 * 24 * 30  # 30일
@@ -272,7 +289,7 @@ def auth_me(request: Request):
     conn = get_connection()
     try:
         row = conn.execute(
-            "SELECT id, discord_id, username, global_name, avatar_url, guild_member, guild_nick, guild_roles FROM users WHERE id=?",
+            "SELECT id, discord_id, username, global_name, avatar_url, guild_member, guild_nick, guild_roles, site_nickname FROM users WHERE id=?",
             (uid,),
         ).fetchone()
         if not row:
@@ -286,8 +303,26 @@ def auth_me(request: Request):
             user["guild_roles"] = json.loads(user.get("guild_roles") or "[]")
         except Exception:
             user["guild_roles"] = []
-        user["display_name"] = row["guild_nick"] or row["global_name"] or row["username"]
+        user["display_name"] = row["site_nickname"] or row["guild_nick"] or row["global_name"] or row["username"]
         return {"user": user, "settings": settings}
+    finally:
+        conn.close()
+
+
+class NicknameBody(BaseModel):
+    nickname: str = ""
+
+
+@router.post("/auth/me/nickname")
+def set_site_nickname(body: NicknameBody, request: Request):
+    """사이트 표시 닉네임 설정 — 빈 값이면 디스코드 이름으로 복귀."""
+    uid = _require_user(request)
+    nick = body.nickname.strip()[:12]
+    conn = get_connection()
+    try:
+        conn.execute("UPDATE users SET site_nickname=? WHERE id=?", (nick or None, uid))
+        conn.commit()
+        return {"ok": True, "nickname": nick or None}
     finally:
         conn.close()
 
