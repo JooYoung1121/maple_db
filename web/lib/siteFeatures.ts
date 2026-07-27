@@ -8,18 +8,21 @@ export interface SiteFeature {
 
 export interface SiteSection {
   label: string;
+  icon?: string; // 사이드 레일 아이콘
   items: SiteFeature[];
 }
 
 export const SITE_SECTIONS: SiteSection[] = [
   {
     label: "브레인",
+    icon: "🧠",
     items: [
       { href: "/brain", label: "메랜 브레인", homeLabel: "메랜 브레인", icon: "🧠", description: "내 캐릭터 중심 지식 그래프 — 사냥터·퀘스트·드랍 탐색" },
     ],
   },
   {
     label: "마이",
+    icon: "🍄",
     items: [
       { href: "/me", label: "마이페이지", icon: "🍄", description: "프로필·닉네임·계정 설정" },
       { href: "/my-maple", label: "내 메랜", icon: "🍁", description: "내 레벨·목표에 맞춘 바로가기" },
@@ -27,6 +30,7 @@ export const SITE_SECTIONS: SiteSection[] = [
   },
   {
     label: "정보",
+    icon: "📚",
     items: [
       { href: "/items", label: "아이템", icon: "🗡️", description: "무기, 방어구, 소비" },
       { href: "/mobs", label: "몬스터", icon: "👾", description: "일반 몬스터, 보스" },
@@ -41,6 +45,7 @@ export const SITE_SECTIONS: SiteSection[] = [
   },
   {
     label: "계산기",
+    icon: "🧮",
     items: [
       { href: "/scroll", label: "주문서 계산기", homeLabel: "주문서", icon: "📖", description: "강화 시뮬레이터" },
       { href: "/exp", label: "경험치 계산기", homeLabel: "경험치", icon: "📈", description: "레벨업 계산" },
@@ -51,12 +56,14 @@ export const SITE_SECTIONS: SiteSection[] = [
   },
   {
     label: "전문기술",
+    icon: "⚒️",
     items: [
       { href: "/maker", label: "메이커", icon: "⚒️", description: "제작 재료와 완성품 조회" },
     ],
   },
   {
     label: "가이드",
+    icon: "📖",
     items: [
       { href: "/pq", label: "파티퀘스트", icon: "🏰", description: "PQ 공략 및 보상" },
       { href: "/hunt", label: "사냥터 추천", icon: "🎯", description: "레벨별 사냥터 가이드" },
@@ -71,6 +78,7 @@ export const SITE_SECTIONS: SiteSection[] = [
   },
   {
     label: "커뮤니티",
+    icon: "💬",
     items: [
       { href: "/news", label: "공홈 소식", homeLabel: "메랜 공홈 소식", icon: "📰", description: "메이플랜드 공지·이벤트" },
       { href: "/weekly", label: "주간 메랜", icon: "🗞️", description: "한 주의 공식·커뮤니티 소식" },
@@ -82,6 +90,7 @@ export const SITE_SECTIONS: SiteSection[] = [
   },
   {
     label: "놀이터",
+    icon: "🎮",
     items: [
       { href: "/play", label: "룰렛 · 주사위", icon: "🎰", description: "룰렛, 주사위 굴리기" },
       { href: "/lotto", label: "로또", icon: "🎱", description: "랜덤 번호 생성" },
@@ -98,6 +107,7 @@ export const SITE_SECTIONS: SiteSection[] = [
   },
   {
     label: "유물창고",
+    icon: "🏺",
     items: [
       { href: "/fee", label: "수수료 계산기", icon: "🏺", description: "1.0 구간제 수수료작의 추억" },
       { href: "/tespia-bosses", label: "테스피아 2.0 보스", icon: "🏺", description: "2.0 오픈 전 미리보기 아카이브" },
@@ -105,6 +115,7 @@ export const SITE_SECTIONS: SiteSection[] = [
   },
   {
     label: "추억길드",
+    icon: "🍁",
     items: [
       { href: "/guild", label: "공지 · 이벤트", icon: "📢", description: "길드 공지사항" },
       { href: "/guild/members", label: "길드원 명단", icon: "👥", description: "길드원 정보" },

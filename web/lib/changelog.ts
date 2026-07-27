@@ -9,6 +9,23 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.67.0",
+    date: "2026-07-27",
+    type: "minor",
+    title: "좌측 아이콘 레일 — 상단 메뉴 개편",
+    features: [
+      {
+        category: "네비게이션",
+        items: [
+          "데스크톱 카테고리를 상단 가로 메뉴에서 좌측 아이콘 레일로 이동 — 상단은 로고·로그인·테마만",
+          "레일 아이콘 클릭 시 옆으로 펼쳐지는 플라이아웃, 비슷한 카테고리끼리 구분선 그룹핑",
+          "활성 카테고리 하이라이트, NEW 점 배지, 커뮤니티 새 소식 숫자 배지",
+          "모바일(햄버거 메뉴)은 기존 그대로",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.66.0",
     date: "2026-07-27",
     type: "minor",

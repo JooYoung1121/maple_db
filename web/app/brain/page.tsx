@@ -885,7 +885,7 @@ export default function BrainPage() {
   const needsSetup = char === null || showSetup;
 
   return (
-    <div ref={wrapRef} className="fixed inset-x-0 bottom-0 top-14 overflow-hidden bg-bg touch-none select-none">
+    <div ref={wrapRef} className="fixed left-0 right-0 bottom-0 top-14 xl:left-14 overflow-hidden bg-bg touch-none select-none">
       <canvas
         ref={canvasRef}
         className="absolute inset-0 cursor-grab active:cursor-grabbing"

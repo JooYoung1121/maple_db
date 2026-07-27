@@ -49,9 +49,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SiteActivityTracker />
         <NavBar />
         <CommandPalette />
-        <main id="main-content" tabIndex={-1} className="max-w-7xl mx-auto px-4 py-6 flex-1 w-full">{children}</main>
+        {/* xl 이상: 좌측 아이콘 레일(w-14) 공간 확보 */}
+        <main id="main-content" tabIndex={-1} className="max-w-7xl mx-auto px-4 py-6 flex-1 w-full xl:pl-[4.5rem]">{children}</main>
         <footer className="border-t-2 border-edge bg-surface mt-auto">
-          <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-dim">
+          <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-dim xl:pl-[4.5rem]">
             <span className="flex items-center gap-1.5">
               <img src="/leaf.svg" alt="" className="w-3.5 h-3.5 opacity-70" />
               추억길드 전용 메이플랜드 2.0 정보 사이트
