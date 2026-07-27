@@ -18,6 +18,28 @@ LEVEL_WINDOW_DOWN = 4
 LEVEL_WINDOW_UP = 6
 
 
+import re
+
+_skill_icon_cache: dict[str, str | None] = {}
+
+
+def _mastery_book_icon(conn, item_label: str) -> str | None:
+    """[마스터리북] 아이템 → 해당 스킬 아이콘 경로 (sim_skills 로컬 아이콘)."""
+    m = re.match(r"\[마스터리북\]\s*(.+?)\s*\d*$", item_label or "")
+    if not m:
+        return None
+    key = re.sub(r"\s+", "", m.group(1))
+    if key in _skill_icon_cache:
+        return _skill_icon_cache[key]
+    row = conn.execute(
+        "SELECT icon_path FROM sim_skills WHERE REPLACE(name, ' ', '') = ? AND icon_path IS NOT NULL LIMIT 1",
+        (key,),
+    ).fetchone()
+    icon = row["icon_path"] if row else None
+    _skill_icon_cache[key] = icon
+    return icon
+
+
 def _kr(conn, entity_type: str, entity_id: int) -> str | None:
     row = conn.execute(
         "SELECT name_en FROM entity_names_en WHERE entity_type=? AND entity_id=? AND source='kms'",
@@ -169,7 +191,7 @@ def brain_expand(type: str = Query(pattern="^(map|mob|item|quest)$"), id: int = 
                 f"""SELECT m.id, m.level, m.exp, m.icon_url, COALESCE(s.spawn_count,1) AS cnt
                     FROM mob_spawns s JOIN mobs m ON m.id = s.mob_id
                     WHERE s.map_id = ? AND m.id < 9000000 AND COALESCE(m.is_hidden,0)=0 {extra}
-                    ORDER BY cnt DESC LIMIT 12""",
+                    ORDER BY cnt DESC""",
                 [id],
             ).fetchall()
             for r in rows:
@@ -188,17 +210,19 @@ def brain_expand(type: str = Query(pattern="^(map|mob|item|quest)$"), id: int = 
                 f"""SELECT i.id, i.icon_url, d.drop_rate
                     FROM mob_drops d JOIN items i ON i.id = d.item_id
                     WHERE d.mob_id = ? {extra}
-                    ORDER BY d.drop_rate IS NULL, d.drop_rate DESC LIMIT 10""",
+                    ORDER BY d.drop_rate IS NULL, d.drop_rate DESC""",
                 [id],
             ).fetchall()
             for r in rows:
                 rate = r["drop_rate"]
                 rate_txt = (f"{rate * 100:.2f}%" if rate < 0.1 else f"{rate * 100:.0f}%") if rate else "확률 미상"
+                label = _kr(conn, "item", r["id"]) or str(r["id"])
+                icon = _mastery_book_icon(conn, label) or r["icon_url"]
                 nodes.append({
                     "id": f"item:{r['id']}", "type": "item", "entity_id": r["id"],
-                    "label": _kr(conn, "item", r["id"]) or str(r["id"]),
+                    "label": label,
                     "sub": f"드랍 {rate_txt}",
-                    "icon": r["icon_url"], "detail_url": f"/items/{r['id']}",
+                    "icon": icon, "detail_url": f"/items/{r['id']}",
                 })
                 links.append({"source": src, "target": f"item:{r['id']}", "kind": "drop"})
             maps_filter = id_filter_sql("s.map_id", "maps")
@@ -206,7 +230,7 @@ def brain_expand(type: str = Query(pattern="^(map|mob|item|quest)$"), id: int = 
             rows = conn.execute(
                 f"""SELECT s.map_id, s.map_name, COALESCE(s.spawn_count,1) AS cnt
                     FROM mob_spawns s WHERE s.mob_id = ? {extra}
-                    ORDER BY cnt DESC LIMIT 6""",
+                    ORDER BY cnt DESC""",
                 [id],
             ).fetchall()
             for r in rows:
@@ -225,7 +249,7 @@ def brain_expand(type: str = Query(pattern="^(map|mob|item|quest)$"), id: int = 
                 f"""SELECT m.id, m.level, m.icon_url, d.drop_rate
                     FROM mob_drops d JOIN mobs m ON m.id = d.mob_id
                     WHERE d.item_id = ? AND m.id < 9000000 AND COALESCE(m.is_hidden,0)=0 {extra}
-                    ORDER BY d.drop_rate IS NULL, d.drop_rate DESC LIMIT 10""",
+                    ORDER BY d.drop_rate IS NULL, d.drop_rate DESC""",
                 [id],
             ).fetchall()
             for r in rows:
@@ -265,11 +289,12 @@ def brain_expand(type: str = Query(pattern="^(map|mob|item|quest)$"), id: int = 
                     if rw.get("type") == "item" and rw.get("id"):
                         iid = int(rw["id"])
                         it = conn.execute("SELECT icon_url FROM items WHERE id = ?", [iid]).fetchone()
+                        label = rw.get("name") or _kr(conn, "item", iid) or str(iid)
                         nodes.append({
                             "id": f"item:{iid}", "type": "item", "entity_id": iid,
-                            "label": rw.get("name") or _kr(conn, "item", iid) or str(iid),
+                            "label": label,
                             "sub": "퀘스트 보상",
-                            "icon": it["icon_url"] if it else None,
+                            "icon": _mastery_book_icon(conn, label) or (it["icon_url"] if it else None),
                             "detail_url": f"/items/{iid}",
                         })
                         links.append({"source": src, "target": f"item:{iid}", "kind": "reward"})

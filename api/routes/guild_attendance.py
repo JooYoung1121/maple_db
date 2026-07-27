@@ -1,14 +1,17 @@
-"""길드 출석부 — 닉네임 기반 1일 1회 출석 체크 (KST).
+"""길드 출석부 — 1일 1회 출석 체크 (KST).
 
+디스코드 로그인 활성 시: 로그인 + 길드 서버 멤버만 체크 가능 (계정당 1일 1회).
+로그인 기능 미설정 환경(로컬 등)에선 기존 닉네임 방식으로 동작.
 guild_attendance는 유저 데이터 테이블 — 시드 동기화 대상 아님.
 """
 from datetime import datetime, timezone, timedelta
 from typing import Optional
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, Request
 from pydantic import BaseModel
 
 from crawler.db import get_connection
+from api.routes.auth import auth_config, current_user_id
 
 router = APIRouter()
 KST = timezone(timedelta(hours=9))
@@ -25,6 +28,10 @@ def _ensure_tables() -> None:
             UNIQUE(nickname, date)
         )"""
     )
+    try:
+        conn.execute("ALTER TABLE guild_attendance ADD COLUMN user_id INTEGER")
+    except Exception:
+        pass  # 이미 존재
     conn.commit()
     conn.close()
 
@@ -41,20 +48,37 @@ class CheckInPayload(BaseModel):
 
 
 @router.post("/guild/attendance")
-def check_in(payload: CheckInPayload):
+def check_in(payload: CheckInPayload, request: Request):
     nickname = payload.nickname.strip()[:20]
     if not nickname:
         raise HTTPException(status_code=400, detail="닉네임을 입력하세요")
     today = kst_today()
     conn = get_connection()
     try:
+        user_id: Optional[int] = None
+        if auth_config()["enabled"]:
+            # 로그인 활성 환경: 길드 디스코드 멤버만 출석 가능
+            uid = current_user_id(request)
+            if uid is None:
+                raise HTTPException(status_code=401, detail="출석 체크는 디스코드 로그인이 필요합니다")
+            user = conn.execute(
+                "SELECT guild_member FROM users WHERE id = ?", (uid,)
+            ).fetchone()
+            if not user or user["guild_member"] != 1:
+                raise HTTPException(status_code=403, detail="추억길드 디스코드 멤버만 출석할 수 있습니다")
+            if conn.execute(
+                "SELECT 1 FROM guild_attendance WHERE user_id = ? AND date = ?", (uid, today)
+            ).fetchone():
+                raise HTTPException(status_code=409, detail="오늘은 이미 출석했습니다")
+            user_id = uid
         dup = conn.execute(
             "SELECT 1 FROM guild_attendance WHERE nickname = ? AND date = ?", (nickname, today)
         ).fetchone()
         if dup:
             raise HTTPException(status_code=409, detail="오늘은 이미 출석했습니다")
         conn.execute(
-            "INSERT INTO guild_attendance (nickname, date) VALUES (?, ?)", (nickname, today)
+            "INSERT INTO guild_attendance (nickname, date, user_id) VALUES (?, ?, ?)",
+            (nickname, today, user_id),
         )
         conn.commit()
     finally:

@@ -9,11 +9,12 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 // ─── 타입 ───
 interface BrainNode {
   id: string;
-  type: "char" | "map" | "mob" | "item" | "quest" | "goal" | "npc";
+  type: "char" | "map" | "mob" | "item" | "quest" | "goal" | "npc" | "tool";
   entity_id: number;
   label: string;
   sub?: string;
   icon?: string | null;
+  emoji?: string;
   detail_url?: string;
   group?: string;
   // 시뮬레이션 상태
@@ -39,16 +40,57 @@ interface ApiNode {
   label: string;
   sub?: string;
   icon?: string | null;
+  emoji?: string;
   detail_url?: string;
   group?: string;
 }
 
 interface CharInfo {
   level: number;
-  job: string;
+  job: string;      // 계열 (전사/마법사/궁수/도적/해적)
+  subJob?: string;  // 차수별 실제 직업 (히어로, 비숍, 썬콜 등)
+  nickname?: string;
 }
 
 const JOBS = ["전사", "마법사", "궁수", "도적", "해적"];
+
+// 원작(프리빅뱅 KMS) 차수별 직업 트리
+const JOB_TREE: Record<string, Record<number, string[]>> = {
+  전사: { 1: ["검사"], 2: ["파이터", "페이지", "스피어맨"], 3: ["크루세이더", "나이트", "용기사"], 4: ["히어로", "팔라딘", "다크나이트"] },
+  마법사: { 1: ["매지션"], 2: ["위자드(불,독)", "위자드(썬,콜)", "클레릭"], 3: ["메이지(불,독)", "메이지(썬,콜)", "프리스트"], 4: ["아크메이지(불,독)", "아크메이지(썬,콜)", "비숍"] },
+  궁수: { 1: ["아처"], 2: ["헌터", "사수"], 3: ["레인저", "저격수"], 4: ["보우마스터", "신궁"] },
+  도적: { 1: ["로그"], 2: ["어쌔신", "시프"], 3: ["허밋", "시프마스터"], 4: ["나이트로드", "섀도어"] },
+  해적: { 1: ["해적"], 2: ["인파이터", "건슬링거"], 3: ["버커니어", "발키리"], 4: ["바이퍼", "캡틴"] },
+};
+
+function jobTier(level: number): number {
+  return level >= 120 ? 4 : level >= 70 ? 3 : level >= 30 ? 2 : 1;
+}
+
+// 사이트 도구 연결 노드 (그래프에 정적 주입)
+const TOOL_HUBS: { hub: { id: string; label: string; emoji: string }; children: { id: string; label: string; emoji: string; href: string }[] }[] = [
+  {
+    hub: { id: "tool:calc", label: "계산기·시뮬", emoji: "🧰" },
+    children: [
+      { id: "tool:exp", label: "경험치 계산기", emoji: "📈", href: "/exp" },
+      { id: "tool:skill-sim", label: "스킬 시뮬레이터", emoji: "✨", href: "/skill-sim" },
+      { id: "tool:gear-sim", label: "장비 세팅", emoji: "🛡️", href: "/gear-sim" },
+      { id: "tool:nhit", label: "엔방컷 계산기", emoji: "⚔️", href: "/nhit" },
+      { id: "tool:scroll", label: "주문서 계산기", emoji: "📖", href: "/scroll" },
+      { id: "tool:hunt", label: "사냥터 추천", emoji: "🏕️", href: "/hunt" },
+    ],
+  },
+  {
+    hub: { id: "tool:play", label: "놀이터", emoji: "🎮" },
+    children: [
+      { id: "tool:codi", label: "코디 시뮬레이터", emoji: "👕", href: "/codi" },
+      { id: "tool:worldcup", label: "이상형 월드컵", emoji: "🏆", href: "/worldcup" },
+      { id: "tool:versus", label: "대전 게임", emoji: "🎯", href: "/versus" },
+      { id: "tool:quiz", label: "메이플 퀴즈", emoji: "❓", href: "/quiz" },
+      { id: "tool:mapletle", label: "추억틀", emoji: "🍁", href: "/mapletle" },
+    ],
+  },
+];
 
 // 타입별 색 (라이트/다크) — 캔버스는 CSS 토큰을 못 쓰므로 여기서 고정 팔레트로 정의
 const TYPE_COLORS: Record<string, { light: string; dark: string; emoji: string; name: string }> = {
@@ -59,6 +101,7 @@ const TYPE_COLORS: Record<string, { light: string; dark: string; emoji: string; 
   quest: { light: "#6741d9", dark: "#b197fc", emoji: "📜", name: "퀘스트" },
   goal: { light: "#2f9e44", dark: "#69db7c", emoji: "🚩", name: "다음 목표" },
   npc: { light: "#0c8599", dark: "#66d9e8", emoji: "🧙", name: "NPC" },
+  tool: { light: "#495057", dark: "#adb5bd", emoji: "🧰", name: "사이트 기능" },
 };
 
 const EXPANDABLE = new Set(["map", "mob", "item", "quest"]);
@@ -97,9 +140,13 @@ export default function BrainPage() {
   const [suggestions, setSuggestions] = useState<{ entity_type: string; entity_id: number; name: string; name_kr: string | null; icon_url: string | null }[]>([]);
   const [setupLevel, setSetupLevel] = useState("");
   const [setupJob, setSetupJob] = useState("");
+  const [setupSubJob, setSetupSubJob] = useState("");
+  const [setupNickname, setSetupNickname] = useState("");
   const [showSetup, setShowSetup] = useState(false);
   const [showGuide, setShowGuide] = useState(false);
   const [guideStep, setGuideStep] = useState(0);
+  const [authEnabled, setAuthEnabled] = useState(false);
+  const [loginHintDismissed, setLoginHintDismissed] = useState(false);
 
   // ─── 이미지 로더 ───
   const loadImage = useCallback((url: string | null | undefined) => {
@@ -161,12 +208,31 @@ export default function BrainPage() {
   const loadEgo = useCallback(async (c: CharInfo) => {
     resetGraph();
     try {
+      const jobDisplay = c.subJob || c.job;
       const d = await fetchJSON<{ nodes: ApiNode[]; links: BrainLink[] }>(
-        `/api/brain/ego?level=${c.level}&job=${encodeURIComponent(c.job)}`
+        `/api/brain/ego?level=${c.level}&job=${encodeURIComponent(jobDisplay)}`
       );
       mergeGraph(d.nodes, d.links);
+      // 사이트 도구 허브 주입 (정적)
+      const toolNodes: ApiNode[] = [];
+      const toolLinks: BrainLink[] = [];
+      for (const g of TOOL_HUBS) {
+        toolNodes.push({ id: g.hub.id, type: "tool", entity_id: 0, label: g.hub.label, emoji: g.hub.emoji, sub: "사이트 기능 모음" });
+        toolLinks.push({ source: "char:me", target: g.hub.id, kind: "tool" });
+        for (const ch of g.children) {
+          toolNodes.push({ id: ch.id, type: "tool", entity_id: 0, label: ch.label, emoji: ch.emoji, detail_url: ch.href, sub: "더블클릭으로 이동" });
+          toolLinks.push({ source: g.hub.id, target: ch.id, kind: "tool" });
+        }
+      }
+      mergeGraph(toolNodes, toolLinks);
       const me = nodesRef.current.get("char:me");
-      if (me) { me.fx = 0; me.fy = 0; me.x = 0; me.y = 0; }
+      if (me) {
+        me.fx = 0; me.fy = 0; me.x = 0; me.y = 0;
+        if (c.nickname) {
+          me.label = c.nickname;
+          me.sub = `Lv.${c.level}${jobDisplay ? ` ${jobDisplay}` : ""}`;
+        }
+      }
     } catch {
       // 네트워크 오류 시 빈 화면 유지
     }
@@ -175,12 +241,18 @@ export default function BrainPage() {
   // ─── 초기화: URL 파라미터(공유용) > 계정 저장값 > localStorage ───
   const loggedInRef = useRef(false);
   useEffect(() => {
+    fetch(`${API_BASE}/api/auth/config`).then((r) => r.json()).then((d) => setAuthEnabled(!!d.enabled)).catch(() => {});
     (async () => {
       try {
         const sp = new URLSearchParams(window.location.search);
         const lv = parseInt(sp.get("lv") || "", 10);
         if (lv >= 1 && lv <= 200) {
-          const c = { level: lv, job: sp.get("job") || "" };
+          const c: CharInfo = {
+            level: lv,
+            job: sp.get("job") || "",
+            subJob: sp.get("sub") || undefined,
+            nickname: sp.get("name") || undefined,
+          };
           localStorage.setItem("brain_char", JSON.stringify(c));
           setChar(c);
           loadEgo(c);
@@ -279,7 +351,12 @@ export default function BrainPage() {
   const applySetup = useCallback(() => {
     const lv = parseInt(setupLevel, 10);
     if (!lv || lv < 1 || lv > 200) return;
-    const c = { level: lv, job: setupJob };
+    const c: CharInfo = {
+      level: lv,
+      job: setupJob,
+      subJob: setupSubJob || undefined,
+      nickname: setupNickname.trim() || undefined,
+    };
     localStorage.setItem("brain_char", JSON.stringify(c));
     if (loggedInRef.current) {
       fetch(`${API_BASE}/api/me/settings/brain_char`, {
@@ -299,7 +376,7 @@ export default function BrainPage() {
         setShowGuide(true);
       }
     } catch { /* ignore */ }
-  }, [setupLevel, setupJob, loadEgo]);
+  }, [setupLevel, setupJob, setupSubJob, setupNickname, loadEgo]);
 
   useEffect(() => { selectedRef.current = selected?.id ?? null; }, [selected]);
 
@@ -452,7 +529,7 @@ export default function BrainPage() {
           ctx.font = `${r}px sans-serif`;
           ctx.textAlign = "center";
           ctx.textBaseline = "middle";
-          ctx.fillText(col.emoji, n.x, n.y + 1);
+          ctx.fillText(n.emoji ?? col.emoji, n.x, n.y + 1);
         }
 
         if (tr.k > 0.55) {
@@ -637,13 +714,27 @@ export default function BrainPage() {
         </div>
         {char && (
           <button
-            onClick={() => { setShowSetup(true); setSetupLevel(String(char.level)); setSetupJob(char.job); }}
+            onClick={() => {
+              setShowSetup(true);
+              setSetupLevel(String(char.level));
+              setSetupJob(char.job);
+              setSetupSubJob(char.subJob || "");
+              setSetupNickname(char.nickname || "");
+            }}
             className="pixel-btn px-3 py-2 text-sm pointer-events-auto shrink-0"
           >
-            ⭐ Lv.{char.level}{char.job ? ` ${char.job}` : ""}
+            ⭐ {char.nickname ? `${char.nickname} · ` : ""}Lv.{char.level}{(char.subJob || char.job) ? ` ${char.subJob || char.job}` : ""}
           </button>
         )}
       </div>
+
+      {/* 로그인 유도 (비로그인 + 로그인 기능 활성) */}
+      {char && authEnabled && !loggedInRef.current && !loginHintDismissed && !needsSetup && (
+        <div className="pixel-panel absolute top-14 right-3 bg-surface px-3 py-2 flex items-center gap-2 text-xs text-dim max-w-xs">
+          <span>🔐 <a href={`/api/auth/discord/login?next=/brain`} className="text-maple underline">로그인</a>하면 캐릭터가 계정에 저장돼요</span>
+          <button onClick={() => setLoginHintDismissed(true)} className="text-dim hover:text-ink" aria-label="닫기">✕</button>
+        </div>
+      )}
 
       {/* 범례 + 안내 */}
       <div className="absolute bottom-3 left-3 pointer-events-none space-y-1">
@@ -670,8 +761,17 @@ export default function BrainPage() {
           {selected.sub && <p className="text-xs text-dim mt-0.5">{selected.sub}</p>}
           <div className="flex flex-col gap-1.5 mt-2">
             {selected.type === "char" ? (
-              <button onClick={() => { setShowSetup(true); setSetupLevel(String(char?.level ?? "")); setSetupJob(char?.job ?? ""); }} className="pixel-btn px-2 py-1.5 text-xs">
-                레벨·직업 변경
+              <button
+                onClick={() => {
+                  setShowSetup(true);
+                  setSetupLevel(String(char?.level ?? ""));
+                  setSetupJob(char?.job ?? "");
+                  setSetupSubJob(char?.subJob ?? "");
+                  setSetupNickname(char?.nickname ?? "");
+                }}
+                className="pixel-btn px-2 py-1.5 text-xs"
+              >
+                캐릭터 설정 변경
               </button>
             ) : (
               <>
@@ -682,7 +782,7 @@ export default function BrainPage() {
                 )}
                 {selected.detail_url && (
                   <button onClick={() => router.push(selected.detail_url!)} className="pixel-btn px-2 py-1.5 text-xs">
-                    상세 정보 →
+                    {selected.type === "tool" ? "바로가기 →" : "상세 정보 →"}
                   </button>
                 )}
               </>
@@ -767,20 +867,35 @@ export default function BrainPage() {
             <p className="text-xs text-dim mb-4">
               내 캐릭터를 중심으로 사냥터·퀘스트·드랍이 연결된 지식 그래프를 펼칩니다.
             </p>
-            <label className="block text-xs font-pixel text-dim mb-1">레벨</label>
-            <input
-              type="number" min={1} max={200} value={setupLevel}
-              onChange={(e) => setSetupLevel(e.target.value)}
-              onKeyDown={(e) => { if (e.key === "Enter" && !e.nativeEvent.isComposing) applySetup(); }}
-              placeholder="예: 45"
-              className="w-full pixel-panel bg-bg px-3 py-2 text-sm text-ink outline-none mb-3"
-            />
-            <label className="block text-xs font-pixel text-dim mb-1">직업 (선택)</label>
-            <div className="flex flex-wrap gap-1.5 mb-4">
+            <div className="grid grid-cols-2 gap-2 mb-3">
+              <div>
+                <label className="block text-xs font-pixel text-dim mb-1">닉네임 (선택)</label>
+                <input
+                  value={setupNickname}
+                  onChange={(e) => setSetupNickname(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === "Enter" && !e.nativeEvent.isComposing) applySetup(); }}
+                  placeholder="게임 닉네임"
+                  maxLength={12}
+                  className="w-full pixel-panel bg-bg px-3 py-2 text-sm text-ink outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-pixel text-dim mb-1">레벨</label>
+                <input
+                  type="number" min={1} max={200} value={setupLevel}
+                  onChange={(e) => { setSetupLevel(e.target.value); setSetupSubJob(""); }}
+                  onKeyDown={(e) => { if (e.key === "Enter" && !e.nativeEvent.isComposing) applySetup(); }}
+                  placeholder="예: 45"
+                  className="w-full pixel-panel bg-bg px-3 py-2 text-sm text-ink outline-none"
+                />
+              </div>
+            </div>
+            <label className="block text-xs font-pixel text-dim mb-1">직업 계열 (선택)</label>
+            <div className="flex flex-wrap gap-1.5 mb-3">
               {JOBS.map((j) => (
                 <button
                   key={j}
-                  onClick={() => setSetupJob(setupJob === j ? "" : j)}
+                  onClick={() => { setSetupJob(setupJob === j ? "" : j); setSetupSubJob(""); }}
                   className={`px-2.5 py-1.5 text-xs font-pixel border-2 ${
                     setupJob === j ? "border-maple text-maple bg-[color-mix(in_srgb,var(--c-maple)_12%,transparent)]" : "border-edge text-dim"
                   }`}
@@ -789,6 +904,27 @@ export default function BrainPage() {
                 </button>
               ))}
             </div>
+            {setupJob && parseInt(setupLevel, 10) >= 1 && (
+              <>
+                <label className="block text-xs font-pixel text-dim mb-1">
+                  세부 직업 — Lv.{setupLevel} 기준 {jobTier(parseInt(setupLevel, 10))}차
+                </label>
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {(JOB_TREE[setupJob]?.[jobTier(parseInt(setupLevel, 10))] ?? []).map((j) => (
+                    <button
+                      key={j}
+                      onClick={() => setSetupSubJob(setupSubJob === j ? "" : j)}
+                      className={`px-2.5 py-1.5 text-xs font-pixel border-2 ${
+                        setupSubJob === j ? "border-maple text-maple bg-[color-mix(in_srgb,var(--c-maple)_12%,transparent)]" : "border-edge text-dim"
+                      }`}
+                    >
+                      {j}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+            {!setupJob && <div className="mb-1" />}
             <div className="flex gap-2">
               <button onClick={applySetup} disabled={!setupLevel} className="pixel-btn flex-1 px-3 py-2 text-sm disabled:opacity-40">
                 두뇌 연결 ⚡

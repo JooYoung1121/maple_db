@@ -47,6 +47,16 @@ export default function InfoBoardPage() {
   const perPage = 20;
   const totalPages = Math.max(1, Math.ceil(total / perPage));
 
+  // 로그인 시 닉네임 프리필 (강제 아님 — 병행 모드)
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.user?.display_name) setNickname((prev) => prev || d.user.display_name);
+      })
+      .catch(() => {});
+  }, []);
+
   const fetchPosts = useCallback(async () => {
     setLoading(true);
     try {

@@ -56,6 +56,19 @@ export default function FreeBoardPage() {
   const [adminPw, setAdminPw] = useState("");
   const [showAdminInput, setShowAdminInput] = useState<string | null>(null);
 
+  // 로그인 시 닉네임 프리필 (강제 아님 — 병행 모드)
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.user?.display_name) {
+          setNickname((prev) => prev || d.user.display_name);
+          setCommentNickname((prev) => prev || d.user.display_name);
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   // 메시지
   const [msg, setMsg] = useState("");
 

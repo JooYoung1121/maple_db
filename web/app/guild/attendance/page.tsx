@@ -10,6 +10,8 @@ export default function AttendancePage() {
   const [stats, setStats] = useState<{ month: string; ranking: { nickname: string; days: number }[]; my_days: string[]; streak: number } | null>(null);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<{ type: "ok" | "err"; text: string } | null>(null);
+  // auth: unknown(로그인 기능 꺼짐/확인 전) | anon(비로그인) | guest(로그인했으나 길드 서버 미소속) | member
+  const [auth, setAuth] = useState<"unknown" | "anon" | "guest" | "member">("unknown");
 
   const refresh = useCallback((nick: string) => {
     getAttendanceToday().then(setToday).catch(() => {});
@@ -22,6 +24,19 @@ export default function AttendancePage() {
     refresh(saved);
     getGuildMembers({ per_page: 100 })
       .then((d) => setMemberNames(d.members.map((m) => m.nickname)))
+      .catch(() => {});
+    // 로그인 상태 확인 — 길드원 게이트
+    fetch("/api/auth/me")
+      .then((r) => r.json())
+      .then(async (d) => {
+        if (d.user) {
+          setAuth(d.user.guild_member === 1 ? "member" : "guest");
+          if (!saved && d.user.display_name) setNickname(d.user.display_name);
+        } else {
+          const cfg = await fetch("/api/auth/config").then((r) => r.json()).catch(() => ({ enabled: false }));
+          setAuth(cfg.enabled ? "anon" : "unknown");
+        }
+      })
       .catch(() => {});
   }, [refresh]);
 
@@ -62,6 +77,17 @@ export default function AttendancePage() {
 
       {/* 출석 체크 */}
       <div className="pixel-panel p-5 mb-6">
+        {auth === "anon" && (
+          <div className="mb-3 pb-3 border-b border-edge/60 flex items-center justify-between gap-3 flex-wrap">
+            <p className="text-sm text-dim">🔐 출석 체크는 <span className="text-ink font-semibold">길드원 확인</span>이 필요해요 — 디스코드로 1초 로그인</p>
+            <a href="/api/auth/discord/login?next=/guild/attendance" className="pixel-btn px-4 py-2 text-sm shrink-0">디스코드 로그인</a>
+          </div>
+        )}
+        {auth === "guest" && (
+          <div className="mb-3 pb-3 border-b border-edge/60">
+            <p className="text-sm text-dim">😢 추억길드 디스코드 서버 멤버만 출석할 수 있어요. 길드 디스코드에 먼저 가입해 주세요.</p>
+          </div>
+        )}
         <div className="flex flex-wrap items-center gap-2">
           <input
             type="text"
@@ -77,10 +103,10 @@ export default function AttendancePage() {
           </datalist>
           <button
             onClick={checkIn}
-            disabled={busy || alreadyToday}
+            disabled={busy || alreadyToday || auth === "anon" || auth === "guest"}
             className="pixel-btn px-5 py-2 text-sm disabled:opacity-50"
           >
-            {alreadyToday ? "오늘 출석 완료" : "출석하기"}
+            {alreadyToday ? "오늘 출석 완료" : auth === "anon" ? "로그인 후 출석 가능" : "출석하기"}
           </button>
           {stats && stats.streak > 0 && nickname.trim() && (
             <span className="text-sm text-maple font-pixel">🔥 {stats.streak}일 연속</span>

@@ -248,11 +248,25 @@ function CodiContent() {
     if (view === "gallery") loadGallery(gallerySort);
   }, [view, gallerySort, loadGallery]);
 
+  const [authState, setAuthState] = useState<"unknown" | "anon" | "member">("unknown");
   useEffect(() => {
     try {
       const n = localStorage.getItem("boss_timer_nickname") || localStorage.getItem("codi_nickname") || "";
       if (n) setBragNickname(n);
     } catch { /* ignore */ }
+    // 로그인 상태면 계정 닉네임을 프리필, 아니면 유도 배너 표시용 상태만 기록
+    fetch(`${API_BASE}/api/auth/me`)
+      .then((r) => r.json())
+      .then(async (d) => {
+        if (d.user) {
+          setAuthState("member");
+          setBragNickname((prev) => prev || d.user.display_name || "");
+        } else {
+          const cfg = await fetch(`${API_BASE}/api/auth/config`).then((r) => r.json()).catch(() => ({ enabled: false }));
+          setAuthState(cfg.enabled ? "anon" : "unknown");
+        }
+      })
+      .catch(() => {});
   }, []);
 
   const submitBrag = useCallback(() => {
@@ -519,6 +533,11 @@ function CodiContent() {
               {/* 자랑 등록 폼 */}
               {showBragForm && (
                 <div className="mt-3 pt-3 border-t border-edge/60 space-y-1.5 text-left">
+                  {authState === "anon" && (
+                    <p className="text-[10px] text-dim">
+                      🔐 <a href="/api/auth/discord/login?next=/codi" className="text-maple underline">디스코드 로그인</a>하면 닉네임이 자동 입력되고 내 코디를 관리할 수 있어요
+                    </p>
+                  )}
                   <input
                     type="text" value={bragNickname}
                     onChange={(e) => setBragNickname(e.target.value.slice(0, 12))}
