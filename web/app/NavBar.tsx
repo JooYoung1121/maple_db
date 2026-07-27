@@ -144,9 +144,25 @@ export default function NavBar() {
           >
             홈
           </Link>
-          {SITE_SECTIONS.map((cat) => (
-            <DropdownMenu key={cat.label} category={cat} isActive={isActive} newsBadge={cat.label === "커뮤니티" ? newsBadge : 0} />
-          ))}
+          {SITE_SECTIONS.map((cat) =>
+            cat.items.length === 1 ? (
+              // 단독 카테고리(브레인 등)는 드롭다운 대신 바로가기 링크로
+              <Link
+                key={cat.label}
+                href={cat.items[0].href}
+                className={`font-pixel relative px-3 py-2 text-[13px] transition-colors ${
+                  isActive(cat.items[0].href) ? "text-maple" : "text-dim hover:text-maple"
+                }`}
+              >
+                {cat.items[0].icon} {cat.label}
+                {isNewFeature(cat.items[0].href) && (
+                  <span className="font-pixel absolute -top-0.5 -right-0.5 text-[9px] text-mush border border-mush px-0.5">N</span>
+                )}
+              </Link>
+            ) : (
+              <DropdownMenu key={cat.label} category={cat} isActive={isActive} newsBadge={cat.label === "커뮤니티" ? newsBadge : 0} />
+            )
+          )}
           <ThemeToggle />
         </div>
 
@@ -184,7 +200,23 @@ export default function NavBar() {
           >
             홈
           </Link>
-          {SITE_SECTIONS.map((cat) => (
+          {SITE_SECTIONS.map((cat) =>
+            cat.items.length === 1 ? (
+              <Link
+                key={cat.label}
+                href={cat.items[0].href}
+                onClick={() => setMenuOpen(false)}
+                aria-current={isActive(cat.items[0].href) ? "page" : undefined}
+                className={`font-pixel block border-t border-edge/60 px-4 py-3 text-[13px] ${
+                  isActive(cat.items[0].href) ? "text-maple" : "text-ink"
+                }`}
+              >
+                {cat.items[0].icon} {cat.label}
+                {isNewFeature(cat.items[0].href) && (
+                  <span className="font-pixel ml-1.5 text-[9px] text-mush border border-mush px-1 align-middle">N</span>
+                )}
+              </Link>
+            ) : (
             <div key={cat.label} className="border-t border-edge/60">
               <button
                 onClick={() =>
@@ -230,7 +262,8 @@ export default function NavBar() {
                 </div>
               )}
             </div>
-          ))}
+            )
+          )}
         </div>
       )}
     </nav>

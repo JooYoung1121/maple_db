@@ -9,6 +9,22 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.61.1",
+    date: "2026-07-27",
+    type: "patch",
+    title: "메랜 브레인 온보딩 + 최상위 메뉴 분리",
+    features: [
+      {
+        category: "브레인",
+        items: [
+          "첫 연결 시 3단계 사용법 가이드 자동 표시 (노드 펼치기 → 검색 투입 → 조작·공유), 우하단 ? 버튼으로 재열람",
+          "네비게이션 최상위 「🧠 브레인」 카테고리로 분리 — 정보 드롭다운에서 승격",
+          "항목이 1개뿐인 카테고리는 드롭다운 대신 바로가기 링크로 렌더 (전문기술 포함)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.61.0",
     date: "2026-07-27",
     type: "minor",

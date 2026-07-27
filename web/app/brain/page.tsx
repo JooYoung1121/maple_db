@@ -98,6 +98,8 @@ export default function BrainPage() {
   const [setupLevel, setSetupLevel] = useState("");
   const [setupJob, setSetupJob] = useState("");
   const [showSetup, setShowSetup] = useState(false);
+  const [showGuide, setShowGuide] = useState(false);
+  const [guideStep, setGuideStep] = useState(0);
 
   // ─── 이미지 로더 ───
   const loadImage = useCallback((url: string | null | undefined) => {
@@ -255,6 +257,14 @@ export default function BrainPage() {
     setChar(c);
     setShowSetup(false);
     loadEgo(c);
+    // 첫 연결이면 사용법 가이드 자동 표시
+    try {
+      if (!localStorage.getItem("brain_guide_seen")) {
+        localStorage.setItem("brain_guide_seen", "1");
+        setGuideStep(0);
+        setShowGuide(true);
+      }
+    } catch { /* ignore */ }
   }, [setupLevel, setupJob, loadEgo]);
 
   useEffect(() => { selectedRef.current = selected?.id ?? null; }, [selected]);
@@ -643,6 +653,74 @@ export default function BrainPage() {
                 )}
               </>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* 도움말 버튼 */}
+      {!needsSetup && (
+        <button
+          onClick={() => { setGuideStep(0); setShowGuide(true); }}
+          className="pixel-btn absolute bottom-3 right-3 w-9 h-9 text-sm font-pixel z-10"
+          aria-label="사용법 가이드"
+        >
+          ?
+        </button>
+      )}
+
+      {/* 사용법 가이드 */}
+      {showGuide && !needsSetup && (
+        <div className="absolute inset-0 z-30 flex items-center justify-center bg-black/40 p-4" onClick={() => setShowGuide(false)}>
+          <div className="pixel-panel bg-surface p-5 w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+            {(() => {
+              const steps = [
+                {
+                  title: "① 노드를 클릭해 보세요",
+                  emoji: "🖱️",
+                  body: "노드를 클릭하면 정보 카드가 뜹니다. 「🔍 연결 펼치기」를 누르면 가지가 자라나요 — 사냥터를 펼치면 서식 몬스터가, 몬스터를 펼치면 드랍템(확률)과 출현 맵이 나옵니다. 꼬리에 꼬리를 물고 탐색해 보세요.",
+                },
+                {
+                  title: "② 궁금한 건 검색으로 투입",
+                  emoji: "🔍",
+                  body: "상단 검색창에 아이템·몬스터·맵 이름을 치면 그래프에 노드로 추가되고 자동으로 펼쳐집니다. \"이 아이템 어디서 나와?\" → 검색 → 드랍 몹 → 출현 맵까지 한눈에.",
+                },
+                {
+                  title: "③ 조작법 & 공유",
+                  emoji: "🧭",
+                  body: "더블클릭 = 상세 페이지 이동 · 드래그 = 노드 옮기기 · 빈 곳 드래그 = 화면 이동 · 휠/핀치 = 확대. 우측 상단 ⭐칩으로 레벨을 바꾸면 그래프가 다시 그려집니다. 주소에 ?lv=45&job=도적 을 붙여 길드원에게 공유할 수도 있어요.",
+                },
+              ];
+              const s = steps[guideStep];
+              return (
+                <>
+                  <p className="font-pixel text-sm text-maple font-bold mb-2">{s.emoji} {s.title}</p>
+                  <p className="text-sm text-ink leading-relaxed mb-4">{s.body}</p>
+                  <div className="flex items-center justify-between">
+                    <div className="flex gap-1">
+                      {steps.map((_, i) => (
+                        <span key={i} className={`w-2 h-2 ${i === guideStep ? "bg-maple" : "bg-edge"}`} />
+                      ))}
+                    </div>
+                    <div className="flex gap-2">
+                      {guideStep > 0 && (
+                        <button onClick={() => setGuideStep(guideStep - 1)} className="px-3 py-1.5 text-xs font-pixel text-dim border-2 border-edge">
+                          이전
+                        </button>
+                      )}
+                      {guideStep < steps.length - 1 ? (
+                        <button onClick={() => setGuideStep(guideStep + 1)} className="pixel-btn px-3 py-1.5 text-xs">
+                          다음
+                        </button>
+                      ) : (
+                        <button onClick={() => setShowGuide(false)} className="pixel-btn px-3 py-1.5 text-xs">
+                          탐색 시작 ⚡
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </>
+              );
+            })()}
           </div>
         </div>
       )}
