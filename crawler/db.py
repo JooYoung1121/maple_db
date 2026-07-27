@@ -455,6 +455,15 @@ CREATE TABLE IF NOT EXISTS codi_post_votes (
     FOREIGN KEY (post_id) REFERENCES codi_posts(id)
 );
 
+-- 주간 메랜 댓글 (유저 데이터 — 시드 동기화 금지, 작성은 디스코드 로그인 전용)
+CREATE TABLE IF NOT EXISTS weekly_comments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    issue_no INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    content TEXT NOT NULL,
+    created_at TEXT DEFAULT (datetime('now'))
+);
+
 -- 디스코드 로그인 계정 (유저 데이터 — 시드 동기화 금지)
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

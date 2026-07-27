@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { resolveWeeklySprites } from "@/lib/api";
+import WeeklyComments from "./WeeklyComments";
 import type {
   ResolvedSprite,
   SpriteRef,
@@ -354,6 +355,8 @@ export default function IssueView({
       {content.credits && (
         <p className="text-center text-xs text-dim pt-2">{content.credits}</p>
       )}
+
+      <WeeklyComments issueNo={issue.issue_no} />
 
       {bottomNavigation}
     </div>

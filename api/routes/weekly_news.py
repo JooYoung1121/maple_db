@@ -480,3 +480,87 @@ def get_issue(issue_no: int):
         return {"issue": _issue_row_to_dict(row)}
     finally:
         conn.close()
+
+
+# ── 댓글 (열람 공개 · 작성은 디스코드 로그인 전용) ──────
+class CommentCreate(BaseModel):
+    content: str
+
+
+@router.get("/weekly-news/{issue_no}/comments")
+def list_comments(issue_no: int):
+    conn = get_connection()
+    try:
+        rows = conn.execute(
+            """SELECT c.id, c.content, c.created_at, c.user_id,
+                      u.avatar_url, u.guild_member,
+                      COALESCE(u.guild_nick, u.global_name, u.username) AS display_name
+               FROM weekly_comments c JOIN users u ON u.id = c.user_id
+               WHERE c.issue_no = ? ORDER BY c.created_at""",
+            (issue_no,),
+        ).fetchall()
+        return {"comments": [dict(r) for r in rows]}
+    finally:
+        conn.close()
+
+
+@router.post("/weekly-news/{issue_no}/comments")
+def create_comment(issue_no: int, body: CommentCreate, request: Request):
+    from api.routes.auth import current_user_id
+
+    uid = current_user_id(request)
+    if uid is None:
+        raise HTTPException(status_code=401, detail="댓글 작성은 디스코드 로그인이 필요합니다.")
+    content = body.content.strip()
+    if not content:
+        raise HTTPException(status_code=400, detail="내용을 입력하세요.")
+    if len(content) > 500:
+        raise HTTPException(status_code=400, detail="댓글은 500자 이내로 입력하세요.")
+    conn = get_connection()
+    try:
+        if not conn.execute(
+            "SELECT 1 FROM weekly_news_issues WHERE issue_no=? AND status='published'", (issue_no,)
+        ).fetchone():
+            raise HTTPException(status_code=404, detail="해당 호가 없습니다.")
+        recent = conn.execute(
+            "SELECT COUNT(*) FROM weekly_comments WHERE user_id=? AND created_at > datetime('now','-1 minute')",
+            (uid,),
+        ).fetchone()[0]
+        if recent >= 5:
+            raise HTTPException(status_code=429, detail="잠시 후 다시 시도해주세요.")
+        cur = conn.execute(
+            "INSERT INTO weekly_comments (issue_no, user_id, content) VALUES (?, ?, ?)",
+            (issue_no, uid, content),
+        )
+        conn.commit()
+        return {"ok": True, "id": cur.lastrowid}
+    finally:
+        conn.close()
+
+
+@router.delete("/weekly-news/comments/{comment_id}")
+def delete_comment(comment_id: int, request: Request):
+    """본인 또는 관리자(X-Admin-Password)만 삭제."""
+    from api.routes.auth import current_user_id
+
+    conn = get_connection()
+    try:
+        row = conn.execute("SELECT user_id FROM weekly_comments WHERE id=?", (comment_id,)).fetchone()
+        if not row:
+            raise HTTPException(status_code=404, detail="댓글이 없습니다.")
+        uid = current_user_id(request)
+        is_owner = uid is not None and uid == row["user_id"]
+        is_admin = False
+        if not is_owner:
+            try:
+                _require_admin(request)
+                is_admin = True
+            except HTTPException:
+                pass
+        if not (is_owner or is_admin):
+            raise HTTPException(status_code=403, detail="본인 댓글만 삭제할 수 있습니다.")
+        conn.execute("DELETE FROM weekly_comments WHERE id=?", (comment_id,))
+        conn.commit()
+        return {"ok": True}
+    finally:
+        conn.close()

@@ -172,6 +172,52 @@ def brain_ego(level: int = Query(ge=1, le=200), job: str = Query(default="")):
         conn.close()
 
 
+@router.get("/brain/map-stats")
+def brain_map_stats(id: int = Query()):
+    """사냥터 성장 예측용 통계: 젠당 총 EXP·기대 메소(드랍 NPC가 기준).
+
+    - exp_per_cycle: Σ(몹 exp × 젠 수) — 맵 전체를 한 번 비울 때 경험치
+    - meso_per_cycle: Σ(젠 수 × Σ(드랍률 × 아이템 NPC가)) — 시세 미반영 근사치
+    """
+    try:
+        conn = get_connection()
+    except Exception:
+        raise HTTPException(status_code=500, detail="DB 연결 실패")
+    try:
+        mobs_filter = id_filter_sql("m.id", "mobs")
+        extra = f"AND {mobs_filter}" if mobs_filter else ""
+        rows = conn.execute(
+            f"""SELECT m.id, m.level, m.exp, COALESCE(s.spawn_count, 1) AS cnt
+                FROM mob_spawns s JOIN mobs m ON m.id = s.mob_id
+                WHERE s.map_id = ? AND m.id < 9000000 AND COALESCE(m.is_hidden,0)=0 {extra}""",
+            [id],
+        ).fetchall()
+        exp_per_cycle = 0
+        meso_per_cycle = 0.0
+        total_spawn = 0
+        avg_level_num = 0
+        for r in rows:
+            exp_per_cycle += (r["exp"] or 0) * r["cnt"]
+            total_spawn += r["cnt"]
+            avg_level_num += (r["level"] or 0) * r["cnt"]
+            drop_val = conn.execute(
+                """SELECT COALESCE(SUM(d.drop_rate * i.price), 0) AS v
+                   FROM mob_drops d JOIN items i ON i.id = d.item_id
+                   WHERE d.mob_id = ? AND d.drop_rate IS NOT NULL AND i.price > 1""",
+                [r["id"]],
+            ).fetchone()["v"]
+            meso_per_cycle += (drop_val or 0) * r["cnt"]
+        return {
+            "map_id": id,
+            "exp_per_cycle": exp_per_cycle,
+            "meso_per_cycle": round(meso_per_cycle),
+            "total_spawn": total_spawn,
+            "avg_mob_level": round(avg_level_num / total_spawn) if total_spawn else 0,
+        }
+    finally:
+        conn.close()
+
+
 @router.get("/brain/expand")
 def brain_expand(type: str = Query(pattern="^(map|mob|item|quest)$"), id: int = Query()):
     """노드 확장: 연결된 노드/링크 반환 (기존 그래프에 병합용)."""

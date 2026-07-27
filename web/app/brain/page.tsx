@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { searchSuggest } from "@/lib/api";
+import { expBetween } from "@/lib/expTable";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -141,6 +142,9 @@ export default function BrainPage() {
   const [searchQ, setSearchQ] = useState("");
   const [suggestions, setSuggestions] = useState<{ entity_type: string; entity_id: number; name: string; name_kr: string | null; icon_url: string | null }[]>([]);
   const [linkingFrom, setLinkingFrom] = useState<string | null>(null);
+  // 성장 예측: 분당 처치 수(내 사냥 속도) + 맵 통계 캐시
+  const [eff, setEff] = useState(30);
+  const [mapStats, setMapStats] = useState<Record<number, { exp_per_cycle: number; meso_per_cycle: number; total_spawn: number; avg_mob_level: number } | null>>({});
   const [setupLevel, setSetupLevel] = useState("");
   const [setupJob, setSetupJob] = useState("");
   const [setupSubJob, setSetupSubJob] = useState("");
@@ -165,11 +169,13 @@ export default function BrainPage() {
     return null;
   }, []);
 
-  // ─── 그래프 병합 ───
-  const mergeGraph = useCallback((apiNodes: ApiNode[], apiLinks: BrainLink[], near?: BrainNode) => {
+  // ─── 그래프 병합 — 새로 생성된 노드 id 목록 반환 ───
+  const mergeGraph = useCallback((apiNodes: ApiNode[], apiLinks: BrainLink[], near?: BrainNode): string[] => {
+    const created: string[] = [];
     const nodes = nodesRef.current;
     for (const n of apiNodes) {
       if (nodes.has(n.id)) continue;
+      created.push(n.id);
       const baseX = near ? near.x : 0;
       const baseY = near ? near.y : 0;
       const ang = Math.random() * Math.PI * 2;
@@ -190,7 +196,11 @@ export default function BrainPage() {
       linkKeysRef.current.add(key);
       linksRef.current.push(l);
     }
+    return created;
   }, [loadImage]);
+
+  // 노드별 확장으로 생긴 자식 목록 (가지 접기용)
+  const expandChildrenRef = useRef<Map<string, string[]>>(new Map());
 
   // ─── 내 연결(핀·커스텀 링크) 저장/복원 ───
   const persistPins = useCallback(() => {
@@ -237,6 +247,31 @@ export default function BrainPage() {
     setPopPos(null);
     persistPins();
   }, [persistPins]);
+
+  // ─── 가지 접기: 이 노드의 확장으로 생긴 자식 중 다른 연결 없는 것 제거 ───
+  const collapseNode = useCallback((id: string) => {
+    const children = expandChildrenRef.current.get(id) || [];
+    const protectedIds = new Set<string>();
+    for (const l of linksRef.current) {
+      if (l.kind === "pin" || l.kind === "custom") { protectedIds.add(l.source); protectedIds.add(l.target); }
+    }
+    for (const cid of children) {
+      if (protectedIds.has(cid)) continue;
+      if (expandChildrenRef.current.has(cid)) continue; // 자식이 또 펼쳐져 있으면 유지
+      const others = linksRef.current.filter(
+        (l) => (l.source === cid || l.target === cid) && l.source !== id && l.target !== id
+      );
+      if (others.length > 0) continue;
+      nodesRef.current.delete(cid);
+      linksRef.current = linksRef.current.filter((l) => {
+        const hit = l.source === cid || l.target === cid;
+        if (hit) linkKeysRef.current.delete(`${l.source}→${l.target}`);
+        return !hit;
+      });
+    }
+    expandChildrenRef.current.delete(id);
+    setExpanded((prev) => { const s = new Set(prev); s.delete(id); return s; });
+  }, []);
 
   const resetGraph = useCallback(() => {
     nodesRef.current = new Map();
@@ -360,7 +395,8 @@ export default function BrainPage() {
       const d = await fetchJSON<{ nodes: ApiNode[]; links: BrainLink[] }>(
         `/api/brain/expand?type=${node.type}&id=${node.entity_id}`
       );
-      mergeGraph(d.nodes, d.links, node);
+      const created = mergeGraph(d.nodes, d.links, node);
+      expandChildrenRef.current.set(node.id, created);
       setExpanded((prev) => new Set(prev).add(node.id));
     } catch { /* ignore */ } finally {
       setExpandLoading(false);
@@ -442,6 +478,66 @@ export default function BrainPage() {
 
   useEffect(() => { selectedRef.current = selected?.id ?? null; }, [selected]);
   useEffect(() => { linkingFromRef.current = linkingFrom; }, [linkingFrom]);
+
+  // 효율 설정 복원/저장
+  useEffect(() => {
+    try {
+      const saved = parseInt(localStorage.getItem("brain_eff") || "", 10);
+      if (saved >= 10 && saved <= 100) setEff(saved);
+    } catch { /* ignore */ }
+  }, []);
+  useEffect(() => {
+    try { localStorage.setItem("brain_eff", String(eff)); } catch { /* ignore */ }
+  }, [eff]);
+
+  // ─── 경로 하이라이트: 선택 노드 → 내 캐릭터 BFS ───
+  const pathRef = useRef<{ nodes: Set<string>; links: Set<string> } | null>(null);
+  useEffect(() => {
+    if (!selected || selected.id === "char:me") { pathRef.current = null; return; }
+    const adj = new Map<string, { to: string; key: string }[]>();
+    for (const l of linksRef.current) {
+      const key = `${l.source}→${l.target}`;
+      if (!adj.has(l.source)) adj.set(l.source, []);
+      if (!adj.has(l.target)) adj.set(l.target, []);
+      adj.get(l.source)!.push({ to: l.target, key });
+      adj.get(l.target)!.push({ to: l.source, key });
+    }
+    const prev = new Map<string, { from: string; key: string }>();
+    const queue = [selected.id];
+    const seen = new Set([selected.id]);
+    let found = false;
+    while (queue.length) {
+      const cur = queue.shift()!;
+      if (cur === "char:me") { found = true; break; }
+      for (const e of adj.get(cur) || []) {
+        if (!seen.has(e.to)) { seen.add(e.to); prev.set(e.to, { from: cur, key: e.key }); queue.push(e.to); }
+      }
+    }
+    if (!found) { pathRef.current = null; return; }
+    const pn = new Set<string>(["char:me"]);
+    const pl = new Set<string>();
+    let cur = "char:me";
+    while (cur !== selected.id) {
+      const p = prev.get(cur)!;
+      pl.add(p.key);
+      pn.add(p.from);
+      cur = p.from;
+    }
+    pathRef.current = { nodes: pn, links: pl };
+  }, [selected]);
+
+  // 맵 노드 선택 시 성장 예측 통계 로드
+  useEffect(() => {
+    if (selected?.type !== "map") return;
+    const mid = selected.entity_id;
+    if (mapStats[mid] !== undefined) return;
+    setMapStats((prev) => ({ ...prev, [mid]: null }));
+    fetchJSON<{ exp_per_cycle: number; meso_per_cycle: number; total_spawn: number; avg_mob_level: number }>(
+      `/api/brain/map-stats?id=${mid}`
+    )
+      .then((d) => setMapStats((prev) => ({ ...prev, [mid]: d })))
+      .catch(() => {});
+  }, [selected, mapStats]);
 
   // ─── 물리 시뮬 + 렌더 루프 ───
   useEffect(() => {
@@ -541,10 +637,19 @@ export default function BrainPage() {
       ctx.translate(tr.x, tr.y);
       ctx.scale(tr.k, tr.k);
 
+      // 경로 하이라이트 활성 여부
+      const path = selectedRef.current ? pathRef.current : null;
+      // 핀·커스텀 연결 노드 (줌아웃 라벨 우선 표시용)
+      const pinnedIds = new Set<string>();
+      for (const l of links) {
+        if (l.kind === "pin" || l.kind === "custom") { pinnedIds.add(l.source); pinnedIds.add(l.target); }
+      }
+
       // 링크 — pin(검색 추가)·custom(직접 연결)은 구분 표시
       for (const l of links) {
         const a = byId.get(l.source), b = byId.get(l.target);
         if (!a || !b) continue;
+        ctx.globalAlpha = path && !path.links.has(`${l.source}→${l.target}`) ? 0.15 : 1;
         if (l.kind === "custom") {
           ctx.strokeStyle = dark ? "rgba(255,159,69,0.75)" : "rgba(232,89,12,0.6)";
           ctx.lineWidth = 2.5 / tr.k;
@@ -564,6 +669,7 @@ export default function BrainPage() {
         ctx.stroke();
       }
       ctx.setLineDash([]);
+      ctx.globalAlpha = 1;
       // 연결 모드: 출발 노드 → 커서 방향 안내선은 출발 노드 강조로 대체
       const linkingId = linkingFromRef.current;
       if (linkingId) {
@@ -585,6 +691,7 @@ export default function BrainPage() {
         const r = nodeRadius(n);
         const col = TYPE_COLORS[n.type] ?? TYPE_COLORS.map;
         const color = dark ? col.dark : col.light;
+        ctx.globalAlpha = path && !path.nodes.has(n.id) && n.id !== selId ? 0.3 : 1;
 
         if (n.id === selId) {
           ctx.beginPath();
@@ -621,7 +728,11 @@ export default function BrainPage() {
           ctx.fillText(n.emoji ?? col.emoji, n.x, n.y + 1);
         }
 
-        if (tr.k > 0.55) {
+        // 라벨: 확대 시 전부, 축소 시 중요 노드(캐릭터·목표·허브·핀·선택)만
+        const important =
+          n.type === "char" || n.type === "goal" || n.id === "tool:calc" || n.id === "tool:play" ||
+          pinnedIds.has(n.id) || n.id === selId;
+        if (tr.k > 0.55 || (tr.k > 0.3 && important)) {
           ctx.font = `${11 / Math.min(tr.k, 1.4)}px Galmuri11, monospace`;
           ctx.textAlign = "center";
           ctx.textBaseline = "top";
@@ -633,6 +744,7 @@ export default function BrainPage() {
           ctx.fillText(label, n.x, n.y + r + 5);
         }
       }
+      ctx.globalAlpha = 1;
       ctx.restore();
 
       // 팝오버 위치 추적
@@ -850,14 +962,48 @@ export default function BrainPage() {
         </p>
       </div>
 
-      {/* 노드 팝오버 */}
+      {/* 노드 팝오버 — 화면 경계 클램프 */}
       {selected && popPos && !needsSetup && (
         <div
           className="pixel-panel absolute z-10 bg-surface p-3 w-56 -translate-x-1/2"
-          style={{ left: popPos.x, top: popPos.y + 34 }}
+          style={{
+            left: Math.min(Math.max(popPos.x, 124), (wrapRef.current?.clientWidth ?? 9999) - 124),
+            top: Math.min(Math.max(popPos.y + 34, 8), (wrapRef.current?.clientHeight ?? 9999) - (selected.type === "map" ? 360 : 190)),
+          }}
         >
           <p className="font-pixel text-sm text-ink font-bold">{selected.label}</p>
           {selected.sub && <p className="text-xs text-dim mt-0.5">{selected.sub}</p>}
+          {selected.type === "map" && char && (() => {
+            const st = mapStats[selected.entity_id];
+            if (st === undefined) return null;
+            if (st === null) return <p className="text-[10px] text-dim mt-2">예측 계산 중…</p>;
+            if (!st.exp_per_cycle || !st.total_spawn) return <p className="text-[10px] text-dim mt-2">젠 정보가 없어 예측 불가</p>;
+            const killsPerHour = eff * 60;
+            const expH = (st.exp_per_cycle / st.total_spawn) * killsPerHour;
+            const mesoH = (st.meso_per_cycle / st.total_spawn) * killsPerHour;
+            const goal = Math.min(char.level + 5, 200);
+            const fmtH = (h: number) => (h < 1 ? `${Math.max(1, Math.round(h * 60))}분` : h < 100 ? `${h.toFixed(1)}시간` : `${Math.round(h)}시간`);
+            const fmtN = (n: number) =>
+              n >= 100000000 ? `${(n / 100000000).toFixed(1)}억` : n >= 10000 ? `${Math.round(n / 10000).toLocaleString()}만` : `${Math.round(n).toLocaleString()}`;
+            return (
+              <div className="mt-2 pt-2 border-t border-edge/60 space-y-1">
+                <p className="text-[10px] font-pixel text-maple">⏱ 성장 예측 — Lv.{char.level} 기준</p>
+                <p className="text-xs text-ink">시간당 EXP ≈ <b>{fmtN(expH)}</b></p>
+                <p className="text-xs text-ink">다음 레벨까지 ≈ <b>{fmtH(expBetween(char.level, char.level + 1) / expH)}</b></p>
+                <p className="text-xs text-ink">Lv.{goal}까지 ≈ <b>{fmtH(expBetween(char.level, goal) / expH)}</b></p>
+                {st.meso_per_cycle > 0 && (
+                  <p className="text-xs text-ink">기대 메소 ≈ <b>{fmtN(mesoH)}</b>/시간</p>
+                )}
+                <div className="flex items-center gap-1.5">
+                  <input type="range" min={10} max={80} step={5} value={eff} onChange={(e) => setEff(Number(e.target.value))} className="flex-1 accent-[var(--c-maple)]" />
+                  <span className="text-[10px] text-dim shrink-0">분당 {eff}마리</span>
+                </div>
+                <p className="text-[9px] text-dim leading-tight">
+                  내 사냥 속도(분당 처치) × 이 맵 몹 평균 EXP 기준 근사 · 메소는 드랍 NPC 판매가 기준, 시세 미반영
+                </p>
+              </div>
+            );
+          })()}
           <div className="flex flex-col gap-1.5 mt-2">
             {selected.type === "char" ? (
               <button
@@ -877,6 +1023,11 @@ export default function BrainPage() {
                 {EXPANDABLE.has(selected.type) && !expanded.has(selected.id) && (
                   <button onClick={() => expandNode(selected)} disabled={expandLoading} className="pixel-btn px-2 py-1.5 text-xs disabled:opacity-50">
                     {expandLoading ? "펼치는 중…" : "🔍 연결 펼치기"}
+                  </button>
+                )}
+                {expanded.has(selected.id) && (
+                  <button onClick={() => collapseNode(selected.id)} className="pixel-btn px-2 py-1.5 text-xs">
+                    📕 가지 접기
                   </button>
                 )}
                 {selected.detail_url && (
