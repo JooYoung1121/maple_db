@@ -92,127 +92,121 @@ const RAIL_GROUPS: string[][] = [
   ["유물창고", "추억길드"],
 ];
 
-function railBtnCls(active: boolean): string {
-  return `relative w-10 h-10 my-0.5 flex items-center justify-center border-2 transition-colors shrink-0 ${
-    active
-      ? "border-maple bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)]"
-      : "border-transparent hover:border-edge"
-  }`;
-}
-
-function SideRail({ isActive, newsBadge }: { isActive: (href: string) => boolean; newsBadge: number }) {
+function SideBar({ isActive, newsBadge }: { isActive: (href: string) => boolean; newsBadge: number }) {
   const pathname = usePathname();
-  const [open, setOpen] = useState<string | null>(null);
-  const [flyoutTop, setFlyoutTop] = useState(0);
-  const railRef = useRef<HTMLElement>(null);
+  // 기본 전부 펼침 — 접은 섹션만 기억
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
+  const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => { setOpen(null); }, [pathname]);
   useEffect(() => {
-    function onOutside(e: MouseEvent) {
-      if (railRef.current && !railRef.current.contains(e.target as Node)) setOpen(null);
-    }
-    function onEscape(e: KeyboardEvent) {
-      if (e.key === "Escape") setOpen(null);
-    }
-    document.addEventListener("mousedown", onOutside);
-    document.addEventListener("keydown", onEscape);
-    return () => {
-      document.removeEventListener("mousedown", onOutside);
-      document.removeEventListener("keydown", onEscape);
-    };
+    try {
+      const saved = localStorage.getItem("nav_collapsed");
+      if (saved) setCollapsed(JSON.parse(saved));
+    } catch { /* ignore */ }
+    setLoaded(true);
   }, []);
 
+  function toggle(label: string) {
+    setCollapsed((prev) => {
+      const next = { ...prev, [label]: !prev[label] };
+      try { localStorage.setItem("nav_collapsed", JSON.stringify(next)); } catch { /* ignore */ }
+      return next;
+    });
+  }
+
   const byLabel = new Map(SITE_SECTIONS.map((s) => [s.label, s]));
-  const openSection = open ? byLabel.get(open) : null;
 
   return (
     <aside
-      ref={railRef}
-      aria-label="카테고리 레일"
-      className="hidden xl:flex fixed left-0 top-14 bottom-0 w-14 bg-surface border-r-2 border-edge z-30 flex-col items-center py-2 overflow-y-auto"
+      aria-label="사이드 메뉴"
+      className="hidden xl:block fixed left-0 top-14 bottom-0 w-56 bg-surface border-r-2 border-edge z-30 overflow-y-auto py-2"
     >
-      <Link href="/" title="홈" aria-label="홈" className={railBtnCls(pathname === "/")}>
-        <span className="text-lg leading-none">🏠</span>
+      <Link
+        href="/"
+        className={`flex items-center gap-2 px-4 py-2 text-[13px] font-pixel transition-colors ${
+          pathname === "/" ? "text-maple bg-[color-mix(in_srgb,var(--c-maple)_12%,transparent)]" : "text-ink hover:text-maple"
+        }`}
+      >
+        🏠 홈
       </Link>
+
       {RAIL_GROUPS.map((group, gi) => (
-        <div key={gi} className="w-full flex flex-col items-center">
-          <div className="w-6 border-t border-edge/70 my-1.5" />
+        <div key={gi}>
+          <div className="mx-4 border-t border-edge/70 my-2" />
           {group.map((label) => {
             const sec = byLabel.get(label);
             if (!sec) return null;
-            const active = sec.items.some((i) => isActive(i.href));
-            const hasNew = sec.items.some((i) => isNewFeature(i.href));
             const badge = label === "커뮤니티" ? newsBadge : 0;
-            const inner = (
-              <>
-                <span className="text-lg leading-none">{sec.icon}</span>
-                {badge > 0 && (
-                  <span className="font-pixel absolute -top-0.5 -right-0.5 min-w-[15px] h-[15px] px-0.5 bg-mush text-white text-[8px] flex items-center justify-center border border-edge-lo">
-                    {badge > 99 ? "99" : badge}
-                  </span>
-                )}
-                {badge === 0 && hasNew && (
-                  <span className="absolute top-0.5 right-0.5 w-1.5 h-1.5 bg-mush rounded-full" />
-                )}
-              </>
-            );
+            // 단독 카테고리는 바로가기 링크로
             if (sec.items.length === 1) {
+              const item = sec.items[0];
               return (
-                <Link key={label} href={sec.items[0].href} title={label} aria-label={label} className={railBtnCls(active)}>
-                  {inner}
+                <Link
+                  key={label}
+                  href={item.href}
+                  className={`flex items-center gap-2 px-4 py-2 text-[13px] font-pixel transition-colors ${
+                    isActive(item.href)
+                      ? "text-maple bg-[color-mix(in_srgb,var(--c-maple)_12%,transparent)]"
+                      : "text-ink hover:text-maple"
+                  }`}
+                >
+                  {sec.icon} {label}
+                  {isNewFeature(item.href) && (
+                    <span className="font-pixel text-[9px] text-mush border border-mush px-1">N</span>
+                  )}
                 </Link>
               );
             }
+            const isCollapsed = loaded && collapsed[label];
             return (
-              <button
-                key={label}
-                title={label}
-                aria-label={label}
-                aria-expanded={open === label}
-                onClick={(e) => {
-                  if (open === label) { setOpen(null); return; }
-                  const top = (e.currentTarget as HTMLElement).getBoundingClientRect().top;
-                  setFlyoutTop(Math.max(60, Math.min(top, window.innerHeight - 420)));
-                  setOpen(label);
-                }}
-                className={railBtnCls(active || open === label)}
-              >
-                {inner}
-              </button>
+              <div key={label}>
+                <button
+                  onClick={() => toggle(label)}
+                  aria-expanded={!isCollapsed}
+                  className="w-full flex items-center justify-between px-4 py-2 text-[13px] font-pixel text-ink hover:text-maple transition-colors"
+                >
+                  <span className="flex items-center gap-2">
+                    {sec.icon} {label}
+                    {badge > 0 && (
+                      <span className="font-pixel min-w-[16px] h-4 px-0.5 bg-mush text-white text-[9px] flex items-center justify-center border border-edge-lo">
+                        {badge > 99 ? "99+" : badge}
+                      </span>
+                    )}
+                  </span>
+                  <svg
+                    className={`w-3.5 h-3.5 transition-transform ${isCollapsed ? "-rotate-90" : ""}`}
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {!isCollapsed && (
+                  <div className="pb-1">
+                    {sec.items.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        aria-current={isActive(item.href) ? "page" : undefined}
+                        className={`flex items-center gap-1.5 pl-8 pr-3 py-1.5 text-[13px] transition-colors ${
+                          isActive(item.href)
+                            ? "text-maple font-semibold bg-[color-mix(in_srgb,var(--c-maple)_12%,transparent)]"
+                            : "text-dim hover:text-maple"
+                        }`}
+                      >
+                        <span className="text-[12px]">{item.icon}</span>
+                        {item.label}
+                        {isNewFeature(item.href) && (
+                          <span className="font-pixel text-[9px] text-mush border border-mush px-1">N</span>
+                        )}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             );
           })}
         </div>
       ))}
-
-      {/* 플라이아웃 */}
-      {openSection && (
-        <div
-          className="pixel-panel fixed left-14 ml-1.5 py-1 min-w-[190px] max-h-[75vh] overflow-y-auto bg-surface z-50"
-          style={{ top: flyoutTop }}
-        >
-          <p className="font-pixel text-[11px] text-dim px-4 pt-2 pb-1 border-b border-edge/50">
-            {openSection.icon} {openSection.label}
-          </p>
-          {openSection.items.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setOpen(null)}
-              className={`block px-4 py-2 text-sm transition-colors ${
-                isActive(item.href)
-                  ? "text-maple font-semibold bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)]"
-                  : "text-ink hover:text-maple hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]"
-              }`}
-            >
-              <span className="mr-1.5">{item.icon}</span>
-              {item.label}
-              {isNewFeature(item.href) && (
-                <span className="font-pixel ml-1.5 text-[9px] text-mush border border-mush px-1 align-middle">N</span>
-              )}
-            </Link>
-          ))}
-        </div>
-      )}
     </aside>
   );
 }
@@ -450,7 +444,7 @@ export default function NavBar() {
         </div>
       )}
     </nav>
-    <SideRail isActive={isActive} newsBadge={newsBadge} />
+    <SideBar isActive={isActive} newsBadge={newsBadge} />
     </>
   );
 }

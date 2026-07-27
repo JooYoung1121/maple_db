@@ -9,6 +9,22 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.67.1",
+    date: "2026-07-27",
+    type: "patch",
+    title: "사이드바 개선 — 텍스트 라벨 + 펼치기/접기",
+    features: [
+      {
+        category: "네비게이션",
+        items: [
+          "아이콘만 있던 좌측 레일을 라벨이 보이는 사이드바로 교체 — 카테고리명·메뉴명이 항상 표시",
+          "카테고리별 펼치기/접기 (기본 전부 펼침, 접은 상태 기억)",
+          "본문 여백·브레인 캔버스 오프셋 사이드바 폭에 맞춰 조정",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.67.0",
     date: "2026-07-27",
     type: "minor",
