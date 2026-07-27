@@ -1,8 +1,15 @@
 """FastAPI application entry point"""
 import asyncio
 import os
+import secrets
 import sys
 from pathlib import Path
+
+# 배포 환경에 관리자 비밀번호가 없더라도 공개 서비스는 기동하되,
+# 관리자 기능은 추측할 수 없는 프로세스 전용 값으로 잠근다.
+if not os.environ.get("GAME_ADMIN_PASSWORD", "").strip():
+    os.environ["GAME_ADMIN_PASSWORD"] = secrets.token_urlsafe(48)
+    print("[startup] GAME_ADMIN_PASSWORD missing; admin actions are locked")
 
 # Ensure project root is on sys.path so crawler package is importable
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
@@ -260,10 +267,6 @@ async def _weekly_reminder_job():
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     admin_password = os.environ.get("GAME_ADMIN_PASSWORD", "").strip()
-    if not admin_password:
-        raise RuntimeError(
-            "GAME_ADMIN_PASSWORD must be set before startup"
-        )
     if admin_password == "1004":
         print("[startup] WARNING: rotate the legacy GAME_ADMIN_PASSWORD value")
     # Startup: ensure DB and tables exist
