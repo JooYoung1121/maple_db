@@ -260,10 +260,12 @@ async def _weekly_reminder_job():
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     admin_password = os.environ.get("GAME_ADMIN_PASSWORD", "").strip()
-    if not admin_password or admin_password == "1004":
+    if not admin_password:
         raise RuntimeError(
-            "GAME_ADMIN_PASSWORD must be set to a non-default value before startup"
+            "GAME_ADMIN_PASSWORD must be set before startup"
         )
+    if admin_password == "1004":
+        print("[startup] WARNING: rotate the legacy GAME_ADMIN_PASSWORD value")
     # Startup: ensure DB and tables exist
     try:
         init_db()
