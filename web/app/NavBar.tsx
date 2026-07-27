@@ -8,6 +8,75 @@ import ThemeToggle from "@/components/ThemeToggle";
 import { isNewFeature } from "@/lib/newFeatures";
 import { SITE_SECTIONS, type SiteSection } from "@/lib/siteFeatures";
 
+interface AuthUser {
+  display_name: string;
+  avatar_url: string | null;
+  guild_member: number;
+}
+
+function AuthChip({ compact = false, onNavigate }: { compact?: boolean; onNavigate?: () => void }) {
+  const pathname = usePathname();
+  const [user, setUser] = useState<AuthUser | null>(null);
+  const [enabled, setEnabled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    fetch("/api/auth/config").then((r) => r.json()).then((d) => setEnabled(!!d.enabled)).catch(() => {});
+    fetch("/api/auth/me").then((r) => r.json()).then((d) => setUser(d.user ?? null)).catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    function onOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", onOutside);
+    return () => document.removeEventListener("mousedown", onOutside);
+  }, []);
+
+  async function logout() {
+    try { await fetch("/api/auth/logout", { method: "POST" }); } catch { /* ignore */ }
+    setUser(null);
+    setOpen(false);
+    onNavigate?.();
+  }
+
+  if (user) {
+    return (
+      <div ref={ref} className="relative">
+        <button
+          onClick={() => setOpen(!open)}
+          className={`font-pixel flex items-center gap-1.5 px-2 py-1.5 text-[12px] text-ink hover:text-maple transition-colors ${compact ? "w-full" : ""}`}
+        >
+          {user.avatar_url ? (
+            <img src={user.avatar_url} alt="" className="w-6 h-6 border-2 border-edge" style={{ imageRendering: "pixelated" }} />
+          ) : (
+            <span className="w-6 h-6 border-2 border-edge flex items-center justify-center text-[10px]">🍄</span>
+          )}
+          <span className="max-w-[90px] truncate">{user.display_name}</span>
+          {user.guild_member === 1 && <span className="text-[9px] text-maple border border-maple px-0.5">길드</span>}
+        </button>
+        {open && (
+          <div className="pixel-panel absolute top-full right-0 mt-2 py-1 min-w-[130px] z-50 bg-surface">
+            <button onClick={logout} className="w-full text-left px-4 py-2 text-sm text-ink hover:text-maple">
+              로그아웃
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  }
+  if (!enabled) return null;
+  return (
+    <a
+      href={`/api/auth/discord/login?next=${encodeURIComponent(pathname || "/")}`}
+      className="font-pixel px-3 py-2 text-[12px] text-dim hover:text-maple transition-colors whitespace-nowrap"
+    >
+      로그인
+    </a>
+  );
+}
+
 function DropdownMenu({ category, isActive, closeMobileMenu, newsBadge = 0 }: {
   category: SiteSection;
   isActive: (href: string) => boolean;
@@ -163,11 +232,13 @@ export default function NavBar() {
               <DropdownMenu key={cat.label} category={cat} isActive={isActive} newsBadge={cat.label === "커뮤니티" ? newsBadge : 0} />
             )
           )}
+          <AuthChip />
           <ThemeToggle />
         </div>
 
         {/* Mobile hamburger */}
         <div className="flex items-center gap-1 xl:hidden">
+          <AuthChip compact />
           <ThemeToggle />
           <button
             onClick={() => setMenuOpen(!menuOpen)}

@@ -9,6 +9,23 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.62.0",
+    date: "2026-07-27",
+    type: "minor",
+    title: "디스코드 로그인 — 계정 · 길드원 연동 · 개인화 저장",
+    features: [
+      {
+        category: "계정",
+        items: [
+          "디스코드 로그인 추가 (identify 스코프만 — 이메일 등 미수집), 우상단 로그인 버튼",
+          "길드 디스코드 서버 멤버 자동 확인 — 서버 별명·역할 연동, 닉네임 옆 「길드」 배지",
+          "브레인 캐릭터(레벨·직업)가 계정에 저장 — 기기가 바뀌어도 유지, 비로그인은 기존처럼 브라우저 저장",
+          "개인화 저장 API (user_settings) — 내 메랜·즐겨찾기 등 확장 준비 완료",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.61.1",
     date: "2026-07-27",
     type: "patch",

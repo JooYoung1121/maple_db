@@ -172,27 +172,54 @@ export default function BrainPage() {
     }
   }, [mergeGraph, resetGraph]);
 
-  // ─── 초기화: URL 파라미터(공유용) > localStorage 캐릭터 ───
+  // ─── 초기화: URL 파라미터(공유용) > 계정 저장값 > localStorage ───
+  const loggedInRef = useRef(false);
   useEffect(() => {
-    try {
-      const sp = new URLSearchParams(window.location.search);
-      const lv = parseInt(sp.get("lv") || "", 10);
-      if (lv >= 1 && lv <= 200) {
-        const c = { level: lv, job: sp.get("job") || "" };
-        localStorage.setItem("brain_char", JSON.stringify(c));
-        setChar(c);
-        loadEgo(c);
-        return;
-      }
-      const saved = localStorage.getItem("brain_char");
-      if (saved) {
-        const c = JSON.parse(saved) as CharInfo;
-        setChar(c);
-        loadEgo(c);
-        return;
-      }
-    } catch { /* ignore */ }
-    setChar(null);
+    (async () => {
+      try {
+        const sp = new URLSearchParams(window.location.search);
+        const lv = parseInt(sp.get("lv") || "", 10);
+        if (lv >= 1 && lv <= 200) {
+          const c = { level: lv, job: sp.get("job") || "" };
+          localStorage.setItem("brain_char", JSON.stringify(c));
+          setChar(c);
+          loadEgo(c);
+          return;
+        }
+        // 로그인 시 계정 저장값 우선 (기기 간 동기화)
+        let account: CharInfo | null = null;
+        try {
+          const me = await fetch(`${API_BASE}/api/auth/me`).then((r) => r.json());
+          if (me.user) {
+            loggedInRef.current = true;
+            const bc = me.settings?.brain_char;
+            if (bc && bc.level >= 1 && bc.level <= 200) account = bc as CharInfo;
+          }
+        } catch { /* 비로그인 */ }
+        if (account) {
+          localStorage.setItem("brain_char", JSON.stringify(account));
+          setChar(account);
+          loadEgo(account);
+          return;
+        }
+        const saved = localStorage.getItem("brain_char");
+        if (saved) {
+          const c = JSON.parse(saved) as CharInfo;
+          setChar(c);
+          loadEgo(c);
+          // 로그인 상태인데 계정에 없으면 localStorage 값을 계정으로 승격
+          if (loggedInRef.current) {
+            fetch(`${API_BASE}/api/me/settings/brain_char`, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ value: c }),
+            }).catch(() => {});
+          }
+          return;
+        }
+      } catch { /* ignore */ }
+      setChar(null);
+    })();
   }, [loadEgo]);
 
   // ─── 노드 확장 ───
@@ -254,6 +281,13 @@ export default function BrainPage() {
     if (!lv || lv < 1 || lv > 200) return;
     const c = { level: lv, job: setupJob };
     localStorage.setItem("brain_char", JSON.stringify(c));
+    if (loggedInRef.current) {
+      fetch(`${API_BASE}/api/me/settings/brain_char`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ value: c }),
+      }).catch(() => {});
+    }
     setChar(c);
     setShowSetup(false);
     loadEgo(c);

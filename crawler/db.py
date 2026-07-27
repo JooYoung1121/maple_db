@@ -454,6 +454,30 @@ CREATE TABLE IF NOT EXISTS codi_post_votes (
     UNIQUE(post_id, voter_ip),
     FOREIGN KEY (post_id) REFERENCES codi_posts(id)
 );
+
+-- 디스코드 로그인 계정 (유저 데이터 — 시드 동기화 금지)
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    discord_id TEXT NOT NULL UNIQUE,
+    username TEXT,
+    global_name TEXT,
+    avatar_url TEXT,
+    guild_member INTEGER DEFAULT 0,   -- 추억길드 디스코드 서버 멤버 여부
+    guild_nick TEXT,                  -- 길드 서버 별명
+    guild_roles TEXT,                 -- 역할 이름 JSON 배열
+    created_at TEXT DEFAULT (datetime('now')),
+    last_login_at TEXT
+);
+
+-- 계정별 개인화 저장 (key-value JSON)
+CREATE TABLE IF NOT EXISTS user_settings (
+    user_id INTEGER NOT NULL,
+    key TEXT NOT NULL,
+    value TEXT,
+    updated_at TEXT DEFAULT (datetime('now')),
+    PRIMARY KEY (user_id, key),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
 """
 
 FTS_SCHEMA = """
