@@ -1,6 +1,7 @@
 export interface MyMapleProfile {
   nickname: string;
-  job: string;
+  job: string;      // 계열 (전사/마법사/궁수/도적/해적)
+  subJob: string;   // 차수별 세부 직업 (히어로, 비숍 등)
   level: number;
   goal: "leveling" | "boss" | "quest" | "meso" | "play";
   favorites: string[];
@@ -19,6 +20,7 @@ export const MY_MAPLE_UPDATED_EVENT = "my-maple-updated";
 export const DEFAULT_MY_MAPLE_PROFILE: MyMapleProfile = {
   nickname: "",
   job: "",
+  subJob: "",
   level: 1,
   goal: "leveling",
   favorites: ["/exp", "/hunt", "/weekly"],

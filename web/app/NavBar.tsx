@@ -6,7 +6,8 @@ import { useState, useRef, useEffect } from "react";
 import { getNewsRecentCount } from "@/lib/api";
 import ThemeToggle from "@/components/ThemeToggle";
 import { isNewFeature } from "@/lib/newFeatures";
-import { SITE_SECTIONS, type SiteSection } from "@/lib/siteFeatures";
+import { ALL_SITE_FEATURES, SITE_SECTIONS, type SiteSection } from "@/lib/siteFeatures";
+import { MY_MAPLE_UPDATED_EVENT, readMyMapleProfile } from "@/lib/myMaple";
 
 interface AuthUser {
   display_name: string;
@@ -97,6 +98,7 @@ function SideBar({ isActive, newsBadge }: { isActive: (href: string) => boolean;
   // 기본 전부 접힘 — 펼친/접은 상태를 기억 (미기록 섹션은 접힘)
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
   const [loaded, setLoaded] = useState(false);
+  const [favorites, setFavorites] = useState<string[]>([]);
 
   useEffect(() => {
     try {
@@ -104,7 +106,22 @@ function SideBar({ isActive, newsBadge }: { isActive: (href: string) => boolean;
       if (saved) setCollapsed(JSON.parse(saved));
     } catch { /* ignore */ }
     setLoaded(true);
+    // 내 메랜 즐겨찾기 → 사이드바 고정 (변경 이벤트 실시간 반영)
+    function loadFavs() {
+      setFavorites(readMyMapleProfile().favorites ?? []);
+    }
+    loadFavs();
+    window.addEventListener(MY_MAPLE_UPDATED_EVENT, loadFavs);
+    window.addEventListener("storage", loadFavs);
+    return () => {
+      window.removeEventListener(MY_MAPLE_UPDATED_EVENT, loadFavs);
+      window.removeEventListener("storage", loadFavs);
+    };
   }, []);
+
+  const favItems = favorites
+    .map((href) => ALL_SITE_FEATURES.find((f) => f.href === href))
+    .filter((f): f is NonNullable<typeof f> => Boolean(f));
 
   function toggle(label: string) {
     setCollapsed((prev) => {
@@ -129,6 +146,28 @@ function SideBar({ isActive, newsBadge }: { isActive: (href: string) => boolean;
       >
         🏠 홈
       </Link>
+
+      {/* 즐겨찾기 (내 메랜에서 체크한 기능) */}
+      {favItems.length > 0 && (
+        <div>
+          <div className="mx-4 border-t border-edge/70 my-2" />
+          <p className="px-4 pb-1 text-[10px] font-pixel text-dim">⭐ 즐겨찾기</p>
+          {favItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex items-center gap-1.5 px-4 py-1.5 text-[13px] transition-colors ${
+                isActive(item.href)
+                  ? "text-maple font-semibold bg-[color-mix(in_srgb,var(--c-maple)_12%,transparent)]"
+                  : "text-ink hover:text-maple"
+              }`}
+            >
+              <span className="text-[12px]">{item.icon}</span>
+              {item.homeLabel || item.label}
+            </Link>
+          ))}
+        </div>
+      )}
 
       {RAIL_GROUPS.map((group, gi) => (
         <div key={gi}>

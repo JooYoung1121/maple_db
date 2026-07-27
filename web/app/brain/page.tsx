@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { searchSuggest } from "@/lib/api";
 import { expBetween } from "@/lib/expTable";
+import { JOB_BRANCHES, JOB_TREE, jobTier } from "@/lib/jobs";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -53,20 +54,7 @@ interface CharInfo {
   nickname?: string;
 }
 
-const JOBS = ["전사", "마법사", "궁수", "도적", "해적"];
-
-// 원작(프리빅뱅 KMS) 차수별 직업 트리
-const JOB_TREE: Record<string, Record<number, string[]>> = {
-  전사: { 1: ["검사"], 2: ["파이터", "페이지", "스피어맨"], 3: ["크루세이더", "나이트", "용기사"], 4: ["히어로", "팔라딘", "다크나이트"] },
-  마법사: { 1: ["매지션"], 2: ["위자드(불,독)", "위자드(썬,콜)", "클레릭"], 3: ["메이지(불,독)", "메이지(썬,콜)", "프리스트"], 4: ["아크메이지(불,독)", "아크메이지(썬,콜)", "비숍"] },
-  궁수: { 1: ["아처"], 2: ["헌터", "사수"], 3: ["레인저", "저격수"], 4: ["보우마스터", "신궁"] },
-  도적: { 1: ["로그"], 2: ["어쌔신", "시프"], 3: ["허밋", "시프마스터"], 4: ["나이트로드", "섀도어"] },
-  해적: { 1: ["해적"], 2: ["인파이터", "건슬링거"], 3: ["버커니어", "발키리"], 4: ["바이퍼", "캡틴"] },
-};
-
-function jobTier(level: number): number {
-  return level >= 120 ? 4 : level >= 70 ? 3 : level >= 30 ? 2 : 1;
-}
+const JOBS = [...JOB_BRANCHES];
 
 // 사이트 도구 연결 노드 (그래프에 정적 주입)
 const TOOL_HUBS: { hub: { id: string; label: string; emoji: string }; children: { id: string; label: string; emoji: string; href: string }[] }[] = [

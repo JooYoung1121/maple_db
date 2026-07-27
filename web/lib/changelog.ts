@@ -9,6 +9,23 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.68.0",
+    date: "2026-07-27",
+    type: "minor",
+    title: "내 메랜 개편 — 세부 직업·즐겨찾기 사이드바·계정 연동",
+    features: [
+      {
+        category: "내 메랜",
+        items: [
+          "세부 직업 선택 — 레벨에 맞는 차수(1~4차) 직업 (브레인과 동일 트리, 저장 시 브레인 캐릭터에도 반영)",
+          "즐겨찾기가 좌측 사이드바 맨 위에 고정 — 체크 즉시 반영, 전체 기능에서 선택 가능하도록 확대",
+          "로그인 시 프로필이 계정에 저장 — 기기 간 유지",
+          "Lv 기준 추천 사냥터 3곳 (브레인 엔진 재사용), 길드원이면 오늘 출석 위젯 + 바로 출석",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.67.2",
     date: "2026-07-27",
     type: "patch",
