@@ -320,7 +320,7 @@ def mapletle_solve(payload: SolvePayload):
 @router.post("/mapletle/new-round")
 def mapletle_new_round(request: Request):
     """관리자용 — 오늘 새 라운드(새 비밀 단어)를 즉시 출시한다."""
-    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "1004")
+    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "")
     if request.headers.get("X-Admin-Password", "") != admin_pw:
         raise HTTPException(status_code=403, detail="비밀번호가 틀립니다.")
     conn = get_connection()
@@ -351,7 +351,7 @@ class DebugSimPayload(BaseModel):
 @router.post("/mapletle/debug-sim")
 async def mapletle_debug_sim(payload: DebugSimPayload, request: Request):
     """관리자용 — 두 단어의 유사도 측정 (온도 밴드 보정용)."""
-    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "1004")
+    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "")
     if request.headers.get("X-Admin-Password", "") != admin_pw:
         raise HTTPException(status_code=403, detail="비밀번호가 틀립니다.")
     conn = get_connection()

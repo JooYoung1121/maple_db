@@ -18,11 +18,12 @@
   --c-border-hi: #efe2c2;   /* 베벨 하이라이트 */
   --c-border-lo: #93764a;   /* 베벨 그림자 */
   --c-text: #3a2c1a;        /* 나무 잉크 */
-  --c-text-dim: #7c6a4d;
-  --c-maple: #e5780f;       /* 메이플 오렌지 */
+  --c-text-dim: #6f5e43;
+  --c-maple: #a84f00;       /* 본문 대비를 확보한 메이플 오렌지 */
+  --c-maple-fill: #e5780f;  /* 큰 버튼·장식용 밝은 오렌지 */
   --c-maple-hi: #ff9a2e;
-  --c-slime: #5ca524;       /* 슬라임 그린 */
-  --c-mush: #d23a4b;        /* 버섯 레드 */
+  --c-slime: #3f7518;       /* 슬라임 그린 */
+  --c-mush: #b52a3e;        /* 버섯 레드 */
   --c-skill: #2e86c4;       /* 스킬 블루 */
 }
 
@@ -37,6 +38,7 @@
   --c-text: #f0e6d6;        /* 양피지 */
   --c-text-dim: #b09c80;
   --c-maple: #f8941e;
+  --c-maple-fill: #f8941e;
   --c-maple-hi: #ffae44;
   --c-slime: #9bd43f;
   --c-mush: #e2495a;
@@ -99,7 +101,7 @@
   .pixel-btn {
     font-family: "Galmuri11", monospace;
     -webkit-font-smoothing: none;
-    background: var(--c-maple);
+    background: var(--c-maple-fill);
     color: #1a1206;
     border: 2px solid var(--c-border-lo);
     border-radius: 0;
@@ -143,8 +145,34 @@
 }
 .leaf-fall { animation: leafDrift linear infinite; }
 @media (prefers-reduced-motion: reduce) {
-  .leaf-fall { animation: none; display: none; }
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .leaf-fall { animation: none !important; display: none; }
 }
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--c-maple);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 100;
+  transform: translateY(-180%);
+  background: var(--c-surface2);
+  color: var(--c-text);
+  border: 2px solid var(--c-maple);
+  padding: 0.6rem 0.9rem;
+}
+.skip-link:focus { transform: translateY(0); }
 
 /* 메이플랜드 공지 본문 스타일 */
 .news-content h2 {
@@ -205,7 +233,7 @@
   20%, 40%, 60%, 80% { transform: translateX(2px); }
 }
 .animate-trapShake {
-  animation: trapShake 0.4s ease-in-out infinite;
+  animation: trapShake 0.4s ease-in-out 3;
 }
 
 /* 정보공유 게시판 — 엑셀 원본 스타일 표 (excel_html) */

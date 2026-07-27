@@ -213,6 +213,7 @@ export interface SearchResult {
   name: string;
   name_kr: string | null;
   snippet: string;
+  variant_count?: number;
 }
 
 export interface SearchSuggestion {
@@ -221,6 +222,7 @@ export interface SearchSuggestion {
   name: string;
   name_kr: string | null;
   icon_url: string | null;
+  variant_count?: number;
 }
 
 export interface AdminMob extends Mob {

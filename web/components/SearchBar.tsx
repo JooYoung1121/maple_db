@@ -1,38 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useId } from "react";
 import { useRouter } from "next/navigation";
 import { searchSuggest } from "@/lib/api";
 import type { SearchSuggestion } from "@/lib/types";
-
-const TYPE_LABELS: Record<string, string> = {
-  item: "아이템",
-  mob: "몬스터",
-  map: "맵",
-  npc: "NPC",
-  quest: "퀘스트",
-  skill: "스킬",
-  blog: "블로그",
-};
-
-const TYPE_PATHS: Record<string, string> = {
-  item: "/items",
-  mob: "/mobs",
-  map: "/maps",
-  npc: "/npcs",
-  quest: "/quests",
-  skill: "/skills",
-};
-
-const TYPE_COLORS: Record<string, { bg: string; text: string }> = {
-  item: { bg: "bg-blue-100", text: "text-blue-700" },
-  mob: { bg: "bg-red-100", text: "text-red-700" },
-  map: { bg: "bg-green-100", text: "text-green-700" },
-  npc: { bg: "bg-purple-100", text: "text-purple-700" },
-  quest: { bg: "bg-yellow-100", text: "text-yellow-700" },
-  skill: { bg: "bg-cyan-100", text: "text-cyan-700" },
-  blog: { bg: "bg-gray-100 dark:bg-gray-700", text: "text-gray-700 dark:text-gray-300" },
-};
+import { SEARCH_TYPE_META } from "@/lib/siteFeatures";
 
 interface GroupedSuggestions {
   type: string;
@@ -41,7 +13,7 @@ interface GroupedSuggestions {
 }
 
 function groupByType(suggestions: SearchSuggestion[]): GroupedSuggestions[] {
-  const order = ["item", "mob", "map", "npc", "quest", "skill", "blog"];
+  const order = ["item", "mob", "map", "npc", "quest", "skill"];
   const map = new Map<string, SearchSuggestion[]>();
   for (const s of suggestions) {
     const list = map.get(s.entity_type) || [];
@@ -50,7 +22,7 @@ function groupByType(suggestions: SearchSuggestion[]): GroupedSuggestions[] {
   }
   return order
     .filter((t) => map.has(t))
-    .map((t) => ({ type: t, label: TYPE_LABELS[t] || t, items: map.get(t)! }));
+    .map((t) => ({ type: t, label: SEARCH_TYPE_META[t]?.label || t, items: map.get(t)! }));
 }
 
 export default function SearchBar({ large = false }: { large?: boolean }) {
@@ -62,6 +34,7 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const listboxId = useId();
 
   // Flat list for keyboard navigation
   const flatList = suggestions;
@@ -98,7 +71,7 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
 
   function goTo(s: SearchSuggestion) {
     setOpen(false);
-    const path = TYPE_PATHS[s.entity_type];
+    const path = SEARCH_TYPE_META[s.entity_type]?.path;
     if (path) router.push(`${path}/${s.entity_id}`);
   }
 
@@ -150,18 +123,24 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
             onChange={(e) => handleChange(e.target.value)}
             onFocus={() => suggestions.length > 0 && setOpen(true)}
             onKeyDown={handleKeyDown}
+            role="combobox"
+            aria-label="메이플랜드 통합 검색"
+            aria-autocomplete="list"
+            aria-expanded={open}
+            aria-controls={listboxId}
+            aria-activedescendant={activeIndex >= 0 ? `${listboxId}-option-${activeIndex}` : undefined}
             placeholder="아이템, 몬스터, 맵, NPC, 퀘스트 검색..."
             className={`pixel-input w-full pl-12 pr-4 ${large ? "py-4 text-base" : "py-2.5 text-sm"}`}
           />
         </div>
       </form>
       {open && grouped.length > 0 && (
-        <div className="pixel-panel absolute z-50 w-full mt-2 max-h-96 overflow-y-auto">
+        <div id={listboxId} role="listbox" aria-label="검색 제안" className="pixel-panel absolute z-50 w-full mt-2 max-h-96 overflow-y-auto">
           {grouped.map((group) => {
-            const colors = TYPE_COLORS[group.type] || { bg: "bg-gray-100 dark:bg-gray-700", text: "text-gray-700 dark:text-gray-300" };
+            const colors = SEARCH_TYPE_META[group.type] || { bg: "bg-gray-100 dark:bg-gray-700", text: "text-gray-700 dark:text-gray-300" };
             return (
-              <div key={group.type}>
-                <div className={`px-4 py-1.5 text-xs font-semibold ${colors.text} ${colors.bg} sticky top-0`}>
+              <div key={group.type} role="group" aria-label={group.label}>
+                <div aria-hidden className={`px-4 py-1.5 text-xs font-semibold ${colors.text} ${colors.bg} sticky top-0`}>
                   {group.label}
                 </div>
                 {group.items.map((s) => {
@@ -170,6 +149,9 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
                   return (
                     <button
                       key={`${s.entity_type}-${s.entity_id}`}
+                      id={`${listboxId}-option-${currentIdx}`}
+                      role="option"
+                      aria-selected={isActive}
                       onClick={() => goTo(s)}
                       onMouseEnter={() => setActiveIndex(currentIdx)}
                       className={`w-full text-left px-4 py-2.5 flex items-center gap-3 border-b border-edge/50 last:border-0 transition-colors ${isActive ? "bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)]" : "hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]"}`}
@@ -184,9 +166,12 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
                         {s.name_kr && s.name_kr !== s.name && (
                           <span className="text-xs text-dim block truncate">{s.name}</span>
                         )}
+                        {(s.variant_count || 0) > 1 && (
+                          <span className="text-[10px] text-dim block">같은 이름의 ID 변형 {s.variant_count}개</span>
+                        )}
                       </div>
                       <span className={`text-xs font-medium px-2 py-0.5 rounded flex-shrink-0 ${colors.bg} ${colors.text}`}>
-                        {TYPE_LABELS[s.entity_type]}
+                        {SEARCH_TYPE_META[s.entity_type]?.label}
                       </span>
                     </button>
                   );
@@ -196,6 +181,9 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
           })}
         </div>
       )}
+      <span className="sr-only" role="status" aria-live="polite">
+        {open ? `검색 제안 ${suggestions.length}개` : ""}
+      </span>
     </div>
   );
 }

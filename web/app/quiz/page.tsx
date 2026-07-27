@@ -566,7 +566,7 @@ export default function QuizPage() {
 
           {/* 복사 알림 */}
           {copied && (
-            <div className="fixed top-20 left-1/2 -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 animate-bounce">
+            <div role="status" className="fixed top-20 left-1/2 -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50">
               &ldquo;{copied}&rdquo; 복사 완료!
             </div>
           )}

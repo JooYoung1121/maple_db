@@ -78,7 +78,7 @@ def _require_bot(request: Request):
 
 
 def _require_admin(request: Request):
-    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "1004")
+    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "")
     if request.headers.get("X-Admin-Password", "") != admin_pw:
         raise HTTPException(status_code=403, detail="비밀번호가 틀립니다.")
 

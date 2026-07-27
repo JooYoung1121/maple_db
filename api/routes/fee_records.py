@@ -12,7 +12,7 @@ KST = timezone(timedelta(hours=9))
 
 
 def _check_admin(request: Request):
-    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "1004")
+    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "")
     if request.headers.get("X-Admin-Password", "") != admin_pw:
         raise HTTPException(status_code=403, detail="비밀번호가 틀렸습니다.")
 

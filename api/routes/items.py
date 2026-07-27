@@ -186,6 +186,33 @@ def get_item(item_id: int):
             (item_id,),
         ).fetchall()
         dropped_by = [dict(r) for r in drop_rows]
+        mob_ids = [mob["mob_id"] for mob in dropped_by]
+        spawn_map: dict[int, list[dict]] = {mob_id: [] for mob_id in mob_ids}
+        if mob_ids:
+            placeholders = ",".join("?" for _ in mob_ids)
+            map_filter = id_filter_sql("mp.id", "maps")
+            map_condition = f"AND {map_filter}" if map_filter else ""
+            spawn_rows = conn.execute(
+                f"""
+                SELECT
+                    ms.mob_id,
+                    mp.id AS map_id,
+                    mp.name AS map_name,
+                    ms.map_name AS spawn_name,
+                    (SELECT name_en FROM entity_names_en
+                     WHERE entity_type='map' AND entity_id=mp.id AND source='kms') AS map_name_kr
+                FROM mob_spawns ms
+                JOIN maps mp ON mp.id = ms.map_id
+                WHERE ms.mob_id IN ({placeholders})
+                  {map_condition}
+                ORDER BY ms.mob_id, mp.id
+                """,
+                mob_ids,
+            ).fetchall()
+            for spawn in spawn_rows:
+                spawn_map.setdefault(spawn["mob_id"], []).append(dict(spawn))
+        for mob in dropped_by:
+            mob["spawn_maps"] = spawn_map.get(mob["mob_id"], [])
     finally:
         conn.close()
 

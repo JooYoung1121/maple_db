@@ -27,7 +27,7 @@ def _explain_channel_error(error: Exception) -> str:
 
 
 def _check_admin(request: Request):
-    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "1004")
+    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "")
     provided_pw = request.headers.get("X-Admin-Password", "")
     if provided_pw != admin_pw:
         raise HTTPException(status_code=403, detail="비밀번호가 틀렸습니다.")

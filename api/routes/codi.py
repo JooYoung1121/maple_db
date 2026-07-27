@@ -103,7 +103,7 @@ import os as _os
 from fastapi import Request
 from pydantic import BaseModel
 
-_ADMIN_PW = _os.environ.get("GAME_ADMIN_PASSWORD", "1004")
+_ADMIN_PW = _os.environ.get("GAME_ADMIN_PASSWORD", "")
 _MAX_OUTFIT_ITEMS = 14
 
 

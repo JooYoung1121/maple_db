@@ -9,7 +9,7 @@ from crawler.db import get_connection
 
 router = APIRouter()
 
-ADMIN_PW = os.environ.get("GAME_ADMIN_PASSWORD", "1004")
+ADMIN_PW = os.environ.get("GAME_ADMIN_PASSWORD", "")
 
 
 class PostCreate(BaseModel):

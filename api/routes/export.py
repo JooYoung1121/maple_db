@@ -1,7 +1,8 @@
 """Excel export routes"""
-import os
 import io
-from fastapi import APIRouter, Query, HTTPException
+import os
+import secrets
+from fastapi import APIRouter, Query, HTTPException, Request
 from fastapi.responses import StreamingResponse
 
 import openpyxl
@@ -23,10 +24,11 @@ EXPORT_QUERIES = {
 VALID_TYPES = set(EXPORT_QUERIES.keys())
 
 
-def _check_admin_pw(pw: str):
-    """Verify admin password."""
-    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "1004")
-    if pw != admin_pw:
+def _check_admin(request: Request):
+    """Verify admin password without exposing it in URLs or server access logs."""
+    supplied = request.headers.get("X-Admin-Password", "")
+    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "").strip()
+    if not admin_pw or admin_pw == "1004" or not secrets.compare_digest(supplied, admin_pw):
         raise HTTPException(status_code=403, detail="비밀번호가 틀립니다.")
 
 
@@ -119,10 +121,10 @@ _QUEST_COLUMNS = (
 
 @router.get("/export/quests")
 def export_quests(
+    request: Request,
     format: str = Query(default="xlsx"),
-    pw: str = Query(default=""),
 ):
-    _check_admin_pw(pw)
+    _check_admin(request)
     if format != "xlsx":
         raise HTTPException(status_code=400, detail="Only xlsx format is supported")
 
@@ -240,9 +242,9 @@ def export_quests(
 
 @router.get("/export/all-data")
 def export_all_data(
-    pw: str = Query(default=""),
+    request: Request,
 ):
-    _check_admin_pw(pw)
+    _check_admin(request)
 
     try:
         conn = get_connection()
@@ -281,9 +283,9 @@ def export_all_data(
 # ── 대시보드 통계 API ──
 
 @router.get("/export/dashboard-stats")
-def dashboard_stats(pw: str = Query(default="")):
+def dashboard_stats(request: Request):
     """관리자 대시보드용 통합 통계"""
-    _check_admin_pw(pw)
+    _check_admin(request)
 
     try:
         conn = get_connection()
@@ -398,7 +400,7 @@ def dashboard_stats(pw: str = Query(default="")):
 
 @router.get("/export/all-quests")
 def export_all_quests_json(
-    pw: str = Query(default=""),
+    request: Request,
     page: int = Query(default=1, ge=1),
     per_page: int = Query(default=50, ge=1, le=500),
     q: str = Query(default=""),
@@ -407,7 +409,7 @@ def export_all_quests_json(
     is_mapleland: str = Query(default="all"),
 ):
     """관리자 대시보드용 전체 퀘스트 목록 (JSON)"""
-    _check_admin_pw(pw)
+    _check_admin(request)
 
     conditions = []
     params: list = []

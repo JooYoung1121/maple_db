@@ -33,7 +33,13 @@ export async function getItems(params: { page?: number; per_page?: number; categ
 }
 
 export async function getItem(id: number) {
-  return fetchJSON<{ item: import("./types").Item; dropped_by: { mob_id: number; mob_name: string; mob_name_kr?: string | null; drop_rate: number | null }[] }>(
+  return fetchJSON<{ item: import("./types").Item; dropped_by: {
+    mob_id: number;
+    mob_name: string;
+    mob_name_kr?: string | null;
+    drop_rate: number | null;
+    spawn_maps?: { map_id: number; map_name: string; map_name_kr?: string | null; spawn_name?: string | null }[];
+  }[] }>(
     `/api/items/${id}`
   );
 }

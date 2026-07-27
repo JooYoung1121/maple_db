@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import NavBar from "./NavBar";
 import { APP_VERSION } from "@/lib/version";
+import SiteActivityTracker from "@/components/SiteActivityTracker";
+import CommandPalette from "@/components/CommandPalette";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://memorymapledb.up.railway.app"),
@@ -43,8 +45,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className="bg-bg text-ink min-h-screen flex flex-col"
         style={{ fontFamily: "Pretendard, system-ui, sans-serif" }}
       >
+        <a href="#main-content" className="skip-link">본문으로 건너뛰기</a>
+        <SiteActivityTracker />
         <NavBar />
-        <main className="max-w-7xl mx-auto px-4 py-6 flex-1 w-full">{children}</main>
+        <CommandPalette />
+        <main id="main-content" tabIndex={-1} className="max-w-7xl mx-auto px-4 py-6 flex-1 w-full">{children}</main>
         <footer className="border-t-2 border-edge bg-surface mt-auto">
           <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-dim">
             <span className="flex items-center gap-1.5">

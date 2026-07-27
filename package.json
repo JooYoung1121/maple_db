@@ -1,6 +1,7 @@
 {
   "scripts": {
     "audit:data": "node scripts/audit_data_quality.js",
+    "audit:data:check": "node scripts/audit_data_quality.js --check",
     "rebuild:canonical": "node scripts/rebuild_canonical_db.js",
     "sync:mapleland:mobs": "node scripts/sync_mapleland_mobs.js",
     "sync:mapleland:reference": "node scripts/sync_mapleland_reference.js",

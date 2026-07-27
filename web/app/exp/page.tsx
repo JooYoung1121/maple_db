@@ -298,7 +298,7 @@ function HuntTab() {
           </p>
 
           {timerDone && (
-            <p className="text-red-500 font-medium mb-4 animate-bounce">
+            <p className="text-red-500 font-medium mb-4" role="alert">
               타이머 종료! 사냥 결과를 입력해주세요
             </p>
           )}

@@ -744,13 +744,63 @@ def init_db() -> sqlite3.Connection:
     conn.executescript(FTS_SCHEMA)
     conn.commit()
     migrate_db(conn)
+    ensure_search_index(conn)
     seed_guild_members(conn)
     seed_bot_settings(conn)
     return conn
 
 
+SEARCH_INDEX_TABLES = {
+    "item": "items",
+    "mob": "mobs",
+    "map": "maps",
+    "npc": "npcs",
+    "quest": "quests",
+    "skill": "skills",
+}
+
+
+def ensure_search_index(conn: sqlite3.Connection) -> bool:
+    """검색 인덱스가 현재 공개 엔티티 테이블과 어긋나면 자동 재구축한다."""
+    expected = {
+        entity_type: conn.execute(f"SELECT COUNT(*) FROM {table}").fetchone()[0]
+        for entity_type, table in SEARCH_INDEX_TABLES.items()
+    }
+    actual = {
+        row[0]: row[1]
+        for row in conn.execute(
+            "SELECT entity_type, COUNT(*) FROM search_index GROUP BY entity_type"
+        ).fetchall()
+    }
+    counts_mismatch = (
+        any(actual.get(entity_type, 0) != count for entity_type, count in expected.items())
+        or any(entity_type not in expected for entity_type in actual)
+    )
+    id_mismatch = any(
+        conn.execute(
+            f"""
+            SELECT
+                (SELECT COUNT(*) FROM search_index s
+                 WHERE s.entity_type = ?
+                   AND NOT EXISTS (SELECT 1 FROM {table} e WHERE e.id = s.entity_id))
+              + (SELECT COUNT(*) FROM {table} e
+                 WHERE NOT EXISTS (
+                     SELECT 1 FROM search_index s
+                     WHERE s.entity_type = ? AND s.entity_id = e.id
+                 ))
+            """,
+            (entity_type, entity_type),
+        ).fetchone()[0] > 0
+        for entity_type, table in SEARCH_INDEX_TABLES.items()
+    )
+    if counts_mismatch or id_mismatch:
+        rebuild_search_index(conn)
+        return True
+    return False
+
+
 def rebuild_search_index(conn: sqlite3.Connection):
-    """전문검색 인덱스 재구축 (영문명 포함)"""
+    """상세 페이지가 존재하는 공개 엔티티의 전문검색 인덱스를 재구축한다."""
     conn.execute("DELETE FROM search_index")
 
     # 영문명을 content에 포함시키기 위한 서브쿼리 헬퍼
@@ -791,28 +841,49 @@ def rebuild_search_index(conn: sqlite3.Connection):
             || {en_name_sub.format(etype='npc', table='npcs')}
         FROM npcs
     """)
-    conn.execute(f"""
+    quest_columns = {
+        row[1] for row in conn.execute("PRAGMA table_info(quests)").fetchall()
+    }
+    quest_content_columns = [
+        column
+        for column in (
+            "description",
+            "area",
+            "start_location",
+            "quest_conditions",
+            "item_reward",
+            "extra_reward",
+            "note",
+            "tip",
+            "category",
+            "prerequisite_quests",
+            "required_items",
+            "required_mobs",
+            "completion_items",
+            "npc_dialogue",
+            "npc_start",
+            "npc_end",
+            "rewards",
+        )
+        if column in quest_columns
+    ]
+    quest_content_sql = " || ' ' || ".join(
+        f"COALESCE({column}, '')" for column in quest_content_columns
+    ) or "''"
+    conn.execute(
+        f"""
         INSERT INTO search_index(entity_type, entity_id, name, content)
         SELECT 'quest', id, name,
-            COALESCE(description,'') || ' '
+            {quest_content_sql} || ' '
             || {en_name_sub.format(etype='quest', table='quests')}
         FROM quests
-    """)
-    conn.execute("""
-        INSERT INTO search_index(entity_type, entity_id, name, content)
-        SELECT 'blog', id, title, COALESCE(content,'')
-        FROM blog_posts
-    """)
+        """
+    )
     conn.execute("""
         INSERT INTO search_index(entity_type, entity_id, name, content)
         SELECT 'skill', id, skill_name,
             COALESCE(job_class,'') || ' ' || COALESCE(job_branch,'') || ' '
             || COALESCE(description,'')
         FROM skills
-    """)
-    conn.execute("""
-        INSERT INTO search_index(entity_type, entity_id, name, content)
-        SELECT 'news', id, title, COALESCE(content,'')
-        FROM maple_land_posts
     """)
     conn.commit()

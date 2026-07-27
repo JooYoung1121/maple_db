@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useEffect, useCallback } from "react";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell, Legend,
@@ -88,26 +87,17 @@ function QualityBar({ label, count, total, pct, good }: { label: string; count: 
 
 /* ─── Main Page ─── */
 export default function AdminDataPage() {
-  return (
-    <Suspense fallback={
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-4 border-maple border-t-transparent" />
-      </div>
-    }>
-      <AdminDataContent />
-    </Suspense>
-  );
+  return <AdminDataContent />;
 }
 
 function AdminDataContent() {
-  const searchParams = useSearchParams();
-  const pw = searchParams.get("pw") || "";
-
+  const [passwordInput, setPasswordInput] = useState("");
+  const [pw, setPw] = useState("");
   const [authed, setAuthed] = useState(false);
   const [error, setError] = useState("");
   const [tab, setTab] = useState<"quests" | "data" | "table">("quests");
   const [stats, setStats] = useState<DashboardStats | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // Table state
   const [quests, setQuests] = useState<QuestRow[]>([]);
@@ -121,29 +111,31 @@ function AdminDataContent() {
   const [categories, setCategories] = useState<string[]>([]);
   const perPage = 50;
 
-  // Auth check
-  useEffect(() => {
-    if (!pw) {
-      setError("URL에 ?pw=비밀번호 파라미터가 필요합니다.");
-      setLoading(false);
-      return;
-    }
+  async function handleLogin(event: React.FormEvent) {
+    event.preventDefault();
+    if (!passwordInput) return;
+    setLoading(true);
+    setError("");
     fetch(`${API_BASE}/api/admin/verify`, {
       method: "POST",
-      headers: { "X-Admin-Password": pw },
+      headers: { "X-Admin-Password": passwordInput },
     })
       .then((r) => {
         if (!r.ok) throw new Error("비밀번호가 틀립니다.");
+        setPw(passwordInput);
+        setPasswordInput("");
         setAuthed(true);
       })
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
-  }, [pw]);
+  }
 
   // Fetch dashboard stats
   useEffect(() => {
     if (!authed) return;
-    fetch(`${API_BASE}/api/export/dashboard-stats?pw=${encodeURIComponent(pw)}`)
+    fetch(`${API_BASE}/api/export/dashboard-stats`, {
+      headers: { "X-Admin-Password": pw },
+    })
       .then((r) => r.json())
       .then(setStats)
       .catch(() => {});
@@ -153,14 +145,16 @@ function AdminDataContent() {
   const fetchQuests = useCallback(() => {
     if (!authed) return;
     const params = new URLSearchParams({
-      pw, page: String(questPage), per_page: String(perPage),
+      page: String(questPage), per_page: String(perPage),
     });
     if (questSearch) params.set("q", questSearch);
     if (questArea) params.set("area", questArea);
     if (questCategory) params.set("category", questCategory);
     if (questMapleland !== "all") params.set("is_mapleland", questMapleland);
 
-    fetch(`${API_BASE}/api/export/all-quests?${params}`)
+    fetch(`${API_BASE}/api/export/all-quests?${params}`, {
+      headers: { "X-Admin-Password": pw },
+    })
       .then((r) => r.json())
       .then((data) => {
         setQuests(data.quests || []);
@@ -177,23 +171,45 @@ function AdminDataContent() {
     if (tab === "table") fetchQuests();
   }, [tab, fetchQuests]);
 
-  // Loading / error states
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-4 border-maple border-t-transparent" />
-      </div>
-    );
+  async function downloadProtected(path: string, filename: string) {
+    setError("");
+    const response = await fetch(`${API_BASE}${path}`, {
+      headers: { "X-Admin-Password": pw },
+    });
+    if (!response.ok) {
+      setError("다운로드에 실패했습니다. 다시 로그인해 주세요.");
+      return;
+    }
+    const url = URL.createObjectURL(await response.blob());
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = filename;
+    anchor.click();
+    URL.revokeObjectURL(url);
   }
 
-  if (error || !authed) {
+  if (!authed) {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
-        <div className="text-center">
+        <form onSubmit={handleLogin} className="pixel-panel w-full max-w-sm p-6 text-center">
           <div className="text-6xl mb-4">🔒</div>
           <h1 className="text-xl font-bold font-pixel text-ink mb-2">접근 제한</h1>
-          <p className="text-dim">{error || "인증이 필요합니다."}</p>
-        </div>
+          <p className="text-sm text-dim mb-5">관리자 비밀번호는 주소에 남기지 않고 요청 헤더로만 전송됩니다.</p>
+          <label htmlFor="admin-data-password" className="sr-only">관리자 비밀번호</label>
+          <input
+            id="admin-data-password"
+            type="password"
+            value={passwordInput}
+            onChange={(event) => setPasswordInput(event.target.value)}
+            autoComplete="current-password"
+            className="pixel-input w-full px-3 py-2 mb-3"
+            placeholder="관리자 비밀번호"
+          />
+          {error && <p role="alert" className="text-sm text-mush mb-3">{error}</p>}
+          <button type="submit" className="pixel-btn w-full px-4 py-2" disabled={loading}>
+            {loading ? "확인 중..." : "로그인"}
+          </button>
+        </form>
       </div>
     );
   }
@@ -209,18 +225,20 @@ function AdminDataContent() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold font-pixel text-ink">관리자 데이터 대시보드</h1>
         <div className="flex gap-2">
-          <a
-            href={`${API_BASE}/api/export/quests?format=xlsx&pw=${encodeURIComponent(pw)}`}
+          <button
+            type="button"
+            onClick={() => downloadProtected("/api/export/quests?format=xlsx", "quests_export.xlsx")}
             className="inline-flex items-center gap-2 px-3 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700"
           >
             <DownloadIcon /> 퀘스트 엑셀
-          </a>
-          <a
-            href={`${API_BASE}/api/export/all-data?pw=${encodeURIComponent(pw)}`}
+          </button>
+          <button
+            type="button"
+            onClick={() => downloadProtected("/api/export/all-data", "all_data_export.xlsx")}
             className="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700"
           >
             <DownloadIcon /> 전체 데이터 엑셀
-          </a>
+          </button>
         </div>
       </div>
 
@@ -263,9 +281,10 @@ function AdminDataContent() {
           onAreaChange={(v) => { setQuestArea(v); setQuestPage(1); }}
           onCategoryChange={(v) => { setQuestCategory(v); setQuestPage(1); }}
           onMaplelandChange={(v) => { setQuestMapleland(v); setQuestPage(1); }}
-          pw={pw}
+          onDownload={() => downloadProtected("/api/export/quests?format=xlsx", "quests_export.xlsx")}
         />
       )}
+      {error && <p role="alert" className="text-sm text-mush">{error}</p>}
       {!stats && tab !== "table" && (
         <div className="flex items-center justify-center py-20">
           <div className="animate-spin rounded-full h-8 w-8 border-4 border-maple border-t-transparent" />
@@ -428,7 +447,7 @@ function DataOverview({ stats }: { stats: DashboardStats }) {
 /* ─── Tab 3: Quest Table ─── */
 function QuestTable({
   quests, total, page, perPage, search, area, category: difficulty, mapleland,
-  areas, categories: difficulties, onPageChange, onSearchChange, onAreaChange, onCategoryChange: onDifficultyChange, onMaplelandChange, pw,
+  areas, categories: difficulties, onPageChange, onSearchChange, onAreaChange, onCategoryChange: onDifficultyChange, onMaplelandChange, onDownload,
 }: {
   quests: QuestRow[];
   total: number;
@@ -445,7 +464,7 @@ function QuestTable({
   onAreaChange: (v: string) => void;
   onCategoryChange: (v: string) => void;
   onMaplelandChange: (v: string) => void;
-  pw: string;
+  onDownload: () => void;
 }) {
   const totalPages = Math.ceil(total / perPage);
 
@@ -517,12 +536,13 @@ function QuestTable({
             <option value="0">비메이플랜드</option>
           </select>
         </div>
-        <a
-          href={`${API_BASE}/api/export/quests?format=xlsx&pw=${encodeURIComponent(pw)}`}
+        <button
+          type="button"
+          onClick={onDownload}
           className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700"
         >
           <DownloadIcon /> 엑셀 다운로드
-        </a>
+        </button>
       </div>
 
       {/* Result count */}

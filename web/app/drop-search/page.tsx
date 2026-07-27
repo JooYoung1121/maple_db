@@ -10,6 +10,12 @@ interface DropSource {
   mob_name: string;
   mob_name_kr?: string | null;
   drop_rate: number | null;
+  spawn_maps?: {
+    map_id: number;
+    map_name: string;
+    map_name_kr?: string | null;
+    spawn_name?: string | null;
+  }[];
 }
 
 export default function DropSearchPage() {
@@ -50,9 +56,9 @@ export default function DropSearchPage() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-2 font-pixel text-ink">드롭 검색</h1>
+      <h1 className="text-2xl font-bold mb-2 font-pixel text-ink">🔎 아이템 획득 경로</h1>
       <p className="text-dim mb-6">
-        아이템 이름을 입력하면 해당 아이템을 드롭하는 몬스터를 찾아줍니다
+        아이템을 고르면 드롭 몬스터와 그 몬스터가 출현하는 맵까지 한 번에 이어서 보여줍니다.
       </p>
 
       {/* 검색 입력 */}
@@ -93,6 +99,7 @@ export default function DropSearchPage() {
                 <div>
                   <div className="font-medium">{item.name_kr || item.name}</div>
                   <div className="text-xs text-dim">
+                    <span className="mr-2 text-dim">ID {item.id}</span>
                     {item.category && <span className="mr-2">{item.category}</span>}
                     {item.level_req > 0 && <span>Lv.{item.level_req}</span>}
                   </div>
@@ -140,33 +147,56 @@ export default function DropSearchPage() {
               검색 중...
             </div>
           ) : dropSources.length === 0 ? (
-            <div className="pixel-panel text-center py-12 text-dim">
-              드롭 정보가 없습니다
+            <div className="pixel-panel text-center py-10 text-dim">
+              <p>등록된 드롭 정보가 없습니다.</p>
+              <p className="text-xs mt-2">퀘스트 보상이나 메이커 제작 아이템일 수 있어요.</p>
+              <div className="mt-4 flex justify-center gap-2">
+                <Link href="/quests" className="pixel-card px-3 py-2 text-sm">퀘스트 검색</Link>
+                <Link href="/maker" className="pixel-card px-3 py-2 text-sm">메이커 확인</Link>
+              </div>
             </div>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-3">
               {dropSources.map((mob) => (
-                <Link
-                  key={mob.mob_id}
-                  href={`/mobs/${mob.mob_id}`}
-                  className="pixel-card flex items-center justify-between px-4 py-3"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">👾</span>
-                    <span className="font-medium">{mob.mob_name_kr || mob.mob_name}</span>
+                <article key={mob.mob_id} className="pixel-card px-4 py-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <Link href={`/mobs/${mob.mob_id}`} className="flex items-center gap-3 hover:text-maple">
+                      <span className="text-2xl" aria-hidden>👾</span>
+                      <span>
+                        <span className="font-medium block">{mob.mob_name_kr || mob.mob_name}</span>
+                        <span className="text-[10px] text-dim">몬스터 ID {mob.mob_id}</span>
+                      </span>
+                    </Link>
+                    {mob.drop_rate !== null && (
+                      <span className={`text-sm font-mono px-2 py-1 rounded ${
+                        mob.drop_rate >= 0.1
+                          ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300"
+                          : mob.drop_rate >= 0.01
+                            ? "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300"
+                            : "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300"
+                      }`}>
+                        {(mob.drop_rate * 100).toFixed(2)}%
+                      </span>
+                    )}
                   </div>
-                  {mob.drop_rate !== null && (
-                    <span className={`text-sm font-mono px-2 py-1 rounded ${
-                      mob.drop_rate >= 0.1
-                        ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300"
-                        : mob.drop_rate >= 0.01
-                          ? "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300"
-                          : "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300"
-                    }`}>
-                      {(mob.drop_rate * 100).toFixed(2)}%
-                    </span>
+                  {(mob.spawn_maps || []).length > 0 ? (
+                    <div className="mt-3 pt-3 border-t border-edge/60">
+                      <p className="text-[11px] text-dim mb-2">출현 맵 {(mob.spawn_maps || []).length}곳</p>
+                      <div className="flex flex-wrap gap-2">
+                        {(mob.spawn_maps || []).slice(0, 6).map((map) => (
+                          <Link key={map.map_id} href={`/maps/${map.map_id}`} className="px-2 py-1 text-xs bg-surface2 border border-edge hover:text-maple">
+                            🗺️ {map.map_name_kr || map.spawn_name || map.map_name}
+                          </Link>
+                        ))}
+                        {(mob.spawn_maps || []).length > 6 && (
+                          <span className="px-2 py-1 text-xs text-dim">+{(mob.spawn_maps || []).length - 6}곳</span>
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="mt-3 pt-3 border-t border-edge/60 text-xs text-dim">출현 맵 정보 없음 · 몬스터 상세에서 추가 정보를 확인하세요.</p>
                   )}
-                </Link>
+                </article>
               ))}
             </div>
           )}
@@ -177,7 +207,7 @@ export default function DropSearchPage() {
       {!selectedItem && suggestions.length === 0 && !query && (
         <div className="text-center py-16 text-dim">
           <div className="text-5xl mb-4">🔍</div>
-          <p className="text-lg">아이템을 검색해서 드롭 몬스터를 찾아보세요</p>
+          <p className="text-lg">아이템 → 몬스터 → 출현 맵 순서로 찾아보세요</p>
           <div className="mt-6 flex flex-wrap justify-center gap-2">
             {["자쿰 투구", "메이플 클로", "골든 크로우", "아다만티움 방패"].map((name) => (
               <button

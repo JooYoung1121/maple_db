@@ -4,8 +4,16 @@ const path = require("path");
 const Database = require("better-sqlite3");
 
 const ROOT = path.join(__dirname, "..");
-const DB_PATH = process.argv[2] || path.join(ROOT, "data", "maple.db");
-const OUT_PATH = path.join(ROOT, "data", "data_quality_report.json");
+const args = process.argv.slice(2);
+const checkOnly = args.includes("--check");
+const outIndex = args.indexOf("--out");
+const dbArg = args.find((arg, index) =>
+  !arg.startsWith("--") && (outIndex < 0 || index !== outIndex + 1)
+);
+const DB_PATH = dbArg || path.join(ROOT, "data", "maple.db");
+const OUT_PATH = outIndex >= 0 && args[outIndex + 1]
+  ? path.resolve(args[outIndex + 1])
+  : path.join(ROOT, "data", "data_quality_report.json");
 
 function nowIso() {
   return new Date().toISOString();
@@ -310,6 +318,7 @@ const report = {
   relations: {},
   anomalies: {},
   crosscheck: {},
+  search: {},
 };
 
 for (const table of ["items", "mobs", "maps", "npcs", "quests", "skills", "mob_drops", "mob_spawns"]) {
@@ -440,6 +449,64 @@ if (tableExists(db, "skills")) {
   );
 }
 
+if (tableExists(db, "entity_names_en")) {
+  report.anomalies.display_name_variants = safeRows(
+    db,
+    `SELECT entity_type, name_en as display_name, COUNT(*) as variants
+     FROM entity_names_en
+     WHERE source='kms'
+     GROUP BY entity_type, name_en
+     HAVING COUNT(*) > 1
+     ORDER BY variants DESC, entity_type, display_name`
+  );
+}
+
+if (tableExists(db, "weekly_news_issues")) {
+  report.anomalies.duplicate_weekly_issues = safeRows(
+    db,
+    `SELECT week_start, COUNT(*) as copies
+     FROM weekly_news_issues
+     GROUP BY week_start
+     HAVING COUNT(*) > 1`
+  );
+}
+
+if (tableExists(db, "search_index")) {
+  const allowedTypes = ["item", "mob", "map", "npc", "quest", "skill"];
+  const tableByType = {
+    item: ["items", "id"],
+    mob: ["mobs", "id"],
+    map: ["maps", "id"],
+    npc: ["npcs", "id"],
+    quest: ["quests", "id"],
+    skill: ["skills", "id"],
+  };
+  report.search.counts_by_type = safeRows(
+    db,
+    "SELECT entity_type, COUNT(*) as count FROM search_index GROUP BY entity_type ORDER BY entity_type"
+  );
+  report.search.invalid_types = safeRows(
+    db,
+    `SELECT entity_type, COUNT(*) as count
+     FROM search_index
+     WHERE entity_type NOT IN (${allowedTypes.map(() => "?").join(",")})
+     GROUP BY entity_type`,
+    allowedTypes
+  );
+  report.search.orphans = [];
+  for (const [entityType, [table, idColumn]] of Object.entries(tableByType)) {
+    const orphanCount = safeGet(
+      db,
+      `SELECT COUNT(*) as count
+       FROM search_index s
+       WHERE s.entity_type=?
+         AND NOT EXISTS (SELECT 1 FROM ${table} e WHERE e.${idColumn}=s.entity_id)`,
+      [entityType]
+    )?.count ?? 0;
+    if (orphanCount > 0) report.search.orphans.push({ entity_type: entityType, count: orphanCount });
+  }
+}
+
 report.crosscheck.mobs_vs_wz83 = compareMobWithWz(db);
 report.crosscheck.mobs_vs_mapleland_reference = compareMobWithMapleLandReference(db);
 report.crosscheck.items_vs_mapleland_reference = compareEntityWithMapleLandReference(
@@ -475,10 +542,14 @@ report.crosscheck.quests_vs_mapleland_reference = compareQuestsWithMapleLandRefe
 
 db.close();
 
-fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
-fs.writeFileSync(OUT_PATH, JSON.stringify(report, null, 2));
+if (!checkOnly) {
+  fs.mkdirSync(path.dirname(OUT_PATH), { recursive: true });
+  fs.writeFileSync(OUT_PATH, JSON.stringify(report, null, 2));
+  console.log(`Data quality report written: ${OUT_PATH}`);
+} else {
+  console.log("Data quality check completed (report file unchanged)");
+}
 
-console.log(`Data quality report written: ${OUT_PATH}`);
 console.log(`Mobs: ${report.counts.mobs?.visible ?? 0} visible / ${report.counts.mobs?.total ?? 0} total`);
 console.log(`Items: ${report.counts.items?.visible ?? 0} visible / ${report.counts.items?.total ?? 0} total`);
 console.log(`Quests: ${report.counts.quests?.total ?? 0}`);
@@ -501,4 +572,14 @@ for (const [label, key] of [
 if (report.crosscheck.quests_vs_mapleland_reference) {
   const entry = report.crosscheck.quests_vs_mapleland_reference;
   console.log(`MapleLand quest reference: db_name_not_in_ref=${entry.db_name_not_in_reference}, missing_name_in_db=${entry.reference_name_missing_in_db}, db=${entry.db_count}, ref=${entry.reference_count}`);
+}
+
+const criticalFailures = [
+  ...(report.search.invalid_types || []).map((row) => `invalid search type ${row.entity_type}: ${row.count}`),
+  ...(report.search.orphans || []).map((row) => `orphan search ${row.entity_type}: ${row.count}`),
+  ...(report.anomalies.duplicate_weekly_issues || []).map((row) => `duplicate weekly issue ${row.week_start}: ${row.copies}`),
+];
+if (criticalFailures.length > 0) {
+  console.error(`Critical integrity failures:\n- ${criticalFailures.join("\n- ")}`);
+  if (checkOnly) process.exitCode = 1;
 }

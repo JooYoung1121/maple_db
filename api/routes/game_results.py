@@ -88,7 +88,7 @@ def create_game_result(body: GameResultCreate):
 
 @router.delete("/game-results/{result_id}")
 def delete_game_result(result_id: int, request: Request):
-    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "1004")
+    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "")
     provided_pw = request.headers.get("X-Admin-Password", "")
     if provided_pw != admin_pw:
         raise HTTPException(status_code=403, detail="비밀번호가 틀렸습니다.")

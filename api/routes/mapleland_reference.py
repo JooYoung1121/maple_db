@@ -16,6 +16,13 @@ ENTITY_TO_KIND = {
     "quest": "quests",
 }
 
+INVALID_DISPLAY_NAMES = {"스트링 없음", "string not found", "null", "none"}
+
+
+def _valid_display_name(value: object) -> bool:
+    name = str(value or "").strip()
+    return bool(name) and name.lower() not in INVALID_DISPLAY_NAMES
+
 
 @lru_cache(maxsize=1)
 def _reference() -> dict:
@@ -30,6 +37,8 @@ def mapleland_ids(kind: str) -> tuple[int, ...]:
     records = _reference().get("entities", {}).get(kind, {}).get("records", [])
     ids = []
     for row in records:
+        if kind == "npcs" and not _valid_display_name(row.get("name_kr")):
+            continue
         try:
             ids.append(int(row["id"]))
         except Exception:
@@ -43,7 +52,7 @@ def mapleland_names(kind: str) -> tuple[str, ...]:
     names = []
     for row in records:
         name = str(row.get("name_kr") or "").strip()
-        if name:
+        if _valid_display_name(name):
             names.append(name)
     return tuple(sorted(set(names)))
 
@@ -55,7 +64,7 @@ def mapleland_name_kr_map(kind: str) -> dict[int, str]:
     for row in records:
         try:
             name = str(row.get("name_kr") or "").strip()
-            if name:
+            if _valid_display_name(name):
                 out[int(row["id"])] = name
         except Exception:
             continue

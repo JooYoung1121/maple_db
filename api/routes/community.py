@@ -241,7 +241,7 @@ def add_poll_option(poll_id: int, body: PollAddOption):
 
 @router.delete("/polls/{poll_id}")
 def delete_poll(poll_id: int, request: Request):
-    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "1004")
+    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "")
     if request.headers.get("X-Admin-Password", "") != admin_pw:
         raise HTTPException(status_code=403, detail="비밀번호가 틀립니다.")
 
