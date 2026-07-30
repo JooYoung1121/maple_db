@@ -46,11 +46,13 @@ export const SITE_SECTIONS: SiteSection[] = [
     label: "계산기",
     icon: "🧮",
     items: [
+      { href: "/damage", label: "스공 계산기", homeLabel: "스공 계산기", icon: "🧮", description: "스탯·메용·도핑 반영" },
       { href: "/scroll", label: "주문서 계산기", homeLabel: "주문서", icon: "📖", description: "강화 시뮬레이터" },
       { href: "/exp", label: "경험치 계산기", homeLabel: "경험치", icon: "📈", description: "레벨업 계산" },
       { href: "/nhit", label: "엔방컷 계산기", homeLabel: "엔방컷", icon: "⚔️", description: "젠컷 계산" },
       { href: "/skill-sim", label: "스킬 시뮬레이터", icon: "✨", description: "직업별 스킬 빌드 설계" },
       { href: "/gear-sim", label: "장비 세팅", icon: "🧰", description: "장비 조합 스탯 · 데미지 시뮬" },
+      { href: "/fee", label: "공대 분배 계산기", homeLabel: "공대 분배", icon: "🪙", description: "보스 드랍 아이템 N빵 정산" },
     ],
   },
   {
@@ -108,7 +110,6 @@ export const SITE_SECTIONS: SiteSection[] = [
     label: "유물창고",
     icon: "🏺",
     items: [
-      { href: "/fee", label: "수수료 계산기", icon: "🏺", description: "1.0 구간제 수수료작의 추억" },
       { href: "/tespia-bosses", label: "테스피아 2.0 보스", icon: "🏺", description: "2.0 오픈 전 미리보기 아카이브" },
     ],
   },
