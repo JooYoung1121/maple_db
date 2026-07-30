@@ -112,6 +112,7 @@ python -c "from crawler.db import init_db; init_db()" 2>/dev/null || true
 
 # 정보공유 게시판 관리용 가이드 글 갱신 (--update: 시드 글만 최신본으로, 유저 글은 미접촉)
 python scripts/seed_info_board_quest_guide.py --update 2>&1 || true
+python scripts/seed_info_board_leafre_skyquest.py --update 2>&1 || true
 
 if [ -f "/app/data/local_news_summaries.json" ]; then
   python -c "
