@@ -1,6 +1,9 @@
 "use client";
 
+import Link from "next/link";
+
 import { APP_VERSION } from "@/lib/version";
+import { featureForPath } from "@/lib/siteFeatures";
 
 const VERSION = APP_VERSION;
 
@@ -73,6 +76,25 @@ export default function VersionPage() {
                 <span className="text-xs text-dim ml-auto">{entry.date}</span>
               </div>
               <p className="text-sm font-medium text-maple">{entry.title}</p>
+
+              {/* 바뀐 페이지 바로가기 — 경로만 저장하고 이름·아이콘은 메뉴 정의에서 가져온다 */}
+              {entry.pages && entry.pages.length > 0 && (
+                <div className="flex flex-wrap gap-1.5">
+                  {entry.pages.map((href) => {
+                    const feature = featureForPath(href);
+                    return (
+                      <Link
+                        key={href}
+                        href={href}
+                        className="inline-flex items-center gap-1 rounded-full border border-edge bg-surface px-2.5 py-1 text-xs text-dim transition-colors hover:border-maple hover:text-maple"
+                      >
+                        {feature?.icon && <span aria-hidden>{feature.icon}</span>}
+                        <span>{feature?.label ?? href}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
 
               {/* Feature categories */}
               <div className="space-y-4">
