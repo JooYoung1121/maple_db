@@ -4,15 +4,39 @@ export interface ChangelogEntry {
   date: string;
   type: "major" | "minor" | "patch";
   title: string;
+  /**
+   * 이 버전에서 바뀐 페이지 경로. 버전 페이지가 siteFeatures 의 featureForPath 로
+   * 아이콘·이름을 찾아 바로가기 칩으로 렌더한다. (등록되지 않은 경로는 경로 그대로 표시)
+   * 여기엔 경로만 두고 라벨은 쓰지 않는다 — 메뉴명이 바뀌어도 자동으로 따라간다.
+   */
+  pages?: string[];
   features: { category: string; items: string[] }[];
 }
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.72.0",
+    date: "2026-07-30",
+    type: "minor",
+    title: "변경 이력에 페이지 바로가기 — 어디가 바뀌었는지 한눈에",
+    pages: ["/version"],
+    features: [
+      {
+        category: "버전",
+        items: [
+          "각 버전 카드에 그 버전에서 바뀐 페이지 바로가기 칩 추가 — 아이콘·이름을 눌러 해당 페이지로 바로 이동",
+          "칩 이름은 사이드바 메뉴 정의(siteFeatures)에서 자동으로 가져와, 메뉴명이 바뀌어도 따로 손댈 필요 없음",
+          "최근 15개 버전(v3.58.0~v3.72.0)에 바뀐 페이지를 표기 — 사이드바 개편처럼 특정 페이지가 없는 버전은 생략",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.71.0",
     date: "2026-07-30",
     type: "minor",
     title: "리프레 드래곤 라이더 연계 선반영 — 플라잉 스킬 공략",
+    pages: ["/quests", "/npcs", "/maps", "/items", "/guild/info"],
     features: [
       {
         category: "퀘스트",
@@ -38,6 +62,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: "2026-07-30",
     type: "minor",
     title: "스공 계산기 — 메용·도핑·장비 스탯까지 한 번에",
+    pages: ["/damage", "/gear-sim", "/nhit"],
     features: [
       {
         category: "계산기",
@@ -56,6 +81,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: "2026-07-30",
     type: "minor",
     title: "마이페이지 통합 — 계정·캐릭터·즐겨찾기 원스톱",
+    pages: ["/me"],
     features: [
       {
         category: "마이",
@@ -72,6 +98,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: "2026-07-27",
     type: "minor",
     title: "내 메랜 개편 — 세부 직업·즐겨찾기 사이드바·계정 연동",
+    pages: ["/me"],
     features: [
       {
         category: "내 메랜",
@@ -137,6 +164,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: "2026-07-27",
     type: "minor",
     title: "마이페이지 — 프로필·닉네임·계정 허브",
+    pages: ["/me"],
     features: [
       {
         category: "계정",
@@ -154,6 +182,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: "2026-07-27",
     type: "minor",
     title: "브레인 성장 예측 + 주간 메랜 댓글",
+    pages: ["/brain", "/weekly"],
     features: [
       {
         category: "브레인",
@@ -177,6 +206,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: "2026-07-27",
     type: "minor",
     title: "브레인 — 나만의 지도: 직접 연결·저장",
+    pages: ["/brain"],
     features: [
       {
         category: "브레인",
@@ -194,6 +224,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: "2026-07-27",
     type: "minor",
     title: "브레인 캐릭터 고도화 + 길드원 출석 게이트",
+    pages: ["/brain", "/guild/attendance"],
     features: [
       {
         category: "브레인",
@@ -219,6 +250,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: "2026-07-27",
     type: "minor",
     title: "디스코드 로그인 — 계정 · 길드원 연동 · 개인화 저장",
+    pages: ["/me"],
     features: [
       {
         category: "계정",
@@ -236,6 +268,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: "2026-07-27",
     type: "patch",
     title: "메랜 브레인 온보딩 + 최상위 메뉴 분리",
+    pages: ["/brain"],
     features: [
       {
         category: "브레인",
@@ -252,6 +285,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: "2026-07-27",
     type: "minor",
     title: "메랜 브레인 — 캐릭터 중심 지식 그래프",
+    pages: ["/brain"],
     features: [
       {
         category: "신규 페이지",
@@ -269,6 +303,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: "2026-07-27",
     type: "minor",
     title: "사이트 전면 점검 — 검색·탐색·개인화·접근성",
+    pages: ["/items", "/mobs", "/maps", "/quests", "/drop-search"],
     features: [
       {
         category: "검색·데이터",
@@ -301,6 +336,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: "2026-07-26",
     type: "minor",
     title: "주간 메랜 과월호·발행 안전성 개편",
+    pages: ["/weekly"],
     features: [
       {
         category: "주간 메랜",
@@ -318,6 +354,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: "2026-07-24",
     type: "patch",
     title: "카오스 자쿰 공략 갱신 — 7/24 신규 상태이상 3종",
+    pages: ["/guild/info"],
     features: [
       {
         category: "가이드",
@@ -334,6 +371,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: "2026-07-24",
     type: "minor",
     title: "7/24 패치 반영 — 신규 파티퀘스트 2종",
+    pages: ["/maps", "/quests", "/pq"],
     features: [
       {
         category: "파티퀘스트",
