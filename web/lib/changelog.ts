@@ -9,6 +9,22 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.69.0",
+    date: "2026-07-30",
+    type: "minor",
+    title: "마이페이지 통합 — 계정·캐릭터·즐겨찾기 원스톱",
+    features: [
+      {
+        category: "마이",
+        items: [
+          "내 메랜을 마이페이지(/me)로 통합 — 계정(프로필·표시 닉네임·로그아웃) + 캐릭터 설정 + 출석 위젯 + 추천 사냥터 + 즐겨찾기 + 최근 기능이 한 페이지에",
+          "비로그인도 캐릭터·즐겨찾기 사용 가능 (상단에 로그인 안내만 표시)",
+          "/my-maple 은 /me 로 자동 이동 (기존 링크 호환), 통합검색·홈 링크도 정리",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.68.0",
     date: "2026-07-27",
     type: "minor",

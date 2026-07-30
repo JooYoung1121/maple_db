@@ -10,7 +10,7 @@ export default function SiteActivityTracker() {
 
   useEffect(() => {
     const feature = featureForPath(pathname);
-    if (feature && feature.href !== "/my-maple") {
+    if (feature && feature.href !== "/me") {
       recordRecentFeature({ href: feature.href, label: feature.homeLabel || feature.label });
     }
   }, [pathname]);

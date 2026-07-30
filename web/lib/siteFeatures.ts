@@ -24,8 +24,7 @@ export const SITE_SECTIONS: SiteSection[] = [
     label: "마이",
     icon: "🍄",
     items: [
-      { href: "/me", label: "마이페이지", icon: "🍄", description: "프로필·닉네임·계정 설정" },
-      { href: "/my-maple", label: "내 메랜", icon: "🍁", description: "내 레벨·목표에 맞춘 바로가기" },
+      { href: "/me", label: "마이페이지", icon: "🍄", description: "계정·캐릭터·즐겨찾기·추천을 한 곳에서" },
     ],
   },
   {

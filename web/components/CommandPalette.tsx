@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import SearchBar from "@/components/SearchBar";
 
 const QUICK_LINKS = [
-  { href: "/my-maple", label: "🍁 내 메랜" },
+  { href: "/me", label: "🍄 마이페이지" },
   { href: "/drop-search", label: "🔎 획득 경로" },
   { href: "/weekly", label: "🗞️ 주간 메랜" },
   { href: "/events", label: "🗂️ 이벤트" },

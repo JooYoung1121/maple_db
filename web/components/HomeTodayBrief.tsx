@@ -62,7 +62,7 @@ export default function HomeTodayBrief() {
             {profile.nickname ? `${profile.nickname} · Lv.${profile.level} · ${GOAL_LABELS[profile.goal]}` : "내 캐릭터를 설정하면 목표에 맞춰 바뀝니다."}
           </p>
         </div>
-        <Link href="/my-maple" className="text-xs text-dim hover:text-maple">내 메랜 설정 →</Link>
+        <Link href="/me" className="text-xs text-dim hover:text-maple">내 메랜 설정 →</Link>
       </div>
       <div className="grid sm:grid-cols-3 gap-3">
         <Link href={event ? `/events/${event.slug}` : "/events"} className="pixel-card p-4">
@@ -75,7 +75,7 @@ export default function HomeTodayBrief() {
           <strong className="block text-sm mt-2">{weekly ? `제${weekly.issue_no}호` : "이번 주 소식"}</strong>
           <span className="block text-xs text-dim mt-1 line-clamp-1">{weekly?.title || "공식·커뮤니티 이슈 모아보기"}</span>
         </Link>
-        <Link href={recent[0]?.href || favorite?.href || goalFeature?.href || "/my-maple"} className="pixel-card p-4">
+        <Link href={recent[0]?.href || favorite?.href || goalFeature?.href || "/me"} className="pixel-card p-4">
           <span className="font-pixel text-[11px] text-slime">{recent[0] ? "이어서 보기" : "목표 바로가기"}</span>
           <strong className="block text-sm mt-2">{recent[0]?.label || favorite?.homeLabel || favorite?.label || goalFeature?.label || "내 메랜 설정"}</strong>
           <span className="block text-xs text-dim mt-1">{goalFeature?.description || "자주 쓰는 기능을 모아보세요"}</span>
