@@ -139,36 +139,22 @@ function parseMeso(s: string): number {
 }
 
 export default function FeePage() {
-  const [activeTab, setActiveTab] = useState<Tab>("calc");
+  const [activeTab, setActiveTab] = useState<Tab>("raid");
   const [recordsRefresh, setRecordsRefresh] = useState(0);
 
   const onSaved = () => setRecordsRefresh((n) => n + 1);
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-1 font-pixel">수수료 계산기</h1>
+      <h1 className="text-2xl font-bold mb-1 font-pixel">🪙 공대 분배 계산기</h1>
       <p className="text-sm text-dim mb-4">
-        거래 수수료 계산 · 공대 분배금 계산
+        보스 드랍 아이템의 판매 수수료를 빼고 파티원별 정산금을 계산하세요.
       </p>
-      <RelicBanner
-        reason="2.0부터 모든 거래 수수료가 금액과 무관하게 5% 정률로 통일되면서, 구간제(0.8~7%) 시절 '수수료작'을 도와주던 이 계산기는 임무를 다했습니다."
-        alternative="공대 분배금(N빵) 계산 용도로는 여전히 쓸 수 있어 그대로 보존합니다."
-      />
-
-      {/* 2.0 수수료 정책 안내 */}
-      <div className="pixel-panel p-3 mb-6 text-sm flex items-start gap-2">
-        <span className="text-base shrink-0">🪙</span>
-        <span className="text-dim">
-          <span className="font-pixel text-maple">2.0 거래 수수료</span> — 2026.6.30 업데이트부터 거래소·택배 등{" "}
-          <span className="text-ink font-medium">모든 거래 수수료가 금액과 무관하게 5%로 통일</span>되었습니다.
-          정률이라 분할(수수료작) 절약 효과는 사라졌습니다. (직접 거래 제외)
-        </span>
-      </div>
 
       <div className="flex gap-1 mb-6 bg-surface2 p-1 w-fit">
         {([
-          { key: "calc" as Tab, label: "수수료 계산" },
           { key: "raid" as Tab, label: "공대 분배" },
+          { key: "calc" as Tab, label: "거래 수수료" },
         ]).map((t) => (
           <button
             key={t.key}
@@ -184,7 +170,23 @@ export default function FeePage() {
         ))}
       </div>
 
-      {activeTab === "calc" && <CalcTab onSaved={onSaved} />}
+      {activeTab === "calc" && (
+        <>
+          <RelicBanner
+            reason="2.0부터 모든 거래 수수료가 금액과 무관하게 5% 정률로 통일되면서, 구간제(0.8~7%) 시절 '수수료작'을 도와주던 이 계산기는 임무를 다했습니다."
+            alternative="공대 분배금(N빵) 계산은 위 탭에서 계속 사용할 수 있습니다."
+          />
+          <div className="pixel-panel p-3 mb-6 text-sm flex items-start gap-2">
+            <span className="text-base shrink-0">🪙</span>
+            <span className="text-dim">
+              <span className="font-pixel text-maple">2.0 거래 수수료</span> — 2026.6.30 업데이트부터 거래소·택배 등{" "}
+              <span className="text-ink font-medium">모든 거래 수수료가 금액과 무관하게 5%로 통일</span>되었습니다.
+              정률이라 분할(수수료작) 절약 효과는 사라졌습니다. (직접 거래 제외)
+            </span>
+          </div>
+          <CalcTab onSaved={onSaved} />
+        </>
+      )}
       {activeTab === "raid" && <RaidTab onSaved={onSaved} />}
 
       <FeeRecordsSection refreshKey={recordsRefresh} />
