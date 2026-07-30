@@ -15,6 +15,21 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.72.1",
+    date: "2026-07-31",
+    type: "patch",
+    title: "퀘스트 로드맵 카드 펼침 UI 수정",
+    features: [
+      {
+        category: "퀘스트 로드맵",
+        items: [
+          "카드를 펼칠 때 같은 줄의 옆 카드가 함께 늘어나던 문제 수정 — 펼친 카드만 커집니다",
+          "카드마다 펼치기/접기 화살표(▾) 표시 — 펼침 가능 여부가 한눈에",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.72.0",
     date: "2026-07-30",
     type: "minor",
