@@ -2,6 +2,7 @@ import os
 import sqlite3
 import tempfile
 import unittest
+from datetime import date
 from unittest.mock import AsyncMock, patch
 
 from api import chatbot_service
@@ -69,6 +70,19 @@ class ChatbotServiceTests(unittest.IsolatedAsyncioTestCase):
             "INSERT INTO mobs VALUES (8190004, 'Skelosaurus', 113, 85000, 4750, 0, 0)"
         )
         conn.execute(
+            """
+            INSERT INTO maple_land_posts
+              (id, post_id, board, title, content, summary, category,
+               published_at, created_at)
+            VALUES
+              (2, 'patch-0731', 'notices',
+               '2026년 7월 31일(금) 패치노트 (16:00 수정)',
+               '키 입력 처리 방식을 변경합니다.',
+               '장기 점검 보상 아이템 기간을 연장하고 키 입력 처리 방식을 개선합니다.',
+               '업데이트', '2026.07.30', '2026-07-31')
+            """
+        )
+        conn.execute(
             "INSERT INTO entity_names_en VALUES ('mob', 8190004, '스켈로스', 'kms')"
         )
         conn.executemany(
@@ -134,6 +148,59 @@ class ChatbotServiceTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("최신 점검 안내", reply)
         self.assertIn("오전 7시부터 점검합니다.", reply)
         self.assertIn("/news?post=notice-1", reply)
+
+    async def test_screenshot_patch_question_uses_site_patch_data(self):
+        with (
+            patch(
+                "api.chatbot_service._today_kst",
+                return_value=date(2026, 7, 31),
+            ),
+            patch(
+                "api.chatbot_service._ask_gemini",
+                new=AsyncMock(return_value="LLM으로 가면 안 됨"),
+            ) as ask,
+        ):
+            reply = await chatbot_service.handle_chat_message(
+                "discord:test:patch",
+                "오늘 패치내용 알려줘",
+            )
+        self.assertIn("2026년 7월 31일(금) 패치노트", reply)
+        self.assertIn("키 입력 처리 방식을 개선", reply)
+        self.assertIn("/news?post=patch-0731", reply)
+        ask.assert_not_awaited()
+
+    async def test_screenshot_official_news_page_question_returns_site_link(self):
+        with patch(
+            "api.chatbot_service._ask_gemini",
+            new=AsyncMock(return_value="LLM으로 가면 안 됨"),
+        ) as ask:
+            reply = await chatbot_service.handle_chat_message(
+                "discord:test:news-page",
+                "아니 우리 사이트 공홈소식 페이지 주면되잖아",
+            )
+        self.assertIn("메이플랜드 공홈 소식", reply)
+        self.assertTrue(reply.endswith("/news"))
+        ask.assert_not_awaited()
+
+    async def test_patch_followup_can_return_specific_link_and_content(self):
+        with patch(
+            "api.chatbot_service._today_kst",
+            return_value=date(2026, 7, 31),
+        ):
+            await chatbot_service.handle_chat_message(
+                "discord:test:patch-followup",
+                "오늘 패치노트 알려줘",
+            )
+            link_reply = await chatbot_service.handle_chat_message(
+                "discord:test:patch-followup",
+                "그거 링크 줘",
+            )
+            detail_reply = await chatbot_service.handle_chat_message(
+                "discord:test:patch-followup",
+                "그거 내용 다시 알려줘",
+            )
+        self.assertIn("/news?post=patch-0731", link_reply)
+        self.assertIn("키 입력 처리 방식을 개선", detail_reply)
 
     async def test_weather_asks_location_then_uses_followup(self):
         fake_weather = "🌤️ **서울특별시 오늘 날씨**\n맑음 · 현재 25.0℃"

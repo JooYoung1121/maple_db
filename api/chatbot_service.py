@@ -17,7 +17,7 @@ import os
 import re
 import time
 from dataclasses import dataclass, field
-from datetime import date
+from datetime import date, datetime, timedelta, timezone
 from typing import Any, Optional
 from urllib.parse import quote, urlparse
 
@@ -73,6 +73,41 @@ SITE_LINK_RULES = [
     (("이상형월드컵", "이상형 월드컵"), "메이플 이상형 월드컵", "/worldcup"),
     (("추억틀", "단어유사도", "단어 유사도"), "추억틀", "/mapletle"),
 ]
+
+PATCH_NEWS_PHRASES = (
+    "패치노트",
+    "패치 노트",
+    "패치내용",
+    "패치 내용",
+    "패치내역",
+    "패치 내역",
+    "오늘패치",
+    "오늘 패치",
+    "이번패치",
+    "이번 패치",
+    "업데이트내용",
+    "업데이트 내용",
+    "업데이트내역",
+    "업데이트 내역",
+)
+
+OFFICIAL_NEWS_PHRASES = (
+    "공홈소식",
+    "공홈 소식",
+    "공식소식",
+    "공식 소식",
+    "메랜소식",
+    "메랜 소식",
+    "메이플랜드소식",
+    "메이플랜드 소식",
+    "공홈공지",
+    "공홈 공지",
+    "공지사항",
+)
+
+NEWS_LINK_PHRASES = ("링크", "주소", "페이지", "어디서", "어디에서")
+NEWS_DETAIL_PHRASES = ("내용", "요약", "자세히", "알려줘", "알려 줘", "뭐야")
+NEWS_LIST_PHRASES = ("목록", "여러 개", "뭐가 있어", "최근 것들", "최근거들")
 
 WEATHER_CODE_LABELS = {
     0: "맑음",
@@ -176,6 +211,7 @@ class ConversationSession:
     last_mob_id: Optional[int] = None
     last_mob_name: Optional[str] = None
     last_notices: list[dict[str, Any]] = field(default_factory=list)
+    last_notice_kind: Optional[str] = None
 
 
 _sessions: dict[str, ConversationSession] = {}
@@ -411,6 +447,22 @@ def _official_notice_rows(conn, limit: int = 3) -> list[dict[str, Any]]:
     return [dict(row) for row in rows]
 
 
+def _patch_note_rows(conn, limit: int = 10) -> list[dict[str, Any]]:
+    rows = conn.execute(
+        """
+        SELECT post_id, title, content, summary, category, published_at, url,
+               created_at
+        FROM maple_land_posts
+        WHERE board='notices'
+          AND (category='업데이트' OR title LIKE '%패치노트%')
+        ORDER BY COALESCE(published_at, created_at) DESC, id DESC
+        LIMIT ?
+        """,
+        (limit,),
+    ).fetchall()
+    return [dict(row) for row in rows]
+
+
 def _guild_notice_rows(conn, limit: int = 3) -> list[dict[str, Any]]:
     rows = conn.execute(
         """
@@ -431,24 +483,40 @@ def _notice_url(row: dict[str, Any]) -> str:
     return f"{_site()}/guild"
 
 
-def _notice_detail_reply(row: dict[str, Any], guild: bool = False) -> str:
-    label = "추억길드 공지" if guild else "메이플랜드 공지"
+def _notice_label(kind: str, *, recent: bool = False) -> str:
+    if kind == "guild":
+        return "추억길드 최근 공지" if recent else "추억길드 공지"
+    if kind == "patch":
+        return "최근 메이플랜드 패치노트" if recent else "메이플랜드 패치노트"
+    return "최근 메이플랜드 공지" if recent else "메이플랜드 공지"
+
+
+def _notice_detail_reply(row: dict[str, Any], kind: str = "official") -> str:
+    guild = kind == "guild"
+    label = _notice_label(kind)
     date = row.get("created_at") if guild else row.get("published_at")
     body = row.get("summary") or row.get("content") or "본문이 아직 수집되지 않았어요."
     lines = [f"📢 **{label}**", f"**{row['title']}**"]
-    if date:
+    title_has_date = bool(
+        re.search(r"\d{4}\s*년\s*\d{1,2}\s*월\s*\d{1,2}\s*일", str(row["title"]))
+    )
+    if date and not title_has_date:
         lines.append(str(date))
     lines.extend(["", _shorten(str(body), 1_100), "", f"자세히 보기: {_notice_url(row)}"])
     return "\n".join(lines)
 
 
 def _notice_list_reply(
-    rows: list[dict[str, Any]], session: ConversationSession, guild: bool = False
+    rows: list[dict[str, Any]],
+    session: ConversationSession,
+    kind: str = "official",
 ) -> str:
-    label = "추억길드 최근 공지" if guild else "최근 메이플랜드 공지"
+    guild = kind == "guild"
+    label = _notice_label(kind, recent=True)
     if not rows:
         return f"아직 수집된 {label}가 없어요.\n{_site()}/{'guild' if guild else 'news'}"
     session.last_notices = rows
+    session.last_notice_kind = kind
     lines = [f"📢 **{label}**"]
     for index, row in enumerate(rows, start=1):
         date = row.get("created_at") if guild else row.get("published_at")
@@ -456,6 +524,20 @@ def _notice_list_reply(
         lines.append(f"{index}. {row['title']}{date_text}\n   {_notice_url(row)}")
     lines.append("궁금한 공지가 있으면 “첫 번째 내용 알려줘”처럼 이어서 물어보세요.")
     return "\n".join(lines)
+
+
+def _notice_link_reply(row: dict[str, Any], kind: str = "official") -> str:
+    return (
+        f"🔗 **{_notice_label(kind)} 링크**\n"
+        f"**{row['title']}**\n{_notice_url(row)}"
+    )
+
+
+def _official_news_page_reply() -> str:
+    return (
+        "📢 **메이플랜드 공홈 소식**은 우리 사이트에서 확인할 수 있어요.\n"
+        f"{_site()}/news"
+    )
 
 
 def _notice_followup_index(text: str) -> Optional[int]:
@@ -468,11 +550,83 @@ def _notice_followup_index(text: str) -> Optional[int]:
         "세번째": 2,
         "3번": 2,
     }
-    if not any(word in normalized for word in ("내용", "자세히", "요약", "뭐야")):
+    if not any(
+        word in normalized
+        for word in ("내용", "자세히", "요약", "뭐야", "링크", "주소", "페이지")
+    ):
         return None
     for ordinal, index in ordinal_map.items():
         if ordinal in normalized:
             return index
+    return None
+
+
+def _notice_followup_reply(
+    session: ConversationSession,
+    text: str,
+) -> Optional[str]:
+    if not session.last_notices:
+        return None
+    compact = text.replace(" ", "")
+    kind = session.last_notice_kind or "official"
+    index = _notice_followup_index(text)
+    if index is not None and index < len(session.last_notices):
+        row = session.last_notices[index]
+        if any(token in compact for token in ("링크", "주소", "페이지")):
+            return _notice_link_reply(row, kind)
+        return _notice_detail_reply(row, kind)
+
+    references_previous = any(
+        token in compact
+        for token in ("그거", "그것", "아까", "방금", "그공지", "그패치", "오늘것", "오늘거")
+    )
+    wants_link = any(token.replace(" ", "") in compact for token in NEWS_LINK_PHRASES)
+    wants_detail = any(
+        token.replace(" ", "") in compact for token in NEWS_DETAIL_PHRASES
+    )
+    if wants_link and (references_previous or len(compact) <= 12):
+        return _notice_link_reply(session.last_notices[0], kind)
+    if references_previous and (wants_detail or compact.endswith(("것은?", "거는?", "거야?"))):
+        return _notice_detail_reply(session.last_notices[0], kind)
+    return None
+
+
+def _news_intent(text: str) -> Optional[str]:
+    compact = text.replace(" ", "")
+    guild_context = "길드" in compact or "추억길드" in compact
+    if guild_context and ("공지" in compact or "소식" in compact):
+        return "guild"
+    if any(phrase.replace(" ", "") in compact for phrase in PATCH_NEWS_PHRASES):
+        return "patch"
+    if "공지" in compact or any(
+        phrase.replace(" ", "") in compact for phrase in OFFICIAL_NEWS_PHRASES
+    ):
+        return "official"
+    return None
+
+
+def _today_kst() -> date:
+    return datetime.now(timezone(timedelta(hours=9))).date()
+
+
+def _notice_calendar_date(row: dict[str, Any]) -> Optional[date]:
+    title_match = re.search(
+        r"(20\d{2})\s*년\s*(\d{1,2})\s*월\s*(\d{1,2})\s*일",
+        str(row.get("title") or ""),
+    )
+    if title_match:
+        try:
+            return date(*(int(part) for part in title_match.groups()))
+        except ValueError:
+            pass
+    for key in ("published_at", "created_at"):
+        digits = re.sub(r"\D", "", str(row.get(key) or ""))
+        if len(digits) < 8:
+            continue
+        try:
+            return date(int(digits[:4]), int(digits[4:6]), int(digits[6:8]))
+        except ValueError:
+            continue
     return None
 
 
@@ -677,7 +831,12 @@ async def _ask_gemini(
         for role, message in session.history[-8:]
     ]
     contents.append({"role": "user", "parts": [{"text": question}]})
-    system_prompt = GEMINI_SYSTEM_PROMPT
+    system_prompt = (
+        f"{GEMINI_SYSTEM_PROMPT}\n\n"
+        f"확인된 우리 사이트 주소는 {_site()}이며, "
+        f"메이플랜드 공홈 소식 페이지는 {_site()}/news 이다. "
+        "사용자가 우리 사이트의 공홈 소식 주소를 요청하면 이 링크를 안내할 수 있다."
+    )
     if use_web_search:
         system_prompt += (
             f"\n\n오늘 날짜는 {date.today().isoformat()}이다.\n"
@@ -741,10 +900,9 @@ async def handle_chat_message(
 
     session = _get_session(session_key)
 
-    followup_index = _notice_followup_index(question)
-    if followup_index is not None and followup_index < len(session.last_notices):
-        row = session.last_notices[followup_index]
-        reply = _notice_detail_reply(row, guild="post_id" not in row)
+    notice_followup = _notice_followup_reply(session, question)
+    if notice_followup:
+        reply = notice_followup
         _remember(session, question, reply)
         return reply
 
@@ -811,26 +969,57 @@ async def handle_chat_message(
         _remember(session, question, reply)
         return reply
 
-    if "공지" in question:
-        guild = "길드" in question or "추억길드" in question
+    news_intent = _news_intent(question)
+    if news_intent:
+        wants_link = any(
+            token.replace(" ", "") in normalized for token in NEWS_LINK_PHRASES
+        )
+        wants_detail = any(
+            token.replace(" ", "") in normalized for token in NEWS_DETAIL_PHRASES
+        )
+        wants_list = any(
+            token.replace(" ", "") in normalized for token in NEWS_LIST_PHRASES
+        )
+        if news_intent == "official" and wants_link:
+            reply = _official_news_page_reply()
+            _remember(session, question, reply)
+            return reply
+
         conn = get_connection()
         try:
-            rows = (
-                _guild_notice_rows(conn)
-                if guild
-                else _official_notice_rows(conn)
-            )
+            if news_intent == "guild":
+                rows = _guild_notice_rows(conn)
+            elif news_intent == "patch":
+                rows = _patch_note_rows(conn)
+            else:
+                rows = _official_notice_rows(conn)
         finally:
             conn.close()
-        wants_detail = any(
-            token in normalized
-            for token in ("공지내용", "최근공지내용", "최신공지내용", "공지요약")
-        )
-        if wants_detail and rows:
-            session.last_notices = rows
-            reply = _notice_detail_reply(rows[0], guild=guild)
+
+        if news_intent == "patch" and "오늘" in question:
+            today_rows = [
+                row for row in rows if _notice_calendar_date(row) == _today_kst()
+            ]
+            if today_rows:
+                rows = today_rows
+            elif rows:
+                latest = rows[0]
+                reply = (
+                    f"오늘({_today_kst().isoformat()}) 날짜의 패치노트는 아직 "
+                    "우리 사이트에 수집되지 않았어요.\n"
+                    f"가장 최근 글: **{latest['title']}**\n{_notice_url(latest)}"
+                )
+                _remember(session, question, reply)
+                return reply
+
+        session.last_notices = rows[:3]
+        session.last_notice_kind = news_intent
+        if news_intent == "patch" and wants_link and rows:
+            reply = _notice_link_reply(rows[0], news_intent)
+        elif rows and (wants_detail or (news_intent == "patch" and not wants_list)):
+            reply = _notice_detail_reply(rows[0], news_intent)
         else:
-            reply = _notice_list_reply(rows, session, guild=guild)
+            reply = _notice_list_reply(rows[:3], session, kind=news_intent)
         _remember(session, question, reply)
         return reply
 
