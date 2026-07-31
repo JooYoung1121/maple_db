@@ -44,6 +44,7 @@ export default function DiscordBotPage() {
   const [channelId, setChannelId] = useState("");
   const [chatEnabled, setChatEnabled] = useState(false);
   const [chatChannelId, setChatChannelId] = useState("");
+  const [webSearchEnabled, setWebSearchEnabled] = useState(true);
   const [notifyMapleLand, setNotifyMapleLand] = useState(true);
   const [notifyGuildPost, setNotifyGuildPost] = useState(true);
   const [notifyWeeklyNews, setNotifyWeeklyNews] = useState(true);
@@ -108,6 +109,7 @@ export default function DiscordBotPage() {
       setChannelId(s.channel_id ?? "");
       setChatEnabled(s.chat_enabled === "true");
       setChatChannelId(s.chat_channel_id ?? "");
+      setWebSearchEnabled(s.web_search_enabled !== "false");
       setNotifyMapleLand(s.notify_maple_land === "true");
       setNotifyGuildPost(s.notify_guild_post === "true");
       setNotifyWeeklyNews(s.notify_weekly_news !== "false");
@@ -129,6 +131,7 @@ export default function DiscordBotPage() {
           channel_id: channelId,
           chat_enabled: chatEnabled ? "true" : "false",
           chat_channel_id: chatChannelId,
+          web_search_enabled: webSearchEnabled ? "true" : "false",
           notify_maple_land: notifyMapleLand ? "true" : "false",
           notify_guild_post: notifyGuildPost ? "true" : "false",
           notify_weekly_news: notifyWeeklyNews ? "true" : "false",
@@ -318,7 +321,7 @@ export default function DiscordBotPage() {
                 <div>
                   <span className="text-sm text-ink">대화형 챗봇</span>
                   <p className="mt-1 text-[11px] text-dim">
-                    사이트 DB·공지·날씨를 먼저 확인하고 자유 대화를 이어갑니다.
+                    사이트 DB·공지·날씨를 먼저 확인하고 검색·자유 대화를 이어갑니다.
                   </p>
                 </div>
                 <button
@@ -355,6 +358,31 @@ export default function DiscordBotPage() {
                   Discord Developer Portal의 Bot 설정에서 Message Content Intent도
                   켜져 있어야 합니다.
                 </p>
+              </div>
+
+              <div className="flex items-center justify-between gap-4 rounded-lg bg-surface2 px-3 py-3">
+                <div>
+                  <span className="text-sm text-ink">인터넷 검색</span>
+                  <p className="mt-1 text-[11px] leading-5 text-dim">
+                    “검색해줘”, “최신 소식”처럼 웹 정보가 필요한 질문만 Google 검색으로
+                    확인하고 출처 링크를 함께 보냅니다. Gemini 검색 쿼터를 사용합니다.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  aria-label="인터넷 검색 사용 여부"
+                  aria-pressed={webSearchEnabled}
+                  onClick={() => setWebSearchEnabled(!webSearchEnabled)}
+                  className={`relative w-11 h-6 shrink-0 rounded-full transition-colors ${
+                    webSearchEnabled ? "bg-maple" : "bg-gray-300"
+                  }`}
+                >
+                  <span
+                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                      webSearchEnabled ? "translate-x-5" : ""
+                    }`}
+                  />
+                </button>
               </div>
             </div>
 

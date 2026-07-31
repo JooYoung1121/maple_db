@@ -159,6 +159,47 @@ class ChatbotServiceTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("수수료 계산기", reply)
         self.assertTrue(reply.endswith("/fee"))
 
+    async def test_explicit_web_query_uses_grounded_gemini(self):
+        with patch(
+            "api.chatbot_service._ask_gemini",
+            new=AsyncMock(return_value="검색 답변"),
+        ) as ask:
+            reply = await chatbot_service.handle_chat_message(
+                "discord:test:web", "요즘 AI 소식 검색해줘"
+            )
+        self.assertEqual(reply, "검색 답변")
+        ask.assert_awaited_once()
+        self.assertTrue(ask.await_args.kwargs["use_web_search"])
+
+    async def test_web_search_can_be_disabled(self):
+        with patch(
+            "api.chatbot_service._ask_gemini",
+            new=AsyncMock(return_value="일반 답변"),
+        ) as ask:
+            await chatbot_service.handle_chat_message(
+                "discord:test:web-off",
+                "인터넷에서 최신 소식 검색해줘",
+                allow_web_search=False,
+            )
+        self.assertFalse(ask.await_args.kwargs["use_web_search"])
+
+    def test_grounding_sources_are_deduplicated_and_clickable(self):
+        answer = chatbot_service._append_grounding_sources(
+            "확인된 답변입니다.",
+            {
+                "groundingChunks": [
+                    {"web": {"title": "공식 자료", "uri": "https://example.com/a"}},
+                    {"web": {"title": "중복", "uri": "https://example.com/a"}},
+                    {"web": {"title": "두 번째", "uri": "https://example.org/b"}},
+                    {"web": {"title": "잘못된 링크", "uri": "javascript:alert(1)"}},
+                ]
+            },
+        )
+        self.assertIn("[공식 자료](https://example.com/a)", answer)
+        self.assertIn("[두 번째](https://example.org/b)", answer)
+        self.assertEqual(answer.count("https://example.com/a"), 1)
+        self.assertNotIn("javascript:", answer)
+
 
 if __name__ == "__main__":
     unittest.main()

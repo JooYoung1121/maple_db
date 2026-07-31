@@ -19,6 +19,7 @@ ALLOWED_KEYS = {
     "mention_role_id",
     "chat_enabled",
     "chat_channel_id",
+    "web_search_enabled",
 }
 
 
@@ -66,6 +67,7 @@ async def discord_status():
                 result["channel_ok"] = False
         chat_ch_id = bot.get_chat_channel_id()
         result["chat_enabled"] = bot.is_chat_enabled()
+        result["web_search_enabled"] = bot.is_web_search_enabled()
         result["chat_channel_id"] = str(chat_ch_id) if chat_ch_id else None
         if chat_ch_id:
             try:
@@ -98,6 +100,7 @@ class SettingsUpdate(BaseModel):
     mention_role_id: Optional[str] = None
     chat_enabled: Optional[str] = None
     chat_channel_id: Optional[str] = None
+    web_search_enabled: Optional[str] = None
 
 
 @router.patch("/discord/settings")
