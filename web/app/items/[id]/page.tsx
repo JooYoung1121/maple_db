@@ -138,7 +138,12 @@ export default function ItemDetailPage() {
       </div>
 
       <div className="mt-6">
-        <h2 className="font-pixel text-lg font-semibold mb-3 text-ink">드롭 몬스터</h2>
+        <h2 className="font-pixel text-lg font-semibold mb-1 text-ink">드롭 몬스터</h2>
+        {droppedBy.length > 0 &&
+          ((item.names_en?.find((n) => n.source === "kms")?.name_en || item.name || "").endsWith("카드") ||
+            (item.name || "").endsWith("Card")) && (
+            <p className="text-[11px] text-dim mb-2">※ 몬스터 카드 드롭률은 7/31 패치로 메랜에서 전면 재조정 — 표기 수치(원작 기준)와 다를 수 있습니다</p>
+          )}
         {droppedBy.length > 0 ? (
           <div className="pixel-panel divide-y divide-edge/40">
             {droppedBy.map((m) => (

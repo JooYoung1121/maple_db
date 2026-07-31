@@ -70,7 +70,10 @@ export default function MobDetailPage() {
 
       {drops.length > 0 && (
         <div className="mt-6">
-          <h2 className="font-pixel text-lg font-semibold mb-3">드롭 아이템</h2>
+          <h2 className="font-pixel text-lg font-semibold mb-1">드롭 아이템</h2>
+          {drops.some((d) => (d.name_kr || d.name || "").endsWith("카드")) && (
+            <p className="text-[11px] text-dim mb-2">※ 몬스터 카드 드롭률은 7/31 패치로 메랜에서 전면 재조정 — 표기 수치(원작 기준)와 다를 수 있습니다</p>
+          )}
           <div className="pixel-panel divide-y divide-edge/40">
             {drops.map((d) => (
               <Link key={d.id} href={`/items/${d.id}`} className="flex items-center justify-between px-4 py-3 hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]">
