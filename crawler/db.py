@@ -344,6 +344,37 @@ CREATE TABLE IF NOT EXISTS bot_settings (
   value TEXT NOT NULL
 );
 
+-- 디스코드 자유 대화/Gemini 일일 사용량 (한국 시간 날짜 기준)
+CREATE TABLE IF NOT EXISTS discord_ai_usage (
+  guild_id TEXT NOT NULL,
+  user_id TEXT NOT NULL,
+  usage_date TEXT NOT NULL,
+  request_count INTEGER NOT NULL DEFAULT 0,
+  search_count INTEGER NOT NULL DEFAULT 0,
+  updated_at TEXT DEFAULT (datetime('now')),
+  PRIMARY KEY (guild_id, user_id, usage_date)
+);
+
+CREATE INDEX IF NOT EXISTS idx_discord_ai_usage_guild_date
+  ON discord_ai_usage(guild_id, usage_date);
+
+-- 디스코드 서버 구성원이 직접 등록하는 공유 메모
+CREATE TABLE IF NOT EXISTS discord_bot_memories (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  guild_id TEXT NOT NULL,
+  memory_key TEXT NOT NULL,
+  normalized_key TEXT NOT NULL,
+  content TEXT NOT NULL,
+  author_id TEXT NOT NULL,
+  author_name TEXT,
+  created_at TEXT DEFAULT (datetime('now')),
+  updated_at TEXT DEFAULT (datetime('now')),
+  UNIQUE(guild_id, normalized_key)
+);
+
+CREATE INDEX IF NOT EXISTS idx_discord_bot_memories_guild
+  ON discord_bot_memories(guild_id);
+
 CREATE TABLE IF NOT EXISTS free_board_posts (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   nickname TEXT NOT NULL,
