@@ -15,6 +15,22 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.74.3",
+    date: "2026-07-31",
+    type: "patch",
+    title: "7/31 패치 반영 — 카자쿰 가이드 갱신 · 몬스터 카드 드롭률 주석",
+    pages: ["/mobs", "/items", "/guild/info"],
+    features: [
+      {
+        category: "7/31 패치 대응",
+        items: [
+          "카오스 자쿰 공략 갱신 — 물약봉인 디스펠 해제 공식 확정, 언데드화 대상 = 유혹 선정 역순 (길드 정보공유)",
+          "몬스터·아이템 상세: 몬스터 카드 드롭률이 7/31 패치로 재조정되어 표기 수치와 다를 수 있다는 안내 추가",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.74.2",
     date: "2026-07-31",
     type: "patch",
