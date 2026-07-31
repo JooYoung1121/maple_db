@@ -1,6 +1,11 @@
-"""디스코드 봇 — maple.land 알림 / 길드 게시판 알림 / 수동 알림"""
+"""디스코드 봇 — 알림 전송 + 사이트 데이터 기반 대화형 챗봇."""
 import os
+import re
+import time
+
 import discord
+
+from api.chatbot_service import handle_chat_message
 from crawler.db import get_connection
 
 bot_instance: discord.Client | None = None
@@ -10,29 +15,111 @@ class MapleBot(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._invalid_channel_ids: set[int] = set()
+        self._chat_last_message: dict[int, float] = {}
 
     async def on_ready(self):
         print(f"[discord] 로그인: {self.user}")
 
-    def get_channel_id(self) -> int | None:
+    def get_setting(self, key: str, default: str = "") -> str:
         conn = get_connection()
-        row = conn.execute(
-            "SELECT value FROM bot_settings WHERE key='channel_id'"
-        ).fetchone()
-        conn.close()
-        value = str(row[0]).strip() if row else ""
+        try:
+            row = conn.execute(
+                "SELECT value FROM bot_settings WHERE key=?", (key,)
+            ).fetchone()
+            return str(row[0]).strip() if row and row[0] is not None else default
+        finally:
+            conn.close()
+
+    def get_channel_id(self) -> int | None:
+        value = self.get_setting("channel_id")
         return int(value) if value.isdigit() else None
+
+    def get_chat_channel_id(self) -> int | None:
+        value = self.get_setting(
+            "chat_channel_id", os.environ.get("DISCORD_CHAT_CHANNEL_ID", "")
+        )
+        return int(value) if value.isdigit() else None
+
+    def is_chat_enabled(self) -> bool:
+        env_default = os.environ.get("DISCORD_CHAT_ENABLED", "false")
+        return self.get_setting("chat_enabled", env_default).lower() == "true"
 
     def clear_channel_errors(self) -> None:
         self._invalid_channel_ids.clear()
 
     def is_enabled(self, key: str) -> bool:
-        conn = get_connection()
-        row = conn.execute(
-            "SELECT value FROM bot_settings WHERE key=?", [key]
-        ).fetchone()
-        conn.close()
-        return row[0] == "true" if row else False
+        return self.get_setting(key) == "true"
+
+    @staticmethod
+    def _split_reply(text: str, limit: int = 1_900) -> list[str]:
+        """Split a response without breaking Discord's 2,000-character limit."""
+        chunks: list[str] = []
+        remaining = text.strip()
+        while len(remaining) > limit:
+            split_at = remaining.rfind("\n", 0, limit)
+            if split_at < limit // 2:
+                split_at = remaining.rfind(" ", 0, limit)
+            if split_at < limit // 2:
+                split_at = limit
+            chunks.append(remaining[:split_at].rstrip())
+            remaining = remaining[split_at:].lstrip()
+        if remaining:
+            chunks.append(remaining)
+        return chunks
+
+    async def on_message(self, message: discord.Message):
+        """Handle natural conversation in one configured channel or via mention."""
+        if not self.user or message.author.bot or not self.is_chat_enabled():
+            return
+
+        mentioned = self.user in message.mentions
+        chat_channel_id = self.get_chat_channel_id()
+        is_dm = message.guild is None
+        is_chat_channel = (
+            chat_channel_id is not None and message.channel.id == chat_channel_id
+        )
+        if not (is_dm or mentioned or is_chat_channel):
+            return
+
+        content = message.content or ""
+        content = re.sub(rf"<@!?{self.user.id}>", " ", content)
+        content = re.sub(r"^\s*(푸확아|푸확)[\s,~:：]*", "", content).strip()
+        if not content:
+            content = (
+                "안녕"
+                if mentioned
+                else "무엇을 물어볼 수 있는지 간단히 알려줘"
+            )
+
+        # Accidental duplicate gateway events and spam bursts only; normal
+        # conversational follow-ups remain responsive.
+        now = time.monotonic()
+        if now - self._chat_last_message.get(message.author.id, 0) < 1.0:
+            return
+        self._chat_last_message[message.author.id] = now
+
+        guild_key = str(message.guild.id) if message.guild else "dm"
+        session_key = f"discord:{guild_key}:{message.channel.id}:{message.author.id}"
+        try:
+            async with message.channel.typing():
+                response = await handle_chat_message(session_key, content)
+        except Exception as exc:
+            print(f"[discord] 대화 처리 실패: {exc}")
+            response = "답변을 만드는 중 문제가 생겼어요. 잠시 후 다시 물어봐주세요."
+
+        allowed_mentions = discord.AllowedMentions.none()
+        for index, chunk in enumerate(self._split_reply(response)):
+            if index == 0:
+                await message.reply(
+                    chunk,
+                    mention_author=False,
+                    allowed_mentions=allowed_mentions,
+                )
+            else:
+                await message.channel.send(
+                    chunk,
+                    allowed_mentions=allowed_mentions,
+                )
 
     def get_mention_text(self) -> str | None:
         """bot_settings에서 mention_type을 읽어 멘션 텍스트 반환."""

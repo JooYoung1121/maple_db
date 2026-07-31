@@ -124,7 +124,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/guild/boss", label: "보스", icon: "🐉", description: "보스 파티 · 기록" },
       { href: "/guild/board", label: "자유게시판", icon: "💬", description: "길드원 소통" },
       { href: "/guild/info", label: "정보공유", icon: "📚", description: "길드 공략과 자료 공유" },
-      { href: "/guild/discord", label: "디스코드 봇", icon: "🤖", description: "봇 설정 · 알림" },
+      { href: "/guild/discord", label: "디스코드 봇", icon: "🤖", description: "대화형 챗봇 · 알림 설정" },
     ],
   },
 ];

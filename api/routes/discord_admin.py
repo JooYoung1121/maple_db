@@ -9,7 +9,17 @@ from api.discord_bot import get_bot
 
 router = APIRouter()
 
-ALLOWED_KEYS = {"channel_id", "notify_maple_land", "notify_guild_post", "notify_weekly_news", "weekly_reminder_channel_id", "mention_type", "mention_role_id"}
+ALLOWED_KEYS = {
+    "channel_id",
+    "notify_maple_land",
+    "notify_guild_post",
+    "notify_weekly_news",
+    "weekly_reminder_channel_id",
+    "mention_type",
+    "mention_role_id",
+    "chat_enabled",
+    "chat_channel_id",
+}
 
 
 def _explain_channel_error(error: Exception) -> str:
@@ -54,6 +64,18 @@ async def discord_status():
                 result["channel_error"] = str(e)
                 result["channel_help"] = _explain_channel_error(e)
                 result["channel_ok"] = False
+        chat_ch_id = bot.get_chat_channel_id()
+        result["chat_enabled"] = bot.is_chat_enabled()
+        result["chat_channel_id"] = str(chat_ch_id) if chat_ch_id else None
+        if chat_ch_id:
+            try:
+                chat_ch = await bot.fetch_channel(chat_ch_id)
+                result["chat_channel_name"] = chat_ch.name
+                result["chat_channel_ok"] = True
+            except Exception as e:
+                result["chat_channel_error"] = str(e)
+                result["chat_channel_help"] = _explain_channel_error(e)
+                result["chat_channel_ok"] = False
     return result
 
 
@@ -74,6 +96,8 @@ class SettingsUpdate(BaseModel):
     weekly_reminder_channel_id: Optional[str] = None
     mention_type: Optional[str] = None
     mention_role_id: Optional[str] = None
+    chat_enabled: Optional[str] = None
+    chat_channel_id: Optional[str] = None
 
 
 @router.patch("/discord/settings")

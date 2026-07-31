@@ -18,8 +18,8 @@ export const CHANGELOG: ChangelogEntry[] = [
     version: "3.73.0",
     date: "2026-07-31",
     type: "minor",
-    title: "혼테일 공략 가이드 + 타이머 패턴 검증 보강",
-    pages: ["/horntail", "/boss-timer", "/quest-roadmap"],
+    title: "혼테일 공략 가이드 + 디스코드 대화형 챗봇",
+    pages: ["/horntail", "/boss-timer", "/quest-roadmap", "/guild/discord"],
     features: [
       {
         category: "혼테일",
@@ -35,6 +35,15 @@ export const CHANGELOG: ChangelogEntry[] = [
         items: [
           "카드를 펼칠 때 같은 줄의 옆 카드가 함께 늘어나던 문제 수정 — 펼친 카드만 커집니다",
           "카드마다 펼치기/접기 화살표(▾) 표시",
+        ],
+      },
+      {
+        category: "디스코드 챗봇",
+        items: [
+          "기존 알림 봇에 자연어 대화 기능 추가 — 전용 채널에서는 멘션 없이, 다른 채널에서는 봇 멘션으로 호출",
+          "사이트 DB를 우선 조회해 몬스터 드랍·아이템 획득처·메이플랜드/길드 공지와 관련 페이지 링크를 확인된 정보로 응답",
+          "오늘·내일 날씨 조회와 30분 단위의 짧은 대화 문맥 지원 — '그중 장비만', '첫 번째 내용은?' 같은 후속 질문 처리",
+          "관리자 화면에서 대화 기능과 전용 채널을 켜고 연결 상태를 확인할 수 있도록 설정 추가",
         ],
       },
     ],
