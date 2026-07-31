@@ -470,6 +470,12 @@ export async function getDiscordStatus() {
     channel_ok?: boolean;
     channel_error?: string;
     channel_help?: string;
+    chat_enabled?: boolean;
+    chat_channel_id?: string | null;
+    chat_channel_name?: string;
+    chat_channel_ok?: boolean;
+    chat_channel_error?: string;
+    chat_channel_help?: string;
   }>(`/api/discord/status`);
 }
 

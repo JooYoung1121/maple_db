@@ -74,6 +74,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/medals", label: "훈장 가이드", icon: "🎖️", description: "탐험가 트리 · 기부왕 · 레벨 훈장" },
       { href: "/ship", label: "배 시간표", icon: "🚢", description: "정기선 운항 시간" },
       { href: "/trap", label: "함정 타이머", homeLabel: "트랩 타이머", icon: "⏱️", description: "트랩 주기 타이머" },
+      { href: "/horntail", label: "혼테일 공략", icon: "🐲", description: "패턴 · 직업별 준비물 · 파츠별 딜 위치" },
       { href: "/boss-timer", label: "혼테일 타이머", icon: "🐉", description: "리저 · 공무 · 버프해제 쿨타임" },
     ],
   },
@@ -123,7 +124,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/guild/boss", label: "보스", icon: "🐉", description: "보스 파티 · 기록" },
       { href: "/guild/board", label: "자유게시판", icon: "💬", description: "길드원 소통" },
       { href: "/guild/info", label: "정보공유", icon: "📚", description: "길드 공략과 자료 공유" },
-      { href: "/guild/discord", label: "디스코드 봇", icon: "🤖", description: "봇 설정 · 알림" },
+      { href: "/guild/discord", label: "디스코드 봇", icon: "🤖", description: "대화형 챗봇 · 알림 설정" },
     ],
   },
 ];

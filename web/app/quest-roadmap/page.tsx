@@ -27,13 +27,19 @@ function QuestCard({ q, myLevel }: { q: RoadmapQuest; myLevel: number | null }) 
   const hasPrereq = q.prereq.length > 0;
 
   return (
-    <div className={`pixel-card ${locked ? "opacity-50" : ""}`}>
-      <button onClick={() => setOpen(!open)} className="w-full text-left px-3 py-2.5">
+    <div className={`pixel-card self-start ${locked ? "opacity-50" : ""}`}>
+      <button onClick={() => setOpen(!open)} className="w-full text-left px-3 py-2.5 group" aria-expanded={open}>
         <span className="flex items-center gap-2">
           <span className="text-sm font-semibold flex-1 min-w-0 truncate">{q.name}</span>
           {q.repeatable === 1 && <span className="text-[10px] font-pixel text-skill border border-skill px-1 shrink-0">반복</span>}
           {hasPrereq && <span className="text-[10px] font-pixel text-dim border border-edge px-1 shrink-0">체인</span>}
           <span className="text-xs text-dim shrink-0">Lv.{q.min_level}{q.max_level ? `~${q.max_level}` : "+"}</span>
+          <svg
+            className={`w-3.5 h-3.5 shrink-0 text-dim group-hover:text-maple transition-transform ${open ? "rotate-180 text-maple" : ""}`}
+            fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
         </span>
         <span className="flex items-center gap-3 mt-1 text-xs">
           {q.exp > 0 && <span className="text-skill font-medium">EXP {fmtNum(q.exp)}</span>}
@@ -196,7 +202,7 @@ export default function QuestRoadmapPage() {
             ⚡ Lv.{lv} 지금 할 수 있는 퀘스트 <span className="text-sm font-normal text-dim">(경험치순 상위 {nowQuests.length}개)</span>
           </h2>
           <p className="text-xs text-dim mb-3">선행 체인이 있는 퀘스트(체인 배지)는 앞 퀘스트를 먼저 완료해야 할 수 있습니다.</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 items-start">
             {nowQuests.map((q) => <QuestCard key={q.quest_id} q={q} myLevel={lv} />)}
           </div>
           {nowQuests.length === 0 && <p className="text-sm text-dim py-4 text-center">조건에 맞는 퀘스트가 없습니다</p>}
@@ -224,7 +230,7 @@ export default function QuestRoadmapPage() {
                 </span>
               </button>
               {openBrackets.has(i) && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-3 border-t-2 border-edge">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-3 border-t-2 border-edge items-start">
                   {list
                     .slice()
                     .sort((a, b) => a.min_level - b.min_level || b.exp - a.exp)

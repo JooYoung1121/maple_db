@@ -33,9 +33,17 @@ export default function DiscordBotPage() {
   const [channelOk, setChannelOk] = useState<boolean | null>(null);
   const [channelError, setChannelError] = useState<string | null>(null);
   const [channelHelp, setChannelHelp] = useState<string | null>(null);
+  const [statusChatEnabled, setStatusChatEnabled] = useState(false);
+  const [statusChatChannelId, setStatusChatChannelId] = useState<string | null>(null);
+  const [chatChannelName, setChatChannelName] = useState<string | null>(null);
+  const [chatChannelOk, setChatChannelOk] = useState<boolean | null>(null);
+  const [chatChannelError, setChatChannelError] = useState<string | null>(null);
+  const [chatChannelHelp, setChatChannelHelp] = useState<string | null>(null);
 
   // 설정
   const [channelId, setChannelId] = useState("");
+  const [chatEnabled, setChatEnabled] = useState(false);
+  const [chatChannelId, setChatChannelId] = useState("");
   const [notifyMapleLand, setNotifyMapleLand] = useState(true);
   const [notifyGuildPost, setNotifyGuildPost] = useState(true);
   const [notifyWeeklyNews, setNotifyWeeklyNews] = useState(true);
@@ -65,6 +73,14 @@ export default function DiscordBotPage() {
         setChannelOk(typeof d.channel_ok === "boolean" ? d.channel_ok : null);
         setChannelError(d.channel_error ?? null);
         setChannelHelp(d.channel_help ?? null);
+        setStatusChatEnabled(d.chat_enabled === true);
+        setStatusChatChannelId(d.chat_channel_id ?? null);
+        setChatChannelName(d.chat_channel_name ?? null);
+        setChatChannelOk(
+          typeof d.chat_channel_ok === "boolean" ? d.chat_channel_ok : null,
+        );
+        setChatChannelError(d.chat_channel_error ?? null);
+        setChatChannelHelp(d.chat_channel_help ?? null);
       })
       .catch(() => {});
   }, []);
@@ -90,6 +106,8 @@ export default function DiscordBotPage() {
     try {
       const s = await getDiscordSettings(pw);
       setChannelId(s.channel_id ?? "");
+      setChatEnabled(s.chat_enabled === "true");
+      setChatChannelId(s.chat_channel_id ?? "");
       setNotifyMapleLand(s.notify_maple_land === "true");
       setNotifyGuildPost(s.notify_guild_post === "true");
       setNotifyWeeklyNews(s.notify_weekly_news !== "false");
@@ -109,6 +127,8 @@ export default function DiscordBotPage() {
       await updateDiscordSettings(
         {
           channel_id: channelId,
+          chat_enabled: chatEnabled ? "true" : "false",
+          chat_channel_id: chatChannelId,
           notify_maple_land: notifyMapleLand ? "true" : "false",
           notify_guild_post: notifyGuildPost ? "true" : "false",
           notify_weekly_news: notifyWeeklyNews ? "true" : "false",
@@ -209,6 +229,46 @@ export default function DiscordBotPage() {
         )}
       </div>
 
+      <div className="pixel-panel p-5 space-y-2">
+        <div className="flex items-center justify-between gap-3">
+          <span className="text-sm font-medium text-ink">대화 채널</span>
+          <span
+            className={`text-xs px-2 py-1 rounded-full ${
+              !statusChatEnabled
+                ? "bg-surface2 text-dim"
+                : !statusChatChannelId
+                ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
+                : chatChannelOk
+                ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
+                : "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300"
+            }`}
+          >
+            {!statusChatEnabled
+              ? "꺼짐"
+              : !statusChatChannelId
+              ? "멘션 전용"
+              : chatChannelOk
+              ? "연결됨"
+              : "오류"}
+          </span>
+        </div>
+        {statusChatChannelId && (
+          <p className="text-xs text-dim font-mono break-all">
+            {chatChannelName
+              ? `${chatChannelName} (${statusChatChannelId})`
+              : statusChatChannelId}
+          </p>
+        )}
+        {chatChannelError && (
+          <p className="text-xs text-red-500 break-words">{chatChannelError}</p>
+        )}
+        {chatChannelHelp && (
+          <div className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs leading-5 text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
+            {chatChannelHelp}
+          </div>
+        )}
+      </div>
+
       {/* 인증 */}
       {!authed ? (
         <div className="pixel-panel p-5 space-y-3">
@@ -251,6 +311,51 @@ export default function DiscordBotPage() {
               <p className="mt-1 text-[11px] leading-5 text-dim">
                 디스코드 개발자 모드에서 텍스트 채널을 우클릭한 뒤 ID를 복사하세요. 봇은 해당 서버에 초대되어 있어야 하고 채널 보기, 메시지 보내기, 임베드 링크 권한이 필요합니다.
               </p>
+            </div>
+
+            <div className="border-t border-edge/40 pt-4 space-y-3">
+              <div className="flex items-center justify-between">
+                <div>
+                  <span className="text-sm text-ink">대화형 챗봇</span>
+                  <p className="mt-1 text-[11px] text-dim">
+                    사이트 DB·공지·날씨를 먼저 확인하고 자유 대화를 이어갑니다.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  aria-label="대화형 챗봇 사용 여부"
+                  aria-pressed={chatEnabled}
+                  onClick={() => setChatEnabled(!chatEnabled)}
+                  className={`relative w-11 h-6 rounded-full transition-colors ${
+                    chatEnabled ? "bg-maple" : "bg-gray-300"
+                  }`}
+                >
+                  <span
+                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                      chatEnabled ? "translate-x-5" : ""
+                    }`}
+                  />
+                </button>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium text-dim mb-1">
+                  대화 전용 채널 ID
+                </label>
+                <input
+                  type="text"
+                  value={chatChannelId}
+                  onChange={(e) => setChatChannelId(e.target.value)}
+                  placeholder="전용 채널에서는 멘션 없이 대화"
+                  className="pixel-input w-full px-3 py-2 text-sm font-mono"
+                />
+                <p className="mt-1 text-[11px] leading-5 text-dim">
+                  전용 채널에서는 모든 일반 메시지에 답합니다. 다른 채널에서는
+                  봇을 멘션했을 때만 답하므로 알림 채널과 분리하는 것을 권장합니다.
+                  Discord Developer Portal의 Bot 설정에서 Message Content Intent도
+                  켜져 있어야 합니다.
+                </p>
+              </div>
             </div>
 
             <div className="flex items-center justify-between">
