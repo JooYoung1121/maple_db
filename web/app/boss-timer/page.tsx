@@ -55,10 +55,10 @@ const HORNTAIL_SECTIONS: TimerSection[] = [
     id: "death-buff",
     title: "사망 & 버프",
     icon: "🪦",
-    desc: "사망 후 마을→보스맵 복귀 실측 14분 · 인레이지 쿨 8분(지속 4분)",
+    desc: "사망 후 재입장 15분 (안전하게 14분으로 재는 공대는 카드 수정) · 인레이지 쿨 8분(지속 4분)",
     timers: [
-      { id: "death-1", label: "사망 복귀-1", duration: 840, endAt: null, removable: false },
-      { id: "death-2", label: "사망 복귀-2", duration: 840, endAt: null, removable: false },
+      { id: "death-1", label: "사망 복귀-1", duration: 900, endAt: null, removable: false },
+      { id: "death-2", label: "사망 복귀-2", duration: 900, endAt: null, removable: false },
       { id: "enrage", label: "인레이지", duration: 480, endAt: null, removable: false },
     ],
   },
@@ -92,7 +92,7 @@ const HORNTAIL_SECTIONS: TimerSection[] = [
     id: "custom",
     title: "유혹 · 커스텀",
     icon: "🌀",
-    desc: "단체유혹: 양팔 HP30%↓ 60초마다 · 개인유혹: 양팔 3분마다(원정대 1번 고정) — 필요 항목 추가 가능",
+    desc: "시전 순간 시작 — 타이머 종료 = 재시전 가능 시점(최소 간격). 단체유혹: 양팔 각각 HP30%↓ 쿨 60초 · 개인유혹: 양팔 각각 쿨 3분(원정대 1번 고정)",
     timers: [
       { id: "sed-left", label: "단체유혹 좌팔", duration: 60, endAt: null, removable: true },
       { id: "sed-right", label: "단체유혹 우팔", duration: 60, endAt: null, removable: true },
