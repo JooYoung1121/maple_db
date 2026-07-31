@@ -15,6 +15,25 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.75.0",
+    date: "2026-07-31",
+    type: "minor",
+    title: "디스코드 챗봇 공식 소식 이해 개선",
+    pages: ["/news", "/guild/discord"],
+    features: [
+      {
+        category: "디스코드 챗봇",
+        items: [
+          "‘오늘 패치내용’·‘패치노트’·‘업데이트 내역’을 메이플랜드 공식 소식 의도로 인식해 사이트 DB의 최신 패치 요약과 링크로 응답",
+          "최신 점검 공지가 패치노트보다 나중에 올라와도 업데이트·패치노트 글만 정확히 선택",
+          "‘공홈소식 페이지’ 요청에는 우리 사이트 공홈 소식(/news) 링크를 바로 안내",
+          "‘그거 링크 줘’·‘그거 내용 다시 알려줘’ 같은 후속 질문에 직전 공지·패치 문맥 유지",
+          "실제 디스코드 오답 대화를 회귀 테스트로 추가해 일반 Gemini 대화로 잘못 빠지는 문제 방지",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.74.3",
     date: "2026-07-31",
     type: "patch",
