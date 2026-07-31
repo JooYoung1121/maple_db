@@ -101,8 +101,9 @@ const HORNTAIL_SECTIONS: TimerSection[] = [
   },
 ];
 
-/* v2: 2026-07 패턴 수치 검증(WZ 원본) 반영 — v1 저장분은 무시하고 새 프리셋 적용 */
-const STORAGE_KEY = "boss_timer_horntail_v2";
+/* v3: 사망 복귀 15분 등 수치 정정 반영 — 프리셋 기본값이 바뀌면 키를 올려 구 저장분을 무시한다
+ * (로드 시 저장분이 프리셋 duration을 덮어쓰는 구조라, 키를 안 올리면 기존 방문자에게 옛 값이 남음) */
+const STORAGE_KEY = "boss_timer_horntail_v3";
 const POLL_INTERVAL = 2000;
 
 /* 섹션별 단축키 풀 — 키보드 한 줄이 섹션 하나에 대응. 타이머 순서대로 배정, 풀 소진 시 이후 타이머는 단축키 없음 */

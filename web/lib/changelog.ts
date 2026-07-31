@@ -15,6 +15,21 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.74.2",
+    date: "2026-07-31",
+    type: "patch",
+    title: "혼테일 타이머 — 기존 방문자에게 새 수치 적용",
+    pages: ["/boss-timer"],
+    features: [
+      {
+        category: "혼테일",
+        items: [
+          "이전 버전 때 저장된 브라우저 값이 새 프리셋(사망 복귀 15분 등)을 덮어쓰던 문제 수정 — 저장 키 갱신",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.74.1",
     date: "2026-07-31",
     type: "patch",
