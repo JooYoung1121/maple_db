@@ -30,6 +30,10 @@ SITE_BASE_DEFAULT = "https://memorymapledb.up.railway.app"
 SESSION_TTL_SECONDS = 30 * 60
 MAX_HISTORY_MESSAGES = 10
 MAX_SESSIONS = 1_000
+MAX_MEMORY_KEY_LENGTH = 40
+MAX_MEMORY_CONTENT_LENGTH = 300
+MAX_MEMORIES_PER_GUILD = 100
+HELP_COMMANDS = {"!인포", "!도움말", "!명령어", "!스킬"}
 
 EQUIPMENT_CATEGORIES = {
     "Accessory",
@@ -214,6 +218,29 @@ class ConversationSession:
     last_notice_kind: Optional[str] = None
 
 
+@dataclass(frozen=True)
+class ChatActor:
+    """Discord identity/settings passed without coupling this module to discord.py."""
+
+    guild_id: Optional[str] = None
+    user_id: Optional[str] = None
+    user_name: Optional[str] = None
+    is_admin: bool = False
+    memory_enabled: bool = True
+    ai_user_daily_limit: int = 30
+    ai_server_daily_limit: int = 100
+
+
+@dataclass(frozen=True)
+class UsageSnapshot:
+    user_count: int
+    server_count: int
+    user_limit: int
+    server_limit: int
+    allowed: bool = True
+    blocked_by: Optional[str] = None
+
+
 _sessions: dict[str, ConversationSession] = {}
 
 
@@ -258,6 +285,336 @@ def _shorten(value: str, limit: int) -> str:
     if len(text) <= limit:
         return text
     return text[: limit - 1].rstrip() + "…"
+
+
+def _normalize_memory_key(value: str) -> str:
+    """Normalize Korean/Latin keys while keeping natural suffix matching useful."""
+    return re.sub(r"[^0-9a-z가-힣]", "", value.lower())
+
+
+def _memory_unavailable(actor: Optional[ChatActor]) -> Optional[str]:
+    if not actor or not actor.user_id:
+        return "저장 메모는 디스코드 대화에서 사용할 수 있어요."
+    if not actor.guild_id:
+        return "저장 메모는 개인 메시지가 아닌 디스코드 서버 안에서 사용할 수 있어요."
+    if not actor.memory_enabled:
+        return "이 서버에서는 저장 메모 기능이 꺼져 있어요. 관리자 설정을 확인해주세요."
+    return None
+
+
+def _memory_command_reply(question: str, actor: Optional[ChatActor]) -> Optional[str]:
+    """Handle deterministic, guild-scoped memory commands without using Gemini."""
+    command = question.strip()
+    compact = command.replace(" ", "")
+    is_memory_command = compact.startswith(
+        ("!저장", "!수정", "!삭제", "!기억")
+    )
+    if not is_memory_command:
+        return None
+
+    unavailable = _memory_unavailable(actor)
+    if unavailable:
+        return unavailable
+    assert actor is not None and actor.guild_id and actor.user_id
+
+    conn = get_connection()
+    try:
+        if re.fullmatch(r"!저장\s*목록", command):
+            rows = conn.execute(
+                """
+                SELECT memory_key, author_name FROM discord_bot_memories
+                WHERE guild_id=? ORDER BY updated_at DESC, id DESC LIMIT ?
+                """,
+                (actor.guild_id, MAX_MEMORIES_PER_GUILD),
+            ).fetchall()
+            if not rows:
+                return (
+                    "아직 이 서버에 저장된 메모가 없어요.\n"
+                    "`!저장 이름 = 내용`으로 첫 메모를 등록해보세요."
+                )
+            lines = [f"🗂️ **서버 저장 메모 {len(rows)}개**"]
+            lines.extend(
+                f"• `{row['memory_key']}` · {row['author_name'] or '알 수 없음'}"
+                for row in rows[:30]
+            )
+            if len(rows) > 30:
+                lines.append(f"외 {len(rows) - 30}개")
+            lines.append("\n내용 확인: `!기억 이름`")
+            return "\n".join(lines)
+
+        save_match = re.fullmatch(r"!저장\s+(.+?)\s*=\s*(.+)", command, re.DOTALL)
+        edit_match = re.fullmatch(r"!수정\s+(.+?)\s*=\s*(.+)", command, re.DOTALL)
+        if save_match or edit_match:
+            is_edit = edit_match is not None
+            match = edit_match or save_match
+            assert match is not None
+            memory_key = _clean_spaces(match.group(1)).strip("`'")
+            content = _clean_spaces(match.group(2))
+            normalized_key = _normalize_memory_key(memory_key)
+            if len(normalized_key) < 2:
+                return "메모 이름은 한글·영문·숫자 2자 이상으로 입력해주세요."
+            if len(memory_key) > MAX_MEMORY_KEY_LENGTH:
+                return f"메모 이름은 {MAX_MEMORY_KEY_LENGTH}자까지 저장할 수 있어요."
+            if not content or len(content) > MAX_MEMORY_CONTENT_LENGTH:
+                return f"메모 내용은 1~{MAX_MEMORY_CONTENT_LENGTH}자로 입력해주세요."
+
+            existing = conn.execute(
+                """
+                SELECT id, memory_key, author_id FROM discord_bot_memories
+                WHERE guild_id=? AND normalized_key=?
+                """,
+                (actor.guild_id, normalized_key),
+            ).fetchone()
+            if is_edit:
+                if not existing:
+                    return f"`{memory_key}` 메모가 없어요. 새 메모는 `!저장 이름 = 내용`을 사용해주세요."
+                if existing["author_id"] != actor.user_id and not actor.is_admin:
+                    return "이 메모는 작성자 또는 서버 관리자만 수정할 수 있어요."
+                conn.execute(
+                    """
+                    UPDATE discord_bot_memories
+                    SET memory_key=?, content=?, updated_at=datetime('now')
+                    WHERE id=?
+                    """,
+                    (memory_key, content, existing["id"]),
+                )
+                conn.commit()
+                return f"✏️ `{memory_key}` 메모를 수정했어요."
+
+            if existing:
+                return f"`{existing['memory_key']}` 메모가 이미 있어요. `!수정 {memory_key} = 새 내용`을 사용해주세요."
+            count = conn.execute(
+                "SELECT COUNT(*) FROM discord_bot_memories WHERE guild_id=?",
+                (actor.guild_id,),
+            ).fetchone()[0]
+            if count >= MAX_MEMORIES_PER_GUILD:
+                return f"이 서버는 메모를 최대 {MAX_MEMORIES_PER_GUILD}개까지 저장할 수 있어요."
+            conn.execute(
+                """
+                INSERT INTO discord_bot_memories
+                    (guild_id, memory_key, normalized_key, content, author_id, author_name)
+                VALUES (?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    actor.guild_id,
+                    memory_key,
+                    normalized_key,
+                    content,
+                    actor.user_id,
+                    actor.user_name,
+                ),
+            )
+            conn.commit()
+            return (
+                f"💾 `{memory_key}` 메모를 이 서버에 저장했어요.\n"
+                "누구나 이름을 넣어 질문하거나 `!기억 이름`으로 확인할 수 있어요."
+            )
+
+        delete_match = re.fullmatch(r"!삭제\s+(.+)", command, re.DOTALL)
+        if delete_match:
+            memory_key = _clean_spaces(delete_match.group(1)).strip("`'")
+            normalized_key = _normalize_memory_key(memory_key)
+            existing = conn.execute(
+                """
+                SELECT id, memory_key, author_id FROM discord_bot_memories
+                WHERE guild_id=? AND normalized_key=?
+                """,
+                (actor.guild_id, normalized_key),
+            ).fetchone()
+            if not existing:
+                return f"`{memory_key}` 메모를 찾지 못했어요."
+            if existing["author_id"] != actor.user_id and not actor.is_admin:
+                return "이 메모는 작성자 또는 서버 관리자만 삭제할 수 있어요."
+            conn.execute("DELETE FROM discord_bot_memories WHERE id=?", (existing["id"],))
+            conn.commit()
+            return f"🗑️ `{existing['memory_key']}` 메모를 삭제했어요."
+
+        recall_match = re.fullmatch(r"!기억\s+(.+)", command, re.DOTALL)
+        if recall_match:
+            memory_key = _clean_spaces(recall_match.group(1)).strip("`'")
+            normalized_key = _normalize_memory_key(memory_key)
+            row = conn.execute(
+                """
+                SELECT memory_key, content, author_name FROM discord_bot_memories
+                WHERE guild_id=? AND normalized_key=?
+                """,
+                (actor.guild_id, normalized_key),
+            ).fetchone()
+            if not row:
+                return f"`{memory_key}` 메모를 찾지 못했어요. `!저장목록`도 확인해보세요."
+            return _format_memory_rows([row])
+
+        return (
+            "명령 형식을 확인해주세요.\n"
+            "`!저장 이름 = 내용` · `!수정 이름 = 내용` · `!삭제 이름` · `!저장목록`"
+        )
+    finally:
+        conn.close()
+
+
+def _format_memory_rows(rows: list[Any]) -> str:
+    lines = ["📌 **서버 구성원이 저장한 메모**"]
+    for row in rows:
+        author = row["author_name"] or "알 수 없음"
+        lines.append(f"**{row['memory_key']}** — {row['content']}")
+        lines.append(f"_등록: {author} · 공식 정보가 아닌 서버 공유 메모예요._")
+    return "\n".join(lines)
+
+
+def _natural_memory_reply(question: str, actor: Optional[ChatActor]) -> Optional[str]:
+    unavailable = _memory_unavailable(actor)
+    if unavailable or not actor or not actor.guild_id or question.startswith("!"):
+        return None
+    normalized_question = _normalize_memory_key(question)
+    if not normalized_question:
+        return None
+    conn = get_connection()
+    try:
+        rows = conn.execute(
+            """
+            SELECT memory_key, normalized_key, content, author_name
+            FROM discord_bot_memories WHERE guild_id=?
+            ORDER BY LENGTH(normalized_key) DESC, updated_at DESC
+            LIMIT ?
+            """,
+            (actor.guild_id, MAX_MEMORIES_PER_GUILD),
+        ).fetchall()
+        matches = [row for row in rows if row["normalized_key"] in normalized_question]
+        return _format_memory_rows(matches[:3]) if matches else None
+    finally:
+        conn.close()
+
+
+def _usage_scope(actor: ChatActor) -> tuple[str, str]:
+    assert actor.user_id
+    return actor.guild_id or f"dm:{actor.user_id}", actor.user_id
+
+
+def _current_usage(actor: Optional[ChatActor]) -> Optional[UsageSnapshot]:
+    if not actor or not actor.user_id:
+        return None
+    guild_id, user_id = _usage_scope(actor)
+    usage_date = _today_kst().isoformat()
+    conn = get_connection()
+    try:
+        user_count = conn.execute(
+            """
+            SELECT COALESCE(request_count, 0) FROM discord_ai_usage
+            WHERE guild_id=? AND user_id=? AND usage_date=?
+            """,
+            (guild_id, user_id, usage_date),
+        ).fetchone()
+        server_count = conn.execute(
+            """
+            SELECT COALESCE(SUM(request_count), 0) FROM discord_ai_usage
+            WHERE guild_id=? AND usage_date=?
+            """,
+            (guild_id, usage_date),
+        ).fetchone()[0]
+        return UsageSnapshot(
+            int(user_count[0]) if user_count else 0,
+            int(server_count or 0),
+            max(1, actor.ai_user_daily_limit),
+            max(1, actor.ai_server_daily_limit),
+        )
+    finally:
+        conn.close()
+
+
+def _consume_ai_usage(actor: ChatActor, *, web_search: bool) -> UsageSnapshot:
+    """Atomically enforce per-user and per-guild limits before an API attempt."""
+    guild_id, user_id = _usage_scope(actor)
+    usage_date = _today_kst().isoformat()
+    user_limit = max(1, actor.ai_user_daily_limit)
+    server_limit = max(1, actor.ai_server_daily_limit)
+    conn = get_connection()
+    try:
+        conn.execute("BEGIN IMMEDIATE")
+        user_row = conn.execute(
+            """
+            SELECT request_count FROM discord_ai_usage
+            WHERE guild_id=? AND user_id=? AND usage_date=?
+            """,
+            (guild_id, user_id, usage_date),
+        ).fetchone()
+        user_count = int(user_row[0]) if user_row else 0
+        server_count = int(
+            conn.execute(
+                """
+                SELECT COALESCE(SUM(request_count), 0) FROM discord_ai_usage
+                WHERE guild_id=? AND usage_date=?
+                """,
+                (guild_id, usage_date),
+            ).fetchone()[0]
+        )
+        blocked_by = None
+        if user_count >= user_limit:
+            blocked_by = "user"
+        elif server_count >= server_limit:
+            blocked_by = "server"
+        if blocked_by:
+            conn.rollback()
+            return UsageSnapshot(
+                user_count,
+                server_count,
+                user_limit,
+                server_limit,
+                allowed=False,
+                blocked_by=blocked_by,
+            )
+        conn.execute(
+            """
+            INSERT INTO discord_ai_usage
+                (guild_id, user_id, usage_date, request_count, search_count, updated_at)
+            VALUES (?, ?, ?, 1, ?, datetime('now'))
+            ON CONFLICT(guild_id, user_id, usage_date) DO UPDATE SET
+                request_count=request_count + 1,
+                search_count=search_count + excluded.search_count,
+                updated_at=datetime('now')
+            """,
+            (guild_id, user_id, usage_date, 1 if web_search else 0),
+        )
+        conn.commit()
+        return UsageSnapshot(
+            user_count + 1,
+            server_count + 1,
+            user_limit,
+            server_limit,
+        )
+    finally:
+        conn.close()
+
+
+def _usage_line(snapshot: UsageSnapshot) -> str:
+    return (
+        f"오늘 AI 요청 {snapshot.server_count}/{snapshot.server_limit} · "
+        f"내 요청 {snapshot.user_count}/{snapshot.user_limit}"
+    )
+
+
+def _info_reply(actor: Optional[ChatActor]) -> str:
+    lines = [
+        "🤖 **푸확 봇 인포**",
+        "우리 사이트의 확인된 정보를 먼저 찾고, 필요한 경우에만 AI와 인터넷 검색을 사용해요.",
+        "",
+        "**바로 물어보기**",
+        "• `스켈로스 드랍템` · `오늘 패치내용` · `공홈소식 링크`",
+        "• `서울 오늘 날씨` · `최신 메이플랜드 소식 검색해줘`",
+        "• 사이트의 몬스터·아이템·공지·계산기·가이드 링크",
+        "",
+        "**서버 메모 스킬**",
+        "• `!저장 이름 = 내용` · `!기억 이름` · `!저장목록`",
+        "• `!수정 이름 = 새 내용` · `!삭제 이름`",
+        "• 예: `!저장 감튀살 = 감튀는 최고야` → `감튀살이 누구야?`",
+        "",
+        "메모는 서버 구성원이 적은 공유 정보로 표시되며 공식 정보보다 우선하지 않아요.",
+        "비밀번호·연락처 같은 개인정보나 민감한 내용은 저장하지 마세요.",
+    ]
+    usage = _current_usage(actor)
+    if usage:
+        lines.extend(["", f"📊 **{_usage_line(usage)}** (매일 00:00 KST 초기화)"])
+    lines.append("별칭: `!도움말` · `!명령어` · `!스킬`")
+    return "\n".join(lines)
 
 
 def _find_mob(conn, name: str):
@@ -839,7 +1196,7 @@ async def _ask_gemini(
     )
     if use_web_search:
         system_prompt += (
-            f"\n\n오늘 날짜는 {date.today().isoformat()}이다.\n"
+            f"\n\n오늘 날짜는 {_today_kst().isoformat()}이다.\n"
             f"{GEMINI_SEARCH_PROMPT}"
         )
     body = {
@@ -890,6 +1247,7 @@ async def handle_chat_message(
     text: str,
     *,
     allow_web_search: bool = True,
+    actor: Optional[ChatActor] = None,
 ) -> str:
     """Return one conversational response for a Discord/Kakao message."""
     question = _clean_spaces(text)
@@ -899,6 +1257,16 @@ async def handle_chat_message(
         return "질문이 너무 길어요. 핵심 내용을 500자 안으로 줄여서 다시 말해주세요."
 
     session = _get_session(session_key)
+
+    if question.lower() in HELP_COMMANDS:
+        reply = _info_reply(actor)
+        _remember(session, question, reply)
+        return reply
+
+    memory_command = _memory_command_reply(question, actor)
+    if memory_command:
+        # User-authored memory content never enters the Gemini conversation history.
+        return memory_command
 
     notice_followup = _notice_followup_reply(session, question)
     if notice_followup:
@@ -1084,7 +1452,37 @@ async def handle_chat_message(
         _remember(session, question, site_reply)
         return site_reply
 
+    memory_reply = _natural_memory_reply(question, actor)
+    if memory_reply:
+        # Keep shared notes deterministic and isolated from later AI prompts.
+        return memory_reply
+
     use_web_search = allow_web_search and _should_web_search(question)
+    usage: Optional[UsageSnapshot] = None
+    gemini_configured = bool(
+        os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
+    )
+    if actor and actor.user_id and gemini_configured:
+        usage = _consume_ai_usage(actor, web_search=use_web_search)
+        if not usage.allowed:
+            if usage.blocked_by == "user":
+                answer = (
+                    f"오늘 개인 AI 요청 한도({usage.user_limit}회)를 모두 사용했어요. "
+                    "내일 00:00(KST)에 다시 열려요."
+                )
+            else:
+                answer = (
+                    f"오늘 이 서버의 AI 요청 한도({usage.server_limit}회)를 모두 사용했어요. "
+                    "내일 00:00(KST)에 다시 열려요."
+                )
+            answer += (
+                "\n몬스터 드랍·아이템·공지·날씨·사이트 링크·저장 메모는 "
+                "한도와 관계없이 계속 사용할 수 있어요."
+            )
+            answer += f"\n\n-# 📊 {_usage_line(usage)}"
+            _remember(session, question, answer)
+            return answer
+
     answer = await _ask_gemini(
         session,
         question,
@@ -1098,8 +1496,10 @@ async def handle_chat_message(
             )
         else:
             answer = (
-                "지금은 자유 대화 연결이 잠시 쉬고 있어요. "
+                "자유 대화 AI 연결에 응답이 없어요. "
                 "몬스터 드랍, 아이템, 공지, 날씨나 사이트 기능은 바로 물어봐도 돼요!"
             )
+    if usage:
+        answer += f"\n\n-# 📊 {_usage_line(usage)}"
     _remember(session, question, answer)
     return answer

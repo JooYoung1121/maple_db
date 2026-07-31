@@ -45,6 +45,9 @@ export default function DiscordBotPage() {
   const [chatEnabled, setChatEnabled] = useState(false);
   const [chatChannelId, setChatChannelId] = useState("");
   const [webSearchEnabled, setWebSearchEnabled] = useState(true);
+  const [memoryEnabled, setMemoryEnabled] = useState(true);
+  const [aiUserDailyLimit, setAiUserDailyLimit] = useState("30");
+  const [aiServerDailyLimit, setAiServerDailyLimit] = useState("100");
   const [notifyMapleLand, setNotifyMapleLand] = useState(true);
   const [notifyGuildPost, setNotifyGuildPost] = useState(true);
   const [notifyWeeklyNews, setNotifyWeeklyNews] = useState(true);
@@ -110,6 +113,9 @@ export default function DiscordBotPage() {
       setChatEnabled(s.chat_enabled === "true");
       setChatChannelId(s.chat_channel_id ?? "");
       setWebSearchEnabled(s.web_search_enabled !== "false");
+      setMemoryEnabled(s.memory_enabled !== "false");
+      setAiUserDailyLimit(s.ai_user_daily_limit ?? "30");
+      setAiServerDailyLimit(s.ai_server_daily_limit ?? "100");
       setNotifyMapleLand(s.notify_maple_land === "true");
       setNotifyGuildPost(s.notify_guild_post === "true");
       setNotifyWeeklyNews(s.notify_weekly_news !== "false");
@@ -132,6 +138,9 @@ export default function DiscordBotPage() {
           chat_enabled: chatEnabled ? "true" : "false",
           chat_channel_id: chatChannelId,
           web_search_enabled: webSearchEnabled ? "true" : "false",
+          memory_enabled: memoryEnabled ? "true" : "false",
+          ai_user_daily_limit: aiUserDailyLimit,
+          ai_server_daily_limit: aiServerDailyLimit,
           notify_maple_land: notifyMapleLand ? "true" : "false",
           notify_guild_post: notifyGuildPost ? "true" : "false",
           notify_weekly_news: notifyWeeklyNews ? "true" : "false",
@@ -272,6 +281,36 @@ export default function DiscordBotPage() {
         )}
       </div>
 
+      {/* 누구나 볼 수 있는 봇 사용법 */}
+      <div className="pixel-panel p-5 space-y-4">
+        <div>
+          <h2 className="text-base font-semibold text-ink font-pixel">푸확 봇 인포</h2>
+          <p className="mt-1 text-xs leading-5 text-dim">
+            디스코드에서 <code className="text-maple">!인포</code>를 입력하면 현재 스킬과
+            오늘 AI 사용량을 바로 확인할 수 있습니다.
+          </p>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div className="rounded-lg bg-surface2 p-3">
+            <p className="text-xs font-semibold text-ink">사이트·실시간 정보</p>
+            <p className="mt-1 text-[11px] leading-5 text-dim">
+              스켈로스 드랍템 · 오늘 패치내용 · 공홈소식 링크 · 서울 날씨 · 최신 소식 검색
+            </p>
+          </div>
+          <div className="rounded-lg bg-surface2 p-3">
+            <p className="text-xs font-semibold text-ink">서버 공유 메모</p>
+            <p className="mt-1 text-[11px] leading-5 text-dim">
+              <code>!저장 이름 = 내용</code> · <code>!기억 이름</code> · <code>!저장목록</code>
+            </p>
+          </div>
+        </div>
+        <div className="rounded-lg border border-edge/60 px-3 py-2 text-[11px] leading-5 text-dim">
+          수정·삭제: <code>!수정 이름 = 새 내용</code> · <code>!삭제 이름</code><br />
+          저장 메모는 서버 구성원이 작성한 정보로 따로 표시되며, 공식 사이트 데이터보다 우선하지 않습니다.
+          개인정보나 민감한 내용은 저장하지 마세요.
+        </div>
+      </div>
+
       {/* 인증 */}
       {!authed ? (
         <div className="pixel-panel p-5 space-y-3">
@@ -384,6 +423,63 @@ export default function DiscordBotPage() {
                   />
                 </button>
               </div>
+
+              <div className="flex items-center justify-between gap-4 rounded-lg bg-surface2 px-3 py-3">
+                <div>
+                  <span className="text-sm text-ink">서버 공유 메모</span>
+                  <p className="mt-1 text-[11px] leading-5 text-dim">
+                    구성원이 <code>!저장 이름 = 내용</code>으로 등록한 메모를 서버 안에서 함께 사용합니다.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  aria-label="서버 공유 메모 사용 여부"
+                  aria-pressed={memoryEnabled}
+                  onClick={() => setMemoryEnabled(!memoryEnabled)}
+                  className={`relative w-11 h-6 shrink-0 rounded-full transition-colors ${
+                    memoryEnabled ? "bg-maple" : "bg-gray-300"
+                  }`}
+                >
+                  <span
+                    className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                      memoryEnabled ? "translate-x-5" : ""
+                    }`}
+                  />
+                </button>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                <div>
+                  <label className="block text-xs font-medium text-dim mb-1">
+                    1인당 AI 요청/일
+                  </label>
+                  <input
+                    type="number"
+                    min={1}
+                    max={10000}
+                    value={aiUserDailyLimit}
+                    onChange={(e) => setAiUserDailyLimit(e.target.value)}
+                    className="pixel-input w-full px-3 py-2 text-sm font-mono"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-dim mb-1">
+                    서버 전체 AI 요청/일
+                  </label>
+                  <input
+                    type="number"
+                    min={1}
+                    max={10000}
+                    value={aiServerDailyLimit}
+                    onChange={(e) => setAiServerDailyLimit(e.target.value)}
+                    className="pixel-input w-full px-3 py-2 text-sm font-mono"
+                  />
+                </div>
+              </div>
+              <p className="text-[11px] leading-5 text-dim">
+                자유 대화·인터넷 검색만 집계하며 매일 00:00(KST)에 초기화됩니다.
+                사이트 DB, 공지, 날씨, 도움말, 저장 메모는 차감하지 않습니다.
+              </p>
             </div>
 
             <div className="flex items-center justify-between">

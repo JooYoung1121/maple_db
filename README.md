@@ -299,8 +299,11 @@ Railway 대시보드 → Variables:
 | `MAPLE_LAND_CRAWL_INTERVAL_MINUTES` | 공홈/테스피아 공지 확인 주기. 기본값: `30` |
 | `DISCORD_BOT_TOKEN` | 디스코드 알림봇 토큰. 없으면 봇은 비활성화됨 |
 | `DISCORD_WEB_SEARCH_ENABLED` | 선택 사항. 디스코드 챗봇 인터넷 검색 기본값. 기본값: `true` |
+| `DISCORD_MEMORY_ENABLED` | 선택 사항. 디스코드 서버 공유 메모 기본값. 기본값: `true` |
+| `DISCORD_AI_USER_DAILY_LIMIT` | 선택 사항. 사용자별 Gemini 요청 일일 기본 한도. 기본값: `30` |
+| `DISCORD_AI_SERVER_DAILY_LIMIT` | 선택 사항. 서버 전체 Gemini 요청 일일 기본 한도. 기본값: `100` |
 
-디스코드 알림·대화 채널, 멘션, 인터넷 검색 설정은 배포 후 `/guild/discord` 페이지에서 관리자 비밀번호로 저장합니다. 인터넷 검색은 명시적인 검색 요청이나 최신 정보 질문에만 Gemini의 Google Search Grounding을 사용하며 답변에 출처 링크를 덧붙입니다.
+디스코드 알림·대화 채널, 멘션, 인터넷 검색, 공유 메모와 일일 AI 한도는 배포 후 `/guild/discord` 페이지에서 관리자 비밀번호로 저장합니다. 인터넷 검색은 명시적인 검색 요청이나 최신 정보 질문에만 Gemini의 Google Search Grounding을 사용하며 답변에 출처 링크를 덧붙입니다. 디스코드에서 `!인포`를 입력하면 현재 질문 예시와 `!저장 이름 = 내용`, `!기억 이름`, `!저장목록`, `!수정`, `!삭제` 사용법을 확인할 수 있습니다.
 로컬 개발에서는 루트 `.env`, `.env.local`, `web/.env.local`이 `./scripts/dev.sh` 실행 시 함께 로드됩니다.
 운영 중 자동으로 도는 크롤러는 메랜 공홈/테스피아 공지·이벤트 게시판 확인뿐이며, 몬스터/아이템/퀘스트 전체 크롤링은 수동 CLI로만 실행합니다.
 

@@ -64,6 +64,27 @@ class ChatbotServiceTests(unittest.IsolatedAsyncioTestCase):
                 author TEXT,
                 created_at TEXT
             );
+            CREATE TABLE discord_ai_usage (
+                guild_id TEXT NOT NULL,
+                user_id TEXT NOT NULL,
+                usage_date TEXT NOT NULL,
+                request_count INTEGER NOT NULL DEFAULT 0,
+                search_count INTEGER NOT NULL DEFAULT 0,
+                updated_at TEXT,
+                PRIMARY KEY (guild_id, user_id, usage_date)
+            );
+            CREATE TABLE discord_bot_memories (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                guild_id TEXT NOT NULL,
+                memory_key TEXT NOT NULL,
+                normalized_key TEXT NOT NULL,
+                content TEXT NOT NULL,
+                author_id TEXT NOT NULL,
+                author_name TEXT,
+                created_at TEXT DEFAULT (datetime('now')),
+                updated_at TEXT DEFAULT (datetime('now')),
+                UNIQUE(guild_id, normalized_key)
+            );
             """
         )
         conn.execute(
@@ -125,6 +146,25 @@ class ChatbotServiceTests(unittest.IsolatedAsyncioTestCase):
         conn = sqlite3.connect(self.db_path)
         conn.row_factory = sqlite3.Row
         return conn
+
+    @staticmethod
+    def _actor(
+        *,
+        guild_id="guild-1",
+        user_id="user-1",
+        user_name="감튀",
+        is_admin=False,
+        user_limit=30,
+        server_limit=100,
+    ):
+        return chatbot_service.ChatActor(
+            guild_id=guild_id,
+            user_id=user_id,
+            user_name=user_name,
+            is_admin=is_admin,
+            ai_user_daily_limit=user_limit,
+            ai_server_daily_limit=server_limit,
+        )
 
     async def test_drop_query_uses_database_and_remembers_mob(self):
         reply = await chatbot_service.handle_chat_message(
@@ -266,6 +306,156 @@ class ChatbotServiceTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("[두 번째](https://example.org/b)", answer)
         self.assertEqual(answer.count("https://example.com/a"), 1)
         self.assertNotIn("javascript:", answer)
+
+    async def test_info_lists_skills_and_current_usage_without_charging(self):
+        reply = await chatbot_service.handle_chat_message(
+            "discord:test:info", "!인포", actor=self._actor()
+        )
+        self.assertIn("푸확 봇 인포", reply)
+        self.assertIn("!저장 이름 = 내용", reply)
+        self.assertIn("오늘 AI 요청 0/100", reply)
+        conn = self._connection()
+        try:
+            self.assertEqual(
+                conn.execute("SELECT COUNT(*) FROM discord_ai_usage").fetchone()[0],
+                0,
+            )
+        finally:
+            conn.close()
+
+    async def test_guild_memory_save_and_natural_recall_do_not_use_llm(self):
+        actor = self._actor()
+        saved = await chatbot_service.handle_chat_message(
+            "discord:test:memory", "!저장 감튀살 = 감튀는 최고야", actor=actor
+        )
+        self.assertIn("저장했어요", saved)
+
+        with patch(
+            "api.chatbot_service._ask_gemini",
+            new=AsyncMock(return_value="LLM으로 가면 안 됨"),
+        ) as ask:
+            recalled = await chatbot_service.handle_chat_message(
+                "discord:test:memory", "감튀살이 누구야?", actor=actor
+            )
+        self.assertIn("서버 구성원이 저장한 메모", recalled)
+        self.assertIn("감튀는 최고야", recalled)
+        self.assertIn("공식 정보가 아닌", recalled)
+        ask.assert_not_awaited()
+
+        with patch(
+            "api.chatbot_service._ask_gemini",
+            new=AsyncMock(return_value="일반 대화"),
+        ) as ask_after_memory:
+            await chatbot_service.handle_chat_message(
+                "discord:test:memory", "오늘 기분은 어때?", actor=actor
+            )
+        gemini_session = ask_after_memory.await_args.args[0]
+        self.assertNotIn(
+            "감튀는 최고야",
+            " ".join(message for _, message in gemini_session.history),
+        )
+
+        duplicate = await chatbot_service.handle_chat_message(
+            "discord:test:memory", "!저장 감튀살 = 다른 내용", actor=actor
+        )
+        self.assertIn("이미 있어요", duplicate)
+        self.assertIn("!수정", duplicate)
+
+    async def test_memory_is_scoped_and_edit_delete_are_permission_checked(self):
+        owner = self._actor()
+        stranger = self._actor(user_id="user-2", user_name="다른사람")
+        admin = self._actor(user_id="admin", user_name="관리자", is_admin=True)
+        other_guild = self._actor(guild_id="guild-2", user_id="user-3")
+        await chatbot_service.handle_chat_message(
+            "discord:test:owner", "!저장 길드비밀 = 7시에 모여요", actor=owner
+        )
+
+        denied = await chatbot_service.handle_chat_message(
+            "discord:test:stranger", "!수정 길드비밀 = 8시", actor=stranger
+        )
+        self.assertIn("작성자 또는 서버 관리자만", denied)
+
+        with patch(
+            "api.chatbot_service._ask_gemini",
+            new=AsyncMock(return_value="다른 서버에는 없음"),
+        ) as ask:
+            reply = await chatbot_service.handle_chat_message(
+                "discord:test:other", "길드비밀 알려줘", actor=other_guild
+            )
+        self.assertEqual(reply, "다른 서버에는 없음")
+        ask.assert_awaited_once()
+
+        deleted = await chatbot_service.handle_chat_message(
+            "discord:test:admin", "!삭제 길드비밀", actor=admin
+        )
+        self.assertIn("삭제했어요", deleted)
+
+    async def test_dm_memory_save_is_rejected(self):
+        reply = await chatbot_service.handle_chat_message(
+            "discord:dm:user",
+            "!저장 개인 = 저장 안 됨",
+            actor=self._actor(guild_id=None),
+        )
+        self.assertIn("서버 안에서", reply)
+
+    async def test_ai_usage_enforces_user_and_server_limits_with_footer(self):
+        actor_one = self._actor(user_limit=2, server_limit=3)
+        actor_two = self._actor(
+            user_id="user-2", user_name="두번째", user_limit=2, server_limit=3
+        )
+        with (
+            patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}),
+            patch(
+                "api.chatbot_service._ask_gemini",
+                new=AsyncMock(return_value="AI 답변"),
+            ) as ask,
+        ):
+            first = await chatbot_service.handle_chat_message(
+                "discord:test:q1", "안녕 푸확아", actor=actor_one
+            )
+            second = await chatbot_service.handle_chat_message(
+                "discord:test:q1", "오늘 기분 어때?", actor=actor_one
+            )
+            user_blocked = await chatbot_service.handle_chat_message(
+                "discord:test:q1", "또 이야기해줘", actor=actor_one
+            )
+            third = await chatbot_service.handle_chat_message(
+                "discord:test:q2", "반가워", actor=actor_two
+            )
+            server_blocked = await chatbot_service.handle_chat_message(
+                "discord:test:q2", "하나 더", actor=actor_two
+            )
+
+        self.assertIn("오늘 AI 요청 1/3 · 내 요청 1/2", first)
+        self.assertIn("오늘 AI 요청 2/3 · 내 요청 2/2", second)
+        self.assertIn("개인 AI 요청 한도", user_blocked)
+        self.assertIn("오늘 AI 요청 3/3 · 내 요청 1/2", third)
+        self.assertIn("서버의 AI 요청 한도", server_blocked)
+        self.assertEqual(ask.await_count, 3)
+
+    async def test_site_database_answers_do_not_charge_ai_usage(self):
+        actor = self._actor(user_limit=1, server_limit=1)
+        with (
+            patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}),
+            patch(
+                "api.chatbot_service._ask_gemini",
+                new=AsyncMock(return_value="LLM으로 가면 안 됨"),
+            ) as ask,
+        ):
+            reply = await chatbot_service.handle_chat_message(
+                "discord:test:free", "스켈로스 드랍템", actor=actor
+            )
+        self.assertIn("오래된 뼈", reply)
+        self.assertNotIn("오늘 AI 요청", reply)
+        ask.assert_not_awaited()
+        conn = self._connection()
+        try:
+            self.assertEqual(
+                conn.execute("SELECT COUNT(*) FROM discord_ai_usage").fetchone()[0],
+                0,
+            )
+        finally:
+            conn.close()
 
 
 if __name__ == "__main__":

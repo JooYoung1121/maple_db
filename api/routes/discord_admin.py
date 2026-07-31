@@ -20,6 +20,9 @@ ALLOWED_KEYS = {
     "chat_enabled",
     "chat_channel_id",
     "web_search_enabled",
+    "memory_enabled",
+    "ai_user_daily_limit",
+    "ai_server_daily_limit",
 }
 
 
@@ -68,6 +71,9 @@ async def discord_status():
         chat_ch_id = bot.get_chat_channel_id()
         result["chat_enabled"] = bot.is_chat_enabled()
         result["web_search_enabled"] = bot.is_web_search_enabled()
+        result["memory_enabled"] = bot.is_memory_enabled()
+        result["ai_user_daily_limit"] = bot.get_ai_user_daily_limit()
+        result["ai_server_daily_limit"] = bot.get_ai_server_daily_limit()
         result["chat_channel_id"] = str(chat_ch_id) if chat_ch_id else None
         if chat_ch_id:
             try:
@@ -101,6 +107,9 @@ class SettingsUpdate(BaseModel):
     chat_enabled: Optional[str] = None
     chat_channel_id: Optional[str] = None
     web_search_enabled: Optional[str] = None
+    memory_enabled: Optional[str] = None
+    ai_user_daily_limit: Optional[str] = None
+    ai_server_daily_limit: Optional[str] = None
 
 
 @router.patch("/discord/settings")
@@ -109,6 +118,20 @@ def update_discord_settings(body: SettingsUpdate, request: Request):
     updates = {k: v for k, v in body.model_dump().items() if v is not None and k in ALLOWED_KEYS}
     if not updates:
         raise HTTPException(status_code=400, detail="변경할 설정이 없습니다.")
+
+    for key in ("ai_user_daily_limit", "ai_server_daily_limit"):
+        if key not in updates:
+            continue
+        try:
+            value = int(updates[key])
+        except (TypeError, ValueError):
+            raise HTTPException(status_code=400, detail=f"{key}는 숫자여야 합니다.")
+        if not 1 <= value <= 10_000:
+            raise HTTPException(
+                status_code=400,
+                detail=f"{key}는 1~10000 사이여야 합니다.",
+            )
+        updates[key] = str(value)
 
     conn = get_connection()
     for key, value in updates.items():

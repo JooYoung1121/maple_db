@@ -5,7 +5,7 @@ import time
 
 import discord
 
-from api.chatbot_service import handle_chat_message
+from api.chatbot_service import ChatActor, handle_chat_message
 from crawler.db import get_connection
 
 bot_instance: discord.Client | None = None
@@ -47,6 +47,36 @@ class MapleBot(discord.Client):
     def is_web_search_enabled(self) -> bool:
         env_default = os.environ.get("DISCORD_WEB_SEARCH_ENABLED", "true")
         return self.get_setting("web_search_enabled", env_default).lower() == "true"
+
+    def is_memory_enabled(self) -> bool:
+        env_default = os.environ.get("DISCORD_MEMORY_ENABLED", "true")
+        return self.get_setting("memory_enabled", env_default).lower() == "true"
+
+    def get_int_setting(
+        self,
+        key: str,
+        env_key: str,
+        default: int,
+        *,
+        minimum: int = 1,
+        maximum: int = 10_000,
+    ) -> int:
+        raw = self.get_setting(key, os.environ.get(env_key, str(default)))
+        try:
+            value = int(raw)
+        except (TypeError, ValueError):
+            value = default
+        return min(maximum, max(minimum, value))
+
+    def get_ai_user_daily_limit(self) -> int:
+        return self.get_int_setting(
+            "ai_user_daily_limit", "DISCORD_AI_USER_DAILY_LIMIT", 30
+        )
+
+    def get_ai_server_daily_limit(self) -> int:
+        return self.get_int_setting(
+            "ai_server_daily_limit", "DISCORD_AI_SERVER_DAILY_LIMIT", 100
+        )
 
     def clear_channel_errors(self) -> None:
         self._invalid_channel_ids.clear()
@@ -104,12 +134,30 @@ class MapleBot(discord.Client):
 
         guild_key = str(message.guild.id) if message.guild else "dm"
         session_key = f"discord:{guild_key}:{message.channel.id}:{message.author.id}"
+        permissions = getattr(message.author, "guild_permissions", None)
+        is_admin = bool(
+            permissions
+            and (
+                getattr(permissions, "administrator", False)
+                or getattr(permissions, "manage_messages", False)
+            )
+        )
+        actor = ChatActor(
+            guild_id=str(message.guild.id) if message.guild else None,
+            user_id=str(message.author.id),
+            user_name=getattr(message.author, "display_name", str(message.author)),
+            is_admin=is_admin,
+            memory_enabled=self.is_memory_enabled(),
+            ai_user_daily_limit=self.get_ai_user_daily_limit(),
+            ai_server_daily_limit=self.get_ai_server_daily_limit(),
+        )
         try:
             async with message.channel.typing():
                 response = await handle_chat_message(
                     session_key,
                     content,
                     allow_web_search=self.is_web_search_enabled(),
+                    actor=actor,
                 )
         except Exception as exc:
             print(f"[discord] 대화 처리 실패: {exc}")
