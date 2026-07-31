@@ -15,6 +15,22 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.74.1",
+    date: "2026-07-31",
+    type: "patch",
+    title: "혼테일 타이머 수치 피드백 반영",
+    pages: ["/boss-timer", "/horntail"],
+    features: [
+      {
+        category: "혼테일",
+        items: [
+          "사망 복귀 15분(실제 기준)으로 정정 — 14분은 안전 마진 운용값이었음, 필요 시 카드 수정",
+          "유혹 '주기' 의미 명확화 — 쿨다운(최소 재사용 간격), 타이머 종료 = 재시전 가능 시점. 좌·우팔 쿨 독립",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.74.0",
     date: "2026-07-31",
     type: "minor",
