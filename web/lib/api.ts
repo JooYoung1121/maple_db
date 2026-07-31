@@ -471,6 +471,7 @@ export async function getDiscordStatus() {
     channel_error?: string;
     channel_help?: string;
     chat_enabled?: boolean;
+    web_search_enabled?: boolean;
     chat_channel_id?: string | null;
     chat_channel_name?: string;
     chat_channel_ok?: boolean;

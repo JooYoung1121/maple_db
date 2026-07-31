@@ -44,6 +44,10 @@ class MapleBot(discord.Client):
         env_default = os.environ.get("DISCORD_CHAT_ENABLED", "false")
         return self.get_setting("chat_enabled", env_default).lower() == "true"
 
+    def is_web_search_enabled(self) -> bool:
+        env_default = os.environ.get("DISCORD_WEB_SEARCH_ENABLED", "true")
+        return self.get_setting("web_search_enabled", env_default).lower() == "true"
+
     def clear_channel_errors(self) -> None:
         self._invalid_channel_ids.clear()
 
@@ -102,7 +106,11 @@ class MapleBot(discord.Client):
         session_key = f"discord:{guild_key}:{message.channel.id}:{message.author.id}"
         try:
             async with message.channel.typing():
-                response = await handle_chat_message(session_key, content)
+                response = await handle_chat_message(
+                    session_key,
+                    content,
+                    allow_web_search=self.is_web_search_enabled(),
+                )
         except Exception as exc:
             print(f"[discord] 대화 처리 실패: {exc}")
             response = "답변을 만드는 중 문제가 생겼어요. 잠시 후 다시 물어봐주세요."

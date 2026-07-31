@@ -15,6 +15,24 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.74.0",
+    date: "2026-07-31",
+    type: "minor",
+    title: "디스코드 챗봇 인터넷 검색 — 최신 정보와 출처를 함께",
+    pages: ["/guild/discord"],
+    features: [
+      {
+        category: "디스코드 챗봇",
+        items: [
+          "“검색해줘”·“최신 소식”·“요즘”처럼 외부 최신 정보가 필요한 질문에 Gemini Google Search Grounding 적용",
+          "검색 답변 아래에 실제 확인한 웹 출처를 최대 4개까지 클릭 가능한 링크로 표시",
+          "사이트 DB·공식 공지·날씨·사이트 기능 링크를 먼저 조회하고, 필요한 질문에만 웹 검색을 사용해 정확도·비용·응답 시간을 균형 있게 유지",
+          "관리자 화면에서 인터넷 검색을 즉시 켜거나 끌 수 있는 설정 추가",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.73.0",
     date: "2026-07-31",
     type: "minor",
