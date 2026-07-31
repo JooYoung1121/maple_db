@@ -74,6 +74,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/medals", label: "훈장 가이드", icon: "🎖️", description: "탐험가 트리 · 기부왕 · 레벨 훈장" },
       { href: "/ship", label: "배 시간표", icon: "🚢", description: "정기선 운항 시간" },
       { href: "/trap", label: "함정 타이머", homeLabel: "트랩 타이머", icon: "⏱️", description: "트랩 주기 타이머" },
+      { href: "/horntail", label: "혼테일 공략", icon: "🐲", description: "패턴 · 직업별 준비물 · 파츠별 딜 위치" },
       { href: "/boss-timer", label: "혼테일 타이머", icon: "🐉", description: "리저 · 공무 · 버프해제 쿨타임" },
     ],
   },

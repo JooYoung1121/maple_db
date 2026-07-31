@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { createBossTimerRoom, pollBossTimerRoom, bossTimerAction } from "@/lib/api";
 
@@ -28,9 +29,12 @@ interface RoomInfo {
 }
 
 /* ── 혼테일 프리셋 ──
- * 리저렉션 쿨 30분 / 사망 팅 15분 / 인레이지 6분 / 머리 공무 45초 /
- * 중머리 버프해제(5갈 5분 · 3갈 3분) / 좌팔 HP60% 5분
- * — 기존 혼테일 타이머 사이트(현재 폐쇄) 구성을 따름. 값은 카드별 수정 가능.
+ * 수치 근거: 원작 v62 WZ 원본(MobSkill.img) + 메랜 유저 실측 (2026-07 검증)
+ * - 공무·마무: 지속 40초(실측 43초) · 재사용 60초 — 머리별 물/마 모두 보유
+ * - 버프해제: 중머리·좌팔 HP60%↓ 5분 / HP30%↓ 3분 (독립 쿨)
+ * - 단체유혹: 좌팔·우팔 HP30%↓ 60초마다 10인 · 개인유혹: 양팔 3분마다 1인(원정대 1번 고정)
+ * - 인레이지 쿨 8분 / 리저 30분 / 사망 복귀 실측 14분
+ * 값은 카드별 수정 가능.
  */
 const HORNTAIL_SECTIONS: TimerSection[] = [
   {
@@ -51,52 +55,61 @@ const HORNTAIL_SECTIONS: TimerSection[] = [
     id: "death-buff",
     title: "사망 & 버프",
     icon: "🪦",
-    desc: "사망 대기(팅) 15분 · 인레이지 6분",
+    desc: "사망 후 마을→보스맵 복귀 실측 14분 · 인레이지 쿨 8분(지속 4분)",
     timers: [
-      { id: "death-1", label: "사망 팅-1", duration: 900, endAt: null, removable: false },
-      { id: "death-2", label: "사망 팅-2", duration: 900, endAt: null, removable: false },
-      { id: "enrage", label: "인레이지", duration: 360, endAt: null, removable: false },
+      { id: "death-1", label: "사망 복귀-1", duration: 840, endAt: null, removable: false },
+      { id: "death-2", label: "사망 복귀-2", duration: 840, endAt: null, removable: false },
+      { id: "enrage", label: "인레이지", duration: 480, endAt: null, removable: false },
     ],
   },
   {
     id: "cancel",
-    title: "공무",
+    title: "공무 · 마무",
     icon: "⚔️",
-    desc: "머리별 물리공격 무효 45초 — 시전 순간 시작을 누르세요",
+    desc: "머리별 물리/마법 무효 — 지속 40초(실측 43초) · 재사용 60초. 시전 순간 시작",
     timers: [
-      { id: "wc-left", label: "좌머리 공무", duration: 45, endAt: null, removable: false },
-      { id: "wc-mid", label: "중머리 공무", duration: 45, endAt: null, removable: false },
-      { id: "wc-right", label: "우머리 공무", duration: 45, endAt: null, removable: false },
+      { id: "wc-left", label: "좌머리 공무", duration: 43, endAt: null, removable: false },
+      { id: "wc-mid", label: "중머리 공무", duration: 43, endAt: null, removable: false },
+      { id: "wc-right", label: "우머리 공무", duration: 43, endAt: null, removable: false },
+      { id: "mc-left", label: "좌머리 마무", duration: 43, endAt: null, removable: false },
+      { id: "mc-mid", label: "중머리 마무", duration: 43, endAt: null, removable: false },
+      { id: "mc-right", label: "우머리 마무", duration: 43, endAt: null, removable: false },
     ],
   },
   {
     id: "dispel",
     title: "버프해제",
     icon: "🛡️",
-    desc: "중머리 5갈 5분 · 3갈 3분 · 좌팔 HP60% 이후 5분",
+    desc: "중머리·좌팔 각각 HP60%↓ 5분(5갈) · HP30%↓ 3분(3갈) — 서로 독립 쿨",
     timers: [
-      { id: "dispel-5", label: "중머리 5갈", duration: 300, endAt: null, removable: false },
-      { id: "dispel-3", label: "중머리 3갈", duration: 180, endAt: null, removable: false },
-      { id: "dispel-arm", label: "좌팔 HP:60%", duration: 300, endAt: null, removable: false },
+      { id: "dispel-5", label: "중머리 5갈 (60%↓)", duration: 300, endAt: null, removable: false },
+      { id: "dispel-3", label: "중머리 3갈 (30%↓)", duration: 180, endAt: null, removable: false },
+      { id: "dispel-arm", label: "좌팔 5갈 (60%↓)", duration: 300, endAt: null, removable: false },
+      { id: "dispel-arm3", label: "좌팔 3갈 (30%↓)", duration: 180, endAt: null, removable: false },
     ],
   },
   {
     id: "custom",
     title: "유혹 · 커스텀",
     icon: "🌀",
-    desc: "유혹 등 파티마다 다르게 재는 항목은 직접 추가하세요 (이름·시간 자유 설정)",
-    timers: [],
+    desc: "단체유혹: 양팔 HP30%↓ 60초마다 · 개인유혹: 양팔 3분마다(원정대 1번 고정) — 필요 항목 추가 가능",
+    timers: [
+      { id: "sed-left", label: "단체유혹 좌팔", duration: 60, endAt: null, removable: true },
+      { id: "sed-right", label: "단체유혹 우팔", duration: 60, endAt: null, removable: true },
+      { id: "sed-solo", label: "개인유혹", duration: 180, endAt: null, removable: true },
+    ],
   },
 ];
 
-const STORAGE_KEY = "boss_timer_horntail_v1";
+/* v2: 2026-07 패턴 수치 검증(WZ 원본) 반영 — v1 저장분은 무시하고 새 프리셋 적용 */
+const STORAGE_KEY = "boss_timer_horntail_v2";
 const POLL_INTERVAL = 2000;
 
 /* 섹션별 단축키 풀 — 키보드 한 줄이 섹션 하나에 대응. 타이머 순서대로 배정, 풀 소진 시 이후 타이머는 단축키 없음 */
 const SECTION_HOTKEYS: Record<string, string[]> = {
   resurrection: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
   "death-buff": ["Q", "W", "E", "R", "T"],
-  cancel: ["A", "S", "D", "F", "G"],
+  cancel: ["A", "S", "D", "F", "G", "H"],
   dispel: ["Z", "X", "C", "V", "B"],
   custom: ["U", "I", "O", "P", "J", "K", "L"],
 };
@@ -602,6 +615,12 @@ export default function BossTimerPage() {
       <div className="flex flex-wrap items-center justify-between gap-3 mb-1">
         <h1 className="text-2xl font-bold font-pixel">🐉 혼테일 타이머</h1>
         <div className="flex items-center gap-2">
+          <Link
+            href="/horntail"
+            className="px-3 py-1.5 text-xs font-pixel border-2 border-edge text-dim hover:text-maple transition-colors"
+          >
+            🐲 공략 가이드
+          </Link>
           <button
             onClick={() => setMuted(!muted)}
             className={`px-3 py-1.5 text-xs font-pixel border-2 transition-colors ${
