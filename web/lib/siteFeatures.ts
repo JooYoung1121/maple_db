@@ -59,7 +59,7 @@ export const SITE_SECTIONS: SiteSection[] = [
     label: "전문기술",
     icon: "⚒️",
     items: [
-      { href: "/maker", label: "메이커", icon: "⚒️", description: "제작 재료와 완성품 조회" },
+      { href: "/maker", label: "메이커", icon: "⚒️", description: "제작 정보와 리버스 무기 기대값" },
     ],
   },
   {
@@ -84,7 +84,7 @@ export const SITE_SECTIONS: SiteSection[] = [
     items: [
       { href: "/news", label: "공홈 소식", homeLabel: "메랜 공홈 소식", icon: "📰", description: "메이플랜드 공지·이벤트" },
       { href: "/weekly", label: "주간 메랜", icon: "🗞️", description: "한 주의 공식·커뮤니티 소식" },
-      { href: "/channels", label: "스트리머 · 유튜버", icon: "📺", description: "메랜 방송 · 영상 · 커뮤니티 모음" },
+      { href: "/channels", label: "채널 · 커뮤니티", icon: "📺", description: "메랜 방송 · 영상 · 공식 Discord 모음" },
       { href: "/bimae", label: "비매박제", icon: "🚫", description: "비매 유저 신고" },
       { href: "/community", label: "투표", icon: "🗳️", description: "유저 투표 참여" },
       { href: "/version", label: "업데이트 소식", icon: "🧾", description: "사이트 변경 내역" },

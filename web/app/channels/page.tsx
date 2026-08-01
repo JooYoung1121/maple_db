@@ -13,7 +13,7 @@ const CATEGORY_META: Record<string, { label: string; icon: string; desc: string 
   youtube: { label: "유튜브", icon: "🎬", desc: "메랜 콘텐츠 · 공략 영상" },
   blog: { label: "블로그", icon: "📝", desc: "공략 · 정보 블로그" },
   community: { label: "커뮤니티", icon: "💬", desc: "갤러리 · 게시판" },
-  discord: { label: "디스코드", icon: "🎧", desc: "디스코드 서버" },
+  discord: { label: "디스코드 · 실시간 모집", icon: "🎧", desc: "공식 서버와 외부 웹 피드" },
 };
 
 const EMPTY_FORM: ChannelPayload = {
@@ -300,7 +300,7 @@ export default function ChannelsPage() {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="flex items-start justify-between mb-2">
-        <h1 className="text-2xl font-bold font-pixel">📺 메랜 스트리머 · 유튜버</h1>
+        <h1 className="text-2xl font-bold font-pixel">📺 메랜 채널 · 커뮤니티</h1>
         <button
           onClick={() => setShowAdmin(!showAdmin)}
           className="font-pixel text-xs text-dim hover:text-maple px-2 py-1"
@@ -385,7 +385,7 @@ export default function ChannelsPage() {
           )}
 
           <p className="text-[11px] text-dim">
-            채널 추천이나 등록 요청은 길드 디스코드로 알려주세요. 외부 링크는 각 플랫폼에서 열립니다.
+            채널 추천이나 등록 요청은 길드 디스코드로 알려주세요. 외부 링크는 각 플랫폼에서 열립니다. 공식 Discord 대화는 로그인·서버 가입·채널 권한이 필요한 외부 정보이며, 이 사이트가 메시지를 자동 수집하지 않습니다.
           </p>
         </div>
       )}

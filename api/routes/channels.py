@@ -36,6 +36,8 @@ DEFAULT_CHANNELS = [
      "직업 추천·티어리스트 등 메랜 정보", "공략,직업", 30),
     ("youtube", "밥뒤", "유튜브", "https://www.youtube.com/channel/UCwk0MVSaWdu8-vCcBQh05yA", "UCwk0MVSaWdu8-vCcBQh05yA",
      "직업별 솔플 육성기·버닝월드 콘텐츠", "육성,콘텐츠", 40),
+    ("youtube", "윌키", "유튜브", "https://www.youtube.com/channel/UCNi-bNBXG5GJkYba-FE1GXg", "UCNi-bNBXG5GJkYba-FE1GXg",
+     "데이터 분석 기반 사냥 효율·장비·메이커 공략", "데이터분석,사냥터,장비,메이커", 50),
     ("blog", "메이플기분", "티스토리", "https://maplekibun.tistory.com", None,
      "직업별 스킬·육성 공략 블로그 (본 사이트 스킬 데이터 출처)", "공략,스킬", 10),
     ("community", "디시 메이플랜드 갤러리", "디시인사이드", "https://gall.dcinside.com/mgallery/board/lists/?id=mapleland", None,
@@ -44,6 +46,10 @@ DEFAULT_CHANNELS = [
      "메이플스토리 인벤 — 방송 페이지·게시판", "커뮤니티", 20),
     ("community", "에펨코리아 메이플", "에펨코리아", "https://www.fmkorea.com/maplestory", None,
      "에펨코리아 메이플스토리 게시판", "커뮤니티", 30),
+    ("discord", "메이플랜드 공식 디스코드", "Discord", "https://discord.gg/mapleland", None,
+     "공식 공지와 파티·보스·길드 모집이 오가는 커뮤니티", "공식,공지,파티모집,보스", 10),
+    ("discord", "메랜피드", "외부 웹", "https://maplefeed.com/", None,
+     "공식 디스코드의 구인·거래 글을 웹에서 확인하는 외부 서비스", "파티모집,거래,실시간", 20),
 ]
 
 
@@ -97,7 +103,7 @@ _V1_YOUTUBE_URLS = [
     "https://www.youtube.com/@%EB%A9%94%EC%9D%B4%ED%94%8C%EC%8A%A4%ED%86%A0%EB%A6%AC%EB%A7%91%EC%9D%8C",
     "https://www.youtube.com/@MapleStoryKR",
 ]
-SEED_VERSION = 2
+SEED_VERSION = 3
 
 
 def _migrate_seeds(conn):

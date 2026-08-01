@@ -4,8 +4,9 @@ import { useState, useEffect, useMemo } from "react";
 import { getMakerData, getMakerMaterialSources } from "@/lib/api";
 import type { MakerData, MakerEquipment, MakerEquipGrade, MakerMobSource } from "@/lib/types";
 import GemCalculator from "./GemCalculator";
+import ReverseCraftSimulator from "./ReverseCraftSimulator";
 
-type Tab = "info" | "sim" | "material" | "gem";
+type Tab = "info" | "sim" | "reverse" | "material" | "gem";
 type Grade = "하급" | "중급" | "상급";
 
 const won = (n: number) => n.toLocaleString("ko-KR");
@@ -48,12 +49,12 @@ export default function MakerPage() {
       </div>
 
       {/* 탭 */}
-      <div className="flex overflow-hidden border-2 border-edge">
-        {([["info", "제작 정보"], ["sim", "시뮬레이터"], ["material", "재료 획득"], ["gem", "보석 가성비"]] as [Tab, string][]).map(([t, label]) => (
+      <div className="flex overflow-x-auto border-2 border-edge">
+        {([["info", "제작 정보"], ["sim", "기본 시뮬"], ["reverse", "리버스 제작"], ["material", "재료 획득"], ["gem", "보석 가성비"]] as [Tab, string][]).map(([t, label]) => (
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`flex-1 py-2.5 text-sm font-bold transition-colors ${
+            className={`flex-1 shrink-0 min-w-[6.5rem] py-2.5 text-sm font-bold transition-colors ${
               tab === t ? "pixel-btn font-pixel" : "font-pixel bg-surface text-dim hover:text-maple"
             }`}
           >
@@ -64,6 +65,7 @@ export default function MakerPage() {
 
       {tab === "info" && <InfoTab data={data} />}
       {tab === "sim" && <SimTab data={data} />}
+      {tab === "reverse" && <ReverseCraftSimulator />}
       {tab === "material" && <MaterialTab data={data} />}
       {tab === "gem" && <GemCalculator />}
     </div>
