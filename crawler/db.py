@@ -510,6 +510,18 @@ CREATE TABLE IF NOT EXISTS users (
     last_login_at TEXT
 );
 
+-- 필드보스 처치 채널 제보 (유저 데이터 — 시드 동기화 금지)
+CREATE TABLE IF NOT EXISTS field_boss_reports (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    boss_id INTEGER NOT NULL,
+    channel INTEGER NOT NULL,
+    killed_at TEXT NOT NULL,
+    reporter TEXT,
+    user_id INTEGER,
+    client_ip TEXT,
+    created_at TEXT DEFAULT (datetime('now'))
+);
+
 -- 계정별 개인화 저장 (key-value JSON)
 CREATE TABLE IF NOT EXISTS user_settings (
     user_id INTEGER NOT NULL,
