@@ -4,6 +4,12 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { getEvent, updateEvent, type EventGuide, type EventGuideSection } from "@/lib/api";
+import MonsterParkCalc from "./MonsterParkCalc";
+
+// 이벤트별 인터랙티브 위젯 — 새 이벤트에 계산기 등이 필요하면 여기에 slug로 등록한다.
+const EVENT_WIDGETS: Record<string, React.ComponentType> = {
+  "monster-park-2026": MonsterParkCalc,
+};
 
 function SectionBlock({ section }: { section: EventGuideSection }) {
   return (
@@ -182,6 +188,12 @@ export default function EventDetailPage() {
             </ul>
           </section>
         )}
+
+        {/* 이벤트별 위젯 (계산기 등) */}
+        {(() => {
+          const Widget = EVENT_WIDGETS[event.slug];
+          return Widget ? <Widget /> : null;
+        })()}
 
         {event.content.sections?.map((s, i) => (
           <SectionBlock key={i} section={s} />

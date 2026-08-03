@@ -51,6 +51,7 @@ from api.routes import guild_attendance
 from api.routes import chosung
 from api.routes import brain
 from api.routes import auth
+from api.routes import field_boss
 from api.discord_bot import start_bot, get_bot
 
 
@@ -377,6 +378,7 @@ app.include_router(guild_attendance.router, prefix="/api")
 app.include_router(chosung.router, prefix="/api")
 app.include_router(brain.router, prefix="/api")
 app.include_router(auth.router, prefix="/api")
+app.include_router(field_boss.router, prefix="/api")
 
 
 @app.get("/api/health")
