@@ -120,6 +120,7 @@ export const SITE_SECTIONS: SiteSection[] = [
     icon: "🍁",
     items: [
       { href: "/guild", label: "공지 · 이벤트", icon: "📢", description: "길드 공지사항" },
+      { href: "/guild/events", label: "이벤트 모집", icon: "🎪", description: "유저 주최 이벤트 — 지원 · 룰렛 추첨" },
       { href: "/guild/members", label: "길드원 명단", icon: "👥", description: "길드원 정보" },
       { href: "/guild/attendance", label: "출석부", icon: "📋", description: "출석 체크 · 월간 랭킹" },
       { href: "/guild/boss", label: "보스", icon: "🐉", description: "보스 파티 · 기록" },

@@ -522,6 +522,23 @@ CREATE TABLE IF NOT EXISTS field_boss_reports (
     created_at TEXT DEFAULT (datetime('now'))
 );
 
+-- 길드 이벤트 모집 (유저 데이터 — 시드 동기화 금지)
+CREATE TABLE IF NOT EXISTS guild_events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    description TEXT,
+    reward TEXT,
+    author TEXT NOT NULL,
+    owner_token TEXT NOT NULL,
+    user_id INTEGER,
+    deadline TEXT NOT NULL,
+    capacity INTEGER,
+    participants_json TEXT NOT NULL DEFAULT '[]',
+    status TEXT NOT NULL DEFAULT 'open',
+    result_json TEXT,
+    created_at TEXT DEFAULT (datetime('now', 'localtime'))
+);
+
 -- 계정별 개인화 저장 (key-value JSON)
 CREATE TABLE IF NOT EXISTS user_settings (
     user_id INTEGER NOT NULL,
