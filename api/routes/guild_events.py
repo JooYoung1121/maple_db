@@ -6,6 +6,7 @@
 """
 import json
 import secrets
+import time
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
@@ -110,7 +111,7 @@ def list_events(status: Optional[str] = None):
             d = _row_public(r)
             d["expired"] = d["status"] == "open" and d["deadline"] < now
             items.append(d)
-        return {"events": items, "server_now": now}
+        return {"events": items, "server_now": now, "server_epoch": int(time.time())}
     finally:
         conn.close()
 
@@ -261,6 +262,67 @@ class OwnerAction(BaseModel):
 
 class DrawBody(OwnerAction):
     winner_count: int = 1
+    method: str = "roulette"  # roulette | ladder | dice
+
+
+DRAW_DURATIONS = {"roulette": 8, "ladder": 7, "dice": 5}
+
+
+def _shuffled(items: list) -> list:
+    pool, out = list(items), []
+    while pool:
+        pick = secrets.choice(pool)
+        out.append(pick)
+        pool.remove(pick)
+    return out
+
+
+def _build_draw(method: str, participants: list, winner_count: int) -> tuple[list, dict]:
+    """추첨 방식별 (winners, anim payload) 생성 — 모든 난수는 서버에서 확정."""
+    n = winner_count
+    if method == "roulette":
+        order = _shuffled(participants)
+        winners = _shuffled(participants)[:n]
+        return winners, {
+            "order": order,
+            "winner_index": order.index(winners[0]),
+        }
+    if method == "ladder":
+        columns = _shuffled(participants)
+        k = len(columns)
+        rows = 8 if k <= 4 else 10
+        rungs = []
+        for row in range(1, rows):
+            prev_col = -2
+            for col in range(k - 1):
+                if col == prev_col + 1:
+                    continue  # 같은 행에 인접 가로줄 금지
+                if secrets.randbelow(10) < 4:
+                    rungs.append([row, col])
+                    prev_col = col
+        prizes = _shuffled(["당첨"] * n + ["꽝"] * (k - n))
+        # 경로 추적: 시작 col → 끝 col
+        winners = []
+        for start in range(k):
+            col = start
+            for row in range(1, rows):
+                if [row, col] in rungs:
+                    col += 1
+                elif [row, col - 1] in rungs:
+                    col -= 1
+            if prizes[col] == "당첨":
+                winners.append(columns[start])
+        return winners, {"columns": columns, "rungs": rungs, "prizes": prizes, "rows": rows}
+    if method == "dice":
+        scores = {}
+        pool = list(range(1, 101))
+        for p in participants:
+            v = secrets.choice(pool)
+            pool.remove(v)
+            scores[p] = v
+        winners = sorted(participants, key=lambda p: -scores[p])[:n]
+        return winners, {"scores": scores}
+    raise HTTPException(status_code=400, detail="지원하지 않는 추첨 방식입니다.")
 
 
 class ClearBody(OwnerAction):
@@ -301,18 +363,17 @@ def draw_event(event_id: int, body: DrawBody, request: Request):
         participants = json.loads(row["participants_json"] or "[]")
         if len(participants) < 1:
             raise HTTPException(status_code=400, detail="지원자가 없습니다.")
+        method = body.method if body.method in DRAW_DURATIONS else "roulette"
         n = max(1, min(body.winner_count, len(participants)))
-        winners = []
-        pool = list(participants)
-        for _ in range(n):
-            pick = secrets.choice(pool)
-            winners.append(pick)
-            pool.remove(pick)
+        winners, anim = _build_draw(method, participants, n)
         result = {
-            "type": "roulette",
+            "type": method,
             "winners": winners,
             "winner_count": n,
             "drawn_at": _now_kst().strftime("%Y-%m-%d %H:%M"),
+            "drawn_epoch": int(time.time()),
+            "duration": DRAW_DURATIONS[method],
+            "anim": anim,
         }
         conn.execute(
             "UPDATE guild_events SET status='done', result_json=? WHERE id=?",
