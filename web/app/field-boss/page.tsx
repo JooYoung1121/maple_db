@@ -241,9 +241,9 @@ export default function FieldBossPage() {
         </div>
       )}
 
-      {/* 채널 그리드 — 인게임 채널 선택창 배치(한 줄 5개, 원작 20채널 기준) */}
+      {/* 채널 그리드 — 메이플랜드 채널 선택창 배치(한 줄 6개). 원작(v62)은 5개×4줄이지만 메랜은 별도 UI */}
       <div className="pixel-panel p-3 mb-2 max-w-xl">
-        <div className="grid grid-cols-5 gap-1.5">
+        <div className="grid grid-cols-6 gap-1.5">
           {Array.from({ length: channelCount }, (_, i) => i + 1).map((ch) => {
             const st = cellState(data?.channels?.[String(ch)]);
             const isSel = reportTarget === ch;
@@ -305,7 +305,7 @@ export default function FieldBossPage() {
       <p className="text-[11px] text-dim mb-6">
         🔴 리젠 대기 · 🟡 곧 젠 · 🟢 젠 추정 · 🔵 경과 시간(주기 미확정) — 채널을 누르면 처치 기록을 남길 수 있어요.
         잘못 기록했다면 같은 채널에 다시 기록하면 최신 기록이 우선됩니다.
-        <span className="block mt-0.5">배치는 원작 채널 선택창(한 줄 5개 × 4줄 = 20채널) 기준 · 메랜 2.0은 채널 수가 유동적이라 위에서 개수를 조절하세요.</span>
+        <span className="block mt-0.5">배치는 메이플랜드 채널 선택창(한 줄 6개) 기준 · 채널 수는 혼잡도에 따라 변하니 위에서 개수를 조절하세요.</span>
       </p>
 
       {/* 최근 제보 */}
