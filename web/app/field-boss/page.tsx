@@ -223,16 +223,13 @@ export default function FieldBossPage() {
             )}
           </label>
           <label className="flex items-center gap-2 text-xs text-dim">
-            표시 채널
-            <select
-              value={channelCount}
-              onChange={(e) => saveChannelCount(Number(e.target.value))}
-              className="pixel-input px-2 py-1"
-            >
-              {[10, 15, 20, 25, 30, 40, 50].map((n) => (
-                <option key={n} value={n}>{n}개</option>
-              ))}
-            </select>
+            채널 수
+            <input
+              type="number" min={1} max={100} value={channelCount}
+              onChange={(e) => saveChannelCount(Math.max(1, Math.min(100, Number(e.target.value) || 1)))}
+              className="pixel-input w-16 px-2 py-1 text-center"
+            />
+            <span className="hidden sm:inline">개 — 메랜은 혼잡도에 따라 채널 수가 변해요. 현재 개수에 맞게 조절</span>
           </label>
           <span className="text-[11px] text-dim">
             {boss.respawn_min == null && respawnMin == null
@@ -244,59 +241,71 @@ export default function FieldBossPage() {
         </div>
       )}
 
-      {/* 채널 그리드 */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 mb-2">
-        {Array.from({ length: channelCount }, (_, i) => i + 1).map((ch) => {
-          const st = cellState(data?.channels?.[String(ch)]);
-          const base = "border-2 p-2 text-left transition-colors min-h-[76px] flex flex-col justify-between";
-          const style =
-            st.kind === "dead" ? "border-red-500/60 bg-red-500/10"
-            : st.kind === "soon" ? "border-amber-500/70 bg-amber-500/10"
-            : st.kind === "spawned" ? "border-green-600/60 bg-green-600/10"
-            : st.kind === "info" ? "border-edge bg-surface2"
-            : "border-edge bg-surface hover:border-maple";
+      {/* 채널 그리드 — 인게임 채널 선택창 배치(한 줄 5개, 원작 20채널 기준) */}
+      <div className="pixel-panel p-3 mb-2 max-w-xl">
+        <div className="grid grid-cols-5 gap-1.5">
+          {Array.from({ length: channelCount }, (_, i) => i + 1).map((ch) => {
+            const st = cellState(data?.channels?.[String(ch)]);
+            const isSel = reportTarget === ch;
+            const style =
+              st.kind === "dead" ? "border-red-500/70 bg-red-500/10"
+              : st.kind === "soon" ? "border-amber-500/80 bg-amber-500/10"
+              : st.kind === "spawned" ? "border-green-600/70 bg-green-600/10"
+              : st.kind === "info" ? "border-sky-500/50 bg-surface2"
+              : "border-edge bg-surface2 hover:border-maple";
+            return (
+              <button
+                key={ch}
+                onClick={() => { setReportTarget(isSel ? null : ch); setMinutesAgo(0); }}
+                className={`border-2 px-1 py-1.5 text-center transition-colors ${style} ${isSel ? "ring-2 ring-maple" : ""}`}
+                title={st.kind !== "empty" ? `${fmtClock(st.r.killed_at)} 처치 · ${st.r.reporter || "익명"}` : "기록 없음"}
+              >
+                <div className="font-pixel text-xs text-ink leading-none">CH {ch}</div>
+                <div className="font-pixel text-[9px] mt-1 leading-none min-h-[10px]">
+                  {st.kind === "dead" && <span className="text-red-500">{fmtCountdown(st.remain)}</span>}
+                  {st.kind === "soon" && <span className="text-amber-500">곧 젠</span>}
+                  {st.kind === "spawned" && <span className="text-green-600">젠 추정</span>}
+                  {st.kind === "info" && <span className="text-sky-600">{fmtElapsed(st.elapsed)}</span>}
+                  {st.kind === "empty" && <span className="text-dim">-</span>}
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* 선택한 채널 액션 바 */}
+        {reportTarget != null && (() => {
+          const st = cellState(data?.channels?.[String(reportTarget)]);
           return (
-            <div key={ch} className={`${base} ${style}`}>
-              <div className="flex items-center justify-between">
-                <span className="font-pixel text-xs text-ink">CH {ch}</span>
-                {st.kind === "dead" && <span className="font-pixel text-[10px] text-red-500">🕐 {fmtCountdown(st.remain)}</span>}
-                {st.kind === "soon" && <span className="font-pixel text-[10px] text-amber-500">곧 젠 {fmtCountdown(st.remain)}</span>}
-                {st.kind === "spawned" && <span className="font-pixel text-[10px] text-green-600">젠 추정</span>}
-              </div>
-              {st.kind === "empty" ? (
-                <div className="text-[11px] text-dim">기록 없음</div>
+            <div className="mt-2 border-t-2 border-edge pt-2 flex flex-wrap items-center gap-2 text-sm">
+              <span className="font-pixel text-xs text-ink">CH {reportTarget}</span>
+              {st.kind !== "empty" ? (
+                <span className="text-[11px] text-dim">
+                  {fmtClock(st.r.killed_at)} 처치 · {fmtElapsed(st.elapsed)} · {st.r.reporter || "익명"}
+                </span>
               ) : (
-                <div className="text-[11px] text-dim leading-tight">
-                  {fmtClock(st.r.killed_at)} 처치 · {fmtElapsed(st.elapsed)}
-                  {st.r.reporter && <span className="block truncate">by {st.r.reporter}</span>}
-                </div>
+                <span className="text-[11px] text-dim">기록 없음</span>
               )}
-              {reportTarget === ch ? (
-                <div className="flex items-center gap-1 mt-1" onClick={(e) => e.stopPropagation()}>
-                  <button onClick={() => submit(ch, 0)} className="pixel-btn text-[10px] px-1.5 py-0.5">방금</button>
-                  <input
-                    type="number" min={0} max={180} value={minutesAgo}
-                    onChange={(e) => setMinutesAgo(Math.max(0, Math.min(180, Number(e.target.value))))}
-                    className="pixel-input w-12 px-1 py-0.5 text-[10px] text-center"
-                  />
-                  <button onClick={() => submit(ch, minutesAgo)} className="pixel-btn text-[10px] px-1.5 py-0.5">분 전</button>
-                  <button onClick={() => setReportTarget(null)} className="text-[10px] text-dim px-1">✕</button>
-                </div>
-              ) : (
-                <button
-                  onClick={() => { setReportTarget(ch); setMinutesAgo(0); }}
-                  className="text-[10px] text-maple hover:underline text-left mt-1"
-                >
-                  + 처치 기록
-                </button>
-              )}
+              <span className="mx-1 text-edge">|</span>
+              <button onClick={() => submit(reportTarget, 0)} className="pixel-btn text-xs px-2.5 py-1">⚔️ 방금 처치</button>
+              <span className="flex items-center gap-1 text-xs text-dim">
+                <input
+                  type="number" min={0} max={180} value={minutesAgo}
+                  onChange={(e) => setMinutesAgo(Math.max(0, Math.min(180, Number(e.target.value))))}
+                  className="pixel-input w-14 px-1 py-0.5 text-center"
+                />
+                <button onClick={() => submit(reportTarget, minutesAgo)} className="pixel-btn text-xs px-2 py-1">분 전 처치</button>
+              </span>
+              <button onClick={() => setReportTarget(null)} className="text-xs text-dim hover:text-ink px-1">✕ 닫기</button>
             </div>
           );
-        })}
+        })()}
       </div>
       {msg && <p className="text-xs text-red-500 mb-2">{msg}</p>}
       <p className="text-[11px] text-dim mb-6">
-        🔴 리젠 대기 · 🟡 곧 젠 · 🟢 젠 추정 · 잘못 기록했다면 같은 채널에 다시 기록하면 최신 기록이 우선됩니다.
+        🔴 리젠 대기 · 🟡 곧 젠 · 🟢 젠 추정 · 🔵 경과 시간(주기 미확정) — 채널을 누르면 처치 기록을 남길 수 있어요.
+        잘못 기록했다면 같은 채널에 다시 기록하면 최신 기록이 우선됩니다.
+        <span className="block mt-0.5">배치는 원작 채널 선택창(한 줄 5개 × 4줄 = 20채널) 기준 · 메랜 2.0은 채널 수가 유동적이라 위에서 개수를 조절하세요.</span>
       </p>
 
       {/* 최근 제보 */}

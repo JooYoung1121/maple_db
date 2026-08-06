@@ -15,6 +15,23 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.81.1",
+    date: "2026-08-07",
+    type: "patch",
+    title: "필드보스 채널 그리드 — 인게임 채널창 배치로 개편",
+    pages: ["/field-boss"],
+    features: [
+      {
+        category: "필드보스 채널",
+        items: [
+          "채널 그리드를 인게임 채널 선택창 배치(한 줄 5개)로 변경 — 원작 v62 UI 리소스로 20채널 구성 확인",
+          "메랜 2.0은 채널 수가 유동적이라 채널 수를 1~100 자유 입력으로 변경 (기본 20)",
+          "채널 버튼을 누르면 하단 액션 바에서 기록 — 셀이 콤팩트해져 게임 채널창처럼 한눈에 파악",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.81.0",
     date: "2026-08-07",
     type: "minor",
