@@ -81,12 +81,12 @@ const ETC_MEDALS: Medal[] = [
   { id: 1142032, name: "저주를 푼 자의 훈장", level: 0, stats: "올스탯+4 · 이속+10 · 점프+5", condition: "할로윈 이벤트 최종 보상 (가면 수집 → 퍼즐 → NPC 순회)", note: "기간 한정 이벤트 훈장" },
 ];
 
-/* 무릉도장 수행자 훈장 — 층별 보스 대표만 발췌 (7/24 무릉도장 오픈과 함께 등장 추정) */
+/* 무릉도장 수행자 훈장 — 층별 보스 대표만 발췌 (8/7 출시, 실제 지급 조건 확인 중) */
 const DOJO_PREVIEW: Medal[] = [
-  { id: 1142033, name: "마노 수행자", level: 0, stats: "명중+1", condition: "무릉도장 진행 (추정)" },
-  { id: 1142048, name: "구미호 수행자", level: 0, stats: "명중+6 · 회피+5 · 이속+5", condition: "무릉도장 진행 (추정)" },
-  { id: 1142063, name: "파풀라투스 수행자", level: 0, stats: "물/마방+15 · 명중+7 · 회피+7 · 이속+7 · HP+50", condition: "무릉도장 진행 (추정)" },
-  { id: 1142064, name: "무릉도장 정복자", level: 0, stats: "공+5 · 마력+5 · 물/마방+15 · 명중+7 · 회피+7 · 이속+7 · HP+50", condition: "무릉도장 완주 (추정)" },
+  { id: 1142033, name: "마노 수행자", level: 0, stats: "명중+1", condition: "마노 100회 처치 (원작 · 메랜 확인 중)" },
+  { id: 1142048, name: "구미호 수행자", level: 0, stats: "명중+6 · 회피+5 · 이속+5", condition: "구미호 100회 처치 (원작 · 메랜 확인 중)" },
+  { id: 1142063, name: "파풀라투스 수행자", level: 0, stats: "물/마방+15 · 명중+7 · 회피+7 · 이속+7 · HP+50", condition: "파풀라투스 100회 처치 (원작 · 메랜 확인 중)" },
+  { id: 1142064, name: "무릉도장 정복자", level: 0, stats: "공+5 · 마력+5 · 물/마방+15 · 명중+7 · 회피+7 · 이속+7 · HP+50", condition: "무공 100회 처치 (원작 · 메랜 확인 중)" },
 ];
 
 function iconUrl(id: number) {
@@ -177,11 +177,11 @@ export default function MedalsPage() {
         </div>
       </section>
 
-      {/* 무릉도장 예고 */}
+      {/* 무릉도장 */}
       <section className="mb-8">
-        <h2 className="font-pixel text-lg font-semibold mb-1 text-ink">🥋 무릉도장 수행자 훈장 <span className="text-xs font-normal text-dim">(7/24 무릉도장 오픈 예정)</span></h2>
+        <h2 className="font-pixel text-lg font-semibold mb-1 text-ink">🥋 무릉도장 수행자 훈장 <span className="text-xs font-normal text-dim">(8/7 업데이트 · 지급 확인 중)</span></h2>
         <p className="text-xs text-dim mb-3">
-          원작에는 층별 보스마다 수행자 훈장 32종 + 정복자 훈장이 있습니다. 메랜 무릉도장 오픈 후 실제 지급 여부·수치를 확인해 갱신할 예정입니다. (대표 발췌)
+          원작에는 층별 보스마다 수행자 훈장 32종 + 정복자 훈장이 있습니다. 메랜 실제 지급 여부·횟수·기간을 확인 중입니다. <Link href="/dojo" className="text-maple underline">무릉도장 전체 공략 보기</Link> (대표 발췌)
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {DOJO_PREVIEW.map((m) => <MedalCard key={m.id} m={m} />)}
