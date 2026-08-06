@@ -15,6 +15,23 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.80.0",
+    date: "2026-08-05",
+    type: "minor",
+    title: "이벤트 추첨 생중계 — 룰렛·사다리·주사위",
+    pages: ["/guild/events"],
+    features: [
+      {
+        category: "이벤트 모집",
+        items: [
+          "추첨 방식 3종: 🎡 룰렛(휠 회전) · 🪜 사다리(경로 추적) · 🎲 주사위(점수 대결) — 놀이터 게임 이식",
+          "추첨 생중계: 페이지를 보고 있는 모든 사람이 같은 연출을 실시간으로 봅니다 (서버 시각 동기화, 5초 폴링)",
+          "중간에 들어와도 진행 중인 연출을 이어서 재생, 사다리 구조·주사위 점수도 서버가 확정해 전원 동일",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.79.0",
     date: "2026-08-04",
     type: "minor",
