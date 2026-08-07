@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import CanonDiffInfo from "@/components/CanonDiffInfo";
+import { CANON_DIFFS } from "@/lib/canonDiffs";
 
 /* ── 훈장 데이터 ──
  * 탐험가 훈장 스탯은 메이플랜드 정상화 수치 (maplelandzzul.gg/titles 기준, 원작 v92보다 하향).
@@ -15,6 +17,8 @@ interface Medal {
   stats: string;
   condition: string;
   note?: string;
+  iconVersion?: number;
+  detailAvailable?: boolean;
 }
 
 const EXPLORER_STEPS: { tier: string; medals: Medal[] }[] = [
@@ -81,23 +85,28 @@ const ETC_MEDALS: Medal[] = [
   { id: 1142032, name: "저주를 푼 자의 훈장", level: 0, stats: "올스탯+4 · 이속+10 · 점프+5", condition: "할로윈 이벤트 최종 보상 (가면 수집 → 퍼즐 → NPC 순회)", note: "기간 한정 이벤트 훈장" },
 ];
 
-/* 무릉도장 수행자 훈장 — 층별 보스 대표만 발췌 (8/7 출시, 실제 지급 조건 확인 중) */
-const DOJO_PREVIEW: Medal[] = [
-  { id: 1142033, name: "마노 수행자", level: 0, stats: "명중+1", condition: "마노 100회 처치 (원작 · 메랜 확인 중)" },
-  { id: 1142048, name: "구미호 수행자", level: 0, stats: "명중+6 · 회피+5 · 이속+5", condition: "구미호 100회 처치 (원작 · 메랜 확인 중)" },
-  { id: 1142063, name: "파풀라투스 수행자", level: 0, stats: "물/마방+15 · 명중+7 · 회피+7 · 이속+7 · HP+50", condition: "파풀라투스 100회 처치 (원작 · 메랜 확인 중)" },
-  { id: 1142064, name: "무릉도장 정복자", level: 0, stats: "공+5 · 마력+5 · 물/마방+15 · 명중+7 · 회피+7 · 이속+7 · HP+50", condition: "무공 100회 처치 (원작 · 메랜 확인 중)" },
+const DOJO_SPECIAL: Medal[] = [
+  {
+    id: 1142386,
+    name: "소공의 후계자",
+    level: 80,
+    stats: "올스탯+3 · HP+100 · MP+100",
+    condition: "2026년 9월 11일까지 무릉도장 38층 클리어",
+    note: "고유 아이템 · 교환 불가",
+    iconVersion: 143,
+    detailAvailable: false,
+  },
 ];
 
-function iconUrl(id: number) {
-  return `https://maplestory.io/api/gms/92/item/${id}/icon`;
+function iconUrl(id: number, version = 92) {
+  return `https://maplestory.io/api/gms/${version}/item/${id}/icon`;
 }
 
 function MedalCard({ m }: { m: Medal }) {
-  return (
-    <Link href={`/items/${m.id}`} className="pixel-card flex items-center gap-3 px-3 py-2.5 hover:border-maple transition-colors">
+  const content = (
+    <>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={iconUrl(m.id)} alt="" className="w-9 h-9 object-contain shrink-0" loading="lazy" />
+      <img src={iconUrl(m.id, m.iconVersion)} alt="" className="w-9 h-9 object-contain shrink-0" loading="lazy" />
       <span className="min-w-0 flex-1">
         <span className="flex items-baseline gap-2">
           <span className="text-sm font-semibold truncate">{m.name}</span>
@@ -107,8 +116,14 @@ function MedalCard({ m }: { m: Medal }) {
         {m.condition && <span className="block text-xs text-dim mt-0.5">{m.condition}</span>}
         {m.note && <span className="block text-[11px] text-dim">※ {m.note}</span>}
       </span>
-    </Link>
+    </>
   );
+
+  if (m.detailAvailable === false) {
+    return <div className="pixel-card flex items-center gap-3 px-3 py-2.5">{content}</div>;
+  }
+
+  return <Link href={`/items/${m.id}`} className="pixel-card flex items-center gap-3 px-3 py-2.5 hover:border-maple transition-colors">{content}</Link>;
 }
 
 export default function MedalsPage() {
@@ -119,7 +134,8 @@ export default function MedalsPage() {
       <h1 className="font-pixel text-2xl font-bold mb-1">🎖️ 훈장 가이드</h1>
       <p className="text-sm text-dim mb-4">
         캐릭터 이름 아래에 표시되는 장착형 훈장 — 획득 조건과 스탯 정리.
-        탐험가 훈장 스탯은 <span className="text-maple">메이플랜드 정상화 수치</span>(원작보다 하향)를 반영했습니다.
+        탐험가 훈장 스탯은 <span className="text-maple">메이플랜드 정상화 수치</span>(원작보다 하향)를 반영했습니다.{" "}
+        <CanonDiffInfo entry={CANON_DIFFS["medals.explorer-stats"]} />
       </p>
 
       {/* 탐험가 트리 */}
@@ -179,12 +195,19 @@ export default function MedalsPage() {
 
       {/* 무릉도장 */}
       <section className="mb-8">
-        <h2 className="font-pixel text-lg font-semibold mb-1 text-ink">🥋 무릉도장 수행자 훈장 <span className="text-xs font-normal text-dim">(8/7 업데이트 · 지급 확인 중)</span></h2>
+        <div className="flex flex-wrap items-center gap-2 mb-1">
+          <h2 className="font-pixel text-lg font-semibold text-ink">🥋 무릉도장 한정 훈장</h2>
+          <CanonDiffInfo entry={CANON_DIFFS["dojo.successor-medal"]} />
+        </div>
         <p className="text-xs text-dim mb-3">
-          원작에는 층별 보스마다 수행자 훈장 32종 + 정복자 훈장이 있습니다. 메랜 실제 지급 여부·횟수·기간을 확인 중입니다. <Link href="/dojo" className="text-maple underline">무릉도장 전체 공략 보기</Link> (대표 발췌)
+          공식 패치노트에 공개된 실제 메이플랜드 보상입니다. <Link href="/dojo" className="text-maple underline">38층 공략·점수 계산기 보기</Link>
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          {DOJO_PREVIEW.map((m) => <MedalCard key={m.id} m={m} />)}
+          {DOJO_SPECIAL.map((m) => <MedalCard key={m.id} m={m} />)}
+          <div className="pixel-card px-3 py-2.5 text-xs leading-relaxed">
+            <b className="text-ink">원작 수행자 훈장은 별도</b>
+            <p className="text-dim mt-1">보스 100회 처치형 수행자·정복자 훈장은 원작 데이터에는 존재하지만 이번 메이플랜드 공식 보상으로 발표되지 않았습니다.</p>
+          </div>
         </div>
       </section>
 
@@ -193,7 +216,7 @@ export default function MedalsPage() {
           ※ 탐험가 훈장 수치는 메이플랜드 라이브(정상화) 기준 — 출처: maplelandzzul.gg/titles · 디시 메랜갤 정리글.
           기부왕·레벨 훈장은 원작(GMS v92) 수치가 유지됨을 확인했습니다.
           아이템 카드를 누르면 상세 페이지로 이동합니다 (상세의 스탯은 원작 기준일 수 있음).
-          실측과 다른 수치는 정보공유 게시판으로 제보해 주세요.
+          등록된 차이는 <Link href="/differences" className="text-maple underline">원작 차이 모아보기</Link>에서 확인할 수 있습니다. 실측과 다른 수치는 정보공유 게시판으로 제보해 주세요.
         </p>
       </div>
     </div>
