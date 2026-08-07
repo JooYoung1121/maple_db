@@ -15,6 +15,23 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.82.0",
+    date: "2026-08-07",
+    type: "minor",
+    title: "찰리중사 교환 가이드 — 보상표 · 확률 · 시세 효율 계산기",
+    pages: ["/charlie"],
+    features: [
+      {
+        category: "찰리중사 교환",
+        items: [
+          "전리품 25종 × 보상 테이블 정리 — 아이템 아이콘·상세(드랍 몹·시세 차트) 링크 연동",
+          "확률: 어금니 158회 실측(마엘 29.75% · 만병 26.58% · 주문서 0.63% 등) 반영, 미실측 재료는 조정 가능한 추정 모델",
+          "메랜지지 시세 연동 효율 계산기 — 재료 100개 매입 비용 vs 보상 기대값 → 교환당 손익 · 1,000경험치당 순비용, 효율순 정렬",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.81.1",
     date: "2026-08-07",
     type: "patch",
