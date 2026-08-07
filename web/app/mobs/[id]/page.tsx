@@ -5,6 +5,9 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getMob } from "@/lib/api";
 import type { Mob, MobDrop, MobSpawn } from "@/lib/types";
+import EntityCanonDiffPanel from "@/components/EntityCanonDiffPanel";
+import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
+import { getEntityCanonDiffs } from "@/lib/entityCanonDiffs";
 
 export default function MobDetailPage() {
   const { id } = useParams();
@@ -24,6 +27,8 @@ export default function MobDetailPage() {
 
   if (loading) return <div className="text-center py-12 text-dim">로딩 중...</div>;
   if (!mob) return <div className="text-center py-12 text-dim">몬스터를 찾을 수 없습니다</div>;
+
+  const canonDiffs = getEntityCanonDiffs("mob", mob.id, mob.name);
 
   const statRows = [
     ["레벨", mob.level],
@@ -48,7 +53,7 @@ export default function MobDetailPage() {
           <div>
             <h1 className="font-pixel text-2xl font-bold">
               {(() => {
-                const kr = mob.names_en?.find(n => n.source === "kms");
+                const kr = mob.names_en?.find(n => n.source === "mapleland-current") || mob.names_en?.find(n => n.source === "kms");
                 return kr ? (
                   <>{kr.name_en} <span className="text-lg font-normal text-dim">({mob.name})</span></>
                 ) : mob.name;
@@ -61,6 +66,8 @@ export default function MobDetailPage() {
             </div>
           </div>
         </div>
+        <EntityCanonDiffPanel entries={canonDiffs} />
+        <DatasetComparisonNotice type="mob" className="mt-3" />
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
           {statRows.map(([label, val]) => (
             <div key={String(label)}><span className="text-sm text-dim">{label}</span><p className="font-medium">{val ?? "-"}</p></div>

@@ -8,6 +8,9 @@ import DataTable, { Column } from "@/components/DataTable";
 import Pagination from "@/components/Pagination";
 import FilterPanel, { FilterDef, SortOption } from "@/components/FilterPanel";
 import { useQueryState } from "@/lib/useQueryState";
+import CanonDiffInfo from "@/components/CanonDiffInfo";
+import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
+import { getEntityCanonDiffs } from "@/lib/entityCanonDiffs";
 
 
 interface MobRow extends Mob {
@@ -15,7 +18,10 @@ interface MobRow extends Mob {
 }
 
 const columns: Column<MobRow>[] = [
-  { key: "name", label: "이름", render: (r) => r.name_kr ? <><span>{r.name_kr}</span> <span className="text-dim text-xs">({r.name})</span></> : r.name },
+  { key: "name", label: "이름", render: (r) => {
+    const entries = getEntityCanonDiffs("mob", r.id, r.name_kr || r.name);
+    return <span className="inline-flex flex-wrap items-center gap-1.5"><span>{r.name_kr || r.name}</span>{r.name_kr && <span className="text-dim text-xs">({r.name})</span>}{entries.map((entry) => <CanonDiffInfo key={entry.id} entry={entry} compact align="left" />)}</span>;
+  } },
   { key: "level", label: "레벨" },
   { key: "hp", label: "HP", render: (r) => (r.hp ?? 0).toLocaleString() },
   { key: "exp", label: "EXP", render: (r) => (r.exp ?? 0).toLocaleString() },
@@ -59,6 +65,7 @@ function MobsPageContent() {
         <h1 className="font-pixel text-2xl font-bold">몬스터</h1>
 
       </div>
+      <DatasetComparisonNotice type="mob" className="mb-4" />
       <FilterPanel filters={filters} values={filterValues} onChange={setFilterValues} sortOptions={sortOptions} sortValue={sortValue} onSortChange={setSortValue} />
       <div className="mt-4">
         {loading ? (

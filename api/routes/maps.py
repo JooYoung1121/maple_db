@@ -14,6 +14,14 @@ from api.routes.mapleland_reference import (
 router = APIRouter()
 
 
+def _map_display_name(value: str | None) -> str:
+    return str(value or "").split(":")[-1].strip()
+
+
+def _map_short_name(value: str | None) -> str:
+    return _map_display_name(value).replace(" ", "")
+
+
 @router.get("/maps/filters")
 def map_filters():
     try:
@@ -95,13 +103,21 @@ def list_maps(
             params + [per_page, offset],
         ).fetchall()
         results = []
+        live_names = mapleland_name_kr_map("maps")
         for row in rows:
             m = dict(row)
             kr = conn.execute(
                 "SELECT name_en FROM entity_names_en WHERE entity_type='map' AND entity_id=? AND source='kms'",
                 (m["id"],),
             ).fetchone()
-            m["name_kr"] = (kr["name_en"] if kr else None) or mapleland_name_kr_map("maps").get(m["id"])
+            original_name_kr = kr["name_en"] if kr else None
+            live_name_kr = live_names.get(m["id"])
+            m["name_kr"] = _map_display_name(live_name_kr) if live_name_kr else original_name_kr
+            m["original_name_kr"] = original_name_kr
+            m["original_data_conflict"] = bool(
+                live_name_kr and original_name_kr
+                and _map_short_name(live_name_kr) != _map_short_name(original_name_kr)
+            )
             results.append(m)
     except Exception:
         results = []
@@ -135,12 +151,24 @@ def get_map(map_id: int):
             (map_id,),
         ).fetchall()
         map_data["names_en"] = [dict(r) for r in en_rows]
-        map_data["name_kr"] = next(
+        original_name_kr = next(
             (r["name_en"] for r in map_data["names_en"] if r.get("source") == "kms"),
             None,
-        ) or mapleland_name_kr_map("maps").get(map_id)
+        )
+        live_name_kr = mapleland_name_kr_map("maps").get(map_id)
+        if live_name_kr:
+            map_data["names_en"] = [
+                *[row for row in map_data["names_en"] if row.get("source") != "mapleland-current"],
+                {"name_en": live_name_kr, "source": "mapleland-current"},
+            ]
+        map_data["name_kr"] = _map_display_name(live_name_kr) if live_name_kr else original_name_kr
+        map_data["original_name_kr"] = original_name_kr
+        map_data["original_data_conflict"] = bool(
+            live_name_kr and original_name_kr
+            and _map_short_name(live_name_kr) != _map_short_name(original_name_kr)
+        )
         # 레퍼런스 한글명의 "지역: 맵이름" 접두어에서 한글 지역명 추출
-        ref_full = mapleland_name_kr_map("maps").get(map_id) or ""
+        ref_full = live_name_kr or ""
         map_data["region_kr"] = ref_full.split(":", 1)[0].strip() if ":" in ref_full else None
 
         # Parse portals
@@ -281,6 +309,14 @@ def get_map(map_id: int):
             to_map = p.get("toMap")
             if isinstance(to_map, int) and to_map in kr_map_names:
                 p["to_name_kr"] = kr_map_names[to_map]
+
+        # 같은 숫자 ID가 KMS와 GMS에서 다른 맵이면 GMS92 관계 데이터를 노출하지 않는다.
+        if map_data["original_data_conflict"]:
+            map_data["portals"] = []
+            monsters = []
+            npcs = []
+            detail = None
+            drops = []
     finally:
         conn.close()
 

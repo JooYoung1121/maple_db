@@ -1,4 +1,5 @@
 """SQLite 스키마 + FTS5 설정"""
+import json
 import sqlite3
 from pathlib import Path
 from .config import DB_PATH, DATA_DIR
@@ -832,13 +833,143 @@ def seed_bot_settings(conn: sqlite3.Connection) -> None:
     conn.commit()
 
 
+MAPLELAND_OVERRIDE_COLUMNS = {
+    "mobs": {
+        "level", "hp", "mp", "exp", "defense", "accuracy", "evasion",
+        "is_boss", "physical_damage", "magic_damage", "magic_defense",
+        "speed", "is_undead",
+    },
+    "items": {
+        "level_req", "job_req", "category", "subcategory", "stats",
+        "description", "attack_speed", "price", "upgrade_slots",
+    },
+    "quests": {
+        "level_req", "npc_start", "npc_end", "rewards", "description",
+        "exp_reward", "meso_reward", "item_reward", "extra_reward",
+    },
+}
+
+
+def apply_mapleland_overrides(conn: sqlite3.Connection, override_path: Path | None = None) -> dict[str, int]:
+    """검증된 메이플랜드 실서버 값만 원작 기반 DB 위에 멱등 적용한다."""
+    path = override_path or (DATA_DIR / "mapleland_overrides.json")
+    applied = {table: 0 for table in MAPLELAND_OVERRIDE_COLUMNS}
+    if not path.exists():
+        return applied
+
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return applied
+
+    existing_tables = {
+        row[0]
+        for row in conn.execute("SELECT name FROM sqlite_master WHERE type='table'").fetchall()
+    }
+    for table, allowed_columns in MAPLELAND_OVERRIDE_COLUMNS.items():
+        if table not in existing_tables:
+            continue
+        records = payload.get(table, {})
+        if not isinstance(records, dict):
+            continue
+        table_columns = {
+            row[1] for row in conn.execute(f"PRAGMA table_info({table})").fetchall()
+        }
+        for raw_id, patch in records.items():
+            if not isinstance(patch, dict):
+                continue
+            updates = [
+                (column, value)
+                for column, value in patch.items()
+                if column in allowed_columns and column in table_columns
+            ]
+            if not updates:
+                continue
+            try:
+                entity_id = int(raw_id)
+            except (TypeError, ValueError):
+                continue
+            set_sql = ", ".join(f"{column} = ?" for column, _ in updates)
+            values = [
+                json.dumps(value, ensure_ascii=False) if isinstance(value, (dict, list)) else value
+                for _, value in updates
+            ]
+            cursor = conn.execute(
+                f"UPDATE {table} SET {set_sql} WHERE id = ?",
+                (*values, entity_id),
+            )
+            if cursor.rowcount > 0:
+                applied[table] += 1
+    conn.commit()
+    return applied
+
+
+def apply_mapleland_reference_names(conn: sqlite3.Connection, reference_path: Path | None = None) -> int:
+    """현행 공개 DB의 한글명을 별도 출처로 저장해 검색·표시에 우선 활용한다."""
+    path = reference_path or (DATA_DIR / "mapleland_reference.json")
+    if not path.exists():
+        return 0
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return 0
+
+    if not conn.execute(
+        "SELECT 1 FROM sqlite_master WHERE type='table' AND name='entity_names_en'"
+    ).fetchone():
+        return 0
+
+    entity_types = {"items": "item", "mobs": "mob", "maps": "map", "npcs": "npc"}
+    changed = 0
+    for kind, entity_type in entity_types.items():
+        records = []
+        if reference_path is None:
+            standalone = DATA_DIR / f"mapleland_{kind}.json"
+            try:
+                standalone_payload = json.loads(standalone.read_text(encoding="utf-8"))
+                records = standalone_payload.get(kind, [])
+            except (OSError, json.JSONDecodeError):
+                records = []
+        if not records:
+            records = payload.get("entities", {}).get(kind, {}).get("records", [])
+        if not isinstance(records, list):
+            continue
+        for record in records:
+            try:
+                entity_id = int(record["id"])
+            except (KeyError, TypeError, ValueError):
+                continue
+            name = str(record.get("name_kr") or "").strip()
+            if not name or name.lower() in {"스트링 없음", "string not found", "null", "none"}:
+                continue
+            cursor = conn.execute(
+                """
+                INSERT INTO entity_names_en (entity_type, entity_id, name_en, source, source_url)
+                VALUES (?, ?, ?, 'mapleland-current', 'https://mapledb.kr/')
+                ON CONFLICT(entity_type, entity_id, source) DO UPDATE SET
+                    name_en=excluded.name_en,
+                    source_url=excluded.source_url
+                WHERE entity_names_en.name_en != excluded.name_en
+                """,
+                (entity_type, entity_id, name),
+            )
+            changed += max(cursor.rowcount, 0)
+    conn.commit()
+    return changed
+
+
 def init_db() -> sqlite3.Connection:
     conn = get_connection()
     conn.executescript(SCHEMA)
     conn.executescript(FTS_SCHEMA)
     conn.commit()
     migrate_db(conn)
-    ensure_search_index(conn)
+    apply_mapleland_overrides(conn)
+    reference_names_changed = apply_mapleland_reference_names(conn)
+    if reference_names_changed:
+        rebuild_search_index(conn)
+    else:
+        ensure_search_index(conn)
     seed_guild_members(conn)
     seed_bot_settings(conn)
     return conn

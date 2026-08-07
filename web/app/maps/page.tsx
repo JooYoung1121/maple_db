@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { getMaps, searchSuggest } from "@/lib/api";
 import type { MapData, SearchSuggestion } from "@/lib/types";
+import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
 
 /* 자주 찾는 사냥터 바로가기 */
 const POPULAR_MAPS: { id: number; label: string }[] = [
@@ -82,6 +83,8 @@ function MapsPageContent() {
         </p>
       </div>
 
+      <DatasetComparisonNotice type="map" className="mb-5" />
+
       <div className="relative">
         <input
           type="text"
@@ -147,6 +150,7 @@ function MapsPageContent() {
                     <span>
                       <span className="font-medium">{m.name_kr || m.name}</span>
                       {m.name_kr && <span className="text-dim text-xs ml-2">{m.name}</span>}
+                      {m.original_data_conflict && <span className="ml-2 border border-amber-400 px-1 py-0.5 font-pixel text-[8px] text-amber-700 dark:text-amber-300">원작 ID 충돌</span>}
                     </span>
                     <span className="text-xs text-dim flex items-center gap-2">
                       {m.is_town === 1 && <span className="text-skill">마을</span>}

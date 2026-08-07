@@ -8,6 +8,9 @@ import type { Item } from "@/lib/types";
 import StatGrid from "@/components/StatGrid";
 import PriceChart from "@/components/PriceChart";
 import { toCategoryKr, toSubcategoryKr } from "@/lib/translations";
+import EntityCanonDiffPanel from "@/components/EntityCanonDiffPanel";
+import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
+import { getEntityCanonDiffs } from "@/lib/entityCanonDiffs";
 
 interface DroppedByMob {
   mob_id: number;
@@ -35,6 +38,7 @@ export default function ItemDetailPage() {
   if (!item) return <div className="text-center py-12 text-dim">아이템을 찾을 수 없습니다</div>;
 
   const stats = item.stats ? JSON.parse(item.stats) : null;
+  const canonDiffs = getEntityCanonDiffs("item", item.id, item.name);
 
   // Separate requirement stats from equipment stats
   const reqStats: Record<string, number> = {};
@@ -60,7 +64,7 @@ export default function ItemDetailPage() {
           <div>
             <h1 className="text-2xl font-bold">
               {(() => {
-                const kr = item.names_en?.find(n => n.source === "kms");
+                const kr = item.names_en?.find(n => n.source === "mapleland-current") || item.names_en?.find(n => n.source === "kms");
                 return kr ? (
                   <>{kr.name_en} <span className="text-lg font-normal text-dim">({item.name})</span></>
                 ) : item.name;
@@ -72,6 +76,9 @@ export default function ItemDetailPage() {
             </div>
           </div>
         </div>
+
+        <EntityCanonDiffPanel entries={canonDiffs} />
+        <DatasetComparisonNotice type="item" className="mt-3" />
 
         {/* 요구 사항 */}
         <div className="mt-6">

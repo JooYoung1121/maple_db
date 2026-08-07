@@ -130,7 +130,10 @@ def list_items(
         for row in rows:
             item = dict(row)
             kr = conn.execute(
-                "SELECT name_en FROM entity_names_en WHERE entity_type='item' AND entity_id=? AND source='kms'",
+                """SELECT name_en FROM entity_names_en
+                   WHERE entity_type='item' AND entity_id=?
+                   ORDER BY CASE source WHEN 'mapleland-current' THEN 0 WHEN 'kms' THEN 1 ELSE 2 END
+                   LIMIT 1""",
                 (item["id"],),
             ).fetchone()
             item["name_kr"] = kr["name_en"] if kr else None

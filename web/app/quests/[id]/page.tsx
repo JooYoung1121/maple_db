@@ -8,6 +8,7 @@ import type { Quest } from "@/lib/types";
 import QuestTabs from "@/components/QuestTabs";
 import QuestChain from "@/components/QuestChain";
 import { LevelBadge, DifficultyBadge, TypeBadge } from "@/components/QuestCard";
+import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
 
 /* -- 정보 행 -- */
 function InfoRow({ label, value }: { label: string; value: React.ReactNode }) {
@@ -279,6 +280,7 @@ export default function QuestDetailPage() {
         {quest.is_chain === 1 && quest.chain_parent && (
           <p className="text-sm text-dim mt-1">체인: {quest.chain_parent}</p>
         )}
+        <DatasetComparisonNotice type="quest" className="mt-4" />
       </div>
 
       {/* Main layout: tabs + sidebar */}

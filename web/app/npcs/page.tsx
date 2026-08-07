@@ -8,6 +8,7 @@ import DataTable, { Column } from "@/components/DataTable";
 import Pagination from "@/components/Pagination";
 import FilterPanel, { FilterDef } from "@/components/FilterPanel";
 import { useQueryState } from "@/lib/useQueryState";
+import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
 
 
 const columns: Column<Npc>[] = [
@@ -43,6 +44,7 @@ function NpcsPageContent() {
         <h1 className="font-pixel text-2xl font-bold">NPC</h1>
 
       </div>
+      <DatasetComparisonNotice type="npc" className="mb-4" />
       <FilterPanel filters={filters} values={filterValues} onChange={setFilterValues} />
       <div className="mt-4">
         {loading ? (

@@ -128,6 +128,8 @@ export interface MapData {
   names_en?: NameEn[];
   name_kr?: string | null;
   region_kr?: string | null;
+  original_name_kr?: string | null;
+  original_data_conflict?: boolean;
 }
 
 export interface Portal {

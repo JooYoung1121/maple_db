@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getNpc } from "@/lib/api";
 import type { Npc } from "@/lib/types";
+import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
 
 export default function NpcDetailPage() {
   const { id } = useParams();
@@ -32,7 +33,7 @@ export default function NpcDetailPage() {
           <div>
             <h1 className="font-pixel text-2xl font-bold">
               {(() => {
-                const kr = npc.names_en?.find(n => n.source === "kms");
+                const kr = npc.names_en?.find(n => n.source === "mapleland-current") || npc.names_en?.find(n => n.source === "kms");
                 return kr ? (
                   <>{kr.name_en} <span className="text-lg font-normal text-dim">({npc.name})</span></>
                 ) : npc.name;
@@ -41,6 +42,7 @@ export default function NpcDetailPage() {
             {npc.is_shop === 1 && <span className="pixel-badge text-xs bg-yellow-100 text-yellow-700 mt-1 inline-block">상점</span>}
           </div>
         </div>
+        <DatasetComparisonNotice type="npc" className="mt-4" />
         <div className="grid grid-cols-2 gap-4 mt-6">
           <div>
             <span className="text-sm text-dim">위치</span>

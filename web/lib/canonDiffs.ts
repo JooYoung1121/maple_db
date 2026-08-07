@@ -1,4 +1,6 @@
-export type CanonDiffStatus = "changed" | "added" | "terminology" | "unverified";
+export type CanonDiffStatus = "changed" | "added" | "version" | "terminology" | "unverified";
+
+export type CanonEntityType = "item" | "mob" | "map" | "npc" | "quest" | "skill" | "system";
 
 export interface CanonDiffEntry {
   id: string;
@@ -13,9 +15,15 @@ export interface CanonDiffEntry {
   originalSourceLabel?: string;
   originalSourceUrl?: string;
   verifiedAt: string;
+  entityType?: CanonEntityType;
+  entityId?: number;
+  entityNames?: string[];
+  evidence?: { label: string; url: string }[];
 }
 
 const OFFICIAL_DOJO_PATCH = "https://maple.land/board/notices/ze975xgn5g5p18nra6i1a6wf";
+const OFFICIAL_2_0_PATCH = "https://maple.land/board/notices/k2u06u7rr9x8vdzw7x1vse84";
+const OFFICIAL_ELLIN_PATCH = "https://maple.land/board/notices/s2hj2iam2upl57lbjayyxtt4";
 
 /**
  * 메이플랜드와 빅뱅 전 원작의 차이를 검증된 항목부터 쌓는 중앙 레지스트리.
@@ -95,6 +103,120 @@ export const CANON_DIFFS: Record<string, CanonDiffEntry> = {
     originalSourceLabel: "GMS v92 원본 데이터",
     originalSourceUrl: "https://maplestory.io/api/gms/92/item/1142120",
     verifiedAt: "2026-08-07",
+  },
+  "system.max-damage": {
+    id: "system.max-damage",
+    path: "/damage",
+    subject: "최대 데미지 제한",
+    status: "changed",
+    mapleland: "캐릭터가 표시할 수 있는 최대 데미지가 199,999로 확장되었습니다.",
+    original: "빅뱅 전 원작의 일반 최대 데미지는 99,999였습니다.",
+    note: "데미지 계산기 결과를 해석할 때 적용되는 메이플랜드 전용 상한입니다.",
+    sourceLabel: "메이플랜드 6/19 공식 패치노트",
+    sourceUrl: OFFICIAL_2_0_PATCH,
+    verifiedAt: "2026-08-07",
+    entityType: "system",
+  },
+  "system.trade-fee": {
+    id: "system.trade-fee",
+    path: "/fee",
+    subject: "거래 수수료",
+    status: "changed",
+    mapleland: "개인상점·교환·택배·거래소를 포함한 모든 거래 수수료가 5%로 통일되었습니다.",
+    original: "빅뱅 전 원작은 거래 방식과 금액 구간에 따라 수수료가 달랐습니다.",
+    sourceLabel: "메이플랜드 6/19 공식 패치노트",
+    sourceUrl: OFFICIAL_2_0_PATCH,
+    verifiedAt: "2026-08-07",
+    entityType: "system",
+  },
+  "system.buff-rules": {
+    id: "system.buff-rules",
+    path: "/skills",
+    subject: "버프 유지·덮어쓰기 규칙",
+    status: "changed",
+    mapleland: "채널 이동 뒤에도 버프가 유지되고, 낮은 레벨 버프가 높은 레벨 버프를 덮어쓰지 않습니다.",
+    original: "원작은 채널 이동 시 버프가 해제되거나 낮은 효과로 덮어써질 수 있었습니다.",
+    sourceLabel: "메이플랜드 6/19 공식 패치노트",
+    sourceUrl: OFFICIAL_2_0_PATCH,
+    verifiedAt: "2026-08-07",
+    entityType: "system",
+  },
+  "system.mastery-book-trade": {
+    id: "system.mastery-book-trade",
+    path: "/items",
+    subject: "마스터리북 거래 제한",
+    status: "changed",
+    mapleland: "마스터리북은 최초 획득 뒤 한 번만 거래할 수 있습니다.",
+    original: "빅뱅 전 원작 마스터리북에는 같은 형태의 1회 거래 제한이 없었습니다.",
+    sourceLabel: "메이플랜드 6/19 공식 패치노트",
+    sourceUrl: OFFICIAL_2_0_PATCH,
+    verifiedAt: "2026-08-07",
+    entityType: "item",
+  },
+  "system.transformation-material": {
+    id: "system.transformation-material",
+    path: "/quests",
+    subject: "변신 비약 재료",
+    status: "changed",
+    mapleland: "마뇽의 울음소리 1개 대신 드래곤의 에너지 10개를 사용합니다.",
+    original: "원작 퀘스트 재료는 마뇽의 울음소리 1개였습니다.",
+    sourceLabel: "메이플랜드 6/19 공식 패치노트",
+    sourceUrl: OFFICIAL_2_0_PATCH,
+    verifiedAt: "2026-08-07",
+    entityType: "quest",
+  },
+  "system.spawn-policy": {
+    id: "system.spawn-policy",
+    path: "/maps",
+    subject: "몬스터 젠 기준",
+    status: "changed",
+    mapleland: "KMS 지역의 기본 젠은 원작과 같은 방식을 따르며, 일부 미니던전은 별도 조정될 수 있습니다.",
+    original: "원작 맵별 젠 좌표·개체 수가 그대로 기준입니다.",
+    note: "사이트 구조도는 GMS v92 추출값이므로 KMS 원작 또는 조정된 미니던전과 다를 수 있습니다.",
+    sourceLabel: "메이플랜드 2.0 공식 패치노트",
+    sourceUrl: OFFICIAL_2_0_PATCH,
+    verifiedAt: "2026-08-07",
+    entityType: "map",
+  },
+  "data.map-id-collision": {
+    id: "data.map-id-collision",
+    path: "/maps",
+    subject: "KMS·GMS 맵 ID 충돌",
+    status: "version",
+    mapleland: "KMS 계열의 현재 맵 ID·명칭을 사용합니다. 공개 현행 자료와 공유되는 ID 중 139개는 사이트의 GMS92 원작 맵명과 충돌합니다.",
+    original: "GMS v92는 같은 숫자 ID가 다른 맵을 가리키는 경우가 있어 구조·젠·포탈을 그대로 연결하면 잘못된 맵이 표시될 수 있습니다.",
+    note: "충돌 ID는 메이플랜드 구조 실측이 확보될 때까지 GMS 렌더·젠·드롭·포탈을 숨깁니다.",
+    sourceLabel: "메이플랜드 현행 맵 DB",
+    sourceUrl: "https://mapledb.kr/map.php",
+    originalSourceLabel: "GMS v92 원본 API",
+    originalSourceUrl: "https://maplestory.io/api/gms/92/map",
+    verifiedAt: "2026-08-07",
+    entityType: "map",
+  },
+  "pq.ellin-cygnus": {
+    id: "pq.ellin-cygnus",
+    path: "/pq",
+    subject: "엘린숲 파티퀘스트 직업 제한",
+    status: "changed",
+    mapleland: "시그너스 기사단도 엘린숲 파티퀘스트에 참여할 수 있습니다.",
+    original: "원작에서는 시그너스 기사단이 참여할 수 없었습니다.",
+    sourceLabel: "메이플랜드 7/24 공식 패치노트",
+    sourceUrl: OFFICIAL_ELLIN_PATCH,
+    verifiedAt: "2026-08-07",
+    entityType: "quest",
+  },
+  "pq.ellin-exp": {
+    id: "pq.ellin-exp",
+    path: "/pq",
+    subject: "엘린숲 파티퀘스트 경험치",
+    status: "changed",
+    mapleland: "클리어 경험치가 원작보다 상향 조정되었습니다.",
+    original: "원작 경험치 보상은 더 낮았습니다.",
+    note: "정확한 단계별 실측치는 추가 수집 대상으로 남겨 둡니다.",
+    sourceLabel: "메이플랜드 7/24 공식 패치노트",
+    sourceUrl: OFFICIAL_ELLIN_PATCH,
+    verifiedAt: "2026-08-07",
+    entityType: "quest",
   },
 };
 

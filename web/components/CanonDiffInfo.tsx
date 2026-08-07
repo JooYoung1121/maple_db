@@ -1,8 +1,11 @@
+"use client";
+
 import type { CanonDiffEntry, CanonDiffStatus } from "@/lib/canonDiffs";
 
 const STATUS_META: Record<CanonDiffStatus, { label: string; className: string }> = {
   changed: { label: "원작과 변경", className: "border-amber-400 text-amber-700 dark:text-amber-300" },
   added: { label: "메랜 추가", className: "border-sky-400 text-sky-700 dark:text-sky-300" },
+  version: { label: "원작 판본 차이", className: "border-emerald-400 text-emerald-700 dark:text-emerald-300" },
   terminology: { label: "표기 차이", className: "border-violet-400 text-violet-700 dark:text-violet-300" },
   unverified: { label: "확인 중", className: "border-zinc-400 text-dim" },
 };
@@ -15,7 +18,7 @@ export default function CanonDiffInfo({ entry, compact = false, align = "right" 
   const meta = STATUS_META[entry.status];
 
   return (
-    <details className="relative inline-block">
+    <details className="relative inline-block" onClick={(event) => event.stopPropagation()}>
       <summary
         className={`list-none cursor-pointer select-none inline-flex items-center gap-1 border px-1.5 py-0.5 font-pixel text-[9px] bg-surface ${meta.className}`}
         title={`${entry.subject}: ${meta.label}`}
@@ -46,6 +49,9 @@ export default function CanonDiffInfo({ entry, compact = false, align = "right" 
             {entry.originalSourceUrl && (
               <a href={entry.originalSourceUrl} target="_blank" rel="noopener noreferrer" className="text-maple underline">{entry.originalSourceLabel ?? "원작 자료"} ↗</a>
             )}
+            {entry.evidence?.map((source) => (
+              <a key={source.url} href={source.url} target="_blank" rel="noopener noreferrer" className="text-maple underline">{source.label} ↗</a>
+            ))}
           </span>
         </div>
       </div>

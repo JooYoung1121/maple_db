@@ -4,7 +4,7 @@ from typing import Optional
 import json
 
 from crawler.db import get_connection
-from api.routes.mapleland_reference import id_filter_sql, require_mapleland_id
+from api.routes.mapleland_reference import id_filter_sql, require_mapleland_id, mapleland_name_kr_map
 
 router = APIRouter()
 
@@ -67,13 +67,14 @@ def list_npcs(
             params + [per_page, offset],
         ).fetchall()
         results = []
+        live_names = mapleland_name_kr_map("npcs")
         for row in rows:
             n = dict(row)
             kr = conn.execute(
                 "SELECT name_en FROM entity_names_en WHERE entity_type='npc' AND entity_id=? AND source='kms'",
                 (n["id"],),
             ).fetchone()
-            n["name_kr"] = kr["name_en"] if kr else None
+            n["name_kr"] = live_names.get(n["id"]) or (kr["name_en"] if kr else None)
             results.append(n)
     except Exception:
         results = []
@@ -106,6 +107,12 @@ def get_npc(npc_id: int):
             (npc_id,),
         ).fetchall()
         npc["names_en"] = [dict(r) for r in en_rows]
+        live_name_kr = mapleland_name_kr_map("npcs").get(npc_id)
+        if live_name_kr:
+            npc["names_en"] = [
+                *[row for row in npc["names_en"] if row.get("source") != "mapleland-current"],
+                {"name_en": live_name_kr, "source": "mapleland-current"},
+            ]
 
         # Related quests
         related_quests_raw = npc.get("related_quests")

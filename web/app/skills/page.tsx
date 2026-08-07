@@ -8,11 +8,22 @@ import DataTable, { Column } from "@/components/DataTable";
 import Pagination from "@/components/Pagination";
 import FilterPanel, { FilterDef } from "@/components/FilterPanel";
 import { useQueryState } from "@/lib/useQueryState";
+import CanonDiffInfo from "@/components/CanonDiffInfo";
+import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
+import { getEntityCanonDiffs } from "@/lib/entityCanonDiffs";
 
 const JOB_TABS = ["전체", "전사", "마법사", "궁수", "도적", "해적"];
 
 const columns: Column<Skill>[] = [
-  { key: "skill_name", label: "스킬명" },
+  { key: "skill_name", label: "스킬명", render: (r) => {
+    const entries = getEntityCanonDiffs("skill", undefined, r.skill_name);
+    return (
+      <span className="inline-flex items-center gap-2">
+        {r.skill_name}
+        {entries.map((entry) => <CanonDiffInfo key={entry.id} entry={entry} compact align="left" />)}
+      </span>
+    );
+  } },
   { key: "job_class", label: "직업" },
   { key: "job_branch", label: "차수" },
   { key: "master_level", label: "마스터레벨" },
@@ -66,6 +77,7 @@ function SkillsPageContent() {
       <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-900 px-4 py-3 text-sm text-amber-800 dark:text-amber-200">
         현재 스킬 DB는 과거 수집 데이터가 섞여 있어 메랜 기준 정규 리빌드가 필요합니다. 직업별 스킬 배치와 마스터레벨은 검증 중인 참고 정보로 봐주세요.
       </div>
+      <DatasetComparisonNotice type="skill" className="mb-4" />
       <div className="flex gap-1 mb-4 overflow-x-auto">
         {JOB_TABS.map((tab) => (
           <button

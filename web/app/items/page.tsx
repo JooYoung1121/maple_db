@@ -8,6 +8,9 @@ import DataTable, { Column } from "@/components/DataTable";
 import Pagination from "@/components/Pagination";
 import FilterPanel, { FilterDef, SortOption } from "@/components/FilterPanel";
 import { useQueryState } from "@/lib/useQueryState";
+import CanonDiffInfo from "@/components/CanonDiffInfo";
+import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
+import { getEntityCanonDiffs } from "@/lib/entityCanonDiffs";
 
 import { toCategoryKr, toSubcategoryKr, JOB_KR } from "@/lib/translations";
 
@@ -18,7 +21,10 @@ interface ItemRow extends Item {
 }
 
 const columns: Column<ItemRow>[] = [
-  { key: "name", label: "이름", render: (r) => r.name_kr ? <><span>{r.name_kr}</span> <span className="text-dim text-xs">({r.name})</span></> : r.name },
+  { key: "name", label: "이름", render: (r) => {
+    const entries = getEntityCanonDiffs("item", r.id, r.name_kr || r.name);
+    return <span className="inline-flex flex-wrap items-center gap-1.5"><span>{r.name_kr || r.name}</span>{r.name_kr && <span className="text-dim text-xs">({r.name})</span>}{entries.map((entry) => <CanonDiffInfo key={entry.id} entry={entry} compact align="left" />)}</span>;
+  } },
   { key: "category", label: "분류", render: (r) => toCategoryKr(r.category) },
   { key: "level_req", label: "레벨" },
   { key: "job_req", label: "직업" },
@@ -93,6 +99,7 @@ function ItemsPageContent() {
         <h1 className="font-pixel text-2xl font-bold text-ink">아이템</h1>
 
       </div>
+      <DatasetComparisonNotice type="item" className="mb-4" />
       <FilterPanel filters={filters} values={filterValues} onChange={setFilterValues} sortOptions={sortOptions} sortValue={sortValue} onSortChange={setSortValue} />
       <div className="mt-4">
         {loading ? (

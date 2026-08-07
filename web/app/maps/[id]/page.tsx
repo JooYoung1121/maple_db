@@ -5,6 +5,9 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getMap } from "@/lib/api";
 import type { MapData, MapDetailData, MapDrop, MapMobSpawn, Npc, Portal } from "@/lib/types";
+import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
+import CanonDiffInfo from "@/components/CanonDiffInfo";
+import { CANON_DIFFS } from "@/lib/canonDiffs";
 
 /* 몹별 스폰 점 색상 팔레트 (구조도·범례 공용) */
 const MOB_COLORS = ["#f59e0b", "#3b82f6", "#22c55e", "#a855f7", "#ef4444", "#14b8a6", "#eab308", "#ec4899"];
@@ -146,9 +149,13 @@ export default function MapDetailPage() {
     setLoading(true);
     getMap(Number(id))
       .then((d) => {
-        setMap(d.map); setMonsters(d.monsters || []); setNpcs(d.npcs || []);
-        setDetail(d.detail || null); setDrops(d.drops || []);
-        setTab(d.detail && d.detail.footholds.length > 0 ? "schematic" : "render");
+        const conflict = Boolean(d.map?.original_data_conflict);
+        setMap(conflict ? { ...d.map, portals: [] } : d.map);
+        setMonsters(conflict ? [] : (d.monsters || []));
+        setNpcs(conflict ? [] : (d.npcs || []));
+        setDetail(conflict ? null : (d.detail || null));
+        setDrops(conflict ? [] : (d.drops || []));
+        setTab(!conflict && d.detail && d.detail.footholds.length > 0 ? "schematic" : "render");
       })
       .catch(() => setMap(null))
       .finally(() => setLoading(false));
@@ -203,10 +210,24 @@ export default function MapDetailPage() {
           <span className="px-2 py-0.5 border border-skill text-skill font-medium">총 젠 {totalSpawn}마리</span>
         )}
         {detail?.bgm && <span className="px-2 py-0.5 border border-edge text-dim">♪ {detail.bgm.split("/").pop()}</span>}
+        <CanonDiffInfo entry={CANON_DIFFS["system.spawn-policy"]} />
+        {map.original_data_conflict && <CanonDiffInfo entry={CANON_DIFFS["data.map-id-collision"]} />}
       </div>
+      <DatasetComparisonNotice type="map" className="mb-4" />
 
       {/* ── 맵 뷰어 ── */}
-      <div className="pixel-panel p-0 overflow-hidden mb-2">
+      {map.original_data_conflict ? (
+        <div className="pixel-panel border-amber-400 p-5 mb-6">
+          <div className="flex flex-wrap items-center gap-2">
+            <h2 className="font-pixel text-sm text-amber-700 dark:text-amber-300">원작 맵 ID 충돌 — 구조 데이터 숨김</h2>
+            <CanonDiffInfo entry={CANON_DIFFS["data.map-id-collision"]} align="left" />
+          </div>
+          <p className="text-xs text-dim mt-2 leading-relaxed">
+            메이플랜드 현재 맵은 <b>{map.name_kr}</b>이지만, GMS v92의 같은 ID는 <b>{map.original_name_kr || map.name}</b>입니다.
+            잘못된 구조·젠·드롭·포탈을 보여주지 않도록 메이플랜드 실측 확보 전까지 숨겼습니다.
+          </p>
+        </div>
+      ) : <><div className="pixel-panel p-0 overflow-hidden mb-2">
         <div className="flex items-center justify-between border-b-2 border-edge px-2">
           <div className="flex">
             {hasStructure && (
@@ -259,6 +280,7 @@ export default function MapDetailPage() {
       <p className="text-[11px] text-dim mb-6">
         ※ 구조도·스폰 위치·젠 수는 원작(GMS v92) 데이터 기준 참고값으로, 메이플랜드 실서버와 다를 수 있습니다.
       </p>
+      </>}
 
       {/* ── 출현 몬스터 ── */}
       {monsters.length > 0 && (

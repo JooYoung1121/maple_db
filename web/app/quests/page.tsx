@@ -7,6 +7,7 @@ import type { Quest, SearchSuggestion } from "@/lib/types";
 import Pagination from "@/components/Pagination";
 import QuestCard from "@/components/QuestCard";
 import { useQueryState } from "@/lib/useQueryState";
+import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
 
 /* ====================================================================
    퀘스트 통합 페이지 — 리스트 뷰 + 테이블 뷰 탭 전환
@@ -811,6 +812,8 @@ function QuestsTableView({
           </div>
         </div>
       </div>
+
+      <DatasetComparisonNotice type="quest" />
 
       {/* 필터 바 (sticky) */}
       <div className="pixel-panel bg-surface p-4 space-y-3 sticky top-[64px] z-30">
