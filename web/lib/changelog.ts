@@ -15,6 +15,22 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.84.1",
+    date: "2026-08-07",
+    type: "patch",
+    title: "실서버 교정값 배포 경로 보강",
+    pages: ["/items", "/mobs", "/maps", "/npcs"],
+    features: [
+      {
+        category: "데이터 배포",
+        items: [
+          "Railway 최종 이미지에 메이플랜드 오버라이드와 현행 개별 레퍼런스 파일을 포함해 컨테이너 시작 시 교정값이 실제 API에 적용되도록 수정",
+          "배포 후 몬스터 레벨·HP, 아이템 착용 레벨·직업, 맵 ID 충돌 차단, NPC 현행 한글명을 라이브 API로 재검증",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.84.0",
     date: "2026-08-07",
     type: "minor",

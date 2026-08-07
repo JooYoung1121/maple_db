@@ -39,6 +39,11 @@ RUN mkdir -p data/cache
 COPY data/maple.db data/maple.db
 COPY data/v62_ids.json data/v62_ids.json
 COPY data/mapleland_reference.json data/mapleland_reference.json
+COPY data/mapleland_overrides.json data/mapleland_overrides.json
+COPY data/mapleland_items.json data/mapleland_items.json
+COPY data/mapleland_mobs.json data/mapleland_mobs.json
+COPY data/mapleland_maps.json data/mapleland_maps.json
+COPY data/mapleland_npcs.json data/mapleland_npcs.json
 COPY data/local_news_summaries.json data/local_news_summaries.json
 COPY data/maker_data.json data/maker_data.json
 COPY data/skill_sim_data.json data/skill_sim_data.json
