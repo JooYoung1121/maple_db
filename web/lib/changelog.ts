@@ -15,6 +15,22 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.82.1",
+    date: "2026-08-07",
+    type: "patch",
+    title: "필드보스 9종 추가 — 스노우맨 등 누락 보강",
+    pages: ["/field-boss"],
+    features: [
+      {
+        category: "필드보스 채널",
+        items: [
+          "누락 필드보스 9종 추가: 마노 · 데우 · 세르프 · 제노 · 구미호 · 태륜 · 요괴선사 · 스노우맨 · 피아누스(우) — 총 29종",
+          "피아누스 좌/우 구분 표시, 보스 선택을 레벨순 정렬",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.82.0",
     date: "2026-08-07",
     type: "minor",
