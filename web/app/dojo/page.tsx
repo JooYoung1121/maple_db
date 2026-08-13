@@ -177,10 +177,11 @@ export default function DojoPage() {
         </div>
       </section>
 
-      <section className="grid sm:grid-cols-2 lg:grid-cols-4 gap-2">
+      <section className="grid sm:grid-cols-2 lg:grid-cols-5 gap-2">
         <QuickCard label="입장" value="Lv.25+" note="파티 레벨 차 30 이하" />
         <QuickCard label="구성" value="38층" note="보스 32단계 + 휴게실 6층" info={<CanonDiffInfo entry={CANON_DIFFS["dojo.floor-count"]} compact />} />
         <QuickCard label="솔플 완주" value="151P" note="파티 완주 119P" />
+        <QuickCard label="하루 제한" value="3,500P" note="입장 10회 제한 제보 (커뮤 실측)" />
         <QuickCard label="한정 훈장" value="9/11까지" note="38층 클리어 · 소공의 후계자" />
       </section>
 
@@ -216,6 +217,7 @@ export default function DojoPage() {
           <Tip number="2" title="점수만이면 32층 크림슨 발록" text="크림슨 발록까지 솔플 114P로 완주 점수의 75.5%를 확보합니다. 고HP 마뇽·그리프·레비아탄·파풀라투스·무공 5마리를 건너뛰는 첫 우선 효율선입니다." />
           <Tip number="3" title="후반 3종이 빠르면 레비아탄" text="크림슨 발록에서 레비아탄까지 추가 점수는 21P입니다. 계산기의 손익분기 시간보다 빨리 세 보스를 잡을 때만 더 깊게 가는 편이 점수/시간상 이득입니다." />
           <Tip number="4" title="최상층은 훈장·기록 목적" text="파풀라투스와 무공은 15분을 공유하고 합계 16P입니다. 9월 11일 전 소공의 후계자 훈장을 한 번 확보한 뒤 점수런 목표를 다시 정하세요." />
+          <Tip number="5" title="하루 상한을 기준으로 일정 계획" text="커뮤니티 실측 기준 수련 점수는 하루 3,500P 상한, 입장은 하루 10회 제한 제보가 있습니다. 검은 띠 17,000P는 풀컷을 채워도 최소 5일이 필요하니 매일 상한까지 채우는 루틴이 최단 경로입니다." />
         </div>
 
         <div className="border-t-2 border-edge pt-4">
@@ -388,11 +390,11 @@ export default function DojoPage() {
           </div>
           <div className="pixel-card p-3">
             <div className="flex items-center justify-between gap-2">
-              <b className="text-ink">솔로 클리어 시간 랭킹 · 준비 중</b>
+              <b className="text-ink">솔로 클리어 시간 랭킹 · 출시됨</b>
               <CanonDiffInfo entry={CANON_DIFFS["dojo.ranking"]} />
             </div>
             <p className="text-dim mt-1">저장 후 이탈 기록은 제외. 기간제 엔젤릭 블레스(공5/마10)·다크(공10/마20)·화이트(공15/마30) 보상이 예고됐습니다.</p>
-            <p className="text-[10px] text-amber-600 dark:text-amber-300 mt-2">8월 10일 전후 예정 · 순위 구간과 지급 기간은 후속 공지 대기</p>
+            <p className="text-[10px] text-amber-600 dark:text-amber-300 mt-2">8/10 무중단 배포로 적용 · 순위 반영이 늦다는 제보 있음 · 순위 구간·지급 기간은 후속 공지 대기</p>
           </div>
         </div>
       </section>

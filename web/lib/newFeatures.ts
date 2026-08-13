@@ -1,6 +1,7 @@
 // 새 기능 NEW 배지 — 기능 출시일 기준 14일간 네비/홈에 표시.
 // 새 페이지를 출시하면 여기에 한 줄 추가하면 된다 (릴리즈 절차: version.ts + changelog.ts + 필요시 이 파일).
 export const NEW_FEATURES: Record<string, string> = {
+  "/wedding": "2026-08-13",
   "/charlie": "2026-08-07",
   "/dojo": "2026-08-07",
   "/guild/events": "2026-08-04",
