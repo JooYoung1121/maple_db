@@ -15,6 +15,30 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.86.0",
+    date: "2026-08-14",
+    type: "minor",
+    title: "결혼 시스템 확정 반영 + 가이드 실물 아이콘 연동",
+    pages: ["/wedding", "/dojo", "/horntail"],
+    features: [
+      {
+        category: "결혼 (8/14 패치 확정)",
+        items: [
+          "웨딩빌리지·헤라 NPC 입장 · 문월하 안내 · 캐시샵 프리미엄 결혼식 티켓 반영",
+          "캐럿 시스템 정리 — 약혼반지 다이아 캐럿(1·2·3)이 결혼반지 옵션 결정, 이혼 전 변경 불가",
+          "결혼반지 4종 실물 아이콘·기본 옵션(DB 연동) + 부부 기능(배우자 위치 표시 등) 정리",
+        ],
+      },
+      {
+        category: "가이드 아이콘 연동",
+        items: [
+          "공용 ItemChip 컴포넌트 — 실물 아이콘 + 아이템 상세(드랍·시세) 링크",
+          "무릉 허리띠 5종 실물 아이콘 · 상세 링크, 혼테일 공통 소비템 아이콘 스트립 추가",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.85.0",
     date: "2026-08-13",
     type: "minor",

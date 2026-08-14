@@ -140,11 +140,11 @@ const MILESTONES = [
 ];
 
 const BELTS = [
-  { name: "흰색 허리띠", level: 25, points: 200, stat: "올스탯 +1", extra: "", defense: "물/마방 +10", avoid: 3 },
-  { name: "노란색 허리띠", level: 35, points: 1800, stat: "올스탯 +2", extra: "", defense: "물/마방 +20", avoid: 6 },
-  { name: "파란색 허리띠", level: 45, points: 4000, stat: "올스탯 +3", extra: "", defense: "물/마방 +30", avoid: 9 },
-  { name: "빨간색 허리띠", level: 60, points: 9200, stat: "올스탯 +4", extra: "", defense: "물/마방 +40", avoid: 12 },
-  { name: "검은색 허리띠", level: 75, points: 17000, stat: "올스탯 +3", extra: "공격력 +1 · 마력 +4", defense: "물/마방 +50", avoid: 15 },
+  { itemId: 1132000, name: "흰색 허리띠", level: 25, points: 200, stat: "올스탯 +1", extra: "", defense: "물/마방 +10", avoid: 3 },
+  { itemId: 1132001, name: "노란색 허리띠", level: 35, points: 1800, stat: "올스탯 +2", extra: "", defense: "물/마방 +20", avoid: 6 },
+  { itemId: 1132002, name: "파란색 허리띠", level: 45, points: 4000, stat: "올스탯 +3", extra: "", defense: "물/마방 +30", avoid: 9 },
+  { itemId: 1132003, name: "빨간색 허리띠", level: 60, points: 9200, stat: "올스탯 +4", extra: "", defense: "물/마방 +40", avoid: 12 },
+  { itemId: 1132004, name: "검은색 허리띠", level: 75, points: 17000, stat: "올스탯 +3", extra: "공격력 +1 · 마력 +4", defense: "물/마방 +50", avoid: 15 },
 ];
 
 export default function DojoPage() {
@@ -365,7 +365,12 @@ export default function DojoPage() {
               {BELTS.map((belt) => (
                 <tr key={belt.name} className="border-b border-edge/50">
                   <td className={`py-2 pr-3 font-bold ${belt.name === "검은색 허리띠" ? "text-maple" : ""}`}>
-                    <span className="inline-flex items-center gap-1">{belt.name}{belt.name === "검은색 허리띠" && <CanonDiffInfo entry={CANON_DIFFS["dojo.black-belt"]} compact align="left" />}</span>
+                    <span className="inline-flex items-center gap-1.5">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={`https://maplestory.io/api/gms/92/item/${belt.itemId}/icon`} alt="" className="w-6 h-6 object-contain [image-rendering:pixelated]" loading="lazy" />
+                      <Link href={`/items/${belt.itemId}`} className="hover:underline">{belt.name}</Link>
+                      {belt.name === "검은색 허리띠" && <CanonDiffInfo entry={CANON_DIFFS["dojo.black-belt"]} compact align="left" />}
+                    </span>
                   </td>
                   <td className="pr-3">{belt.level}</td>
                   <td className="pr-3 font-pixel text-xs">{belt.points.toLocaleString()}P</td>

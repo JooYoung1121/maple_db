@@ -2,6 +2,17 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import ItemChip from "@/components/ItemChip";
+
+/* 공대 공통 소비템 — 실물 아이콘 (클릭 → 상세·시세) */
+const PREP_ITEMS: { id: number; name: string; note: string }[] = [
+  { id: 2020013, name: "순록의 우유", note: "HP 5000 — 자동물약 국룰" },
+  { id: 2020012, name: "살살녹는 치즈", note: "MP 4000" },
+  { id: 2001001, name: "쭈쭈바", note: "HP/MP 2000" },
+  { id: 2050004, name: "만병통치약", note: "상태이상 해제 — 손컨" },
+  { id: 2000006, name: "마나 엘릭서", note: "법사 필수" },
+  { id: 2000005, name: "파워 엘릭서", note: "비상용" },
+];
 
 /* ── 혼테일 공략 — 추억길드 헤딩 실측 정리 (요정주영/비숍 디스코드 정리본 기반) ── */
 
@@ -272,6 +283,17 @@ export default function HorntailGuidePage() {
       </Section>
 
       <Section id="prep" icon="🎒" title="직업별 준비물 · 합류 기준">
+        <div className="pixel-card p-3 mb-4">
+          <p className="text-[11px] font-pixel text-dim mb-2">공통 소비템 (클릭 → 드랍처·시세)</p>
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            {PREP_ITEMS.map((p) => (
+              <span key={p.id} className="inline-flex items-center gap-1">
+                <ItemChip id={p.id} name={p.name} size="sm" />
+                <span className="text-[10px] text-dim">— {p.note}</span>
+              </span>
+            ))}
+          </div>
+        </div>
         <div className="space-y-4">
           {JOB_PREP.map((j) => (
             <div key={j.job} className="pixel-card p-4">
