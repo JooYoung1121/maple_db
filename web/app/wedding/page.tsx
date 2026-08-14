@@ -20,13 +20,16 @@ const TOKEN_QUESTS = [
   ["아리안트", "지유르", "클로버 40개"],
 ];
 
-// 결혼 반지 4종 — 우리 DB 실물 (아이콘·기본 옵션). 캐럿별 옵션은 실측 확인 중.
+// 결혼 반지 4종 — 메랜 공식 안내 이미지 기준 (3캐럿 예시 옵션). 아이콘은 동일 원본 리소스.
+// 주의: 반지 자체는 상세 링크 없음 — 신규 2.0 아이템이라 레퍼런스 밖 + 고유·교환 불가(드랍·시세 없음)
+// 제작 재료(base/다이아)는 레퍼런스 안이라 상세·시세 링크 제공.
 const WEDDING_RINGS = [
-  { id: 1112803, name: "문스톤 웨딩링", base: "마법방어 +30" },
-  { id: 1112806, name: "스타젬 웨딩링", base: "마법방어 +30" },
-  { id: 1112807, name: "골든하트 웨딩링", base: "마법방어 +10" },
-  { id: 1112809, name: "실버스완 웨딩링", base: "마법방어 +10" },
+  { id: 1112803, name: "문스톤링", reqLev: 10, unique: "이동속도 +5", baseId: 4011007, baseName: "달의 돌", meso: "8만" },
+  { id: 1112806, name: "샤이닝스타링", reqLev: 10, unique: "점프력 +2", baseId: 4021009, baseName: "별의 돌", meso: "4만" },
+  { id: 1112807, name: "골드하트링", reqLev: 0, unique: "HP +60", baseId: 4011006, baseName: "금괴", meso: "2만" },
+  { id: 1112809, name: "실버윙링", reqLev: 0, unique: "MP +60", baseId: 4011004, baseName: "은괴", meso: "1만" },
 ];
+const DIAMOND_ID = 4021007; // 다이아몬드(제련) — 캐럿 결정: 1캐럿 2개 / 2캐럿 4개 / 3캐럿 6개
 
 export default function WeddingPage() {
   return (
@@ -72,7 +75,8 @@ export default function WeddingPage() {
           <div className="pixel-card p-3">
             <b>💳 과금 요소</b>
             <p className="text-xs text-dim mt-1 leading-relaxed">
-              캐시샵에서 <b className="text-ink">&lsquo;프리미엄 결혼식 티켓&rsquo;</b> 판매 — 일반/프리미엄 예식 차이(하객 수·보상 규모 추정)는 실측 확인 중입니다.
+              공식 안내: <b className="text-red-500">신랑·신부 중 1명이 캐시샵의 &lsquo;프리미엄 결혼식 티켓&rsquo;을 지참해야 진행 가능</b>합니다.
+              티켓 가격·무료 예식 존재 여부는 실측 확인 중입니다.
             </p>
           </div>
         </div>
@@ -106,23 +110,60 @@ export default function WeddingPage() {
         </p>
       </section>
 
-      {/* 결혼 반지 실물 */}
+      {/* 결혼 반지 실물 — 메랜 공식 안내 기준 */}
       <section className="pixel-panel p-5 space-y-3">
-        <h2 className="font-pixel text-base text-ink">💍 결혼 반지 4종 — 실물 아이콘 · 기본 옵션</h2>
+        <h2 className="font-pixel text-base text-ink">💍 결혼 반지 4종 — 메랜 공식 옵션 (3캐럿 기준)</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {WEDDING_RINGS.map((r) => (
             <div key={r.id} className="pixel-card p-3 text-center space-y-1">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={`https://maplestory.io/api/gms/92/item/${r.id}/icon`} alt={r.name} className="w-10 h-10 object-contain mx-auto [image-rendering:pixelated]" />
-              <div className="text-sm font-medium text-ink">{r.name}</div>
-              <div className="text-xs text-maple">{r.base}</div>
-              <Link href={`/items/${r.id}`} className="text-[10px] text-dim hover:text-maple underline">상세 →</Link>
+              <div className="text-sm font-medium text-ink">{r.name} <span className="text-[10px] text-dim">3캐럿</span></div>
+              <div className="text-xs text-maple">올스탯 +3 · {r.unique}</div>
+              <div className="text-[10px] text-dim">착용 Lv.{r.reqLev} · 고유 아이템 · 교환 불가</div>
             </div>
           ))}
         </div>
         <p className="text-[11px] text-dim">
-          기본 옵션은 우리 DB(원작 데이터) 기준. 메랜은 <b>캐럿(1·2·3)에 따라 옵션이 달라지므로</b> 캐럿별 실측이 모이는 대로 표를 확장합니다.
+          공식 안내 이미지 기준 — <b>3캐럿 약혼반지로 프로포즈했을 때의 예시</b>입니다. 캐럿별 올스탯은 +1/+2/+3(커뮤니티 정리).
+          모든 반지의 올스탯은 같고 <b>고유 옵션(이속/점프/HP/MP)만 다르니</b> 취향·직업에 맞게 고르세요.
+          결혼반지는 교환 불가라 드랍·시세 정보가 없어 상세 링크를 제공하지 않습니다.
         </p>
+
+        {/* 제작 재료 — 캐럿별 다이아 개수 */}
+        <div className="border-t-2 border-edge pt-3 space-y-2">
+          <h3 className="font-pixel text-sm text-ink">🔨 약혼반지 제작 재료 — 캐럿 = 다이아몬드 개수</h3>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[560px] text-sm">
+              <thead>
+                <tr className="text-left text-dim border-b-2 border-edge">
+                  <th className="py-1.5 pr-3">반지</th>
+                  <th className="pr-3">기본 재료</th>
+                  <th className="pr-3">1캐럿</th>
+                  <th className="pr-3">2캐럿</th>
+                  <th className="pr-3">3캐럿</th>
+                  <th>제작비</th>
+                </tr>
+              </thead>
+              <tbody>
+                {WEDDING_RINGS.map((r) => (
+                  <tr key={r.id} className="border-b border-edge/40">
+                    <td className="py-1.5 pr-3 font-medium">{r.name}</td>
+                    <td className="pr-3"><ItemChip id={r.baseId} name={r.baseName} qty={1} size="sm" /></td>
+                    <td className="pr-3"><ItemChip id={DIAMOND_ID} name="다이아" qty={2} size="sm" /></td>
+                    <td className="pr-3"><ItemChip id={DIAMOND_ID} name="다이아" qty={4} size="sm" /></td>
+                    <td className="pr-3"><ItemChip id={DIAMOND_ID} name="다이아" qty={6} size="sm" /></td>
+                    <td className="text-maple">{r.meso} 메소</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-[11px] text-dim">
+            달의 돌·별의 돌·금괴·은괴·다이아몬드는 제련 재료라 <b>아이콘 클릭 → 드랍처·시세 확인</b>이 가능합니다.
+            다이아 수요(캐럿당 2·4·6개)가 몰리니 시세 급등 주의. 재료·비용은 커뮤니티 정리(메랜쩔) 기준으로 실측 교차 확인 중입니다.
+          </p>
+        </div>
       </section>
 
       {/* 원작 참고 (축소) */}
