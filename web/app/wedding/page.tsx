@@ -1,10 +1,10 @@
 import Link from "next/link";
+import ItemChip from "@/components/ItemChip";
 
-const OFFICIAL_ROADMAP = "https://maple.land/board/notices/wjc935d9pldwyywmi43t8y23";
+const OFFICIAL_PATCH_0814 = "https://maple.land/board/notices/pzx6wmuz4h4slkbvklaojerw";
 const DC_TOKEN_POST = "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=3882525";
 const SRC_NOBLE = "https://noblestory.boards.net/thread/18/engagement-marriage-guide";
 const SRC_NAMU = "https://namu.wiki/w/%EC%95%84%EB%AA%A8%EB%A6%AC%EC%95%84";
-const SRC_2009 = "http://thestoryofmaple.blogspot.com/2009/07/maplestory-amoria-wedding-guide.html";
 
 // 메랜 사전 확인 (8/12 커뮤니티) — 사랑의 증표 획득 퀘스트: 마을 NPC에 재료 전달
 const TOKEN_QUESTS = [
@@ -20,12 +20,12 @@ const TOKEN_QUESTS = [
   ["아리안트", "지유르", "클로버 40개"],
 ];
 
-// 원작 약혼반지 4종 (빅뱅 전 GMS 기준 참고값)
-const RINGS = [
-  ["문 스톤", "문 록 1 + 다이아몬드 1 + 300만 메소", "이동속도 +5"],
-  ["샤이닝 스타", "스타 록 1 + 다이아몬드 1 + 200만 메소", "점프 +2"],
-  ["골드 하트", "골드 플레이트 1 + 다이아몬드 1 + 100만 메소", "HP +60"],
-  ["실버 스완", "실버 플레이트 1 + 다이아몬드 1 + 50만 메소", "MP +60"],
+// 결혼 반지 4종 — 우리 DB 실물 (아이콘·기본 옵션). 캐럿별 옵션은 실측 확인 중.
+const WEDDING_RINGS = [
+  { id: 1112803, name: "문스톤 웨딩링", base: "마법방어 +30" },
+  { id: 1112806, name: "스타젬 웨딩링", base: "마법방어 +30" },
+  { id: 1112807, name: "골든하트 웨딩링", base: "마법방어 +10" },
+  { id: 1112809, name: "실버스완 웨딩링", base: "마법방어 +10" },
 ];
 
 export default function WeddingPage() {
@@ -34,27 +34,54 @@ export default function WeddingPage() {
       <header>
         <div className="flex flex-wrap items-center gap-2 mb-1">
           <h1 className="font-pixel text-2xl font-bold">💍 결혼 시스템 가이드</h1>
-          <span className="font-pixel text-[10px] px-2 py-1 border border-amber-400 bg-amber-50 dark:bg-amber-950/30 text-amber-700 dark:text-amber-300">
-            8/14 출시 — 사전 가이드
+          <span className="font-pixel text-[10px] px-2 py-1 border border-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300">
+            8/14 출시 — 공식 패치 반영
           </span>
         </div>
         <p className="text-sm text-dim">
-          8월 14일 출시가 공식 확정된 결혼 시스템(아모리아)의 준비물·절차·보상을 미리 정리했습니다.
-          메이플랜드 확정값이 아닌 항목은 원작(빅뱅 전) 참고값으로 표시했고, 패치노트 공개 후 갱신합니다.
+          8월 14일 출시된 메이플랜드 결혼 시스템 공식 사양과, 출시 전 커뮤니티에서 확인된 준비물을 정리했습니다.
+          캐럿별 반지 옵션 등 미공개 수치는 실측이 확인되는 대로 갱신합니다.
         </p>
       </header>
 
-      <section className="pixel-panel p-4 border-emerald-400 space-y-2">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <h2 className="font-pixel text-sm text-ink">✅ 지금 준비해두면 좋은 것 (메랜 사전 확인)</h2>
-            <p className="text-sm mt-2">
-              결혼에는 <b>사랑의 증표 4개</b>가 필요합니다. 각 마을 NPC에게 재료를 전달하면 받을 수 있어서,
-              <b className="text-maple"> 출시 전에 재료를 미리 사두면</b> 첫날 바로 진행할 수 있습니다.
+      {/* 메랜 공식 확정 */}
+      <section className="pixel-panel p-5 border-emerald-400 space-y-3">
+        <h2 className="font-pixel text-sm text-ink">📢 메이플랜드 공식 사양 (8/14 패치노트)</h2>
+        <div className="grid md:grid-cols-2 gap-3 text-sm">
+          <div className="pixel-card p-3">
+            <b>입장 · 안내</b>
+            <p className="text-xs text-dim mt-1 leading-relaxed">
+              헤네시스·오르비스·루디브리엄·리프레 등 마을의 <b className="text-ink">헤라</b> NPC로 <b className="text-ink">웨딩빌리지</b>(아모리아) 입장.
+              자세한 안내는 웨딩빌리지의 <b className="text-ink">문월하</b> NPC. 신규 구역: 웨딩홀 로비 · 웨딩홀 · 웨딩케이크 스튜디오 · 웨딩파크 · 웨딩박스
             </p>
           </div>
-          <a href={OFFICIAL_ROADMAP} target="_blank" rel="noopener noreferrer" className="pixel-btn px-3 py-2 text-xs shrink-0">8/12 공식 로드맵 ↗</a>
+          <div className="pixel-card p-3">
+            <b className="text-maple">💎 캐럿 시스템 (원작과 다른 핵심!)</b>
+            <p className="text-xs text-dim mt-1 leading-relaxed">
+              원작의 채플/대성당 등급 대신, <b className="text-ink">약혼반지에 쓴 다이아몬드 캐럿(1·2·3캐럿)</b>에 따라
+              결혼 후 교환 가능한 결혼반지 옵션이 달라집니다 (예: 문스톤링 1캐럿/2캐럿/3캐럿).
+              <b className="text-red-500"> 결혼반지 옵션은 이혼 후 재결혼까지 변경 불가</b> — 캐럿 선택은 신중하게!
+            </p>
+          </div>
+          <div className="pixel-card p-3">
+            <b>부부 전용 기능</b>
+            <p className="text-xs text-dim mt-1 leading-relaxed">
+              프로필 기혼 여부 표시 · <b className="text-ink">월드맵/미니맵에 배우자 위치 표시</b> · 결혼식 중 버프 · 기념사진 · 예식 종료 후 보상
+            </p>
+          </div>
+          <div className="pixel-card p-3">
+            <b>💳 과금 요소</b>
+            <p className="text-xs text-dim mt-1 leading-relaxed">
+              캐시샵에서 <b className="text-ink">&lsquo;프리미엄 결혼식 티켓&rsquo;</b> 판매 — 일반/프리미엄 예식 차이(하객 수·보상 규모 추정)는 실측 확인 중입니다.
+            </p>
+          </div>
         </div>
+      </section>
+
+      {/* 준비물 */}
+      <section className="pixel-panel p-4 space-y-2">
+        <h2 className="font-pixel text-sm text-ink">✅ 준비물 — 사랑의 증표 4개 (출시 전 커뮤 확인)</h2>
+        <p className="text-sm">각 마을 NPC에게 재료를 전달하면 사랑의 증표를 받습니다. <b className="text-maple">10곳 중 4곳</b>만 완료하면 되니 재료가 싸거나 이미 갖고 있는 마을을 고르세요.</p>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[480px] text-sm">
             <thead>
@@ -74,108 +101,52 @@ export default function WeddingPage() {
           </table>
         </div>
         <p className="text-[11px] text-dim">
-          10곳 중 4곳만 완료하면 됩니다 — 재료가 싸거나 이미 갖고 있는 마을을 고르세요.
-          원작의 &lsquo;러브 포프(나나 6인)&rsquo; 수집을 메랜이 10개 마을로 확장한 구성입니다.
-          출처: <a href={DC_TOKEN_POST} target="_blank" rel="noopener noreferrer" className="underline text-maple">커뮤니티 사전 정리(8/12) ↗</a>
+          + 약혼반지 제작에 <b>다이아몬드</b>가 필요하고 캐럿 수가 곧 반지 등급이라, 다이아몬드(제련) 시세가 오를 수 있습니다.
+          출처: <a href={DC_TOKEN_POST} target="_blank" rel="noopener noreferrer" className="underline text-maple">커뮤니티 사전 정리 ↗</a> — 패치 후 변경 여부 재검증 중
         </p>
       </section>
 
+      {/* 결혼 반지 실물 */}
       <section className="pixel-panel p-5 space-y-3">
-        <h2 className="font-pixel text-base text-ink">📋 절차 (원작 기준)</h2>
-        <ol className="space-y-2 text-sm list-none">
-          {[
-            ["1", "약혼반지 제작", "아모리아 보석상 '무니'에게 퀘스트 수령 → 사랑의 증표 4개 + 반지 재료·메소 지불. 원작은 남성 캐릭터만 제작 가능, 이성 간에만 결혼 가능"],
-            ["2", "프로포즈", "약혼반지를 더블클릭해 상대 닉네임 입력 → 상대가 수락하면 약혼"],
-            ["3", "예식장 예약", "채플(소규모) 또는 대성당(대규모). 원작 기준 대성당은 성직자 '존'의 주례 허가서 + 신부 측 사랑의 증표 2개 추가 수집 필요. 예식 티켓이 원작에선 캐시템이었는데 메랜에서 어떻게 풀릴지가 관전 포인트"],
-            ["4", "하객 초대", "청첩장 발송 — 원작 기준 채플 양가 각 5명, 대성당 각 15명"],
-            ["5", "예식 + 보너스맵", "예식 진행 후 하객은 보너스맵에 입장해 상자 보상 획득 (하객 1인당 1개)"],
-          ].map(([n, title, text]) => (
-            <li key={n} className="pixel-card p-3 flex gap-3">
-              <span className="font-pixel text-maple text-sm shrink-0">{n}</span>
-              <div><b className="text-sm">{title}</b><p className="text-xs text-dim mt-1 leading-relaxed">{text}</p></div>
-            </li>
+        <h2 className="font-pixel text-base text-ink">💍 결혼 반지 4종 — 실물 아이콘 · 기본 옵션</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+          {WEDDING_RINGS.map((r) => (
+            <div key={r.id} className="pixel-card p-3 text-center space-y-1">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`https://maplestory.io/api/gms/92/item/${r.id}/icon`} alt={r.name} className="w-10 h-10 object-contain mx-auto [image-rendering:pixelated]" />
+              <div className="text-sm font-medium text-ink">{r.name}</div>
+              <div className="text-xs text-maple">{r.base}</div>
+              <Link href={`/items/${r.id}`} className="text-[10px] text-dim hover:text-maple underline">상세 →</Link>
+            </div>
           ))}
-        </ol>
-        <p className="text-[11px] text-dim">아모리아 이동: 원작은 각 마을의 '토마스 스위프트' NPC. 메랜은 차원의 거울 추가 가능성.</p>
+        </div>
+        <p className="text-[11px] text-dim">
+          기본 옵션은 우리 DB(원작 데이터) 기준. 메랜은 <b>캐럿(1·2·3)에 따라 옵션이 달라지므로</b> 캐럿별 실측이 모이는 대로 표를 확장합니다.
+        </p>
       </section>
 
-      <section className="pixel-panel p-5 space-y-3">
-        <h2 className="font-pixel text-base text-ink">💍 약혼반지 4종 (원작 참고값)</h2>
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[520px] text-sm">
-            <thead>
-              <tr className="text-left text-dim border-b-2 border-edge">
-                <th className="py-1.5 pr-3">반지</th><th className="pr-3">제작 재료 (원작)</th><th>착용 옵션</th>
-              </tr>
-            </thead>
-            <tbody>
-              {RINGS.map(([name, mat, stat]) => (
-                <tr key={name} className="border-b border-edge/40">
-                  <td className="py-1.5 pr-3 font-medium">{name}</td>
-                  <td className="pr-3 text-dim">{mat}</td>
-                  <td className="text-maple">{stat}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p className="text-[11px] text-dim">다이아몬드는 4종 공통 재료 — 제련용 다이아몬드·원석 시세가 오를 수 있으니 미리 확보해두는 것도 방법입니다. 메랜 확정 재료는 패치 후 갱신.</p>
-      </section>
-
-      <section className="grid md:grid-cols-2 gap-3">
-        <div className="pixel-panel p-5 space-y-2">
-          <h2 className="font-pixel text-base text-ink">⛪ 채플 vs 대성당 (원작)</h2>
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-left text-dim border-b-2 border-edge">
-                <th className="py-1.5 pr-2">항목</th><th className="pr-2">채플</th><th>대성당</th>
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                ["하객", "양가 각 5명", "양가 각 15명"],
-                ["부부 반지", "1캐럿 (올스탯 +1)", "2캐럿 (올스탯 +2)"],
-                ["예식 시간", "약 9분", "약 18분"],
-                ["추가 조건", "없음", "주례 허가서 + 증표 2개"],
-              ].map(([k, a, b]) => (
-                <tr key={k} className="border-b border-edge/40">
-                  <td className="py-1.5 pr-2 text-dim">{k}</td><td className="pr-2">{a}</td><td className="text-maple">{b}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <p className="text-[11px] text-dim">이혼도 원작에 존재 (아모리아 필라 프레젠트, 수수료+유예기간).</p>
-        </div>
-
-        <div className="pixel-panel p-5 space-y-2">
-          <h2 className="font-pixel text-base text-ink">🎁 하객 보상 — 결혼식의 진짜 꿀</h2>
-          <p className="text-sm leading-relaxed">
-            예식 후 보너스맵에서 <b>오닉스 상자</b>를 얻어 교환하면:
-          </p>
-          <ul className="text-sm space-y-1.5">
-            <li className="flex gap-2"><span className="text-maple shrink-0">★</span><span><b>오닉스 애플</b> — 공격력·마력 <b className="text-maple">+100 (10분)</b>. 원작 최강 도핑으로 자쿰·혼테일 공대 필수템이었습니다</span></li>
-            <li className="flex gap-2"><span className="text-maple shrink-0">·</span><span><b>빅토리아 아모리안 바스켓</b> — 명중률 +40 (10분)</span></li>
-          </ul>
-          <p className="text-[11px] text-dim">
-            하객 1인당 상자 1개, 예식 종료 후 약 20분 뒤 소멸(원작 기준). 부부는 아모리아 파티퀘스트(APQ)로 오닉스 애플을 반복 수급할 수 있어 —
-            결혼 시스템이 사실상 <b>보스 도핑 경제</b>를 여는 업데이트입니다. 하객 초대가 곧 재화가 될 수 있어요.
-          </p>
-        </div>
+      {/* 원작 참고 (축소) */}
+      <section className="pixel-panel p-4 space-y-2">
+        <h2 className="font-pixel text-sm text-ink">📜 원작 참고 — 메랜 확인 대기 항목</h2>
+        <ul className="text-xs text-dim space-y-1.5 leading-relaxed">
+          <li>· 원작 절차: 보석상에게 약혼반지 제작 → 반지 더블클릭 프로포즈 → 예식 예약 → 청첩장 → 예식 + 하객 보너스맵</li>
+          <li>· 원작 하객 보상: <b className="text-ink">오닉스 애플 (공·마 +100, 10분)</b> — 원작 최강 보스 도핑. 메랜 &lsquo;예식 종료 후 소정의 보상&rsquo;이 무엇인지 실측 확인 중 (확인되면 보스 도핑 경제에 큰 영향)</li>
+          <li>· 원작 부가: 아모리아 파티퀘스트(APQ), 이혼 시스템 — 메랜 패치노트에 이혼 언급 있음(&lsquo;이혼 후 재결혼&rsquo;)</li>
+        </ul>
       </section>
 
       <section className="text-[11px] text-dim leading-relaxed border-t-2 border-edge pt-4">
         <p className="font-pixel text-[10px] text-ink mb-1">출처와 판정 기준</p>
         <p>
-          메랜 확정: <a href={OFFICIAL_ROADMAP} target="_blank" rel="noopener noreferrer" className="underline text-maple">8/12 공식 로드맵 공지</a> (8/14 출시),{" "}
-          <a href={DC_TOKEN_POST} target="_blank" rel="noopener noreferrer" className="underline text-maple">사랑의 증표 사전 정리 ↗</a>.
+          메랜 확정: <a href={OFFICIAL_PATCH_0814} target="_blank" rel="noopener noreferrer" className="underline text-maple">8/14 공식 패치노트</a>,{" "}
+          <a href={DC_TOKEN_POST} target="_blank" rel="noopener noreferrer" className="underline text-maple">사랑의 증표 사전 정리</a>.
           원작 참고: <a href={SRC_NOBLE} target="_blank" rel="noopener noreferrer" className="underline text-maple">복각서버 결혼 가이드</a>,{" "}
-          <a href={SRC_NAMU} target="_blank" rel="noopener noreferrer" className="underline text-maple">나무위키 아모리아</a>,{" "}
-          <a href={SRC_2009} target="_blank" rel="noopener noreferrer" className="underline text-maple">2009 웨딩 가이드 보존본</a>.
-          반지 재료·비용, 예식 티켓 방식, 하객 수, 레벨 제한 등은 원작 참고값이라 메랜 구현과 다를 수 있으며 8/14 패치노트 공개 후 확정값으로 갱신합니다.
+          <a href={SRC_NAMU} target="_blank" rel="noopener noreferrer" className="underline text-maple">나무위키 아모리아</a>.
+          캐럿별 반지 옵션·예식 보상·티켓 가격은 실측 확인 후 갱신합니다.
         </p>
         <p className="mt-1">
           관련: <Link href="/charlie" className="underline text-maple">찰리중사 교환</Link> ·{" "}
-          <Link href="/events/master-m-2026" className="underline text-maple">마스터M 이벤트 정리</Link> ·{" "}
+          <Link href="/events/master-m-2026" className="underline text-maple">마스터M 이벤트</Link> ·{" "}
           <Link href="/dojo" className="underline text-maple">무릉도장 공략</Link>
         </p>
       </section>
