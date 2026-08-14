@@ -15,6 +15,23 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.86.1",
+    date: "2026-08-14",
+    type: "patch",
+    title: "결혼 반지 정보 정정 — 메랜 공식 옵션 반영",
+    pages: ["/wedding"],
+    features: [
+      {
+        category: "결혼",
+        items: [
+          "반지 4종을 메랜 공식 안내 기준으로 정정 — 문스톤링·샤이닝스타링·골드하트링·실버윙링 (3캐럿 = 올스탯+3 + 고유 옵션)",
+          "깨진 상세 링크 제거 — 신규 2.0 아이템(레퍼런스 밖)·교환 불가라 드랍·시세 정보가 없음",
+          "프리미엄 결혼식 티켓이 진행 필수 조건임을 공식 안내대로 명시",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.86.0",
     date: "2026-08-14",
     type: "minor",
