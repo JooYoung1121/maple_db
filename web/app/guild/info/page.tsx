@@ -89,16 +89,16 @@ export default function InfoBoardPage() {
       const res = await fetch(`${API_BASE}/api/guild/info/excel/preview`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ excel_base64: b64 }),
+        body: JSON.stringify({ excel_base64: b64, excel_filename: file.name }),
       });
       if (res.ok) setExcelPreview((await res.json()).excel_json);
-      else { setWriteError((await res.json().catch(() => ({}))).detail || "엑셀 미리보기 실패"); setExcelPreview(null); }
+      else { setWriteError((await res.json().catch(() => ({}))).detail || "첨부 미리보기 실패"); setExcelPreview(null); }
     } catch { setExcelPreview(null); }
   };
 
   const handleWrite = async () => {
     if (!nickname.trim() || !title.trim()) { setWriteError("닉네임과 제목을 입력해주세요."); return; }
-    if (!content.trim() && !excelBase64) { setWriteError("내용 또는 엑셀을 첨부해주세요."); return; }
+    if (!content.trim() && !excelBase64) { setWriteError("내용 또는 표 파일(.xlsx/.hwp)을 첨부해주세요."); return; }
     setWriteLoading(true);
     setWriteError("");
     try {
@@ -182,8 +182,8 @@ export default function InfoBoardPage() {
           <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="내용 (설명)" rows={6}
                     className="pixel-input w-full px-3 py-2" />
           <div className="border-2 border-edge p-3">
-            <label className="text-sm font-medium text-ink">📊 엑셀 첨부 (.xlsx)</label>
-            <input type="file" accept=".xlsx,.xls" onChange={(e) => onExcelFile(e.target.files?.[0] ?? null)} className="block mt-2 text-sm" />
+            <label className="text-sm font-medium text-ink">📊 표 첨부 (.xlsx / .hwp)</label>
+            <input type="file" accept=".xlsx,.xls,.hwp,.hwpx" onChange={(e) => onExcelFile(e.target.files?.[0] ?? null)} className="block mt-2 text-sm" />
             {excelName && <div className="text-xs text-green-600 mt-1">첨부됨: {excelName}</div>}
             {excelPreview && (
               <div className="mt-3">
