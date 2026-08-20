@@ -15,6 +15,22 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.89.0",
+    date: "2026-08-20",
+    type: "minor",
+    title: "코디 시뮬레이터 — 얼굴장식·눈장식·귀고리 슬롯 추가",
+    pages: ["/codi"],
+    features: [
+      {
+        category: "코디 시뮬레이터",
+        items: [
+          "얼굴장식(150종)·눈장식(96종)·귀고리(76종) 슬롯 추가 — 다른 메랜 코디 사이트(메랜지지 드레스룸) 대비 빠져 있던 렌더 가능 파츠 보강",
+          "새 슬롯도 성별 필터·검색·코디 링크 공유·갤러리에 동일하게 적용",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.88.0",
     date: "2026-08-20",
     type: "minor",

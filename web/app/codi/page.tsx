@@ -15,7 +15,7 @@ interface GalleryPost {
   created_at: string;
   outfit: { skin: number } & Partial<Record<SlotKey, { id: number; name: string }>>;
 }
-type SlotKey = "hair" | "face" | "hat" | "overall" | "top" | "bottom" | "shoes" | "glove" | "cape" | "shield" | "weapon";
+type SlotKey = "hair" | "face" | "hat" | "faceAcc" | "eyeDec" | "earring" | "overall" | "top" | "bottom" | "shoes" | "glove" | "cape" | "shield" | "weapon";
 type Outfit = { skin: number; pets?: number[] } & Partial<Record<SlotKey, Part>>;
 
 /* 메랜 확인 펫 (커뮤니티·캐시샵 조사 기준) — 아이콘은 maplestory.io 아이템 아이콘
@@ -61,6 +61,9 @@ const SLOTS: { key: SlotKey; label: string }[] = [
   { key: "hair", label: "헤어" },
   { key: "face", label: "성형" },
   { key: "hat", label: "모자" },
+  { key: "faceAcc", label: "얼굴장식" },
+  { key: "eyeDec", label: "눈장식" },
+  { key: "earring", label: "귀고리" },
   { key: "overall", label: "한벌옷" },
   { key: "top", label: "상의" },
   { key: "bottom", label: "하의" },
