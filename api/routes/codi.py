@@ -32,6 +32,7 @@ PART_TYPES: dict[str, tuple[str, tuple[str, ...], bool]] = {
 def codi_parts(
     type: str = Query(...),
     q: str | None = Query(default=None, max_length=50),
+    gender: str | None = Query(default=None, pattern="^[mf]$"),
     page: int = Query(default=1, ge=1),
     per_page: int = Query(default=60, ge=1, le=120),
 ):
@@ -41,6 +42,22 @@ def codi_parts(
 
     conditions = ["i.icon_url IS NOT NULL"]
     params: list = []
+    if gender:
+        # WZ에 성별 컬럼이 없어 ID 규칙으로 판별 (현 DB의 GMS v92+KMS 데이터로 검증)
+        if type == "hair":
+            # 헤어 천단위 블록: 30·33=남 / 31·32·34·35=여 (토벤=30, 깜찍이=31, 프린스컷=33, 팜트리=34)
+            blocks = (30, 33) if gender == "m" else (31, 32, 34, 35)
+            conditions.append(f"(i.id/1000) IN ({','.join(map(str, blocks))})")
+        elif type == "face":
+            # 성형: 20xxx=남 / 21xxx=여
+            conditions.append("(i.id/1000) = ?")
+            params.append(20 if gender == "m" else 21)
+        elif category != "WEAPON":
+            # 방어구: (id/1000)%10 → 0=남성용, 1=여성용, 그 외(2·3 등)=공용 (도로스=1050·남 / 도로네스=1051·여)
+            # 반대 성별 전용만 제외해 공용은 양쪽 모두 노출.
+            # 무기는 성별 전용이 없고 캐시 무기(17xxxxx)가 이 규칙과 어긋나므로(예: 1701000) 필터 미적용
+            conditions.append("(i.id/1000) % 10 != ?")
+            params.append(1 if gender == "m" else 0)
     if category == "WEAPON":
         conditions.append("i.category IN ('One-Handed Weapon', 'Two-Handed Weapon')")
     else:
