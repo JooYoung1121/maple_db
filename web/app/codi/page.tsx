@@ -121,6 +121,7 @@ function CodiContent() {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
+  const [gender, setGender] = useState<"all" | "m" | "f">("all");
   const [loadingParts, setLoadingParts] = useState(false);
   const [presets, setPresets] = useState<(Outfit | null)[]>(Array(PRESET_COUNT).fill(null));
   const [view, setView] = useState<"sim" | "compare" | "gallery">("sim");
@@ -170,22 +171,31 @@ function CodiContent() {
     if (debounceRef.current) clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
       setLoadingParts(true);
-      fetch(`${API_BASE}/api/codi/parts?type=${activeSlot}&page=${page}&per_page=${perPage}${query.trim() ? `&q=${encodeURIComponent(query.trim())}` : ""}`)
+      fetch(`${API_BASE}/api/codi/parts?type=${activeSlot}&page=${page}&per_page=${perPage}${gender !== "all" ? `&gender=${gender}` : ""}${query.trim() ? `&q=${encodeURIComponent(query.trim())}` : ""}`)
         .then((r) => r.json())
         .then((d) => { setParts(d.parts || []); setTotal(d.total || 0); })
         .catch(() => setParts([]))
         .finally(() => setLoadingParts(false));
     }, 200);
-  }, [activeSlot, page, query]);
+  }, [activeSlot, page, query, gender]);
 
   useEffect(() => { setPage(1); setQuery(""); }, [activeSlot]);
+  useEffect(() => { setPage(1); }, [gender]);
 
-  const togglePet = useCallback((id: number) => {
+  // 같은 펫 중복 소환 허용 — 클릭은 항상 추가(최대 3), 해제는 소환 슬롯의 ✕로
+  const addPet = useCallback((id: number) => {
     setOutfit((prev) => {
       const cur = prev.pets || [];
-      if (cur.includes(id)) return { ...prev, pets: cur.filter((x) => x !== id) };
       if (cur.length >= 3) return prev; // 최대 3마리
       return { ...prev, pets: [...cur, id] };
+    });
+  }, []);
+
+  const removePetAt = useCallback((idx: number) => {
+    setOutfit((prev) => {
+      const cur = prev.pets || [];
+      const pets = cur.filter((_, i) => i !== idx);
+      return { ...prev, pets: pets.length ? pets : undefined };
     });
   }, []);
 
@@ -459,15 +469,15 @@ function CodiContent() {
           <div>
             <div className="pixel-panel p-4 text-center sticky top-4">
               <div className="h-52 flex items-end justify-center gap-2 bg-[#0d0f14] mb-3 pb-3">
-                {(outfit.pets || []).slice(0, 1).map((id) => (
+                {(outfit.pets || []).slice(0, 1).map((id, i) => (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img key={id} src={petIcon(id)} alt={petName(id)} title={petName(id)} className="w-10 h-10 object-contain" style={{ imageRendering: "pixelated" }} />
+                  <img key={`${id}-${i}`} src={petIcon(id)} alt={petName(id)} title={petName(id)} className="w-10 h-10 object-contain" style={{ imageRendering: "pixelated" }} />
                 ))}
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={previewUrl} alt="캐릭터 미리보기" className="max-h-44 object-contain" style={{ imageRendering: "pixelated" }} />
-                {(outfit.pets || []).slice(1, 3).map((id) => (
+                {(outfit.pets || []).slice(1, 3).map((id, i) => (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img key={id} src={petIcon(id)} alt={petName(id)} title={petName(id)} className="w-10 h-10 object-contain" style={{ imageRendering: "pixelated" }} />
+                  <img key={`${id}-${i + 1}`} src={petIcon(id)} alt={petName(id)} title={petName(id)} className="w-10 h-10 object-contain" style={{ imageRendering: "pixelated" }} />
                 ))}
               </div>
               {(outfit.pets?.length ?? 0) >= 3 && (
@@ -580,16 +590,34 @@ function CodiContent() {
             {activeSlot === "pet" && (
               <>
                 <p className="text-xs text-dim mb-3">
-                  최대 3마리 — 클릭해서 데리고 다니기 / 다시 클릭하면 해제. 메랜 확인 펫 {PETS.length}종.
+                  최대 3마리 — 클릭할 때마다 추가되고 <span className="text-ink">같은 펫 중복 소환도 가능</span> (예: 발록×3).
+                  해제는 아래 소환 슬롯의 ✕. 메랜 확인 펫 {PETS.length}종.
                   <span className="text-maple"> 같은 테마 아이콘 3마리를 모으면 이펙트 발동!</span>
                 </p>
+                {(outfit.pets?.length ?? 0) > 0 && (
+                  <div className="flex flex-wrap items-center gap-1.5 mb-3">
+                    <span className="text-[10px] font-pixel text-dim">소환 중:</span>
+                    {(outfit.pets || []).map((id, i) => (
+                      <button key={`slot-${id}-${i}`} onClick={() => removePetAt(i)}
+                        title="클릭하면 해제"
+                        className="pixel-badge flex items-center gap-1 text-[10px] border-2 border-maple text-ink hover:text-red-500 px-1.5 py-0.5">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={petIcon(id)} alt="" className="w-4 h-4 object-contain" style={{ imageRendering: "pixelated" }} />
+                        {petName(id)} ✕
+                      </button>
+                    ))}
+                  </div>
+                )}
                 <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-1.5 mb-4">
                   {PETS.map((p) => {
-                    const selected = outfit.pets?.includes(p.id);
+                    const count = (outfit.pets || []).filter((id) => id === p.id).length;
                     return (
-                      <button key={p.id} onClick={() => togglePet(p.id)}
+                      <button key={p.id} onClick={() => addPet(p.id)}
                         title={`${p.name}${p.themes?.length ? ` — 테마: ${p.themes.join("·")}` : ""}`}
-                        className={`pixel-card p-1.5 flex flex-col items-center gap-1 hover:border-maple transition-colors ${selected ? "border-maple" : ""}`}>
+                        className={`pixel-card relative p-1.5 flex flex-col items-center gap-1 hover:border-maple transition-colors ${count > 0 ? "border-maple" : ""}`}>
+                        {count > 0 && (
+                          <span className="absolute top-0.5 right-0.5 text-[9px] font-pixel text-maple">×{count}</span>
+                        )}
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={petIcon(p.id)} alt={p.name} className="w-8 h-8 object-contain" style={{ imageRendering: "pixelated" }} loading="lazy" />
                         <span className="text-[9px] leading-tight text-center text-dim line-clamp-2 w-full">{p.name}</span>
@@ -614,6 +642,18 @@ function CodiContent() {
 
             {activeSlot !== "pet" && (
             <>
+            <div className="flex items-center gap-1.5 mb-2">
+              <span className="text-[10px] font-pixel text-dim shrink-0">성별</span>
+              {([["all", "전체"], ["m", "남자"], ["f", "여자"]] as const).map(([key, label]) => (
+                <button key={key} onClick={() => setGender(key)}
+                  className={`px-2.5 py-1 text-[11px] font-pixel border-2 transition-colors ${gender === key ? "border-maple text-maple bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]" : "border-edge text-dim hover:text-maple"}`}>
+                  {label}
+                </button>
+              ))}
+              {gender !== "all" && (
+                <span className="text-[10px] text-dim">공용 장비는 양쪽 모두 표시</span>
+              )}
+            </div>
             <input
               type="text" value={query}
               onChange={(e) => { setQuery(e.target.value); setPage(1); }}

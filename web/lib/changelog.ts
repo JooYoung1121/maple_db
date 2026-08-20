@@ -15,6 +15,23 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.88.0",
+    date: "2026-08-20",
+    type: "minor",
+    title: "코디 시뮬레이터 — 성별 필터 + 같은 펫 중복 소환",
+    pages: ["/codi"],
+    features: [
+      {
+        category: "코디 시뮬레이터",
+        items: [
+          "파트 목록에 성별 필터(전체/남자/여자) 추가 — 헤어·성형은 해당 성별만, 방어구는 반대 성별 전용만 제외하고 공용은 양쪽 모두 표시",
+          "같은 펫을 여러 마리 중복 소환 가능 (예: 발록×3으로 보스 테마 이펙트) — 클릭할 때마다 추가, 해제는 소환 슬롯의 ✕",
+          "펫 카드에 소환 수(×N) 표시와 소환 중 슬롯 목록 추가",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.87.0",
     date: "2026-08-20",
     type: "minor",
