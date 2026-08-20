@@ -1,9 +1,9 @@
-"""정보공유 게시판 API — 글/댓글/추천 + 엑셀 업로드(표 뷰 JSON + 원본 스타일 HTML).
+"""정보공유 게시판 API — 글/댓글/추천 + 첨부 업로드(표 뷰 JSON + 원본 스타일 HTML).
 
-엑셀은 multipart 의존성을 피하기 위해 base64(JSON)로 받는다. 백엔드(openpyxl)에서
-병합셀/배경색/글자색/볼드/정렬을 읽어 두 가지 표현을 만든다:
-  - excel_json: 인터랙티브 표 뷰용 그리드(JSON)
-  - excel_html: 원본 스타일(색/병합셀) 보존 HTML
+엑셀(.xlsx)·한글(.hwp/.hwpx, 바이너리)을 base64(JSON)로 받아 백엔드에서 파싱한다.
+  - xlsx: openpyxl 로 병합셀/배경색/글자색/볼드/정렬까지 보존
+  - hwp : 표 구조(셀·병합·텍스트) 보존 (색상은 미지원)
+둘 다 동일한 형식({sheets}, html)을 만들어 표 뷰 / 원본 뷰에 그대로 사용.
 """
 import base64
 import binascii
@@ -16,6 +16,15 @@ from typing import Optional
 
 from crawler.db import get_connection
 from crawler.excel_render import parse_excel
+from crawler.hwp_render import parse_hwp, is_hwp
+
+
+def parse_upload(data: bytes, filename: Optional[str] = None):
+    """첨부 형식 판별 후 파싱 → (excel_json, html). xlsx / hwp 지원."""
+    name = (filename or "").lower()
+    if is_hwp(data) or name.endswith((".hwp", ".hwpx")):
+        return parse_hwp(data)
+    return parse_excel(data)
 
 router = APIRouter()
 
@@ -49,18 +58,21 @@ def _decode_excel(b64: str) -> bytes:
     return data
 
 
-# ── 엑셀 미리보기(저장 전) ───────────────────────────────
+# ── 첨부 미리보기(저장 전) ───────────────────────────────
 class ExcelPreview(BaseModel):
     excel_base64: str
+    excel_filename: Optional[str] = None
 
 
 @router.post("/guild/info/excel/preview")
 def excel_preview(body: ExcelPreview):
     data = _decode_excel(body.excel_base64)
     try:
-        excel_json, excel_html = parse_excel(data)
+        excel_json, excel_html = parse_upload(data, body.excel_filename)
+    except HTTPException:
+        raise
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"엑셀 파싱 실패: {e}")
+        raise HTTPException(status_code=400, detail=f"파일 파싱 실패: {e}")
     return {"excel_json": excel_json, "excel_html": excel_html}
 
 
@@ -107,12 +119,12 @@ def create_post(body: PostCreate):
     if body.excel_base64:
         data = _decode_excel(body.excel_base64)
         try:
-            ej, excel_html = parse_excel(data)
+            ej, excel_html = parse_upload(data, body.excel_filename)
             excel_json_str = json.dumps(ej, ensure_ascii=False)
         except HTTPException:
             raise
         except Exception as e:
-            raise HTTPException(status_code=400, detail=f"엑셀 파싱 실패: {e}")
+            raise HTTPException(status_code=400, detail=f"파일 파싱 실패: {e}")
 
     if not body.content.strip() and not excel_json_str:
         raise HTTPException(status_code=400, detail="내용 또는 엑셀을 첨부하세요.")

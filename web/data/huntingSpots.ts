@@ -1,0 +1,913 @@
+// 사냥터 추천 데이터 단일 소스 — /hunt(레벨·직업·1타뎀 필터)와 /leveling(직업별 육성 루트)이 공용.
+// 파티퀘스트의 보상·효율 비교 상세는 /pq 페이지가 원본이며, 여기엔 레벨 필터용 요약 스팟만 둔다.
+
+// ─── 버닝 월드 ───
+// 기간·배율은 공지 기준(6/19~9/11, Lv120 미만 경험치 1.5배). 종료 후엔 토글 기본값이 본섭으로 돌아간다.
+export const BURNING = {
+  label: "버닝 월드",
+  expMultiplier: 1.5,
+  maxLevel: 120,
+  endsAt: "2026-09-12T00:00:00+09:00",
+  patchNote:
+    "6/24 버닝 패치: 골렘의 숲·차디찬 벌판 최대 몬스터 수 증가, 경험치 2배 쿠폰 상자(120레벨 이전·매일 0시 6개) 지급",
+};
+
+export function isBurningActive(): boolean {
+  return Date.now() < new Date(BURNING.endsAt).getTime();
+}
+
+// ─── 사냥터 데이터 ───
+export interface Monster {
+  name: string;
+  nameEn?: string;
+  level: number;
+  hp: number;
+  exp: number;
+}
+
+export interface HuntingSpot {
+  id: string;
+  levelMin: number;
+  levelMax: number;
+  mapName: string;
+  mapNameEn?: string;
+  region: string;
+  monsters: Monster[];
+  expPerHour: number;
+  jobs: string[];
+  tips: string;
+  source: string;
+}
+
+export const HUNTING_SPOTS: HuntingSpot[] = [
+  {
+    id: "maple-island",
+    levelMin: 1,
+    levelMax: 8,
+    mapName: "메이플 아일랜드 (달팽이 사냥터)",
+    mapNameEn: "Maple Island Snail Hunting Ground",
+    region: "메이플 아일랜드",
+    monsters: [
+      { name: "달팽이", nameEn: "Snail", level: 1, hp: 8, exp: 3 },
+      { name: "파란달팽이", nameEn: "Blue Snail", level: 2, hp: 15, exp: 4 },
+      { name: "버섯", nameEn: "Shroom", level: 2, hp: 20, exp: 5 },
+      { name: "빨간달팽이", nameEn: "Red Snail", level: 4, hp: 40, exp: 8 },
+      { name: "그루터기", nameEn: "Stump", level: 4, hp: 40, exp: 8 },
+    ],
+    expPerHour: 2000,
+    jobs: ["전체"],
+    tips: "메이플 아일랜드 퀘스트를 전부 완료하면서 자연스럽게 레벨업. 빅토리아 아일랜드로 넘어가기 전에 퀘스트 보상으로 기본 장비와 포션을 챙기자.",
+    source: "게임 기본 가이드 + DB 데이터",
+  },
+  {
+    id: "henesys-hunting-1",
+    levelMin: 8,
+    levelMax: 15,
+    mapName: "헤네시스 사냥터",
+    mapNameEn: "Henesys Hunting Ground",
+    region: "빅토리아 아일랜드",
+    monsters: [
+      { name: "주황버섯", nameEn: "Orange Mushroom", level: 8, hp: 80, exp: 15 },
+      { name: "초록버섯", nameEn: "Green Mushroom", level: 15, hp: 250, exp: 26 },
+      { name: "리본돼지", nameEn: "Ribbon Pig", level: 10, hp: 120, exp: 20 },
+    ],
+    expPerHour: 8000,
+    jobs: ["전체"],
+    tips: "1차 전직 전후 가장 무난한 사냥터. 포션 소비 적고 몬스터 밀집도 높음. 파티 사냥 시 더 효율적.",
+    source: "커뮤니티 종합 + DB 데이터 (mobs table)",
+  },
+  {
+    id: "ellinia-forest",
+    levelMin: 10,
+    levelMax: 18,
+    mapName: "엘리니아 숲길",
+    mapNameEn: "Ellinia Forest Path",
+    region: "빅토리아 아일랜드",
+    monsters: [
+      { name: "슬라임", nameEn: "Slime", level: 6, hp: 50, exp: 10 },
+      { name: "초록버섯", nameEn: "Green Mushroom", level: 15, hp: 250, exp: 26 },
+      { name: "버블링", nameEn: "Bubbling", level: 15, hp: 240, exp: 26 },
+    ],
+    expPerHour: 7500,
+    jobs: ["마법사"],
+    tips: "마법사 전직 퀘스트 병행 가능. 엘리니아 마을에서 마법사 전직 후 인근 사냥터에서 바로 레벨업.",
+    source: "커뮤니티 종합 + DB 데이터",
+  },
+  {
+    id: "kerning-subway-stirge",
+    levelMin: 10,
+    levelMax: 20,
+    mapName: "커닝시티 지하철 1구역",
+    mapNameEn: "Line 1 <Area 1>",
+    region: "빅토리아 아일랜드",
+    monsters: [
+      { name: "스티지", nameEn: "Stirge", level: 6, hp: 60, exp: 22 },
+      { name: "도깨비불", nameEn: "Goblin Fire", level: 11, hp: 155, exp: 22 },
+    ],
+    expPerHour: 9000,
+    jobs: ["전체"],
+    tips: "스티지는 낮은 레벨 대비 경험치가 좋아서 효율 사냥터로 인기. 지하철 맵 구조가 평탄하여 모든 직업이 사냥하기 편함. MapleRoyals/커뮤니티에서도 15~21 구간 추천 1순위.",
+    source: "MapleRoyals Training Guide + 커뮤니티",
+  },
+  {
+    id: "perion-wild-boar",
+    levelMin: 15,
+    levelMax: 25,
+    mapName: "와일드보어의 땅",
+    mapNameEn: "Land of Wild Boar",
+    region: "빅토리아 아일랜드",
+    monsters: [
+      { name: "뿔버섯", nameEn: "Horny Mushroom", level: 22, hp: 300, exp: 35 },
+      { name: "와일드보어", nameEn: "Wild Boar", level: 25, hp: 550, exp: 42 },
+    ],
+    expPerHour: 12000,
+    jobs: ["전사", "전체"],
+    tips: "페리온 주변 전사 전직 퀘스트와 병행 가능. 넓은 맵에서 돌아다니며 사냥. 커닝PQ 대기 시간에 솔플 사냥 추천.",
+    source: "커뮤니티 종합",
+  },
+  {
+    id: "kerning-pq",
+    levelMin: 21,
+    levelMax: 30,
+    mapName: "커닝시티 파티퀘스트",
+    mapNameEn: "Kerning City Party Quest",
+    region: "빅토리아 아일랜드",
+    monsters: [],
+    expPerHour: 25000,
+    jobs: ["전체"],
+    tips: "21~30 구간 최고 효율 파티퀘스트. 4인 파티 필수. 1회 클리어 시 경험치가 매우 높아 이 구간에서는 무조건 커닝PQ가 정답. 대기 시간에 개미굴이나 와일드보어 사냥 병행.",
+    source: "나무위키 메이플랜드/파티퀘스트 + 커뮤니티 공통 합의",
+  },
+  {
+    id: "ant-tunnel",
+    levelMin: 20,
+    levelMax: 30,
+    mapName: "개미굴 (슬리피우드)",
+    mapNameEn: "Ant Tunnel (Sleepywood)",
+    region: "빅토리아 아일랜드",
+    monsters: [
+      { name: "좀비버섯", nameEn: "Zombie Mushroom", level: 24, hp: 500, exp: 42 },
+      { name: "이블아이", nameEn: "Evil Eye", level: 27, hp: 720, exp: 50 },
+    ],
+    expPerHour: 15000,
+    jobs: ["전체"],
+    tips: "커닝PQ 대기 중 솔플 사냥터로 추천. 좀비버섯은 언데드라 클레릭 힐 공격 가능. 이블아이 드랍 아이템도 쓸만함.",
+    source: "커뮤니티 종합 + DB 데이터",
+  },
+  {
+    id: "ariant-desert",
+    levelMin: 22,
+    levelMax: 35,
+    mapName: "아리안트 사막",
+    mapNameEn: "Ariant Desert",
+    region: "아리안트",
+    monsters: [
+      { name: "모래 두더지", nameEn: "Sand Rat", level: 24, hp: 600, exp: 55 },
+      { name: "스콜피언", nameEn: "Scorpion", level: 29, hp: 780, exp: 58 },
+    ],
+    expPerHour: 18000,
+    jobs: ["전체"],
+    tips: "모래 두더지가 동레벨 대비 경험치가 높아 인기. 아리안트 히든 퀘스트(다크엑스텀프)도 병행 가능. 불독 마법사 가이드에서 18~29 구간 추천.",
+    source: "vortexgaming.io 불독 가이드 + DB 데이터",
+  },
+  {
+    id: "florina-beach",
+    levelMin: 30,
+    levelMax: 40,
+    mapName: "플로리나 비치",
+    mapNameEn: "Florina Beach",
+    region: "빅토리아 아일랜드",
+    monsters: [
+      { name: "파이어보어", nameEn: "Fire Boar", level: 32, hp: 1000, exp: 60 },
+      { name: "커즈아이", nameEn: "Curse Eye", level: 35, hp: 1250, exp: 70 },
+    ],
+    expPerHour: 20000,
+    jobs: ["전체"],
+    tips: "커닝PQ 졸업 후 솔플 사냥터. 몬스터 밀집도 높고 맵 구조가 단순해서 효율적.",
+    source: "커뮤니티 종합",
+  },
+  {
+    id: "ludi-pq",
+    levelMin: 35,
+    levelMax: 50,
+    mapName: "루디브리엄 파티퀘스트 (미로PQ)",
+    mapNameEn: "Ludibrium Party Quest",
+    region: "루디브리엄",
+    monsters: [],
+    expPerHour: 35000,
+    jobs: ["전체"],
+    tips: "35~50 구간 최고 효율 파티퀘스트. 6인 파티 필수. 알리샤르 보스까지 잡아야 보상 최대. 레벨 제한 35~50. 이 구간에서는 루디PQ가 압도적 효율.",
+    source: "나무위키 메이플랜드/파티퀘스트 + 커뮤니티",
+  },
+  {
+    id: "ludi-chronos",
+    levelMin: 35,
+    levelMax: 50,
+    mapName: "루디브리엄 시계탑 (크로노스)",
+    mapNameEn: "Ludibrium Clock Tower",
+    region: "루디브리엄",
+    monsters: [
+      { name: "크로노스", nameEn: "Chronos", level: 37, hp: 1750, exp: 82 },
+      { name: "장난감 목마", nameEn: "Toy Trojan", level: 39, hp: 1920, exp: 92 },
+      { name: "플래툰 크로노스", nameEn: "Platoon Chronos", level: 41, hp: 2050, exp: 99 },
+      { name: "마스터 크로노스", nameEn: "Master Chronos", level: 46, hp: 2600, exp: 115 },
+    ],
+    expPerHour: 28000,
+    jobs: ["전체"],
+    tips: "루디PQ 대기 시간에 사냥. 층별로 몬스터 레벨이 다르니 자기 레벨에 맞는 층에서 사냥. MapleRoyals에서도 35~51 구간 대안 사냥터 1순위.",
+    source: "MapleRoyals Training Guide + DB 데이터",
+  },
+  {
+    id: "magatia-iron-mutae",
+    levelMin: 37,
+    levelMax: 50,
+    mapName: "마가티아 연구소",
+    mapNameEn: "Magatia Lab",
+    region: "마가티아",
+    monsters: [
+      { name: "아이언 뮤테", nameEn: "Iron Mutae", level: 42, hp: 2400, exp: 102 },
+      { name: "강화형 아이언 뮤테", nameEn: "Reinforced Iron Mutae", level: 45, hp: 2550, exp: 110 },
+    ],
+    expPerHour: 30000,
+    jobs: ["전체"],
+    tips: "마가티아 B-3에서 막민 주문서 획득 가능. 불독 마법사 가이드에서 37~45 구간 추천. 마가티아 C-1 솔플로 1탐당 경험치 30만 이상(전사 기준 51~58).",
+    source: "vortexgaming.io 불독 가이드 + arca.live 전사 가이드",
+  },
+  {
+    id: "omega-block-golem",
+    levelMin: 40,
+    levelMax: 50,
+    mapName: "지구방위본부 (블록골렘)",
+    mapNameEn: "Omega Sector (Block Golem)",
+    region: "루디브리엄",
+    monsters: [
+      { name: "블록골렘", nameEn: "Block Golem", level: 42, hp: 2400, exp: 102 },
+      { name: "킹 블록골렘", nameEn: "King Block Golem", level: 45, hp: 2600, exp: 110 },
+    ],
+    expPerHour: 27000,
+    jobs: ["전체"],
+    tips: "루디PQ가 안 잡힐 때 대안 사냥터. 블록골렘은 밀집도가 좋은 편. 40렙부터 전직업 가능한 사냥터로 5분당 1.3~1.6%.",
+    source: "DC갤러리 메이플랜드 마갤 + DB 데이터",
+  },
+  {
+    id: "orbis-pq",
+    levelMin: 51,
+    levelMax: 70,
+    mapName: "오르비스 파티퀘스트",
+    mapNameEn: "Orbis Party Quest",
+    region: "오르비스",
+    monsters: [],
+    expPerHour: 50000,
+    jobs: ["전체"],
+    tips: "51~70 구간 최고 효율 파티퀘스트. 경파(경험치 파티)는 구름모으기 + LP판 찾기까지만 반복하면 2~4분에 약 13,500~15,500 경험치. 완파보다 경파가 시간 효율 더 높음.",
+    source: "나무위키 메이플랜드/파티퀘스트 + arca.live 오르비스PQ 공략",
+  },
+  {
+    id: "orbis-pixie",
+    levelMin: 50,
+    levelMax: 60,
+    mapName: "오르비스 정원 (픽시 사냥터)",
+    mapNameEn: "Orbis Garden (Pixie)",
+    region: "오르비스",
+    monsters: [
+      { name: "러스터픽시", nameEn: "Luster Pixie", level: 52, hp: 4000, exp: 155 },
+      { name: "셀리온", nameEn: "Cellion", level: 53, hp: 4200, exp: 160 },
+      { name: "라이오너", nameEn: "Lioner", level: 53, hp: 4200, exp: 160 },
+      { name: "그루핀", nameEn: "Grupin", level: 53, hp: 4200, exp: 160 },
+    ],
+    expPerHour: 40000,
+    jobs: ["마법사", "궁수"],
+    tips: "마법사 범위 공격으로 효율 극대화. 러스터픽시가 법사 전용 장비(노란색 우산 등)와 주문서를 드랍. 50레벨대 궁수도 루나픽시 사냥터 추천.",
+    source: "커뮤니티 종합 + DB 데이터",
+  },
+  {
+    id: "elnath-coolie",
+    levelMin: 50,
+    levelMax: 65,
+    mapName: "엘나스 쿨리좀비 사냥터 (죽은나무의 숲)",
+    mapNameEn: "El Nath Dead Tree Forest (Coolie Zombie)",
+    region: "엘나스",
+    monsters: [
+      { name: "쿨리 좀비", nameEn: "Coolie Zombie", level: 57, hp: 4500, exp: 190 },
+      { name: "헥터", nameEn: "Hector", level: 55, hp: 4600, exp: 170 },
+      { name: "화이트팽", nameEn: "White Fang", level: 58, hp: 5800, exp: 220 },
+    ],
+    expPerHour: 45000,
+    jobs: ["전체"],
+    tips: "클레릭/프리스트 힐 사냥 성지 (언데드 몬스터). 밀집도 높은 맵에서 범위기 효율 극대화. 25년 2월 21일 패치로 젠률 너프되어 솔플 전용으로 변경됨. 이전에는 50~80 구간 최고 효율이었음.",
+    source: "나무위키 메이플랜드/사냥터 + 커뮤니티",
+  },
+  {
+    id: "drake-cave",
+    levelMin: 45,
+    levelMax: 60,
+    mapName: "페리온 드레이크 동굴",
+    mapNameEn: "Perion Drake Cave",
+    region: "빅토리아 아일랜드",
+    monsters: [
+      { name: "카파 드레이크", nameEn: "Copper Drake", level: 45, hp: 2700, exp: 105 },
+      { name: "드레이크", nameEn: "Drake", level: 50, hp: 3200, exp: 135 },
+      { name: "레드 드레이크", nameEn: "Red Drake", level: 60, hp: 6000, exp: 220 },
+    ],
+    expPerHour: 35000,
+    jobs: ["전사"],
+    tips: "차가운 요람에서 드레이크 사냥 추천. 드레이크 드랍템이 좋은 편. 전사 계열 근접 사냥에 적합한 맵 구조.",
+    source: "커뮤니티 종합 + DB 데이터",
+  },
+  {
+    id: "magatia-mid",
+    levelMin: 55,
+    levelMax: 75,
+    mapName: "마가티아 연구소 (호문/호문쿨루)",
+    mapNameEn: "Magatia Lab (Homun/Homunculus)",
+    region: "마가티아",
+    monsters: [
+      { name: "호문", nameEn: "Homun", level: 65, hp: 11000, exp: 255 },
+      { name: "D. 로이", nameEn: "D. Roy", level: 75, hp: 16000, exp: 350 },
+      { name: "호문쿨루", nameEn: "Homunculus", level: 73, hp: 15500, exp: 320 },
+      { name: "로이드", nameEn: "Roid", level: 78, hp: 29000, exp: 295 },
+      { name: "네오 휴로이드", nameEn: "Neo Huroid", level: 80, hp: 35000, exp: 390 },
+    ],
+    expPerHour: 55000,
+    jobs: ["전체"],
+    tips: "마가티아 연구소 202에서 호문클로 주문서 파밍. 마가티아 C-2에서 귀행/장공 획득. 불독 68~80 구간 추천 사냥터. 속성 저항이 낮아 마법 데미지 극대화 가능.",
+    source: "vortexgaming.io 불독 가이드 + 커뮤니티",
+  },
+  {
+    id: "elnath-yeti",
+    levelMin: 60,
+    levelMax: 75,
+    mapName: "엘나스 예티/다크예티 사냥터",
+    mapNameEn: "El Nath Yeti Hunting Ground",
+    region: "엘나스",
+    monsters: [
+      { name: "페페", nameEn: "Pepe", level: 60, hp: 7200, exp: 220 },
+      { name: "다크 페페", nameEn: "Dark Pepe", level: 64, hp: 7800, exp: 250 },
+      { name: "예티", nameEn: "Yeti", level: 65, hp: 11000, exp: 255 },
+      { name: "다크 예티", nameEn: "Dark Yeti", level: 68, hp: 13000, exp: 265 },
+    ],
+    expPerHour: 50000,
+    jobs: ["전체"],
+    tips: "엘나스 얼어붙은 계곡에서 안정적 파밍. 느린 몬스터와 빽빽한 배치로 파밍 효율 좋음.",
+    source: "커뮤니티 종합 + DB 데이터",
+  },
+  {
+    id: "mulung-boss",
+    levelMin: 65,
+    levelMax: 85,
+    mapName: "무릉 구미호/태룡",
+    mapNameEn: "Mu Lung Nine-Tailed Fox / Tae Roon",
+    region: "무릉",
+    monsters: [
+      { name: "구미호", nameEn: "Nine-Tailed Fox", level: 70, hp: 89000, exp: 1300 },
+      { name: "태룡", nameEn: "Tae Roon", level: 71, hp: 93000, exp: 1580 },
+    ],
+    expPerHour: 70000,
+    jobs: ["전체"],
+    tips: "무릉 보스급 몬스터. HP가 높지만 경험치도 높아 스펙이 되면 효율적. 무릉 접근 퀘스트 필요.",
+    source: "DB 데이터",
+  },
+  {
+    id: "herb-town-captain",
+    levelMin: 65,
+    levelMax: 80,
+    mapName: "허브타운 캡틴/크루 사냥터",
+    mapNameEn: "Herb Town Captain/Kru",
+    region: "허브타운",
+    monsters: [
+      { name: "크루", nameEn: "Kru", level: 68, hp: 12500, exp: 265 },
+      { name: "캡틴", nameEn: "Captain", level: 70, hp: 15000, exp: 282 },
+    ],
+    expPerHour: 65000,
+    jobs: ["전체"],
+    tips: "허브타운 접근 후 크루/캡틴 사냥으로 안정적 레벨업. 오르비스PQ 졸업 후 추천.",
+    source: "DB 데이터 + 커뮤니티",
+  },
+  {
+    id: "romeo-pq",
+    levelMin: 71,
+    levelMax: 85,
+    mapName: "로미오와 줄리엣 파티퀘스트",
+    mapNameEn: "Romeo and Juliet Party Quest",
+    region: "마가티아",
+    monsters: [],
+    expPerHour: 120000,
+    jobs: ["전체"],
+    tips: "70~85 구간 국민 렙업 코스. 시간당 약 120만 경험치. 카드키로 맵 양끝 문을 열고 연구자료를 가져오는 방식. 전사 기준 71~90 구간 추천. 불독 기준 71~83 구간 추천.",
+    source: "나무위키 + arca.live 전사 가이드 + vortexgaming.io",
+  },
+  {
+    id: "leafre-entrance",
+    levelMin: 70,
+    levelMax: 85,
+    mapName: "리프레 입구 (래쉬/비틀)",
+    mapNameEn: "Leafre Entrance (Rash/Beetle)",
+    region: "리프레",
+    monsters: [
+      { name: "래쉬", nameEn: "Rash", level: 70, hp: 14500, exp: 270 },
+      { name: "비틀", nameEn: "Beetle", level: 72, hp: 15200, exp: 295 },
+      { name: "듀얼 비틀", nameEn: "Dual Beetle", level: 76, hp: 18000, exp: 370 },
+    ],
+    expPerHour: 60000,
+    jobs: ["전체"],
+    tips: "리프레 진입 퀘스트 완료 필요. 로미오PQ가 안 잡힐 때 대안 사냥터. 3차 전직 이후 스킬 활용 가능한 레벨.",
+    source: "DB 데이터 + 커뮤니티",
+  },
+  {
+    id: "elnath-lycanthrope",
+    levelMin: 78,
+    levelMax: 90,
+    mapName: "엘나스 라이칸스로프 사냥터",
+    mapNameEn: "El Nath Lycanthrope",
+    region: "엘나스",
+    monsters: [
+      { name: "라이칸스로프", nameEn: "Lycanthrope", level: 80, hp: 27000, exp: 850 },
+      { name: "하프", nameEn: "Harp", level: 80, hp: 27000, exp: 850 },
+    ],
+    expPerHour: 90000,
+    jobs: ["전체"],
+    tips: "HP 27,000 대비 경험치 850으로 효율적. 리프레/루디브리엄 고레벨 사냥 진입 전 대안으로 활용 가능.",
+    source: "DB 데이터 + 커뮤니티",
+  },
+  {
+    id: "sky-nest-entrance",
+    levelMin: 80,
+    levelMax: 95,
+    mapName: "리프레 하늘둥지 입구",
+    mapNameEn: "Leafre Sky Nest Entrance",
+    region: "리프레",
+    monsters: [
+      { name: "블러드 하프", nameEn: "Blood Harp", level: 83, hp: 30000, exp: 1100 },
+      { name: "한키", nameEn: "Hankie", level: 80, hp: 27000, exp: 850 },
+    ],
+    expPerHour: 85000,
+    jobs: ["전체"],
+    tips: "3차 전직 이후 익스플로전 등 광역기 사용 시 효율 상승. 불독 마법사 80~83 구간 추천.",
+    source: "vortexgaming.io 불독 가이드 + DB 데이터",
+  },
+  {
+    id: "fire-darkness",
+    levelMin: 83,
+    levelMax: 100,
+    mapName: "불과 어둠의 전장",
+    mapNameEn: "Battlefield of Fire and Darkness",
+    region: "리프레",
+    monsters: [
+      { name: "데스테니", nameEn: "Death Teddy", level: 85, hp: 32000, exp: 1300 },
+      { name: "마스터 데스테니", nameEn: "Master Death Teddy", level: 89, hp: 40000, exp: 1720 },
+    ],
+    expPerHour: 110000,
+    jobs: ["전체"],
+    tips: "리프레 지역 파티사냥 주요 사냥터. 불독 83~98 구간 추천. 크리븐 획득 가능. 비숍 81~91 구간에는 맨타레이 사냥도 추천.",
+    source: "vortexgaming.io 불독 가이드 + 나무위키",
+  },
+  {
+    id: "ghost-pirate",
+    levelMin: 85,
+    levelMax: 100,
+    mapName: "유령해적선 (듀얼 파이렛)",
+    mapNameEn: "Ghost Ship (Dual Ghost Pirate)",
+    region: "허브타운",
+    monsters: [
+      { name: "듀얼 파이렛", nameEn: "Dual Ghost Pirate", level: 87, hp: 35000, exp: 1500 },
+    ],
+    expPerHour: 100000,
+    jobs: ["전체"],
+    tips: "유령해적선 2층이 밀집도 좋음. 법사 범위 공격 시 효율 극대화. MapleRoyals에서 불/독 마법사 51~75 구간 추천.",
+    source: "MapleRoyals Training Guide + DB 데이터",
+  },
+  {
+    id: "kentaurus",
+    levelMin: 85,
+    levelMax: 100,
+    mapName: "리프레 켄타우루스 사냥터",
+    mapNameEn: "Leafre Kentaurus Forest",
+    region: "리프레",
+    monsters: [
+      { name: "블랙 켄타우루스", nameEn: "Black Kentaurus", level: 88, hp: 37000, exp: 1600 },
+      { name: "레드 켄타우루스", nameEn: "Red Kentaurus", level: 88, hp: 37000, exp: 1600 },
+      { name: "블루 켄타우루스", nameEn: "Blue Kentaurus", level: 88, hp: 37000, exp: 1600 },
+    ],
+    expPerHour: 100000,
+    jobs: ["전체"],
+    tips: "리프레 중급 사냥터. 듀얼 버크(Lv.88)도 같은 구역에서 사냥 가능. 코니언/와이번 이전 단계.",
+    source: "DB 데이터 + 커뮤니티",
+  },
+  {
+    id: "squid-risell",
+    levelMin: 90,
+    levelMax: 105,
+    mapName: "허브타운 스퀴드/리셀스퀴드",
+    mapNameEn: "Herb Town Squid/Risell Squid",
+    region: "허브타운",
+    monsters: [
+      { name: "스퀴드", nameEn: "Squid", level: 94, hp: 46000, exp: 2200 },
+      { name: "리셀스퀴드", nameEn: "Risell Squid", level: 97, hp: 49000, exp: 2500 },
+    ],
+    expPerHour: 130000,
+    jobs: ["전체"],
+    tips: "프리스트 91~96 구간 추천. 리셀스퀴드가 법사 최종 전신 흑견랑포를 드랍. 허밋은 91레벨부터 Squid Pots 추천.",
+    source: "vortexgaming.io + MapleRoyals + DB 데이터",
+  },
+  {
+    id: "temple-of-time-memory",
+    levelMin: 90,
+    levelMax: 110,
+    mapName: "시간의 신전 (기억의 수도승)",
+    mapNameEn: "Temple of Time (Memory Monk)",
+    region: "시간의 신전",
+    monsters: [
+      { name: "기억의 수도승", nameEn: "Memory Monk", level: 91, hp: 41000, exp: 1900 },
+      { name: "기억의 수도승 견습생", nameEn: "Memory Monk Trainee", level: 94, hp: 45000, exp: 2200 },
+    ],
+    expPerHour: 120000,
+    jobs: ["전체"],
+    tips: "시간의 신전 퀘스트 진행 필요. 파티 사냥 필수 (맵이 넓어서 솔플 비효율). 2인 사냥 추천.",
+    source: "MapleRoyals Training Guide + DB 데이터",
+  },
+  {
+    id: "leafre-cornian",
+    levelMin: 95,
+    levelMax: 110,
+    mapName: "리프레 코니언 사냥터",
+    mapNameEn: "Leafre Cornian Hunting Ground",
+    region: "리프레",
+    monsters: [
+      { name: "그린코니언", nameEn: "Green Cornian", level: 100, hp: 48000, exp: 3000 },
+      { name: "다크코니언", nameEn: "Dark Cornian", level: 105, hp: 67000, exp: 3700 },
+    ],
+    expPerHour: 150000,
+    jobs: ["마법사", "궁수"],
+    tips: "불숲(불타는 숲)에서 법사 광역기 쩔 사냥 성지. 다크 코니언 불독(메테오) 마력 1,230+ / 썬콜(블리자드) 마력 1,260+에서 1확컷. 명중률 약 205 필요.",
+    source: "Gemini 분석 문서 + 나무위키 + DB 데이터",
+  },
+  {
+    id: "leafre-wyvern-canyon",
+    levelMin: 95,
+    levelMax: 110,
+    mapName: "리프레 와이번의 협곡",
+    mapNameEn: "Wyvern Canyon",
+    region: "리프레",
+    monsters: [
+      { name: "블루 와이번", nameEn: "Blue Wyvern", level: 101, hp: 57000, exp: 3050 },
+      { name: "다크 와이번", nameEn: "Dark Wyvern", level: 103, hp: 60000, exp: 3150 },
+    ],
+    expPerHour: 140000,
+    jobs: ["도적", "궁수"],
+    tips: "나이트로드 좌1/우1 자리 스공 2,600~2,800 (베놈 활용 시). 필요 명중률 약 205. 보우마스터도 효율 좋음.",
+    source: "Gemini 분석 문서 + DB 데이터",
+  },
+  {
+    id: "shark-deep-sea",
+    levelMin: 95,
+    levelMax: 110,
+    mapName: "깊은 바다 협곡 (샤크/콜드샤크)",
+    mapNameEn: "Deep Sea Gorge",
+    region: "아쿠아리움",
+    monsters: [
+      { name: "샤크", nameEn: "Shark", level: 100, hp: 56000, exp: 3000 },
+      { name: "콜드샤크", nameEn: "Cold Shark", level: 102, hp: 58500, exp: 3100 },
+    ],
+    expPerHour: 130000,
+    jobs: ["전체"],
+    tips: "깊은 바다 협곡 2가 최고 경험치. 불독은 빅뱅 30 권장. 아쿠아리움 난파선에서 주문서 획득 가능. MapleRoyals에서 80~95 구간 대안으로 추천.",
+    source: "vortexgaming.io 불독 가이드 + MapleRoyals + DB 데이터",
+  },
+  {
+    id: "leafre-dragon-nest-destroyed",
+    levelMin: 100,
+    levelMax: 120,
+    mapName: "망가진 용의 둥지 (망용둥)",
+    mapNameEn: "Destroyed Dragon Nest",
+    region: "리프레",
+    monsters: [
+      { name: "네스트골렘", nameEn: "Nest Golem", level: 110, hp: 80000, exp: 8050 },
+      { name: "스켈레곤", nameEn: "Skelegon", level: 110, hp: 80000, exp: 4500 },
+      { name: "스켈로스", nameEn: "Skelosaurus", level: 113, hp: 85000, exp: 4750 },
+    ],
+    expPerHour: 200000,
+    jobs: ["전체"],
+    tips: "망용둥은 4차 전직 이후 핵심 사냥터. 네스트골렘이 샾/폭시/어콤 북 드랍. 보우마스터 옥상(6젠컷) 스공 5,400+. 2층(5젠컷) 스공 4,400~4,700. 나이트로드 2층(5젠컷) 스공 3,800~4,000.",
+    source: "Gemini 분석 문서 + 나무위키 + DB 데이터",
+  },
+  {
+    id: "leafre-dead-dragon",
+    levelMin: 100,
+    levelMax: 120,
+    mapName: "죽은 용의 둥지 (죽둥)",
+    mapNameEn: "Nest of a Dead Dragon",
+    region: "리프레",
+    monsters: [
+      { name: "네스트골렘", nameEn: "Nest Golem", level: 110, hp: 80000, exp: 4450 },
+      { name: "스켈레곤", nameEn: "Skelegon", level: 110, hp: 80000, exp: 4500 },
+    ],
+    expPerHour: 180000,
+    jobs: ["전체"],
+    tips: "1:1 파티 사냥 위주. 비숍 파트너 + 보우마스터(스공 4,500+) 조합이 이상적. 2확컷 기준 비숍 마력 850~860 (제네시스 20 기준 900+).",
+    source: "Gemini 분석 문서 + 나무위키",
+  },
+  {
+    id: "temple-of-time-qualm",
+    levelMin: 105,
+    levelMax: 120,
+    mapName: "시간의 신전 (후회의 수도승)",
+    mapNameEn: "Temple of Time (Qualm Monk)",
+    region: "시간의 신전",
+    monsters: [
+      { name: "후회의 수도승 견습생", nameEn: "Qualm Monk Trainee", level: 109, hp: 79000, exp: 3600 },
+      { name: "후회의 파수꾼", nameEn: "Qualm Guardian", level: 113, hp: 90000, exp: 4500 },
+      { name: "후회의 대파수꾼", nameEn: "Chief Qualm Guardian", level: 116, hp: 99000, exp: 4960 },
+    ],
+    expPerHour: 170000,
+    jobs: ["전체"],
+    tips: "시간의 신전 2차 구역. 후회의 수도승은 경험치가 높지만 HP도 높아 스펙 요구. 파티 사냥 권장.",
+    source: "DB 데이터 + MapleRoyals",
+  },
+  {
+    id: "temple-of-time-oblivion",
+    levelMin: 120,
+    levelMax: 140,
+    mapName: "시간의 신전 (망각의 수도승)",
+    mapNameEn: "Temple of Time (Oblivion Monk)",
+    region: "시간의 신전",
+    monsters: [
+      { name: "망각의 수도승", nameEn: "Oblivion Monk", level: 121, hp: 115000, exp: 5750 },
+      { name: "망각의 수도승 견습생", nameEn: "Oblivion Monk Trainee", level: 124, hp: 123000, exp: 6150 },
+      { name: "망각의 파수꾼", nameEn: "Oblivion Guardian", level: 128, hp: 133000, exp: 6670 },
+    ],
+    expPerHour: 200000,
+    jobs: ["전체"],
+    tips: "4차 전직 후 시간의 신전 3차 구역. MapleRoyals에서 120~200 구간 추천. 파티 사냥 필수.",
+    source: "MapleRoyals Training Guide + DB 데이터",
+  },
+  {
+    id: "leafre-dragon-nest-left",
+    levelMin: 120,
+    levelMax: 200,
+    mapName: "남겨진 용의 둥지 (남둥)",
+    mapNameEn: "The Dragon Nest Left Behind",
+    region: "리프레",
+    monsters: [
+      { name: "스켈레곤", nameEn: "Skelegon", level: 110, hp: 80000, exp: 4500 },
+      { name: "스켈로스", nameEn: "Skelosaurus", level: 113, hp: 85000, exp: 4750 },
+      { name: "네스트골렘", nameEn: "Nest Golem", level: 110, hp: 80000, exp: 8050 },
+    ],
+    expPerHour: 250000,
+    jobs: ["전체"],
+    tips: "메이플랜드 최종 사냥터. 3:1 파티 구성으로 피로도 0. 비숍 제네시스 30 기준 1확컷: 마력 1,320+ (안정권). 2확컷: 마력 885~910. 히어로 남둥 젠컷 스공 6,500+. 다크나이트 버서크 30 스공 3,500~4,000. 성속성 약점이라 제네시스/홀리 계열이 강력.",
+    source: "Gemini 분석 문서 + 나무위키 메이플랜드/사냥터 + 커뮤니티 공통 합의",
+  },
+  // ─── 보스 ───
+  {
+    id: "boss-zakum",
+    levelMin: 50,
+    levelMax: 200,
+    mapName: "자쿰 (보스)",
+    mapNameEn: "Zakum (Boss)",
+    region: "엘나스",
+    monsters: [],
+    expPerHour: 0,
+    jobs: ["전체"],
+    tips: "레벨 50+ 부터 참여 가능. 135레벨부터 풀 경험치. 데일리 보스런으로 경험치 + 장비 획득. 자쿰 헬멧은 거의 모든 직업 필수 장비.",
+    source: "MapleRoyals + 커뮤니티 공통",
+  },
+  {
+    id: "boss-papulatus",
+    levelMin: 120,
+    levelMax: 200,
+    mapName: "파풀라투스 (보스)",
+    mapNameEn: "Papulatus (Boss)",
+    region: "루디브리엄",
+    monsters: [
+      { name: "파풀라투스", nameEn: "Papulatus", level: 125, hp: 23000000, exp: 596000 },
+    ],
+    expPerHour: 0,
+    jobs: ["전체"],
+    tips: "루디브리엄 시계탑 최상층 보스. 1회 클리어 시 596,000 경험치. 보스런 병행 시 레벨업 효율 상승.",
+    source: "DB 데이터 + 커뮤니티",
+  },
+  {
+    id: "boss-horntail",
+    levelMin: 130,
+    levelMax: 200,
+    mapName: "혼테일 (보스)",
+    mapNameEn: "Horntail (Boss)",
+    region: "리프레",
+    monsters: [],
+    expPerHour: 0,
+    jobs: ["전체"],
+    tips: "레벨 130+ 부터 참여 가능. 메이플랜드 최종 보스 콘텐츠. 도적이 피격 회피율과 페이크로 가장 편하게 참여 가능. 혼테일 펜던트/링 등 최종 장비 획득.",
+    source: "커뮤니티 공통",
+  },
+];
+
+// ═══════════════ 직업별 육성 루트(/leveling)용 데이터 ═══════════════
+
+// ─── 직업 (4차 기준) ───
+interface JobDef { key: string; label: string; }
+interface JobGroup { group: string; jobs: JobDef[]; }
+
+export const JOB_GROUPS: JobGroup[] = [
+  { group: "전사", jobs: [
+    { key: "히어로", label: "히어로" },
+    { key: "팔라딘", label: "팔라딘" },
+    { key: "다크나이트", label: "다크나이트" },
+  ]},
+  { group: "마법사", jobs: [
+    { key: "썬콜", label: "썬콜" },
+    { key: "불독", label: "불독" },
+    { key: "비숍", label: "비숍" },
+  ]},
+  { group: "궁수", jobs: [
+    { key: "보우마스터", label: "보우마스터" },
+    { key: "신궁", label: "신궁" },
+  ]},
+  { group: "도적", jobs: [
+    { key: "나이트로드", label: "나이트로드" },
+    { key: "섀도어", label: "섀도어" },
+  ]},
+  { group: "해적", jobs: [
+    { key: "바이퍼", label: "바이퍼" },
+    { key: "캡틴", label: "캡틴" },
+  ]},
+  { group: "시그너스", jobs: [
+    { key: "소울마스터", label: "소울마스터" },
+    { key: "플레임위자드", label: "플레임위자드" },
+    { key: "윈드브레이커", label: "윈드브레이커" },
+    { key: "나이트워커", label: "나이트워커" },
+    { key: "스트라이커", label: "스트라이커" },
+  ]},
+];
+export const ALL_JOBS = JOB_GROUPS.flatMap((g) => g.jobs.map((j) => j.key));
+
+// ─── 사냥터 데이터 (커뮤니티 수집·정리) ───
+// common: 전 직업 공용 / jobs: 해당 직업만 / miniDungeon: 2.0 미니던전(개인던전)
+// kind: 'meso'=메소 파밍, 'boss'=보스 입문 (없으면 일반 사냥터)
+export interface LevelingSpot {
+  levelMin: number;
+  levelMax: number;
+  map: string;
+  region: string;
+  monsters: string[];
+  tip: string;
+  source: string;
+  jobs?: string[];
+  common?: boolean;
+  miniDungeon?: boolean;
+  kind?: "meso" | "boss";
+  burningBuff?: string; // 버닝 월드 패치 버프 안내
+}
+
+export const LEVELING_SPOTS: LevelingSpot[] = [
+  // ── 1~30 (전 직업 공용 초반) ──
+  { levelMin: 1, levelMax: 10, map: "메이플 아일랜드 (퀘스트 위주)", region: "메이플 아일랜드", monsters: ["달팽이", "파란달팽이", "주황버섯"], tip: "아일랜드 퀘스트를 전부 깨면 8렙 → 전직. 버닝 월드는 경험치 1.5배라 사냥보다 퀘스트가 더 빠르다.", source: "https://ssalmuk.com/community/CATE_community335/game/detail?code=B26040722", common: true },
+  { levelMin: 10, levelMax: 20, map: "헤네시스 사냥터1 · 동쪽 풀숲 · 슬라임굴", region: "헤네시스 / 남쪽 숲", monsters: ["주황버섯", "리본돼지", "슬라임"], tip: "일자 지형이라 사냥이 편하다. 헤네 사냥터1이 슬라임굴보다 젠이 좋다는 의견이 다수. 돼지머리/슬라임방울 판매로 초기 자금.", source: "https://ssalmuk.com/community/CATE_community335/game/detail?code=B25041540", common: true },
+  { levelMin: 10, levelMax: 15, map: "돼지농장 (미니던전)", region: "헤네시스 동쪽 풀숲", monsters: ["돼지", "리본돼지"], tip: "동쪽 풀숲에서 진입하는 개인 던전. 자리싸움 없이 2시간 사냥, 망토 행운주문서·신발 민첩 등 드롭. 솔플·파티 모두 입문용으로 좋다.", source: "https://vortexgaming.io/postdetail/843653", common: true, miniDungeon: true },
+  { levelMin: 20, levelMax: 30, map: "개미굴 (깊은 개미굴)", region: "슬리피우드", monsters: ["좀비버섯", "이블아이", "뿔버섯"], tip: "30렙까지 최고 효율로 꼽히는 6인 파티 사냥터. 좀비버섯이 미스릴 장비 드롭. 지루하면 커닝 파퀘 병행.", source: "https://arca.live/b/mapleland/121755943", common: true },
+  { levelMin: 20, levelMax: 30, map: "개미굴2 (미니던전)", region: "슬리피우드", monsters: ["뿔버섯", "좀비버섯"], tip: "5층 구조에 최대 5인 파티 입장, 2시간 개인화. 본섭 개미굴 자리경쟁이 심할 때 대안.", source: "https://vortexgaming.io/postdetail/843653", common: true, miniDungeon: true },
+  { levelMin: 24, levelMax: 30, map: "사헬지대 (미니던전)", region: "니할 사막 (마가티아 방면)", monsters: ["모래두더지"], tip: "사헬지대2 위쪽에서 입장. 모래두더지 단일 출현이라 안정적. 마가티아 권역 진입 전 구간.", source: "https://vortexgaming.io/postdetail/843653", common: true, miniDungeon: true },
+  { levelMin: 25, levelMax: 30, map: "커닝시티 파티퀘스트", region: "커닝시티", monsters: ["리게이터", "주니어 네키"], tip: "무자본 권장 루트. 단 전사는 리게이터 명중이 높아 25렙 이상 권장.", source: "https://arca.live/b/mapleland/103241532", common: true },
+  { levelMin: 25, levelMax: 40, map: "야시장3 자판기 (황제쩔)", region: "대만 (차이나타운)", monsters: ["예티 인형", "버블티"], tip: "고렙이 끌어주는 저렙 쩔 명소. 직업 무관 쩔 수혜.", source: "https://maplelandzzul.gg", common: true },
+
+  // ── 30~50 (중반) ──
+  { levelMin: 30, levelMax: 40, map: "와일드보어의 땅 1·2", region: "페리온 동쪽", monsters: ["와일드보어", "주니어 부기"], tip: "1~3층 구조라 2인 파티 층 분담이 효율적. 광역 직업이 층 쓸기 유리.", source: "https://namu.wiki/w/Mapleland/사냥터", jobs: ["히어로","팔라딘","다크나이트","소울마스터","플레임위자드","윈드브레이커","나이트워커","스트라이커"] },
+  { levelMin: 30, levelMax: 35, map: "북치는 토끼의 은신처 (미니던전)", region: "루디브리엄 에오스탑", monsters: ["북치는토끼"], tip: "에오스탑 76층 밑에서 진입. 지형이 평탄해 사냥이 쾌적, 개인화 2시간. 30대 초반 무난한 대안.", source: "https://vortexgaming.io/postdetail/843653", common: true, miniDungeon: true },
+  { levelMin: 30, levelMax: 45, map: "몬스터 카니발 쩔 (승작/폐작)", region: "루디브리엄 카니발", monsters: ["(쩔 — 직접 사냥 X)"], tip: "자본 있으면 승작쩔, 무자본은 폐작쩔로 메소 벌며 경험치. 솔플보다 압도적으로 빠르다.", source: "https://ssalmuk.com/community/hot/detail?code=B25041542", common: true },
+  { levelMin: 30, levelMax: 42, map: "오르비스 탑 1층 (주니어 페페)", region: "오르비스", monsters: ["주니어 페페"], tip: "밀집 지형이라 불 약점 광역(파이어 애로우)에 적합. 불독 무자본 손질용.", source: "https://vortexgaming.io/en/postdetail/505403", jobs: ["불독"] },
+  { levelMin: 28, levelMax: 38, map: "동쪽 바위산 6", region: "페리온", monsters: ["파이어보어", "와일드보어", "다크 엑스텀프"], tip: "20대 후반~30대 표창/단검 도적·해적 근접 솔플. 2인 지형 분할도 가능.", source: "https://arca.live/b/mapleland/129219844", jobs: ["나이트로드","섀도어","나이트워커","스트라이커","바이퍼","캡틴"] },
+  { levelMin: 37, levelMax: 45, map: "원숭이의 숲 1 (원숲1)", region: "엘리니아", monsters: ["루팡", "좀비루팡"], tip: "루팡 메소 110 + 루팡의 바나나 65% 드롭 환금. 왼쪽이 루팡 비중 높음. 저~중반 무자본 자본벌이.", source: "https://jsmu.xyz/mapleland-where-is-monky-forest/", common: true },
+  { levelMin: 35, levelMax: 53, map: "시간의 길 1·4 (시길)", region: "루디브리엄 시계탑", monsters: ["플래툰 크로노스", "마스터 크로노스"], tip: "평지형이라 광역·원거리 직업이 유리. 크로노스→플래툰→마스터 순으로 레벨 따라 이동. 젠·드롭 모두 우수. 마스터 크로노스는 투구 민첩 60% 드롭으로 도적 앵벌이도.", source: "https://ssalmuk.com/community/CATE_community335/game/detail?code=B25041544", common: true },
+  { levelMin: 40, levelMax: 50, map: "시간의 길 4 심쩔 / 카니발", region: "루디브리엄 시계탑", monsters: ["마스터 크로노스"], tip: "홀리심볼 파티(심쩔)로 본인이 안 잡아도 경험치 분배받는 비숍 핵심 구간.", source: "https://ssalmuk.com/community/CATE_community335/game/detail?code=B25041544", jobs: ["비숍"] },
+  { levelMin: 40, levelMax: 50, map: "마가티아 제뉴미스트 연구소 B-3", region: "마가티아", monsters: ["아이언 뮤테", "루루모"], tip: "40대 마가티아 구간. C구역 진입 전 단계. 야생곰의 영토와 번갈아 활용 권장.", source: "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=3680045", common: true },
+
+  // ── 50~70 ──
+  { levelMin: 50, levelMax: 65, map: "마가티아 연구소 C-1", region: "마가티아", monsters: ["로이드"], tip: "버닝 인기 사냥터의 핵심. 로이드(Lv54) 단일 출현 + 무적자리 + 일직선 몰이맵이라 물약을 거의 안 쓰고 솔플 효율·메소가 안정적. C-1 미니던전 버전도 함께 제공.", source: "https://vortexgaming.io/en/postdetail/625336", common: true },
+  { levelMin: 50, levelMax: 65, map: "마가티아 C1 (미니던전)", region: "마가티아", monsters: ["로이드"], tip: "본섭 C-1 자리경쟁을 피하는 개인 던전 버전. 젠 양호, 솔플 효율 우수, 2시간 개인화.", source: "https://vortexgaming.io/postdetail/843653", common: true, miniDungeon: true },
+  { levelMin: 50, levelMax: 65, map: "무너진 골렘의 성 (미니던전)", region: "슬리피우드", monsters: ["스톤골렘", "믹스골렘"], tip: "슬리피던전4까지 내려가 진입. 물약 소모가 적어 효율적. 인기 골렘 자리싸움 회피용.", source: "https://vortexgaming.io/postdetail/843653", common: true, miniDungeon: true },
+  { levelMin: 50, levelMax: 65, map: "커닝스퀘어 8층 CD사냥", region: "커닝시티", monsters: ["흘러간가요CD", "최신곡CD"], tip: "썬콜 핵심 솔플. 올인트 55~65 분당 4만, 65+ 5만. 자리 경쟁 심하면 개인화맵으로 대체.", source: "https://m.dcinside.com/board/mapleplanet/43297", jobs: ["썬콜"] },
+  { levelMin: 50, levelMax: 60, map: "따뜻한 모래밭 / 차가운 벌판", region: "플로리나 비치 / 엘나스", burningBuff: "6/24 버닝 패치로 차디찬벌판 최대 몬스터 수 증가", monsters: ["화이트팽", "헥터"], tip: "현 50~60 최고 인기 파티 사냥터. 화이트팽이 불 약점이라 '불독팟'까지 존재. 비숍은 심/헤이스트로 환영.", source: "https://namu.wiki/w/Mapleland/사냥터", jobs: ["불독","비숍"] },
+  { levelMin: 50, levelMax: 60, map: "오르비스 구름공원", region: "오르비스", monsters: ["루나픽시", "러스터픽시"], tip: "화독법(화염 광역)으로 시간당 40~45만. 플레임위자드·불독에 특히 좋다.", source: "https://vortexgaming.io/en/postdetail/543979", jobs: ["플레임위자드","불독"] },
+  { levelMin: 50, levelMax: 60, map: "월하죽림 3", region: "일본 (세계여행)", monsters: ["삼미호", "물도깨비"], tip: "두 몹 모두 불 약점 + 일자맵이라 불독 최적 솔플. 단 삼미호 원킬 못하면 저주, 성수/만병통치약 필수.", source: "https://yulbin.com/메이플랜드-월하죽림3-가는법-사냥정보-정리/", jobs: ["불독"] },
+  { levelMin: 51, levelMax: 58, map: "오르비스 경험치 파티 (올비경파)", region: "오르비스", monsters: ["(경험치 파티)"], tip: "51~58 최고 효율 파티, 시간당 35~40만. 텔포/헤이스트 없으면 입장이 까다로워 파티 구성 필요.", source: "https://vortexgaming.io/en/postdetail/498457", jobs: ["히어로","팔라딘","다크나이트","불독"] },
+  { levelMin: 50, levelMax: 76, map: "드레이크의 푸른 동굴", region: "페리온 용의 계곡", monsters: ["드레이크", "와일드카고"], tip: "드레이크만 젠하고 드롭템이 좋다. 반시계로 돌며 솔플 또는 층 분할 파티. 와일드카고는 메소 드롭이 큰 편.", source: "https://namu.wiki/w/Mapleland/사냥터", common: true },
+  { levelMin: 54, levelMax: 70, map: "마가티아 연구소 C-2", region: "마가티아", monsters: ["로이드", "네오휴로이드"], tip: "맵이 넓어 파티/몰이에 유리, 자리 구하기 쉬움. 네오휴로이드는 장갑 공격력 60% 드롭으로 쌀먹 인기(시간당 약 100만 메소). 네오휴로이드 마법공격 주의.", source: "https://vortexgaming.io/en/postdetail/625336", common: true },
+  { levelMin: 50, levelMax: 75, map: "연구소 C-1~3 (지구방위본부)", region: "커닝시티 지하 연구소", monsters: ["로보", "마스터로보", "치명적 오류"], tip: "60+ 전 직업 입장 가능한 메인 구간. 층이 많아 설치/광역(플위)에 유리. 나이트워커는 45~75 핵심.", source: "https://arca.live/b/mapleland/173906185", jobs: ["소울마스터","플레임위자드","윈드브레이커","나이트워커","스트라이커"] },
+  { levelMin: 54, levelMax: 80, map: "골렘의 숲 (골숲)", region: "슬리피우드 히든스트리트", burningBuff: "6/24 버닝 패치로 최대 몬스터 수 증가", monsters: ["믹스골렘", "다크 스톤골렘", "커즈아이", "루팡"], tip: "젠률이 엄청나 솔플·파티 모두 좋고 드롭 가치도 높다. 바닥 분할 파티 가능. 근접 광역에 특히 적합.", source: "https://vortexgaming.io/en/postdetail/498457", jobs: ["히어로","팔라딘","다크나이트","썬콜","불독","비숍","소울마스터","스트라이커","바이퍼"] },
+  { levelMin: 58, levelMax: 77, map: "차가운 벌판 (차벌) 심쩔", region: "엘나스", monsters: ["드레이크", "아이스 드레이크", "다크 드레이크"], tip: "전사 최고 사냥터로 평가. 차벌 심쩔 1탐 55~70만. 썬콜은 약점은 못 찌르나 썬더볼트로 젠컷. 불독 58~76 거의 고정.", source: "https://arca.live/b/mapleland/146592374", jobs: ["히어로","팔라딘","다크나이트","썬콜","불독","바이퍼"] },
+  { levelMin: 53, levelMax: 75, map: "죽은 나무의 숲 2·3 (죽숲)", region: "슬리피우드", monsters: ["쿨리 좀비", "좀비 루팡"], tip: "초창기부터 최고 인기. 53~60 죽숲2, 60~73 죽숲3은 파티 권장. ※ 죽숲1은 2025년 패치로 젠 너프+솔플 전용화 → 고렙 구간은 켄타우로스 원탁 미니던전이 대체재.", source: "https://vortexgaming.io/postdetail/521809", jobs: ["보우마스터","신궁","나이트로드","섀도어","소울마스터","플레임위자드","윈드브레이커","나이트워커","스트라이커"] },
+  { levelMin: 58, levelMax: 72, map: "엘나스 콜드필드 / 아이시필드", region: "엘나스", burningBuff: "6/24 버닝 패치로 차디찬벌판 최대 몬스터 수 증가", monsters: ["화이트팽", "헥터"], tip: "시간당 40~70만의 최고 효율급(명중 92 필요). 리치 파티 없으면 인접 아이시필드 솔플.", source: "https://vortexgaming.io/en/postdetail/498457", jobs: ["히어로","팔라딘","다크나이트"] },
+  { levelMin: 65, levelMax: 75, map: "차가운 요람 (미니던전)", region: "슬리피우드 (드레이크 권역)", monsters: ["다크드레이크"], tip: "엘리니아→택시→개미굴광장→차가운 요람 경로. 다크드레이크(Lv68) 단일 출현. 접근성은 낮지만 드레이크만 나와 인기. 개인화 2시간.", source: "https://vortexgaming.io/postdetail/843653", common: true, miniDungeon: true },
+  { levelMin: 68, levelMax: 78, map: "빨간코 해적단 소굴2 (미니던전)", region: "무릉도원 백초마을", monsters: ["캡틴"], tip: "백초마을→오래된 습지→소굴2 경로. 캡틴(Lv70) 출현. 개인 던전 2시간, 솔플·파티 모두 가능.", source: "https://vortexgaming.io/postdetail/843653", common: true, miniDungeon: true },
+
+  // ── 70~100 ──
+  { levelMin: 71, levelMax: 85, map: "로미오와 줄리엣 파티퀘스트", region: "마가티아", monsters: ["(파티퀘스트)"], tip: "이 구간 압도적 추천. 숙련 시 12~15분 컷, 1탐 120~150만. 직업 무관 효율 최강. 버닝 1.5배와 시너지.", source: "https://arca.live/b/mapleland/146592374", common: true },
+  { levelMin: 75, levelMax: 85, map: "야시장 사잇길", region: "대만 (야시장)", monsters: ["예티 인형 자판기", "버블티"], tip: "불독 77~80 사잇길 파티 인기. 자판기 몹이 밀집돼 광역에 유리.", source: "https://yulbin.com/메이플랜드-야시장-사잇길/", jobs: ["불독"] },
+  { levelMin: 80, levelMax: 85, map: "하늘 둥지 입구 (하둥)", region: "미나르 숲 / 리프레", monsters: ["하프", "블러드하프"], tip: "익스플로전(불독)·체인라이트닝(썬콜) 필요 → 75~77 정법 전환 권장. 경험치 120만+. 비숍 1확은 합마 920 요구.", source: "https://namu.wiki/w/Mapleland/직업/비숍", jobs: ["썬콜","불독","비숍"] },
+  { levelMin: 85, levelMax: 100, map: "잊혀진 시간의 길 3 (데스테니)", region: "루디브리엄 시계탑 최하층", monsters: ["데스테니", "마스터 데스테니"], tip: "최하층 오른쪽 포탈 2번→잊시길3. 데스테니(85렙) 망토 민첩 60%·피닉스 완드 드롭. 성/불 약점. 도적 파밍·솔플.", source: "https://halfclock.com/entry/메이플랜드루디브리엄-데스테니", jobs: ["나이트로드","섀도어","히어로","팔라딘","다크나이트"] },
+  { levelMin: 80, levelMax: 100, map: "죽은나무숲 / 906 / 월죽 / 차벌 (솔플 순환)", region: "리프레 / 엘나스 / 오르비스", monsters: ["루나픽시", "와일드카고", "드레이크"], tip: "솔플 전사들이 5렙 단위로 옮겨다니는 구간. 인기 자리(906·죽숲)는 자리싸움 심해 피해다니기도. 906은 메소, 차벌은 경험치.", source: "https://arca.live/b/mapleland/134045062", jobs: ["히어로","팔라딘","다크나이트"] },
+  { levelMin: 80, levelMax: 100, map: "듀얼 파이렛 파티 (듀파)", region: "루디브리엄 시계탑 최하층", monsters: ["듀얼 파이렛", "듀얼 버크"], tip: "파티에 끼면 80~100 레벨업이 획기적으로 빠르다. 85~98 마법사 범위 파밍 성지(뇌전수리검 드롭). 섀도어는 메소익스플로전 사냥터(5번 자리 적자 덜함).", source: "https://arca.live/b/mapleland/146599129", jobs: ["히어로","팔라딘","다크나이트","썬콜","불독","비숍","섀도어","나이트로드"] },
+  { levelMin: 83, levelMax: 100, map: "켄타우로스의 원탁 (미니던전)", region: "미나르 숲 (리프레)", monsters: ["붉은켄타우로스", "푸른켄타우로스", "검은켄타우로스"], tip: "★80~100 최고 인기 미니던전. 켄타우로스 3종(전부 Lv88) 총출현 + 3층 구조라 젠이 풍부해 시간당 300~650만급. 개인 던전이라 자리싸움 없음.", source: "https://maplelandzzul.gg/game-maps/켄타우로스의-원탁", common: true, miniDungeon: true },
+  { levelMin: 83, levelMax: 100, map: "붉은 켄타우로스의 영역", region: "미나르 숲", monsters: ["붉은 켄타우로스"], tip: "85~100 인기. 광역몹 밀집맵이라 원거리·관통에 적합. 붉켄은 얼음 약점이라 썬콜 효율 최고.", source: "https://vortexgaming.io/postdetail/521809", jobs: ["보우마스터","신궁","썬콜"] },
+  { levelMin: 85, levelMax: 110, map: "불과 어둠의 전장 (붉켄/검켄)", region: "미나르 숲", monsters: ["붉은 켄타우로스", "검은 켄타우로스"], tip: "좌측 3층 붉켄(얼음 약점)=썬콜, 우측 3층 검켄=불독. 경험치 압도적이나 적자라 득템 의존.", source: "https://arca.live/b/mapleland/166715712", jobs: ["썬콜","불독"] },
+  { levelMin: 89, levelMax: 100, map: "용의 숲 입구 (90제 파밍)", region: "미나르 숲 (리프레)", monsters: ["블루 드래곤터틀"], tip: "블루 드래곤터틀(Lv90)이 90제·100제 장비를 드롭. 표창/단검 도적이 파밍 겸 사냥.", source: "https://namu.wiki/w/Mapleland/직업/섀도어", jobs: ["나이트로드","섀도어"] },
+  { levelMin: 90, levelMax: 110, map: "시간의 신전 — 추억의 길 (기억의 수도승)", region: "시간의 신전", monsters: ["기억의 수도승", "기억의 수도승 견습생"], tip: "시간의 신전 진입 퀘스트 필요. 맵이 넓어 솔플은 비효율 — 2인 이상 파티 권장. 후회·망각 구역으로 이어지는 고레벨 루트의 시작점.", source: "https://royals.ms/library (MapleRoyals Training Guide)", common: true },
+  { levelMin: 60, levelMax: 120, map: "깊은 바다 협곡 2 (망둥 555)", region: "아쿠아로드", monsters: ["망둥이", "폭렬 망둥이집"], tip: "시간당 150~250만의 최상위 효율존. 좁은 발판·다수 젠이라 광역/원거리에 특히 유리.", source: "https://maplelandzzul.gg", jobs: ["플레임위자드","윈드브레이커","나이트워커"] },
+
+  // ── 100~120+ ──
+  { levelMin: 92, levelMax: 120, map: "오징어배 (위험한 바다 협곡 2)", region: "아쿠아로드 해저", monsters: ["스퀴드", "리셀스퀴드"], tip: "원거리·도적 핵심. 몹이 흩어져 단일기로 한 마리씩 컷(광역 금지). 2층 1자컷이 표창도적 최적, 5층은 나로 스공 2400+ 요구. 파티 전원 메소업이라 샾비 내고도 흑자, 듀파보다 효율 우위.", source: "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=2377322", jobs: ["보우마스터","신궁","나이트로드","섀도어","캡틴"] },
+  { levelMin: 103, levelMax: 120, map: "미나르 숲 와이번 지역 (협곡)", region: "미나르 숲", monsters: ["다크 와이번"], tip: "100+ 도적 솔플/소수팟. 흑자는 미미해 장공 파밍 목적에 가깝다. 물약 여유 있으면 붉켄으로 넘어가는 게 경험치 효율상 유리.", source: "https://arca.live/b/mapleland/146640057", jobs: ["나이트로드","섀도어"] },
+  { levelMin: 105, levelMax: 120, map: "시간의 신전 — 후회의 길 (후회의 수도승)", region: "시간의 신전", monsters: ["후회의 수도승 견습생", "후회의 파수꾼", "후회의 대파수꾼"], tip: "시간의 신전 2차 구역. 경험치가 높지만 몹 HP도 높아 스펙 요구 — 파티 사냥 권장.", source: "https://royals.ms/library (MapleRoyals Training Guide)", common: true },
+  { levelMin: 120, levelMax: 140, map: "시간의 신전 — 망각의 길 (망각의 수도승)", region: "시간의 신전", monsters: ["망각의 수도승", "망각의 수도승 견습생", "망각의 파수꾼"], tip: "4차 전직 후 시간의 신전 3차 구역. 120~140 장기 사냥 루트, 파티 사냥 필수.", source: "https://royals.ms/library (MapleRoyals Training Guide)", common: true },
+  { levelMin: 98, levelMax: 120, map: "협곡의 동쪽길 / 죽은 용의 둥지 (미스트)", region: "미나르 숲", monsters: ["다크 와이번", "스켈레곤"], tip: "불독 포이즌 미스트 솔플 핵심. 죽둥은 미스트 사냥터 중 피로도 최저라 컨트롤 잘하면 적자 회피.", source: "https://vortexgaming.io/en/postdetail/632210", jobs: ["불독"] },
+  { levelMin: 96, levelMax: 130, map: "블루 와이번의 둥지 (심알바)", region: "미나르 숲", monsters: ["블루 와이번"], tip: "전사 성지 → 비숍은 5인팟 심알바(홀리심볼). 피로도 높지만 심알바 중 수익률 최고.", source: "https://arca.live/b/mapleland/135613323", jobs: ["비숍"] },
+  { levelMin: 100, levelMax: 200, map: "뉴트 보호구역 (미니던전)", region: "미나르 숲 (용의 숲)", monsters: ["뉴트주니어", "네스트골렘"], tip: "용수3→망가진 용의 둥지 포탈로 진입. 지형상 궁수·도적의 알까기(원거리 안전사냥)에 최적. 100~200 장기 사냥지, 자리싸움 없음.", source: "https://vortexgaming.io/postdetail/843653", jobs: ["보우마스터","신궁","나이트로드","섀도어"], miniDungeon: true },
+  { levelMin: 97, levelMax: 120, map: "용의 숲 3 (브레스튼 파티)", region: "미나르 숲", monsters: ["브레스튼"], tip: "브레스튼(Lv97)은 경험치 압도적이나 솔로는 버거워 3~4인 파티 권장. 전사는 탱 역할.", source: "https://vortexgaming.io/en/postdetail/601072", jobs: ["히어로","팔라딘","다크나이트"] },
+  { levelMin: 100, levelMax: 160, map: "레드 와이번의 둥지 (얼음 약점)", region: "미나르 숲", monsters: ["레드 와이번"], tip: "레드 와이번 화속성(얼음 약점) → 썬콜 전용. 2~3층 아이스 스트라이크 낚시. 사실상 얼음 약점 마지막 사냥터.", source: "https://arca.live/b/mapleland/123213579", jobs: ["썬콜"] },
+  { levelMin: 100, levelMax: 120, map: "불의 전당 3층 5인", region: "엘나스", monsters: ["파이어 스티드", "다크 와이번"], tip: "100~108 불의 전당 5인 3층 파티. 시그너스 만렙(120)까지 이어지는 고렙 공통 루트.", source: "https://vortexgaming.io/postdetail/568189", common: true },
+  { levelMin: 108, levelMax: 140, map: "큰 미로의 동굴 (큰미굴)", region: "미궁의 길", monsters: ["다크 예티", "페페"], tip: "경험치+피로도 꿀통. HP 2950+면 큰깹(깊은 동굴) 가능. 다층 미로맵. 가로로 긴 평지라 캡틴 래피드파이어에도 유리.", source: "https://vortexgaming.io/postdetail/521809", jobs: ["보우마스터","신궁","캡틴"] },
+  { levelMin: 108, levelMax: 200, map: "큰 둥지 봉우리 (큰둥)", region: "미나르 숲", monsters: ["네스트골렘", "스켈로스"], tip: "원거리 솔플 사실상 최종 사냥터. 샤프아이즈30·화이트니스록 드롭으로 경험치+수익. 비숍은 격수에게 심만 주는 심알바 편함.", source: "https://arca.live/b/mapleland/141320136", jobs: ["보우마스터","신궁","썬콜","비숍"] },
+  { levelMin: 110, levelMax: 120, map: "부활하는 기억 (남둥, 미니던전)", region: "미나르 숲 (남겨진 용의 둥지)", monsters: ["스켈레곤", "스켈로스"], tip: "★110~120 핵심 미니던전('남둥'). 몬스터 젠 수가 매우 많아 경험치 효율 최상. 개인화 2시간이라 자리싸움 없음.", source: "https://vortexgaming.io/postdetail/843653", common: true, miniDungeon: true },
+  { levelMin: 100, levelMax: 140, map: "용기사 피뻥 솔플 (드래곤 로어)", region: "리프레 / 엘나스 / 오르비스", monsters: ["루나픽시", "와일드카고", "드레이크"], tip: "다크나이트는 3차 드래곤 로어(희귀 광역기)+피뻥으로 솔플 메소·경험치를 동시에. 100+ 솔플 전사 중 가장 자립적.", source: "https://arca.live/b/mapleland/162558727", jobs: ["다크나이트"] },
+  { levelMin: 71, levelMax: 120, map: "뉴트 보호구역 알까기", region: "미나르 숲 / 리프레", monsters: ["뉴트", "와이번 알"], tip: "나이트워커 사출기 특성상 사냥터를 안 가린다. 71~120 알까기로 장기 사냥.", source: "https://arca.live/b/mapleland/173906185", jobs: ["나이트워커"] },
+
+  // ── 💰 메소 파밍 ──
+  { levelMin: 71, levelMax: 90, map: "구름 공원 6 (906)", region: "오르비스", monsters: ["러스터픽시", "루나픽시"], tip: "대표 순메소 파밍지. 태양의 흔적 시간당 2300~2600개 환금, 71렙 봉황4작 기준 시간당 90~110만 메소 + 금/사파이어/장비. 몹이 촘촘해 원거리 직업이 포션 절약 유리.", source: "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=1716620", common: true, kind: "meso" },
+  { levelMin: 50, levelMax: 65, map: "차디찬 벌판 (헥터 꼬리)", region: "엘나스", monsters: ["헥터", "화이트팽"], tip: "헥터 꼬리(60% 드롭)를 찰리중사와 교환→전신갑옷 민첩 10% 등. 헥터는 망토 민첩 60%도 드롭. 꼬리 포함 시간당 약 110만 메소.", source: "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=738358", common: true, kind: "meso" },
+  { levelMin: 54, levelMax: 70, map: "마가티아 C-2 (네오휴로이드)", region: "마가티아", monsters: ["네오휴로이드", "로이드"], tip: "네오휴로이드 장갑 공격력 60%, 로이드 귀고리 행운주문서 드롭. 자리 구하기 쉽고 시간당 약 100만 메소. 쌀먹 인기.", source: "https://vortexgaming.io/en/postdetail/625336", common: true, kind: "meso" },
+  { levelMin: 37, levelMax: 50, map: "원숭이의 숲 1 (루팡)", region: "엘리니아", monsters: ["루팡", "좀비루팡"], tip: "루팡 메소 110 + 바나나 65% 드롭. 저~중반 무자본 자본벌이의 정석.", source: "https://jsmu.xyz/mapleland-where-is-monky-forest/", common: true, kind: "meso" },
+  { levelMin: 50, levelMax: 120, map: "마스터 몬스터 필드 (전 지역)", region: "전 대륙", monsters: ["파우스트", "구미호", "레비아탄"], tip: "2026-03 추가된 필드보스 16종, 리젠 시간 존재. 레비아탄(리프레, Lv120) 드롭이 특히 고가치. 레벨대별 분포.", source: "https://yulbin.com/메이플랜드-마스터-몬스터-드랍-및-위치-정리/", common: true, kind: "meso" },
+
+  // ── 👹 보스 입문 (버닝 도전 가능) ──
+  { levelMin: 28, levelMax: 50, map: "킹슬라임", region: "숨겨진 숲 (빅토리아)", monsters: ["킹슬라임"], tip: "초저렙 입문용 약체 필드보스(약 28렙). 가장 먼저 도전 가능.", source: "https://mapledb.kr", common: true, kind: "boss" },
+  { levelMin: 40, levelMax: 60, map: "머쉬맘", region: "머쉬맘의 오솔길 (헤네시스 인근)", monsters: ["머쉬맘"], tip: "대표 보스 입문몹. 잡기 쉽고 경험치 좋음, 맵 작고 원젠컷 용이.", source: "https://maple.inven.co.kr/dataninfo/monster/detail.php?code=6130101", common: true, kind: "boss" },
+  { levelMin: 60, levelMax: 80, map: "주니어 발록", region: "슬리피우드 저주받은 신전", monsters: ["주니어 발록"], tip: "보스 80렙. 강한 마법공격으로 머쉬맘보다 난이도 높음. 중급 입문/도전용.", source: "https://maple.inven.co.kr/dataninfo/monster/detail.php?code=8130100", common: true, kind: "boss" },
+  { levelMin: 50, levelMax: 70, map: "자쿰 (하단 자투 · 눕클)", region: "엘나스 자쿰의 제단", monsters: ["자쿰"], tip: "입문 핵심 콘텐츠. 선행퀘 3단계 후 50렙 입장. 초보는 50~60 눕클(하단 자투만 받는 원정대) 권장. 24시간 2회.", source: "https://yulbin.com/메이플랜드-자쿰-선행퀘스트-빠른-공략/", common: true, kind: "boss" },
+  { levelMin: 90, levelMax: 120, map: "피아누스", region: "아쿠아로드 심해", monsters: ["피아누스"], tip: "90렙+ 도전, 무자본 메소벌이로 유명. 2025 패치로 입장퀘 추가(클리어 시 7일 1회).", source: "https://gameweekee.com", common: true, kind: "boss" },
+  { levelMin: 100, levelMax: 130, map: "크림슨 발록", region: "발록의 배 (오르비스↔엘리니아)", monsters: ["크림슨 발록"], tip: "보스 100렙. 입문보다 중상급 도전 단계, 강한 마공 보유.", source: "https://maple.inven.co.kr/dataninfo/monster/detail.php?code=8150000", common: true, kind: "boss" },
+];
+
+// ─── 직업별 특성 메모 ───
+export const JOB_NOTES: Record<string, string> = {
+  "히어로": "브랜디쉬 다수 타격으로 같은 자리에서 사냥 효율이 전사 3직업 중 최상. 공용 자리(차벌·골렘숲·906)에서 체감 효율이 높다.",
+  "팔라딘": "디바인 스티그마·생츄어리·묠니르 등 광역 보조기로 몹 밀집맵(골렘숲·차벌·듀파)에서 다수 처리에 강하다. 단일 극딜은 히어로에 밀림.",
+  "다크나이트": "3차 드래곤 로어(광역) + 피뻥으로 100+ 솔플 자립도가 전사 중 최고. 죽숲·차벌·906 광역 솔플에 우위.",
+  "썬콜": "썬더볼트/체인라이트닝 젠컷 + 얼음 약점 몹(붉켄·레드와이번) 전용 딜러. CD사냥·시길 솔플 효율이 좋다.",
+  "불독": "파이어/포이즌 광역 + 불 약점 몹(화이트팽·삼미호) 특화. 미스트 솔플(죽둥·협동)로 고렙 자립.",
+  "비숍": "홀리심볼 심쩔/심알바로 안 잡아도 경험치를 받는 구조가 핵심. 파티 유틸(헤이스트·헐)로 어디서나 환영.",
+  "보우마스터": "원거리 단일/연사. 죽숲·붉켄·오징어배·뉴트 보호구역·큰둥 등 밀집·관통 맵에서 안정적.",
+  "신궁": "관통·강력한 단일딜. 사이길·큰미굴·오징어배·뉴트 보호구역 등 효율 루트가 잘 정립.",
+  "나이트로드": "표창 원거리. 오징어배 2층 1자컷·동바산6·시길4 앵벌이. 90~ 사헬 90제 파밍 겸용.",
+  "섀도어": "단검 근접 + 메소익스플로전(메익). 듀파 5번 자리·죽숲·90제 파밍. 메익 사냥터 위주.",
+  "소울마스터": "시그너스 전사. 근접 광역으로 골렘숲·연구소·시길·죽숲 등 평지·밀집맵 유리. 시그너스 전용 사냥터는 없고 모험가와 공유.",
+  "플레임위자드": "시그너스 마법사. 광역 평지·다수 젠(시길·골숲·망둥·구름공원 화독)에서 강함.",
+  "윈드브레이커": "시그너스 궁수. 원거리(차가운 벌판·망둥). 좁은 발판/넉백 맵(불어전 등)에서는 불리할 수 있다.",
+  "나이트워커": "시그너스 도적. 표창+소환수(사출기)라 사냥터를 안 가림. 뉴트 알까기·연구소·망둥 등.",
+  "스트라이커": "시그너스 해적. 근접 번개. 골렘숲·동바산6·추운벌판 등 근접 자리. 시그너스는 보통 120 고정대 운영.",
+  "바이퍼": "모험가 해적(너클/인파이터 계열). 근접 광역(트랜스폼·에너지 버스터)이라 골렘숲·차벌·켄타우로스 원탁 등 밀집맵에서 전사처럼 다수 처리에 강하다. ※ 2.0 신규 직업이라 전용 정보가 적어 전사 계열에 준해 배치(추론 포함).",
+  "캡틴": "모험가 해적(건/거너 계열). 원거리 + 소환수(옥토퍼스/호밍)라 오징어배·큰미굴·동바산6 등 평지·횡사거리 맵이 유리. 궁수·도적 루트에 준함. ※ 2.0 신규 직업이라 추론 포함.",
+};
+
+// ─── 레벨 밴드 ───
+export const BANDS = [
+  { key: "1-30", label: "Lv.1~30 · 초반", min: 0, max: 29 },
+  { key: "30-50", label: "Lv.30~50 · 중반", min: 30, max: 49 },
+  { key: "50-70", label: "Lv.50~70 · 중후반", min: 50, max: 69 },
+  { key: "70-100", label: "Lv.70~100 · 후반", min: 70, max: 99 },
+  { key: "100+", label: "Lv.100+ · 만렙 구간", min: 100, max: 999 },
+];
+
+// 몬스터 한글명 → 레벨 (data/maple.db KMS 기준에서 추출, 보스는 제외)
+export const MOB_LV: Record<string, number> = {
+  "달팽이": 1, "파란달팽이": 2, "슬라임": 6, "돼지": 7, "주황버섯": 8, "리본돼지": 10,
+  "주니어 네키": 21, "뿔버섯": 22, "좀비버섯": 24, "모래두더지": 24, "와일드보어": 25, "이블아이": 27,
+  "북치는토끼": 30, "파이어 보어": 32, "파이어보어": 32, "다크 엑스텀프": 22, "리게이터": 32, "주니어 부기": 35, "주니어 페페": 35, "커즈아이": 35,
+  "예티 인형": 36, "루팡": 37, "버블티": 38, "좀비 루팡": 40, "좀비루팡": 40, "로보": 41,
+  "플래툰 크로노스": 41, "아이언 뮤테": 42, "루나픽시": 45, "최신곡CD": 46, "마스터 크로노스": 46, "흘러간가요CD": 47,
+  "드레이크": 50, "러스터픽시": 52, "로이드": 54, "스톤골렘": 55, "헥터": 55, "삼미호": 56,
+  "쿨리 좀비": 57, "네오휴로이드": 58, "다크 스톤골렘": 58, "화이트팽": 58, "믹스골렘": 59, "물도깨비": 60, "페페": 60,
+  "와일드카고": 62, "루루모": 63, "아이스 드레이크": 64, "데스테니": 67, "다크 드레이크": 68, "다크드레이크": 68,
+  "다크 예티": 68, "캡틴": 70, "하프": 80, "블러드하프": 83, "망둥이": 85, "듀얼 파이렛": 87,
+  "검은 켄타우로스": 88, "검은켄타우로스": 88, "듀얼 버크": 88, "붉은 켄타우로스": 88, "붉은켄타우로스": 88,
+  "푸른 켄타우로스": 88, "푸른켄타우로스": 88, "마스터 데스테니": 89, "블루 드래곤터틀": 90, "폭렬 망둥이집": 90,
+  "스퀴드": 94, "레드 와이번": 97, "리셀스퀴드": 97, "브레스튼": 97, "파이어 스티드": 100, "블루 와이번": 101,
+  "다크 와이번": 103, "뉴트": 105, "뉴트주니어": 105, "다크 코니언": 105, "네스트골렘": 110, "스켈레곤": 110,
+  "스켈로스": 113, "레비아탄": 120,
+  "기억의 수도승": 91, "기억의 수도승 견습생": 94,
+  "후회의 수도승 견습생": 109, "후회의 파수꾼": 113, "후회의 대파수꾼": 116,
+  "망각의 수도승": 121, "망각의 수도승 견습생": 124, "망각의 파수꾼": 128,
+};
+
+// 맵명 정확 일치 사냥터의 총 젠 수 (maplestory.io GMS/62 맵 데이터 기준, 정확 매칭만)
+export const SPOT_SPAWN: Record<string, number> = {
+  "개미굴2 (미니던전)": 47,
+  "북치는 토끼의 은신처 (미니던전)": 24,
+  "골렘의 숲 (골숲)": 48,
+  "차가운 요람 (미니던전)": 42,
+  "빨간코 해적단 소굴2 (미니던전)": 21,
+  "붉은 켄타우로스의 영역": 11,
+  "불과 어둠의 전장 (붉켄/검켄)": 24,
+  "협곡의 동쪽길 / 죽은 용의 둥지 (미스트)": 13,
+  "블루 와이번의 둥지 (심알바)": 12,
+  "레드 와이번의 둥지 (얼음 약점)": 9,
+  "큰 둥지 봉우리 (큰둥)": 6,
+};

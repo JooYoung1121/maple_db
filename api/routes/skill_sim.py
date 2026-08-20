@@ -72,23 +72,6 @@ def _ensure_data(conn) -> bool:
         return False
 
 
-@router.get("/skill-sim/classes")
-def sim_classes():
-    """직업 계열 목록 (진영별)."""
-    conn = get_connection()
-    try:
-        if not _ensure_data(conn):
-            raise HTTPException(status_code=503, detail="스킬 시뮬레이터 데이터가 아직 준비되지 않았습니다")
-        rows = conn.execute(
-            """SELECT faction, job_class, COUNT(*) AS job_count
-               FROM sim_jobs WHERE job_class != '초보자'
-               GROUP BY faction, job_class"""
-        ).fetchall()
-        return {"classes": [dict(r) for r in rows]}
-    finally:
-        conn.close()
-
-
 @router.get("/skill-sim/data")
 def sim_data(
     job_class: str = Query(..., description="직업 계열 (전사/마법사/궁수/도적/해적)"),

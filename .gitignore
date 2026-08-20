@@ -15,6 +15,10 @@ wz_data/
 wz_data_v*/
 __pycache__/
 *.pyc
+.DS_Store
+# 루트에 실수로 생기는 빈 DB (실 DB는 data/maple.db)
+/maple.db
+web/tsconfig.tsbuildinfo
 .env
 .env.local
 web/.env.local
