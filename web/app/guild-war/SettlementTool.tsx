@@ -1,0 +1,474 @@
+"use client";
+
+// 길드대항전 분배금 정산기 — 트라이별 참여 체크 + 드랍 아이템 + 시세만 입력하면
+// 거래 수수료(5%)와 송금 수수료(5%)를 반영해 인원별 송금액을 자동 계산한다.
+import { useEffect, useMemo, useState } from "react";
+
+const STORAGE_KEY = "guild-war-settlement";
+const SALE_FEE = 0.05; // 경매장 판매 수수료
+const TRANSFER_FEE = 0.05; // 메소 송금 수수료
+const MAX_TRIES = 30;
+const MIN_TRIES = 1;
+
+type Person = { name: string; tr: number[] };
+type SettleState = {
+  tries: number;
+  people: Person[];
+  drops: string[][]; // drops[트라이] = 아이템 이름 배열
+  prices: Record<string, string>; // 아이템 이름 → 판매금액 입력값
+};
+
+const DEFAULT_STATE: SettleState = { tries: 10, people: [], drops: [], prices: {} };
+
+function normalizeState(raw: unknown): SettleState {
+  const s = (raw && typeof raw === "object" ? raw : {}) as Partial<SettleState>;
+  const tries = Math.min(MAX_TRIES, Math.max(MIN_TRIES, Number(s.tries) || DEFAULT_STATE.tries));
+  const people = Array.isArray(s.people)
+    ? s.people
+        .filter((p): p is Person => !!p && typeof p.name === "string")
+        .map((p) => ({
+          name: p.name,
+          tr: Array.from({ length: MAX_TRIES }, (_, i) => (Array.isArray(p.tr) && p.tr[i] ? 1 : 0)),
+        }))
+    : [];
+  const drops = Array.from({ length: MAX_TRIES }, (_, i) => {
+    const arr = Array.isArray(s.drops) ? s.drops[i] : null;
+    return Array.isArray(arr) ? arr.filter((x): x is string => typeof x === "string") : [];
+  });
+  const prices: Record<string, string> = {};
+  if (s.prices && typeof s.prices === "object") {
+    for (const [k, v] of Object.entries(s.prices)) {
+      if (typeof v === "string" || typeof v === "number") prices[k] = String(v);
+    }
+  }
+  return { tries, people, drops, prices };
+}
+
+const fmt = (n: number) => Math.round(n).toLocaleString("ko-KR");
+
+export default function SettlementTool() {
+  const [state, setState] = useState<SettleState>(() => normalizeState(DEFAULT_STATE));
+  const [loaded, setLoaded] = useState(false);
+  const [newName, setNewName] = useState("");
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) setState(normalizeState(JSON.parse(raw)));
+    } catch {
+      /* 저장값이 깨졌다면 기본값 사용 */
+    }
+    setLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!loaded) return;
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch {
+      /* ignore */
+    }
+  }, [state, loaded]);
+
+  const { tries, people, drops, prices } = state;
+  const tryIdx = useMemo(() => Array.from({ length: tries }, (_, i) => i), [tries]);
+  const itemNames = Object.keys(prices);
+
+  // 아이템 실수령가 (판매금액 - 판매 수수료 5%)
+  const netPrice = (item: string): number | null => {
+    const v = parseFloat(prices[item]);
+    return isNaN(v) || v <= 0 ? null : v * (1 - SALE_FEE);
+  };
+  // 트라이별 참여 인원 / 분배 총액
+  const cntTr = (t: number) => people.reduce((a, p) => a + (p.tr[t] ? 1 : 0), 0);
+  const totTr = (t: number) => drops[t].reduce((a, x) => a + (netPrice(x) ?? 0), 0);
+  // 인원별 분배 합계 (송금 수수료 공제 전)
+  const shareOf = (p: Person) =>
+    tryIdx.reduce((sum, t) => {
+      const c = cntTr(t);
+      const tot = totTr(t);
+      return p.tr[t] && c > 0 && tot > 0 ? sum + tot / c : sum;
+    }, 0);
+
+  // 드랍 표에 보여줄 슬롯 수: 실제 입력된 최대 개수 + 1 (최소 3)
+  const slotCount = Math.max(3, ...tryIdx.map((t) => drops[t].length)) + 1;
+
+  function addPerson() {
+    const name = newName.trim();
+    if (!name) return;
+    if (people.some((p) => p.name === name)) return;
+    setState({ ...state, people: [...people, { name, tr: Array(MAX_TRIES).fill(0) }] });
+    setNewName("");
+  }
+
+  function setDrop(t: number, slot: number, value: string) {
+    const val = value.trim();
+    const next = drops.map((arr, i) => (i === t ? [...arr] : arr));
+    while (next[t].length <= slot) next[t].push("");
+    next[t][slot] = val;
+    while (next[t].length && !next[t][next[t].length - 1]) next[t].pop();
+    const nextPrices = { ...prices };
+    if (val && !(val in nextPrices)) nextPrices[val] = "";
+    setState({ ...state, drops: next, prices: nextPrices });
+  }
+
+  function copySummary() {
+    const lines = [`⚔️ 길드대항전 분배 정산 (${tries}트 기준)`];
+    const active = people.filter((p) => shareOf(p) > 0);
+    for (const p of active) {
+      const share = shareOf(p);
+      const net = share * (1 - TRANSFER_FEE);
+      const joined = tryIdx.filter((t) => p.tr[t]).length;
+      lines.push(`- ${p.name}: ${fmt(net)} 메소 (${joined}트 참여)`);
+    }
+    const gross = active.reduce((a, p) => a + shareOf(p), 0);
+    lines.push(`합계(송금 수수료 공제 후): ${fmt(gross * (1 - TRANSFER_FEE))} 메소`);
+    navigator.clipboard?.writeText(lines.join("\n")).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
+  }
+
+  function resetAll() {
+    if (!confirm("모든 입력을 지우고 처음부터 시작할까요?")) return;
+    setState(normalizeState(DEFAULT_STATE));
+  }
+
+  if (!loaded) return <div className="pixel-panel p-5 text-sm text-dim">불러오는 중…</div>;
+
+  const anyShare = people.some((p) => shareOf(p) > 0);
+
+  return (
+    <div className="space-y-4">
+      {/* 설정 줄 */}
+      <section className="pixel-panel p-4 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm">
+        <div className="flex items-center gap-2">
+          <span className="font-pixel text-xs text-dim">트라이 수</span>
+          <button
+            type="button"
+            onClick={() => setState({ ...state, tries: Math.max(MIN_TRIES, tries - 1) })}
+            className="w-8 h-8 border-2 border-edge font-pixel text-dim hover:text-maple transition-colors"
+          >
+            −
+          </button>
+          <span className="font-pixel text-sm text-ink w-10 text-center">{tries}트</span>
+          <button
+            type="button"
+            onClick={() => setState({ ...state, tries: Math.min(MAX_TRIES, tries + 1) })}
+            className="w-8 h-8 border-2 border-edge font-pixel text-dim hover:text-maple transition-colors"
+          >
+            +
+          </button>
+        </div>
+        <span className="text-xs text-dim">
+          계산 흐름: 판매금액 × {(1 - SALE_FEE) * 100}% (판매 수수료) → 트별 총액 ÷ 참여 인원 → 개인 합계 ×{" "}
+          {(1 - TRANSFER_FEE) * 100}% (송금 수수료) = <b className="text-maple">💰 송금액</b>
+        </span>
+        <span className="text-xs text-dim ml-auto">입력 내용은 이 브라우저에 자동 저장됩니다</span>
+        <button
+          type="button"
+          onClick={resetAll}
+          className="px-3 py-1.5 text-xs font-pixel border-2 border-edge text-dim hover:text-mush transition-colors"
+        >
+          초기화
+        </button>
+      </section>
+
+      {/* ① 참여 현황 */}
+      <section className="pixel-panel p-5 space-y-3">
+        <h2 className="font-pixel text-sm text-ink">
+          ① 참여 현황 <span className="text-xs text-dim font-normal">— 칸을 눌러 참여/불참 전환</span>
+        </h2>
+        <div className="overflow-x-auto">
+          <table className="text-sm whitespace-nowrap">
+            <thead>
+              <tr className="text-dim border-b-2 border-edge">
+                <th className="text-left py-1.5 pr-3 min-w-[7rem]">닉네임</th>
+                {tryIdx.map((t) => (
+                  <th key={t} className="px-1 font-normal text-xs">
+                    {t + 1}트
+                  </th>
+                ))}
+                <th className="w-8" />
+              </tr>
+            </thead>
+            <tbody>
+              {people.map((p, i) => (
+                <tr key={i} className="border-b border-edge/40">
+                  <td className="py-1 pr-3">
+                    <input
+                      value={p.name}
+                      onChange={(e) =>
+                        setState({
+                          ...state,
+                          people: people.map((q, j) => (j === i ? { ...q, name: e.target.value } : q)),
+                        })
+                      }
+                      className="w-28 bg-transparent border-b border-edge focus:border-maple outline-none font-bold"
+                      aria-label={`참여자 ${i + 1} 닉네임`}
+                    />
+                  </td>
+                  {tryIdx.map((t) => (
+                    <td key={t} className="px-0.5 py-1 text-center">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setState({
+                            ...state,
+                            people: people.map((q, j) =>
+                              j === i ? { ...q, tr: q.tr.map((v, k) => (k === t ? (v ? 0 : 1) : v)) } : q,
+                            ),
+                          })
+                        }
+                        className={`w-8 h-8 border-2 transition-colors ${
+                          p.tr[t]
+                            ? "border-maple bg-maple/10 text-maple font-bold"
+                            : "border-edge text-dim/40 hover:text-maple"
+                        }`}
+                        aria-label={`${p.name} ${t + 1}트 참여 토글`}
+                      >
+                        {p.tr[t] ? "✓" : ""}
+                      </button>
+                    </td>
+                  ))}
+                  <td className="text-center">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (confirm(`${p.name || "이 참여자"} 삭제?`))
+                          setState({ ...state, people: people.filter((_, j) => j !== i) });
+                      }}
+                      className="text-dim/50 hover:text-mush transition-colors"
+                      aria-label={`${p.name} 삭제`}
+                    >
+                      ✕
+                    </button>
+                  </td>
+                </tr>
+              ))}
+              {people.length > 0 && (
+                <tr className="font-bold text-xs text-dim">
+                  <td className="py-1.5 pr-3">인원</td>
+                  {tryIdx.map((t) => (
+                    <td key={t} className="text-center">
+                      {cntTr(t) || ""}
+                    </td>
+                  ))}
+                  <td />
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+        <div className="flex gap-2">
+          <input
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.nativeEvent.isComposing) addPerson();
+            }}
+            placeholder="닉네임 입력"
+            className="pixel-input px-3 py-1.5 text-sm w-40"
+          />
+          <button type="button" onClick={addPerson} className="pixel-btn px-4 py-1.5 text-xs font-pixel">
+            + 참여자 추가
+          </button>
+        </div>
+      </section>
+
+      {/* ② 드랍 아이템 */}
+      <section className="pixel-panel p-5 space-y-3">
+        <h2 className="font-pixel text-sm text-ink">
+          ② 드랍 아이템{" "}
+          <span className="text-xs text-dim font-normal">— 트라이별로 이름 입력 (시세표에 자동 등록)</span>
+        </h2>
+        <div className="overflow-x-auto">
+          <table className="text-sm whitespace-nowrap">
+            <thead>
+              <tr className="text-dim border-b-2 border-edge">
+                <th className="w-8" />
+                {tryIdx.map((t) => (
+                  <th key={t} className="px-1 font-normal text-xs min-w-[4.5rem]">
+                    {t + 1}트
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {Array.from({ length: slotCount }, (_, s) => (
+                <tr key={s} className="border-b border-edge/40">
+                  <td className="text-xs text-dim/60 pr-2 text-right">{s + 1}</td>
+                  {tryIdx.map((t) => (
+                    <td key={t} className="px-0.5 py-0.5">
+                      <input
+                        list="gw-settle-items"
+                        value={drops[t][s] || ""}
+                        onChange={(e) => setDrop(t, s, e.target.value)}
+                        className="w-[4.5rem] px-1 py-1 text-xs text-center bg-surface2 border border-edge focus:border-maple outline-none"
+                        aria-label={`${t + 1}트 드랍 ${s + 1}`}
+                      />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+              <tr className="font-bold text-xs">
+                <td className="text-dim pr-2 text-right whitespace-nowrap">총액</td>
+                {tryIdx.map((t) => {
+                  const v = totTr(t);
+                  return (
+                    <td key={t} className="text-center text-maple py-1.5">
+                      {v ? fmt(v) : ""}
+                    </td>
+                  );
+                })}
+              </tr>
+            </tbody>
+          </table>
+          <datalist id="gw-settle-items">
+            {itemNames.map((x) => (
+              <option key={x} value={x} />
+            ))}
+          </datalist>
+        </div>
+      </section>
+
+      {/* ③ 시세표 */}
+      <section className="pixel-panel p-5 space-y-3">
+        <h2 className="font-pixel text-sm text-ink">
+          ③ 시세표 <span className="text-xs text-dim font-normal">— 판매금액만 입력하면 전부 자동 계산</span>
+        </h2>
+        {itemNames.length === 0 ? (
+          <p className="text-sm text-dim">드랍 아이템을 입력하면 여기에 자동으로 나타납니다.</p>
+        ) : (
+          <div className="overflow-x-auto max-w-md">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-left text-dim border-b-2 border-edge">
+                  <th className="py-1.5">아이템</th>
+                  <th className="text-right">판매금액</th>
+                  <th className="text-right">수수료 제외</th>
+                  <th className="w-8" />
+                </tr>
+              </thead>
+              <tbody>
+                {itemNames.map((it) => {
+                  const n = netPrice(it);
+                  return (
+                    <tr key={it} className="border-b border-edge/40">
+                      <td className="py-1 font-bold">{it}</td>
+                      <td className="text-right">
+                        <input
+                          type="number"
+                          value={prices[it]}
+                          onChange={(e) => setState({ ...state, prices: { ...prices, [it]: e.target.value } })}
+                          placeholder="0"
+                          className="w-28 px-2 py-1 text-right text-xs bg-surface2 border border-edge focus:border-maple outline-none"
+                          aria-label={`${it} 판매금액`}
+                        />
+                      </td>
+                      <td className="text-right text-dim tabular-nums">{n === null ? "" : fmt(n)}</td>
+                      <td className="text-center">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const next = { ...prices };
+                            delete next[it];
+                            setState({ ...state, prices: next });
+                          }}
+                          className="text-dim/50 hover:text-mush transition-colors"
+                          aria-label={`${it} 삭제`}
+                        >
+                          ✕
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+
+      {/* ④ 인원별 정산 */}
+      <section className="pixel-panel p-5 space-y-3">
+        <div className="flex flex-wrap items-center gap-3">
+          <h2 className="font-pixel text-sm text-ink">
+            ④ 인원별 정산 <span className="text-xs text-dim font-normal">— 💰 송금액만 확인하면 끝</span>
+          </h2>
+          {anyShare && (
+            <button type="button" onClick={copySummary} className="pixel-btn px-3 py-1.5 text-xs font-pixel">
+              {copied ? "✓ 복사됨" : "📋 정산 결과 복사"}
+            </button>
+          )}
+        </div>
+        {people.length === 0 ? (
+          <p className="text-sm text-dim">참여자를 먼저 추가해 주세요.</p>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="text-sm whitespace-nowrap">
+              <thead>
+                <tr className="text-dim border-b-2 border-edge">
+                  <th className="text-left py-1.5 pr-3 min-w-[7rem]">닉네임</th>
+                  {tryIdx.map((t) => (
+                    <th key={t} className="px-1 font-normal text-xs min-w-[3.5rem]">
+                      {t + 1}트
+                    </th>
+                  ))}
+                  <th className="px-2 text-xs">분배합계</th>
+                  <th className="px-2 text-xs">송금 수수료</th>
+                  <th className="px-2 text-xs text-maple">💰 송금액</th>
+                </tr>
+              </thead>
+              <tbody>
+                {people.map((p, i) => {
+                  const share = shareOf(p);
+                  const fee = share * TRANSFER_FEE;
+                  return (
+                    <tr key={i} className="border-b border-edge/40 tabular-nums">
+                      <td className="py-1.5 pr-3 font-bold">{p.name}</td>
+                      {tryIdx.map((t) => {
+                        const c = cntTr(t);
+                        const tot = totTr(t);
+                        const v = p.tr[t] && c > 0 && tot > 0 ? tot / c : 0;
+                        return (
+                          <td key={t} className="text-center text-xs text-dim">
+                            {v ? fmt(v) : ""}
+                          </td>
+                        );
+                      })}
+                      <td className="text-right px-2 font-bold">{share ? fmt(share) : ""}</td>
+                      <td className="text-right px-2 text-dim text-xs">{share ? fmt(fee) : ""}</td>
+                      <td className="text-right px-2 font-bold text-maple">{share ? fmt(share - fee) : ""}</td>
+                    </tr>
+                  );
+                })}
+                {anyShare && (
+                  <tr className="font-bold tabular-nums text-xs">
+                    <td className="py-1.5 pr-3">합계</td>
+                    {tryIdx.map((t) => {
+                      const tot = totTr(t);
+                      return (
+                        <td key={t} className="text-center text-dim">
+                          {tot ? fmt(tot) : ""}
+                        </td>
+                      );
+                    })}
+                    <td className="text-right px-2">{fmt(people.reduce((a, p) => a + shareOf(p), 0))}</td>
+                    <td className="text-right px-2 text-dim">
+                      {fmt(people.reduce((a, p) => a + shareOf(p) * TRANSFER_FEE, 0))}
+                    </td>
+                    <td className="text-right px-2 text-maple">
+                      {fmt(people.reduce((a, p) => a + shareOf(p) * (1 - TRANSFER_FEE), 0))}
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
+    </div>
+  );
+}
