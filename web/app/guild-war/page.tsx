@@ -339,8 +339,8 @@ function perRun(rate: number): string {
 }
 
 function DropTab({ goTab }: { goTab: (t: Tab) => void }) {
-  const books = GW_BOX_DROPS.filter((d) => d.cat === "마북").sort((a, b) => a.rate - b.rate);
-  const scrolls = GW_BOX_DROPS.filter((d) => d.cat === "주문서");
+  const books = GW_BOX_DROPS.filter((d) => d.cat === "마북").sort((a, b) => a.name.localeCompare(b.name, "ko"));
+  const scrolls = GW_BOX_DROPS.filter((d) => d.cat === "주문서").sort((a, b) => a.name.localeCompare(b.name, "ko"));
   const consumables = GW_BOX_DROPS.filter((d) => d.cat === "소비");
   const totalRate = GW_BOX_DROPS.reduce((a, d) => a + d.rate, 0);
 

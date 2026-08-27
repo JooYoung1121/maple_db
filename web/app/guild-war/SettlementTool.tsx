@@ -2,7 +2,7 @@
 
 // 길드대항전 분배금 정산기 — 트라이별 참여 체크 + 드랍 아이템 + 시세만 입력하면
 // 거래 수수료(5%)와 송금 수수료(5%)를 반영해 인원별 송금액을 자동 계산한다.
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { itemIcon } from "@/components/ItemChip";
 import { GW_ITEM_NAME, SETTLE_ITEM_GROUPS } from "./dropData";
 
@@ -17,6 +17,7 @@ const INVALID_DROP_KEYS = new Set(["나리케인의 징표"]);
 
 type Person = { id: string; name: string; tr: number[] };
 type SaleStatus = "unlisted" | "listed" | "sold";
+type AttendancePaint = { pointerId: number; value: 0 | 1; visited: Set<string> };
 type SettleState = {
   tries: number;
   people: Person[];
@@ -152,6 +153,20 @@ export default function SettlementTool() {
   const [draggedPersonId, setDraggedPersonId] = useState<string | null>(null);
   const [personDragOverId, setPersonDragOverId] = useState<string | null>(null);
   const importInputRef = useRef<HTMLInputElement>(null);
+  const attendancePaintRef = useRef<AttendancePaint | null>(null);
+  const paintAttendance = useCallback((personId: string, tryIndex: number, value: 0 | 1) => {
+    setState((current) => {
+      const personIndex = current.people.findIndex((person) => person.id === personId);
+      if (personIndex < 0 || tryIndex < 0 || tryIndex >= current.tries) return current;
+      const person = current.people[personIndex];
+      if (person.tr[tryIndex] === value) return current;
+      const nextPeople = [...current.people];
+      const nextTries = [...person.tr];
+      nextTries[tryIndex] = value;
+      nextPeople[personIndex] = { ...person, tr: nextTries };
+      return { ...current, people: nextPeople };
+    });
+  }, []);
 
   useEffect(() => {
     try {
@@ -209,9 +224,40 @@ export default function SettlementTool() {
     }
   }, [ledgers, loaded]);
 
+  useEffect(() => {
+    const paintCellAtPointer = (event: PointerEvent) => {
+      const paint = attendancePaintRef.current;
+      if (!paint || paint.pointerId !== event.pointerId) return;
+      event.preventDefault();
+      const cell = document
+        .elementFromPoint(event.clientX, event.clientY)
+        ?.closest<HTMLElement>("[data-attendance-person][data-attendance-try]");
+      const personId = cell?.dataset.attendancePerson;
+      const tryValue = Number(cell?.dataset.attendanceTry);
+      if (!personId || !Number.isInteger(tryValue)) return;
+      const key = `${personId}:${tryValue}`;
+      if (paint.visited.has(key)) return;
+      paint.visited.add(key);
+      paintAttendance(personId, tryValue, paint.value);
+    };
+    const stopPainting = (event: PointerEvent) => {
+      if (attendancePaintRef.current?.pointerId === event.pointerId) attendancePaintRef.current = null;
+    };
+    window.addEventListener("pointermove", paintCellAtPointer, { passive: false });
+    window.addEventListener("pointerup", stopPainting);
+    window.addEventListener("pointercancel", stopPainting);
+    return () => {
+      window.removeEventListener("pointermove", paintCellAtPointer);
+      window.removeEventListener("pointerup", stopPainting);
+      window.removeEventListener("pointercancel", stopPainting);
+    };
+  }, [paintAttendance]);
+
   const { tries, people, drops, prices } = state;
   const tryIdx = useMemo(() => Array.from({ length: tries }, (_, i) => i), [tries]);
-  const itemNames = Object.keys(prices);
+  const itemNames = Object.keys(prices).sort((a, b) =>
+    (GW_ITEM_NAME[a] ?? a).localeCompare(GW_ITEM_NAME[b] ?? b, "ko"),
+  );
 
   // 드랍테이블에 없는 커스텀 아이템(직접 입력분)도 드롭다운에 계속 노출
   const knownKeys = useMemo(() => new Set(SETTLE_ITEM_GROUPS.flatMap((g) => g.items.map((i) => i.key))), []);
@@ -688,7 +734,9 @@ export default function SettlementTool() {
         <div className="flex flex-wrap items-center gap-2">
           <h2 className="font-pixel text-sm text-ink">
             ① 참여 현황{" "}
-            <span className="text-xs text-dim font-normal">— 칸을 눌러 참여/불참 전환 · 손잡이로 순서 변경</span>
+            <span className="text-xs text-dim font-normal">
+              — 칸을 클릭하거나 누른 채 쓸어서 참여/불참 입력 · 손잡이로 순서 변경
+            </span>
           </h2>
           {people.length > 1 && (
             <select
@@ -792,20 +840,31 @@ export default function SettlementTool() {
                     <td key={t} className="px-0.5 py-1 text-center">
                       <button
                         type="button"
-                        onClick={() =>
-                          setState({
-                            ...state,
-                            people: people.map((q, j) =>
-                              j === i ? { ...q, tr: q.tr.map((v, k) => (k === t ? (v ? 0 : 1) : v)) } : q,
-                            ),
-                          })
-                        }
-                        className={`w-8 h-8 border-2 transition-colors ${
+                        data-attendance-person={p.id}
+                        data-attendance-try={t}
+                        onPointerDown={(e) => {
+                          if (e.button !== 0) return;
+                          e.preventDefault();
+                          const value: 0 | 1 = p.tr[t] ? 0 : 1;
+                          attendancePaintRef.current = {
+                            pointerId: e.pointerId,
+                            value,
+                            visited: new Set([`${p.id}:${t}`]),
+                          };
+                          paintAttendance(p.id, t, value);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key !== "Enter" && e.key !== " ") return;
+                          e.preventDefault();
+                          paintAttendance(p.id, t, p.tr[t] ? 0 : 1);
+                        }}
+                        className={`w-8 h-8 border-2 transition-colors touch-none select-none ${
                           p.tr[t]
                             ? "border-maple bg-maple/10 text-maple font-bold"
                             : "border-edge text-dim/40 hover:text-maple"
                         }`}
-                        aria-label={`${p.name} ${t + 1}트 참여 토글`}
+                        aria-label={`${p.name} ${t + 1}트 ${p.tr[t] ? "참여 해제" : "참여 설정"}`}
+                        title="클릭하거나 누른 채 다른 칸으로 쓸어 입력"
                       >
                         {p.tr[t] ? "✓" : ""}
                       </button>

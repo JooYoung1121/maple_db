@@ -73,19 +73,23 @@ export const GW_BOX_DROPS: GwDrop[] = [
 export const SETTLE_ITEM_GROUPS: { label: string; items: { key: string; name: string; itemId: number }[] }[] = [
   {
     label: "주문서 60%",
-    items: GW_BOX_DROPS.filter((d) => d.cat === "주문서").map(({ key, name, itemId }) => ({
-      key,
-      name,
-      itemId: itemId!,
-    })),
+    items: GW_BOX_DROPS.filter((d) => d.cat === "주문서")
+      .sort((a, b) => a.name.localeCompare(b.name, "ko"))
+      .map(({ key, name, itemId }) => ({
+        key,
+        name,
+        itemId: itemId!,
+      })),
   },
   {
     label: "마스터리북",
-    items: GW_BOX_DROPS.filter((d) => d.cat === "마북").map(({ key, name, job, itemId }) => ({
-      key,
-      name: `${name} (${job})`,
-      itemId: itemId!,
-    })),
+    items: GW_BOX_DROPS.filter((d) => d.cat === "마북")
+      .sort((a, b) => a.name.localeCompare(b.name, "ko"))
+      .map(({ key, name, job, itemId }) => ({
+        key,
+        name: `${name} (${job})`,
+        itemId: itemId!,
+      })),
   },
   {
     label: "기타",
