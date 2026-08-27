@@ -18,13 +18,17 @@ const INVALID_DROP_KEYS = new Set(["나리케인의 징표"]);
 type Person = { id: string; name: string; tr: number[] };
 type SaleStatus = "unlisted" | "listed" | "sold";
 type AttendancePaint = { pointerId: number; value: 0 | 1; visited: Set<string> };
+type DropEntry = {
+  id: string;
+  item: string;
+  price: string;
+  saleStatus: SaleStatus;
+  priceUpdatedAt: string;
+};
 type SettleState = {
   tries: number;
   people: Person[];
-  drops: string[][]; // drops[트라이] = 아이템 이름 배열
-  prices: Record<string, string>; // 아이템 이름 → 판매금액 입력값
-  saleStatuses: Record<string, SaleStatus>;
-  priceUpdatedAt: Record<string, string>;
+  drops: DropEntry[][]; // 동일 아이템도 개별 판매가·상태를 갖는 드랍 인스턴스
   soldOnly: boolean;
 };
 
@@ -44,9 +48,6 @@ const DEFAULT_STATE: SettleState = {
   tries: 10,
   people: [],
   drops: [],
-  prices: {},
-  saleStatuses: {},
-  priceUpdatedAt: {},
   soldOnly: false,
 };
 
@@ -75,43 +76,59 @@ function formatUpdatedAt(value: string) {
 }
 
 function normalizeState(raw: unknown): SettleState {
-  const s = (raw && typeof raw === "object" ? raw : {}) as Partial<SettleState>;
+  const s = (raw && typeof raw === "object" ? raw : {}) as Record<string, unknown>;
   const tries = Math.min(MAX_TRIES, Math.max(MIN_TRIES, Number(s.tries) || DEFAULT_STATE.tries));
-  const people = Array.isArray(s.people)
-    ? s.people
-        .filter((p): p is Person => !!p && typeof p.name === "string")
-        .map((p, i) => ({
-          id: typeof p.id === "string" && p.id ? p.id : `legacy-${i}-${p.name}`,
-          name: p.name,
-          tr: Array.from({ length: MAX_TRIES }, (_, i) => (Array.isArray(p.tr) && p.tr[i] ? 1 : 0)),
-        }))
-    : [];
+  const rawPeople = Array.isArray(s.people) ? s.people : [];
+  const people = rawPeople
+    .filter(
+      (p): p is { id?: unknown; name: string; tr?: unknown } =>
+        !!p && typeof p === "object" && typeof (p as { name?: unknown }).name === "string",
+    )
+    .map((p, i) => ({
+      id: typeof p.id === "string" && p.id ? p.id : `legacy-${i}-${p.name}`,
+      name: p.name,
+      tr: Array.from({ length: MAX_TRIES }, (_, i) => (Array.isArray(p.tr) && p.tr[i] ? 1 : 0)),
+    }));
+  const legacyPrices = s.prices && typeof s.prices === "object" ? (s.prices as Record<string, unknown>) : {};
+  const legacyStatuses =
+    s.saleStatuses && typeof s.saleStatuses === "object" ? (s.saleStatuses as Record<string, unknown>) : {};
+  const legacyUpdatedAt =
+    s.priceUpdatedAt && typeof s.priceUpdatedAt === "object" ? (s.priceUpdatedAt as Record<string, unknown>) : {};
   const drops = Array.from({ length: MAX_TRIES }, (_, i) => {
     const arr = Array.isArray(s.drops) ? s.drops[i] : null;
-    return Array.isArray(arr)
-      ? arr.filter((x): x is string => typeof x === "string" && !INVALID_DROP_KEYS.has(x))
-      : [];
+    if (!Array.isArray(arr)) return [];
+    return arr.flatMap((value, slot): DropEntry[] => {
+      const legacyItem = typeof value === "string" ? value : "";
+      const entry = value && typeof value === "object" ? (value as Partial<DropEntry>) : null;
+      const item = legacyItem || (typeof entry?.item === "string" ? entry.item : "");
+      if (!item || INVALID_DROP_KEYS.has(item)) return [];
+      const legacyPrice = legacyPrices[item];
+      const price =
+        typeof entry?.price === "string" || typeof entry?.price === "number"
+          ? String(entry.price)
+          : typeof legacyPrice === "string" || typeof legacyPrice === "number"
+            ? String(legacyPrice)
+            : "";
+      const rawStatus = entry?.saleStatus ?? legacyStatuses[item];
+      const saleStatus: SaleStatus =
+        rawStatus === "sold" || rawStatus === "listed" || rawStatus === "unlisted"
+          ? rawStatus
+          : price
+            ? "listed"
+            : "unlisted";
+      const rawUpdatedAt = entry?.priceUpdatedAt ?? legacyUpdatedAt[item];
+      return [
+        {
+          id: typeof entry?.id === "string" && entry.id ? entry.id : `drop-${i}-${slot}-${item}`,
+          item,
+          price,
+          saleStatus,
+          priceUpdatedAt: typeof rawUpdatedAt === "string" ? rawUpdatedAt : "",
+        },
+      ];
+    });
   });
-  const prices: Record<string, string> = {};
-  if (s.prices && typeof s.prices === "object") {
-    for (const [k, v] of Object.entries(s.prices)) {
-      if (INVALID_DROP_KEYS.has(k)) continue;
-      if (typeof v === "string" || typeof v === "number") prices[k] = String(v);
-    }
-  }
-  const saleStatuses: Record<string, SaleStatus> = {};
-  const rawStatuses = s.saleStatuses && typeof s.saleStatuses === "object" ? s.saleStatuses : {};
-  for (const item of Object.keys(prices)) {
-    const status = rawStatuses[item];
-    saleStatuses[item] = status === "listed" || status === "sold" ? status : prices[item] ? "listed" : "unlisted";
-  }
-  const priceUpdatedAt: Record<string, string> = {};
-  if (s.priceUpdatedAt && typeof s.priceUpdatedAt === "object") {
-    for (const [item, value] of Object.entries(s.priceUpdatedAt)) {
-      if (!INVALID_DROP_KEYS.has(item) && typeof value === "string") priceUpdatedAt[item] = value;
-    }
-  }
-  return { tries, people, drops, prices, saleStatuses, priceUpdatedAt, soldOnly: s.soldOnly === true };
+  return { tries, people, drops, soldOnly: s.soldOnly === true };
 }
 
 function normalizeLedger(raw: unknown, index: number): SettlementLedger | null {
@@ -253,15 +270,20 @@ export default function SettlementTool() {
     };
   }, [paintAttendance]);
 
-  const { tries, people, drops, prices } = state;
+  const { tries, people, drops } = state;
   const tryIdx = useMemo(() => Array.from({ length: tries }, (_, i) => i), [tries]);
-  const itemNames = Object.keys(prices).sort((a, b) =>
-    (GW_ITEM_NAME[a] ?? a).localeCompare(GW_ITEM_NAME[b] ?? b, "ko"),
-  );
 
   // 드랍테이블에 없는 커스텀 아이템(직접 입력분)도 드롭다운에 계속 노출
   const knownKeys = useMemo(() => new Set(SETTLE_ITEM_GROUPS.flatMap((g) => g.items.map((i) => i.key))), []);
-  const customKeys = itemNames.filter((k) => !knownKeys.has(k));
+  const dropRows = tryIdx
+    .flatMap((tryIndex) => drops[tryIndex].map((entry, slot) => ({ entry, tryIndex, slot })))
+    .sort(
+      (a, b) =>
+        (GW_ITEM_NAME[a.entry.item] ?? a.entry.item).localeCompare(GW_ITEM_NAME[b.entry.item] ?? b.entry.item, "ko") ||
+        a.tryIndex - b.tryIndex ||
+        a.slot - b.slot,
+    );
+  const customKeys = [...new Set(dropRows.map(({ entry }) => entry.item).filter((item) => !knownKeys.has(item)))];
   const activeLedger = ledgers.find((ledger) => ledger.id === activeLedgerId) ?? null;
   const isLedgerDirty = activeLedger
     ? activeLedger.title !== ledgerTitle ||
@@ -269,7 +291,7 @@ export default function SettlementTool() {
       activeLedger.manager !== manager ||
       activeLedger.status !== ledgerStatus ||
       JSON.stringify(activeLedger.state) !== JSON.stringify(state)
-    : people.length > 0 || itemNames.length > 0 || ledgerTitle.trim().length > 0;
+    : people.length > 0 || dropRows.length > 0 || ledgerTitle.trim().length > 0;
   const groupedLedgers = useMemo(() => {
     const groups = new Map<string, SettlementLedger[]>();
     for (const ledger of [...ledgers].sort((a, b) => b.eventDate.localeCompare(a.eventDate) || b.updatedAt.localeCompare(a.updatedAt))) {
@@ -281,17 +303,17 @@ export default function SettlementTool() {
   }, [ledgers]);
 
   // 아이템 실수령가 (판매금액 - 판매 수수료 5%)
-  const saleNetPrice = (item: string): number | null => {
-    const v = parseFloat(prices[item]);
+  const saleNetPrice = (entry: DropEntry): number | null => {
+    const v = parseFloat(entry.price);
     return isNaN(v) || v <= 0 ? null : v * (1 - SALE_FEE);
   };
-  const netPrice = (item: string): number | null => {
-    if (state.soldOnly && state.saleStatuses[item] !== "sold") return null;
-    return saleNetPrice(item);
+  const netPrice = (entry: DropEntry): number | null => {
+    if (state.soldOnly && entry.saleStatus !== "sold") return null;
+    return saleNetPrice(entry);
   };
   // 트라이별 참여 인원 / 분배 총액
   const cntTr = (t: number) => people.reduce((a, p) => a + (p.tr[t] ? 1 : 0), 0);
-  const totTr = (t: number) => drops[t].reduce((a, x) => a + (netPrice(x) ?? 0), 0);
+  const totTr = (t: number) => drops[t].reduce((total, entry) => total + (netPrice(entry) ?? 0), 0);
   // 인원별 분배 합계 (송금 수수료 공제 전)
   const shareOf = (p: Person) =>
     tryIdx.reduce((sum, t) => {
@@ -429,7 +451,7 @@ export default function SettlementTool() {
 
   function exportLedgers() {
     if (ledgers.length === 0) return;
-    const payload = JSON.stringify({ version: 1, exportedAt: new Date().toISOString(), ledgers }, null, 2);
+    const payload = JSON.stringify({ version: 2, exportedAt: new Date().toISOString(), ledgers }, null, 2);
     const url = URL.createObjectURL(new Blob([payload], { type: "application/json" }));
     const anchor = document.createElement("a");
     anchor.href = url;
@@ -468,39 +490,74 @@ export default function SettlementTool() {
     }
   }
 
-  function updatePrice(item: string, value: string) {
-    setState({
-      ...state,
-      prices: { ...prices, [item]: value },
-      priceUpdatedAt: { ...state.priceUpdatedAt, [item]: new Date().toISOString() },
-    });
+  function updateDropEntry(entryId: string, changes: Partial<DropEntry>) {
+    setState((current) => ({
+      ...current,
+      drops: current.drops.map((trialDrops) =>
+        trialDrops.map((entry) => (entry.id === entryId ? { ...entry, ...changes } : entry)),
+      ),
+    }));
   }
 
-  function updateSaleStatus(item: string, status: SaleStatus) {
-    setState({
-      ...state,
-      saleStatuses: { ...state.saleStatuses, [item]: status },
-      priceUpdatedAt: { ...state.priceUpdatedAt, [item]: new Date().toISOString() },
-    });
+  function updatePrice(entryId: string, value: string) {
+    updateDropEntry(entryId, { price: value, priceUpdatedAt: new Date().toISOString() });
+  }
+
+  function updateSaleStatus(entryId: string, status: SaleStatus) {
+    updateDropEntry(entryId, { saleStatus: status, priceUpdatedAt: new Date().toISOString() });
+  }
+
+  function removeDropEntry(entryId: string) {
+    setState((current) => ({
+      ...current,
+      drops: current.drops.map((trialDrops) => trialDrops.filter((entry) => entry.id !== entryId)),
+    }));
   }
 
   function setDrop(t: number, slot: number, value: string) {
     const val = value.trim();
-    const next = drops.map((arr, i) => (i === t ? [...arr] : arr));
-    while (next[t].length <= slot) next[t].push("");
-    next[t][slot] = val;
-    while (next[t].length && !next[t][next[t].length - 1]) next[t].pop();
-    const nextPrices = { ...prices };
-    if (val && !(val in nextPrices)) nextPrices[val] = "";
-    const nextStatuses = { ...state.saleStatuses };
-    if (val && !(val in nextStatuses)) nextStatuses[val] = "unlisted";
-    setState({ ...state, drops: next, prices: nextPrices, saleStatuses: nextStatuses });
+    setState((currentState) => {
+      const next = currentState.drops.map((arr, i) => (i === t ? [...arr] : arr));
+      const current = next[t][slot];
+      if (!val) {
+        if (current) next[t].splice(slot, 1);
+      } else if (current) {
+        next[t][slot] =
+          current.item === val
+            ? current
+            : { ...current, item: val, price: "", saleStatus: "unlisted", priceUpdatedAt: "" };
+      } else {
+        next[t].push({ id: crypto.randomUUID(), item: val, price: "", saleStatus: "unlisted", priceUpdatedAt: "" });
+      }
+      return { ...currentState, drops: next };
+    });
   }
 
   function addDrop(t: number, item: string) {
-    const emptySlot = drops[t].findIndex((value) => !value);
-    setDrop(t, emptySlot === -1 ? drops[t].length : emptySlot, item);
+    setState((current) => ({
+      ...current,
+      drops: current.drops.map((trialDrops, i) =>
+        i === t
+          ? [
+              ...trialDrops,
+              { id: crypto.randomUUID(), item, price: "", saleStatus: "unlisted", priceUpdatedAt: "" },
+            ]
+          : trialDrops,
+      ),
+    }));
     setSelectedTry(t);
+  }
+
+  function removeLastDrop(t: number, item: string) {
+    setState((current) => {
+      const next = current.drops.map((trialDrops, i) => (i === t ? [...trialDrops] : trialDrops));
+      for (let i = next[t].length - 1; i >= 0; i -= 1) {
+        if (next[t][i].item !== item) continue;
+        next[t].splice(i, 1);
+        return { ...current, drops: next };
+      }
+      return current;
+    });
   }
 
   function dropItem(t: number, value: string) {
@@ -977,7 +1034,8 @@ export default function SettlementTool() {
                 <tr key={s} className="border-b border-edge/40">
                   <td className="text-xs text-dim/60 pr-2 text-right">{s + 1}</td>
                   {tryIdx.map((t) => {
-                    const v = drops[t][s] || "";
+                    const entry = drops[t][s];
+                    const v = entry?.item || "";
                     return (
                       <td key={t} className="px-0.5 py-0.5">
                         <select
@@ -997,7 +1055,7 @@ export default function SettlementTool() {
                           }`}
                           aria-label={`${t + 1}트 드랍 ${s + 1}`}
                         >
-                          <option value="">−</option>
+                          <option value="">{v ? "✕ 이 아이템 제거" : "− 비어 있음"}</option>
                           {SETTLE_ITEM_GROUPS.map((g) => (
                             <optgroup key={g.label} label={g.label}>
                               {g.items.map((it) => (
@@ -1040,14 +1098,15 @@ export default function SettlementTool() {
         </div>
         <p className="text-xs text-dim">
           약어에 마우스를 올리면 풀네임이 보입니다. 목록은 드랍테이블 탭과 동일 — 없는 아이템은 「직접 입력…」으로
-          추가.
+          추가. 등록된 아이템은 드롭다운의 「✕ 이 아이템 제거」로 뺄 수 있습니다.
         </p>
 
         <div className="border-t-2 border-edge pt-4 space-y-4">
           <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
             <h3 className="font-pixel text-xs text-ink">아이템 빠른 추가</h3>
             <p className="text-xs text-dim">
-              클릭하면 <b className="text-maple">{selectedTry + 1}트</b>에 추가 · PC에서는 위 트라이 칸으로 드래그
+              카드를 클릭하면 <b className="text-maple">{selectedTry + 1}트</b>에 추가 · 우측 상단 − 버튼으로 1개씩 제거
+              · PC에서는 위 트라이 칸으로 드래그
             </p>
           </div>
           {SETTLE_ITEM_GROUPS.map((group) => (
@@ -1055,35 +1114,47 @@ export default function SettlementTool() {
               <h4 className="text-xs font-bold text-dim">{group.label}</h4>
               <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-7 gap-1.5">
                 {group.items.map((item) => {
-                  const count = drops[selectedTry].filter((value) => value === item.key).length;
+                  const count = drops[selectedTry].filter((entry) => entry.item === item.key).length;
                   return (
-                    <button
-                      key={item.key}
-                      type="button"
-                      draggable
-                      onDragStart={(e) => {
-                        e.dataTransfer.effectAllowed = "copy";
-                        e.dataTransfer.setData("text/plain", item.key);
-                      }}
-                      onDragEnd={() => setDragOverTry(null)}
-                      onClick={() => addDrop(selectedTry, item.key)}
-                      title={`${item.name} — 클릭 시 ${selectedTry + 1}트에 추가`}
-                      className="relative min-h-[5.25rem] p-1.5 border-2 border-edge bg-surface2 hover:border-maple hover:bg-maple/10 transition-colors flex flex-col items-center justify-center gap-1 cursor-grab active:cursor-grabbing"
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={itemIcon(item.itemId)}
-                        alt=""
-                        className="w-9 h-9 object-contain [image-rendering:pixelated] pointer-events-none"
-                        loading="lazy"
-                      />
-                      <span className="text-[10px] font-bold leading-tight text-ink break-keep">{item.key}</span>
+                    <div key={item.key} className="relative">
+                      <button
+                        type="button"
+                        draggable
+                        onDragStart={(e) => {
+                          e.dataTransfer.effectAllowed = "copy";
+                          e.dataTransfer.setData("text/plain", item.key);
+                        }}
+                        onDragEnd={() => setDragOverTry(null)}
+                        onClick={() => addDrop(selectedTry, item.key)}
+                        title={`${item.name} — 클릭 시 ${selectedTry + 1}트에 추가`}
+                        className="w-full min-h-[5.25rem] p-1.5 border-2 border-edge bg-surface2 hover:border-maple hover:bg-maple/10 transition-colors flex flex-col items-center justify-center gap-1 cursor-grab active:cursor-grabbing"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={itemIcon(item.itemId)}
+                          alt=""
+                          className="w-9 h-9 object-contain [image-rendering:pixelated] pointer-events-none"
+                          loading="lazy"
+                        />
+                        <span className="text-[10px] font-bold leading-tight text-ink break-keep">{item.key}</span>
+                      </button>
                       {count > 0 && (
-                        <span className="absolute top-1 right-1 min-w-5 h-5 px-1 rounded-full bg-maple text-white text-[10px] font-bold leading-5">
-                          ×{count}
-                        </span>
+                        <>
+                          <span className="absolute top-1 left-1 min-w-6 h-6 px-1 rounded-full bg-maple text-white text-[10px] font-bold leading-6 pointer-events-none">
+                            ×{count}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => removeLastDrop(selectedTry, item.key)}
+                            className="absolute top-1 right-1 min-w-6 h-6 px-1 rounded-full bg-mush text-white text-[10px] font-bold leading-6 hover:brightness-110"
+                            title={`${selectedTry + 1}트에서 ${item.name} 1개 제거`}
+                            aria-label={`${selectedTry + 1}트 ${item.key} 1개 제거, 현재 ${count}개`}
+                          >
+                            −1
+                          </button>
+                        </>
                       )}
-                    </button>
+                    </div>
                   );
                 })}
               </div>
@@ -1108,40 +1179,44 @@ export default function SettlementTool() {
             판매완료 아이템만 정산 반영
           </label>
         </div>
-        {itemNames.length === 0 ? (
+        {dropRows.length === 0 ? (
           <p className="text-sm text-dim">드랍 아이템을 입력하면 여기에 자동으로 나타납니다.</p>
         ) : (
           <div className="overflow-x-auto max-w-4xl">
-            <table className="w-full min-w-[760px] text-sm">
+            <table className="w-full min-w-[840px] text-sm">
               <thead>
                 <tr className="text-left text-dim border-b-2 border-edge">
                   <th className="py-1.5">아이템</th>
+                  <th className="px-2">획득</th>
                   <th className="px-2">상태</th>
-                  <th className="text-right">판매금액</th>
+                  <th className="text-right">개별 판매금액</th>
                   <th className="text-right">수수료 제외</th>
                   <th className="px-2 text-right">마지막 변경</th>
                   <th className="w-8" />
                 </tr>
               </thead>
               <tbody>
-                {itemNames.map((it) => {
-                  const n = saleNetPrice(it);
+                {dropRows.map(({ entry, tryIndex, slot }) => {
+                  const n = saleNetPrice(entry);
                   return (
-                    <tr key={it} className="border-b border-edge/40">
+                    <tr key={entry.id} className="border-b border-edge/40">
                       <td className="py-1">
-                        <b>{it}</b>
-                        {GW_ITEM_NAME[it] && GW_ITEM_NAME[it] !== it && (
-                          <span className="block text-[11px] text-dim leading-tight">{GW_ITEM_NAME[it]}</span>
+                        <b>{entry.item}</b>
+                        {GW_ITEM_NAME[entry.item] && GW_ITEM_NAME[entry.item] !== entry.item && (
+                          <span className="block text-[11px] text-dim leading-tight">{GW_ITEM_NAME[entry.item]}</span>
                         )}
+                      </td>
+                      <td className="px-2 text-xs text-dim tabular-nums">
+                        {tryIndex + 1}트 · #{slot + 1}
                       </td>
                       <td className="px-2">
                         <select
-                          value={state.saleStatuses[it] ?? "unlisted"}
-                          onChange={(e) => updateSaleStatus(it, e.target.value as SaleStatus)}
+                          value={entry.saleStatus}
+                          onChange={(e) => updateSaleStatus(entry.id, e.target.value as SaleStatus)}
                           className={`w-24 px-1.5 py-1 text-xs bg-surface2 border border-edge focus:border-maple outline-none ${
-                            state.saleStatuses[it] === "sold" ? "text-maple font-bold" : "text-dim"
+                            entry.saleStatus === "sold" ? "text-maple font-bold" : "text-dim"
                           }`}
-                          aria-label={`${it} 판매 상태`}
+                          aria-label={`${tryIndex + 1}트 ${entry.item} 판매 상태`}
                         >
                           <option value="unlisted">미등록</option>
                           <option value="listed">판매중</option>
@@ -1151,31 +1226,24 @@ export default function SettlementTool() {
                       <td className="text-right">
                         <input
                           type="number"
-                          value={prices[it]}
-                          onChange={(e) => updatePrice(it, e.target.value)}
+                          value={entry.price}
+                          onChange={(e) => updatePrice(entry.id, e.target.value)}
                           placeholder="0"
                           className="w-28 px-2 py-1 text-right text-xs bg-surface2 border border-edge focus:border-maple outline-none"
-                          aria-label={`${it} 판매금액`}
+                          aria-label={`${tryIndex + 1}트 ${entry.item} 판매금액`}
                         />
                       </td>
                       <td className="text-right text-dim tabular-nums">{n === null ? "" : fmt(n)}</td>
                       <td className="px-2 text-right text-[11px] text-dim tabular-nums">
-                        {state.priceUpdatedAt[it] ? formatUpdatedAt(state.priceUpdatedAt[it]) : ""}
+                        {entry.priceUpdatedAt ? formatUpdatedAt(entry.priceUpdatedAt) : ""}
                       </td>
                       <td className="text-center">
                         <button
                           type="button"
-                          onClick={() => {
-                            const next = { ...prices };
-                            const nextStatuses = { ...state.saleStatuses };
-                            const nextUpdatedAt = { ...state.priceUpdatedAt };
-                            delete next[it];
-                            delete nextStatuses[it];
-                            delete nextUpdatedAt[it];
-                            setState({ ...state, prices: next, saleStatuses: nextStatuses, priceUpdatedAt: nextUpdatedAt });
-                          }}
+                          onClick={() => removeDropEntry(entry.id)}
                           className="text-dim/50 hover:text-mush transition-colors"
-                          aria-label={`${it} 삭제`}
+                          title="이 드랍 아이템 제거"
+                          aria-label={`${tryIndex + 1}트 ${entry.item} 제거`}
                         >
                           ✕
                         </button>
@@ -1188,8 +1256,9 @@ export default function SettlementTool() {
           </div>
         )}
         <p className="text-xs text-dim leading-relaxed">
-          판매중 가격은 언제든 수정할 수 있고 변경 시각이 함께 기록됩니다. 「판매완료만 정산 반영」을 켜면 아직
-          팔리지 않은 아이템은 인원별 송금액에서 제외됩니다.
+          중복 아이템도 드랍된 개수만큼 각각 표시되므로 서로 다른 판매가와 상태를 입력할 수 있습니다. 판매중 가격은
+          언제든 수정할 수 있고 변경 시각이 함께 기록됩니다. 「판매완료만 정산 반영」을 켜면 아직 팔리지 않은
+          아이템은 인원별 송금액에서 제외됩니다.
         </p>
       </section>
 
