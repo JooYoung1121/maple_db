@@ -39,7 +39,7 @@ export const GW_BOX_DROPS: GwDrop[] = [
   { key: "전지", name: "전신 갑옷 지력 주문서 60%", rate: 0.4, cat: "주문서", itemId: 2040513 },
   { key: "전행", name: "전신 갑옷 행운 주문서 60%", rate: 0.4, cat: "주문서", itemId: 2040516 },
   { key: "하방", name: "하의 방어력 주문서 60%", rate: 0.4, cat: "주문서", itemId: 2040601 },
-  { key: "신민", name: "신발 민첩 주문서 60%", rate: 0.4, cat: "주문서", itemId: 2040709 },
+  { key: "신민", name: "신발 민첩 주문서 60%", rate: 0.4, cat: "주문서", itemId: 2040701 },
   { key: "신점", name: "신발 점프력 주문서 60%", rate: 0.4, cat: "주문서", itemId: 2040704 },
   { key: "신이", name: "신발 이동속도 주문서 60%", rate: 0.4, cat: "주문서", itemId: 2040707 },
   { key: "장민", name: "장갑 민첩 주문서 60%", rate: 0.4, cat: "주문서", itemId: 2040801 },
@@ -73,19 +73,23 @@ export const GW_BOX_DROPS: GwDrop[] = [
 export const SETTLE_ITEM_GROUPS: { label: string; items: { key: string; name: string; itemId: number }[] }[] = [
   {
     label: "주문서 60%",
-    items: GW_BOX_DROPS.filter((d) => d.cat === "주문서").map(({ key, name, itemId }) => ({
-      key,
-      name,
-      itemId: itemId!,
-    })),
+    items: GW_BOX_DROPS.filter((d) => d.cat === "주문서")
+      .sort((a, b) => a.name.localeCompare(b.name, "ko"))
+      .map(({ key, name, itemId }) => ({
+        key,
+        name,
+        itemId: itemId!,
+      })),
   },
   {
     label: "마스터리북",
-    items: GW_BOX_DROPS.filter((d) => d.cat === "마북").map(({ key, name, job, itemId }) => ({
-      key,
-      name: `${name} (${job})`,
-      itemId: itemId!,
-    })),
+    items: GW_BOX_DROPS.filter((d) => d.cat === "마북")
+      .sort((a, b) => a.name.localeCompare(b.name, "ko"))
+      .map(({ key, name, job, itemId }) => ({
+        key,
+        name: `${name} (${job})`,
+        itemId: itemId!,
+      })),
   },
   {
     label: "기타",
