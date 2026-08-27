@@ -3,6 +3,7 @@
 // 길드대항전 분배금 정산기 — 트라이별 참여 체크 + 드랍 아이템 + 시세만 입력하면
 // 거래 수수료(5%)와 송금 수수료(5%)를 반영해 인원별 송금액을 자동 계산한다.
 import { useEffect, useMemo, useState } from "react";
+import { itemIcon } from "@/components/ItemChip";
 import { GW_ITEM_NAME, SETTLE_ITEM_GROUPS } from "./dropData";
 
 const STORAGE_KEY = "guild-war-settlement";
@@ -52,6 +53,8 @@ export default function SettlementTool() {
   const [loaded, setLoaded] = useState(false);
   const [newName, setNewName] = useState("");
   const [copied, setCopied] = useState(false);
+  const [selectedTry, setSelectedTry] = useState(0);
+  const [dragOverTry, setDragOverTry] = useState<number | null>(null);
 
   useEffect(() => {
     try {
@@ -99,6 +102,10 @@ export default function SettlementTool() {
   // 드랍 표에 보여줄 슬롯 수: 실제 입력된 최대 개수 + 1 (최소 3)
   const slotCount = Math.max(3, ...tryIdx.map((t) => drops[t].length)) + 1;
 
+  useEffect(() => {
+    if (selectedTry >= tries) setSelectedTry(tries - 1);
+  }, [selectedTry, tries]);
+
   function addPerson() {
     const name = newName.trim();
     if (!name) return;
@@ -116,6 +123,17 @@ export default function SettlementTool() {
     const nextPrices = { ...prices };
     if (val && !(val in nextPrices)) nextPrices[val] = "";
     setState({ ...state, drops: next, prices: nextPrices });
+  }
+
+  function addDrop(t: number, item: string) {
+    const emptySlot = drops[t].findIndex((value) => !value);
+    setDrop(t, emptySlot === -1 ? drops[t].length : emptySlot, item);
+    setSelectedTry(t);
+  }
+
+  function dropItem(t: number, value: string) {
+    if (knownKeys.has(value)) addDrop(t, value);
+    setDragOverTry(null);
   }
 
   function copySummary() {
@@ -294,13 +312,51 @@ export default function SettlementTool() {
               <tr className="text-dim border-b-2 border-edge">
                 <th className="w-8" />
                 {tryIdx.map((t) => (
-                  <th key={t} className="px-1 font-normal text-xs min-w-[5.5rem]">
-                    {t + 1}트
+                  <th
+                    key={t}
+                    className={`px-1 py-1 font-normal text-xs min-w-[5.5rem] transition-colors ${
+                      selectedTry === t ? "bg-maple/10 text-maple" : ""
+                    }`}
+                  >
+                    <button type="button" onClick={() => setSelectedTry(t)} className="w-full py-1 font-pixel">
+                      {t + 1}트
+                    </button>
                   </th>
                 ))}
               </tr>
             </thead>
             <tbody>
+              <tr className="border-b-2 border-edge">
+                <td className="text-[10px] text-dim pr-2 text-right">추가</td>
+                {tryIdx.map((t) => (
+                  <td key={t} className="px-0.5 py-1">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedTry(t)}
+                      onDragOver={(e) => {
+                        e.preventDefault();
+                        e.dataTransfer.dropEffect = "copy";
+                        setDragOverTry(t);
+                      }}
+                      onDragLeave={() => setDragOverTry((current) => (current === t ? null : current))}
+                      onDrop={(e) => {
+                        e.preventDefault();
+                        dropItem(t, e.dataTransfer.getData("text/plain"));
+                      }}
+                      className={`w-[5.5rem] min-h-9 border-2 text-[10px] transition-colors ${
+                        dragOverTry === t
+                          ? "border-maple bg-maple/20 text-maple"
+                          : selectedTry === t
+                            ? "border-maple bg-maple/10 text-maple"
+                            : "border-dashed border-edge text-dim hover:text-maple"
+                      }`}
+                      aria-label={`${t + 1}트 빠른 추가 대상으로 선택`}
+                    >
+                      {dragOverTry === t ? "여기에 놓기" : selectedTry === t ? "✓ 선택됨" : "클릭/드롭"}
+                    </button>
+                  </td>
+                ))}
+              </tr>
               {Array.from({ length: slotCount }, (_, s) => (
                 <tr key={s} className="border-b border-edge/40">
                   <td className="text-xs text-dim/60 pr-2 text-right">{s + 1}</td>
@@ -370,6 +426,54 @@ export default function SettlementTool() {
           약어에 마우스를 올리면 풀네임이 보입니다. 목록은 드랍테이블 탭과 동일 — 없는 아이템은 「직접 입력…」으로
           추가.
         </p>
+
+        <div className="border-t-2 border-edge pt-4 space-y-4">
+          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+            <h3 className="font-pixel text-xs text-ink">아이템 빠른 추가</h3>
+            <p className="text-xs text-dim">
+              클릭하면 <b className="text-maple">{selectedTry + 1}트</b>에 추가 · PC에서는 위 트라이 칸으로 드래그
+            </p>
+          </div>
+          {SETTLE_ITEM_GROUPS.map((group) => (
+            <div key={group.label} className="space-y-2">
+              <h4 className="text-xs font-bold text-dim">{group.label}</h4>
+              <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-7 gap-1.5">
+                {group.items.map((item) => {
+                  const count = drops[selectedTry].filter((value) => value === item.key).length;
+                  return (
+                    <button
+                      key={item.key}
+                      type="button"
+                      draggable
+                      onDragStart={(e) => {
+                        e.dataTransfer.effectAllowed = "copy";
+                        e.dataTransfer.setData("text/plain", item.key);
+                      }}
+                      onDragEnd={() => setDragOverTry(null)}
+                      onClick={() => addDrop(selectedTry, item.key)}
+                      title={`${item.name} — 클릭 시 ${selectedTry + 1}트에 추가`}
+                      className="relative min-h-[5.25rem] p-1.5 border-2 border-edge bg-surface2 hover:border-maple hover:bg-maple/10 transition-colors flex flex-col items-center justify-center gap-1 cursor-grab active:cursor-grabbing"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={itemIcon(item.itemId)}
+                        alt=""
+                        className="w-9 h-9 object-contain [image-rendering:pixelated] pointer-events-none"
+                        loading="lazy"
+                      />
+                      <span className="text-[10px] font-bold leading-tight text-ink break-keep">{item.key}</span>
+                      {count > 0 && (
+                        <span className="absolute top-1 right-1 min-w-5 h-5 px-1 rounded-full bg-maple text-white text-[10px] font-bold leading-5">
+                          ×{count}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* ③ 시세표 */}
