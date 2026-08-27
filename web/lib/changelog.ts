@@ -15,6 +15,35 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.92.0",
+    date: "2026-08-28",
+    type: "minor",
+    title: "실시간 길대 정산방 · DB 놀이터 3종 · 원카드와 윷놀이",
+    pages: ["/guild-war", "/highlow", "/map-guess", "/drop-chain", "/versus"],
+    features: [
+      {
+        category: "길드대항전 정산",
+        items: [
+          "날짜·시간·회차별 서버 정산방 — 8자리 방 코드, 자동 저장, 2초 동기화",
+          "열람 링크와 관리 링크 권한 분리 — 외부인은 실시간 장부를 볼 수 있지만 서버에서 수정 차단",
+        ],
+      },
+      {
+        category: "놀이터",
+        items: [
+          "메랜 하이로우 — 몬스터 레벨·HP·EXP 비교와 연승 최고 기록",
+          "미니맵 어디게? — 실제 미니맵과 지역·출현 몬스터 힌트로 장소 추리",
+          "드랍 연결 퍼즐 — 몬스터에서 드랍 아이템과 사냥터로 이어지는 2단계 문제",
+          "대전 게임에 메랜 원카드와 윷놀이 추가, 기존 같은그림찾기·오목·끝말잇기와 방/관전/재대결 공유",
+        ],
+      },
+      {
+        category: "검색",
+        items: ["상단 헤더에 통합 검색 진입점 추가 — 기존 우측 하단 버튼과 Ctrl/⌘+K도 유지"],
+      },
+    ],
+  },
+  {
     version: "3.91.0",
     date: "2026-08-27",
     type: "minor",

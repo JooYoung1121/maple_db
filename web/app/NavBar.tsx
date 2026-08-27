@@ -373,8 +373,17 @@ export default function NavBar() {
       <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-14">
         <Link href="/" className="font-pixel flex items-center gap-2 text-base text-maple shrink-0 hover:text-maple-hi transition-colors">
           <img src="/leaf.svg" alt="" className="w-5 h-5" />
-          추억길드 메랜정보
+          <span className="sm:hidden">메랜DB</span><span className="hidden sm:inline">추억길드 메랜정보</span>
         </Link>
+
+        <button
+          type="button"
+          onClick={() => window.dispatchEvent(new Event("open-global-search"))}
+          className="hidden md:flex mx-5 max-w-md flex-1 items-center gap-2 border-2 border-edge bg-bg/70 px-3 py-2 text-left text-xs text-dim hover:border-maple hover:text-maple transition-colors"
+          aria-label="통합 검색 열기"
+        >
+          <span>🔎</span><span className="flex-1 truncate">아이템·몬스터·맵·NPC 검색…</span><span className="font-pixel text-[10px] opacity-70">⌘K</span>
+        </button>
 
         {/* Desktop — 카테고리는 좌측 레일로 이동, 상단은 계정·테마만 */}
         <div className="hidden xl:flex items-center gap-1">
@@ -384,6 +393,7 @@ export default function NavBar() {
 
         {/* Mobile hamburger */}
         <div className="flex items-center gap-1 xl:hidden">
+          <button type="button" onClick={() => window.dispatchEvent(new Event("open-global-search"))} className="md:hidden p-2 text-dim hover:text-maple" aria-label="통합 검색 열기">🔎</button>
           <AuthChip compact />
           <ThemeToggle />
           <button

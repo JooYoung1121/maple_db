@@ -9,6 +9,8 @@ import { GW_ITEM_NAME, SETTLE_ITEM_GROUPS } from "./dropData";
 const STORAGE_KEY = "guild-war-settlement";
 const LEDGERS_STORAGE_KEY = "guild-war-settlement-ledgers-v1";
 const LEDGER_DRAFT_META_KEY = "guild-war-settlement-ledger-draft-meta-v1";
+const ROOM_TOKEN_PREFIX = "guild-war-settlement-room-edit-v1:";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 const SALE_FEE = 0.05; // 경매장 판매 수수료
 const TRANSFER_FEE = 0.05; // 메소 송금 수수료
 const MAX_TRIES = 30;
@@ -42,6 +44,21 @@ type SettlementLedger = {
   createdAt: string;
   updatedAt: string;
   state: SettleState;
+};
+
+type SettlementRoomResponse = {
+  code: string;
+  version: number;
+  changed: boolean;
+  title?: string;
+  event_date?: string;
+  event_time?: string;
+  session_name?: string;
+  manager?: string;
+  status?: LedgerStatus;
+  state?: SettleState;
+  edit_token?: string;
+  updated_at?: number;
 };
 
 const DEFAULT_STATE: SettleState = {
@@ -159,6 +176,8 @@ export default function SettlementTool() {
   const [activeLedgerId, setActiveLedgerId] = useState<string | null>(null);
   const [ledgerTitle, setLedgerTitle] = useState("");
   const [eventDate, setEventDate] = useState(todayLocal);
+  const [eventTime, setEventTime] = useState("");
+  const [sessionName, setSessionName] = useState("");
   const [manager, setManager] = useState("");
   const [ledgerStatus, setLedgerStatus] = useState<LedgerStatus>("selling");
   const [saveNotice, setSaveNotice] = useState("");
@@ -169,8 +188,18 @@ export default function SettlementTool() {
   const [dragOverTry, setDragOverTry] = useState<number | null>(null);
   const [draggedPersonId, setDraggedPersonId] = useState<string | null>(null);
   const [personDragOverId, setPersonDragOverId] = useState<string | null>(null);
+  const [roomCode, setRoomCode] = useState<string | null>(null);
+  const [roomEditToken, setRoomEditToken] = useState("");
+  const [roomVersion, setRoomVersion] = useState(0);
+  const [roomJoinCode, setRoomJoinCode] = useState("");
+  const [roomBusy, setRoomBusy] = useState(false);
+  const [roomNotice, setRoomNotice] = useState("");
+  const [roomCopied, setRoomCopied] = useState<"view" | "edit" | "">("");
   const importInputRef = useRef<HTMLInputElement>(null);
   const attendancePaintRef = useRef<AttendancePaint | null>(null);
+  const roomVersionRef = useRef(0);
+  const applyingRoomRef = useRef(false);
+  const roomLoadedRef = useRef(false);
   const paintAttendance = useCallback((personId: string, tryIndex: number, value: 0 | 1) => {
     setState((current) => {
       const personIndex = current.people.findIndex((person) => person.id === personId);
@@ -221,6 +250,7 @@ export default function SettlementTool() {
 
   useEffect(() => {
     if (!loaded) return;
+    if (roomCode) return;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       localStorage.setItem(
@@ -230,7 +260,7 @@ export default function SettlementTool() {
     } catch {
       /* ignore */
     }
-  }, [state, activeLedgerId, ledgerTitle, eventDate, manager, ledgerStatus, loaded]);
+  }, [state, activeLedgerId, ledgerTitle, eventDate, manager, ledgerStatus, loaded, roomCode]);
 
   useEffect(() => {
     if (!loaded) return;
@@ -269,6 +299,193 @@ export default function SettlementTool() {
       window.removeEventListener("pointercancel", stopPainting);
     };
   }, [paintAttendance]);
+
+  function applyRoom(room: SettlementRoomResponse) {
+    roomVersionRef.current = room.version;
+    setRoomVersion(room.version);
+    if (!room.changed) return;
+    applyingRoomRef.current = true;
+    if (room.state) setState(normalizeState(room.state));
+    if (typeof room.title === "string") setLedgerTitle(room.title);
+    if (typeof room.event_date === "string") setEventDate(room.event_date);
+    if (typeof room.event_time === "string") setEventTime(room.event_time);
+    if (typeof room.session_name === "string") setSessionName(room.session_name);
+    if (typeof room.manager === "string") setManager(room.manager);
+    if (room.status === "selling" || room.status === "settled") setLedgerStatus(room.status);
+    roomLoadedRef.current = true;
+  }
+
+  async function fetchRoom(code: string, since = 0) {
+    const response = await fetch(`${API_BASE}/api/guild-settlements/${encodeURIComponent(code)}?since=${since}`);
+    if (!response.ok) {
+      const body = await response.json().catch(() => ({}));
+      throw new Error(body.detail || "정산방을 불러오지 못했습니다");
+    }
+    const room = (await response.json()) as SettlementRoomResponse;
+    setRoomCode(room.code);
+    setRoomJoinCode(room.code);
+    applyRoom(room);
+    return room;
+  }
+
+  async function openRoom(code: string) {
+    const normalized = code.trim().toUpperCase();
+    if (normalized.length !== 8) {
+      setRoomNotice("8자리 정산방 코드를 입력해주세요.");
+      return;
+    }
+    setRoomBusy(true);
+    setRoomNotice("");
+    try {
+      const savedToken = localStorage.getItem(`${ROOM_TOKEN_PREFIX}${normalized}`) || "";
+      setRoomEditToken(savedToken);
+      await fetchRoom(normalized);
+      const url = new URL(window.location.href);
+      url.searchParams.set("room", normalized);
+      url.searchParams.delete("key");
+      window.history.replaceState(null, "", url);
+      setRoomNotice(savedToken ? "관리 권한으로 정산방을 열었습니다." : "읽기 전용 정산방을 열었습니다.");
+    } catch (error) {
+      setRoomNotice(error instanceof Error ? error.message : "정산방을 불러오지 못했습니다.");
+    } finally {
+      setRoomBusy(false);
+    }
+  }
+
+  async function createRoom() {
+    setRoomBusy(true);
+    setRoomNotice("");
+    try {
+      const response = await fetch(`${API_BASE}/api/guild-settlements`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: ledgerTitle.trim() || `${formatDateWithDay(eventDate)} 길드대항전`,
+          event_date: eventDate,
+          event_time: eventTime,
+          session_name: sessionName,
+          manager,
+          status: ledgerStatus,
+          state,
+        }),
+      });
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        throw new Error(body.detail || "정산방을 만들지 못했습니다");
+      }
+      const room = (await response.json()) as SettlementRoomResponse;
+      const token = room.edit_token || "";
+      localStorage.setItem(`${ROOM_TOKEN_PREFIX}${room.code}`, token);
+      setRoomEditToken(token);
+      setRoomCode(room.code);
+      setRoomJoinCode(room.code);
+      applyRoom(room);
+      const url = new URL(window.location.href);
+      url.searchParams.set("room", room.code);
+      window.history.replaceState(null, "", url);
+      setRoomNotice("정산방을 만들었습니다. 관리 중 변경 내용은 자동 저장됩니다.");
+    } catch (error) {
+      setRoomNotice(error instanceof Error ? error.message : "정산방을 만들지 못했습니다.");
+    } finally {
+      setRoomBusy(false);
+    }
+  }
+
+  function copyRoomLink(kind: "view" | "edit") {
+    if (!roomCode) return;
+    const url = new URL(window.location.href);
+    url.searchParams.set("room", roomCode);
+    if (kind === "edit" && roomEditToken) url.searchParams.set("key", roomEditToken);
+    else url.searchParams.delete("key");
+    navigator.clipboard.writeText(url.toString()).then(() => {
+      setRoomCopied(kind);
+      setTimeout(() => setRoomCopied(""), 1500);
+    });
+  }
+
+  function leaveRoom() {
+    setRoomCode(null);
+    setRoomEditToken("");
+    setRoomVersion(0);
+    roomVersionRef.current = 0;
+    roomLoadedRef.current = false;
+    const url = new URL(window.location.href);
+    url.searchParams.delete("room");
+    url.searchParams.delete("key");
+    window.history.replaceState(null, "", url);
+    setRoomNotice("정산방에서 나왔습니다.");
+  }
+
+  useEffect(() => {
+    if (!loaded) return;
+    const params = new URLSearchParams(window.location.search);
+    const code = (params.get("room") || "").toUpperCase();
+    const linkToken = params.get("key") || "";
+    if (code.length !== 8) return;
+    if (linkToken) {
+      localStorage.setItem(`${ROOM_TOKEN_PREFIX}${code}`, linkToken);
+      const url = new URL(window.location.href);
+      url.searchParams.delete("key");
+      window.history.replaceState(null, "", url);
+    }
+    setRoomEditToken(linkToken || localStorage.getItem(`${ROOM_TOKEN_PREFIX}${code}`) || "");
+    void openRoom(code);
+    // 최초 URL 방 진입만 처리한다.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loaded]);
+
+  useEffect(() => {
+    if (!roomCode) return;
+    const timer = window.setInterval(() => {
+      void fetchRoom(roomCode, roomVersionRef.current).catch(() => {});
+    }, 2000);
+    return () => window.clearInterval(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [roomCode]);
+
+  useEffect(() => {
+    if (!roomCode || !roomEditToken || !roomLoadedRef.current) return;
+    if (applyingRoomRef.current) {
+      applyingRoomRef.current = false;
+      return;
+    }
+    const timer = window.setTimeout(async () => {
+      try {
+        const response = await fetch(`${API_BASE}/api/guild-settlements/${encodeURIComponent(roomCode)}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            edit_token: roomEditToken,
+            expected_version: roomVersionRef.current,
+            title: ledgerTitle.trim() || `${formatDateWithDay(eventDate)} 길드대항전`,
+            event_date: eventDate,
+            event_time: eventTime,
+            session_name: sessionName,
+            manager,
+            status: ledgerStatus,
+            state,
+          }),
+        });
+        if (response.status === 409) {
+          await fetchRoom(roomCode);
+          setRoomNotice("다른 화면의 최신 변경 내용을 불러왔습니다.");
+          return;
+        }
+        if (!response.ok) {
+          const body = await response.json().catch(() => ({}));
+          throw new Error(body.detail || "자동 저장에 실패했습니다");
+        }
+        const room = (await response.json()) as SettlementRoomResponse;
+        roomVersionRef.current = room.version;
+        setRoomVersion(room.version);
+        setRoomNotice(`자동 저장됨 · 버전 ${room.version}`);
+      } catch (error) {
+        setRoomNotice(error instanceof Error ? error.message : "자동 저장에 실패했습니다.");
+      }
+    }, 700);
+    return () => window.clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state, ledgerTitle, eventDate, eventTime, sessionName, manager, ledgerStatus, roomCode, roomEditToken]);
 
   const { tries, people, drops } = state;
   const tryIdx = useMemo(() => Array.from({ length: tries }, (_, i) => i), [tries]);
@@ -592,10 +809,91 @@ export default function SettlementTool() {
   if (!loaded) return <div className="pixel-panel p-5 text-sm text-dim">불러오는 중…</div>;
 
   const anyShare = people.some((p) => shareOf(p) > 0);
+  const roomReadOnly = Boolean(roomCode && !roomEditToken);
 
   return (
     <div className="space-y-4">
+      <section className="pixel-panel p-5 space-y-4 border-maple/60">
+        <div className="flex flex-wrap items-start gap-3">
+          <div>
+            <h2 className="font-pixel text-sm text-maple">🏠 길드대항전 정산방</h2>
+            <p className="mt-1 text-xs text-dim leading-relaxed">
+              날짜·시작 시간·회차를 정한 공간에서 공대장이 관리하고, 공유받은 사람은 같은 장부를 실시간으로 봅니다.
+            </p>
+          </div>
+          {roomCode && (
+            <span className={`ml-auto px-2 py-1 text-xs font-pixel border ${roomReadOnly ? "border-skill text-skill" : "border-maple text-maple"}`}>
+              {roomReadOnly ? "👁 읽기 전용" : "✍ 관리 중"} · v{roomVersion}
+            </span>
+          )}
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <label className="text-xs text-dim space-y-1">
+            <span className="block">길대 날짜</span>
+            <input type="date" value={eventDate} onChange={(e) => setEventDate(e.target.value)} disabled={roomReadOnly}
+              className="pixel-input w-full px-3 py-2 text-sm disabled:opacity-70" />
+          </label>
+          <label className="text-xs text-dim space-y-1">
+            <span className="block">모이는 시간</span>
+            <input type="time" value={eventTime} onChange={(e) => setEventTime(e.target.value)} disabled={roomReadOnly}
+              className="pixel-input w-full px-3 py-2 text-sm disabled:opacity-70" />
+          </label>
+          <label className="text-xs text-dim space-y-1 sm:col-span-2">
+            <span className="block">회차·트라이 묶음</span>
+            <input value={sessionName} onChange={(e) => setSessionName(e.target.value)} disabled={roomReadOnly}
+              placeholder="예: 8월 28일 1차 / 저녁 길대 / 1~10트"
+              className="pixel-input w-full px-3 py-2 text-sm disabled:opacity-70" />
+          </label>
+        </div>
+        {roomCode && (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-[minmax(0,1.5fr)_minmax(12rem,0.7fr)_minmax(10rem,0.5fr)] gap-3">
+            <label className="text-xs text-dim space-y-1"><span className="block">정산방 이름</span><input value={ledgerTitle} onChange={(e) => setLedgerTitle(e.target.value)} disabled={roomReadOnly} className="pixel-input w-full px-3 py-2 text-sm disabled:opacity-70" /></label>
+            <label className="text-xs text-dim space-y-1"><span className="block">판매 담당자</span><input value={manager} onChange={(e) => setManager(e.target.value)} disabled={roomReadOnly} className="pixel-input w-full px-3 py-2 text-sm disabled:opacity-70" /></label>
+            <label className="text-xs text-dim space-y-1"><span className="block">진행 상태</span><select value={ledgerStatus} onChange={(e) => setLedgerStatus(e.target.value as LedgerStatus)} disabled={roomReadOnly} className="w-full px-3 py-2 text-sm bg-surface2 border-2 border-edge disabled:opacity-70"><option value="selling">판매·정산 중</option><option value="settled">정산 완료</option></select></label>
+          </div>
+        )}
+
+        {roomCode ? (
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-mono font-bold tracking-[0.18em] px-3 py-2 border-2 border-edge bg-surface2">{roomCode}</span>
+            <button type="button" onClick={() => copyRoomLink("view")} className="pixel-btn px-3 py-2 text-xs">
+              {roomCopied === "view" ? "✓ 복사됨" : "👁 열람 링크 복사"}
+            </button>
+            {!roomReadOnly && (
+              <button type="button" onClick={() => copyRoomLink("edit")} className="px-3 py-2 text-xs font-pixel border-2 border-edge text-dim hover:text-maple">
+                {roomCopied === "edit" ? "✓ 복사됨" : "🔑 관리 링크 복사"}
+              </button>
+            )}
+            <button type="button" onClick={leaveRoom} className="px-3 py-2 text-xs font-pixel border-2 border-edge text-dim hover:text-mush">나가기</button>
+            <span className="text-[11px] text-dim ml-auto">
+              {eventDate}{eventTime ? ` ${eventTime}` : ""}{sessionName ? ` · ${sessionName}` : ""}
+            </span>
+          </div>
+        ) : (
+          <div className="flex flex-wrap items-center gap-2">
+            <button type="button" onClick={() => void createRoom()} disabled={roomBusy} className="pixel-btn px-4 py-2 text-xs disabled:opacity-50">
+              🏠 현재 내용으로 정산방 만들기
+            </button>
+            <span className="text-xs text-dim mx-1">또는</span>
+            <input value={roomJoinCode} onChange={(e) => setRoomJoinCode(e.target.value.toUpperCase().slice(0, 8))}
+              onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && void openRoom(roomJoinCode)}
+              placeholder="8자리 방 코드" className="pixel-input px-3 py-2 text-sm font-mono w-40 uppercase" />
+            <button type="button" onClick={() => void openRoom(roomJoinCode)} disabled={roomBusy}
+              className="px-3 py-2 text-xs font-pixel border-2 border-edge text-dim hover:text-maple disabled:opacity-50">방 열기</button>
+          </div>
+        )}
+        {roomNotice && <p className="text-xs text-maple">{roomNotice}</p>}
+        {roomReadOnly && (
+          <p className="text-xs text-skill bg-skill/10 border border-skill/40 px-3 py-2">
+            이 링크에서는 입력 내용을 바꿀 수 없습니다. 공대장이 저장하면 약 2초 안에 화면이 갱신됩니다.
+          </p>
+        )}
+      </section>
+
+      <fieldset disabled={roomReadOnly} className="space-y-4 disabled:[&_input]:cursor-not-allowed disabled:[&_button]:cursor-not-allowed">
       {/* 정산 장부 */}
+      {!roomCode && (
       <section className="pixel-panel p-5 space-y-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
@@ -751,6 +1049,7 @@ export default function SettlementTool() {
           </div>
         </div>
       </section>
+      )}
 
       {/* 설정 줄 */}
       <section className="pixel-panel p-4 flex flex-wrap items-center gap-x-5 gap-y-3 text-sm">
@@ -1346,6 +1645,7 @@ export default function SettlementTool() {
           <p className="text-xs text-dim">각 금액 칸의 최소 폭을 유지하며, 트라이가 많으면 표를 좌우로 스크롤할 수 있습니다.</p>
         )}
       </section>
+      </fieldset>
     </div>
   );
 }
