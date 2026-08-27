@@ -3,6 +3,7 @@
 // 길드대항전 분배금 정산기 — 트라이별 참여 체크 + 드랍 아이템 + 시세만 입력하면
 // 거래 수수료(5%)와 송금 수수료(5%)를 반영해 인원별 송금액을 자동 계산한다.
 import { useEffect, useMemo, useState } from "react";
+import { GW_ITEM_NAME, SETTLE_ITEM_GROUPS } from "./dropData";
 
 const STORAGE_KEY = "guild-war-settlement";
 const SALE_FEE = 0.05; // 경매장 판매 수수료
@@ -74,6 +75,10 @@ export default function SettlementTool() {
   const { tries, people, drops, prices } = state;
   const tryIdx = useMemo(() => Array.from({ length: tries }, (_, i) => i), [tries]);
   const itemNames = Object.keys(prices);
+
+  // 드랍테이블에 없는 커스텀 아이템(직접 입력분)도 드롭다운에 계속 노출
+  const knownKeys = useMemo(() => new Set(SETTLE_ITEM_GROUPS.flatMap((g) => g.items.map((i) => i.key))), []);
+  const customKeys = itemNames.filter((k) => !knownKeys.has(k));
 
   // 아이템 실수령가 (판매금액 - 판매 수수료 5%)
   const netPrice = (item: string): number | null => {
@@ -281,7 +286,7 @@ export default function SettlementTool() {
       <section className="pixel-panel p-5 space-y-3">
         <h2 className="font-pixel text-sm text-ink">
           ② 드랍 아이템{" "}
-          <span className="text-xs text-dim font-normal">— 트라이별로 이름 입력 (시세표에 자동 등록)</span>
+          <span className="text-xs text-dim font-normal">— 트라이별로 드랍템 선택 (시세표에 자동 등록)</span>
         </h2>
         <div className="overflow-x-auto">
           <table className="text-sm whitespace-nowrap">
@@ -289,7 +294,7 @@ export default function SettlementTool() {
               <tr className="text-dim border-b-2 border-edge">
                 <th className="w-8" />
                 {tryIdx.map((t) => (
-                  <th key={t} className="px-1 font-normal text-xs min-w-[4.5rem]">
+                  <th key={t} className="px-1 font-normal text-xs min-w-[5.5rem]">
                     {t + 1}트
                   </th>
                 ))}
@@ -299,17 +304,52 @@ export default function SettlementTool() {
               {Array.from({ length: slotCount }, (_, s) => (
                 <tr key={s} className="border-b border-edge/40">
                   <td className="text-xs text-dim/60 pr-2 text-right">{s + 1}</td>
-                  {tryIdx.map((t) => (
-                    <td key={t} className="px-0.5 py-0.5">
-                      <input
-                        list="gw-settle-items"
-                        value={drops[t][s] || ""}
-                        onChange={(e) => setDrop(t, s, e.target.value)}
-                        className="w-[4.5rem] px-1 py-1 text-xs text-center bg-surface2 border border-edge focus:border-maple outline-none"
-                        aria-label={`${t + 1}트 드랍 ${s + 1}`}
-                      />
-                    </td>
-                  ))}
+                  {tryIdx.map((t) => {
+                    const v = drops[t][s] || "";
+                    return (
+                      <td key={t} className="px-0.5 py-0.5">
+                        <select
+                          value={v}
+                          onChange={(e) => {
+                            if (e.target.value === "__custom") {
+                              const name = prompt("아이템 이름 (직접 입력):");
+                              if (name?.trim()) setDrop(t, s, name.trim());
+                              else e.target.value = v;
+                              return;
+                            }
+                            setDrop(t, s, e.target.value);
+                          }}
+                          title={v ? GW_ITEM_NAME[v] ?? v : undefined}
+                          className={`w-[5.5rem] px-1 py-1 text-xs bg-surface2 border border-edge focus:border-maple outline-none ${
+                            v ? "text-ink" : "text-dim/60"
+                          }`}
+                          aria-label={`${t + 1}트 드랍 ${s + 1}`}
+                        >
+                          <option value="">−</option>
+                          {SETTLE_ITEM_GROUPS.map((g) => (
+                            <optgroup key={g.label} label={g.label}>
+                              {g.items.map((it) => (
+                                <option key={it.key} value={it.key} title={it.name}>
+                                  {it.key}
+                                </option>
+                              ))}
+                            </optgroup>
+                          ))}
+                          {customKeys.length > 0 && (
+                            <optgroup label="직접 입력한 아이템">
+                              {customKeys.map((k) => (
+                                <option key={k} value={k}>
+                                  {k}
+                                </option>
+                              ))}
+                            </optgroup>
+                          )}
+                          {v && !knownKeys.has(v) && !customKeys.includes(v) && <option value={v}>{v}</option>}
+                          <option value="__custom">✏️ 직접 입력…</option>
+                        </select>
+                      </td>
+                    );
+                  })}
                 </tr>
               ))}
               <tr className="font-bold text-xs">
@@ -325,12 +365,11 @@ export default function SettlementTool() {
               </tr>
             </tbody>
           </table>
-          <datalist id="gw-settle-items">
-            {itemNames.map((x) => (
-              <option key={x} value={x} />
-            ))}
-          </datalist>
         </div>
+        <p className="text-xs text-dim">
+          약어에 마우스를 올리면 풀네임이 보입니다. 목록은 드랍테이블 탭과 동일 — 없는 아이템은 「직접 입력…」으로
+          추가.
+        </p>
       </section>
 
       {/* ③ 시세표 */}
@@ -341,7 +380,7 @@ export default function SettlementTool() {
         {itemNames.length === 0 ? (
           <p className="text-sm text-dim">드랍 아이템을 입력하면 여기에 자동으로 나타납니다.</p>
         ) : (
-          <div className="overflow-x-auto max-w-md">
+          <div className="overflow-x-auto max-w-xl">
             <table className="w-full text-sm">
               <thead>
                 <tr className="text-left text-dim border-b-2 border-edge">
@@ -356,7 +395,12 @@ export default function SettlementTool() {
                   const n = netPrice(it);
                   return (
                     <tr key={it} className="border-b border-edge/40">
-                      <td className="py-1 font-bold">{it}</td>
+                      <td className="py-1">
+                        <b>{it}</b>
+                        {GW_ITEM_NAME[it] && GW_ITEM_NAME[it] !== it && (
+                          <span className="block text-[11px] text-dim leading-tight">{GW_ITEM_NAME[it]}</span>
+                        )}
+                      </td>
                       <td className="text-right">
                         <input
                           type="number"
