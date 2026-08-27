@@ -3,11 +3,13 @@
 import { useState } from "react";
 import OfferingSolver from "./OfferingSolver";
 import SettlementTool from "./SettlementTool";
+import { GW_BOSS_DROP, GW_BOX_COUNT, GW_BOX_DROPS } from "./dropData";
 
-type Tab = "guide" | "boxes" | "offering" | "settle";
+type Tab = "guide" | "drops" | "boxes" | "offering" | "settle";
 
 const TABS: { key: Tab; label: string }[] = [
   { key: "guide", label: "공략 가이드" },
+  { key: "drops", label: "드랍테이블" },
   { key: "boxes", label: "상자 배분" },
   { key: "offering", label: "제물 맞추기" },
   { key: "settle", label: "분배 정산" },
@@ -38,6 +40,7 @@ export default function GuildWarPage() {
       </div>
 
       {activeTab === "guide" && <GuideTab goTab={setActiveTab} />}
+      {activeTab === "drops" && <DropTab goTab={setActiveTab} />}
       {activeTab === "boxes" && <BoxTab />}
       {activeTab === "offering" && <OfferingSolver />}
       {activeTab === "settle" && <SettlementTool />}
@@ -142,16 +145,6 @@ const STAGES: { icon: string; name: string; goal: string; tips: string[]; link?:
   },
 ];
 
-const MASTERY_BOOKS: [string, string, string][] = [
-  ["아크메이지(썬/콜)", "엘퀴네스 30 · 이프리트 30", "0.35% · 0.40%"],
-  ["아크메이지(불/독)", "엘퀴네스 30 · 페럴라이즈 30", "0.06% · 0.07%"],
-  ["히어로", "어드밴스드 콤보 30", "0.06%"],
-  ["나이트로드", "닌자스톰 30 · 쇼다운 30", "0.15% · 0.20%"],
-  ["보우마스터", "피닉스 20", "0.20%"],
-  ["신궁", "프리져 30", "0.002%"],
-  ["섀도어", "암살 30", "0.02%"],
-];
-
 const SOURCES: [string, string][] = [
   ["나무위키 — 길드 대항전", "https://namu.wiki/w/%EA%B8%B8%EB%93%9C%20%EB%8C%80%ED%95%AD%EC%A0%84"],
   ["나무위키 — Mapleland/파티 퀘스트", "https://namu.wiki/w/Mapleland/%ED%8C%8C%ED%8B%B0%20%ED%80%98%EC%8A%A4%ED%8A%B8"],
@@ -160,6 +153,10 @@ const SOURCES: [string, string][] = [
     "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=2246415",
   ],
   ["디시 메이플랜드 갤러리 — 드롭테이블", "https://m.dcinside.com/board/mapleland/2225091"],
+  [
+    "디시 메이플랜드 갤러리 — 보상맵 리액터 목록/확률",
+    "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=1235530",
+  ],
   ["인벤 몬스터 DB — 에레고스", "https://maple.inven.co.kr/dataninfo/monster/detail.php?code=9300028"],
 ];
 
@@ -282,37 +279,19 @@ function GuideTab({ goTab }: { goTab: (t: Tab) => void }) {
 
       {/* 보상 */}
       <section className="pixel-panel p-5 space-y-3">
-        <h2 className="font-pixel text-sm text-ink">🎁 보상 — 보너스 상자 마스터리북</h2>
-        <p className="text-xs text-dim leading-relaxed">
-          보너스 상자에서 잡 물약·60% 주문서(박스당 약 2개)·고가 주문서와 함께 4차 마스터리북이 확률로 나온다.
-          어콤30 등 일부 마북은 길드대항전에서만 수급되어 고가에 거래된다. 확률은 커뮤니티 집계치라 참고만 할 것.
+        <h2 className="font-pixel text-sm text-ink">🎁 보상</h2>
+        <p className="text-sm text-dim leading-relaxed">
+          보너스 상자에서 물약·60% 주문서 23종·4차 마스터리북 13종이 확률로 나온다. 어콤30 등 일부 마북은
+          길드대항전에서만 수급되어 고가에 거래된다. 전체 아이템과 확률·판당 기대치는 드랍테이블 탭에 정리해뒀다.
         </p>
-        <div className="overflow-x-auto">
-          <table className="w-full min-w-[480px] text-sm">
-            <thead>
-              <tr className="text-left text-dim border-b-2 border-edge">
-                <th className="py-1.5">직업</th>
-                <th>마스터리북</th>
-                <th>확률(참고치)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {MASTERY_BOOKS.map(([job, book, rate]) => (
-                <tr key={job} className="border-b border-edge/40">
-                  <td className="py-1.5 font-bold">{job}</td>
-                  <td>{book}</td>
-                  <td className="text-dim">{rate}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <p className="text-xs text-dim">
-          드랍 정산이 필요하면{" "}
+        <div className="flex flex-wrap gap-3 text-xs">
+          <button type="button" onClick={() => goTab("drops")} className="font-pixel text-maple hover:underline">
+            드랍테이블 탭 →
+          </button>
           <button type="button" onClick={() => goTab("settle")} className="font-pixel text-maple hover:underline">
             분배 정산 탭 →
           </button>
-        </p>
+        </div>
       </section>
 
       {/* 준비물 체크리스트 */}
@@ -345,6 +324,111 @@ function GuideTab({ goTab }: { goTab: (t: Tab) => void }) {
           진행과 다른 부분이 있으면 길드 게시판으로 제보해 주세요.
         </p>
       </section>
+    </div>
+  );
+}
+
+/* ---------------------------------- 드랍테이블 탭 ---------------------------------- */
+
+// 1판(상자 GW_BOX_COUNT개) 기준 기대 개수. 1 미만이면 "약 N판당 1개"로 표기.
+function perRun(rate: number): string {
+  const expected = (rate / 100) * GW_BOX_COUNT;
+  if (expected >= 1) return `판당 약 ${expected.toFixed(1)}개`;
+  return `약 ${Math.round(1 / expected)}판당 1개`;
+}
+
+function DropTab({ goTab }: { goTab: (t: Tab) => void }) {
+  const books = GW_BOX_DROPS.filter((d) => d.cat === "마북").sort((a, b) => a.rate - b.rate);
+  const scrolls = GW_BOX_DROPS.filter((d) => d.cat === "주문서");
+  const consumables = GW_BOX_DROPS.filter((d) => d.cat === "소비");
+  const totalRate = GW_BOX_DROPS.reduce((a, d) => a + d.rate, 0);
+
+  return (
+    <div className="space-y-4">
+      <section className="pixel-panel p-5 space-y-2">
+        <h2 className="font-pixel text-sm text-ink">📊 보너스 상자 드랍테이블</h2>
+        <p className="text-sm text-dim leading-relaxed">
+          확률은 보너스 맵(샤렌 3세의 보물창고) <b className="text-ink">상자 1개당</b> 기준, 커뮤니티(디시 메랜갤)
+          집계치다. 42종 합계 {totalRate.toFixed(2)}% — 나머지 약 {(100 - totalRate).toFixed(1)}%는 아무것도 나오지
+          않는다. 기대치는 1판 = 상자 {GW_BOX_COUNT}개를 전부 부순다고 가정한 값.
+        </p>
+      </section>
+
+      {/* 마스터리북 */}
+      <section className="pixel-panel p-5 space-y-3">
+        <h2 className="font-pixel text-sm text-ink">📕 마스터리북 (13종) — 희귀한 순</h2>
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[560px] text-sm">
+            <thead>
+              <tr className="text-left text-dim border-b-2 border-edge">
+                <th className="py-1.5">약어</th>
+                <th>스킬</th>
+                <th>직업</th>
+                <th className="text-right">상자당 확률</th>
+                <th className="text-right">기대치</th>
+              </tr>
+            </thead>
+            <tbody>
+              {books.map((d) => (
+                <tr key={d.key} className="border-b border-edge/40">
+                  <td className="py-1.5 font-bold text-maple">{d.key}</td>
+                  <td>{d.name}</td>
+                  <td className="text-dim">{d.job}</td>
+                  <td className="text-right tabular-nums">{d.rate}%</td>
+                  <td className="text-right text-dim text-xs">{perRun(d.rate)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      {/* 주문서 */}
+      <section className="pixel-panel p-5 space-y-3">
+        <h2 className="font-pixel text-sm text-ink">
+          📜 주문서 60% (23종) <span className="text-xs text-dim font-normal">— 전부 상자당 0.4% · {perRun(0.4)}</span>
+        </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+          {scrolls.map((d) => (
+            <div key={d.key} className="pixel-card p-2">
+              <b className="text-sm text-maple">{d.key}</b>
+              <p className="text-xs text-dim mt-0.5 leading-snug">{d.name}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 소비/기타 + 보스 */}
+      <div className="grid md:grid-cols-2 gap-4">
+        <section className="pixel-panel p-5 space-y-3">
+          <h2 className="font-pixel text-sm text-ink">🧪 소비 · 기타</h2>
+          <table className="w-full text-sm">
+            <tbody>
+              {consumables.map((d) => (
+                <tr key={d.key} className="border-b border-edge/40">
+                  <td className="py-1.5">{d.name}</td>
+                  <td className="text-right tabular-nums text-dim">{d.rate}%</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </section>
+        <section className="pixel-panel p-5 space-y-2">
+          <h2 className="font-pixel text-sm text-ink">👑 보스 드랍 — 에레고스</h2>
+          <div className="pixel-card p-3">
+            <b className="text-sm">{GW_BOSS_DROP.name}</b>
+            <p className="text-xs text-dim mt-1 leading-relaxed">{GW_BOSS_DROP.desc}</p>
+            <p className="text-xs text-dim mt-1">나이트로드 효율이 높아 나로 우선 배분 관행.</p>
+          </div>
+        </section>
+      </div>
+
+      <p className="text-xs text-dim">
+        드랍한 아이템을 나눌 땐{" "}
+        <button type="button" onClick={() => goTab("settle")} className="font-pixel text-maple hover:underline">
+          분배 정산 탭 →
+        </button>
+      </p>
     </div>
   );
 }
