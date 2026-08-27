@@ -3,7 +3,7 @@
 import { useState } from "react";
 import OfferingSolver from "./OfferingSolver";
 import SettlementTool from "./SettlementTool";
-import { GW_BOSS_DROP, GW_BOX_COUNT, GW_BOX_DROPS } from "./dropData";
+import { GW_BOX_COUNT, GW_BOX_DROPS } from "./dropData";
 
 type Tab = "guide" | "drops" | "boxes" | "offering" | "settle";
 
@@ -20,9 +20,9 @@ export default function GuildWarPage() {
 
   return (
     <div className="max-w-5xl mx-auto">
-      <h1 className="font-pixel text-2xl font-bold mb-1">⚔️ 길드대항전</h1>
+      <h1 className="font-pixel text-2xl font-bold mb-1">⚔️ 샤레니안 길드대항전</h1>
       <p className="text-sm text-dim mb-6">
-        샤레니안 길드퀘스트 공략 · 보너스 상자 배분 · 제물 맞추기 솔버 · 분배금 정산
+        페리온 유적발굴단 캠프에서 시작하는 길드퀘스트 · 공략 · 보너스 상자 배분 · 제물 솔버 · 분배금 정산
       </p>
 
       <div className="flex gap-1 mb-6 bg-surface2 p-1 w-fit max-w-full overflow-x-auto">
@@ -71,21 +71,21 @@ const STAGES: { icon: string; name: string; goal: string; tips: string[]; link?:
   },
   {
     icon: "🗡️",
-    name: "기사의 홀 — 롱기누스의 창 4개 수집",
-    goal: "각 방에서 창을 점프 타격으로 떨어뜨려 4개 수집",
+    name: "기사의 홀 — 롱기누스의 창 수집",
+    goal: "신념의 방 점프맵에서 3개, 서약의 방 잠긴 구역에서 1개 수집",
     tips: [
-      "창은 높은 곳에 있어 점프해서 쳐야 떨어진다.",
-      "다크사이트가 가능한 도적이 필요한 방이 있다 (도적 1인 필수인 이유).",
-      "잠긴 방은 몬스터가 떨어뜨리는 열쇠로 연다.",
+      "신념의 방은 난이도가 다른 점프맵 3개. 꼭대기의 창을 기본공격으로 떨어뜨린 뒤 점프하며 주워야 한다.",
+      "용맹의 방 몬스터가 떨어뜨린 녹슨 열쇠로 다음 구역을 열고, 법사가 텔레포트로 상자에서 은색 열쇠를 꺼낸다.",
+      "은색 열쇠를 받은 도적이 다크사이트로 골렘 구간을 지나 서약의 방을 열어 마지막 창을 가져온다.",
     ],
   },
   {
     icon: "⚖️",
-    name: "정의의 방 — 창 봉헌",
-    goal: "4곳의 봉인에 롱기누스의 창을 하나씩 꽂기",
+    name: "정의의 방 — 롱기누스의 창 봉헌",
+    goal: "4개 점프맵 꼭대기의 제단에 창을 하나씩 내려놓기",
     tips: [
-      "발판 순서 암기·장애물 구간이 있는 점프맵. 텔레포트 법사와 헤이스트가 있으면 크게 수월해진다.",
-      "4개 모두 봉헌하면 다음 구역이 열린다.",
+      "왼쪽 두 번째 구간은 헤이스트가 필요하고, 맨 오른쪽 구간은 텔레포트가 필요하다.",
+      "발판 구간의 메이플랜드 확인 순서는 2 → 1 → 5 → 2 → 2 → 1 → 2. 창 4개를 모두 올리면 다음 구역이 열린다.",
     ],
   },
   {
@@ -93,19 +93,20 @@ const STAGES: { icon: string; name: string; goal: string; tips: string[]; link?:
     name: "현자의 분수 — 제물 맞추기 (야구게임)",
     goal: "석상 4개 앞에 제물을 하나씩 놓고 정답 조합 추리 (기회 7번)",
     tips: [
-      "제물 4종(용맹의 훈장·지혜의 두루마리·오래된 음식·700년산 주니어 네키 술)은 주변 술 저장고·식량 창고의 몬스터가 드랍한다 — 사전 준비 불필요.",
+      "용맹의 훈장·지혜의 두루마리는 중앙 몬스터가 드랍하고, 술은 왼쪽 술 저장고 상자, 음식은 오른쪽 점프맵 접시에서 얻는다.",
       "제물을 놓고 길드마스터가 석상 NPC에게 말을 걸면 「올바른/틀린」 개수를 알려준다.",
-      "7번 안에 못 맞추면 정답이 리셋되고 유령 몬스터가 소환되는 페널티가 있다.",
+      "같은 제물이 여러 번 정답일 수 있다. 7번 실패하면 몬스터가 다시 나오고 새 조합으로 처음부터 재시작한다.",
     ],
     link: { tab: "offering", label: "제물 맞추기 솔버 열기 →" },
   },
   {
     icon: "🌊",
-    name: "지하 수로 — 샤렌 3세의 의류 수집",
-    goal: "미로 4개를 돌파해 상자에서 의류 4종 획득",
+    name: "지하수로·수로의 미로 — 유품 수집",
+    goal: "네 갈래 방에서 신발·하의·상의·왕관을 하나씩 획득",
     tips: [
-      "대부분의 통로가 되돌아오는 가짜 길인 미로. 길을 아는 사람이 리드하면 빠르다.",
-      "미로 안 몬스터가 잠긴 문을 여는 아이템을 떨어뜨린다.",
+      "30레벨 이하 길드원은 전용 방에서 악마 슬라임 20마리를 처치해야 하므로 이 단계에 반드시 필요하다.",
+      "다른 방은 퍼펫골렘·가고일 처치와 점프맵으로 구성된다. 상단 가고일은 원거리 또는 광역 공격 담당이 유리하다.",
+      "한 번 다음 구역으로 넘어가면 되돌아가기 까다로우므로 각 방에서 유품을 챙겼는지 확인한다.",
     ],
   },
   {
@@ -119,8 +120,8 @@ const STAGES: { icon: string; name: string; goal: string; tips: string[]; link?:
     name: "왕의 회랑 — 수호석 봉헌",
     goal: "문 앞에 수호석을 버려서 개방",
     tips: [
-      "수호석을 버린 사람은 사망 위험이 있어 보통 30레벨 이하 저렙 캐릭터가 담당한다.",
-      "30레벨 이하만 통과할 수 있는 포탈 구간도 있어 저렙 1인은 필수 인원이다.",
+      "장비창에서 수호석 귀고리를 바닥으로 직접 드래그해야 한다. 단순 장착 해제만 하면 문은 열리지 않는다.",
+      "봉헌자는 사망한다. 누구나 담당할 수 있지만 보통 앞 단계의 30레벨 이하 캐릭터가 맡는다.",
     ],
   },
   {
@@ -128,9 +129,9 @@ const STAGES: { icon: string; name: string; goal: string; tips: string[]; link?:
     name: "에레고스의 왕좌 — 보스전",
     goal: "왕좌의 보석 「루비안」을 타격해 에레고스와 석상들을 소환, 처치",
     tips: [
-      "석상들이 버프해제·힐+마법공격·스킬봉인·슬로우를 시전한다 — 힐+마공 석상부터 최우선 제거.",
-      "방해 효과는 전부 석상 몫이므로 석상을 정리한 뒤 본체를 치는 게 편하다.",
+      "주변 석상들이 1/1·저주·디스펠 등 방해 효과를 사용하므로 함께 정리하는 편이 안전하다.",
       "에레고스는 언데드라 힐 공격이 유효하다. 저레벨·저체력 캐릭터는 즉사 주의.",
+      "처치 후 나온 루비안은 길드장/부길마가 획득해 NPC와 대화해야 보물창고로 이동한다.",
     ],
   },
   {
@@ -146,8 +147,7 @@ const STAGES: { icon: string; name: string; goal: string; tips: string[]; link?:
 ];
 
 const SOURCES: [string, string][] = [
-  ["나무위키 — 길드 대항전", "https://namu.wiki/w/%EA%B8%B8%EB%93%9C%20%EB%8C%80%ED%95%AD%EC%A0%84"],
-  ["나무위키 — Mapleland/파티 퀘스트", "https://namu.wiki/w/Mapleland/%ED%8C%8C%ED%8B%B0%20%ED%80%98%EC%8A%A4%ED%8A%B8"],
+  ["메이플랜드 공식 — 2025년 2월 28일 길드대항전 업데이트", "https://maple.land/board/notices/uxdrissgrm738d5h5bhxvt6m"],
   [
     "디시 메이플랜드 갤러리 — 길드대항전 가이드",
     "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=2246415",
@@ -158,11 +158,19 @@ const SOURCES: [string, string][] = [
     "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=1235530",
   ],
   ["인벤 몬스터 DB — 에레고스", "https://maple.inven.co.kr/dataninfo/monster/detail.php?code=9300028"],
+  ["MapleRoyals — 구형 샤레니안 GPQ 단계별 교차검증", "https://royals.ms/forum/threads/gpq-guild-pq-guide.199116/"],
 ];
 
 function GuideTab({ goTab }: { goTab: (t: Tab) => void }) {
   return (
     <div className="space-y-4">
+      <section className="border-2 border-maple bg-maple/10 p-4 text-sm leading-relaxed">
+        <b className="font-pixel text-xs text-maple">범위 안내</b>
+        <p className="mt-1 text-dim">
+          이 페이지는 <b className="text-ink">페리온 샤레니안 유적 길드대항전</b>만 다룹니다. 마스테리아의
+          크림슨우드 성채 파티퀘스트와는 별개의 콘텐츠입니다.
+        </p>
+      </section>
       {/* 한눈에 보기 */}
       <section className="pixel-panel p-5 space-y-3">
         <h2 className="font-pixel text-sm text-ink">📌 한눈에 보기</h2>
@@ -178,13 +186,13 @@ function GuideTab({ goTab }: { goTab: (t: Tab) => void }) {
             <b>인원</b>
             <p className="text-xs text-dim mt-1 leading-relaxed">
               길드장 또는 부길마 포함 <b className="text-ink">같은 길드원 6~30인</b> ·{" "}
-              <b className="text-ink">30레벨 이하(전직 완료) 1인 필수</b>
+              <b className="text-ink">Lv.10~30 길드원 1인 필수</b>
             </p>
           </div>
           <div className="pixel-card p-3">
             <b>필수 스킬</b>
             <p className="text-xs text-dim mt-1 leading-relaxed">
-              텔레포트 마스터 법사 1 · 다크사이트 도적 1 · 헤이스트(또는 플젬) 도적 1
+              텔레포트 법사 1 · 다크사이트+헤이스트 도적 1 · 원거리/광역 공격 담당 1
             </p>
           </div>
           <div className="pixel-card p-3">
@@ -203,8 +211,7 @@ function GuideTab({ goTab }: { goTab: (t: Tab) => void }) {
           <div className="pixel-card p-3">
             <b>핵심 보상</b>
             <p className="text-xs text-dim mt-1 leading-relaxed">
-              보너스 상자의 <b className="text-ink">4차 마스터리북</b>(어콤30 등)·60% 주문서 · 보스 드랍{" "}
-              <b className="text-ink">나리케인의 징표</b>(Lv120 펜던트)
+              보너스 상자의 <b className="text-ink">4차 마스터리북</b>(어콤30 등) · 60% 주문서 · 소비 아이템
             </p>
           </div>
         </div>
@@ -260,17 +267,11 @@ function GuideTab({ goTab }: { goTab: (t: Tab) => void }) {
               </tr>
               <tr className="border-b border-edge/40">
                 <td className="py-1.5 text-dim">석상 기믹</td>
-                <td>
-                  주변 석상이 버프해제 / 힐+마법공격 / 스킬봉인 / 슬로우 시전 —{" "}
-                  <b className="text-maple">힐+마공 석상 최우선 제거</b>
-                </td>
+                <td>주변 석상이 1/1 · 저주 · 디스펠 등 방해 효과 사용 — 함께 정리하면 안전</td>
               </tr>
               <tr>
                 <td className="py-1.5 text-dim">드랍</td>
-                <td>
-                  나리케인의 징표 (Lv120 펜던트 · 올스탯+5 / 공+4 / 마력+8 / HP·MP+150 / 회피+15 / 이속·점프+5) —
-                  나이트로드 효율이 높아 나로 우선 배분 관행
-                </td>
+                <td>루비안(진행용 퀘스트 아이템) · 획득 후 NPC와 대화해 보물창고 입장</td>
               </tr>
             </tbody>
           </table>
@@ -299,8 +300,8 @@ function GuideTab({ goTab }: { goTab: (t: Tab) => void }) {
         <h2 className="font-pixel text-sm text-ink">✅ 출발 전 체크리스트</h2>
         <ul className="text-sm text-dim space-y-1 leading-relaxed">
           <li>☐ 길드장 또는 부길마 참석 + 같은 길드원 6인 이상</li>
-          <li>☐ 30레벨 이하(1차/2차 전직 완료) 부캐 1인 — 전용 포탈 통과 · 수호석 봉헌 담당</li>
-          <li>☐ 텔레포트 마스터 법사 · 다크사이트 도적 · 헤이스트 도적</li>
+          <li>☐ Lv.10~30 길드원 1인 — 지하수로의 악마 슬라임 전용 방 담당</li>
+          <li>☐ 텔레포트 법사 · 다크사이트+헤이스트 도적 · 원거리/광역 공격 담당</li>
           <li>☐ 보스전 물약 (제물 4종은 퀘스트 안에서 드랍으로 조달되므로 사전 파밍 불필요)</li>
           <li>☐ 상자 배분 담당 구역 미리 정하기 (상자 배분 탭 참고)</li>
         </ul>
@@ -398,30 +399,24 @@ function DropTab({ goTab }: { goTab: (t: Tab) => void }) {
         </div>
       </section>
 
-      {/* 소비/기타 + 보스 */}
-      <div className="grid md:grid-cols-2 gap-4">
-        <section className="pixel-panel p-5 space-y-3">
-          <h2 className="font-pixel text-sm text-ink">🧪 소비 · 기타</h2>
-          <table className="w-full text-sm">
-            <tbody>
-              {consumables.map((d) => (
-                <tr key={d.key} className="border-b border-edge/40">
-                  <td className="py-1.5">{d.name}</td>
-                  <td className="text-right tabular-nums text-dim">{d.rate}%</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </section>
-        <section className="pixel-panel p-5 space-y-2">
-          <h2 className="font-pixel text-sm text-ink">👑 보스 드랍 — 에레고스</h2>
-          <div className="pixel-card p-3">
-            <b className="text-sm">{GW_BOSS_DROP.name}</b>
-            <p className="text-xs text-dim mt-1 leading-relaxed">{GW_BOSS_DROP.desc}</p>
-            <p className="text-xs text-dim mt-1">나이트로드 효율이 높아 나로 우선 배분 관행.</p>
-          </div>
-        </section>
-      </div>
+      {/* 소비/기타 */}
+      <section className="pixel-panel p-5 space-y-3 max-w-xl">
+        <h2 className="font-pixel text-sm text-ink">🧪 소비 · 기타</h2>
+        <table className="w-full text-sm">
+          <tbody>
+            {consumables.map((d) => (
+              <tr key={d.key} className="border-b border-edge/40">
+                <td className="py-1.5">{d.name}</td>
+                <td className="text-right tabular-nums text-dim">{d.rate}%</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <p className="text-xs text-dim leading-relaxed">
+          에레고스가 떨어뜨리는 루비안은 보물창고 진입용 퀘스트 아이템입니다. 나리케인의 징표는 크림슨우드 성채
+          보상이므로 이 목록에 포함하지 않습니다.
+        </p>
+      </section>
 
       <p className="text-xs text-dim">
         드랍한 아이템을 나눌 땐{" "}
