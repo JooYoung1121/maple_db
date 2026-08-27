@@ -11,8 +11,9 @@ const SALE_FEE = 0.05; // 경매장 판매 수수료
 const TRANSFER_FEE = 0.05; // 메소 송금 수수료
 const MAX_TRIES = 30;
 const MIN_TRIES = 1;
+const INVALID_DROP_KEYS = new Set(["나리케인의 징표"]);
 
-type Person = { name: string; tr: number[] };
+type Person = { id: string; name: string; tr: number[] };
 type SettleState = {
   tries: number;
   people: Person[];
@@ -28,18 +29,22 @@ function normalizeState(raw: unknown): SettleState {
   const people = Array.isArray(s.people)
     ? s.people
         .filter((p): p is Person => !!p && typeof p.name === "string")
-        .map((p) => ({
+        .map((p, i) => ({
+          id: typeof p.id === "string" && p.id ? p.id : `legacy-${i}-${p.name}`,
           name: p.name,
           tr: Array.from({ length: MAX_TRIES }, (_, i) => (Array.isArray(p.tr) && p.tr[i] ? 1 : 0)),
         }))
     : [];
   const drops = Array.from({ length: MAX_TRIES }, (_, i) => {
     const arr = Array.isArray(s.drops) ? s.drops[i] : null;
-    return Array.isArray(arr) ? arr.filter((x): x is string => typeof x === "string") : [];
+    return Array.isArray(arr)
+      ? arr.filter((x): x is string => typeof x === "string" && !INVALID_DROP_KEYS.has(x))
+      : [];
   });
   const prices: Record<string, string> = {};
   if (s.prices && typeof s.prices === "object") {
     for (const [k, v] of Object.entries(s.prices)) {
+      if (INVALID_DROP_KEYS.has(k)) continue;
       if (typeof v === "string" || typeof v === "number") prices[k] = String(v);
     }
   }
@@ -55,6 +60,8 @@ export default function SettlementTool() {
   const [copied, setCopied] = useState(false);
   const [selectedTry, setSelectedTry] = useState(0);
   const [dragOverTry, setDragOverTry] = useState<number | null>(null);
+  const [draggedPersonId, setDraggedPersonId] = useState<string | null>(null);
+  const [personDragOverId, setPersonDragOverId] = useState<string | null>(null);
 
   useEffect(() => {
     try {
@@ -110,8 +117,57 @@ export default function SettlementTool() {
     const name = newName.trim();
     if (!name) return;
     if (people.some((p) => p.name === name)) return;
-    setState({ ...state, people: [...people, { name, tr: Array(MAX_TRIES).fill(0) }] });
+    setState({
+      ...state,
+      people: [
+        ...people,
+        { id: `person-${Date.now()}-${Math.random().toString(36).slice(2)}`, name, tr: Array(MAX_TRIES).fill(0) },
+      ],
+    });
     setNewName("");
+  }
+
+  function movePerson(sourceId: string, targetId: string) {
+    if (sourceId === targetId) return;
+    setState((current) => {
+      const sourceIndex = current.people.findIndex((person) => person.id === sourceId);
+      const targetIndex = current.people.findIndex((person) => person.id === targetId);
+      if (sourceIndex < 0 || targetIndex < 0) return current;
+      const nextPeople = [...current.people];
+      const [moved] = nextPeople.splice(sourceIndex, 1);
+      nextPeople.splice(targetIndex, 0, moved);
+      return { ...current, people: nextPeople };
+    });
+    setDraggedPersonId(null);
+    setPersonDragOverId(null);
+  }
+
+  function movePersonByOffset(personId: string, offset: number) {
+    setState((current) => {
+      const sourceIndex = current.people.findIndex((person) => person.id === personId);
+      const targetIndex = sourceIndex + offset;
+      if (sourceIndex < 0 || targetIndex < 0 || targetIndex >= current.people.length) return current;
+      const nextPeople = [...current.people];
+      const [moved] = nextPeople.splice(sourceIndex, 1);
+      nextPeople.splice(targetIndex, 0, moved);
+      return { ...current, people: nextPeople };
+    });
+  }
+
+  function sortPeople(mode: string) {
+    const joinedCount = (person: Person) => tryIdx.reduce((count, t) => count + (person.tr[t] ? 1 : 0), 0);
+    setState((current) => {
+      const nextPeople = [...current.people];
+      nextPeople.sort((a, b) => {
+        if (mode === "name-asc") return a.name.localeCompare(b.name, "ko");
+        if (mode === "name-desc") return b.name.localeCompare(a.name, "ko");
+        if (mode === "joined-desc") return joinedCount(b) - joinedCount(a);
+        if (mode === "payment-desc") return shareOf(b) - shareOf(a);
+        if (mode === "payment-asc") return shareOf(a) - shareOf(b);
+        return 0;
+      });
+      return { ...current, people: nextPeople };
+    });
   }
 
   function setDrop(t: number, slot: number, value: string) {
@@ -200,13 +256,37 @@ export default function SettlementTool() {
 
       {/* ① 참여 현황 */}
       <section className="pixel-panel p-5 space-y-3">
-        <h2 className="font-pixel text-sm text-ink">
-          ① 참여 현황 <span className="text-xs text-dim font-normal">— 칸을 눌러 참여/불참 전환</span>
-        </h2>
+        <div className="flex flex-wrap items-center gap-2">
+          <h2 className="font-pixel text-sm text-ink">
+            ① 참여 현황{" "}
+            <span className="text-xs text-dim font-normal">— 칸을 눌러 참여/불참 전환 · 손잡이로 순서 변경</span>
+          </h2>
+          {people.length > 1 && (
+            <select
+              defaultValue=""
+              onChange={(e) => {
+                if (e.target.value) sortPeople(e.target.value);
+                e.target.value = "";
+              }}
+              className="ml-auto px-2 py-1 text-xs bg-surface2 border-2 border-edge focus:border-maple outline-none"
+              aria-label="참여자 정렬"
+            >
+              <option value="" disabled>
+                정렬 적용…
+              </option>
+              <option value="name-asc">가나다순</option>
+              <option value="name-desc">가나다 역순</option>
+              <option value="joined-desc">참여 횟수 많은 순</option>
+              <option value="payment-desc">송금액 높은 순</option>
+              <option value="payment-asc">송금액 낮은 순</option>
+            </select>
+          )}
+        </div>
         <div className="overflow-x-auto">
           <table className="text-sm whitespace-nowrap">
             <thead>
               <tr className="text-dim border-b-2 border-edge">
+                <th className="w-8" aria-label="순서 변경" />
                 <th className="text-left py-1.5 pr-3 min-w-[7rem]">닉네임</th>
                 {tryIdx.map((t) => (
                   <th key={t} className="px-1 font-normal text-xs">
@@ -218,7 +298,54 @@ export default function SettlementTool() {
             </thead>
             <tbody>
               {people.map((p, i) => (
-                <tr key={i} className="border-b border-edge/40">
+                <tr
+                  key={p.id}
+                  onDragOver={(e) => {
+                    if (!draggedPersonId || draggedPersonId === p.id) return;
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = "move";
+                    setPersonDragOverId(p.id);
+                  }}
+                  onDragLeave={() => setPersonDragOverId((current) => (current === p.id ? null : current))}
+                  onDrop={(e) => {
+                    e.preventDefault();
+                    const sourceId = e.dataTransfer.getData("application/x-guild-war-person") || draggedPersonId;
+                    if (sourceId) movePerson(sourceId, p.id);
+                  }}
+                  className={`border-b border-edge/40 transition-colors ${
+                    personDragOverId === p.id ? "bg-maple/10" : ""
+                  }`}
+                >
+                  <td className="pr-1 text-center">
+                    <button
+                      type="button"
+                      draggable
+                      onDragStart={(e) => {
+                        setDraggedPersonId(p.id);
+                        e.dataTransfer.effectAllowed = "move";
+                        e.dataTransfer.setData("application/x-guild-war-person", p.id);
+                      }}
+                      onDragEnd={() => {
+                        setDraggedPersonId(null);
+                        setPersonDragOverId(null);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "ArrowUp") {
+                          e.preventDefault();
+                          movePersonByOffset(p.id, -1);
+                        }
+                        if (e.key === "ArrowDown") {
+                          e.preventDefault();
+                          movePersonByOffset(p.id, 1);
+                        }
+                      }}
+                      className="w-7 h-8 text-dim/60 hover:text-maple cursor-grab active:cursor-grabbing transition-colors"
+                      title="드래그하거나 위·아래 방향키로 순서 변경"
+                      aria-label={`${p.name || `참여자 ${i + 1}`} 순서 변경`}
+                    >
+                      ⠿
+                    </button>
+                  </td>
                   <td className="py-1 pr-3">
                     <input
                       value={p.name}
@@ -272,6 +399,7 @@ export default function SettlementTool() {
               ))}
               {people.length > 0 && (
                 <tr className="font-bold text-xs text-dim">
+                  <td />
                   <td className="py-1.5 pr-3">인원</td>
                   {tryIdx.map((t) => (
                     <td key={t} className="text-center">
@@ -554,19 +682,22 @@ export default function SettlementTool() {
         {people.length === 0 ? (
           <p className="text-sm text-dim">참여자를 먼저 추가해 주세요.</p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="text-sm whitespace-nowrap">
+          <div className="overflow-x-auto pb-2">
+            <table className="min-w-max text-sm whitespace-nowrap">
               <thead>
                 <tr className="text-dim border-b-2 border-edge">
-                  <th className="text-left py-1.5 pr-3 min-w-[7rem]">닉네임</th>
+                  <th className="text-left py-1.5 px-4 min-w-[8rem]">닉네임</th>
                   {tryIdx.map((t) => (
-                    <th key={t} className="px-1 font-normal text-xs min-w-[3.5rem]">
+                    <th
+                      key={t}
+                      className="px-3 font-normal text-xs text-center min-w-[6.5rem] border-r border-edge/30"
+                    >
                       {t + 1}트
                     </th>
                   ))}
-                  <th className="px-2 text-xs">분배합계</th>
-                  <th className="px-2 text-xs">송금 수수료</th>
-                  <th className="px-2 text-xs text-maple">💰 송금액</th>
+                  <th className="px-4 text-xs text-right min-w-[8.5rem]">분배합계</th>
+                  <th className="px-4 text-xs text-right min-w-[8.5rem]">송금 수수료</th>
+                  <th className="px-4 text-xs text-right text-maple min-w-[8.5rem]">💰 송금액</th>
                 </tr>
               </thead>
               <tbody>
@@ -574,40 +705,40 @@ export default function SettlementTool() {
                   const share = shareOf(p);
                   const fee = share * TRANSFER_FEE;
                   return (
-                    <tr key={i} className="border-b border-edge/40 tabular-nums">
-                      <td className="py-1.5 pr-3 font-bold">{p.name}</td>
+                    <tr key={p.id} className="border-b border-edge/40 tabular-nums">
+                      <td className="py-2 px-4 font-bold">{p.name}</td>
                       {tryIdx.map((t) => {
                         const c = cntTr(t);
                         const tot = totTr(t);
                         const v = p.tr[t] && c > 0 && tot > 0 ? tot / c : 0;
                         return (
-                          <td key={t} className="text-center text-xs text-dim">
+                          <td key={t} className="min-w-[6.5rem] px-3 py-2 text-center text-xs text-dim border-r border-edge/30">
                             {v ? fmt(v) : ""}
                           </td>
                         );
                       })}
-                      <td className="text-right px-2 font-bold">{share ? fmt(share) : ""}</td>
-                      <td className="text-right px-2 text-dim text-xs">{share ? fmt(fee) : ""}</td>
-                      <td className="text-right px-2 font-bold text-maple">{share ? fmt(share - fee) : ""}</td>
+                      <td className="text-right px-4 font-bold">{share ? fmt(share) : ""}</td>
+                      <td className="text-right px-4 text-dim text-xs">{share ? fmt(fee) : ""}</td>
+                      <td className="text-right px-4 font-bold text-maple">{share ? fmt(share - fee) : ""}</td>
                     </tr>
                   );
                 })}
                 {anyShare && (
                   <tr className="font-bold tabular-nums text-xs">
-                    <td className="py-1.5 pr-3">합계</td>
+                    <td className="py-2 px-4">합계</td>
                     {tryIdx.map((t) => {
                       const tot = totTr(t);
                       return (
-                        <td key={t} className="text-center text-dim">
+                        <td key={t} className="min-w-[6.5rem] px-3 py-2 text-center text-dim border-r border-edge/30">
                           {tot ? fmt(tot) : ""}
                         </td>
                       );
                     })}
-                    <td className="text-right px-2">{fmt(people.reduce((a, p) => a + shareOf(p), 0))}</td>
-                    <td className="text-right px-2 text-dim">
+                    <td className="text-right px-4">{fmt(people.reduce((a, p) => a + shareOf(p), 0))}</td>
+                    <td className="text-right px-4 text-dim">
                       {fmt(people.reduce((a, p) => a + shareOf(p) * TRANSFER_FEE, 0))}
                     </td>
-                    <td className="text-right px-2 text-maple">
+                    <td className="text-right px-4 text-maple">
                       {fmt(people.reduce((a, p) => a + shareOf(p) * (1 - TRANSFER_FEE), 0))}
                     </td>
                   </tr>
@@ -615,6 +746,9 @@ export default function SettlementTool() {
               </tbody>
             </table>
           </div>
+        )}
+        {people.length > 0 && (
+          <p className="text-xs text-dim">각 금액 칸의 최소 폭을 유지하며, 트라이가 많으면 표를 좌우로 스크롤할 수 있습니다.</p>
         )}
       </section>
     </div>

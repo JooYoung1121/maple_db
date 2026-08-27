@@ -69,13 +69,6 @@ export const GW_BOX_DROPS: GwDrop[] = [
   { key: "배틀쉽캐논30북", name: "배틀쉽 캐논 30", rate: 0.54, cat: "마북", job: "캡틴", itemId: 2290120 },
 ];
 
-export const GW_BOSS_DROP = {
-  key: "나리케인의 징표",
-  name: "나리케인의 징표",
-  itemId: 1122059,
-  desc: "Lv120 펜던트 · 올스탯+5 / 공+4 / 마력+8 / HP·MP+150 / 회피+15 / 이속·점프+5 — 에레고스 확률 드랍",
-};
-
 /** 정산기 아이템 선택 목록 — 팔아서 나눌 만한 것만 (물약 제외) */
 export const SETTLE_ITEM_GROUPS: { label: string; items: { key: string; name: string; itemId: number }[] }[] = [
   {
@@ -95,16 +88,12 @@ export const SETTLE_ITEM_GROUPS: { label: string; items: { key: string; name: st
     })),
   },
   {
-    label: "보스 · 기타",
-    items: [
-      { key: GW_BOSS_DROP.key, name: GW_BOSS_DROP.desc, itemId: GW_BOSS_DROP.itemId },
-      { key: "검은보따리", name: "검은 보따리", itemId: 2100000 },
-    ],
+    label: "기타",
+    items: [{ key: "검은보따리", name: "검은 보따리", itemId: 2100000 }],
   },
 ];
 
 /** 약어 → 풀네임 룩업 */
 export const GW_ITEM_NAME: Record<string, string> = Object.fromEntries([
   ...GW_BOX_DROPS.map((d) => [d.key, d.cat === "마북" ? `${d.name} (${d.job})` : d.name]),
-  [GW_BOSS_DROP.key, GW_BOSS_DROP.desc],
 ]);
