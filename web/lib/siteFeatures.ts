@@ -82,6 +82,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/boss-timer", label: "혼테일 타이머", icon: "🐉", description: "리저 · 공무 · 버프해제 쿨타임" },
       { href: "/field-boss", label: "필드보스 채널", icon: "👑", description: "처치 채널 · 시각 공유로 젠 로테이션" },
       { href: "/charlie", label: "찰리중사 교환", icon: "🪖", description: "물물교환 보상표 · 확률 · 시세 효율 계산" },
+      { href: "/guild-war", label: "길드대항전", icon: "⚔️", description: "샤레니안 공략 · 상자 배분 · 제물 솔버 · 분배 정산" },
     ],
   },
   {
