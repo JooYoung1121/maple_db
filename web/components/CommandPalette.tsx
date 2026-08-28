@@ -35,7 +35,12 @@ export default function CommandPalette() {
       }
     }
     window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
+    const openSearch = () => setOpen(true);
+    window.addEventListener("open-global-search", openSearch);
+    return () => {
+      window.removeEventListener("keydown", handleKey);
+      window.removeEventListener("open-global-search", openSearch);
+    };
   }, []);
 
   useEffect(() => {

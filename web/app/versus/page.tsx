@@ -9,7 +9,7 @@ const POLL_MS = 1500;
 
 interface Seat { client_id: string; nickname: string }
 interface RoomState {
-  game: "omok" | "memory" | "wordchain";
+  game: "omok" | "memory" | "wordchain" | "onecard" | "yut";
   turn: string;
   seats: Record<string, Seat | null>;
   winner: string | null;
@@ -29,6 +29,16 @@ interface RoomState {
   mode?: "free" | "maple";
   words?: { word: string; by: string }[];
   deadline?: number | null;
+  /* onecard */
+  my_hand?: string[];
+  hand_counts?: Record<string, number>;
+  discard?: string[];
+  active_color?: string;
+  deck_count?: number;
+  /* yut */
+  pieces?: Record<string, number[]>;
+  roll?: number | null;
+  roll_name?: string | null;
 }
 interface Member { client_id: string; nickname: string }
 
@@ -36,10 +46,65 @@ const GAME_META: Record<string, { title: string; icon: string; seats: string[]; 
   omok: { title: "오목", icon: "⚫⚪", seats: ["B", "W"], seatIcon: (s) => (s === "B" ? "⚫" : "⚪") },
   memory: { title: "같은그림찾기", icon: "🃏", seats: ["P1", "P2"], seatIcon: (s) => (s === "P1" ? "🔶" : "🔷") },
   wordchain: { title: "끝말잇기", icon: "📝", seats: ["P1", "P2"], seatIcon: (s) => (s === "P1" ? "🔶" : "🔷") },
+  onecard: { title: "메랜 원카드", icon: "🎴", seats: ["P1", "P2"], seatIcon: (s) => (s === "P1" ? "🍄" : "🌿") },
+  yut: { title: "메랜 윷놀이", icon: "🪵", seats: ["P1", "P2"], seatIcon: (s) => (s === "P1" ? "🔴" : "🔵") },
 };
 
 function mobIcon(id: number) {
   return `https://maplestory.io/api/gms/92/mob/${id}/icon`;
+}
+
+const CARD_COLOR: Record<string, string> = {
+  R: "bg-red-500 border-red-700 text-white", B: "bg-blue-500 border-blue-700 text-white",
+  G: "bg-green-500 border-green-700 text-white", Y: "bg-yellow-300 border-yellow-500 text-amber-950",
+  W: "bg-gradient-to-br from-red-500 via-yellow-300 to-blue-500 border-ink text-white",
+};
+
+function cardParts(card: string) {
+  const [color, value] = card.split(":");
+  return { color, value, label: value === "D2" ? "+2" : value === "S" ? "SKIP" : value };
+}
+
+function OneCardBoard({ state, myTurn, mySeat, action }: { state: RoomState; myTurn: boolean; mySeat?: string; action: (a: Record<string, unknown>) => void }) {
+  const [wild, setWild] = useState<string | null>(null);
+  const top = state.discard?.[state.discard.length - 1];
+  const topParts = top ? cardParts(top) : null;
+  const other = mySeat === "P1" ? "P2" : "P1";
+  function play(card: string) {
+    if (!myTurn) return;
+    if (cardParts(card).color === "W") setWild(card);
+    else action({ type: "onecard_play", card_id: card });
+  }
+  return (
+    <div className="max-w-2xl mx-auto text-center">
+      <div className="flex justify-between text-xs text-dim mb-3"><span>상대 패 {state.hand_counts?.[other] ?? state.hand_counts?.P2 ?? 0}장</span><span>덱 {state.deck_count ?? 0}장</span></div>
+      <div className="flex items-center justify-center gap-5 min-h-40 bg-green-900/20 border-2 border-edge mb-4">
+        <button onClick={() => myTurn && action({ type: "onecard_draw" })} disabled={!myTurn} className="w-20 h-28 border-4 border-maple bg-surface2 font-pixel text-xs disabled:opacity-50">🍁<br />DRAW</button>
+        {topParts && <div className={`w-20 h-28 border-4 flex flex-col items-center justify-center font-pixel ${CARD_COLOR[topParts.color]}`}><span className="text-xl">{topParts.label}</span><small className="mt-2">현재 {state.active_color}</small></div>}
+      </div>
+      <p className="text-xs text-dim mb-2">내 패 {state.my_hand?.length ?? 0}장 · 같은 색/숫자를 내거나 DRAW</p>
+      <div className="flex flex-wrap justify-center gap-1.5">
+        {(state.my_hand || []).map((card) => { const p = cardParts(card); return <button key={card} onClick={() => play(card)} disabled={!myTurn}
+          className={`w-14 h-20 border-4 rounded-sm font-pixel text-[11px] hover:-translate-y-2 transition-transform disabled:opacity-60 ${CARD_COLOR[p.color]}`}>{p.label}</button>; })}
+      </div>
+      {wild && <div className="mt-4 pixel-card p-3"><p className="text-xs mb-2">와일드 카드의 색을 고르세요</p><div className="flex justify-center gap-2">{["R", "B", "G", "Y"].map((color) => <button key={color} onClick={() => { action({ type: "onecard_play", card_id: wild, color }); setWild(null); }} className={`w-10 h-10 border-2 ${CARD_COLOR[color]}`}>{color}</button>)}</div></div>}
+    </div>
+  );
+}
+
+function YutBoard({ state, myTurn, mySeat, action }: { state: RoomState; myTurn: boolean; mySeat?: string; action: (a: Record<string, unknown>) => void }) {
+  const cells = Array.from({ length: 21 }, (_, i) => i);
+  const mine = mySeat ? state.pieces?.[mySeat] || [] : [];
+  return (
+    <div className="max-w-3xl mx-auto">
+      <div className="overflow-x-auto pb-2"><div className="flex min-w-[760px] items-center">{cells.map((cell) => <div key={cell} className={`relative w-9 h-14 border-2 border-edge flex items-center justify-center text-[10px] ${cell === 0 || cell === 20 ? "bg-maple/15" : "bg-surface2"}`}><span className="text-dim">{cell === 0 ? "출발" : cell === 20 ? "완주" : cell}</span><div className="absolute inset-x-0 bottom-0 flex justify-center">{(["P1", "P2"] as const).flatMap((seat) => (state.pieces?.[seat] || []).map((pos, i) => pos === cell ? <span key={`${seat}-${i}`} title={`${seat} ${i + 1}번 말`} className={seat === "P1" ? "text-red-500" : "text-blue-500"}>●</span> : null))}</div></div>)}</div></div>
+      <div className="text-center mt-4">
+        {state.roll !== null && state.roll !== undefined ? <p className="font-pixel text-2xl text-maple mb-3">{state.roll_name}! <span className="text-sm">{state.roll}칸</span></p> : <p className="text-sm text-dim mb-3">윷을 던진 뒤 움직일 말을 선택하세요. 윷·모는 한 번 더!</p>}
+        {mySeat && myTurn && state.roll == null && <button onClick={() => action({ type: "yut_roll" })} className="pixel-btn px-6 py-3">🪵 윷 던지기</button>}
+        {mySeat && myTurn && state.roll != null && <div className="flex flex-wrap justify-center gap-2">{mine.map((pos, i) => <button key={i} onClick={() => action({ type: "yut_move", piece: i })} disabled={pos >= 20} className="pixel-btn px-3 py-2 text-xs disabled:opacity-40">말 {i + 1} · {pos < 0 ? "대기" : pos >= 20 ? "완주" : `${pos}칸`}</button>)}</div>}
+      </div>
+    </div>
+  );
 }
 
 /* ── 끝말잇기 보드 ── */
@@ -169,7 +234,7 @@ function VersusContent() {
     if (res.members) setMembers(res.members);
   }, []);
 
-  const create = useCallback((game: "omok" | "memory" | "wordchain", mode: "free" | "maple" = "free") => {
+  const create = useCallback((game: "omok" | "memory" | "wordchain" | "onecard" | "yut", mode: "free" | "maple" = "free") => {
     setBusy(true); setError("");
     fetch(`${API_BASE}/api/versus/rooms`, {
       method: "POST",
@@ -239,6 +304,8 @@ function VersusContent() {
             <button onClick={() => create("memory")} disabled={busy} className="pixel-btn px-4 py-2 text-sm disabled:opacity-50">🃏 같은그림찾기</button>
             <button onClick={() => create("wordchain", "free")} disabled={busy} className="pixel-btn px-4 py-2 text-sm disabled:opacity-50">📝 끝말잇기</button>
             <button onClick={() => create("wordchain", "maple")} disabled={busy} className="pixel-btn px-4 py-2 text-sm disabled:opacity-50" title="몹·아이템·맵·NPC·퀘스트 이름만 허용">🍁 메랜 끝말잇기</button>
+            <button onClick={() => create("onecard")} disabled={busy} className="pixel-btn px-4 py-2 text-sm disabled:opacity-50">🎴 메랜 원카드</button>
+            <button onClick={() => create("yut")} disabled={busy} className="pixel-btn px-4 py-2 text-sm disabled:opacity-50">🪵 메랜 윷놀이</button>
           </div>
           <div className="flex gap-2">
             <input
@@ -255,6 +322,7 @@ function VersusContent() {
         <div className="pixel-panel p-4 mt-4 text-xs text-dim space-y-1">
           <p>· 참여하면 <span className="text-ink">관전</span>부터 시작 — 빈 자리에 앉으면 플레이어</p>
           <p>· 오목: 5목 완성 승리 · 같은그림찾기: 몬스터 카드 18쌍, 많이 찾은 쪽 승리 (맞추면 연속 턴)</p>
+          <p>· 원카드: 같은 색·숫자, SKIP·+2·와일드 · 윷놀이: 말 4개 완주, 상대 말 잡기, 윷·모 보너스 턴</p>
           <p>· 게임 중 자리를 뜨면 기권 · 재대결 시 자리 교대 · 방은 6시간 후 자동 삭제</p>
         </div>
       </div>
@@ -375,6 +443,12 @@ function VersusContent() {
           {/* 끝말잇기 */}
           {state.game === "wordchain" && (
             <WordchainBoard state={state} myTurn={myTurn} mySeat={mySeat} action={action} />
+          )}
+          {state.game === "onecard" && (
+            <OneCardBoard state={state} myTurn={myTurn} mySeat={mySeat} action={action} />
+          )}
+          {state.game === "yut" && (
+            <YutBoard state={state} myTurn={myTurn} mySeat={mySeat} action={action} />
           )}
 
           {state.winner && mySeat && (

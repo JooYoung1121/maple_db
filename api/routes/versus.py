@@ -169,6 +169,81 @@ def _new_omok_state(host_client: str, host_nick: str) -> dict:
     }
 
 
+CARD_COLORS = ("R", "B", "G", "Y")
+
+
+def _onecard_deck() -> list[str]:
+    cards: list[str] = []
+    serial = 0
+    for color in CARD_COLORS:
+        for value in [str(n) for n in range(1, 10)] + ["S", "D2"]:
+            for _ in range(2):
+                cards.append(f"{color}:{value}:{serial}")
+                serial += 1
+    for _ in range(4):
+        cards.append(f"W:W:{serial}")
+        serial += 1
+    random.shuffle(cards)
+    return cards
+
+
+def _draw_cards(state: dict, seat: str, count: int) -> None:
+    for _ in range(count):
+        if not state["deck"]:
+            top = state["discard"][-1]
+            state["deck"] = state["discard"][:-1]
+            random.shuffle(state["deck"])
+            state["discard"] = [top]
+        if state["deck"]:
+            state["hands"][seat].append(state["deck"].pop())
+
+
+def _new_onecard_state(host_client: str, host_nick: str, first: str = "P1") -> dict:
+    deck = _onecard_deck()
+    hands = {"P1": [], "P2": []}
+    for _ in range(7):
+        hands["P1"].append(deck.pop())
+        hands["P2"].append(deck.pop())
+    first_card = deck.pop()
+    while first_card.split(":", 1)[0] == "W":
+        deck.insert(0, first_card)
+        first_card = deck.pop()
+    return {
+        "game": "onecard", "turn": first,
+        "seats": {"P1": {"client_id": host_client, "nickname": host_nick} if host_client else None, "P2": None},
+        "hands": hands, "deck": deck, "discard": [first_card],
+        "active_color": first_card.split(":", 1)[0],
+        "winner": None, "rematch": [], "log": [],
+    }
+
+
+def _new_yut_state(host_client: str, host_nick: str, first: str = "P1") -> dict:
+    return {
+        "game": "yut", "turn": first,
+        "seats": {"P1": {"client_id": host_client, "nickname": host_nick} if host_client else None, "P2": None},
+        "pieces": {"P1": [-1, -1, -1, -1], "P2": [-1, -1, -1, -1]},
+        "roll": None, "roll_name": None,
+        "winner": None, "rematch": [], "log": [],
+    }
+
+
+def _public_state(state: dict, client_id: Optional[str]) -> dict:
+    """원카드의 상대 패와 덱 순서를 숨긴 전송 상태."""
+    if state.get("game") != "onecard":
+        return state
+    public = json.loads(json.dumps(state))
+    my_seat = next(
+        (seat for seat, member in state["seats"].items() if member and member["client_id"] == client_id),
+        None,
+    )
+    public["my_hand"] = list(state["hands"].get(my_seat, [])) if my_seat else []
+    public["hand_counts"] = {seat: len(cards) for seat, cards in state["hands"].items()}
+    public.pop("hands", None)
+    public["deck_count"] = len(state["deck"])
+    public.pop("deck", None)
+    return public
+
+
 def _check_win(board: str, x: int, y: int, stone: str) -> bool:
     """마지막 착수 기준 5목 이상 (freestyle)."""
     for dx, dy in ((1, 0), (0, 1), (1, 1), (1, -1)):
@@ -207,7 +282,7 @@ class RoomAction(BaseModel):
 
 @router.post("/versus/rooms")
 def create_room(body: CreateRoom):
-    if body.game not in ("omok", "memory", "wordchain"):
+    if body.game not in ("omok", "memory", "wordchain", "onecard", "yut"):
         raise HTTPException(status_code=400, detail="지원하지 않는 게임입니다.")
     if not body.client_id:
         raise HTTPException(status_code=400, detail="client_id 필요")
@@ -228,6 +303,12 @@ def create_room(body: CreateRoom):
             mode = "maple" if body.mode == "maple" else "free"
             state = _new_wordchain_state(body.client_id, nick, mode)
             _log(state, f"{nick} 님이 끝말잇기 방을 만들었습니다 ({'메랜 사전' if mode == 'maple' else '자유'} 모드)")
+        elif body.game == "onecard":
+            state = _new_onecard_state(body.client_id, nick)
+            _log(state, f"{nick} 님이 메랜 원카드 방을 만들었습니다 (P1)")
+        elif body.game == "yut":
+            state = _new_yut_state(body.client_id, nick)
+            _log(state, f"{nick} 님이 메랜 윷놀이 방을 만들었습니다 (P1)")
         else:
             state = _new_omok_state(body.client_id, nick)
             _log(state, f"{state['seats']['B']['nickname']} 님이 방을 만들었습니다 (흑)")
@@ -240,7 +321,7 @@ def create_room(body: CreateRoom):
     finally:
         conn.close()
     members = _touch(code, body.client_id, body.nickname)
-    return {"code": code, "version": 1, "state": state, "members": members, "server_now": int(time.time() * 1000)}
+    return {"code": code, "version": 1, "state": _public_state(state, body.client_id), "members": members, "server_now": int(time.time() * 1000)}
 
 
 @router.get("/versus/rooms/{code}")
@@ -264,7 +345,7 @@ def poll_room(
             "game": row["game"],
             "version": row["version"],
             "changed": changed,
-            "state": json.loads(row["state"]) if changed else None,
+            "state": _public_state(json.loads(row["state"]), client_id) if changed else None,
             "members": members,
             "server_now": int(time.time() * 1000),
         }
@@ -311,6 +392,10 @@ def room_action(code: str, body: RoomAction):
                 started = state.get("move_count", 0) > 0
             elif game == "wordchain":
                 started = len(state.get("words") or []) > 0
+            elif game == "onecard":
+                started = len(state.get("discard") or []) > 1 or any(len(cards) != 7 for cards in state.get("hands", {}).values())
+            elif game == "yut":
+                started = state.get("roll") is not None or any(pos >= 0 for pieces in state.get("pieces", {}).values() for pos in pieces)
             else:
                 started = bool(state.get("flip")) or any(state.get("revealed") or []) or sum((state.get("scores") or {}).values()) > 0
             if started and not state["winner"]:
@@ -438,6 +523,91 @@ def room_action(code: str, body: RoomAction):
             else:
                 state["turn"] = "W" if my_seat == "B" else "B"
 
+        elif a_type == "onecard_play":
+            if game != "onecard":
+                raise HTTPException(status_code=400, detail="이 방의 게임이 아닙니다")
+            if state["winner"]:
+                raise HTTPException(status_code=409, detail="이미 끝난 게임입니다")
+            if not my_seat or not (seats.get("P1") and seats.get("P2")):
+                raise HTTPException(status_code=403, detail="양쪽 플레이어가 앉아야 합니다")
+            if state["turn"] != my_seat:
+                raise HTTPException(status_code=409, detail="상대 차례입니다")
+            card_id = str(act.get("card_id") or "")
+            if card_id not in state["hands"][my_seat]:
+                raise HTTPException(status_code=400, detail="내 손에 없는 카드입니다")
+            color, value, _ = card_id.split(":", 2)
+            top_color, top_value, _ = state["discard"][-1].split(":", 2)
+            if color != "W" and color != state["active_color"] and value != top_value:
+                raise HTTPException(status_code=409, detail="같은 색이나 같은 숫자 카드만 낼 수 있어요")
+            state["hands"][my_seat].remove(card_id)
+            state["discard"].append(card_id)
+            chosen_color = str(act.get("color") or "")
+            state["active_color"] = chosen_color if color == "W" and chosen_color in CARD_COLORS else color
+            other = "P2" if my_seat == "P1" else "P1"
+            if not state["hands"][my_seat]:
+                state["winner"] = my_seat
+                _log(state, f"🏆 {nickname} 님이 마지막 카드를 내고 승리!")
+            elif value == "D2":
+                _draw_cards(state, other, 2)
+                _log(state, f"{nickname}: +2 공격 — {seats[other]['nickname']} 님 2장 드로우")
+                state["turn"] = my_seat
+            elif value == "S":
+                _log(state, f"{nickname}: 상대 턴 건너뛰기")
+                state["turn"] = my_seat
+            else:
+                state["turn"] = other
+
+        elif a_type == "onecard_draw":
+            if game != "onecard" or state["winner"]:
+                raise HTTPException(status_code=409, detail="진행 중인 원카드 게임이 아닙니다")
+            if not my_seat or state["turn"] != my_seat:
+                raise HTTPException(status_code=409, detail="내 차례가 아닙니다")
+            _draw_cards(state, my_seat, 1)
+            state["turn"] = "P2" if my_seat == "P1" else "P1"
+            _log(state, f"{nickname}: 카드 1장 드로우")
+
+        elif a_type == "yut_roll":
+            if game != "yut" or state["winner"]:
+                raise HTTPException(status_code=409, detail="진행 중인 윷놀이가 아닙니다")
+            if not my_seat or not (seats.get("P1") and seats.get("P2")) or state["turn"] != my_seat:
+                raise HTTPException(status_code=409, detail="내 차례가 아닙니다")
+            if state.get("roll") is not None:
+                raise HTTPException(status_code=409, detail="움직일 말을 먼저 골라주세요")
+            sticks = [random.choice((0, 1)) for _ in range(4)]
+            fronts = sum(sticks)
+            moves = {0: 5, 1: 1, 2: 2, 3: 3, 4: 4}[fronts]
+            names = {1: "도", 2: "개", 3: "걸", 4: "윷", 5: "모"}
+            state["roll"] = moves
+            state["roll_name"] = names[moves]
+            _log(state, f"{nickname}: {names[moves]}! ({moves}칸)")
+
+        elif a_type == "yut_move":
+            if game != "yut" or state["winner"]:
+                raise HTTPException(status_code=409, detail="진행 중인 윷놀이가 아닙니다")
+            if not my_seat or state["turn"] != my_seat or state.get("roll") is None:
+                raise HTTPException(status_code=409, detail="먼저 윷을 던져주세요")
+            piece = act.get("piece")
+            if not isinstance(piece, int) or not 0 <= piece < 4 or state["pieces"][my_seat][piece] >= 20:
+                raise HTTPException(status_code=400, detail="움직일 수 없는 말입니다")
+            current = state["pieces"][my_seat][piece]
+            target = min(20, max(0, current + int(state["roll"])))
+            state["pieces"][my_seat][piece] = target
+            other = "P2" if my_seat == "P1" else "P1"
+            if target < 20:
+                captured = [i for i, pos in enumerate(state["pieces"][other]) if pos == target]
+                for i in captured:
+                    state["pieces"][other][i] = -1
+                if captured:
+                    _log(state, f"{nickname}: 상대 말 {len(captured)}개 잡기!")
+            bonus = state["roll"] in (4, 5)
+            state["roll"] = None
+            state["roll_name"] = None
+            if all(pos >= 20 for pos in state["pieces"][my_seat]):
+                state["winner"] = my_seat
+                _log(state, f"🏆 {nickname} 님이 모든 말을 완주했습니다!")
+            elif not bonus:
+                state["turn"] = other
+
         elif a_type == "rematch":
             if not state["winner"]:
                 raise HTTPException(status_code=409, detail="대국이 끝난 뒤에 재대결할 수 있어요")
@@ -455,6 +625,10 @@ def room_action(code: str, body: RoomAction):
                     state.update(_new_memory_state("", ""))
                 elif game == "wordchain":
                     state.update(_new_wordchain_state("", "", state.get("mode", "free")))
+                elif game == "onecard":
+                    state.update(_new_onecard_state("", ""))
+                elif game == "yut":
+                    state.update(_new_yut_state("", ""))
                 else:
                     state.update(_new_omok_state("", ""))
                 state["seats"] = {a: new_a, b: new_b}
@@ -474,5 +648,5 @@ def room_action(code: str, body: RoomAction):
     finally:
         conn.close()
     members = _touch(code, body.client_id, nickname)
-    return {"code": code, "version": new_version, "changed": True, "state": state,
+    return {"code": code, "version": new_version, "changed": True, "state": _public_state(state, body.client_id),
             "members": members, "server_now": int(time.time() * 1000)}
