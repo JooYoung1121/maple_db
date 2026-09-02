@@ -13,6 +13,21 @@ logger = logging.getLogger(__name__)
 VALID_TYPES = {"item", "mob", "map", "npc", "quest", "skill"}
 
 
+def _like_fallback_where(column: str, query: str) -> tuple[str, list]:
+    """FTS가 못 찾은 검색어의 중간 문자열 보완 조건.
+
+    공백 차이를 무시하고("드래곤스트라이크" ↔ "드래곤 스트라이크"),
+    여러 단어는 토큰별 AND로 매칭한다("자쿰 투구" → "자쿰의 투구").
+    """
+    tokens = query.split() or [query]
+    clauses: list[str] = []
+    params: list = []
+    for token in tokens:
+        clauses.append(f"REPLACE({column}, ' ', '') LIKE ?")
+        params.append(f"%{token.replace(' ', '')}%")
+    return " AND ".join(clauses), params
+
+
 def _base_filters(type_filter: Optional[str]) -> tuple[str, list]:
     where = "search_index MATCH ?"
     params: list = []
@@ -114,7 +129,7 @@ def search_suggest(
             en_filter = search_entity_filter_sql("e.entity_type", "e.entity_id")
             en_extra_filter = f"AND {en_filter}" if en_filter else ""
             en_type_filter = ""
-            en_params: list = [f"%{query}%"]
+            like_where, en_params = _like_fallback_where("e.name_en", query)
             if type and type in VALID_TYPES:
                 en_type_filter = "AND e.entity_type = ?"
                 en_params.append(type)
@@ -127,7 +142,7 @@ def search_suggest(
                         COUNT(*) AS variant_count
                     FROM entity_names_en e
                     WHERE e.entity_type IN ('item','mob','map','npc','quest','skill')
-                      AND e.name_en LIKE ?
+                      AND """ + like_where + """
                     """ + en_type_filter + """
                     """ + en_extra_filter + """
                     GROUP BY e.entity_type, e.name_en
@@ -258,8 +273,8 @@ def search(
 
         # 첫 페이지에서 FTS가 전혀 못 찾았을 때만 중간 문자열 LIKE 보완
         if total == 0 and page == 1:
-            en_where = "name_en LIKE ?"
-            en_params: list = [f"%{query}%"]
+            en_where, en_params = _like_fallback_where("name_en", query)
+            en_where = f"({en_where})"
             if type and type in VALID_TYPES:
                 en_where += " AND entity_type = ?"
                 en_params.append(type)

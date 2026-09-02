@@ -100,11 +100,16 @@ def list_items(
         conditions.append("job_req LIKE ?")
         params.append(f"%{job}%")
     if q:
-        conditions.append(
-            "(name LIKE ? OR id IN (SELECT entity_id FROM entity_names_en WHERE entity_type='item' AND name_en LIKE ?))"
-        )
-        params.append(f"%{q}%")
-        params.append(f"%{q}%")
+        # 공백 차이를 무시하고 토큰별 AND 매칭 ("자쿰 투구" → "자쿰의 투구")
+        for token in q.split() or [q]:
+            needle = f"%{token.replace(' ', '')}%"
+            conditions.append(
+                "(REPLACE(name, ' ', '') LIKE ?"
+                " OR id IN (SELECT entity_id FROM entity_names_en"
+                " WHERE entity_type='item' AND REPLACE(name_en, ' ', '') LIKE ?))"
+            )
+            params.append(needle)
+            params.append(needle)
 
     where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
 

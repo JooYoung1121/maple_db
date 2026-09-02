@@ -25,19 +25,25 @@ export default function DropSearchPage() {
   const [dropSources, setDropSources] = useState<DropSource[]>([]);
   const [loading, setLoading] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
+  const [searched, setSearched] = useState(false);
 
   // 아이템 검색 (debounced)
   useEffect(() => {
     if (query.length < 1) {
       setSuggestions([]);
+      setSearched(false);
       return;
     }
+    setSearched(false);
     const timer = setTimeout(() => {
       setSearchLoading(true);
       getItems({ q: query, per_page: 20 })
         .then((d) => setSuggestions(d.items))
         .catch(() => setSuggestions([]))
-        .finally(() => setSearchLoading(false));
+        .finally(() => {
+          setSearchLoading(false);
+          setSearched(true);
+        });
     }, 300);
     return () => clearTimeout(timer);
   }, [query]);
@@ -74,7 +80,7 @@ export default function DropSearchPage() {
               setQuery(e.target.value);
               if (selectedItem) setSelectedItem(null);
             }}
-            placeholder="아이템 이름을 입력하세요 (예: 자쿰 투구, 메이플 클로)"
+            placeholder="아이템 이름을 입력하세요 (예: 자쿰의 투구, 드래곤 스트라이크)"
             className="pixel-input w-full pl-12 pr-4 py-4 text-lg"
           />
           {searchLoading && (
@@ -106,6 +112,14 @@ export default function DropSearchPage() {
                 </div>
               </button>
             ))}
+          </div>
+        )}
+
+        {/* 0건 피드백 */}
+        {searched && !searchLoading && suggestions.length === 0 && !selectedItem && query.length > 0 && (
+          <div className="pixel-panel absolute z-10 w-full mt-1 px-4 py-4 text-center">
+            <p className="text-sm text-ink">&ldquo;{query}&rdquo; 검색 결과가 없습니다</p>
+            <p className="text-xs text-dim mt-1">이름 일부만 입력하거나 띄어쓰기를 바꿔보세요.</p>
           </div>
         )}
       </div>
@@ -209,7 +223,7 @@ export default function DropSearchPage() {
           <div className="text-5xl mb-4">🔍</div>
           <p className="text-lg">아이템 → 몬스터 → 출현 맵 순서로 찾아보세요</p>
           <div className="mt-6 flex flex-wrap justify-center gap-2">
-            {["자쿰 투구", "메이플 클로", "골든 크로우", "아다만티움 방패"].map((name) => (
+            {["자쿰의 투구", "드래곤 스트라이크", "붉은 채찍", "골든 크로우"].map((name) => (
               <button
                 key={name}
                 onClick={() => setQuery(name)}
