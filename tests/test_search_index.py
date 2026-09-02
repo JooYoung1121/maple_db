@@ -87,6 +87,29 @@ class SearchIndexTests(unittest.TestCase):
             self.assertIn(response["suggestions"][0]["entity_id"], {1, 2})
             self.assertEqual(response["suggestions"][0]["variant_count"], 2)
 
+    def test_like_fallback_ignores_spacing_differences(self):
+        # "비오는날"(붙여쓰기) → "비 오는 날" 매칭
+        with (
+            patch("api.routes.search.get_connection", side_effect=self.connection),
+            patch("api.routes.search.search_entity_filter_sql", return_value=None),
+        ):
+            response = search(q="비오는날", type="quest", page=1, per_page=20)
+            self.assertEqual(response["total"], 1)
+            self.assertEqual(response["results"][0]["name_kr"], "비 오는 날")
+
+            suggest = search_suggest(q="비오는날", limit=10, type="quest")
+            self.assertEqual(len(suggest["suggestions"]), 1)
+
+    def test_like_fallback_matches_tokens_across_words(self):
+        # "비 날" → 두 토큰 모두 포함하는 "비 오는 날" 매칭
+        with (
+            patch("api.routes.search.get_connection", side_effect=self.connection),
+            patch("api.routes.search.search_entity_filter_sql", return_value=None),
+        ):
+            response = search(q="비 날", type="quest", page=1, per_page=20)
+            self.assertEqual(response["total"], 1)
+            self.assertEqual(response["results"][0]["name_kr"], "비 오는 날")
+
     def test_ensure_rebuilds_equal_count_but_stale_ids(self):
         conn = self.connection()
         conn.execute("DELETE FROM search_index")
