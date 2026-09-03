@@ -913,7 +913,7 @@ export async function resolveWeeklySprites(refs: import("./types").SpriteRef[]) 
   );
 }
 
-/* ── 공유 보스 타이머 (혼테일) ────────────────────── */
+/* ── 공유 보스 타이머 (혼테일 · 카오스 자쿰) ────────────────────── */
 export interface BossTimerRoomResponse {
   changed: boolean;
   version: number;

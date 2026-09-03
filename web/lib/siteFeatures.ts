@@ -79,7 +79,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/dojo", label: "무릉도장 공략", icon: "🥋", description: "38층 · 점수 효율 계산기 · 파티 조합" },
       { href: "/wedding", label: "결혼 시스템", icon: "💍", description: "준비물 · 절차 · 채플 vs 대성당 · 하객 보상" },
       { href: "/horntail", label: "혼테일 공략", icon: "🐲", description: "패턴 · 직업별 준비물 · 파츠별 딜 위치" },
-      { href: "/boss-timer", label: "혼테일 타이머", icon: "🐉", description: "리저 · 공무 · 버프해제 쿨타임" },
+      { href: "/boss-timer", label: "보스 타이머", icon: "🐉", description: "혼테일 · 카쿰 — 리저 · 유혹 · 벞해 쿨타임 공유" },
       { href: "/field-boss", label: "필드보스 채널", icon: "👑", description: "처치 채널 · 시각 공유로 젠 로테이션" },
       { href: "/charlie", label: "찰리중사 교환", icon: "🪖", description: "물물교환 보상표 · 확률 · 시세 효율 계산" },
       { href: "/guild-war", label: "길드대항전", icon: "⚔️", description: "샤레니안 공략 · 상자 배분 · 제물 솔버 · 분배 정산" },

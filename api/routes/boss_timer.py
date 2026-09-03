@@ -1,4 +1,4 @@
-"""공유 보스 타이머 — 혼테일 공대원끼리 타이머 상태를 실시간 동기화.
+"""공유 보스 타이머 — 혼테일·카오스 자쿰 공대원끼리 타이머 상태를 실시간 동기화.
 
 - 방 코드(6자)가 곧 접근 키. 방 상태(섹션·타이머 JSON)는 서버가 보관
 - 타이머 시작은 서버 시각 기준 endAt(ms)으로 기록 → 클라이언트는 server_now로 시계 오차 보정
@@ -94,7 +94,7 @@ class CreateRoomPayload(BaseModel):
 class ActionPayload(BaseModel):
     client_id: Optional[str] = None
     nickname: str = "익명"
-    type: str  # start | stop | edit | add | remove
+    type: str  # start | stop | edit | add | remove | repeat
     section_id: str
     timer_id: Optional[str] = None
     label: Optional[str] = None
@@ -187,6 +187,12 @@ def room_action(code: str, payload: ActionPayload):
                 raise HTTPException(status_code=400, detail="알 수 없는 타이머")
             timer["endAt"] = None
             log_text = f"{nick}: {timer['label']} 리셋"
+        elif payload.type == "repeat":
+            # 반복(만료 시 자동 재시작) 토글 — endAt은 그대로 두어 진행 중이던 카운트를 유지
+            if timer is None:
+                raise HTTPException(status_code=400, detail="알 수 없는 타이머")
+            timer["repeat"] = not bool(timer.get("repeat"))
+            log_text = f"{nick}: {timer['label']} 반복 {'켬' if timer['repeat'] else '끔'}"
         elif payload.type == "edit":
             if timer is None:
                 raise HTTPException(status_code=400, detail="알 수 없는 타이머")
@@ -205,6 +211,7 @@ def room_action(code: str, payload: ActionPayload):
                 "duration": int(payload.duration or 60),
                 "endAt": None,
                 "removable": True,
+                "repeat": False,
             })
             log_text = f"{nick}: 타이머 추가"
         elif payload.type == "remove":
