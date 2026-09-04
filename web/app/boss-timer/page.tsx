@@ -73,10 +73,10 @@ const HORNTAIL_SECTIONS: TimerSection[] = [
     id: "death-buff",
     title: "사망 & 버프",
     icon: "🪦",
-    desc: "사망 후 재입장 15분 (안전하게 14분으로 재는 공대는 카드 수정) · 인레이지 쿨 8분(지속 4분)",
+    desc: "사망 후 마을 복귀 14분 · 인레이지 쿨 8분(지속 4분)",
     timers: [
-      { id: "death-1", label: "사망 복귀-1", duration: 900, endAt: null, removable: false },
-      { id: "death-2", label: "사망 복귀-2", duration: 900, endAt: null, removable: false },
+      { id: "death-1", label: "사망 복귀-1", duration: 840, endAt: null, removable: false },
+      { id: "death-2", label: "사망 복귀-2", duration: 840, endAt: null, removable: false },
       { id: "enrage", label: "인레이지", duration: 480, endAt: null, removable: false },
     ],
   },
@@ -123,7 +123,7 @@ const HORNTAIL_SECTIONS: TimerSection[] = [
  * 수치 근거: 메랜 2.0 커뮤니티 실측 공략(아카라이브 메이플랜드 채널 177722971, 2026-07)
  * + 메이플 아틀리에 카쿰 타이머 구성(첫/정기 유혹·디스펠·공격무효·직업 스킬) 참고
  * - 단체유혹: 입장순서 앞 5명 대상, 무조건 우측으로 시전 — 각 페이즈 시작 90초 후 첫 시전, 이후 30~180초 무작위
- * - 버프해제(몸통): 1페 없음 · 2페 HP 50%부터 2분 간격 · 3페 진입 후 30~180초 무작위 (영웅의 메아리 제외 전부 해제)
+ * - 버프해제(몸통): 1페 없음 · 2페 진입(공략 표기 시점)부터 2분 간격 · 3페 진입 후 30~180초 무작위 (영웅의 메아리 제외 전부 해제)
  * - 팔 페이즈: 좌4·우4팔이 벞해, 좌2팔이 단유 — 팔 벞해는 무작위 수시라 타이머 대신 최우선 격파 대상
  * - 공무 40초: 메랜 실측(메이플 아틀리에 2026-06 공지 "공무 타이머 40초로 수정" 기준)
  * - 리저 30분·인레이지 8분: 혼테일과 동일 검증값 / 위협 40초·타임리프 20분·연막탄 10분: 원작 통용값 (실측 시 카드 수정)
@@ -143,7 +143,7 @@ const CHAOS_ZAKUM_SECTIONS: TimerSection[] = [
     id: "cz-dispel",
     title: "버프해제",
     icon: "🛡️",
-    desc: "팔페: 좌4·우4팔이 무작위 시전(타이머 없음 — 최우선 격파) · 몸통: 1페 없음, 2페 HP 50%부터 2분 간격, 3페 30~180초 무작위. 영메 제외 전 버프 해제 — 만료 5초 전부터 뻥·가드 대기",
+    desc: "팔페: 좌4·우4팔이 무작위 시전(타이머 없음 — 최우선 격파) · 몸통: 1페 없음, 2페 진입 후 2분 간격, 3페 진입 후 30~180초 무작위. 영메 제외 전 버프 해제 — 만료 5초 전부터 뻥·가드 대기",
     timers: [
       { id: "cz-dis-p2", label: "벞해 2페 (2분 간격)", duration: 120, endAt: null, removable: false, repeat: true },
       { id: "cz-dis-p3", label: "벞해 3페 (최소 30초)", duration: 30, endAt: null, removable: false, repeat: true },
@@ -177,10 +177,10 @@ const CHAOS_ZAKUM_SECTIONS: TimerSection[] = [
     id: "cz-death",
     title: "사망 · 커스텀",
     icon: "🪦",
-    desc: "사망자 발생 시 시작해 교체·리저 오더 기준으로 쓰는 타이머 (기본 5분 — 공대 룰에 맞게 수정)",
+    desc: "사망 후 마을 복귀 14분 — 사망 순간 시작해 재입장 시점을 잽니다 (공대 룰에 맞게 수정 가능)",
     timers: [
-      { id: "cz-death-1", label: "사망-1", duration: 300, endAt: null, removable: true },
-      { id: "cz-death-2", label: "사망-2", duration: 300, endAt: null, removable: true },
+      { id: "cz-death-1", label: "사망 복귀-1", duration: 840, endAt: null, removable: true },
+      { id: "cz-death-2", label: "사망 복귀-2", duration: 840, endAt: null, removable: true },
     ],
   },
 ];
@@ -194,7 +194,7 @@ const BOSSES: Record<BossId, BossPreset> = {
       "혼테일 공대용 쿨타임 보드 — 리저렉션·사망팅·공무·버프해제를 각각 독립 타이머로 잽니다.",
     guideHref: "/horntail",
     guideLabel: "🐲 공략 가이드",
-    storageKey: "boss_timer_horntail_v3",
+    storageKey: "boss_timer_horntail_v4",
     sections: HORNTAIL_SECTIONS,
     hotkeys: {
       resurrection: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
@@ -212,7 +212,7 @@ const BOSSES: Record<BossId, BossPreset> = {
       "카오스 자쿰 공대용 쿨타임 보드 — 단체유혹·버프해제(2/3페)·공무·직업 스킬 쿨을 잽니다. 첫 단유는 페이즈 시작과 동시에, 나머지는 시전 순간 시작하세요.",
     guideHref: "/guild/info/5",
     guideLabel: "🗿 공략 가이드",
-    storageKey: "boss_timer_chaos_zakum_v1",
+    storageKey: "boss_timer_chaos_zakum_v2",
     sections: CHAOS_ZAKUM_SECTIONS,
     hotkeys: {
       "cz-seduce": ["1", "2", "3", "4"],
@@ -393,7 +393,7 @@ function TimerCard({
               {hotkey && (
                 <kbd
                   className="shrink-0 font-mono text-[10px] leading-none text-dim border border-edge px-1 py-0.5 bg-surface2"
-                  title={`${hotkey}: 시작/재시작 · Shift+${hotkey}: 정지`}
+                  title={`${hotkey}: 시작/정지 토글 · Shift+${hotkey}: 재시작`}
                 >
                   {hotkey}
                 </kbd>
@@ -766,7 +766,9 @@ export default function BossTimerPage() {
         if (idx < 0 || idx >= s.timers.length) continue;
         e.preventDefault();
         const t = s.timers[idx];
-        if (e.shiftKey) stopTimer(s.id, t.id);
+        // on/off 토글: 실행 중이면 정지, 아니면 시작. Shift+키는 재시작(재동기화)
+        if (e.shiftKey) startTimer(s.id, t);
+        else if (t.endAt !== null) stopTimer(s.id, t.id);
         else startTimer(s.id, t);
         return;
       }
@@ -1123,7 +1125,7 @@ export default function BossTimerPage() {
           </li>
           <li className="text-sm text-dim flex gap-2">
             <span className="text-maple flex-shrink-0">-</span>
-            <span><strong>키보드 단축키</strong>: 각 카드 이름 옆의 키를 누르면 시작/재시작, <strong>Shift+키</strong>는 정지입니다. 키보드 줄별로 첫 섹션 <span className="font-mono">1~0</span> · 둘째 <span className="font-mono">Q W E…</span> · 셋째 <span className="font-mono">A S D…</span> · 넷째 <span className="font-mono">Z X C…</span> · 다섯째 <span className="font-mono">U I O…</span> 순서로 배정됩니다. (입력창에 커서가 있을 땐 동작하지 않습니다)</span>
+            <span><strong>키보드 단축키</strong>: 각 카드 이름 옆의 키를 누르면 <strong>시작↔정지 토글</strong>(한 번 누르면 시작, 다시 누르면 정지), <strong>Shift+키</strong>는 재시작(재동기화)입니다. 키보드 줄별로 첫 섹션 <span className="font-mono">1~0</span> · 둘째 <span className="font-mono">Q W E…</span> · 셋째 <span className="font-mono">A S D…</span> · 넷째 <span className="font-mono">Z X C…</span> · 다섯째 <span className="font-mono">U I O…</span> 순서로 배정됩니다. (입력창에 커서가 있을 땐 동작하지 않습니다)</span>
           </li>
           <li className="text-sm text-dim flex gap-2">
             <span className="text-maple flex-shrink-0">-</span>
@@ -1135,7 +1137,7 @@ export default function BossTimerPage() {
           </li>
           <li className="text-sm text-dim flex gap-2">
             <span className="text-maple flex-shrink-0">-</span>
-            기본값(리저 30분 · 사망팅 15분 · 인레이지 8분 · 공무 43초 · 카쿰 벞해 2분 등)은 통용되는 공략 기준이며, 실측과 다르면 각 카드에서 수정해 쓰세요. 방은 마지막 조작 후 48시간이 지나면 자동 삭제됩니다.
+            기본값(리저 30분 · 사망 복귀 14분 · 인레이지 8분 · 공무 43초 · 카쿰 벞해 2분 등)은 통용되는 공략 기준이며, 실측과 다르면 각 카드에서 수정해 쓰세요. 방은 마지막 조작 후 48시간이 지나면 자동 삭제됩니다.
           </li>
         </ul>
       </div>
