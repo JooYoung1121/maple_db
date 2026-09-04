@@ -959,6 +959,50 @@ export async function bossTimerAction(
   return res.json() as Promise<BossTimerRoomResponse>;
 }
 
+/* ── 강화 명예의전당 ────────────────────── */
+export interface EnhanceShowcase {
+  id: number;
+  nickname: string;
+  item_id: number;
+  item_name: string;
+  kind: string | null;
+  icon_url: string | null;
+  base_stats: Record<string, number>;
+  final_stats: Record<string, number>;
+  grade_key: string | null;
+  grade_name: string | null;
+  grade_sum: number;
+  level: number;
+  success_count: number;
+  fail_count: number;
+  scroll_detail: { pct: number; ok: boolean }[];
+  gems: string[];
+  used_accel: number;
+  cost: number;
+  created_at: number;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function registerEnhanceShowcase(payload: Record<string, any>) {
+  const res = await fetch(`${API_BASE}/api/enhance-showcase`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<{ showcase: EnhanceShowcase }>;
+}
+
+export async function getEnhanceShowcaseList(params: { sort?: string; kind?: string; page?: number; per_page?: number } = {}) {
+  return fetchJSON<{ showcase: EnhanceShowcase[]; total: number; page: number; per_page: number }>(
+    `/api/enhance-showcase?${qs(params as Record<string, string | number>)}`
+  );
+}
+
+export async function getEnhanceShowcase(id: number) {
+  return fetchJSON<{ showcase: EnhanceShowcase }>(`/api/enhance-showcase/${id}`);
+}
+
 /* ── 길드 출석부 ────────────────────── */
 export async function checkInAttendance(nickname: string) {
   const res = await fetch(`${API_BASE}/api/guild/attendance`, {

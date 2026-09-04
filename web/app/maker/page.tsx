@@ -6,8 +6,9 @@ import type { MakerData, MakerEquipment, MakerEquipGrade, MakerMobSource } from 
 import GemCalculator from "./GemCalculator";
 import ReverseCraftSimulator from "./ReverseCraftSimulator";
 import ItemEnhanceSimulator from "./ItemEnhanceSimulator";
+import EnhanceShowcaseGallery from "./EnhanceShowcase";
 
-type Tab = "info" | "enhance" | "sim" | "reverse" | "material" | "gem";
+type Tab = "info" | "enhance" | "hall" | "sim" | "reverse" | "material" | "gem";
 type Grade = "하급" | "중급" | "상급";
 
 const won = (n: number) => n.toLocaleString("ko-KR");
@@ -51,7 +52,7 @@ export default function MakerPage() {
 
       {/* 탭 */}
       <div className="flex overflow-x-auto border-2 border-edge">
-        {([["info", "제작 정보"], ["enhance", "강화 시뮬"], ["reverse", "리버스 기대값"], ["sim", "보석 시뮬"], ["material", "재료 획득"], ["gem", "보석 가성비"]] as [Tab, string][]).map(([t, label]) => (
+        {([["info", "제작 정보"], ["enhance", "강화 시뮬"], ["hall", "명예의전당"], ["reverse", "리버스 기대값"], ["sim", "보석 시뮬"], ["material", "재료 획득"], ["gem", "보석 가성비"]] as [Tab, string][]).map(([t, label]) => (
           <button
             key={t}
             onClick={() => setTab(t)}
@@ -66,6 +67,7 @@ export default function MakerPage() {
 
       {tab === "info" && <InfoTab data={data} />}
       {tab === "enhance" && <ItemEnhanceSimulator makerData={data} />}
+      {tab === "hall" && <EnhanceShowcaseGallery />}
       {tab === "sim" && <SimTab data={data} />}
       {tab === "reverse" && <ReverseCraftSimulator />}
       {tab === "material" && <MaterialTab data={data} />}

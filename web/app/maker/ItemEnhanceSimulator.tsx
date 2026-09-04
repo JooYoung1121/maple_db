@@ -1,8 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { searchSuggest, getItem } from "@/lib/api";
+import { searchSuggest, getItem, registerEnhanceShowcase, getEnhanceShowcase, type EnhanceShowcase } from "@/lib/api";
 import type { MakerData, SearchSuggestion } from "@/lib/types";
+import { ShowcaseCard } from "./EnhanceShowcase";
 import {
   STAT_LABEL, SUBCAT_KIND, isWeaponKind, gemsForKind, gemIconUrl, type Gem,
   optRange, rollDeviation, deviationStats,
@@ -84,6 +85,15 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
   const pushLog = useCallback((text: string) => {
     setLog((prev) => [{ at: Date.now(), text }, ...prev].slice(0, 40));
   }, []);
+
+  // 명예의전당 등록·공유
+  const [regNick, setRegNick] = useState("");
+  const [regBusy, setRegBusy] = useState(false);
+  const [regError, setRegError] = useState("");
+  const [sharedId, setSharedId] = useState<number | null>(null);
+  const [shareCopied, setShareCopied] = useState(false);
+  // 공유 링크로 열린 남의 결과
+  const [shared, setShared] = useState<EnhanceShowcase | null>(null);
 
   const gems = useMemo(() => (item ? gemsForKind(item.kind) : []), [item]);
   const seriesList = useMemo(() => (item ? scrollSeriesFor(item.kind) : []), [item]);
@@ -297,8 +307,62 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
     return () => window.removeEventListener("keydown", onKey);
   }, [item, doCraft, hunt, resetEnhance, applyScroll]);
 
+  // 공유 링크(?showcase=ID)로 열렸으면 남의 결과 로드
+  useEffect(() => {
+    try {
+      const id = new URLSearchParams(window.location.search).get("showcase");
+      if (id) getEnhanceShowcase(Number(id)).then((d) => setShared(d.showcase)).catch(() => {});
+    } catch { /* ignore */ }
+  }, []);
+
+  // 명예의전당 등록
+  const registerShowcase = useCallback(() => {
+    if (!item || !grade) return;
+    if (!regNick.trim()) { setRegError("닉네임을 입력하세요"); return; }
+    setRegBusy(true);
+    setRegError("");
+    registerEnhanceShowcase({
+      nickname: regNick.trim(),
+      item_id: item.id,
+      item_name: item.nameKr,
+      kind: item.kind,
+      icon_url: item.iconUrl,
+      base_stats: item.base,
+      final_stats: finalStats,
+      grade_key: grade.key,
+      grade_name: grade.name,
+      grade_sum: grade.sum,
+      level,
+      success_count: scrollSuccess,
+      fail_count: scrollFail,
+      scroll_detail: scrollSlots,
+      gems: gemSel.map((id) => gems.find((g) => g.itemId === id)?.name).filter(Boolean),
+      used_accel: useAccel,
+      cost: totalCost,
+    })
+      .then((d) => { setSharedId(d.showcase.id); pushLog(`🏆 명예의전당 등록 (#${d.showcase.id})`); })
+      .catch((e) => setRegError(String(e.message)))
+      .finally(() => setRegBusy(false));
+  }, [item, grade, regNick, finalStats, level, scrollSuccess, scrollFail, scrollSlots, gemSel, gems, useAccel, totalCost, pushLog]);
+
+  const copyShareLink = useCallback(() => {
+    if (sharedId == null) return;
+    const url = `${window.location.origin}/maker?showcase=${sharedId}`;
+    navigator.clipboard.writeText(url).then(() => { setShareCopied(true); setTimeout(() => setShareCopied(false), 1500); });
+  }, [sharedId]);
+
   return (
     <div className="space-y-4">
+      {shared && (
+        <div className="pixel-panel p-4 border-maple">
+          <div className="flex items-center justify-between mb-2">
+            <span className="font-pixel text-sm text-maple">🔗 {shared.nickname}님의 강화 결과</span>
+            <button onClick={() => setShared(null)} className="text-xs text-dim hover:text-maple">닫고 내가 강화하기 ✕</button>
+          </div>
+          <ShowcaseCard s={shared} />
+        </div>
+      )}
+
       <ItemSearchBar onPick={loadItem} />
 
       {!item ? (
@@ -553,6 +617,34 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
                   ))}
                 </div>
               )}
+            </section>
+
+            {/* 명예의전당 등록·공유 */}
+            <section className="pixel-panel p-4">
+              <h3 className="font-pixel text-sm text-ink flex items-center gap-2"><span className="text-maple">🏆</span> 명예의전당</h3>
+              {!touched ? (
+                <p className="mt-2 text-xs text-dim">강화를 진행하면 결과를 명예의전당에 등록하고 공유 링크를 받을 수 있습니다.</p>
+              ) : sharedId != null ? (
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <span className="text-xs text-maple font-pixel">✅ 등록 완료 (#{sharedId})</span>
+                  <button onClick={copyShareLink} className="pixel-btn px-3 py-1.5 text-xs">{shareCopied ? "복사됨!" : "🔗 공유 링크 복사"}</button>
+                </div>
+              ) : (
+                <div className="mt-3 flex flex-wrap items-center gap-2">
+                  <input
+                    type="text" value={regNick} maxLength={16}
+                    onChange={(e) => setRegNick(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter" && !e.nativeEvent.isComposing) registerShowcase(); }}
+                    placeholder="닉네임"
+                    className="pixel-input px-3 py-2 text-sm w-32"
+                  />
+                  <button onClick={registerShowcase} disabled={regBusy} className="pixel-btn px-4 py-2 text-sm font-pixel disabled:opacity-50">
+                    {regBusy ? "등록중..." : "명예의전당에 등록"}
+                  </button>
+                  {grade && <span className={`text-xs font-pixel ${GRADE_COLOR[grade.key]}`}>{grade.name}{grade.sum > 0 ? ` +${grade.sum}` : ""}</span>}
+                </div>
+              )}
+              {regError && <p className="text-xs text-red-500 mt-2">{regError}</p>}
             </section>
           </div>
         </div>
