@@ -184,7 +184,7 @@ const GROW_WEAPON: Record<string, GrowEntry[]> = {
   한손둔기: GROW_W_STR, 두손둔기: GROW_W_STR, 창: GROW_W_STR, 폴암: GROW_W_STR, 너클: GROW_W_STR,
   활: GROW_W_DEX, 석궁: GROW_W_DEX, 건: GROW_W_DEX,
   완드: GROW_W_INT, 스태프: GROW_W_INT,
-  아대: GROW_W_LUK, 단검: GROW_W_LUK,
+  아대: GROW_W_LUK, 단검: GROW_W_LUK, 클로: GROW_W_LUK, // 클로(도적 LUK) — 리버스 람피온 등
 };
 
 const GROW_ARMOR: Record<string, Record<string, GrowEntry[]>> = {
