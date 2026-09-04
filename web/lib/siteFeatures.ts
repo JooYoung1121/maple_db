@@ -4,6 +4,8 @@ export interface SiteFeature {
   icon: string;
   description: string;
   homeLabel?: string;
+  /** 통합검색용 별칭 — 라벨/설명에 없는 줄임말·다른 표기 ("파퀘", "필보" 등) */
+  keywords?: string[];
 }
 
 export interface SiteSection {
@@ -68,21 +70,27 @@ export const SITE_SECTIONS: SiteSection[] = [
     label: "가이드",
     icon: "📖",
     items: [
-      { href: "/pq", label: "파티퀘스트", icon: "🏰", description: "PQ 공략 및 보상" },
+      { href: "/pq", label: "파티퀘스트", icon: "🏰", description: "PQ 공략 및 보상", keywords: ["파퀘"] },
       { href: "/hunt", label: "사냥터 추천", icon: "🎯", description: "레벨별 사냥터 가이드" },
-      { href: "/leveling", label: "직업별 사냥터", icon: "🗺️", description: "직업·레벨 구간별 육성 루트" },
+      { href: "/leveling", label: "직업별 사냥터", icon: "🗺️", description: "직업·레벨 구간별 육성 루트", keywords: ["육성", "레벨링"] },
       { href: "/events", label: "이벤트 정리", icon: "🗂️", description: "진행 중 이벤트 요약 · 아카이브" },
       { href: "/job", label: "전직 가이드", icon: "📋", description: "직업별 전직 경로" },
       { href: "/medals", label: "훈장 가이드", icon: "🎖️", description: "탐험가 · 기부왕 · 무릉 한정 훈장" },
-      { href: "/ship", label: "배 시간표", icon: "🚢", description: "정기선 운항 시간" },
+      { href: "/ship", label: "배 시간표", icon: "🚢", description: "정기선 운항 시간", keywords: ["페리"] },
       { href: "/trap", label: "함정 타이머", homeLabel: "트랩 타이머", icon: "⏱️", description: "트랩 주기 타이머" },
-      { href: "/dojo", label: "무릉도장 공략", icon: "🥋", description: "38층 · 점수 효율 계산기 · 파티 조합" },
-      { href: "/wedding", label: "결혼 시스템", icon: "💍", description: "준비물 · 절차 · 채플 vs 대성당 · 하객 보상" },
-      { href: "/horntail", label: "혼테일 공략", icon: "🐲", description: "패턴 · 직업별 준비물 · 파츠별 딜 위치" },
-      { href: "/boss-timer", label: "혼테일 타이머", icon: "🐉", description: "리저 · 공무 · 버프해제 쿨타임" },
-      { href: "/field-boss", label: "필드보스 채널", icon: "👑", description: "처치 채널 · 시각 공유로 젠 로테이션" },
+      { href: "/wedding", label: "결혼 시스템", icon: "💍", description: "준비물 · 절차 · 채플 vs 대성당 · 하객 보상", keywords: ["웨딩"] },
       { href: "/charlie", label: "찰리중사 교환", icon: "🪖", description: "물물교환 보상표 · 확률 · 시세 효율 계산" },
-      { href: "/guild-war", label: "길드대항전", icon: "⚔️", description: "샤레니안 공략 · 상자 배분 · 제물 솔버 · 분배 정산" },
+    ],
+  },
+  {
+    label: "보스 · 원정대",
+    icon: "🐲",
+    items: [
+      { href: "/horntail", label: "혼테일 공략", icon: "🐲", description: "패턴 · 직업별 준비물 · 파츠별 딜 위치", keywords: ["혼텔", "보스 공략"] },
+      { href: "/boss-timer", label: "보스 타이머", icon: "🐉", description: "혼테일 · 카쿰 — 리저 · 유혹 · 벞해 쿨타임 공유", keywords: ["카쿰 타이머", "혼테일 타이머", "리저 타이머", "쿨타임"] },
+      { href: "/field-boss", label: "필드보스 채널", icon: "👑", description: "처치 채널 · 시각 공유로 젠 로테이션", keywords: ["필보"] },
+      { href: "/dojo", label: "무릉도장 공략", icon: "🥋", description: "38층 · 점수 효율 계산기 · 파티 조합" },
+      { href: "/guild-war", label: "길드대항전", icon: "⚔️", description: "샤레니안 공략 · 상자 배분 · 제물 솔버 · 분배 정산", keywords: ["길드전"] },
     ],
   },
   {
@@ -127,7 +135,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/guild/attendance", label: "출석부", icon: "📋", description: "출석 체크 · 월간 랭킹" },
       { href: "/guild/boss", label: "보스", icon: "🐉", description: "보스 파티 · 기록" },
       { href: "/guild/board", label: "자유게시판", icon: "💬", description: "길드원 소통" },
-      { href: "/guild/info", label: "정보공유", icon: "📚", description: "길드 공략과 자료 공유" },
+      { href: "/guild/info", label: "정보공유", icon: "📚", description: "길드 공략과 자료 공유", keywords: ["공략 게시판", "정보 게시판"] },
       { href: "/guild/discord", label: "디스코드 봇", icon: "🤖", description: "대화형 챗봇 · 알림 설정" },
     ],
   },
@@ -147,10 +155,31 @@ export const SEARCH_TYPE_META: Record<string, {
   npc: { label: "NPC", path: "/npcs", bg: "bg-purple-100 dark:bg-purple-950", text: "text-purple-700 dark:text-purple-300" },
   quest: { label: "퀘스트", path: "/quests", bg: "bg-yellow-100 dark:bg-yellow-950", text: "text-yellow-800 dark:text-yellow-200" },
   skill: { label: "스킬", path: "/skills", bg: "bg-cyan-100 dark:bg-cyan-950", text: "text-cyan-800 dark:text-cyan-200" },
+  post: { label: "게시판", path: "/guild/info", bg: "bg-orange-100 dark:bg-orange-950", text: "text-orange-700 dark:text-orange-300" },
 };
 
 export function featureForPath(pathname: string): SiteFeature | undefined {
   return [...ALL_SITE_FEATURES]
     .sort((a, b) => b.href.length - a.href.length)
     .find((feature) => pathname === feature.href || pathname.startsWith(`${feature.href}/`));
+}
+
+/* ── 통합검색: 사이트 기능/가이드 페이지 매칭 ──
+ * 공백·대소문자를 무시하고 라벨 > 별칭 > 설명 순으로 점수를 매긴다.
+ * ("카쿰" → 보스 타이머, "무릉" → 무릉도장 공략처럼 검색으로 바로 진입하는 용도) */
+export function searchFeatures(q: string, limit = 5): SiteFeature[] {
+  const norm = (s: string) => s.toLowerCase().replace(/\s+/g, "");
+  const nq = norm(q);
+  if (!nq) return [];
+  const scored: { feature: SiteFeature; score: number }[] = [];
+  for (const feature of ALL_SITE_FEATURES) {
+    const label = norm(feature.label + (feature.homeLabel ?? ""));
+    let score = 0;
+    if (label.includes(nq)) score = label.startsWith(nq) ? 3 : 2.5;
+    else if ((feature.keywords ?? []).some((k) => norm(k).includes(nq))) score = 2;
+    else if (norm(feature.description).includes(nq)) score = 1;
+    if (score > 0) scored.push({ feature, score });
+  }
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, limit).map((s) => s.feature);
 }

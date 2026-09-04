@@ -88,7 +88,8 @@ function AuthChip({ compact = false, onNavigate }: { compact?: boolean; onNaviga
 // ─── 좌측 아이콘 레일 (데스크톱) ───
 const RAIL_GROUPS: string[][] = [
   ["브레인", "마이"],
-  ["정보", "계산기", "시뮬레이터", "가이드"],
+  ["정보", "계산기", "시뮬레이터"],
+  ["가이드", "보스 · 원정대"],
   ["커뮤니티", "놀이터"],
   ["추억길드"],
 ];

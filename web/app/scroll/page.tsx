@@ -3,15 +3,43 @@
 import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 
 // ─── 주문서 데이터 ───
+// icon: 확률 등급별 대표 주문서 아이템 ID (상의 힘 주문서 계열 — 등급별 테두리 색이 실제 %와 일치).
+//        DB entity_names_en 검증값. 게임 내 주문서 테두리 색(회/파/노/…)이 % 등급을 그대로 나타낸다.
 const SCROLL_TYPES = [
-  { pct: 10, label: "10%", desc: "최고 능력치, 최저 확률", color: "red" },
-  { pct: 30, label: "30%", desc: "높은 능력치, 낮은 확률", color: "purple" },
-  { pct: 60, label: "60%", desc: "가장 가성비가 좋음", color: "orange" },
-  { pct: 70, label: "70%", desc: "준수한 확률과 능력치", color: "blue" },
-  { pct: 100, label: "100%", desc: "안전하지만 낮은 능력치", color: "green" },
+  { pct: 10, label: "10%", desc: "최고 능력치, 최저 확률", color: "red", icon: 2040419 },
+  { pct: 30, label: "30%", desc: "높은 능력치, 낮은 확률", color: "purple", icon: 2040407 },
+  { pct: 60, label: "60%", desc: "가장 가성비가 좋음", color: "orange", icon: 2040418 },
+  { pct: 70, label: "70%", desc: "준수한 확률과 능력치", color: "blue", icon: 2040406 },
+  { pct: 100, label: "100%", desc: "안전하지만 낮은 능력치", color: "green", icon: 2040417 },
 ] as const;
 
 const SCROLL_SHORTCUTS: Record<number, string> = { 10: "Q", 30: "W", 60: "E", 70: "R", 100: "T" };
+
+// 확률 → 대표 주문서 아이콘 URL (기존 NAMED_ITEMS와 같은 gms/92 리전)
+const SCROLL_ICON_BY_PCT: Record<number, number> = Object.fromEntries(
+  SCROLL_TYPES.map((s) => [s.pct, s.icon])
+);
+function scrollIconUrl(pct: number): string {
+  const id = SCROLL_ICON_BY_PCT[pct] ?? SCROLL_ICON_BY_PCT[60];
+  return `https://maplestory.io/api/gms/92/item/${id}/icon`;
+}
+
+// 확률 등급별 테마 색 (Tailwind 클래스 — 슬롯/배지/버튼 공통)
+const PCT_THEME: Record<number, { ring: string; text: string; bg: string; bar: string }> = {
+  10: { ring: "border-red-400", text: "text-red-500", bg: "bg-red-500/10", bar: "bg-red-500" },
+  30: { ring: "border-purple-400", text: "text-purple-500", bg: "bg-purple-500/10", bar: "bg-purple-500" },
+  60: { ring: "border-orange-400", text: "text-orange-500", bg: "bg-orange-500/10", bar: "bg-orange-500" },
+  70: { ring: "border-blue-400", text: "text-blue-500", bg: "bg-blue-500/10", bar: "bg-blue-500" },
+  100: { ring: "border-green-400", text: "text-green-600", bg: "bg-green-500/10", bar: "bg-green-500" },
+};
+function pctTheme(pct: number) {
+  return PCT_THEME[pct] ?? PCT_THEME[60];
+}
+
+// 이미지 로드 실패 시 조용히 숨김 (maplestory.io CDN 간헐 장애 대비)
+function hideOnError(e: React.SyntheticEvent<HTMLImageElement>) {
+  e.currentTarget.style.visibility = "hidden";
+}
 
 // 무기 종류별 업그레이드 횟수
 const WEAPON_SLOTS: Record<string, number> = {
@@ -424,20 +452,28 @@ function CalcTab() {
           </div>
           <div>
             <label className="block text-xs font-medium text-dim mb-1">주문서 확률</label>
-            <div className="flex gap-1 flex-wrap">
-              {SCROLL_TYPES.map((s) => (
-                <button
-                  key={s.pct}
-                  onClick={() => setScrollPct(s.pct)}
-                  className={`px-3 py-2 text-sm transition-colors ${
-                    scrollPct === s.pct
-                      ? "pixel-btn"
-                      : "bg-surface2 font-pixel text-dim hover:text-maple"
-                  }`}
-                >
-                  {s.label}
-                </button>
-              ))}
+            <div className="flex gap-1.5 flex-wrap">
+              {SCROLL_TYPES.map((s) => {
+                const active = scrollPct === s.pct;
+                const th = pctTheme(s.pct);
+                return (
+                  <button
+                    key={s.pct}
+                    onClick={() => setScrollPct(s.pct)}
+                    className={`flex flex-col items-center gap-0.5 px-2.5 py-1.5 border-2 transition-colors ${
+                      active ? `${th.ring} ${th.bg}` : "border-edge bg-surface2 hover:border-maple/60"
+                    }`}
+                  >
+                    <img
+                      src={scrollIconUrl(s.pct)}
+                      alt=""
+                      onError={hideOnError}
+                      className="w-6 h-6 object-contain [image-rendering:pixelated]"
+                    />
+                    <span className={`font-pixel text-[11px] ${active ? th.text : "text-dim"}`}>{s.label}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -684,6 +720,7 @@ function ItemSearch({ onSelect }: { onSelect: (item: NamedItem) => void }) {
 
 function SimTab() {
   const [equipmentType, setEquipmentType] = useState("한손검");
+  const [selectedItem, setSelectedItem] = useState<NamedItem | null>(null);
   const [scrollType, setScrollType] = useState("공격력 주문서");
   const [currentSlotPct, setCurrentSlotPct] = useState(60);
   const [simSlots, setSimSlots] = useState<SimSlot[]>([]);
@@ -845,14 +882,14 @@ function SimTab() {
       <div className="pixel-panel p-5">
         <h2 className="font-bold text-lg mb-4 font-pixel">설정</h2>
         <div className="mb-4">
-          <ItemSearch onSelect={(item) => setEquipmentType(item.type)} />
+          <ItemSearch onSelect={(item) => { setEquipmentType(item.type); setSelectedItem(item); }} />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-xs font-medium text-dim mb-1">장비 종류</label>
             <select
               value={equipmentType}
-              onChange={(e) => setEquipmentType(e.target.value)}
+              onChange={(e) => { setEquipmentType(e.target.value); setSelectedItem(null); }}
               className="w-full px-3 py-2 pixel-input text-sm"
             >
               {Object.entries(WEAPON_SLOTS).map(([name, s]) => (
@@ -879,78 +916,118 @@ function SimTab() {
 
       {/* 슬롯 시각화 */}
       <div className="pixel-panel p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="font-bold text-lg font-pixel">
-            {done
-              ? successes === slots
-                ? "축하합니다! 올작 성공!"
-                : `${successes}작 완료`
-              : `${equipmentType} 주문서 시뮬레이션`}
-          </h2>
-          <div className="text-sm text-dim">
-            <span className="text-green-600 font-bold">{successes}</span>
-            <span className="text-dim mx-1">/</span>
-            <span className="text-red-500 font-bold">{fails}</span>
-            <span className="text-dim mx-1">/</span>
-            <span>{slots - successes - fails}</span>
+        {/* 대상 장비 히어로 */}
+        <div className="flex items-center gap-4 mb-5 pb-4 border-b-2 border-edge/60">
+          <div className="w-16 h-16 flex items-center justify-center border-2 border-edge bg-surface2 shrink-0">
+            {selectedItem ? (
+              <img
+                src={selectedItem.icon}
+                alt={selectedItem.name}
+                onError={hideOnError}
+                className="w-12 h-12 object-contain [image-rendering:pixelated]"
+              />
+            ) : (
+              <span className="text-2xl opacity-60" aria-hidden>🗡️</span>
+            )}
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="font-pixel text-base text-ink truncate">
+              {selectedItem ? selectedItem.name : `${equipmentType}`}
+            </p>
+            <p className="text-xs text-dim mt-0.5">
+              {equipmentType} · 업그레이드 {slots}칸 · <span className="text-ink">{scrollType}</span>
+            </p>
+          </div>
+          {/* 성공/실패/남음 카운터 */}
+          <div className="flex items-center gap-2 text-sm shrink-0">
+            <span className="flex flex-col items-center px-2">
+              <span className="text-green-600 font-bold text-lg leading-none">{successes}</span>
+              <span className="text-[10px] text-dim">성공</span>
+            </span>
+            <span className="flex flex-col items-center px-2">
+              <span className="text-red-500 font-bold text-lg leading-none">{fails}</span>
+              <span className="text-[10px] text-dim">실패</span>
+            </span>
+            <span className="flex flex-col items-center px-2">
+              <span className="text-dim font-bold text-lg leading-none">{slots - successes - fails}</span>
+              <span className="text-[10px] text-dim">남음</span>
+            </span>
           </div>
         </div>
 
-        {/* 슬롯 그리드 */}
+        {/* 상태 제목 */}
+        <p className="text-center font-pixel text-sm mb-4">
+          {done
+            ? successes === slots
+              ? <span className="text-maple">🎉 축하합니다! 올작 성공!</span>
+              : <span className="text-ink">{successes}작 완료</span>
+            : <span className="text-dim">주문서를 발라 강화하세요</span>}
+        </p>
+
+        {/* 슬롯 그리드 — 각 칸에 주문서 아이콘 */}
         <div className="flex gap-2 flex-wrap justify-center mb-5">
-          {simSlots.map((slot, i) => (
-            <div
-              key={i}
-              className={`w-14 h-14 flex flex-col items-center justify-center text-xs font-bold border-2 transition-all duration-300 ${
-                slot.status === "success"
-                  ? "bg-green-100 border-green-400 text-green-600 scale-105"
-                  : slot.status === "fail"
-                  ? "bg-red-100 border-red-300 text-red-500"
-                  : i === currentIdx && running
-                  ? "bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] border-maple text-maple animate-pulse"
-                  : "bg-surface2 border-edge text-dim"
-              }`}
-            >
-              <span className="text-base leading-none">
-                {slot.status === "success"
-                  ? "O"
-                  : slot.status === "fail"
-                  ? "X"
-                  : i === currentIdx && running
-                  ? "?"
-                  : "·"}
-              </span>
-              {slot.status !== "pending" && (
-                <span className="text-[10px] leading-none mt-0.5 opacity-70">{slot.pct}%</span>
-              )}
-              {i === currentIdx && running && slot.status === "pending" && (
-                <span className="text-[10px] leading-none mt-0.5 opacity-70">{currentSlotPct}%</span>
-              )}
-            </div>
-          ))}
+          {simSlots.map((slot, i) => {
+            const isCurrent = i === currentIdx && running;
+            const th = pctTheme(slot.status !== "pending" ? slot.pct : currentSlotPct);
+            return (
+              <div
+                key={i}
+                className={`relative w-16 h-16 flex flex-col items-center justify-center border-2 transition-all duration-300 ${
+                  slot.status === "success"
+                    ? "border-green-400 bg-green-500/10 scale-105 shadow-[0_0_10px_rgba(74,222,128,0.35)]"
+                    : slot.status === "fail"
+                    ? "border-red-300 bg-red-500/10"
+                    : isCurrent
+                    ? `${th.ring} bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] animate-pulse`
+                    : "border-edge bg-surface2"
+                }`}
+              >
+                {slot.status === "success" ? (
+                  <>
+                    <img src={scrollIconUrl(slot.pct)} alt="" onError={hideOnError} className="w-8 h-8 object-contain [image-rendering:pixelated]" />
+                    <span className="absolute -top-1.5 -right-1.5 text-green-500 text-sm bg-surface rounded-full leading-none">✔</span>
+                  </>
+                ) : slot.status === "fail" ? (
+                  <span className="text-red-500 text-2xl leading-none">✕</span>
+                ) : isCurrent ? (
+                  <img src={scrollIconUrl(currentSlotPct)} alt="" onError={hideOnError} className="w-8 h-8 object-contain [image-rendering:pixelated] opacity-70" />
+                ) : (
+                  <span className="text-dim text-lg opacity-50">·</span>
+                )}
+                <span className={`text-[10px] leading-none mt-0.5 font-pixel ${
+                  slot.status === "success" ? "text-green-600" : slot.status === "fail" ? "text-red-400" : isCurrent ? th.text : "text-dim opacity-50"
+                }`}>
+                  {slot.status !== "pending" ? `${slot.pct}%` : isCurrent ? `${currentSlotPct}%` : `${i + 1}`}
+                </span>
+              </div>
+            );
+          })}
         </div>
 
-        {/* 현재 슬롯 주문서 % 선택 */}
+        {/* 현재 슬롯 주문서 % 선택 — 실제 주문서 이미지 */}
         {running && (
           <div className="mb-5">
             <p className="text-xs text-dim mb-2 text-center">
-              슬롯 {currentIdx + 1} / {slots} — 바를 주문서 확률 선택
+              슬롯 <span className="text-maple font-bold">{currentIdx + 1}</span> / {slots} — 바를 주문서 선택
             </p>
             <div className="flex gap-2 justify-center flex-wrap">
-              {SCROLL_TYPES.map((s) => (
-                <button
-                  key={s.pct}
-                  onClick={() => setCurrentSlotPct(s.pct)}
-                  className={`px-3 py-2 text-sm transition-colors ${
-                    currentSlotPct === s.pct
-                      ? "pixel-btn"
-                      : "bg-surface2 font-pixel text-dim hover:text-maple"
-                  }`}
-                >
-                  {s.label}
-                  <span className="ml-1 text-[10px] opacity-60">[{SCROLL_SHORTCUTS[s.pct]}]</span>
-                </button>
-              ))}
+              {SCROLL_TYPES.map((s) => {
+                const active = currentSlotPct === s.pct;
+                const th = pctTheme(s.pct);
+                return (
+                  <button
+                    key={s.pct}
+                    onClick={() => setCurrentSlotPct(s.pct)}
+                    className={`flex flex-col items-center gap-0.5 px-3 py-2 border-2 transition-colors ${
+                      active ? `${th.ring} ${th.bg}` : "border-edge bg-surface2 hover:border-maple/60"
+                    }`}
+                  >
+                    <img src={scrollIconUrl(s.pct)} alt="" onError={hideOnError} className="w-7 h-7 object-contain [image-rendering:pixelated]" />
+                    <span className={`font-pixel text-[11px] ${active ? th.text : "text-dim"}`}>{s.label}</span>
+                    <span className="text-[9px] text-dim opacity-60">[{SCROLL_SHORTCUTS[s.pct]}]</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         )}
@@ -1119,25 +1196,23 @@ function RefTab() {
           각 확률별 주문서의 특성을 비교해보세요
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {SCROLL_TYPES.map((s) => (
-            <div
-              key={s.pct}
-              className={`rounded-xl p-4 border ${
-                s.color === "green"
-                  ? "bg-green-50 border-green-200"
-                  : s.color === "blue"
-                  ? "bg-blue-50 border-blue-200"
-                  : s.color === "orange"
-                  ? "bg-orange-50 border-orange-200"
-                  : s.color === "purple"
-                  ? "bg-purple-50 border-purple-200"
-                  : "bg-red-50 border-red-200"
-              }`}
-            >
-              <p className="text-2xl font-bold mb-1">{s.label}</p>
-              <p className="text-sm text-dim">{s.desc}</p>
-            </div>
-          ))}
+          {SCROLL_TYPES.map((s) => {
+            const th = pctTheme(s.pct);
+            return (
+              <div key={s.pct} className={`p-4 border-2 flex items-center gap-3 ${th.ring} ${th.bg}`}>
+                <img
+                  src={scrollIconUrl(s.pct)}
+                  alt=""
+                  onError={hideOnError}
+                  className="w-10 h-10 object-contain [image-rendering:pixelated] shrink-0"
+                />
+                <div>
+                  <p className={`text-xl font-bold mb-0.5 ${th.text}`}>{s.label}</p>
+                  <p className="text-sm text-dim">{s.desc}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -1181,8 +1256,11 @@ function RefTab() {
                 <tr className="bg-surface2 text-dim">
                   <th className="text-left px-5 py-2.5 font-medium">주문서</th>
                   {SCROLL_TYPES.map((s) => (
-                    <th key={s.pct} className="text-center px-3 py-2.5 font-medium">
-                      {s.label}
+                    <th key={s.pct} className="px-3 py-2.5 font-medium">
+                      <span className="flex flex-col items-center gap-0.5">
+                        <img src={scrollIconUrl(s.pct)} alt="" onError={hideOnError} className="w-5 h-5 object-contain [image-rendering:pixelated]" />
+                        {s.label}
+                      </span>
                     </th>
                   ))}
                 </tr>

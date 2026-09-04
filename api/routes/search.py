@@ -28,6 +28,39 @@ def _like_fallback_where(column: str, query: str) -> tuple[str, list]:
     return " AND ".join(clauses), params
 
 
+def _search_posts(conn, query: str, limit: int) -> list:
+    """길드 정보공유 게시판(info_posts) 글 검색 — 글 수가 적어 공백 무시 토큰 AND LIKE로 충분하다."""
+    tokens = query.split() or [query]
+    clauses: list[str] = []
+    params: list = []
+    for token in tokens:
+        clauses.append("(REPLACE(title, ' ', '') LIKE ? OR REPLACE(content, ' ', '') LIKE ?)")
+        pattern = f"%{token.replace(' ', '')}%"
+        params += [pattern, pattern]
+    try:
+        return conn.execute(
+            f"""SELECT id, title, content FROM info_posts
+                WHERE {" AND ".join(clauses)}
+                ORDER BY upvotes DESC, created_at DESC
+                LIMIT ?""",
+            params + [limit],
+        ).fetchall()
+    except Exception:
+        # info_posts가 없는 환경에서도 엔티티 검색은 동작해야 한다
+        logger.exception("info_posts search failed")
+        return []
+
+
+def _post_snippet(content: str, query: str) -> str:
+    flat = " ".join(content.split())
+    token = (query.split() or [query])[0]
+    idx = flat.lower().find(token.lower())
+    if idx < 0:
+        return flat[:180]
+    start = max(idx - 40, 0)
+    return flat[start:start + 180]
+
+
 def _base_filters(type_filter: Optional[str]) -> tuple[str, list]:
     where = "search_index MATCH ?"
     params: list = []
@@ -68,6 +101,23 @@ def search_suggest(
         raise HTTPException(status_code=503, detail="Search unavailable") from exc
 
     suggestions: list[dict] = []
+
+    # 게시판 글만 검색하는 경우 — 엔티티 FTS는 건너뛴다
+    if type == "post":
+        try:
+            for row in _search_posts(conn, query, limit):
+                suggestions.append({
+                    "entity_type": "post",
+                    "entity_id": row["id"],
+                    "name": row["title"],
+                    "name_kr": None,
+                    "icon_url": None,
+                    "variant_count": 1,
+                })
+        finally:
+            conn.close()
+        return {"suggestions": suggestions}
+
     try:
         # 동일 표시명은 대표 1건으로 묶고 실제 변형 수를 함께 반환한다.
         fts_query = query + "*"
@@ -170,6 +220,18 @@ def search_suggest(
                     "icon_url": None,
                     "variant_count": row["variant_count"],
                 })
+
+        # 타입 필터가 없으면 정보공유 게시판 글도 함께 제안 (상위 3건)
+        if type is None:
+            for row in _search_posts(conn, query, 3):
+                suggestions.append({
+                    "entity_type": "post",
+                    "entity_id": row["id"],
+                    "name": row["title"],
+                    "name_kr": None,
+                    "icon_url": None,
+                    "variant_count": 1,
+                })
     except HTTPException:
         raise
     except Exception as exc:
@@ -198,6 +260,25 @@ def search(
         conn = get_connection()
     except Exception as exc:
         raise HTTPException(status_code=503, detail="Search unavailable") from exc
+
+    # 게시판 글만 검색하는 경우 — 엔티티 FTS는 건너뛴다
+    if type == "post":
+        try:
+            post_rows = _search_posts(conn, query, per_page) if page == 1 else []
+        finally:
+            conn.close()
+        results = [
+            {
+                "entity_type": "post",
+                "entity_id": row["id"],
+                "name": row["title"],
+                "name_kr": None,
+                "snippet": _post_snippet(row["content"] or "", query),
+                "variant_count": 1,
+            }
+            for row in post_rows
+        ]
+        return {"results": results, "total": len(results), "page": page, "per_page": per_page}
 
     try:
         # FTS5 검색 (한국어 + 영문명 모두 content에 포함됨)
@@ -319,6 +400,20 @@ def search(
                     "variant_count": row["variant_count"],
                 })
             total = len(results)
+
+        # 타입 필터가 없으면 첫 페이지에 정보공유 게시판 글도 포함 (글 수가 적어 페이지네이션 생략)
+        if type is None and page == 1:
+            post_rows = _search_posts(conn, query, 10)
+            for row in post_rows:
+                results.append({
+                    "entity_type": "post",
+                    "entity_id": row["id"],
+                    "name": row["title"],
+                    "name_kr": None,
+                    "snippet": _post_snippet(row["content"] or "", query),
+                    "variant_count": 1,
+                })
+            total += len(post_rows)
     except HTTPException:
         raise
     except Exception as exc:
