@@ -73,10 +73,10 @@ const HORNTAIL_SECTIONS: TimerSection[] = [
     id: "death-buff",
     title: "사망 & 버프",
     icon: "🪦",
-    desc: "사망 후 재입장 15분 (안전하게 14분으로 재는 공대는 카드 수정) · 인레이지 쿨 8분(지속 4분)",
+    desc: "사망 후 마을 복귀 14분 · 인레이지 쿨 8분(지속 4분)",
     timers: [
-      { id: "death-1", label: "사망 복귀-1", duration: 900, endAt: null, removable: false },
-      { id: "death-2", label: "사망 복귀-2", duration: 900, endAt: null, removable: false },
+      { id: "death-1", label: "사망 복귀-1", duration: 840, endAt: null, removable: false },
+      { id: "death-2", label: "사망 복귀-2", duration: 840, endAt: null, removable: false },
       { id: "enrage", label: "인레이지", duration: 480, endAt: null, removable: false },
     ],
   },
@@ -177,10 +177,10 @@ const CHAOS_ZAKUM_SECTIONS: TimerSection[] = [
     id: "cz-death",
     title: "사망 · 커스텀",
     icon: "🪦",
-    desc: "사망자 발생 시 시작해 교체·리저 오더 기준으로 쓰는 타이머 (기본 5분 — 공대 룰에 맞게 수정)",
+    desc: "사망 후 마을 복귀 14분 — 사망 순간 시작해 재입장 시점을 잽니다 (공대 룰에 맞게 수정 가능)",
     timers: [
-      { id: "cz-death-1", label: "사망-1", duration: 300, endAt: null, removable: true },
-      { id: "cz-death-2", label: "사망-2", duration: 300, endAt: null, removable: true },
+      { id: "cz-death-1", label: "사망 복귀-1", duration: 840, endAt: null, removable: true },
+      { id: "cz-death-2", label: "사망 복귀-2", duration: 840, endAt: null, removable: true },
     ],
   },
 ];
@@ -194,7 +194,7 @@ const BOSSES: Record<BossId, BossPreset> = {
       "혼테일 공대용 쿨타임 보드 — 리저렉션·사망팅·공무·버프해제를 각각 독립 타이머로 잽니다.",
     guideHref: "/horntail",
     guideLabel: "🐲 공략 가이드",
-    storageKey: "boss_timer_horntail_v3",
+    storageKey: "boss_timer_horntail_v4",
     sections: HORNTAIL_SECTIONS,
     hotkeys: {
       resurrection: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"],
@@ -393,7 +393,7 @@ function TimerCard({
               {hotkey && (
                 <kbd
                   className="shrink-0 font-mono text-[10px] leading-none text-dim border border-edge px-1 py-0.5 bg-surface2"
-                  title={`${hotkey}: 시작/재시작 · Shift+${hotkey}: 정지`}
+                  title={`${hotkey}: 시작/정지 토글 · Shift+${hotkey}: 재시작`}
                 >
                   {hotkey}
                 </kbd>
@@ -766,7 +766,9 @@ export default function BossTimerPage() {
         if (idx < 0 || idx >= s.timers.length) continue;
         e.preventDefault();
         const t = s.timers[idx];
-        if (e.shiftKey) stopTimer(s.id, t.id);
+        // on/off 토글: 실행 중이면 정지, 아니면 시작. Shift+키는 재시작(재동기화)
+        if (e.shiftKey) startTimer(s.id, t);
+        else if (t.endAt !== null) stopTimer(s.id, t.id);
         else startTimer(s.id, t);
         return;
       }
@@ -1123,7 +1125,7 @@ export default function BossTimerPage() {
           </li>
           <li className="text-sm text-dim flex gap-2">
             <span className="text-maple flex-shrink-0">-</span>
-            <span><strong>키보드 단축키</strong>: 각 카드 이름 옆의 키를 누르면 시작/재시작, <strong>Shift+키</strong>는 정지입니다. 키보드 줄별로 첫 섹션 <span className="font-mono">1~0</span> · 둘째 <span className="font-mono">Q W E…</span> · 셋째 <span className="font-mono">A S D…</span> · 넷째 <span className="font-mono">Z X C…</span> · 다섯째 <span className="font-mono">U I O…</span> 순서로 배정됩니다. (입력창에 커서가 있을 땐 동작하지 않습니다)</span>
+            <span><strong>키보드 단축키</strong>: 각 카드 이름 옆의 키를 누르면 <strong>시작↔정지 토글</strong>(한 번 누르면 시작, 다시 누르면 정지), <strong>Shift+키</strong>는 재시작(재동기화)입니다. 키보드 줄별로 첫 섹션 <span className="font-mono">1~0</span> · 둘째 <span className="font-mono">Q W E…</span> · 셋째 <span className="font-mono">A S D…</span> · 넷째 <span className="font-mono">Z X C…</span> · 다섯째 <span className="font-mono">U I O…</span> 순서로 배정됩니다. (입력창에 커서가 있을 땐 동작하지 않습니다)</span>
           </li>
           <li className="text-sm text-dim flex gap-2">
             <span className="text-maple flex-shrink-0">-</span>
@@ -1135,7 +1137,7 @@ export default function BossTimerPage() {
           </li>
           <li className="text-sm text-dim flex gap-2">
             <span className="text-maple flex-shrink-0">-</span>
-            기본값(리저 30분 · 사망팅 15분 · 인레이지 8분 · 공무 43초 · 카쿰 벞해 2분 등)은 통용되는 공략 기준이며, 실측과 다르면 각 카드에서 수정해 쓰세요. 방은 마지막 조작 후 48시간이 지나면 자동 삭제됩니다.
+            기본값(리저 30분 · 사망 복귀 14분 · 인레이지 8분 · 공무 43초 · 카쿰 벞해 2분 등)은 통용되는 공략 기준이며, 실측과 다르면 각 카드에서 수정해 쓰세요. 방은 마지막 조작 후 48시간이 지나면 자동 삭제됩니다.
           </li>
         </ul>
       </div>
