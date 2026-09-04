@@ -451,9 +451,14 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
             <section className="pixel-panel p-4">
               <SectionHead n="①" title="메이커 제작" />
               <div className="grid sm:grid-cols-3 gap-2 mt-3">
-                {[0, 1, 2].map((i) => (
-                  <GemSelect key={i} gems={gems} value={gemSel[i]} onChange={(v) => setGemSel((prev) => prev.map((x, j) => (j === i ? v : x)))} />
-                ))}
+                {[0, 1, 2].map((i) => {
+                  // 같은 보석 중복 금지 — 다른 슬롯이 고른 보석은 제외(자기 슬롯의 현재 선택은 유지)
+                  const takenElsewhere = new Set(gemSel.filter((v, j) => j !== i && v != null) as number[]);
+                  const avail = gems.filter((g) => g.itemId === gemSel[i] || !takenElsewhere.has(g.itemId));
+                  return (
+                    <GemSelect key={i} gems={avail} value={gemSel[i]} onChange={(v) => setGemSel((prev) => prev.map((x, j) => (j === i ? v : x)))} />
+                  );
+                })}
               </div>
               <label className="flex items-center gap-2 mt-3 text-xs text-dim cursor-pointer">
                 <input type="checkbox" checked={useAccel} onChange={(e) => setUseAccel(e.target.checked)} className="accent-maple" />

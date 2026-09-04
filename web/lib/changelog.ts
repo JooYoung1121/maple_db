@@ -15,6 +15,21 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.95.1",
+    date: "2026-09-04",
+    type: "patch",
+    title: "강화 시뮬 보석 중복 선택 방지",
+    pages: ["/maker"],
+    features: [
+      {
+        category: "메이커",
+        items: [
+          "메이커 제작 보석 3슬롯에서 같은 보석 중복 선택 불가 — 다른 슬롯이 고른 보석은 목록에서 제외 (인게임과 동일)",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.95.0",
     date: "2026-09-04",
     type: "minor",
