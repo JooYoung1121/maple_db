@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
 
 /* ── 전직 데이터 ── */
 
@@ -379,6 +380,50 @@ const JOB_PATHS: JobPath[] = [
       },
     ],
   },
+  {
+    // 9/7 패치 신규 직업군 — 스킬 구성·마스터레벨·전직 퀘스트는 원본 공지(KMS 1.2.105, 2010-07-22) 기준
+    // https://archive.maplestory.nexon.com/News/Update/147 · 메랜은 빅뱅 이전 KMST 공개 데이터 참조(공지 명시)
+    id: "resistance",
+    name: "레지스탕스",
+    icon: "⚙️",
+    color: "amber",
+    description: "블랙윙에 점령당한 에델슈타인의 저항군 — 시티즌으로 시작하는 신규 직업군 (9/7 추가, 버닝 월드 생성 불가)",
+    branches: [
+      {
+        name: "시티즌 → 배틀메이지",
+        advancements: [
+          {
+            order: 1, level: 10, jobName: "배틀메이지",
+            npc: "헨리테", location: "에델슈타인 - 비밀 광장 (레지스탕스 본부)",
+            quest: "'배틀 메이지의 길' — 눈앞의 NPC들과 스토리라인 퀘스트를 전부 완료해야 전직 가능 (공지 명시)",
+            skills: ["트리플 블로우", "피니쉬 어택", "텔레포트", "다크 오라"],
+            tip: "시티즌 스킬: 크리스탈 스로우 · 잠입 · 이피션시. 화려한 근접공격과 오라가 특기인 격투 마법사",
+          },
+          {
+            order: 2, level: 30, jobName: "배틀메이지 2차",
+            npc: "헨리테 (전직관)", location: "에델슈타인 - 레지스탕스 본부",
+            quest: "'복수와 성장' (원본 기준 — 메랜 실측 확인 예정)",
+            skills: ["쿼드 블로우", "다크 체인", "블루 오라", "옐로우 오라", "블러드 드레인", "스태프 부스터", "스태프 마스터리"],
+            tip: "오라는 동시에 하나만 — 사냥은 옐로우 오라(공속), 파티 상황엔 블루 오라(피해 분산) 전환",
+          },
+          {
+            order: 3, level: 70, jobName: "배틀메이지 3차",
+            npc: "헨리테 (전직관)", location: "에델슈타인 - 레지스탕스 본부",
+            quest: "'에너지 전송 장치 파괴' (원본 기준 — 메랜 실측 확인 예정)",
+            skills: ["데스 블로우", "배틀 마스터리", "다크 라이트닝", "어드밴스드 다크체인", "컨버젼", "어드밴스드 블루 오라", "슈퍼 바디", "리바이브", "텔레포트 마스터리"],
+            tip: "리바이브(부활)·슈퍼 바디 보유. 텔레포트 마스터리로 텔레포트가 공격기를 겸함",
+          },
+          {
+            order: 4, level: 120, jobName: "배틀메이지 4차",
+            npc: "헨리테 (전직관)", location: "에델슈타인 - 레지스탕스 본부",
+            quest: "'나를 넘어서는 너' (원본 기준 — 메랜 실측 확인 예정)",
+            skills: ["피니쉬 블로우", "어드밴스드 다크 오라", "어드밴스드 옐로우 오라", "싸이클론", "다크 제네시스", "스탠스", "쉘터", "에너자이즈"],
+            tip: "마스터리북: [스탠스 20/30]은 기존 전사 스탠스 마북과 같은 아이템 (9/4 툴팁 변경으로 확인)",
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 /* ── 3차 전직 퀴즈 족보 ── */
@@ -502,6 +547,19 @@ export default function JobAdvancementPage() {
           </div>
         </div>
       </div>
+
+      {selectedJob === "resistance" && (
+        <Link
+          href="/battle-mage"
+          className="pixel-panel mb-6 flex items-center justify-between gap-3 p-4 transition-colors hover:border-amber-400"
+        >
+          <div>
+            <div className="font-pixel text-sm font-bold text-amber-700 dark:text-amber-300">배틀메이지 종합 가이드</div>
+            <div className="mt-1 text-xs text-dim">전체 스킬 · 마스터리북 드롭 · 원작 퀘스트 117개 · 육성 루트</div>
+          </div>
+          <span className="text-maple">바로가기 →</span>
+        </Link>
+      )}
 
       {/* 분기 선택 */}
       {job.branches.length > 1 && (

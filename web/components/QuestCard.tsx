@@ -114,6 +114,12 @@ export default function QuestCard({ quest, onClick, checked, onToggleCheck, favo
         {/* Quest type badge (only for non-일반) */}
         {quest.quest_type && quest.quest_type !== "일반" && <TypeBadge type={quest.quest_type} />}
 
+        {quest.is_mapleland === 0 && (
+          <span className="pixel-badge inline-flex bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-700 dark:bg-purple-900/50 dark:text-purple-300">
+            원작 참고
+          </span>
+        )}
+
         {/* Complete checkbox */}
         <button
           onClick={(e) => { e.stopPropagation(); onToggleCheck?.(); }}

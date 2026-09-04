@@ -15,6 +15,38 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.96.0",
+    date: "2026-09-04",
+    type: "minor",
+    title: "배틀메이지·에델슈타인 업데이트 데이터",
+    pages: ["/battle-mage", "/skills", "/quests", "/leveling", "/job"],
+    features: [
+      {
+        category: "배틀메이지",
+        items: [
+          "메이플랜드 9/7 공지와 KMS 1.2.105·초기 KMST 자료를 판본별로 분리한 종합 가이드 추가",
+          "배틀메이지 공식 스킬 33종, 에델슈타인 지역·훈련 몬스터 29종과 맵·육성 루트 추가",
+          "KMS 원작 공지 퀘스트 117종을 메이플랜드 확정 데이터와 구분해 등록",
+          "마스터리북 확정 드롭과 빅뱅 직후 후보 드롭을 근거 등급으로 분리 표시",
+        ],
+      },
+      {
+        category: "9/4 추가 패치",
+        items: [
+          "아모스의 훈련장·아모리안 챌린지 스테이지 맵 12종을 레퍼런스에 반영",
+          "리버스·타임리스 에아스 핸드 공격속도를 공식 툴팁 변경에 맞게 갱신",
+        ],
+      },
+      {
+        category: "아이콘 안정성",
+        items: [
+          "maplestory.io 타임아웃·오표시에 대비한 서버 프록시·검증·30일 파일 캐시 추가",
+          "메이커·주문서 계산기의 장비·주문서·보석 아이콘을 프록시 경로로 전환",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.95.1",
     date: "2026-09-04",
     type: "patch",

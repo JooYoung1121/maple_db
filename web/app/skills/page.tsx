@@ -12,7 +12,7 @@ import CanonDiffInfo from "@/components/CanonDiffInfo";
 import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
 import { getEntityCanonDiffs } from "@/lib/entityCanonDiffs";
 
-const JOB_TABS = ["전체", "전사", "마법사", "궁수", "도적", "해적"];
+const JOB_TABS = ["전체", "전사", "마법사", "궁수", "도적", "해적", "배틀메이지"];
 
 const columns: Column<Skill>[] = [
   { key: "skill_name", label: "스킬명", render: (r) => {

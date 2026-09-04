@@ -78,7 +78,7 @@ export function gemsForKind(kind: string): Gem[] {
   return GEMS.filter((g) => (weapon ? true : !g.weaponOnly));
 }
 export function gemIconUrl(itemId: number): string {
-  return `https://maplestory.io/api/gms/92/item/${itemId}/icon`;
+  return `/api/icon/item/${itemId}`; // 서버 프록시 — CDN 변덕 차단
 }
 
 // ── 편차(옵션) ────────────────────────────────────────────
@@ -164,7 +164,7 @@ export function scrollSeriesFor(kind: string): ScrollSeries[] {
 // % → 대표 주문서 아이콘 (상의 힘 주문서 계열, 등급 색이 실제 %와 일치)
 const SCROLL_PCT_ICON: Record<number, number> = { 10: 2040419, 30: 2040407, 60: 2040418, 70: 2040406, 100: 2040417 };
 export function scrollIconUrl(pct: number): string {
-  return `https://maplestory.io/api/gms/92/item/${SCROLL_PCT_ICON[pct] ?? SCROLL_PCT_ICON[60]}/icon`;
+  return `/api/icon/item/${SCROLL_PCT_ICON[pct] ?? SCROLL_PCT_ICON[60]}`;
 }
 export function rollScroll(pct: number, rnd: () => number = Math.random): boolean {
   return rnd() * 100 < pct;
