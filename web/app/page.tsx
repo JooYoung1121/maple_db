@@ -9,7 +9,7 @@ import { searchAll } from "@/lib/api";
 import type { SearchResult } from "@/lib/types";
 import { CHANGELOG } from "@/lib/changelog";
 import { isNewFeature } from "@/lib/newFeatures";
-import { SEARCH_TYPE_META, SITE_SECTIONS } from "@/lib/siteFeatures";
+import { SEARCH_TYPE_META, SITE_SECTIONS, searchFeatures } from "@/lib/siteFeatures";
 
 function renderSnippet(snippet: string) {
   const parts = snippet.split(/<\/?b>/);
@@ -95,10 +95,32 @@ function HomeContent() {
           <h2 className="font-pixel text-base mb-4 text-ink">
             <span className="text-maple">&ldquo;{query}&rdquo;</span> 검색 결과 ({total}건)
           </h2>
+          {(() => {
+            const featureMatches = searchFeatures(query, 8);
+            if (featureMatches.length === 0) return null;
+            return (
+              <div className="mb-5">
+                <h3 className="font-pixel text-[12px] text-maple mb-2">기능 · 가이드 바로가기</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {featureMatches.map((feature) => (
+                    <Link key={feature.href} href={feature.href} className="pixel-card group px-3 py-2.5 flex items-center gap-2.5">
+                      <span className="text-2xl" aria-hidden>{feature.icon}</span>
+                      <span className="min-w-0">
+                        <span className="font-pixel text-[12px] text-ink block truncate">{feature.label}</span>
+                        <span className="text-[11px] text-dim block truncate">{feature.description}</span>
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
           {loading ? (
             <div className="text-center py-12 text-dim font-pixel text-sm">검색 중...</div>
           ) : results.length === 0 ? (
-            <div className="text-center py-12 text-dim font-pixel text-sm">결과가 없습니다</div>
+            searchFeatures(query, 1).length === 0 ? (
+              <div className="text-center py-12 text-dim font-pixel text-sm">결과가 없습니다</div>
+            ) : null
           ) : (
             <div className="space-y-2">
               {results.map((result) => {
