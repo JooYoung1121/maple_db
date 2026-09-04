@@ -22,6 +22,7 @@ const AREA_BUTTONS: { label: string; value: string }[] = [
   { label: "무릉/니할사막", value: "무릉/니할사막" },
   { label: "리프레", value: "리프레" },
   { label: "에델슈타인", value: "에델슈타인" },
+  { label: "아모리아", value: "아모리아" },
   { label: "세계여행", value: "세계여행" },
 ];
 
@@ -33,6 +34,7 @@ const AREAS_BETA = [
   { label: "무릉/니할", value: "무릉/니할사막", icon: "🏜️" },
   { label: "리프레", value: "리프레", icon: "🌿" },
   { label: "에델슈타인", value: "에델슈타인", icon: "⚙️" },
+  { label: "아모리아", value: "아모리아", icon: "💍" },
   { label: "세계여행", value: "세계여행", icon: "✈️" },
 ];
 

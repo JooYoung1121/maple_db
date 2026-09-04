@@ -9,6 +9,8 @@
   · 챌린지 스테이지 몹(9400530~9400537 GL/PQ·가이스트 발록)은 메랜 인게임 명칭 실측 후 등록 예정
 - 리버스/타임리스 에아스 핸드 공격속도 변경: 느림(8) → 빠름(4)
   · 패치노트는 툴팁 라벨(느림→빠름)만 명시 — 세부 수치(4/5)는 실측 미확정이라 빠름 대표값 4 사용
+- 공지에 명시된 아모리아 신규 퀘스트 5종을 공식 확인 데이터로 등록
+  · 퀘스트별 요구 레벨·선행 조건·보상은 공지에 없어 미확정으로 유지
 
 사용:
   python3 scripts/patch_20260904_amoria.py            # dry-run
@@ -19,9 +21,11 @@ from __future__ import annotations
 import argparse
 import json
 import sqlite3
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
 DB_PATH = ROOT / "data" / "maple.db"
 REF_PATH = ROOT / "data" / "mapleland_reference.json"
 
@@ -45,6 +49,15 @@ NEW_MAPS = [
 ITEM_UPDATES = [
     (1382059, "attack_speed", "8", "4"),  # 리버스 에아스 핸드: 느림 → 빠름
     (1382057, "attack_speed", "8", "4"),  # 타임리스 에아스 핸드: 느림 → 빠름
+]
+
+# 공식 9/4 패치노트에 공개된 이름만 확정. 세부 조건·보상은 인게임 실측 대기.
+NEW_QUESTS = [
+    ("정원사 제이콥", "일반"),
+    ("제이콥의 특별한 선물 준비", "일반"),
+    ("결혼식을 도와주세요!", "일반"),
+    ("반지 수리하기", "일반"),
+    ("아모리안 챌린지 알아보기", "파티"),
 ]
 
 
@@ -85,8 +98,35 @@ def main() -> int:
         if args.apply:
             conn.execute(f"UPDATE items SET {col}=? WHERE id=?", (new, item_id))
 
+    for name, quest_type in NEW_QUESTS:
+        exists = conn.execute("SELECT 1 FROM quests WHERE name=?", (name,)).fetchone()
+        if exists:
+            print(f"퀘스트 유지: {name}")
+            continue
+        print(f"퀘스트 추가: {name}")
+        if args.apply:
+            conn.execute(
+                """
+                INSERT INTO quests (
+                    name, level_req, area, start_location, quest_conditions,
+                    exp_reward, meso_reward, note, tip, difficulty,
+                    quest_type, is_mapleland, category
+                ) VALUES (?, 0, '아모리아', '웨딩빌리지(아모리아)', ?, 0, 0, ?, ?, '미확인', ?, 1, '아모리아')
+                """,
+                (
+                    name,
+                    "9/4 공식 공지에서 추가 확인. 상세 시작 조건은 인게임 실측 필요.",
+                    "메이플랜드 2026-09-04 공식 패치노트 수록 퀘스트.",
+                    "요구 레벨·선행 퀘스트·보상은 공식 공지에 없어 확인 후 갱신 예정.",
+                    quest_type,
+                ),
+            )
+
     if args.apply:
         REF_PATH.write_text(json.dumps(ref, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        from crawler.db import rebuild_search_index
+
+        rebuild_search_index(conn)
         conn.commit()
         print("적용 완료")
     else:

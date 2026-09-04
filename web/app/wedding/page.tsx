@@ -2,6 +2,7 @@ import Link from "next/link";
 import ItemChip from "@/components/ItemChip";
 
 const OFFICIAL_PATCH_0814 = "https://maple.land/board/notices/pzx6wmuz4h4slkbvklaojerw";
+const OFFICIAL_PATCH_0904 = "https://maple.land/board/notices/u59poew390cw27yfl21j5fdf";
 const DC_TOKEN_POST = "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=3882525";
 const SRC_NOBLE = "https://noblestory.boards.net/thread/18/engagement-marriage-guide";
 const SRC_NAMU = "https://namu.wiki/w/%EC%95%84%EB%AA%A8%EB%A6%AC%EC%95%84";
@@ -38,7 +39,7 @@ export default function WeddingPage() {
         <div className="flex flex-wrap items-center gap-2 mb-1">
           <h1 className="font-pixel text-2xl font-bold">💍 결혼 시스템 가이드</h1>
           <span className="font-pixel text-[10px] px-2 py-1 border border-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300">
-            8/14 출시 — 공식 패치 반영
+            9/4 아모리안 챌린지 반영
           </span>
         </div>
         <p className="text-sm text-dim">
@@ -80,6 +81,23 @@ export default function WeddingPage() {
             </p>
           </div>
         </div>
+      </section>
+
+      <section className="pixel-panel p-5 border-maple space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="font-pixel text-base text-ink">💞 기혼자 전용 파티퀘스트 — 아모리안 챌린지</h2>
+            <p className="text-sm text-dim mt-1">
+              9/4 출시 · Lv.45 이상 · 기혼 캐릭터 · 6시간마다 1회 · 아모스의 훈련장에서 시작
+            </p>
+          </div>
+          <Link href="/pq#amorian" className="pixel-btn px-4 py-2 text-sm whitespace-nowrap">
+            7단계 공략 보기 →
+          </Link>
+        </div>
+        <p className="text-xs text-dim">
+          입장 조건과 7개 스테이지명은 공식 공지 기준입니다. 세부 진행법은 원작 참고로 표시하고, 메이플랜드 보상은 실측 확인 전까지 미확정으로 분리했습니다.
+        </p>
       </section>
 
       {/* 준비물 */}
@@ -172,14 +190,16 @@ export default function WeddingPage() {
         <ul className="text-xs text-dim space-y-1.5 leading-relaxed">
           <li>· 원작 절차: 보석상에게 약혼반지 제작 → 반지 더블클릭 프로포즈 → 예식 예약 → 청첩장 → 예식 + 하객 보너스맵</li>
           <li>· 원작 하객 보상: <b className="text-ink">오닉스 애플 (공·마 +100, 10분)</b> — 원작 최강 보스 도핑. 메랜 &lsquo;예식 종료 후 소정의 보상&rsquo;이 무엇인지 실측 확인 중 (확인되면 보스 도핑 경제에 큰 영향)</li>
-          <li>· 원작 부가: 아모리아 파티퀘스트(APQ), 이혼 시스템 — 메랜 패치노트에 이혼 언급 있음(&lsquo;이혼 후 재결혼&rsquo;)</li>
+          <li>· 현재 적용: <Link href="/pq#amorian" className="underline text-maple">아모리안 챌린지(APQ)</Link> — Lv.45+ 기혼자 전용, 6시간마다 1회 (9/4 공식 패치)</li>
+          <li>· 원작 부가: 이혼 시스템 — 메랜 패치노트에 이혼 언급 있음(&lsquo;이혼 후 재결혼&rsquo;)</li>
         </ul>
       </section>
 
       <section className="text-[11px] text-dim leading-relaxed border-t-2 border-edge pt-4">
         <p className="font-pixel text-[10px] text-ink mb-1">출처와 판정 기준</p>
         <p>
-          메랜 확정: <a href={OFFICIAL_PATCH_0814} target="_blank" rel="noopener noreferrer" className="underline text-maple">8/14 공식 패치노트</a>,{" "}
+          메랜 확정: <a href={OFFICIAL_PATCH_0814} target="_blank" rel="noopener noreferrer" className="underline text-maple">8/14 결혼 패치노트</a>,{" "}
+          <a href={OFFICIAL_PATCH_0904} target="_blank" rel="noopener noreferrer" className="underline text-maple">9/4 아모리안 챌린지 패치노트</a>,{" "}
           <a href={DC_TOKEN_POST} target="_blank" rel="noopener noreferrer" className="underline text-maple">사랑의 증표 사전 정리</a>.
           원작 참고: <a href={SRC_NOBLE} target="_blank" rel="noopener noreferrer" className="underline text-maple">복각서버 결혼 가이드</a>,{" "}
           <a href={SRC_NAMU} target="_blank" rel="noopener noreferrer" className="underline text-maple">나무위키 아모리아</a>.

@@ -19,7 +19,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: "2026-09-04",
     type: "minor",
     title: "배틀메이지·에델슈타인 업데이트 데이터",
-    pages: ["/battle-mage", "/skills", "/quests", "/leveling", "/job"],
+    pages: ["/battle-mage", "/skills", "/quests", "/leveling", "/job", "/pq", "/wedding"],
     features: [
       {
         category: "배틀메이지",
@@ -34,6 +34,8 @@ export const CHANGELOG: ChangelogEntry[] = [
         category: "9/4 추가 패치",
         items: [
           "아모스의 훈련장·아모리안 챌린지 스테이지 맵 12종을 레퍼런스에 반영",
+          "기혼자 전용 아모리안 챌린지 7단계 가이드와 결혼 페이지 바로가기 추가",
+          "9/4 공지의 아모리아 신규 퀘스트 5종을 공식 확인 데이터로 등록",
           "리버스·타임리스 에아스 핸드 공격속도를 공식 툴팁 변경에 맞게 갱신",
         ],
       },

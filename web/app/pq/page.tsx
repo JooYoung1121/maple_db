@@ -2,6 +2,9 @@
 
 import { useState, useEffect, useCallback } from "react";
 
+const OFFICIAL_AMORIAN_PATCH = "https://maple.land/board/notices/u59poew390cw27yfl21j5fdf";
+const ORIGINAL_AMORIAN_GUIDE = "https://maplestorywiki.net/w/Amorian_Challenge";
+
 // ─── PQ 데이터 ───
 interface PQStage {
   name: string;
@@ -14,7 +17,9 @@ interface PQData {
   nameEn: string;
   levelMin: number;
   levelMax: number;
+  levelLabel?: string;
   members: number | string;
+  membersLabel?: string;
   dailyLimit: number | string;
   timeLimit: string;
   location: string;
@@ -219,6 +224,41 @@ const PQ_LIST: PQData[] = [
       "단계 구성은 원작(KMS 2011) 기준, 경험치·데미지 수치는 출시 첫날 커뮤니티 보고라 변동 가능",
     ],
   },
+  {
+    id: "amorian",
+    name: "아모리안 챌린지",
+    nameEn: "Amorian Challenge · 9/4 신규",
+    levelMin: 45,
+    levelMax: 200,
+    levelLabel: "45+",
+    members: 6,
+    membersLabel: "원작 6인 · 메랜 미확인",
+    dailyLimit: "6시간마다 1회",
+    timeLimit: "메이플랜드 미확인",
+    location: "아모스의 훈련장 → 아모리안 챌린지 입구",
+    npc: "아모스",
+    requiredJobs: [],
+    stages: [
+      { name: "1단계: 마법의 거울", desc: "공식 스테이지명. 원작에서는 남녀가 좌우로 나뉘어 몬스터를 처치하고 거울 조각을 전달합니다. 세부 방식은 메이플랜드 실측 확인 중입니다." },
+      { name: "2단계: 하나된 마음", desc: "공식 스테이지명. 원작에서는 해·별·달 밧줄에 파티원이 매달려 정답 조합을 찾습니다. 세부 방식은 메이플랜드 실측 확인 중입니다." },
+      { name: "3단계: 변덕스런 마음", desc: "공식 스테이지명. 원작에서는 9개 발판 중 5개를 골라 정답 조합을 찾습니다. 세부 방식은 메이플랜드 실측 확인 중입니다." },
+      { name: "4단계: 마지막 저항", desc: "공식 스테이지명. 원작에서는 몬스터를 처치해 큐피드 코드 조각 50개를 모읍니다. 요구 수량은 메이플랜드 실측 확인 중입니다." },
+      { name: "5단계: 설레는 마음", desc: "공식 스테이지명. 원작에서는 일반 공격으로 문을 부수며 추격 몬스터를 피해 전원이 도착 지점까지 이동합니다." },
+      { name: "6단계: 아픈 사랑", desc: "공식 스테이지명. 원작 보스 가이스트 발록을 여러 형태에 걸쳐 처치하고 송곳니를 획득합니다. 메이플랜드 패턴은 실측 확인 중입니다." },
+      { name: "7단계: 아모스의 금고", desc: "공식 스테이지명. 원작의 보너스 구간은 부부 구성 여부에 따라 달라지며, 상자 보상은 메이플랜드 실측 확인 중입니다." },
+    ],
+    rewards: {
+      exp: "메이플랜드 경험치 보상 실측 확인 중",
+      items: ["메이플랜드 보상 미확정", "원작 참고: 오닉스 애플·귀 장식 등 (메이플랜드 드롭 확정 아님)"],
+    },
+    tips: [
+      "메이플랜드 공식 입장 조건: Lv.45 이상 + 기혼 캐릭터",
+      "아모스의 훈련장에서 아모스 NPC를 통해 시작",
+      "입장 주기는 일일 초기화가 아니라 6시간마다 1회",
+      "파티 인원·제한시간·경험치·아이템 보상은 공지에 없어 실측 전까지 원작 정보와 구분",
+      "스테이지명과 입장 조건은 9/4 공식 공지, 진행법은 원작 Amorian Challenge 참고",
+    ],
+  },
 ];
 
 // ─── 보상 비교 데이터 ───
@@ -229,9 +269,16 @@ const REWARD_COMPARE = [
   { id: "romeo", expPerRun: "20~30%", expPerHour: "약 1~2회/시간", efficiency: "보통 (70~119)", mainDrops: "호루스 눈, 연금술사 반지" },
   { id: "ellin", expPerRun: "원작 대비 상향 (패치노트)", expPerHour: "원작 기준 판당 최대 30분", efficiency: "45~70", mainDrops: "알테어 조각 → 알테어 이어링" },
   { id: "kenta", expPerRun: "약 75만 (유저 체감)", expPerHour: "판당 6~10분 · 일 10회", efficiency: "높음 (90~120)", mainDrops: "얼음결정 페이스페인팅 (보스 드롭)" },
+  { id: "amorian", expPerRun: "메랜 실측 대기", expPerHour: "6시간마다 1회", efficiency: "보상 실측 대기", mainDrops: "메랜 보상 미확정 (원작 보상과 구분)" },
 ];
 
 const TESPIA_PQ_NOTES = [
+  {
+    title: "아모리안 챌린지 (신규)",
+    version: "9/4 패치",
+    level: "Lv.45+ · 기혼자 전용 · 6시간마다 1회",
+    note: "아모스의 훈련장에서 아모스를 통해 입장. 스테이지 1~7 추가.",
+  },
   {
     title: "차원의 거울",
     version: "7/24 패치",
@@ -282,6 +329,10 @@ export default function PQPage() {
             </p>
           ))}
         </div>
+        <p className="mt-2 text-[11px] text-sky-700 dark:text-sky-300">
+          출처: <a href={OFFICIAL_AMORIAN_PATCH} target="_blank" rel="noopener noreferrer" className="underline">메이플랜드 9/4 공식 공지</a>
+          {" · "}<a href={ORIGINAL_AMORIAN_GUIDE} target="_blank" rel="noopener noreferrer" className="underline">원작 진행 참고</a>
+        </p>
       </div>
 
       <div className="flex gap-1 mb-6 bg-surface2 p-1 w-fit">
@@ -315,12 +366,12 @@ export default function PQPage() {
 //  PQ 가이드 탭
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function GuideTab() {
-  const [openPQ, setOpenPQ] = useState<string | null>("ludi");
+  const [openPQ, setOpenPQ] = useState<string | null>("amorian");
 
   return (
     <div className="space-y-3">
       {PQ_LIST.map((pq) => (
-        <div key={pq.id} className="pixel-card overflow-hidden">
+        <div key={pq.id} id={pq.id} className="pixel-card overflow-hidden scroll-mt-20">
           {/* 헤더 */}
           <button
             onClick={() => setOpenPQ(openPQ === pq.id ? null : pq.id)}
@@ -335,10 +386,10 @@ function GuideTab() {
             <div className="flex items-center gap-3">
               <div className="hidden sm:flex gap-2">
                 <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded">
-                  Lv.{pq.levelMin}~{pq.levelMax}
+                  Lv.{pq.levelLabel ?? `${pq.levelMin}~${pq.levelMax}`}
                 </span>
                 <span className="text-xs px-2 py-1 bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] text-maple rounded">
-                  {pq.members}명
+                  {pq.membersLabel ?? `${pq.members}명`}
                 </span>
               </div>
               <svg
@@ -359,8 +410,8 @@ function GuideTab() {
             <div className="px-5 pb-5 border-t border-edge/40">
               {/* 기본 정보 */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 mb-5">
-                <InfoBadge label="레벨" value={`${pq.levelMin}~${pq.levelMax}`} />
-                <InfoBadge label="인원" value={`${pq.members}명`} />
+                <InfoBadge label="레벨" value={pq.levelLabel ?? `${pq.levelMin}~${pq.levelMax}`} />
+                <InfoBadge label="인원" value={pq.membersLabel ?? `${pq.members}명`} />
                 <InfoBadge label="일일 제한" value={typeof pq.dailyLimit === "number" ? `${pq.dailyLimit}회` : pq.dailyLimit} />
                 <InfoBadge label="제한시간" value={pq.timeLimit} />
               </div>
@@ -550,7 +601,7 @@ function TimerTab() {
                 <div>
                   <h3 className="font-pixel font-bold text-sm">{pq.name}</h3>
                   <p className="text-xs text-dim">
-                    Lv.{pq.levelMin}~{pq.levelMax} · {pq.members}명
+                    Lv.{pq.levelLabel ?? `${pq.levelMin}~${pq.levelMax}`} · {pq.members}명
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
@@ -644,7 +695,7 @@ function CompareTab() {
                 return (
                   <tr key={r.id} className="border-t border-edge/40">
                     <td className="px-4 py-2.5 font-medium">{pq.name.replace(" 파티퀘스트", "").replace(" PQ", "")}</td>
-                    <td className="px-4 py-2.5">{pq.levelMin}~{pq.levelMax}</td>
+                    <td className="px-4 py-2.5">{pq.levelLabel ?? `${pq.levelMin}~${pq.levelMax}`}</td>
                     <td className="px-4 py-2.5">{r.expPerRun}</td>
                     <td className="px-4 py-2.5">{r.expPerHour}</td>
                     <td className="px-4 py-2.5">
