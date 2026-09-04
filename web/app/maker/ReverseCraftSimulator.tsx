@@ -6,6 +6,7 @@ type Weapon = {
   id: string;
   name: string;
   kind: string;
+  itemId: number; // maplestory.io 아이콘용 실제 아이템 ID (DB items 검증값)
   baseAtk: number;
   mainName: "STR" | "DEX" | "LUK";
   mainBase: number;
@@ -14,6 +15,10 @@ type Weapon = {
   scroll60Main: number;
   scroll10Main: number;
 };
+
+function weaponIconUrl(itemId: number): string {
+  return `https://maplestory.io/api/gms/92/item/${itemId}/icon`;
+}
 
 type CraftResult = {
   destroyed: boolean;
@@ -42,12 +47,12 @@ type ManualState = {
 };
 
 const WEAPONS: Weapon[] = [
-  { id: "lampion", name: "리버스 람피온", kind: "아대", baseAtk: 57, mainName: "LUK", mainBase: 13, subName: "DEX", subBase: 5, scroll60Main: 0, scroll10Main: 1 },
-  { id: "nibelheim", name: "리버스 니플하임", kind: "두손검", baseAtk: 113, mainName: "STR", mainBase: 5, subName: "DEX", subBase: 5, scroll60Main: 1, scroll10Main: 3 },
-  { id: "alshupis", name: "리버스 알슈피스", kind: "창", baseAtk: 115, mainName: "STR", mainBase: 5, subName: "DEX", subBase: 5, scroll60Main: 1, scroll10Main: 3 },
-  { id: "engaw", name: "리버스 엔가우", kind: "활", baseAtk: 108, mainName: "DEX", mainBase: 5, subName: "STR", subBase: 5, scroll60Main: 0, scroll10Main: 1 },
-  { id: "blackbeauty", name: "리버스 블랙뷰티", kind: "석궁", baseAtk: 111, mainName: "DEX", mainBase: 5, subName: "STR", subBase: 5, scroll60Main: 0, scroll10Main: 1 },
-  { id: "pescas", name: "리버스 페스카즈", kind: "단검", baseAtk: 108, mainName: "LUK", mainBase: 5, subName: "STR", subBase: 5, scroll60Main: 1, scroll10Main: 3 },
+  { id: "lampion", name: "리버스 람피온", kind: "아대", itemId: 1472071, baseAtk: 57, mainName: "LUK", mainBase: 13, subName: "DEX", subBase: 5, scroll60Main: 0, scroll10Main: 1 },
+  { id: "nibelheim", name: "리버스 니플하임", kind: "두손검", itemId: 1402047, baseAtk: 113, mainName: "STR", mainBase: 5, subName: "DEX", subBase: 5, scroll60Main: 1, scroll10Main: 3 },
+  { id: "alshupis", name: "리버스 알슈피스", kind: "창", itemId: 1432049, baseAtk: 115, mainName: "STR", mainBase: 5, subName: "DEX", subBase: 5, scroll60Main: 1, scroll10Main: 3 },
+  { id: "engaw", name: "리버스 엔가우", kind: "활", itemId: 1452059, baseAtk: 108, mainName: "DEX", mainBase: 5, subName: "STR", subBase: 5, scroll60Main: 0, scroll10Main: 1 },
+  { id: "blackbeauty", name: "리버스 블랙뷰티", kind: "석궁", itemId: 1462051, baseAtk: 111, mainName: "DEX", mainBase: 5, subName: "STR", subBase: 5, scroll60Main: 0, scroll10Main: 1 },
+  { id: "pescas", name: "리버스 페스카즈", kind: "단검", itemId: 1332075, baseAtk: 108, mainName: "LUK", mainBase: 5, subName: "STR", subBase: 5, scroll60Main: 1, scroll10Main: 3 },
 ];
 
 // 공식 확률이 아닌 공개 실측 가정. 화면에서 사용자가 직접 조정할 수 있다.
@@ -290,12 +295,21 @@ export default function ReverseCraftSimulator() {
         </div>
 
         <div className="flex flex-wrap gap-1.5">
-          {WEAPONS.map((item) => (
-            <button key={item.id} type="button" onClick={() => switchWeapon(item.id)}
-              className={`px-2.5 py-1.5 border-2 text-xs ${weapon.id === item.id ? "pixel-btn font-pixel" : "bg-surface2 border-edge text-dim"}`}>
-              {item.name.replace("리버스 ", "")} <span className="opacity-60">{item.kind}</span>
-            </button>
-          ))}
+          {WEAPONS.map((item) => {
+            const active = weapon.id === item.id;
+            return (
+              <button key={item.id} type="button" onClick={() => switchWeapon(item.id)}
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 border-2 text-xs transition-colors ${active ? "border-maple bg-[color-mix(in_srgb,var(--c-maple)_12%,transparent)] text-maple font-pixel" : "bg-surface2 border-edge text-dim hover:border-maple/60"}`}>
+                <img
+                  src={weaponIconUrl(item.itemId)}
+                  alt=""
+                  onError={(e) => { e.currentTarget.style.display = "none"; }}
+                  className="w-6 h-6 object-contain [image-rendering:pixelated]"
+                />
+                <span>{item.name.replace("리버스 ", "")} <span className="opacity-60">{item.kind}</span></span>
+              </button>
+            );
+          })}
         </div>
 
         <div className="grid sm:grid-cols-3 gap-3">
@@ -405,17 +419,31 @@ export default function ReverseCraftSimulator() {
             </div>
             <button type="button" onClick={() => setManual(emptyManual(weapon))} className="text-[11px] text-dim underline">리셋</button>
           </div>
-          <div className={`pixel-card p-3 ${manual.phase === "destroyed" ? "border-red-400" : ""}`}>
-            <div className="font-bold text-sm">{manual.phase === "destroyed" ? "제작 실패" : weapon.name}</div>
-            {manual.phase !== "destroyed" && (
-              <div className="flex flex-wrap gap-x-3 text-xs mt-1">
-                <b className="text-maple">공격력 {manual.attack}</b>
-                <span>{weapon.mainName} {manual.main}</span>
-                <span>{weapon.subName} {manual.sub}</span>
-                <span className="text-dim">성장 {manual.levels}/3 · 주문서 {manual.scrolls}/7</span>
-              </div>
-            )}
-            <p className="text-[11px] text-dim mt-2 min-h-4">{manual.message}</p>
+          <div className={`pixel-card p-3 flex items-start gap-3 ${manual.phase === "destroyed" ? "border-red-400" : ""}`}>
+            <div className={`w-12 h-12 flex items-center justify-center border-2 bg-surface2 shrink-0 ${manual.phase === "destroyed" ? "border-red-400" : "border-edge"}`}>
+              {manual.phase === "destroyed" ? (
+                <span className="text-red-500 text-xl leading-none">✕</span>
+              ) : (
+                <img
+                  src={weaponIconUrl(weapon.itemId)}
+                  alt=""
+                  onError={(e) => { e.currentTarget.style.display = "none"; }}
+                  className="w-9 h-9 object-contain [image-rendering:pixelated]"
+                />
+              )}
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="font-bold text-sm">{manual.phase === "destroyed" ? "제작 실패 — 재료 소멸" : weapon.name}</div>
+              {manual.phase !== "destroyed" && (
+                <div className="flex flex-wrap gap-x-3 text-xs mt-1">
+                  <b className="text-maple">공격력 {manual.attack}</b>
+                  <span>{weapon.mainName} {manual.main}</span>
+                  <span>{weapon.subName} {manual.sub}</span>
+                  <span className="text-dim">성장 {manual.levels}/3 · 주문서 {manual.scrolls}/7</span>
+                </div>
+              )}
+              <p className="text-[11px] text-dim mt-2 min-h-4">{manual.message}</p>
+            </div>
           </div>
           <div className="flex flex-wrap gap-2">
             {(manual.phase === "ready" || manual.phase === "destroyed" || manual.phase === "complete") && (

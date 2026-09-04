@@ -18,9 +18,17 @@ export const CHANGELOG: ChangelogEntry[] = [
     version: "3.94.0",
     date: "2026-09-04",
     type: "minor",
-    title: "카오스 자쿰 타이머 · 가이드 메뉴 정리 · 통합검색 확장",
-    pages: ["/boss-timer", "/horntail", "/", "/guild/info"],
+    title: "카오스 자쿰 타이머 · 가이드 메뉴 정리 · 통합검색 확장 · 강화 시뮬 개편",
+    pages: ["/boss-timer", "/horntail", "/", "/guild/info", "/scroll", "/maker"],
     features: [
+      {
+        category: "강화 시뮬레이터",
+        items: [
+          "주문서 확률 계산기·시뮬레이션에 실제 주문서 이미지 적용 — 10·30·60·70·100% 등급별 주문서 아이콘, 확률 등급 색 테마",
+          "주문서 시뮬: 대상 장비 아이콘 히어로 카드, 슬롯별 주문서 아이콘·성공(초록 체크)/실패(빨강 X) 시각화, 진행 상태 강조",
+          "메이커 리버스 제작: 무기 선택·제작 결과 카드에 무기 아이콘 표시 (maplelog 스타일 참고)",
+        ],
+      },
       {
         category: "네비게이션",
         items: [
