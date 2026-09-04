@@ -280,3 +280,54 @@ export function mergeStats(...parts: Stats[]): Stats {
 export function isGrowthItemName(nameKr: string): boolean {
   return /^(리버스|타임리스)\s/.test(nameKr.trim());
 }
+
+// ── 아이템 등급(품질) 색상 ────────────────────────────────
+// 순정 대비 증가분 합으로 등급이 갈린다 (KRDS §3-9, maplelog 역설계).
+// 1:1 스탯은 그대로, HP/MP 는 10당 1점. 게임의 아이템 이름 색상과 동일 개념.
+const GRADE_1TO1 = new Set<StatKey>([
+  "incSTR", "incDEX", "incINT", "incLUK", "incPAD", "incMAD", "incPDD", "incMDD", "incACC", "incEVA", "incSpeed", "incJump",
+]);
+const GRADE_10TO1 = new Set<StatKey>(["incMHP", "incMMP"]);
+
+// [key, 이름, 하한, 상한] — key 는 UI 색 매핑
+const GRADE_TIERS: [string, string, number, number][] = [
+  ["orange", "중상품", 0, 5],
+  ["blue", "상품", 6, 22],
+  ["purple", "최상품", 23, 39],
+  ["yellow", "프리미엄 클래스", 40, 54],
+  ["green", "엑셀런트 클래스", 55, 69],
+  ["red", "스페셜 클래스", 70, Infinity],
+];
+
+export const GRADE_COLOR: Record<string, string> = {
+  white: "text-ink",
+  gray: "text-gray-400",
+  orange: "text-orange-400",
+  blue: "text-sky-400",
+  purple: "text-purple-400",
+  yellow: "text-yellow-400",
+  green: "text-green-400",
+  red: "text-red-400",
+};
+
+// 순정(base) 대비 최종(final) 증가분 합
+export function gradeSum(base: Stats, final: Stats): number {
+  let sum = 0;
+  for (const k of new Set([...Object.keys(base), ...Object.keys(final)]) as Set<StatKey>) {
+    const d = (final[k] ?? 0) - (base[k] ?? 0);
+    if (!d) continue;
+    if (GRADE_1TO1.has(k)) sum += d;
+    else if (GRADE_10TO1.has(k)) sum += Math.round(d / 10);
+  }
+  return sum;
+}
+
+export interface Grade { key: string; name: string; sum: number }
+// touched = 제작·주문서·성장 중 하나라도 손댔는지 (미강화 순정이면 '중품')
+export function itemGrade(base: Stats, final: Stats, touched: boolean): Grade {
+  const sum = gradeSum(base, final);
+  if (sum === 0 && !touched) return { key: "white", name: "중품", sum: 0 };
+  if (sum < 0) return { key: "gray", name: "하품", sum };
+  const t = GRADE_TIERS.find(([, , lo, hi]) => sum >= lo && sum <= hi);
+  return t ? { key: t[0], name: t[1], sum } : { key: "white", name: "중품", sum };
+}

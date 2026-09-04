@@ -8,7 +8,8 @@ import {
   optRange, rollDeviation, deviationStats,
   scrollSeriesFor, scrollIconUrl, rollScroll, type ScrollSeries,
   growTableFor, rollGrowth, MAX_GROW_LEVEL, EXP_PER_LEVEL, huntExp,
-  mergeStats, orderedStatEntries, isGrowthItemName, type Stats, type StatKey,
+  mergeStats, orderedStatEntries, isGrowthItemName, itemGrade, GRADE_COLOR,
+  type Stats, type StatKey,
 } from "@/lib/enhanceSim";
 
 const JOBS = ["초보자", "전사", "마법사", "궁수", "도적", "해적"] as const;
@@ -238,6 +239,15 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
 
   const remainSlots = item ? item.slots - scrollSlots.length : 0;
 
+  // 강화 요약 — 성공/실패, (+N) 표기, 등급 색상
+  const scrollSuccess = useMemo(() => scrollSlots.filter((s) => s.ok).length, [scrollSlots]);
+  const scrollFail = scrollSlots.length - scrollSuccess;
+  const touched = crafted || scrollSlots.length > 0 || level > 0;
+  const grade = useMemo(
+    () => (item ? itemGrade(item.base, finalStats, touched) : null),
+    [item, finalStats, touched]
+  );
+
   // 키보드 단축키
   useEffect(() => {
     if (!item) return;
@@ -269,10 +279,12 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
         <div className="grid lg:grid-cols-[minmax(0,17rem)_1fr] gap-4 items-start">
           {/* ── 좌측: 아이템 정보 카드 ── */}
           <div className="pixel-panel p-4 space-y-3">
-            <p className="font-pixel text-center text-ink">{item.nameKr}</p>
+            <p className={`font-pixel text-center ${grade ? GRADE_COLOR[grade.key] : "text-ink"}`}>
+              {item.nameKr}{scrollSuccess > 0 && <span> (+{scrollSuccess})</span>}
+            </p>
             {canGrow && (
               <p className="text-center text-[11px] font-pixel">
-                <span className="text-maple">ITEM LEV {level} / {MAX_GROW_LEVEL}</span>
+                <span className="text-maple">ITEM LEV {level >= MAX_GROW_LEVEL ? "MAX" : `${level} / ${MAX_GROW_LEVEL}`}</span>
               </p>
             )}
             <div className="flex justify-center">
@@ -312,6 +324,31 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
               {item.attackSpeed && <div className="flex justify-between"><span className="text-dim">공격속도</span><span>{item.attackSpeed}</span></div>}
               <div className="flex justify-between"><span className="text-dim">업그레이드</span><span>{remainSlots} / {item.slots}칸</span></div>
             </div>
+
+            {/* 강화 요약 */}
+            {touched && (
+              <div className="pt-2 border-t border-edge/50 space-y-1.5 text-[11px]">
+                {orderedStatEntries(gemAdd).length > 0 && (
+                  <p className="text-center text-maple font-pixel">강화보석 옵션 부여 적용</p>
+                )}
+                <div className="flex items-center justify-center gap-2 font-mono">
+                  <span className="text-red-400">10% {scrollCounts[10] ?? 0}</span>
+                  <span className="text-dim">·</span>
+                  <span className="text-orange-400">60% {scrollCounts[60] ?? 0}</span>
+                  <span className="text-dim">·</span>
+                  <span className="text-sky-400">100% {scrollCounts[100] ?? 0}</span>
+                </div>
+                <p className="text-center text-dim">
+                  성공 <b className="text-green-500">{scrollSuccess}</b> / 실패 <b className="text-red-400">{scrollFail}</b>
+                </p>
+                {grade && (
+                  <p className="text-center font-pixel">
+                    <span className={GRADE_COLOR[grade.key]}>{grade.name}</span>
+                    {grade.sum !== 0 && <span className="text-dim ml-1">{grade.sum > 0 ? "+" : ""}{grade.sum}</span>}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
 
           {/* ── 우측: 순번 섹션 ── */}
