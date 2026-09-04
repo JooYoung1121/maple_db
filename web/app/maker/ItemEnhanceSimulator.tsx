@@ -41,6 +41,13 @@ interface ScrollSlot { pct: number; ok: boolean }
 
 const hideImg = (e: React.SyntheticEvent<HTMLImageElement>) => { e.currentTarget.style.visibility = "hidden"; };
 
+// 리버스·타임리스 장비만 (한글명 또는 영문명 접두 기준)
+function isReverseOrTimeless(s: SearchSuggestion): boolean {
+  const kr = s.name_kr ?? "";
+  const en = s.name ?? "";
+  return /^(리버스|타임리스)\s/.test(kr.trim()) || /^(Reverse|Timeless)\s/i.test(en.trim());
+}
+
 function statText(stats: Stats): string {
   const e = orderedStatEntries(stats);
   if (!e.length) return "-";
@@ -63,13 +70,20 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
   const [seriesId, setSeriesId] = useState<string>("");
   const [scrollSlots, setScrollSlots] = useState<ScrollSlot[]>([]);
 
-  // ④ 성장
+  // ④ 성장 — 연속 클릭 stale-closure 방지용 ref가 권위값, state는 렌더용
   const [level, setLevel] = useState(0);
   const [exp, setExp] = useState(0);
   const [growAdd, setGrowAdd] = useState<Stats>({});
+  const growthRef = useRef({ level: 0, exp: 0 });
 
   // ⑤ 단가
   const [prices, setPrices] = useState<Record<string, number>>({});
+
+  // 행동 로그 (최근이 위로)
+  const [log, setLog] = useState<{ at: number; text: string }[]>([]);
+  const pushLog = useCallback((text: string) => {
+    setLog((prev) => [{ at: Date.now(), text }, ...prev].slice(0, 40));
+  }, []);
 
   const gems = useMemo(() => (item ? gemsForKind(item.kind) : []), [item]);
   const seriesList = useMemo(() => (item ? scrollSeriesFor(item.kind) : []), [item]);
@@ -77,7 +91,7 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
   const growTable = useMemo(() => (item ? growTableFor(item.kind, item.jobReq) : null), [item]);
   const canGrow = !!(item && item.isGrowth && growTable);
 
-  const resetEnhance = useCallback(() => {
+  const resetEnhance = useCallback((silent = false) => {
     setGemSel([null, null, null]);
     setUseAccel(false);
     setCrafted(false);
@@ -88,7 +102,9 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
     setLevel(0);
     setExp(0);
     setGrowAdd({});
-  }, []);
+    growthRef.current = { level: 0, exp: 0 };
+    if (!silent) { setLog([]); pushLog("전체 리셋"); }
+  }, [pushLog]);
 
   const loadItem = useCallback(async (id: number, fallbackName: string, iconUrl: string | null) => {
     setLoadingItem(true);
@@ -121,7 +137,8 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
         isGrowth: isGrowthItemName(nameKr),
       };
       setItem(loaded);
-      resetEnhance();
+      resetEnhance(true);
+      setLog([]);
       setSeriesId(scrollSeriesFor(kind)[0]?.id ?? "");
     } catch {
       // 아이템 로드 실패 — 조용히 무시
@@ -139,6 +156,7 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
       setCrafted(false);
       setGemAdd({});
       setDeviation({});
+      pushLog("💥 촉진제 제작 실패 — 재료 소멸");
       return;
     }
     const g: Stats = {};
@@ -160,15 +178,26 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
     setLevel(0);
     setExp(0);
     setGrowAdd({});
-  }, [item, gemSel, gems, useAccel]);
+    growthRef.current = { level: 0, exp: 0 };
+    const gemNames = gemSel.map((id) => gems.find((x) => x.itemId === id)?.name).filter(Boolean);
+    const devTxt = orderedStatEntries(dev).filter(([, v]) => v !== 0).map(([k, v]) => `${STAT_LABEL[k]}${v > 0 ? "+" : ""}${v}${v > 0 ? "상" : "하"}`).join(", ");
+    pushLog(`제작 완료${useAccel ? "(촉진제)" : ""}${gemNames.length ? ` · 보석 ${gemNames.join("/")}` : ""} · 옵션 ${devTxt || "정옵"}`);
+  }, [item, gemSel, gems, useAccel, pushLog]);
 
   // ── ③ 주문서 1장 ──
   const applyScroll = useCallback((pct: number) => {
     if (!item || !series) return;
     if (scrollSlots.length >= item.slots) return;
     const ok = rollScroll(pct);
+    const slotNo = scrollSlots.length + 1;
     setScrollSlots((prev) => [...prev, { pct, ok }]);
-  }, [item, series, scrollSlots.length]);
+    const gain = ok ? ` (${STAT_LABEL[series.stat]}+${series.byPct[pct] ?? 0})` : "";
+    pushLog(`${slotNo}번째 · ${pct}% 주문서 → ${ok ? "성공" : "실패"}${gain}`);
+  }, [item, series, scrollSlots.length, pushLog]);
+
+  const resetScrolls = useCallback(() => {
+    setScrollSlots((prev) => { if (prev.length) pushLog("주문서 초기화"); return []; });
+  }, [pushLog]);
 
   const scrollAdd = useMemo(() => {
     if (!series) return {} as Stats;
@@ -177,28 +206,29 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
     return n ? ({ [series.stat]: n } as Stats) : ({} as Stats);
   }, [scrollSlots, series]);
 
-  // ── ④ 사냥하기 ──
+  // ── ④ 사냥하기 ── ref가 권위값이라 연속 클릭에도 LEV가 정확히 누적된다
   const hunt = useCallback(() => {
-    if (!canGrow || !growTable || level >= MAX_GROW_LEVEL) return;
-    setExp((prevExp) => {
-      let e = prevExp + huntExp();
-      let leveled = false;
-      let add: Stats = {};
-      let lv = level;
-      while (e >= EXP_PER_LEVEL && lv < MAX_GROW_LEVEL) {
-        e -= EXP_PER_LEVEL;
-        lv += 1;
-        add = mergeStats(add, rollGrowth(growTable));
-        leveled = true;
-      }
-      if (leveled) {
-        setLevel(lv);
-        setGrowAdd((g) => mergeStats(g, add));
-        return lv >= MAX_GROW_LEVEL ? 0 : e;
-      }
-      return e;
-    });
-  }, [canGrow, growTable, level]);
+    if (!canGrow || !growTable) return;
+    const g = growthRef.current;
+    if (g.level >= MAX_GROW_LEVEL) return;
+    let e = g.exp + huntExp();
+    let lv = g.level;
+    let add: Stats = {};
+    while (e >= EXP_PER_LEVEL && lv < MAX_GROW_LEVEL) {
+      e -= EXP_PER_LEVEL;
+      lv += 1;
+      add = mergeStats(add, rollGrowth(growTable));
+    }
+    const nextExp = lv >= MAX_GROW_LEVEL ? 0 : e;
+    growthRef.current = { level: lv, exp: nextExp };
+    setLevel(lv);
+    setExp(nextExp);
+    if (lv > g.level) {
+      setGrowAdd((prev) => mergeStats(prev, add));
+      const addTxt = orderedStatEntries(add).map(([k, v]) => `${STAT_LABEL[k]}+${v}`).join(", ");
+      pushLog(`🔺 레벨업! LEV ${lv}${lv >= MAX_GROW_LEVEL ? "(MAX)" : ""}${addTxt ? ` · 성장 ${addTxt}` : ""}`);
+    }
+  }, [canGrow, growTable, pushLog]);
 
   // 최종 스탯 = 기본 + 보석 + 편차 + 주문서 + 성장
   const finalStats = useMemo(
@@ -257,7 +287,7 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
       if (e.code === "KeyT") { e.preventDefault(); doCraft(); }
       else if (e.code === "KeyG") { e.preventDefault(); hunt(); }
       else if (e.code === "KeyV") { e.preventDefault(); resetEnhance(); }
-      else if (e.code === "KeyR") { e.preventDefault(); setScrollSlots([]); }
+      else if (e.code === "KeyR") { e.preventDefault(); resetScrolls(); }
       else {
         const map: Record<string, number> = { KeyQ: 10, KeyW: 60, KeyE: 100 };
         if (map[e.code] != null) { e.preventDefault(); applyScroll(map[e.code]); }
@@ -273,7 +303,7 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
 
       {!item ? (
         <div className="pixel-panel p-10 text-center text-dim text-sm">
-          {loadingItem ? "불러오는 중..." : "강화·제작할 장비를 검색해 선택하세요. 리버스·타임리스는 성장까지 시뮬됩니다."}
+          {loadingItem ? "불러오는 중..." : "리버스·타임리스 장비를 검색해 선택하세요. 메이커 제작 · 주문서 강화 · 성장까지 시뮬됩니다."}
         </div>
       ) : (
         <div className="grid lg:grid-cols-[minmax(0,17rem)_1fr] gap-4 items-start">
@@ -425,7 +455,7 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
                     </button>
                   );
                 })}
-                <button onClick={() => setScrollSlots([])} className="flex flex-col items-center justify-center gap-1 py-3 border-2 border-edge text-dim hover:text-maple hover:border-maple transition-colors">
+                <button onClick={resetScrolls} className="flex flex-col items-center justify-center gap-1 py-3 border-2 border-edge text-dim hover:text-maple hover:border-maple transition-colors">
                   <span className="text-lg">↺</span>
                   <span className="font-pixel text-xs">R</span>
                   <span className="font-pixel text-xs">초기화</span>
@@ -496,9 +526,33 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
                 ))}
               </div>
               <div className="flex items-center justify-between mt-3 pt-3 border-t border-edge/60">
-                <button onClick={resetEnhance} className="px-3 py-1.5 text-xs font-pixel border-2 border-edge text-dim hover:text-maple transition-colors">전체 리셋 (V)</button>
+                <button onClick={() => resetEnhance()} className="px-3 py-1.5 text-xs font-pixel border-2 border-edge text-dim hover:text-maple transition-colors">전체 리셋 (V)</button>
                 <span className="font-pixel text-sm">합계 <b className="text-maple">{totalCost.toLocaleString("ko-KR")}</b> 메소</span>
               </div>
+            </section>
+
+            {/* 행동 로그 */}
+            <section className="pixel-panel p-4">
+              <div className="flex items-center gap-2">
+                <h3 className="font-pixel text-sm text-ink flex items-center gap-2"><span className="text-maple">⑥</span> 행동 로그</h3>
+                {log.length > 0 && (
+                  <button onClick={() => setLog([])} className="ml-auto text-[11px] text-dim hover:text-maple">지우기</button>
+                )}
+              </div>
+              {log.length === 0 ? (
+                <p className="mt-2 text-xs text-dim">제작·주문서·성장 기록이 여기에 순서대로 쌓입니다.</p>
+              ) : (
+                <div className="mt-3 max-h-56 overflow-y-auto space-y-1 pr-1">
+                  {log.map((l, i) => (
+                    <div key={`${l.at}-${i}`} className={`flex gap-2 text-xs ${i === 0 ? "text-ink" : "text-dim"}`}>
+                      <span className="font-mono text-dim shrink-0">
+                        {new Date(l.at).toLocaleTimeString("ko-KR", { hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit" })}
+                      </span>
+                      <span className="min-w-0">{l.text}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </section>
           </div>
         </div>
@@ -560,9 +614,11 @@ function ItemSearchBar({ onPick }: { onPick: (id: number, name: string, icon: st
     if (v.trim().length < 1) { setSug([]); setOpen(false); return; }
     timer.current = setTimeout(async () => {
       try {
-        const d = await searchSuggest(v.trim(), 10, "item");
-        setSug(d.suggestions);
-        setOpen(d.suggestions.length > 0);
+        // 리버스·타임리스 장비만 — 넉넉히 받아 필터 후 상위 10개
+        const d = await searchSuggest(v.trim(), 30, "item");
+        const filtered = d.suggestions.filter(isReverseOrTimeless).slice(0, 10);
+        setSug(filtered);
+        setOpen(filtered.length > 0);
       } catch { setSug([]); }
     }, 250);
   };
