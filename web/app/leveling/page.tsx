@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import {
   JOB_GROUPS, ALL_JOBS, LEVELING_SPOTS, JOB_NOTES, BANDS, MOB_LV, SPOT_SPAWN,
@@ -103,6 +103,11 @@ function SpotCard({ s, showJobs }: { s: LevelingSpot; showJobs: boolean }) {
 export default function LevelingPage() {
   const [job, setJob] = useState<string>("전체");
   const [miniOnly, setMiniOnly] = useState(false);
+
+  useEffect(() => {
+    const requestedJob = new URLSearchParams(window.location.search).get("job");
+    if (requestedJob && ALL_JOBS.includes(requestedJob)) setJob(requestedJob);
+  }, []);
 
   const hunting = useMemo(() => {
     let list = LEVELING_SPOTS.filter((s) => !s.kind);

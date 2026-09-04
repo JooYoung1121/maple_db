@@ -17,7 +17,7 @@ type Weapon = {
 };
 
 function weaponIconUrl(itemId: number): string {
-  return `https://maplestory.io/api/gms/92/item/${itemId}/icon`;
+  return `/api/icon/item/${itemId}`; // 서버 프록시
 }
 
 type CraftResult = {

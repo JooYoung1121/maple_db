@@ -48,6 +48,7 @@ from api.routes import museum
 from api.routes import mapletle
 from api.routes import boss_timer
 from api.routes import enhance_showcase
+from api.routes import icon_proxy
 from api.routes import guild_attendance
 from api.routes import chosung
 from api.routes import brain
@@ -379,6 +380,7 @@ app.include_router(museum.router, prefix="/api")
 app.include_router(mapletle.router, prefix="/api")
 app.include_router(boss_timer.router, prefix="/api")
 app.include_router(enhance_showcase.router, prefix="/api")
+app.include_router(icon_proxy.router, prefix="/api")
 app.include_router(guild_attendance.router, prefix="/api")
 app.include_router(chosung.router, prefix="/api")
 app.include_router(brain.router, prefix="/api")

@@ -268,6 +268,11 @@ export default function QuestDetailPage() {
           <LevelBadge level={quest.level_req || 0} />
           {quest.quest_type && <TypeBadge type={quest.quest_type} />}
           {quest.difficulty && <DifficultyBadge difficulty={quest.difficulty} />}
+          {quest.is_mapleland === 0 && (
+            <span className="inline-flex rounded bg-purple-100 px-2 py-0.5 text-xs font-medium text-purple-700 dark:bg-purple-900/50 dark:text-purple-300">
+              원작 참고 · 메랜 세부 검증 전
+            </span>
+          )}
           {quest.area && (
             <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] text-maple">
               {quest.area}

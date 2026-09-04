@@ -75,6 +75,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/leveling", label: "직업별 사냥터", icon: "🗺️", description: "직업·레벨 구간별 육성 루트", keywords: ["육성", "레벨링"] },
       { href: "/events", label: "이벤트 정리", icon: "🗂️", description: "진행 중 이벤트 요약 · 아카이브" },
       { href: "/job", label: "전직 가이드", icon: "📋", description: "직업별 전직 경로" },
+      { href: "/battle-mage", label: "배틀메이지 가이드", homeLabel: "배틀메이지", icon: "⚙️", description: "스킬 · 마북 드롭 · 에델슈타인 퀘스트 · 육성", keywords: ["배메", "레지스탕스", "마북", "에델슈타인"] },
       { href: "/medals", label: "훈장 가이드", icon: "🎖️", description: "탐험가 · 기부왕 · 무릉 한정 훈장" },
       { href: "/ship", label: "배 시간표", icon: "🚢", description: "정기선 운항 시간", keywords: ["페리"] },
       { href: "/trap", label: "함정 타이머", homeLabel: "트랩 타이머", icon: "⏱️", description: "트랩 주기 타이머" },

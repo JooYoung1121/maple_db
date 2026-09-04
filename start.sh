@@ -80,6 +80,19 @@ try:
     except Exception as ne:
         print(f'entity_names_en additive sync skip: {ne}')
 
+    # mobs/maps는 관리자가 라이브에서 is_hidden 등을 수정할 수 있어 통째 교체 금지 —
+    # 시드에만 있는 신규 행만 추가한다 (2026-09 에델슈타인 등 신규 지역 대응)
+    for tbl in ['mobs', 'maps', 'npcs', 'skills']:
+        try:
+            cols = [r[1] for r in vol.execute(f'PRAGMA table_info({tbl})').fetchall()]
+            col_list = ', '.join(cols)
+            added = vol.execute(
+                f'INSERT OR IGNORE INTO {tbl} ({col_list}) SELECT {col_list} FROM seed.{tbl}'
+            ).rowcount
+            print(f'{tbl}: {added} rows added (additive only)')
+        except Exception as ne:
+            print(f'{tbl} additive sync skip: {ne}')
+
     # 검증: 퀘스트 조건 데이터가 제대로 들어왔는지
     sample = vol.execute(\"SELECT name, quest_conditions FROM quests WHERE name='버섯 몬스터를 연구하는 이유'\").fetchone()
     if sample:

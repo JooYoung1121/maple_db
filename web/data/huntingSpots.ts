@@ -737,6 +737,9 @@ export const JOB_GROUPS: JobGroup[] = [
     { key: "나이트워커", label: "나이트워커" },
     { key: "스트라이커", label: "스트라이커" },
   ]},
+  { group: "레지스탕스", jobs: [
+    { key: "배틀메이지", label: "배틀메이지" },
+  ]},
 ];
 export const ALL_JOBS = JOB_GROUPS.flatMap((g) => g.jobs.map((j) => j.key));
 
@@ -844,10 +847,20 @@ export const LEVELING_SPOTS: LevelingSpot[] = [
   { levelMin: 50, levelMax: 70, map: "자쿰 (하단 자투 · 눕클)", region: "엘나스 자쿰의 제단", monsters: ["자쿰"], tip: "입문 핵심 콘텐츠. 선행퀘 3단계 후 50렙 입장. 초보는 50~60 눕클(하단 자투만 받는 원정대) 권장. 24시간 2회.", source: "https://yulbin.com/메이플랜드-자쿰-선행퀘스트-빠른-공략/", common: true, kind: "boss" },
   { levelMin: 90, levelMax: 120, map: "피아누스", region: "아쿠아로드 심해", monsters: ["피아누스"], tip: "90렙+ 도전, 무자본 메소벌이로 유명. 2025 패치로 입장퀘 추가(클리어 시 7일 1회).", source: "https://gameweekee.com", common: true, kind: "boss" },
   { levelMin: 100, levelMax: 130, map: "크림슨 발록", region: "발록의 배 (오르비스↔엘리니아)", monsters: ["크림슨 발록"], tip: "보스 100렙. 입문보다 중상급 도전 단계, 강한 마공 보유.", source: "https://maple.inven.co.kr/dataninfo/monster/detail.php?code=8150000", common: true, kind: "boss" },
+
+  // ── ⚙️ 에델슈타인 (9/7 추가 — 레지스탕스 배틀메이지 육성 루트, 몹 레벨은 원본 공지 1.2.105 확정값) ──
+  { levelMin: 1, levelMax: 10, map: "에델슈타인 시티즌 스토리 퀘스트", region: "에델슈타인", monsters: ["새싹 화분", "나팔꽃 화분", "포도주스병"], tip: "레지스탕스는 에델슈타인에서 시작 — 눈앞의 NPC 스토리라인을 따라가면 Lv10 전직까지 자연 진행(퀘스트 전부 클리어 필수). 화분류(Lv5~8)는 공원·산책로에.", source: "https://maple.land/board/notices/nbudy1h3t2wjeqrx8i94yupm", jobs: ["배틀메이지"] },
+  { levelMin: 10, levelMax: 14, map: "지하 트레이닝 룸 A~D", region: "에델슈타인 레지스탕스 본부", monsters: ["훈련로봇A", "훈련로봇B", "훈련로봇C", "훈련로봇D"], tip: "본부 지하 2~5층 훈련로봇(Lv10~13). 일렉스의 강화 프로그램 퀘스트(순발력·공격력·인내심·종합)와 병행.", source: "https://archive.maplestory.nexon.com/News/Update/147", jobs: ["배틀메이지"] },
+  { levelMin: 14, levelMax: 20, map: "에델슈타인 산책로 · 뱀 나오는 길", region: "에델슈타인 콘크리트 로드", monsters: ["순찰로봇", "이상한 이정표", "구렁이"], tip: "순찰로봇 Lv14 → 이정표 Lv16 → 구렁이 Lv18 순서. 에델 스토리 퀘스트(첫 번째 임무·순찰로봇 퇴치 등)가 이 구간 몹을 잡게 시킨다.", source: "https://archive.maplestory.nexon.com/News/Update/147", jobs: ["배틀메이지"] },
+  { levelMin: 20, levelMax: 30, map: "광산 가는 길 · 가로등길", region: "에델슈타인 외곽", monsters: ["물 도둑", "더스트 박스", "가로등", "순찰로봇S"], tip: "물 도둑 Lv20~순찰로봇S Lv28. 두 번째·세 번째 임무 퀘스트 구간. 쿼드 블로우(2차) 광역으로 몰아잡기 시작.", source: "https://archive.maplestory.nexon.com/News/Update/147", jobs: ["배틀메이지"] },
+  { levelMin: 30, levelMax: 40, map: "광산 입구 · 바위길 · 광석길", region: "레벤 광산 입구", monsters: ["안전제일", "아기 바위베어먹기", "큰 바위베어먹기"], tip: "안전제일 Lv31~큰 바위베어먹기 Lv35. 이후 40~65는 기존 공용 루트(와일드보어·쿨리좀비·차벌 등) 합류가 무난.", source: "https://archive.maplestory.nexon.com/News/Update/147", jobs: ["배틀메이지"] },
+  { levelMin: 67, levelMax: 80, map: "갱도 1~4 · 너구리 소굴", region: "레벤 광산", monsters: ["경비로봇", "라키", "빅 스파이더", "카트베어", "라쿤", "경비로봇L"], tip: "경비로봇 Lv67~경비로봇L Lv79. 3차 데스 블로우 광역 구간 — 너구리 소굴(라쿤 밀집)이 핵심 자리 후보.", source: "https://archive.maplestory.nexon.com/News/Update/147", jobs: ["배틀메이지"] },
+  { levelMin: 82, levelMax: 105, map: "겔리메르 연구소 (제 2 광장~)", region: "레벤 광산 심부", monsters: ["라칸", "방어 시스템", "강화된 방어 시스템", "AF형 안드로이드", "고장난 DF형 안드로이드", "광석 이터"], tip: "라칸 Lv82 → 광석 이터 Lv101. 연구소 퀘스트 라인(겔리메르·실험에 필요한 것 1~3 등)과 병행. 9/7 이후 실측 효율 갱신 예정.", source: "https://archive.maplestory.nexon.com/News/Update/147", jobs: ["배틀메이지"] },
 ];
 
 // ─── 직업별 특성 메모 ───
 export const JOB_NOTES: Record<string, string> = {
+  "배틀메이지": "9/7 신규 직업(버닝 월드 생성 불가). 블로우 계열 광역 근접 + 오라 유지가 핵심 — 사냥은 옐로우 오라(공속), 위험 구간은 블루 오라. 텔레포트 마스터리(3차)로 기동+딜 겸용. 에델슈타인 스토리 퀘스트가 전직 필수라 초반은 퀘스트 위주 진행. 수치는 빅뱅 이전 KMST 기준이라 실측 갱신 예정.",
   "히어로": "브랜디쉬 다수 타격으로 같은 자리에서 사냥 효율이 전사 3직업 중 최상. 공용 자리(차벌·골렘숲·906)에서 체감 효율이 높다.",
   "팔라딘": "디바인 스티그마·생츄어리·묠니르 등 광역 보조기로 몹 밀집맵(골렘숲·차벌·듀파)에서 다수 처리에 강하다. 단일 극딜은 히어로에 밀림.",
   "다크나이트": "3차 드래곤 로어(광역) + 피뻥으로 100+ 솔플 자립도가 전사 중 최고. 죽숲·차벌·906 광역 솔플에 우위.",

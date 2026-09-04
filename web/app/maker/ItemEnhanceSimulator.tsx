@@ -136,7 +136,7 @@ export default function ItemEnhanceSimulator({ makerData }: { makerData: MakerDa
         id,
         nameKr,
         nameEn: it.name,
-        iconUrl: iconUrl ?? it.icon_url ?? `https://maplestory.io/api/gms/92/item/${id}/icon`,
+        iconUrl: `/api/icon/item/${id}`, // 프록시 — 검색/DB의 외부 URL 대신 서버 캐시 사용
         kind,
         jobReq: it.job_req ?? "",
         attackSpeed: it.attack_speed ?? "",
@@ -740,7 +740,7 @@ function ItemSearchBar({ onPick }: { onPick: (id: number, name: string, icon: st
         {POPULAR.map((p) => (
           <button key={p.id} onClick={() => { setQ(p.name); setOpen(false); onPick(p.id, p.name, null); }}
             className="flex items-center gap-1 px-2 py-1 text-xs border-2 border-edge bg-surface2 hover:border-maple transition-colors">
-            <img src={`https://maplestory.io/api/gms/92/item/${p.id}/icon`} alt="" onError={hideImg} className="w-5 h-5 object-contain [image-rendering:pixelated]" />
+            <img src={`/api/icon/item/${p.id}`} alt="" onError={hideImg} className="w-5 h-5 object-contain [image-rendering:pixelated]" />
             {p.name}
           </button>
         ))}
@@ -750,7 +750,7 @@ function ItemSearchBar({ onPick }: { onPick: (id: number, name: string, icon: st
           {sug.map((s) => (
             <button key={s.entity_id} onClick={() => { setQ(s.name_kr || s.name); setOpen(false); onPick(s.entity_id, s.name_kr || s.name, s.icon_url); }}
               className="w-full flex items-center gap-3 px-3 py-2 hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] text-left transition-colors">
-              {s.icon_url && <img src={s.icon_url} alt="" onError={hideImg} className="w-8 h-8 object-contain [image-rendering:pixelated] shrink-0" />}
+              {s.icon_url && <img src={`/api/icon/item/${s.entity_id}`} alt="" onError={hideImg} className="w-8 h-8 object-contain [image-rendering:pixelated] shrink-0" />}
               <span className="text-sm text-ink truncate">{s.name_kr || s.name}</span>
             </button>
           ))}
