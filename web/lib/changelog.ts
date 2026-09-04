@@ -15,11 +15,11 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: "3.95.0",
+    version: "3.94.0",
     date: "2026-09-04",
     type: "minor",
-    title: "가이드 메뉴 분리 · 통합검색에 기능 바로가기와 게시판",
-    pages: ["/", "/guild/info"],
+    title: "카오스 자쿰 타이머 · 가이드 메뉴 정리 · 통합검색 확장",
+    pages: ["/boss-timer", "/horntail", "/", "/guild/info"],
     features: [
       {
         category: "네비게이션",
@@ -35,15 +35,6 @@ export const CHANGELOG: ChangelogEntry[] = [
           "홈 검색 결과 상단에 기능 바로가기 카드 표시",
         ],
       },
-    ],
-  },
-  {
-    version: "3.94.0",
-    date: "2026-09-04",
-    type: "minor",
-    title: "카오스 자쿰 타이머 추가 · 보스 타이머 개편 (반복·음성·PIP)",
-    pages: ["/boss-timer", "/horntail"],
-    features: [
       {
         category: "보스 타이머",
         items: [
