@@ -7,6 +7,7 @@ import { getMob } from "@/lib/api";
 import type { Mob, MobDrop, MobSpawn } from "@/lib/types";
 import EntityCanonDiffPanel from "@/components/EntityCanonDiffPanel";
 import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
+import FieldEvidence from "@/components/FieldEvidence";
 import { getEntityCanonDiffs } from "@/lib/entityCanonDiffs";
 
 export default function MobDetailPage() {
@@ -68,6 +69,7 @@ export default function MobDetailPage() {
         </div>
         <EntityCanonDiffPanel entries={canonDiffs} />
         <DatasetComparisonNotice type="mob" className="mt-3" />
+        <FieldEvidence entries={mob.field_evidence} />
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
           {statRows.map(([label, val]) => (
             <div key={String(label)}><span className="text-sm text-dim">{label}</span><p className="font-medium">{val ?? "-"}</p></div>

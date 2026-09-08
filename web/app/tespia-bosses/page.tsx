@@ -1,4 +1,5 @@
 import RelicBanner from "@/components/RelicBanner";
+import Link from "next/link";
 
 const sourceLinks = [
   {
@@ -168,7 +169,7 @@ const bosses = [
 
 function Badge({ children }: { children: string }) {
   return (
-    <span className="pixel-badge inline-flex font-pixel bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] px-2.5 py-1 text-xs text-maple">
+    <span className="pixel-badge inline-flex font-pixel bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] px-2.5 py-1 text-xs text-amber-900 dark:text-maple">
       {children}
     </span>
   );
@@ -181,8 +182,8 @@ export default function TespiaBossesPage() {
         reason="테스피아(테스트 서버) 시절 2.0 엔드 보스를 미리 정리했던 페이지로, 2.0 정식 출시와 테스피아 종료로 임무를 다했습니다."
         alternative={
           <>
-            최신 보스 정보는 <a href="/bosses" className="text-maple hover:underline">보스</a> ·{" "}
-            <a href="/maps" className="text-maple hover:underline">맵 검색</a>에서 확인하세요.
+            최신 보스 정보는 <Link href="/bosses" className="text-amber-900 dark:text-maple underline">보스</Link> ·{" "}
+            <Link href="/maps" className="text-amber-900 dark:text-maple underline">맵 검색</Link>에서 확인하세요.
           </>
         }
       />
@@ -255,7 +256,7 @@ export default function TespiaBossesPage() {
                   <p className="mt-2 text-dim">{boss.drops.note}</p>
                   {boss.drops.table.length > 0 && (
                     <div className="mt-3 overflow-hidden border-2 border-edge">
-                      <div className="grid grid-cols-[1.6fr_0.5fr_1fr] gap-2 bg-surface2 px-3 py-1.5 font-pixel text-[11px] text-dim">
+                      <div className="grid grid-cols-[1.6fr_0.5fr_1fr] gap-2 bg-surface2 px-3 py-1.5 font-pixel text-xs text-dim">
                         <span>아이템군 (과거버전 데이터)</span>
                         <span>확률</span>
                         <span>비고</span>
@@ -266,7 +267,7 @@ export default function TespiaBossesPage() {
                           className="grid grid-cols-[1.6fr_0.5fr_1fr] gap-2 border-t border-edge/40 px-3 py-1.5 text-xs"
                         >
                           <span className="text-ink">{name}</span>
-                          <span className="text-maple">{rate}</span>
+                          <span className="text-amber-900 dark:text-maple">{rate}</span>
                           <span className="text-dim">{note}</span>
                         </div>
                       ))}

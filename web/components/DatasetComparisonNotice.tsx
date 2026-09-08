@@ -14,8 +14,8 @@ export default function DatasetComparisonNotice({ type, className = "" }: { type
   const copy = COPY[type];
   if (!copy) return null;
   return (
-    <div className={`border border-emerald-400/50 bg-emerald-50/60 dark:bg-emerald-950/20 px-3 py-2 text-[11px] leading-relaxed text-dim ${className}`}>
-      <span className="font-pixel text-[9px] text-emerald-700 dark:text-emerald-300 mr-2">전수 대조 범위</span>
+    <div className={`border border-emerald-400/50 bg-emerald-50/60 dark:bg-emerald-950/20 px-3 py-2 text-xs leading-relaxed text-dim ${className}`}>
+      <span className="font-pixel text-xs text-emerald-700 dark:text-emerald-300 mr-2">전수 대조 범위</span>
       {copy} <Link href="/differences" className="text-maple underline">대조 현황 보기 →</Link>
     </div>
   );

@@ -71,6 +71,7 @@ export const SITE_SECTIONS: SiteSection[] = [
     icon: "📖",
     items: [
       { href: "/pq", label: "파티퀘스트", icon: "🏰", description: "PQ 공략 및 보상", keywords: ["파퀘"] },
+      { href: "/pq/amorian-solver", label: "웨딩 파퀘 조합", icon: "🪢", description: "아모리안 밧줄·발판 퍼즐 풀이와 이동 안내", keywords: ["아모리아", "아모리안", "엘리아스", "웨딩", "결혼", "파퀘", "조합표", "발판", "밧줄", "솔버"] },
       { href: "/hunt", label: "사냥터 추천", icon: "🎯", description: "레벨별 사냥터 가이드" },
       { href: "/leveling", label: "직업별 사냥터", icon: "🗺️", description: "직업·레벨 구간별 육성 루트", keywords: ["육성", "레벨링"] },
       { href: "/events", label: "이벤트 정리", icon: "🗂️", description: "진행 중 이벤트 요약 · 아카이브" },
@@ -104,12 +105,14 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/bimae", label: "비매박제", icon: "🚫", description: "비매 유저 신고" },
       { href: "/community", label: "투표", icon: "🗳️", description: "유저 투표 참여" },
       { href: "/version", label: "업데이트 소식", icon: "🧾", description: "사이트 변경 내역" },
+      { href: "/performance", label: "반응성 진단", icon: "⏱️", description: "선택형 로컬 INP 측정 · 서버 전송 없음" },
     ],
   },
   {
     label: "놀이터",
     icon: "🎮",
     items: [
+      { href: "/playground", label: "놀이터 모아보기", icon: "🎮", description: "오늘의 게임 · 파티 도구 · 최근 플레이" },
       { href: "/play", label: "룰렛 · 주사위", icon: "🎰", description: "룰렛, 주사위 굴리기" },
       { href: "/lotto", label: "로또", icon: "🎱", description: "랜덤 번호 생성" },
       { href: "/fortune", label: "오늘의 운세", icon: "🔮", description: "메이플 운세 보기" },

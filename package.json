@@ -1,5 +1,7 @@
 {
   "scripts": {
+    "test:amorian": "node scripts/test_amorian_solver.cjs",
+    "test:audit": "node scripts/test_site_audit_helpers.cjs",
     "audit:data": "node scripts/audit_data_quality.js",
     "audit:data:check": "node scripts/audit_data_quality.js --check",
     "audit:mapleland-differences": "node scripts/audit_mapleland_differences.js",

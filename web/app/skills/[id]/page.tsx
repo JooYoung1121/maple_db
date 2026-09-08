@@ -23,6 +23,9 @@ export default function SkillDetailPage() {
   if (loading) return <div className="text-center py-12 text-dim">로딩 중...</div>;
   if (!skill) return <div className="text-center py-12 text-dim">스킬을 찾을 수 없습니다</div>;
 
+  const [legacyDescription, currentDescription] = (skill.description || "").split("[메이플랜드 9/7 조정]");
+  const historical = skill.job_class === "배틀메이지" || Boolean(currentDescription);
+
   let levelData: { level: number; effect: string }[] | null = null;
   if (skill.level_data_parsed) {
     levelData = skill.level_data_parsed;
@@ -48,15 +51,18 @@ export default function SkillDetailPage() {
         </div>
         {skill.description && (
           <div className="mt-4">
-            <span className="text-sm text-dim">설명</span>
-            <p className="mt-1">{skill.description}</p>
+            <span className="text-sm font-semibold text-maple">{currentDescription ? "메랜 공식 · 2026-09-07 조정" : historical ? "원작 참고 · 메랜 수치 확인 필요" : "설명"}</span>
+            <p className="mt-1 whitespace-pre-line leading-relaxed">{currentDescription || legacyDescription}</p>
+            {currentDescription && <a href="https://maple.land/board/notices/nbudy1h3t2wjeqrx8i94yupm" target="_blank" rel="noopener noreferrer" className="inline-block mt-3 text-sm text-maple underline">공식 변경 근거 →</a>}
           </div>
         )}
       </div>
 
       {levelData && Array.isArray(levelData) && levelData.length > 0 && (
-        <div className="mt-6">
-          <h2 className="text-lg font-semibold mb-3 font-pixel">레벨별 효과</h2>
+        <details className="mt-6" open={historical ? undefined : true}>
+          <summary className="text-base font-semibold mb-3 font-pixel cursor-pointer min-h-11">{historical ? "원작 레벨별 효과 (현재 메랜 확정값 아님)" : "레벨별 효과"}</summary>
+          {historical && <p className="text-sm text-dim mb-3">과거 참고 표입니다. 위 공식 조정과 다를 수 있으며 미공개 중간 레벨은 추정하지 않습니다.</p>}
+          {currentDescription && <p className="text-sm text-dim mb-3 whitespace-pre-line">원작 설명: {legacyDescription}</p>}
           <div className="pixel-panel overflow-hidden">
             <table className="w-full text-sm">
               <thead>
@@ -75,7 +81,7 @@ export default function SkillDetailPage() {
               </tbody>
             </table>
           </div>
-        </div>
+        </details>
       )}
     </div>
   );

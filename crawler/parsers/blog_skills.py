@@ -6,7 +6,8 @@ import sqlite3
 
 
 _JOB_PATTERNS = {
-    "전사": re.compile(r'전사|히어로|팔라딘|다크나이트|소울마스터|페이지|파이터|스피어맨|크루세이더|나이트'),
+    "배틀메이지": re.compile(r'배틀메이지'),
+    "전사": re.compile(r'전사|히어로|팔라딘|다크나이트|소울마스터|페이지|파이터|스피어맨|크루세이더|나이트(?!로드|워커)'),
     "마법사": re.compile(r'마법사|아크메이지|비숍|불독|썬콜|메이지|위자드|클레릭|프리스트'),
     "궁수": re.compile(r'궁수|보우마스터|신궁|레인저|저격수|사수|아처|헌터|크로스보우'),
     "도적": re.compile(r'도적|나이트로드|섀도어|어쌔신|시프|허밋|마스터시프|듀얼'),
@@ -41,9 +42,13 @@ def parse_blog_skills(conn: sqlite3.Connection) -> dict:
         for skill in skills:
             try:
                 conn.execute(
-                    """INSERT OR REPLACE INTO skills
+                    """INSERT INTO skills
                        (job_class, job_branch, skill_name, master_level, skill_type, description, level_data, source_post_url)
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                       ON CONFLICT(job_class, skill_name) DO UPDATE SET
+                         job_branch=excluded.job_branch, master_level=excluded.master_level,
+                         skill_type=excluded.skill_type, description=excluded.description,
+                         level_data=excluded.level_data, source_post_url=excluded.source_post_url""",
                     (
                         skill["job_class"],
                         skill.get("job_branch"),

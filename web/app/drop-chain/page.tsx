@@ -31,14 +31,14 @@ export default function DropChainPage() {
         <div className="pixel-panel p-4 sm:p-6">
           <div className="grid lg:grid-cols-[220px_1fr_1fr] gap-4 items-stretch">
             <div className="pixel-card p-5 flex lg:flex-col items-center justify-center gap-3 text-center border-maple">
-              <img src={round.mob.icon_url} alt="" className="w-24 h-24 object-contain [image-rendering:pixelated]" /><div><span className="text-[10px] text-dim font-pixel">MONSTER</span><strong className="block mt-1">{round.mob.name}</strong></div>
+              <img src={round.mob.icon_url} alt="" className="w-24 h-24 object-contain [image-rendering:pixelated]" /><div><span className="text-xs text-dim font-pixel">MONSTER</span><strong className="block mt-1">{round.mob.name}</strong></div>
             </div>
             <div className="border-2 border-edge p-3">
               <h2 className="font-pixel text-xs mb-3"><span className="text-maple">1</span> 어떤 아이템을 드랍할까?</h2>
               <div className="space-y-2">{round.item_choices.map((c) => <button key={c.id} onClick={() => pickItem(c.id)} disabled={item !== null}
                 className={`w-full text-left pixel-card px-3 py-2 text-sm ${item !== null && c.id === round.answer_item_id ? "border-green-500 bg-green-500/10" : item === c.id ? "border-red-500" : ""}`}>{c.name}</button>)}</div>
             </div>
-            <div className={`border-2 border-edge p-3 transition-opacity ${item === round.answer_item_id ? "opacity-100" : "opacity-45"}`}>
+            <div className={`border-2 border-edge p-3 ${item === round.answer_item_id ? "" : "border-dashed"}`}>
               <h2 className="font-pixel text-xs mb-3"><span className="text-maple">2</span> 어디에서 만날 수 있을까?</h2>
               <div className="space-y-2">{round.map_choices.map((c) => <button key={c.id} onClick={() => pickMap(c.id)} disabled={item !== round.answer_item_id || map !== null}
                 className={`w-full text-left pixel-card px-3 py-2 text-sm ${map !== null && c.id === round.answer_map_id ? "border-green-500 bg-green-500/10" : map === c.id ? "border-red-500" : ""}`}>{c.name}</button>)}</div>

@@ -94,6 +94,9 @@ export default function WeddingPage() {
           <Link href="/pq#amorian" className="pixel-btn px-4 py-2 text-sm whitespace-nowrap">
             7단계 공략 보기 →
           </Link>
+          <Link href="/pq/amorian-solver" className="pixel-btn px-4 py-2 text-sm whitespace-nowrap">
+            밧줄·발판 조합 도우미 →
+          </Link>
         </div>
         <p className="text-xs text-dim">
           입장 조건과 7개 스테이지명은 공식 공지 기준입니다. 세부 진행법은 원작 참고로 표시하고, 메이플랜드 보상은 실측 확인 전까지 미확정으로 분리했습니다.

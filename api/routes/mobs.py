@@ -343,6 +343,8 @@ def get_mob(mob_id: int):
             (mob_id,),
         ).fetchall()
         spawn_maps = [dict(r) for r in spawn_rows]
+        from crawler.data_quality import mob_evidence
+        mob['field_evidence'] = mob_evidence(mob, spawn_maps)
     finally:
         conn.close()
 

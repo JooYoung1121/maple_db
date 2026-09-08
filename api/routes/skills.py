@@ -91,6 +91,9 @@ def get_skill(skill_id: int):
 
     try:
         row = conn.execute("SELECT * FROM skills WHERE id = ?", (skill_id,)).fetchone()
+        if row is None and conn.execute("SELECT 1 FROM sqlite_master WHERE name='skill_aliases'").fetchone():
+            row = conn.execute("""SELECT s.* FROM skills s JOIN skill_aliases a
+                ON s.id=a.canonical_id WHERE a.old_id=?""", (skill_id,)).fetchone()
         if row is None:
             raise HTTPException(status_code=404, detail="Skill not found")
         skill = dict(row)

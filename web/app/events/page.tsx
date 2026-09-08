@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { eventPeriodLabel } from "@/lib/eventPeriod";
 import { useEffect, useState } from "react";
 import { getEvents, type EventGuideSummary } from "@/lib/api";
 
 function periodLabel(e: EventGuideSummary): string {
-  const start = e.period_start ?? "?";
-  const end = e.period_end ?? (e.status === "active" ? "진행 중" : "?");
+  const start = eventPeriodLabel(e.period_start);
+  const end = eventPeriodLabel(e.period_end, e.status === "active" ? "진행 중" : "?");
   return `${start} ~ ${end}`;
 }
 
@@ -61,12 +62,12 @@ export default function EventsPage() {
                               {e.title}
                             </span>
                             {e.world && (
-                              <span className="font-pixel text-[10px] px-1.5 py-0.5 bg-surface2 border border-edge text-dim">
+                              <span className="font-pixel text-xs px-1.5 py-0.5 bg-surface2 border border-edge text-dim">
                                 {e.world}
                               </span>
                             )}
                             {live && (
-                              <span className="font-pixel text-[10px] px-1.5 py-0.5 bg-maple text-white border border-edge-lo">
+                              <span className="font-pixel text-xs px-1.5 py-0.5 bg-maple text-white dark:text-gray-950 border border-edge-lo">
                                 진행 중
                               </span>
                             )}

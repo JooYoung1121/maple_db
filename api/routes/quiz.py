@@ -8,7 +8,7 @@ from crawler.db import get_connection
 router = APIRouter()
 
 ALLOWED_TOTALS = {10, 20, 30}
-ALLOWED_CATEGORIES = {"all", "mob", "npc", "silhouette"}
+ALLOWED_CATEGORIES = {"all", "mob", "npc", "silhouette", "edelstein"}
 
 
 class QuizScoreCreate(BaseModel):
@@ -29,7 +29,7 @@ def quiz_pool():
         mob_filter = id_filter_sql("m.id", "mobs")
         mob_where = f"AND {mob_filter}" if mob_filter else ""
         mobs = conn.execute(
-            f"""SELECT m.id, m.name, en.name_en AS name_kr
+            f"""SELECT m.id, m.name, m.icon_url, en.name_en AS name_kr
                 FROM mobs m
                 LEFT JOIN entity_names_en en
                   ON en.entity_type='mob' AND en.entity_id=m.id AND en.source='kms'
@@ -41,7 +41,7 @@ def quiz_pool():
         npc_filter = id_filter_sql("n.id", "npcs")
         npc_where = f"AND {npc_filter}" if npc_filter else ""
         npcs = conn.execute(
-            f"""SELECT n.id, n.name, en.name_en AS name_kr
+            f"""SELECT n.id, n.name, n.icon_url, en.name_en AS name_kr
                 FROM npcs n
                 LEFT JOIN entity_names_en en
                   ON en.entity_type='npc' AND en.entity_id=n.id AND en.source='kms'

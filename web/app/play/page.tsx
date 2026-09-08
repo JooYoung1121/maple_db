@@ -44,13 +44,31 @@ async function apiSaveResult(
   winner: string,
   result?: Record<string, unknown> | null,
 ) {
-  try {
-    await fetch(`${API_BASE}/api/game-results`, {
+    const response = await fetch(`${API_BASE}/api/game-results`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ game_type, participants, winner, result: result ?? null }),
     });
-  } catch { /* silently fail */ }
+    if (!response.ok) throw new Error("기록을 저장하지 못했습니다. 잠시 후 다시 시도해 주세요.");
+}
+
+function ResultSaveButton({ save, onSaved }: { save: () => Promise<void>; onSaved: () => void }) {
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
+  const lock = useRef(false);
+  const mounted = useRef(true);
+  useEffect(() => { mounted.current = true; return () => { mounted.current = false; }; }, []);
+  return <div className="w-full space-y-2">
+    <button disabled={saving} className="w-full min-h-11 border-2 border-maple text-maple text-sm font-semibold disabled:opacity-50"
+      onClick={async () => {
+        if (lock.current) return;
+        lock.current = true; setSaving(true); setError("");
+        try { await save(); if (mounted.current) onSaved(); }
+        catch { setError("저장 실패 — 네트워크를 확인하고 다시 시도해 주세요."); }
+        finally { lock.current = false; setSaving(false); }
+      }}>{saving ? "저장 중…" : "📋 기록 저장"}</button>
+    {error && <p role="alert" className="text-sm text-red-700 dark:text-red-300">{error}</p>}
+  </div>;
 }
 
 // ---------------------------------------------------------------------------
@@ -79,7 +97,7 @@ function DiceDots({ value }: { value: number }) {
   return (
     <div className="relative w-full h-full">
       {(DICE_DOTS[value] ?? []).map(([left, top], i) => (
-        <div key={i} className="absolute rounded-full bg-gray-800"
+        <div key={i} className="absolute rounded-full bg-gray-800 dark:bg-gray-100"
           style={{ left, top, width: "22%", height: "22%", transform: "translate(-50%, -50%)" }} />
       ))}
     </div>
@@ -93,12 +111,13 @@ function Die3D({ value, rollKey }: { value: number; rollKey: number }) {
     setCubeStyle({ transform: "rotateX(0deg) rotateY(0deg)", transition: "none" });
     const tid = setTimeout(() => {
       const { x, y } = FACE_ROTATION[value] ?? { x: 0, y: 0 };
-      setCubeStyle({ transform: `rotateX(${x + 1800}deg) rotateY(${y + 1800}deg)`, transition: "transform 1.6s cubic-bezier(0.15, 0.85, 0.2, 1)" });
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      setCubeStyle({ transform: `rotateX(${x + (reduce ? 0 : 1800)}deg) rotateY(${y + (reduce ? 0 : 1800)}deg)`, transition: reduce ? "none" : "transform 1.6s cubic-bezier(0.15, 0.85, 0.2, 1)" });
     }, 30);
     return () => clearTimeout(tid);
   }, [rollKey, value]);
   return (
-    <div style={{ perspective: "150px", width: 60, height: 60 }}>
+    <div role="img" aria-label={`주사위 ${value}`} style={{ perspective: "150px", width: 60, height: 60 }}>
       <div style={{ width: 60, height: 60, position: "relative", transformStyle: "preserve-3d", ...cubeStyle }}>
         {FACE_POS.map((face) => (
           <div key={face.v} style={{ position: "absolute", width: 60, height: 60, transform: face.t, backfaceVisibility: "hidden" }}
@@ -114,7 +133,7 @@ function Die3D({ value, rollKey }: { value: number; rollKey: number }) {
 interface DiceParticipant { id: number; name: string; dice: number[]; total: number; }
 let diceNextId = 1;
 
-function DiceTab({ onResult }: { onResult: (participants: string[], winner: string, result: Record<string, unknown>) => void }) {
+function DiceTab({ onResult }: { onResult: (participants: string[], winner: string, result: Record<string, unknown>) => Promise<void> }) {
   const [diceCount, setDiceCount] = useState(1);
   const [nameInput, setNameInput] = useState("");
   const [participants, setParticipants] = useState<DiceParticipant[]>([]);
@@ -127,6 +146,7 @@ function DiceTab({ onResult }: { onResult: (participants: string[], winner: stri
   const addParticipant = () => {
     const name = nameInput.trim();
     if (!name) return;
+    if (participants.some(p => p.name === name)) { window.alert("이미 있는 이름입니다. 참가자를 구분할 수 있는 이름을 입력해 주세요."); return; }
     setParticipants((prev) => [...prev, { id: diceNextId++, name, dice: [], total: 0 }]);
     setNameInput(""); setRolled(false); setPendingResult(null); setResultSaved(false);
   };
@@ -146,7 +166,8 @@ function DiceTab({ onResult }: { onResult: (participants: string[], winner: stri
         const sorted = [...newParticipants].sort((a, b) => b.total - a.total);
         const scores: Record<string, number> = {};
         newParticipants.forEach((p) => { scores[p.name] = p.total; });
-        setPendingResult({ participants: newParticipants.map((p) => p.name), winner: sorted[0].name, result: { scores } });
+        const winners = sorted.filter(p => p.total === sorted[0].total).map(p => p.name);
+        setPendingResult({ participants: newParticipants.map((p) => p.name), winner: winners.length > 1 ? `${winners.join(" · ")} (공동 1위)` : winners[0], result: { scores, winners, tieRule: "공동 1위" } });
       }
     }, 1800);
   };
@@ -196,17 +217,18 @@ function DiceTab({ onResult }: { onResult: (participants: string[], winner: stri
             className="px-4 py-3 bg-surface2 text-dim border-2 border-edge text-sm font-medium hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] transition-colors">초기화</button>
         )}
       </div>
+      <p className="text-sm text-dim">동점은 공동 1위로 기록합니다. 단독 당첨자가 필요하면 동점자끼리 다시 굴려 주세요.</p>
       {(rolled || animating) && (
         <div className="space-y-3">
           <h2 className="font-pixel text-base font-bold text-ink">결과 <span className="text-sm font-normal text-dim">— 합산 높은 순</span></h2>
-          {displayList.map((p, idx) => (
-            <div key={p.id} className={`pixel-panel p-4 transition-all ${!animating && idx === 0 ? "border-maple bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)]" : ""}`}>
+          {displayList.map((p) => (
+            <div key={p.id} className={`pixel-panel p-4 transition-all ${!animating && p.total === sorted[0].total ? "border-maple bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)]" : ""}`}>
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  {!animating && idx === 0 && <span className="text-lg">🏆</span>}
+                  {!animating && p.total === sorted[0].total && <span className="text-lg" aria-label="공동 순위를 포함한 1위">🏆</span>}
                   <span className="font-bold text-ink">{p.name}</span>
                 </div>
-                {!animating && <span className={`text-xl font-bold ${idx === 0 ? "text-maple" : "text-ink"}`}>합계 {p.total}</span>}
+                {!animating && <span className={`text-xl font-bold ${p.total === sorted[0].total ? "text-maple" : "text-ink"}`}>합계 {p.total}</span>}
               </div>
               <div className="flex gap-3 flex-wrap">
                 {p.dice.map((d, i) => <Die3D key={i} value={d} rollKey={rollKey} />)}
@@ -214,10 +236,7 @@ function DiceTab({ onResult }: { onResult: (participants: string[], winner: stri
             </div>
           ))}
           {pendingResult && !animating && !resultSaved && (
-            <button onClick={() => { onResult(pendingResult.participants, pendingResult.winner, pendingResult.result); setResultSaved(true); }}
-              className="w-full py-2 border-2 border-maple text-maple text-sm font-semibold hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] transition-colors">
-              📋 기록 저장
-            </button>
+            <ResultSaveButton key={rollKey} save={() => onResult(pendingResult.participants, pendingResult.winner, pendingResult.result)} onSaved={() => setResultSaved(true)} />
           )}
           {resultSaved && !animating && <p className="text-sm text-center text-green-600 font-medium">✓ 저장됨</p>}
         </div>
@@ -233,7 +252,7 @@ function DiceTab({ onResult }: { onResult: (participants: string[], winner: stri
 interface Participant { id: number; name: string; weight: number; }
 let nextId = 1;
 
-function RouletteTab({ onResult }: { onResult: (participants: string[], winner: string) => void }) {
+function RouletteTab({ onResult }: { onResult: (participants: string[], winner: string) => Promise<void> }) {
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [nameInput, setNameInput] = useState("");
   const [isFair, setIsFair] = useState(true);
@@ -356,10 +375,7 @@ function RouletteTab({ onResult }: { onResult: (participants: string[], winner: 
                 {winners.map((w, i) => <p key={i} className="text-2xl font-bold text-orange-700">{w}</p>)}
               </div>
               {pendingResult && !resultSaved && (
-                <button onClick={() => { onResult(pendingResult.participants, pendingResult.winner); setResultSaved(true); }}
-                  className="w-full py-2 border-2 border-maple text-maple text-sm font-semibold hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] transition-colors">
-                  📋 기록 저장
-                </button>
+                <ResultSaveButton save={() => onResult(pendingResult.participants, pendingResult.winner)} onSaved={() => setResultSaved(true)} />
               )}
               {resultSaved && <p className="text-sm text-center text-green-600 font-medium">✓ 저장됨</p>}
             </div>
@@ -385,7 +401,7 @@ function RouletteTab({ onResult }: { onResult: (participants: string[], winner: 
 // 핀볼 (lazygyu/roulette — box2d-wasm 고품질 물리 엔진)
 // ---------------------------------------------------------------------------
 
-function PinballTab({ onResult }: { onResult: (participants: string[], winner: string, result: Record<string, unknown>) => void }) {
+function PinballTab({ onResult }: { onResult: (participants: string[], winner: string, result: Record<string, unknown>) => Promise<void> }) {
   const [rankings, setRankings] = useState<string[]>([""]);
   const [saved, setSaved] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -425,11 +441,10 @@ function PinballTab({ onResult }: { onResult: (participants: string[], winner: s
   const addRank = () => setRankings((r) => [...r, ""]);
   const removeRank = (i: number) => setRankings((r) => r.filter((_, idx) => idx !== i));
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const filled = rankings.map((r) => r.trim()).filter(Boolean);
     if (!filled[0]) return;
-    onResult(filled, filled[0], { rankings: filled });
-    setSaved(true);
+    await onResult(filled, filled[0], { rankings: filled });
   };
 
   return (
@@ -475,7 +490,7 @@ function PinballTab({ onResult }: { onResult: (participants: string[], winner: s
         <p className="text-xs text-dim mb-1">게임 완료 시 순위가 자동 입력됩니다. 직접 수정도 가능합니다.</p>
         <div className="bg-blue-50 border border-blue-100 rounded-lg px-3 py-2 mb-3">
           <p className="text-xs text-blue-600 font-medium">💡 자동 입력 사용법</p>
-          <p className="text-xs text-blue-500 mt-0.5">참가자 수만큼 슬롯을 미리 추가하세요. 예) 5명 참가 → '+ 순위 추가'를 4번 눌러 5칸 만들기 → 게임 시작 → 공이 도착할 때마다 위에서부터 자동 입력</p>
+          <p className="text-xs text-blue-700 mt-0.5">참가자 수만큼 슬롯을 미리 추가하세요. 예) 5명 참가 → ‘+ 순위 추가’를 4번 눌러 5칸 만들기 → 게임 시작 → 공이 도착할 때마다 위에서부터 자동 입력</p>
         </div>
         <div className="space-y-2 mb-3">
           {rankings.map((name, i) => (
@@ -517,13 +532,7 @@ function PinballTab({ onResult }: { onResult: (participants: string[], winner: s
             <option value="" disabled>N명</option>
             {[2,3,4,5,6,7,8].map(n => <option key={n} value={n}>{n}명</option>)}
           </select>
-          <button
-            onClick={handleSave}
-            disabled={!rankings[0]?.trim() || saved}
-            className="pixel-btn flex-1 disabled:opacity-40 font-semibold py-2 text-sm"
-          >
-            {saved ? "✓ 저장됨" : "저장"}
-          </button>
+          {!saved && rankings[0]?.trim() && <ResultSaveButton save={handleSave} onSaved={() => setSaved(true)} />}
         </div>
         {saved && <p className="text-xs text-green-600 font-medium mt-2 text-center">✓ 저장됨 — 새 게임 후 다시 입력하세요</p>}
       </div>
@@ -602,7 +611,7 @@ function drawLadder(ctx: CanvasRenderingContext2D, n: number, names: string[], p
 
 interface LadderState { bridges: { row: number; leftCol: number }[]; colX: number[]; rowY: number[]; paths: { points: { x: number; y: number }[]; endCol: number }[]; prizes: string[]; winnerBottomCol: number; winnerName: string; }
 
-function LadderTab({ onResult }: { onResult: (participants: string[], winner: string, result: Record<string, unknown>) => void }) {
+function LadderTab({ onResult }: { onResult: (participants: string[], winner: string, result: Record<string, unknown>) => Promise<void> }) {
   const [participants, setParticipants] = useState<string[]>([]);
   const [nameInput, setNameInput] = useState("");
   const [mode, setMode] = useState<"winner" | "order">("winner");
@@ -728,10 +737,7 @@ function LadderTab({ onResult }: { onResult: (participants: string[], winner: st
               </div>
             </div>
             {pendingResult && !resultSaved && (
-              <button onClick={() => { onResult(pendingResult.participants, pendingResult.winner, pendingResult.result); setResultSaved(true); }}
-                className="w-full py-2 border-2 border-maple text-maple text-sm font-semibold hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] transition-colors">
-                📋 기록 저장
-              </button>
+              <ResultSaveButton save={() => onResult(pendingResult.participants, pendingResult.winner, pendingResult.result)} onSaved={() => setResultSaved(true)} />
             )}
             {resultSaved && <p className="text-sm text-center text-green-600 font-medium">✓ 저장됨</p>}
           </div>

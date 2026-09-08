@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import AmorianCooldown from "@/components/AmorianCooldown";
 import { useEffect, useMemo, useState } from "react";
 import { getEvents, getWeeklyIssueLatest, type EventGuideSummary } from "@/lib/api";
 import type { WeeklyIssue } from "@/lib/types";
@@ -38,7 +39,8 @@ export default function HomeTodayBrief() {
     window.addEventListener(MY_MAPLE_UPDATED_EVENT, syncLocal);
     Promise.allSettled([getEvents(), getWeeklyIssueLatest()]).then(([eventsResult, weeklyResult]) => {
       if (eventsResult.status === "fulfilled") {
-        setEvent(eventsResult.value.events.find((item) => item.status === "active") || null);
+        setEvent(eventsResult.value.events.filter(item => item.status === "active" && (!item.period_end || Date.parse(item.period_end.includes("T") ? item.period_end : `${item.period_end}T23:59:59+09:00`) > Date.now()))
+          .sort((a, b) => (a.period_end ? Date.parse(a.period_end) : Infinity) - (b.period_end ? Date.parse(b.period_end) : Infinity))[0] || null);
       }
       if (weeklyResult.status === "fulfilled") setWeekly(weeklyResult.value.issue);
     });
@@ -66,21 +68,23 @@ export default function HomeTodayBrief() {
       </div>
       <div className="grid sm:grid-cols-3 gap-3">
         <Link href={event ? `/events/${event.slug}` : "/events"} className="pixel-card p-4">
-          <span className="font-pixel text-[11px] text-mush">진행 중 이벤트</span>
+          <span className="font-pixel text-xs text-mush dark:text-rose-300">마감이 가까운 이벤트</span>
           <strong className="block text-sm mt-2 line-clamp-2">{event?.title || "이벤트 정리 보기"}</strong>
-          <span className="block text-xs text-dim mt-1">{event?.period_end ? `${event.period_end}까지` : "일정과 보상을 확인하세요"}</span>
+          <span className="block text-xs text-dim mt-1">{event?.period_end ? `${new Date(event.period_end).toLocaleString('ko-KR', {timeZone: 'Asia/Seoul', month: 'numeric', day: 'numeric', ...(event.period_end.includes('T') ? {hour: 'numeric', minute: '2-digit'} : {})})}까지 (한국 시간)` : "일정과 보상을 확인하세요"}</span>
         </Link>
         <Link href={weekly ? `/weekly/${weekly.issue_no}` : "/weekly"} className="pixel-card p-4">
-          <span className="font-pixel text-[11px] text-maple">최신 주간 메랜</span>
+          <span className="font-pixel text-xs text-maple">최신 주간 메랜</span>
           <strong className="block text-sm mt-2">{weekly ? `제${weekly.issue_no}호` : "이번 주 소식"}</strong>
           <span className="block text-xs text-dim mt-1 line-clamp-1">{weekly?.title || "공식·커뮤니티 이슈 모아보기"}</span>
         </Link>
         <Link href={recent[0]?.href || favorite?.href || goalFeature?.href || "/me"} className="pixel-card p-4">
-          <span className="font-pixel text-[11px] text-slime">{recent[0] ? "이어서 보기" : "목표 바로가기"}</span>
+          <span className="font-pixel text-xs text-slime">{recent[0] ? "이어서 보기" : "목표 바로가기"}</span>
           <strong className="block text-sm mt-2">{recent[0]?.label || favorite?.homeLabel || favorite?.label || goalFeature?.label || "내 메랜 설정"}</strong>
           <span className="block text-xs text-dim mt-1">{goalFeature?.description || "자주 쓰는 기능을 모아보세요"}</span>
         </Link>
       </div>
+      <div className="mt-3"><AmorianCooldown compact /></div>
+      <Link className="inline-flex min-h-11 items-center text-sm text-maple underline" href="/battle-mage#mastery-checklist">내 배메 마북 진행 확인 →</Link>
     </section>
   );
 }

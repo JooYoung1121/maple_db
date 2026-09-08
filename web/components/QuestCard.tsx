@@ -6,7 +6,7 @@ function LevelBadge({ level }: { level: number }) {
   if (level === 0) {
     return (
       <span className="pixel-badge font-pixel inline-flex items-center px-2 py-0.5 text-xs font-bold bg-surface2 text-dim">
-        Lv.-
+        레벨 미확인
       </span>
     );
   }
@@ -140,7 +140,7 @@ export default function QuestCard({ quest, onClick, checked, onToggleCheck, favo
         {/* Detail link */}
         <button
           onClick={onClick}
-          className="flex-shrink-0 text-xs text-maple/70 hover:text-maple transition-colors px-1"
+          className="flex-shrink-0 min-h-11 min-w-11 text-xs text-maple hover:underline transition-colors px-2"
           title="상세 보기"
         >
           Tip

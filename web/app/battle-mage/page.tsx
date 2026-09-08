@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import BattleMageKnownIssue from "@/components/BattleMageKnownIssue";
+import MasteryChecklist from "@/components/MasteryChecklist";
 import {
   BALANCE_CHANGES_0907,
   BATTLE_MAGE_FIELD_NOTES,
@@ -27,7 +29,7 @@ const EVIDENCE: Record<EvidenceLevel, { label: string; className: string }> = {
 
 function EvidenceBadge({ level }: { level: EvidenceLevel }) {
   const item = EVIDENCE[level];
-  return <span className={`inline-flex rounded px-2 py-0.5 text-[11px] font-semibold ${item.className}`}>{item.label}</span>;
+  return <span className={`inline-flex rounded px-2 py-0.5 text-xs font-semibold ${item.className}`}>{item.label}</span>;
 }
 
 export default function BattleMageGuidePage() {
@@ -37,6 +39,7 @@ export default function BattleMageGuidePage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-8">
+      <BattleMageKnownIssue />
       <header>
         <div className="mb-2 flex flex-wrap items-center gap-2">
           <EvidenceBadge level="official" />
@@ -91,7 +94,7 @@ export default function BattleMageGuidePage() {
               <summary className="cursor-pointer bg-surface2 px-4 py-3 font-pixel text-sm font-bold text-ink">
                 {branch} · {BATTLE_MAGE_SKILLS.filter((s) => s.branch === branch).length}개
               </summary>
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto focus-visible:outline-2" tabIndex={0} role="region" aria-label={`${branch} 스킬 표 · 좌우 스크롤 가능`}>
                 <table className="w-full min-w-[680px] text-sm">
                   <thead className="border-b border-edge text-left text-xs text-dim">
                     <tr><th className="px-4 py-2">스킬</th><th className="px-4 py-2">마스터</th><th className="px-4 py-2">핵심 효과</th><th className="px-4 py-2">육성 메모</th></tr>
@@ -122,7 +125,7 @@ export default function BattleMageGuidePage() {
           9/7 패치노트 당일 수정본에 공개된 원작(KMST) 대비 조정 내역입니다. 특히 블로우류는 원작의
           “정확한 타이밍 연타” 방식이 폐지되어, 각 차수 입력 한 번에 해당 타수 전체가 자동 발동합니다.
         </p>
-        <div className="pixel-panel overflow-x-auto">
+        <div className="pixel-panel overflow-x-auto focus-visible:outline-2" tabIndex={0} role="region" aria-label="밸런스 조정 표 · 좌우 스크롤 가능">
           <table className="w-full min-w-[640px] text-sm">
             <thead className="border-b border-edge text-left text-xs text-dim">
               <tr><th className="px-4 py-2">차수</th><th className="px-4 py-2">스킬</th><th className="px-4 py-2">원작 (KMST)</th><th className="px-4 py-2">메이플랜드</th></tr>
@@ -153,9 +156,10 @@ export default function BattleMageGuidePage() {
               <span key={book} className="rounded bg-surface px-2 py-1 text-xs text-dim">{book}</span>
             ))}
           </div>
-          <p className="mt-2 text-[11px] leading-relaxed text-dim">피니쉬 블로우·오라·싸이클론·다크 제네시스·스탠스·쉘터·메이플 용사 기준. 드롭 확정 여부는 아래 증거 배지를 기준으로 보세요.</p>
+          <p className="mt-2 text-xs leading-relaxed text-dim">피니쉬 블로우·오라·싸이클론·다크 제네시스·스탠스·쉘터·메이플 용사 기준. 드롭 확정 여부는 아래 증거 배지를 기준으로 보세요.</p>
         </div>
         <div className="grid gap-3">
+          <MasteryChecklist />
           {MASTERY_BOOK_EVIDENCE.map((book) => (
             <article key={`${book.name}-${book.tier}`} className="pixel-panel p-4">
               <div className="flex flex-wrap items-center gap-2">
@@ -170,7 +174,7 @@ export default function BattleMageGuidePage() {
                 ))}
               </div>
               <p className="mt-3 text-xs leading-relaxed text-dim">{book.note}</p>
-              <a href={book.source} target="_blank" rel="noreferrer" className="mt-2 inline-block text-[11px] text-maple hover:underline">근거 보기 ↗</a>
+              <a href={book.source} target="_blank" rel="noreferrer" className="mt-2 inline-block text-xs text-maple hover:underline">근거 보기 ↗</a>
             </article>
           ))}
         </div>
@@ -183,7 +187,7 @@ export default function BattleMageGuidePage() {
         </div>
         <p className="mb-4 text-sm leading-relaxed text-dim">
           KMS 1.2.105 공식 공지에 기재된 117개입니다. 9/4 클라이언트 화면에서는 에델슈타인 카테고리 16개가 확인됐고,
-          그중 이름을 판독한 12개에는 <span className="text-blue-600 dark:text-blue-300">인게임 확인</span> 표시를 붙였습니다.
+          그중 이름을 판독한 12개에는 <span className="text-blue-700 dark:text-blue-300">인게임 확인</span> 표시를 붙였습니다.
           나머지는 메이플랜드 적용 조건·보상 검증 전인 원작 목록입니다.
         </p>
         {[
@@ -194,7 +198,7 @@ export default function BattleMageGuidePage() {
             <summary className="cursor-pointer bg-surface2 px-4 py-3 font-pixel text-sm font-bold text-ink">
               {label as string} · {(quests as typeof resistanceQuests).length}개
             </summary>
-            <div className="max-h-[620px] overflow-auto">
+            <div className="max-h-[620px] overflow-auto" tabIndex={0} role="region" aria-label={`${label as string} 표 · 좌우 스크롤 가능`}>
               <table className="w-full min-w-[640px] text-sm">
                 <thead className="sticky top-0 border-b border-edge bg-surface text-left text-xs text-dim">
                   <tr><th className="px-4 py-2">레벨</th><th className="px-4 py-2">퀘스트</th><th className="px-4 py-2">시작 NPC</th><th className="px-4 py-2">조건·상태</th></tr>
@@ -243,7 +247,7 @@ export default function BattleMageGuidePage() {
             <article key={note.title} className="pixel-panel p-4">
               <h3 className="font-semibold text-ink">{note.title}</h3>
               <p className="mt-1 text-sm leading-relaxed text-dim">{note.body}</p>
-              <a href={note.source} target="_blank" rel="noreferrer" className="mt-2 inline-block text-[11px] text-maple hover:underline">근거 보기 ↗</a>
+              <a href={note.source} target="_blank" rel="noreferrer" className="mt-2 inline-block text-xs text-maple hover:underline">근거 보기 ↗</a>
             </article>
           ))}
         </div>

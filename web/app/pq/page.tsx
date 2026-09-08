@@ -1,6 +1,8 @@
 "use client";
+import AmorianCooldown from "@/components/AmorianCooldown";
 
 import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 
 const OFFICIAL_AMORIAN_PATCH = "https://maple.land/board/notices/u59poew390cw27yfl21j5fdf";
 const ORIGINAL_AMORIAN_GUIDE = "https://maplestorywiki.net/w/Amorian_Challenge";
@@ -309,6 +311,10 @@ type Tab = "guide" | "timer" | "compare";
 
 export default function PQPage() {
   const [activeTab, setActiveTab] = useState<Tab>("guide");
+  useEffect(() => {
+    const tab = new URLSearchParams(window.location.search).get("tab");
+    if (tab === "timer" || tab === "compare") setActiveTab(tab);
+  }, []);
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -317,9 +323,14 @@ export default function PQPage() {
         PQ 가이드, 재입장 타이머, 보상 비교
       </p>
 
+      <Link href="/pq/amorian-solver" className="pixel-panel block p-4 mb-6 border-maple hover:bg-surface2">
+        <span className="font-pixel font-bold">웨딩 파퀘 · 밧줄/발판 조합 도우미 →</span>
+        <span className="block text-sm text-dim mt-2">아모리안 챌린지 NPC 결과를 입력하고 다음 배치·이동 인원을 확인하세요.</span>
+      </Link>
+
       <div className="mb-6 rounded-xl border border-sky-200 dark:border-sky-900 bg-sky-50 dark:bg-sky-950/30 p-4">
         <div className="flex items-center gap-2 mb-2">
-          <span className="text-[10px] font-bold tracking-wide px-1.5 py-0.5 rounded bg-sky-600 text-white">2.0</span>
+          <span className="text-xs font-bold tracking-wide px-1.5 py-0.5 rounded bg-sky-700 text-white">2.0</span>
           <h2 className="text-sm font-bold text-sky-900 dark:text-sky-100">2.0 파티퀘스트 변경</h2>
         </div>
         <div className="space-y-1">
@@ -329,7 +340,7 @@ export default function PQPage() {
             </p>
           ))}
         </div>
-        <p className="mt-2 text-[11px] text-sky-700 dark:text-sky-300">
+        <p className="mt-2 text-xs text-sky-700 dark:text-sky-300">
           출처: <a href={OFFICIAL_AMORIAN_PATCH} target="_blank" rel="noopener noreferrer" className="underline">메이플랜드 9/4 공식 공지</a>
           {" · "}<a href={ORIGINAL_AMORIAN_GUIDE} target="_blank" rel="noopener noreferrer" className="underline">원작 진행 참고</a>
         </p>
@@ -388,7 +399,7 @@ function GuideTab() {
                 <span className="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded">
                   Lv.{pq.levelLabel ?? `${pq.levelMin}~${pq.levelMax}`}
                 </span>
-                <span className="text-xs px-2 py-1 bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] text-maple rounded">
+                <span className="text-xs px-2 py-1 bg-[color-mix(in_srgb,var(--c-maple)_6%,transparent)] text-maple rounded">
                   {pq.membersLabel ?? `${pq.members}명`}
                 </span>
               </div>
@@ -408,6 +419,7 @@ function GuideTab() {
           {/* 상세 내용 */}
           {openPQ === pq.id && (
             <div className="px-5 pb-5 border-t border-edge/40">
+              {pq.id === "amorian" && <Link href="/pq/amorian-solver" className="pixel-btn inline-flex items-center min-h-11 px-4 py-2 mt-4 text-sm">밧줄·발판 조합 도우미 열기 →</Link>}
               {/* 기본 정보 */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 mb-5">
                 <InfoBadge label="레벨" value={pq.levelLabel ?? `${pq.levelMin}~${pq.levelMax}`} />
@@ -436,7 +448,7 @@ function GuideTab() {
               <div className="space-y-2 mb-4">
                 {pq.stages.map((stage, i) => (
                   <div key={i} className="flex gap-3">
-                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] text-maple text-xs font-bold flex items-center justify-center mt-0.5">
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-[color-mix(in_srgb,var(--c-maple)_6%,transparent)] text-maple text-xs font-bold flex items-center justify-center mt-0.5">
                       {i + 1}
                     </div>
                     <div>
@@ -498,14 +510,13 @@ interface PQCounter {
 }
 
 function getToday(): string {
-  return new Date().toLocaleDateString("sv-SE"); // YYYY-MM-DD
+  return new Date().toLocaleDateString("sv-SE", { timeZone: "Asia/Seoul" });
 }
 
 function getTimeUntilMidnight(): string {
   const now = new Date();
-  const midnight = new Date(now);
-  midnight.setHours(24, 0, 0, 0);
-  const diff = midnight.getTime() - now.getTime();
+  const midnight = new Date(`${getToday()}T00:00:00+09:00`).getTime() + 86400000;
+  const diff = midnight - now.getTime();
   const h = Math.floor(diff / 3600000);
   const m = Math.floor((diff % 3600000) / 60000);
   return `${h}시간 ${m}분`;
@@ -552,7 +563,8 @@ function TimerTab() {
       const today = getToday();
       const current = prev[pqId];
       const existing = current && current.lastReset === today ? current.count : 0;
-      if (existing >= 5) return prev;
+      const limit = PQ_LIST.find(pq => pq.id === pqId)?.dailyLimit;
+      if (typeof limit !== "number" || existing >= limit) return prev;
       return { ...prev, [pqId]: { count: existing + 1, lastReset: today } };
     });
   }, []);
@@ -579,10 +591,11 @@ function TimerTab() {
   return (
     <div className="space-y-6">
       {/* 자정 타이머 */}
+      <AmorianCooldown />
       <div className="pixel-panel p-5 text-center">
         <p className="text-sm text-dim mb-1">일일 초기화까지</p>
         <p className="text-3xl font-mono font-bold text-maple">{timeLeft}</p>
-        <p className="text-xs text-dim mt-1">자정(00:00)에 모든 PQ 입장 횟수가 초기화됩니다</p>
+        <p className="text-xs text-dim mt-1">일일 횟수 제한 PQ는 한국 시간 자정에 초기화됩니다. 아모리안은 입장 후 6시간 기준입니다.</p>
       </div>
 
       {/* PQ별 카운터 — 일일 제한이 확인된 PQ만 */}
@@ -597,16 +610,16 @@ function TimerTab() {
 
           return (
             <div key={pq.id} className="pixel-panel p-4">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <h3 className="font-pixel font-bold text-sm">{pq.name}</h3>
                   <p className="text-xs text-dim">
                     Lv.{pq.levelLabel ?? `${pq.levelMin}~${pq.levelMax}`} · {pq.members}명
                   </p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3">
                   {/* 남은 횟수 표시 */}
-                  <div className="flex gap-1">
+                  <div className="flex flex-wrap max-w-[144px] gap-1" aria-hidden="true">
                     {Array.from({ length: pq.dailyLimit }).map((_, i) => (
                       <div
                         key={i}
@@ -621,10 +634,10 @@ function TimerTab() {
 
                   <span
                     className={`text-sm font-bold min-w-[3rem] text-center ${
-                      remaining === 0 ? "text-red-500" : "text-green-600"
+                      remaining === 0 ? "text-red-700 dark:text-red-300" : "text-green-800 dark:text-green-300"
                     }`}
                   >
-                    {remaining}/{pq.dailyLimit}
+                    <span className="block text-xs font-normal">남은 횟수</span>{remaining}/{pq.dailyLimit}
                   </span>
 
                   {/* 버튼 */}
@@ -632,14 +645,14 @@ function TimerTab() {
                     <button
                       onClick={() => decrement(pq.id)}
                       disabled={count <= 0}
-                      className="w-8 h-8 bg-surface2 text-dim border-2 border-edge hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] disabled:opacity-30 flex items-center justify-center text-sm font-bold"
+                      className="w-11 h-11 bg-surface2 text-dim border-2 border-edge hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] disabled:opacity-30 flex items-center justify-center text-sm font-bold"
                     >
                       -
                     </button>
                     <button
                       onClick={() => increment(pq.id)}
                       disabled={count >= pq.dailyLimit}
-                      className="pixel-btn w-8 h-8 disabled:opacity-30 flex items-center justify-center text-sm font-bold"
+                      className="pixel-btn w-11 h-11 disabled:opacity-30 flex items-center justify-center text-sm font-bold"
                     >
                       +
                     </button>
@@ -702,7 +715,7 @@ function CompareTab() {
                       <span
                         className={`text-xs px-2 py-0.5 rounded font-medium ${
                           r.efficiency.startsWith("최고")
-                            ? "bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] text-maple"
+                            ? "bg-[color-mix(in_srgb,var(--c-maple)_6%,transparent)] text-maple"
                             : r.efficiency.startsWith("높음")
                             ? "bg-green-100 text-green-700"
                             : "bg-blue-100 text-blue-700"
@@ -775,7 +788,7 @@ function CompareTab() {
               <span
                 className={`flex-shrink-0 text-xs px-2 py-1 rounded font-bold min-w-[4rem] text-center ${
                   item.color === "blue" ? "bg-blue-100 text-blue-700" :
-                  item.color === "orange" ? "bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] text-maple" :
+                  item.color === "orange" ? "bg-[color-mix(in_srgb,var(--c-maple)_6%,transparent)] text-maple" :
                   item.color === "green" ? "bg-green-100 text-green-700" :
                   "bg-purple-100 text-purple-700"
                 }`}

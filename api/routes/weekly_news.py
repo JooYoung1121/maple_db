@@ -17,6 +17,8 @@ from fastapi.responses import Response
 from pydantic import BaseModel
 
 from crawler.db import get_connection
+from crawler.weekly_material import updated_official_posts
+from crawler.observability import crawl_status
 from api.routes.admin import _require_admin
 
 router = APIRouter()
@@ -216,9 +218,22 @@ def get_weekly_material(
             "week_start": week_start,
             "week_end": end_str,
             "official_posts": [dict(r) for r in official],
+            "updated_official_posts": updated_official_posts(conn, week_start, end_str),
+            "crawl_status": crawl_status(conn),
+            "warnings": [] if community else ["해당 기간 커뮤니티 자료가 0건입니다. 수집 상태와 원문을 확인한 뒤 발행하세요."],
             "community_posts": [dict(r) for r in community],
             "sprite_pool": sprite_pool,
         }
+    finally:
+        conn.close()
+
+
+@router.get("/weekly-news/crawl-status")
+def get_crawl_status(request: Request):
+    _require_admin(request)
+    conn = get_connection()
+    try:
+        return {'crawlers': crawl_status(conn)}
     finally:
         conn.close()
 

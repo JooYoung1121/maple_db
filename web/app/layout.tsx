@@ -4,6 +4,7 @@ import NavBar from "./NavBar";
 import { APP_VERSION } from "@/lib/version";
 import SiteActivityTracker from "@/components/SiteActivityTracker";
 import CommandPalette from "@/components/CommandPalette";
+import LocalVitalsReporter from "@/components/LocalVitalsReporter";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://memorymapledb.up.railway.app"),
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       >
         <a href="#main-content" className="skip-link">본문으로 건너뛰기</a>
         <SiteActivityTracker />
+        <LocalVitalsReporter />
         <NavBar />
         <CommandPalette />
         {/* xl 이상: 좌측 아이콘 레일(w-14) 공간 확보 */}

@@ -235,14 +235,14 @@ export default function MyPage() {
               <p className="font-pixel text-base font-bold text-ink">
                 {user.display_name}
                 {user.guild_member === 1 && (
-                  <span className="font-pixel ml-2 text-[10px] text-maple border border-maple px-1 align-middle">추억길드</span>
+                  <span className="font-pixel ml-2 text-xs text-maple border border-maple px-1 align-middle">추억길드</span>
                 )}
               </p>
               <p className="text-xs text-dim">디스코드: {user.global_name || user.username} (@{user.username})</p>
               {user.guild_roles.length > 0 && (
                 <div className="flex flex-wrap gap-1 mt-1">
                   {user.guild_roles.map((r) => (
-                    <span key={r} className="text-[10px] px-1.5 py-0.5 border border-edge text-dim">{r}</span>
+                    <span key={r} className="text-xs px-1.5 py-0.5 border border-edge text-dim">{r}</span>
                   ))}
                 </div>
               )}
@@ -368,7 +368,7 @@ export default function MyPage() {
         <div className="space-y-4">
           {SITE_SECTIONS.filter((s) => s.label !== "마이").map((section) => (
             <div key={section.label}>
-              <p className="font-pixel text-[11px] text-dim mb-1.5">{section.icon} {section.label}</p>
+              <p className="font-pixel text-xs text-dim mb-1.5">{section.icon} {section.label}</p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
                 {section.items.map((feature) => (
                   <label key={feature.href} className="flex items-center gap-2 text-[13px] p-1.5 border border-edge bg-surface2 cursor-pointer">
@@ -396,7 +396,7 @@ export default function MyPage() {
       </section>
 
       {/* 알림 설정 예고 */}
-      <div className="pixel-card p-4 opacity-70">
+      <div className="pixel-card p-4 border-dashed">
         <p className="font-pixel font-bold text-sm">🔔 알림 설정</p>
         <p className="text-xs text-dim mt-1">준비 중 — 새 주간 메랜·공지 디스코드 알림</p>
       </div>

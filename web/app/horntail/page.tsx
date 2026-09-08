@@ -153,7 +153,7 @@ export default function HorntailGuidePage() {
       <Section id="patterns" icon="⚠️" title="패턴 정리 — 원작 데이터 검증본">
         <p className="text-xs text-dim mb-3">
           수치 근거: 원작 v62 클라이언트 원본 데이터(WZ) + 메랜 유저 실측 — 길드 정리본에서 다르게 알려져 있던 값은 정정 표기.
-          <b className="text-ink"> "주기"는 쿨다운(최소 재사용 간격)</b>: 시전 순간부터 그 시간 동안은 안 쓰고, 지나면 언제든 다시 올 수 있습니다. 좌팔·우팔은 각자 쿨이 따로 돕니다.
+          <b className="text-ink"> ‘주기’는 쿨다운(최소 재사용 간격)</b>: 시전 순간부터 그 시간 동안은 안 쓰고, 지나면 언제든 다시 올 수 있습니다. 좌팔·우팔은 각자 쿨이 따로 돕니다.
         </p>
         <div className="overflow-x-auto mb-4">
           <table className="w-full text-[13px]">
@@ -223,13 +223,13 @@ export default function HorntailGuidePage() {
           <li className="flex gap-2"><span className="text-mush shrink-0">●</span>
             <span><b>각 머리는 방어력업</b>을 겁니다 → 비숍 디스펠로 계속 해제해야 딜이 박힙니다.</span></li>
           <li className="flex gap-2"><span className="text-mush shrink-0">●</span>
-            <span>상태이상 디버프(봉인·암흑·위크니스)는 <b>우팔</b> 담당 — 그래서 우측(날개·팔)을 먼저 정리합니다. <i className="text-dim">(길드 정리본의 "우날개 디버프"는 파츠 착오 — 날개는 버프·힐 전담)</i></span></li>
+            <span>상태이상 디버프(봉인·암흑·위크니스)는 <b>우팔</b> 담당 — 그래서 우측(날개·팔)을 먼저 정리합니다. <i className="text-dim">(길드 정리본의 ‘우날개 디버프’는 파츠 착오 — 날개는 버프·힐 전담)</i></span></li>
         </ul>
       </Section>
 
       <Section id="elements" icon="🔥" title="속성 · 와이번">
         <p className="text-sm text-ink mb-3">
-          <b>머리에는 속성 반감이 없습니다</b> (원본 데이터에 속성 내성 필드 없음 — "반감"으로 알려진 건 각 머리의 <b>공격 속성</b>과의 혼동).
+          <b>머리에는 속성 반감이 없습니다</b> (원본 데이터에 속성 내성 필드 없음 — ‘반감’으로 알려진 건 각 머리의 <b>공격 속성</b>과의 혼동).
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
           <div className="pixel-card p-3 text-center">

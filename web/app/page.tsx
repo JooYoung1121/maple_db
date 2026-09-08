@@ -48,7 +48,7 @@ function HomeContent() {
 
   return (
     <div>
-      <section className="relative py-8 sm:py-10">
+      <section className="relative py-3 sm:py-6">
         <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
           {[
             { left: "8%", duration: "9s", delay: "0s", size: 14 },
@@ -73,15 +73,14 @@ function HomeContent() {
           ))}
         </div>
 
-        <div className="pixel-panel relative max-w-3xl mx-auto px-6 py-8 text-center">
+        <div className="pixel-panel relative max-w-3xl mx-auto p-4 sm:p-6 text-center">
           <div className="flex items-center justify-center gap-4">
             <img src="/mascot.png" alt="추억길드 마스코트" className="w-16 h-16 sm:w-20 sm:h-20 object-contain [image-rendering:pixelated]" />
             <div className="text-left">
               <div className="flex items-center gap-2">
                 <h1 className="font-pixel text-2xl sm:text-4xl leading-tight text-maple drop-shadow-[2px_2px_0_var(--c-border-lo)]">메이플랜드 DB</h1>
-                <span className="pixel-badge font-pixel text-[10px] bg-[color-mix(in_srgb,var(--c-maple)_20%,transparent)] text-maple self-start mt-1">2.0</span>
               </div>
-              <p className="font-pixel text-[11px] sm:text-xs text-dim mt-2">아이템 · 몬스터 · 맵 · NPC · 퀘스트 한 곳에서</p>
+              <p className="text-xs text-dim mt-2">아이템 · 몬스터 · 맵 · NPC · 퀘스트 한 곳에서</p>
             </div>
           </div>
           <div className="max-w-2xl mx-auto mt-6">
@@ -107,7 +106,7 @@ function HomeContent() {
                       <span className="text-2xl" aria-hidden>{feature.icon}</span>
                       <span className="min-w-0">
                         <span className="font-pixel text-[12px] text-ink block truncate">{feature.label}</span>
-                        <span className="text-[11px] text-dim block truncate">{feature.description}</span>
+                        <span className="text-xs text-dim block truncate">{feature.description}</span>
                       </span>
                     </Link>
                   ))}
@@ -132,12 +131,12 @@ function HomeContent() {
                     className="pixel-card block px-4 py-3"
                   >
                     <div className="flex items-center gap-3 flex-wrap">
-                      <span className="pixel-badge text-[10px] bg-[color-mix(in_srgb,var(--c-maple)_18%,transparent)] text-maple">
+                      <span className="pixel-badge text-xs bg-[color-mix(in_srgb,var(--c-maple)_18%,transparent)] text-maple">
                         {meta?.label || result.entity_type}
                       </span>
                       <span className="font-medium text-ink">{result.name_kr || result.name}</span>
                       {result.name_kr && result.name !== result.name_kr && <span className="text-xs text-dim">{result.name}</span>}
-                      {(result.variant_count || 0) > 1 && <span className="text-[10px] text-dim">ID 변형 {result.variant_count}개</span>}
+                      {(result.variant_count || 0) > 1 && <span className="text-xs text-dim">ID 변형 {result.variant_count}개</span>}
                     </div>
                     {result.snippet && <p className="text-sm text-dim mt-1 line-clamp-1">{renderSnippet(result.snippet)}</p>}
                   </Link>
@@ -156,14 +155,14 @@ function HomeContent() {
                   <span className="inline-block w-2 h-2 bg-maple" />
                   최근 업데이트
                 </h2>
-                <Link href="/version" className="text-[11px] text-dim hover:text-maple transition-colors">전체 보기 →</Link>
+                <Link href="/version" className="text-xs text-dim hover:text-maple transition-colors">전체 보기 →</Link>
               </div>
               <ul className="space-y-1">
                 {CHANGELOG.slice(0, 3).map((entry) => (
                   <li key={entry.version} className="flex items-baseline gap-2 text-sm">
-                    <span className="font-pixel text-[10px] text-dim shrink-0">v{entry.version}</span>
+                    <span className="font-pixel text-xs text-dim shrink-0">v{entry.version}</span>
                     <span className="truncate">{entry.title}</span>
-                    <span className="text-[10px] text-dim ml-auto shrink-0">{entry.date.slice(5).replace("-", "/")}</span>
+                    <span className="text-xs text-dim ml-auto shrink-0">{entry.date.slice(5).replace("-", "/")}</span>
                   </li>
                 ))}
               </ul>
@@ -183,9 +182,9 @@ function HomeContent() {
                       <div className="text-3xl mb-2 [image-rendering:pixelated] transition-transform group-hover:scale-110" aria-hidden>{feature.icon}</div>
                       <div className="font-pixel text-[12px] text-ink">
                         {feature.homeLabel || feature.label}
-                        {isNewFeature(feature.href) && <span className="font-pixel ml-1 text-[9px] text-mush border border-mush px-1 align-middle">N</span>}
+                        {isNewFeature(feature.href) && <span className="font-pixel ml-1 text-xs text-mush border border-mush px-1 align-middle">N</span>}
                       </div>
-                      <div className="text-[11px] text-dim mt-1 leading-snug">{feature.description}</div>
+                      <div className="text-xs text-dim mt-1 leading-snug">{feature.description}</div>
                     </Link>
                   ))}
                 </div>

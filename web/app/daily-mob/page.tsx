@@ -8,8 +8,8 @@ import {
 
 /* 피드백 셀 색상: 일치=초록, 근접/부분=노랑, 불일치=기본 */
 function cellClass(kind: "match" | "close" | "none"): string {
-  if (kind === "match") return "bg-green-500/20 border-green-500 text-green-600 dark:text-green-400";
-  if (kind === "close") return "bg-yellow-500/20 border-yellow-500 text-yellow-600 dark:text-yellow-400";
+  if (kind === "match") return "bg-green-500/20 border-green-500 text-green-800 dark:text-green-400";
+  if (kind === "close") return "bg-yellow-500/20 border-yellow-500 text-yellow-800 dark:text-yellow-400";
   return "bg-surface2 border-edge text-dim";
 }
 
@@ -361,7 +361,7 @@ export default function DailyMobPage() {
                 <span className={`w-6 text-center font-pixel ${i === 0 ? "text-yellow-500" : i === 1 ? "text-gray-400" : i === 2 ? "text-amber-600" : "text-dim"}`}>{i + 1}</span>
                 <span className="flex-1 truncate text-ink">{r.nickname}</span>
                 <span className="font-pixel text-xs text-maple">{r.attempts}트</span>
-                <span className="font-pixel text-[10px] text-dim">{r.solved_at}</span>
+                <span className="font-pixel text-xs text-dim">{r.solved_at}</span>
               </div>
             ))}
           </div>
@@ -373,7 +373,7 @@ export default function DailyMobPage() {
         <div className="overflow-x-auto pb-2">
           <div className="grid grid-cols-[minmax(110px,1.4fr)_repeat(6,minmax(56px,1fr))] gap-1 min-w-[560px] mb-1">
             {["몬스터", "레벨", "HP", "EXP", "보스", "언데드", "지역"].map((h) => (
-              <div key={h} className="font-pixel text-[10px] text-dim text-center py-1">{h}</div>
+              <div key={h} className="font-pixel text-xs text-dim text-center py-1">{h}</div>
             ))}
           </div>
           <div className="space-y-1">
@@ -388,8 +388,8 @@ export default function DailyMobPage() {
         <div className="pixel-panel p-8 text-center text-dim">
           <div className="text-5xl mb-3">❓</div>
           <p className="text-sm">
-            첫 추측을 입력해보세요. <span className="text-green-500">초록</span>은 일치,{" "}
-            <span className="text-yellow-500">노랑</span>은 근접(레벨 ±5, HP/EXP ±25%, 지역 부분 일치),{" "}
+            첫 추측을 입력해보세요. <span className="text-green-800 dark:text-green-400">초록</span>은 일치,{" "}
+            <span className="text-yellow-800 dark:text-yellow-400">노랑</span>은 근접(레벨 ±5, HP/EXP ±25%, 지역 부분 일치),{" "}
             화살표는 정답이 더 높은지(↑) 낮은지(↓)를 뜻합니다.
           </p>
         </div>
