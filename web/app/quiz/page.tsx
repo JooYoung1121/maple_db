@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { EDELSTEIN_MOB_IDS } from "@/data/edelstein";
 import { getQuizPool, getQuizScores, submitQuizScore, type QuizPoolEntry, type QuizScore } from "@/lib/api";
 
 /* ── 타입 ── */
@@ -13,9 +14,9 @@ interface QuizEntry {
 }
 
 type Mode = "practice" | "jokbo";
-type Category = "all" | "mob" | "npc" | "silhouette";
+type Category = "all" | "mob" | "npc" | "silhouette" | "edelstein";
 
-const CATEGORY_LABELS: Record<string, string> = { all: "전체", mob: "몬스터", npc: "NPC", silhouette: "실루엣" };
+const CATEGORY_LABELS: Record<string, string> = { all: "전체", mob: "몬스터", npc: "NPC", silhouette: "실루엣", edelstein: "에델슈타인" };
 
 function Leaderboard({ scores, questionCount }: { scores: QuizScore[]; questionCount: number }) {
   return (
@@ -71,6 +72,9 @@ const BROKEN_ICONS = new Set<string>([
 export default function QuizPage() {
   const [mode, setMode] = useState<Mode>("practice");
   const [category, setCategory] = useState<Category>("all");
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('theme') === 'edelstein') setCategory('edelstein');
+  }, []);
   const [entries, setEntries] = useState<QuizEntry[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -100,7 +104,7 @@ export default function QuizPage() {
 
   // 데이터 로드 (경량 풀 API + 24시간 localStorage 캐시)
   useEffect(() => {
-    const CACHE_KEY = "quiz_pool_v1";
+    const CACHE_KEY = "quiz_pool_v2";
     const CACHE_TTL = 24 * 60 * 60 * 1000;
 
     const toEntries = (pool: { mobs: QuizPoolEntry[]; npcs: QuizPoolEntry[] }): QuizEntry[] => [
@@ -109,7 +113,7 @@ export default function QuizPage() {
         .filter((m) => m.id < 9000000 && !BROKEN_ICONS.has(`mob-${m.id}`))
         .map((m) => ({
           id: m.id, name: m.name, name_kr: cleanKmsName(m.name_kr) ?? m.name,
-          icon_url: `https://maplestory.io/api/gms/92/mob/${m.id}/icon`, type: "mob" as const,
+          icon_url: m.icon_url || `https://maplestory.io/api/gms/${EDELSTEIN_MOB_IDS.has(m.id) ? 95 : 92}/mob/${m.id}/icon`, type: "mob" as const,
         })),
       ...pool.npcs
         // 한국어명이 없거나 결측 플레이스홀더('스트링 없음')인 NPC는 출제 불가
@@ -119,7 +123,7 @@ export default function QuizPage() {
         })
         .map((n) => ({
           id: n.id, name: n.name, name_kr: cleanKmsName(n.name_kr) ?? n.name,
-          icon_url: `https://maplestory.io/api/gms/92/npc/${n.id}/icon`, type: "npc" as const,
+          icon_url: n.icon_url || `https://maplestory.io/api/gms/92/npc/${n.id}/icon`, type: "npc" as const,
         })),
     ];
 
@@ -166,7 +170,8 @@ export default function QuizPage() {
   // 필터된 목록 (실루엣 모드는 몬스터만 출제)
   const filtered = useMemo(() => {
     let list = entries;
-    if (category === "silhouette") list = list.filter((e) => e.type === "mob");
+    if (category === "edelstein") list = list.filter(e => e.type === 'mob' && EDELSTEIN_MOB_IDS.has(e.id));
+    else if (category === "silhouette") list = list.filter((e) => e.type === "mob");
     else if (category !== "all") list = list.filter((e) => e.type === category);
     return list;
   }, [entries, category]);
@@ -322,7 +327,7 @@ export default function QuizPage() {
         </div>
 
         <div className="flex gap-2 flex-wrap">
-          {(["all", "mob", "npc", "silhouette"] as Category[]).map((c) => (
+          {(["all", "mob", "npc", "silhouette", "edelstein"] as Category[]).map((c) => (
             <button
               key={c}
               onClick={() => setCategory(c)}
@@ -332,11 +337,11 @@ export default function QuizPage() {
                   : "pixel-card font-pixel text-dim"
               }`}
             >
-              {{ all: "전체", mob: "몬스터", npc: "NPC", silhouette: "실루엣" }[c]}
-              <span className="ml-1 text-xs text-dim">
+              {CATEGORY_LABELS[c]}
+              <span className={`ml-1 text-xs ${category === c ? 'text-inherit' : 'text-dim'}`}>
                 ({c === "all"
                   ? entries.length
-                  : entries.filter((e) => e.type === (c === "silhouette" ? "mob" : c)).length})
+                  : entries.filter((e) => c === 'edelstein' ? e.type === 'mob' && EDELSTEIN_MOB_IDS.has(e.id) : e.type === (c === "silhouette" ? "mob" : c)).length})
               </span>
             </button>
           ))}

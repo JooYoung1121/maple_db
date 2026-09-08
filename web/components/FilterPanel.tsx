@@ -251,6 +251,7 @@ export default function FilterPanel({ filters, values, onChange, sortOptions, so
             <div>
               <label className="block text-xs font-medium text-dim mb-1">정렬</label>
               <select
+                aria-label="정렬"
                 value={sortValue || ""}
                 onChange={(e) => onSortChange?.(e.target.value)}
                 className="pixel-input w-full px-3 py-2 text-sm"
@@ -266,6 +267,7 @@ export default function FilterPanel({ filters, values, onChange, sortOptions, so
               <label className="block text-xs font-medium text-dim mb-1">{f.label}</label>
               {f.type === "select" ? (
                 <select
+                  aria-label={f.label}
                   value={values[f.key] || ""}
                   onChange={(e) => update(f.key, e.target.value)}
                   className="pixel-input w-full px-3 py-2 text-sm"

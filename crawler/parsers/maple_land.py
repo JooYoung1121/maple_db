@@ -8,16 +8,23 @@ from datetime import datetime, timezone
 
 from .base import BaseParser
 from .summarizer import summarize_post
+from crawler.observability import observed_crawl
 
 
-def content_hash(title: str | None, content: str | None) -> str:
+def content_hash(title: str | None, content: str | None, content_html: str | None = None) -> str:
     """제목+본문 기준 수정 감지용 해시. 공백 정규화로 사소한 변동 무시."""
     norm = lambda s: re.sub(r"\s+", " ", (s or "")).strip()
     h = hashlib.sha256()
     h.update(norm(title).encode("utf-8"))
     h.update(b"\x00")
     h.update(norm(content).encode("utf-8"))
-    return h.hexdigest()
+    if content_html:
+        soup = BaseParser.make_soup(content_html)
+        # Image/video-only notices and strikethrough issue resolution also change
+        # meaning. Ignore layout classes/styles, but track these semantic edits.
+        for tag in soup.find_all(['img', 'iframe', 's', 'del']):
+            h.update(f"\x00{tag.name}:{tag.get('src', '')}:{tag.get_text(' ', strip=True)}".encode('utf-8'))
+    return 'v2:' + h.hexdigest()
 
 SOURCES = {
     "main": {
@@ -223,6 +230,8 @@ class MapleLandParser(BaseParser):
                              if k in ("href", "src", "alt", "target", "rel")}
             content_html = str(content_el)
             content_text = content_el.get_text(separator="\n", strip=True)
+            if not content_text and content_el.find(['img', 'iframe']):
+                content_text = '[이미지·영상 중심 공지 — 상세 내용은 원문 미디어를 확인하세요.]'
         else:
             content_html = ""
             content_text = ""
@@ -281,11 +290,13 @@ SUMMARY_CATEGORIES = {"업데이트", "이벤트", "진행중", "종료", "안�
 RECHECK_PAGES = 1
 
 
+@observed_crawl('maple_land')
 async def crawl_maple_land(
     conn: sqlite3.Connection,
     client,
     force: bool = False,
     refresh_lists: bool = True,
+    stats: dict | None = None,
 ) -> int:
     """maple.land + Tespia notices/events crawler. Returns new/updated count."""
     new_count = 0
@@ -314,14 +325,14 @@ async def crawl_maple_land(
 
     # content_hash 기준선 백필 (수정 감지 최초 1회) — updated_at은 건드리지 않음
     hash_rows = conn.execute(
-        "SELECT post_id, title, content FROM maple_land_posts WHERE content_hash IS NULL"
+        "SELECT post_id, title, content, content_html FROM maple_land_posts WHERE content_hash IS NULL"
     ).fetchall()
     if hash_rows:
         print(f"[maple-land] content_hash 백필 {len(hash_rows)}건")
         for row in hash_rows:
             conn.execute(
                 "UPDATE maple_land_posts SET content_hash = ? WHERE post_id = ?",
-                (content_hash(row["title"], row["content"]), row["post_id"]),
+                (content_hash(row["title"], row["content"], row['content_html']), row["post_id"]),
             )
         conn.commit()
 
@@ -350,7 +361,7 @@ async def crawl_maple_land(
                         detail.get("category"),
                         detail.get("published_at"),
                         detail["last_crawled_at"],
-                        content_hash(row["title"], detail.get("content")),
+                        content_hash(row["title"], detail.get("content"), detail.get('content_html')),
                         row["post_id"],
                     ),
                 )
@@ -373,11 +384,14 @@ async def crawl_maple_land(
                         use_cache=not (force or refresh_lists),
                     )
                 except Exception as e:
+                    stats['errors'] += 1
                     print(f"[maple-land] {source}/{board} p{page} 오류: {e}")
                     break
 
                 entries = parser.parse_board_list(html, board)
                 if not entries:
+                    if page == 1:
+                        stats['errors'] += 1
                     print(f"[maple-land] {source}/{board} p{page}: 항목 없음, 중단")
                     break
 
@@ -386,7 +400,7 @@ async def crawl_maple_land(
                 all_known = True
                 for entry in entries:
                     existing = conn.execute(
-                        "SELECT id, content_hash FROM maple_land_posts WHERE post_id = ?",
+                        "SELECT id, content_hash, title, content, content_html FROM maple_land_posts WHERE post_id = ?",
                         (entry["post_id"],),
                     ).fetchone()
 
@@ -405,28 +419,30 @@ async def crawl_maple_land(
                             use_cache=not (force or recheck),
                         )
                         detail = parser.parse_detail(detail_html, 0)
+                        if not detail.get('title') or not detail.get('content'):
+                            raise ValueError('Empty official detail: possible markup change')
+                        stats['checked'] += 1
                         cat = entry.get("category") or detail.get("category")
                         # 개발일지 게시판은 카테고리 배지가 없을 수 있어 기본값 부여
                         if not cat and board == "devlog":
                             cat = "개발일지"
-                        title = entry.get("title") or detail.get("title", "")
+                        title = detail.get("title") or entry.get("title", "")
                         content = detail.get("content", "")
-                        new_hash = content_hash(title, content)
+                        new_hash = content_hash(title, content, detail.get('content_html'))
 
                         # 기존 글 재확인: 변경 없으면 스킵, 기준선 없으면 기록만
                         is_edit = False
-                        if existing and not force:
+                        if existing:
                             old_hash = existing["content_hash"]
+                            if not old_hash or not old_hash.startswith('v2:'):
+                                # Compare old stored content under the new algorithm.
+                                # A hash-version upgrade is not an editorial change.
+                                old_hash = content_hash(existing['title'], existing['content'], existing['content_html'])
                             if old_hash == new_hash:
-                                continue  # 내용 동일 → 아무것도 안 함
-                            if old_hash is None:
-                                # 기준선만 기록 (수정으로 간주하지 않음)
-                                conn.execute(
-                                    "UPDATE maple_land_posts SET content_hash = ? WHERE post_id = ?",
-                                    (new_hash, entry["post_id"]),
-                                )
+                                conn.execute("UPDATE maple_land_posts SET last_crawled_at=?, content_hash=? WHERE post_id=?",
+                                             (detail['last_crawled_at'], new_hash, entry['post_id']))
                                 conn.commit()
-                                continue
+                                continue  # checked successfully, but not edited
                             is_edit = True  # 해시 변동 → 원문 수정
 
                         # 업데이트/이벤트 카테고리만 요약 생성
@@ -459,6 +475,7 @@ async def crawl_maple_land(
                         else:
                             print(f"[maple-land] 저장: {source}/{entry['title'][:40]}")
                     except Exception as e:
+                        stats['errors'] += 1
                         print(f"[maple-land] {entry['url']} 상세 오류: {e}")
 
                 if all_known and not force:

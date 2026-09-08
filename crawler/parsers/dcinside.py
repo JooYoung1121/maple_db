@@ -130,11 +130,16 @@ class DcinsideParser(BaseParser):
         )
 
 
+from crawler.observability import observed_crawl
+
+
+@observed_crawl('dcinside')
 async def crawl_dcinside(
     conn: sqlite3.Connection,
     client,
     pages: int = 3,
     recommend_pages: int = 5,
+    stats: dict | None = None,
 ) -> int:
     """디시 메이플랜드 갤러리 목록/개념글 수집. 저장·갱신 건수 반환.
 
@@ -158,14 +163,18 @@ async def crawl_dcinside(
         try:
             html = await client.get(url, use_cache=False, headers=BROWSER_HEADERS)
         except httpx.HTTPStatusError as e:
+            stats['errors'] += 1
             print(f"[dcinside] 목록 차단/오류({e.response.status_code}): {url} — 중단")
             break
         except Exception as e:
+            stats['errors'] += 1
             print(f"[dcinside] 목록 오류: {url} — {e}")
             continue
 
         entries = parser.parse_list(html)
+        stats['checked'] += len(entries)
         if not entries:
+            stats['errors'] += 1
             print(f"[dcinside] 항목 없음(구조 변경?): {url}")
             continue
 
@@ -195,9 +204,11 @@ async def crawl_dcinside(
                 headers=BROWSER_HEADERS,
             )
         except httpx.HTTPStatusError as e:
+            stats['errors'] += 1
             print(f"[dcinside] 상세 차단/오류({e.response.status_code}) — 발췌 수집 중단")
             break
         except Exception as e:
+            stats['errors'] += 1
             print(f"[dcinside] 상세 오류 {entry['source_post_id']}: {e}")
             continue
 

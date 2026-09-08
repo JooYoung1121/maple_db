@@ -556,7 +556,7 @@ export async function submitQuizScore(payload: { nickname: string; score: number
   return res.json() as Promise<{ id: number; ok: boolean }>;
 }
 
-export interface QuizPoolEntry { id: number; name: string; name_kr: string | null }
+export interface QuizPoolEntry { id: number; name: string; name_kr: string | null; icon_url?: string | null }
 
 export async function getQuizPool() {
   return fetchJSON<{ mobs: QuizPoolEntry[]; npcs: QuizPoolEntry[] }>(`/api/quiz/pool`);

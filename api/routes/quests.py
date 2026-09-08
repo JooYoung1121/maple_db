@@ -5,6 +5,7 @@ import json
 import logging
 
 from crawler.db import get_connection
+from crawler.data_quality import annotate_quest
 
 router = APIRouter()
 logger = logging.getLogger(__name__)
@@ -92,7 +93,7 @@ def list_quests(
             # Strip whitespace from name
             if quest.get("name"):
                 quest["name"] = quest["name"].strip()
-            results.append(quest)
+            results.append(annotate_quest(quest))
 
     except Exception as e:
         logger.warning("list_quests error: %s", e)
@@ -174,6 +175,7 @@ def get_quest(quest_id: int):
                 chain_quests.extend([dict(r) for r in child_rows])
 
         quest["chain_quests"] = chain_quests
+        annotate_quest(quest)
 
     finally:
         conn.close()

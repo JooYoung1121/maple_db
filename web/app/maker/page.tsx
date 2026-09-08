@@ -1,4 +1,5 @@
 "use client";
+import BattleMageKnownIssue from "@/components/BattleMageKnownIssue";
 
 import { useState, useEffect, useMemo } from "react";
 import { getMakerData, getMakerMaterialSources } from "@/lib/api";
@@ -35,6 +36,7 @@ export default function MakerPage() {
     <div className="max-w-4xl mx-auto space-y-5">
       <div>
         <h1 className="font-pixel text-xl font-bold text-ink">메이커 (전문기술)</h1>
+        <BattleMageKnownIssue />
         <p className="text-sm text-dim mt-1">
           메이플랜드 2.0의 메이커 제작 정보·시뮬레이터·재료 획득 가이드입니다.
         </p>
@@ -116,7 +118,7 @@ function InfoTab({ data }: { data: MakerData }) {
                 <ol className="mt-2 space-y-1 border-t border-edge/40 pt-2">
                   {q.flow.map((step, i) => (
                     <li key={i} className="flex gap-2 text-xs text-dim">
-                      <span className="shrink-0 w-4 h-4 rounded-full bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] text-maple text-[10px] font-bold flex items-center justify-center mt-0.5">{i + 1}</span>
+                      <span className="shrink-0 w-4 h-4 rounded-full bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] text-maple text-xs font-bold flex items-center justify-center mt-0.5">{i + 1}</span>
                       <span>{step}</span>
                     </li>
                   ))}
@@ -140,7 +142,7 @@ function InfoTab({ data }: { data: MakerData }) {
             <tbody>
               {data.gems.map((g) => (
                 <tr key={g.name} className="border-b border-edge/40">
-                  <td className="py-1.5 pr-3 font-medium">{g.name}{g.weapon_only && <span className="ml-1 text-[10px] text-red-400">무기전용</span>}</td>
+                  <td className="py-1.5 pr-3 font-medium">{g.name}{g.weapon_only && <span className="ml-1 text-xs text-red-400">무기전용</span>}</td>
                   <td className="pr-3 text-dim">{g.stat}</td>
                   <td className="pr-3 text-center">{g.values["하급"] ?? "-"}</td>
                   <td className="pr-3 text-center">{g.values["중급"] ?? "-"}</td>
@@ -159,7 +161,7 @@ function InfoTab({ data }: { data: MakerData }) {
             <div key={c.grade + c.sub} className="pixel-panel p-2.5 text-center">
               <div className="font-bold">{c.grade} {c.sub}</div>
               <div className="text-xs text-dim">Lv.{c.level_min}~{c.level_max}</div>
-              <div className="text-[11px] text-dim">전리품 {c.loot_qty}개</div>
+              <div className="text-xs text-dim">전리품 {c.loot_qty}개</div>
             </div>
           ))}
         </div>
@@ -212,10 +214,10 @@ function EquipCard({ e }: { e: MakerEquipment }) {
         return (
           <div key={g} className="mt-2 border-t border-edge/40 pt-1.5">
             <div className="text-xs font-bold text-maple">{g === "reverse" ? "리버스" : "타임리스"}</div>
-            <div className="text-[11px] text-dim">
+            <div className="text-xs text-dim">
               {Object.entries(grade.stats).map(([k, v]) => `${k} +${v}`).join(", ")}
             </div>
-            <div className="text-[11px] text-dim mt-0.5">
+            <div className="text-xs text-dim mt-0.5">
               {grade.materials.map((m) => `${m.name}×${m.qty}`).join(" · ")} · 메소 {won(grade.fee)}
             </div>
           </div>
@@ -305,7 +307,7 @@ function GemSim({ data }: { data: MakerData }) {
               {(["하급", "중급", "상급"] as Grade[]).map((g) => (
                 <button key={g} onClick={() => setTarget(g)}
                   className={`px-3 py-1.5 border-2 text-sm ${target === g ? "pixel-btn font-pixel" : "bg-surface2 border-edge text-dim"}`}>
-                  {g} <span className="text-[11px] opacity-70">{((grades[g] ?? 0) * 100).toFixed(0)}%</span>
+                  {g} <span className="text-xs opacity-70">{((grades[g] ?? 0) * 100).toFixed(0)}%</span>
                 </button>
               ))}
             </div>
@@ -354,9 +356,9 @@ function GemSim({ data }: { data: MakerData }) {
             </div>
             <div className="flex flex-wrap gap-1">
               {log.slice(-40).map((g, i) => (
-                <span key={i} className={`px-1.5 py-0.5 rounded text-[11px] ${GRADE_STYLE[g]}`}>{g}</span>
+                <span key={i} className={`px-1.5 py-0.5 rounded text-xs ${GRADE_STYLE[g]}`}>{g}</span>
               ))}
-              {attempts > 40 && <span className="text-[11px] text-dim self-center">… 최근 40개만 표시</span>}
+              {attempts > 40 && <span className="text-xs text-dim self-center">… 최근 40개만 표시</span>}
             </div>
           </div>
         )}
@@ -365,7 +367,7 @@ function GemSim({ data }: { data: MakerData }) {
         <div className="text-xs text-dim border-t border-edge/40 pt-2">
           상위 등급 제련: 동일 하급 10개 + {won(data.gem_refine[0]?.fee ?? 330000)} 메소 → 중급, 동일 중급 10개 + {won(data.gem_refine[1]?.fee ?? 550000)} 메소 → 상급 (성공률 미공개)
         </div>
-        <p className="text-[11px] text-dim">
+        <p className="text-xs text-dim">
           ※ 수수료({won(fee)} 등)는 2.0 기준 확인값이지만, 등급 확률(하급 {((grades["하급"] ?? 0) * 100).toFixed(0)}% / 중급 {((grades["중급"] ?? 0) * 100).toFixed(0)}% / 상급 {((grades["상급"] ?? 0) * 100).toFixed(0)}%)은 <b>공식 미공개 커뮤니티 추정치</b>라 실제와 다를 수 있습니다.
         </p>
       </div>
@@ -417,7 +419,7 @@ function EquipSim({ data }: { data: MakerData }) {
               <tr className="font-bold"><td className="py-1.5">제작 수수료(메소)</td><td className="text-right text-maple">{won(g.fee)}</td></tr>
             </tbody>
           </table>
-          <p className="text-[11px] text-dim">
+          <p className="text-xs text-dim">
             ※ 몬스터 결정류 재료는 각 1개당 전리품 100개가 추가로 필요합니다. (재료 획득 탭 참고)
           </p>
         </div>
@@ -497,7 +499,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <div className="font-pixel text-[11px] text-dim">{label}</div>
+      <div className="font-pixel text-xs text-dim">{label}</div>
       <div className="font-bold">{value}</div>
     </div>
   );

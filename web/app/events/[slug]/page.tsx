@@ -1,4 +1,5 @@
 "use client";
+import { eventPeriodLabel } from "@/lib/eventPeriod";
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -163,7 +164,7 @@ export default function EventDetailPage() {
         ) : (
           <span className="font-pixel text-[10px] px-1.5 py-0.5 border-2 border-edge">종료</span>
         )}
-        <span>{event.period_start ?? "?"} ~ {event.period_end ?? (event.status === "active" ? "진행 중" : "?")}</span>
+        <span>{eventPeriodLabel(event.period_start)} ~ {eventPeriodLabel(event.period_end, event.status === "active" ? "진행 중" : "?")}</span>
         <span>· 정리 갱신 {event.updated_at?.slice(0, 10)}</span>
       </div>
 

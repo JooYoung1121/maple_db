@@ -5,6 +5,7 @@
 - 풀: 메이플랜드 레퍼런스 몹 (id<9000000, 숨김 제외, 한글명 존재)
 """
 import hashlib
+import json
 import re
 from datetime import datetime, timedelta, timezone
 
@@ -35,6 +36,7 @@ REGION_RANGES = [
     (260_000_000, 260_999_999, "니할사막"),
     (261_000_000, 269_999_999, "마가티아"),
     (270_000_000, 271_999_999, "시간의 신전"),
+    (310_000_000, 319_999_999, "에델슈타인"),
     (600_000_000, 699_999_999, "마스테리아"),
     (800_000_000, 809_999_999, "지팡구"),
     (900_000_000, 999_999_999, "히든스트리트"),
@@ -66,6 +68,8 @@ def puzzle_no(date_str: str) -> int:
 
 
 def ensure_tables(conn):
+    conn.execute("""CREATE TABLE IF NOT EXISTS daily_mob_answers (
+        puzzle_date TEXT PRIMARY KEY, answer_json TEXT NOT NULL)""")
     conn.execute("""
         CREATE TABLE IF NOT EXISTS daily_mob_results (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -136,6 +140,28 @@ def pick_answer(pool: list[dict], date_str: str) -> dict:
     return pool[seed % len(pool)]
 
 
+def frozen_answer(conn, pool: list[dict], date_str: str) -> dict:
+    """The first request freezes the full answer, including hints, for this KST day.
+
+    INSERT OR IGNORE + re-read handles concurrent first requests. This table is
+    deliberately excluded from seed sync so deployments cannot change a puzzle.
+    """
+    row = conn.execute("SELECT answer_json FROM daily_mob_answers WHERE puzzle_date=?", (date_str,)).fetchone()
+    if row is None:
+        if not pool:
+            raise HTTPException(status_code=503, detail="출제 가능한 몬스터가 없습니다")
+        conn.execute("INSERT OR IGNORE INTO daily_mob_answers VALUES (?, ?)",
+                     (date_str, json.dumps(pick_answer(pool, date_str), ensure_ascii=False)))
+        conn.commit()
+        row = conn.execute("SELECT answer_json FROM daily_mob_answers WHERE puzzle_date=?", (date_str,)).fetchone()
+    answer = json.loads(row['answer_json'])
+    # The answer must remain selectable even if its source row is removed/renamed.
+    pool[:] = [p for p in pool if p['id'] != answer['id'] and p['name'] != answer['name']]
+    pool.append(answer)
+    pool.sort(key=lambda p: p['id'])  # Do not leak the answer via its position in public autocomplete.
+    return answer
+
+
 def _num_feedback(guess: int, answer: int, close_abs: int | None = None, close_ratio: float | None = None):
     if guess == answer:
         return {"dir": "match", "close": True}
@@ -154,9 +180,8 @@ def daily_mob_meta():
     try:
         ensure_tables(conn)
         pool = load_pool(conn)
-        if not pool:
-            raise HTTPException(status_code=503, detail="출제 가능한 몬스터가 없습니다")
         date_str = kst_today()
+        frozen_answer(conn, pool, date_str)
         stats = conn.execute(
             "SELECT COUNT(*) AS solvers, ROUND(AVG(attempts),1) AS avg_attempts "
             "FROM daily_mob_results WHERE puzzle_date=?",
@@ -191,14 +216,15 @@ def daily_mob_guess(payload: GuessPayload):
         raise HTTPException(status_code=400, detail="이름을 입력해주세요")
     conn = get_connection()
     try:
+        ensure_tables(conn)
         pool = load_pool(conn)
+        date_str = kst_today()
+        answer = frozen_answer(conn, pool, date_str)
     finally:
         conn.close()
     if not pool:
         raise HTTPException(status_code=503, detail="출제 가능한 몬스터가 없습니다")
 
-    date_str = kst_today()
-    answer = pick_answer(pool, date_str)
     norm = name.replace(" ", "").lower()
     guess = next((p for p in pool if p["name"].replace(" ", "").lower() == norm), None)
     if not guess:

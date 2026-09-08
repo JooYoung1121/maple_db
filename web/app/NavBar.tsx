@@ -142,7 +142,7 @@ function SideBar({ isActive, newsBadge }: { isActive: (href: string) => boolean;
       <Link
         href="/"
         className={`flex items-center gap-2 px-4 py-2 text-[13px] font-pixel transition-colors ${
-          pathname === "/" ? "text-maple bg-[color-mix(in_srgb,var(--c-maple)_12%,transparent)]" : "text-ink hover:text-maple"
+          pathname === "/" ? "text-maple bg-[color-mix(in_srgb,var(--c-maple)_6%,transparent)]" : "text-ink hover:text-maple"
         }`}
       >
         🏠 홈
@@ -159,7 +159,7 @@ function SideBar({ isActive, newsBadge }: { isActive: (href: string) => boolean;
               href={item.href}
               className={`flex items-center gap-1.5 px-4 py-1.5 text-[13px] transition-colors ${
                 isActive(item.href)
-                  ? "text-maple font-semibold bg-[color-mix(in_srgb,var(--c-maple)_12%,transparent)]"
+                  ? "text-maple font-semibold bg-[color-mix(in_srgb,var(--c-maple)_6%,transparent)]"
                   : "text-ink hover:text-maple"
               }`}
             >
@@ -186,7 +186,7 @@ function SideBar({ isActive, newsBadge }: { isActive: (href: string) => boolean;
                   href={item.href}
                   className={`flex items-center gap-2 px-4 py-2 text-[13px] font-pixel transition-colors ${
                     isActive(item.href)
-                      ? "text-maple bg-[color-mix(in_srgb,var(--c-maple)_12%,transparent)]"
+                      ? "text-maple bg-[color-mix(in_srgb,var(--c-maple)_6%,transparent)]"
                       : "text-ink hover:text-maple"
                   }`}
                 >
@@ -230,7 +230,7 @@ function SideBar({ isActive, newsBadge }: { isActive: (href: string) => boolean;
                         aria-current={isActive(item.href) ? "page" : undefined}
                         className={`flex items-center gap-1.5 pl-8 pr-3 py-1.5 text-[13px] transition-colors ${
                           isActive(item.href)
-                            ? "text-maple font-semibold bg-[color-mix(in_srgb,var(--c-maple)_12%,transparent)]"
+                            ? "text-maple font-semibold bg-[color-mix(in_srgb,var(--c-maple)_6%,transparent)]"
                             : "text-dim hover:text-maple"
                         }`}
                       >
@@ -383,7 +383,7 @@ export default function NavBar() {
           className="hidden md:flex mx-5 max-w-md flex-1 items-center gap-2 border-2 border-edge bg-bg/70 px-3 py-2 text-left text-xs text-dim hover:border-maple hover:text-maple transition-colors"
           aria-label="통합 검색 열기"
         >
-          <span>🔎</span><span className="flex-1 truncate">아이템·몬스터·맵·NPC 검색…</span><span className="font-pixel text-[10px] opacity-70">⌘K</span>
+          <span>🔎</span><span className="flex-1 truncate">아이템·몬스터·맵·NPC 검색…</span><span className="font-pixel text-xs">⌘K</span>
         </button>
 
         {/* Desktop — 카테고리는 좌측 레일로 이동, 상단은 계정·테마만 */}

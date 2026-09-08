@@ -50,14 +50,14 @@ export default function CommandPalette() {
 
   return (
     <>
-      <button
+      {pathname !== "/" && <button
         type="button"
         onClick={() => setOpen(true)}
         className="fixed right-4 bottom-4 z-30 pixel-btn px-3 py-2 text-xs"
         aria-label="통합 검색 열기"
       >
-        검색 <span className="hidden sm:inline opacity-70">⌘K</span>
-      </button>
+        검색 <span className="hidden sm:inline">⌘K</span>
+      </button>}
       {open && (
         <div
           className="fixed inset-0 z-[80] bg-black/55 p-4 pt-[12vh]"
@@ -76,7 +76,7 @@ export default function CommandPalette() {
                 <Link key={item.href} href={item.href} className="pixel-card px-3 py-2 text-xs">{item.label}</Link>
               ))}
             </div>
-            <p className="text-[10px] text-dim mt-4">어디서든 / 또는 Ctrl/⌘ + K로 열 수 있습니다.</p>
+            <p className="text-xs text-dim mt-4">어디서든 / 또는 Ctrl/⌘ + K로 열 수 있습니다.</p>
           </div>
         </div>
       )}

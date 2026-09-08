@@ -14,6 +14,7 @@
 """
 import json
 import os
+from datetime import datetime, timezone, timedelta
 from typing import Optional
 
 from fastapi import APIRouter, HTTPException, Request
@@ -83,6 +84,21 @@ _MONSTER_PARK_CONTENT = {
 
 DEFAULT_GUIDES = [
     {
+        "slug": "sogong-successor-2026",
+        "title": "소공의 후계자",
+        "world": "메이플랜드",
+        "status": "active",
+        "period_start": "2026-08-07",
+        "period_end": "2026-09-11T00:00:00+09:00",
+        "source_post_id": "h9e7dwjnp9ca5od3q37lsvx5",
+        "content_json": json.dumps({
+            "tldr": ["공식 이벤트 기간: 8/7 점검 종료 후 ~ 9/11 00:00 KST.",
+                     "9/10에서 9/11로 넘어가는 자정에 종료됩니다. 마지막 날 일정을 확인하세요."],
+            "sections": [{"heading": "공식 확인 · 2026-09-08", "body": "기간은 공식 본문에서 확인했습니다. 참여 조건과 보상은 공식 안내 이미지 원문을 확인하세요. 확인하지 못한 세부 수치는 채워 넣지 않았습니다."}],
+            "links": [{"label": "공식 이벤트 원문", "url": "https://maple.land/board/events/h9e7dwjnp9ca5od3q37lsvx5"}]
+        }, ensure_ascii=False),
+    },
+    {
         "slug": "monster-park-2026",
         "title": "테마던전 : 몬스터 파크",
         "world": "버닝 월드",
@@ -117,16 +133,39 @@ def ensure_tables(conn):
             updated_at TEXT DEFAULT (datetime('now', 'localtime'))
         )
     """)
-    if conn.execute("SELECT COUNT(*) FROM event_guides").fetchone()[0] == 0:
-        for g in DEFAULT_GUIDES:
-            conn.execute(
-                """INSERT INTO event_guides
-                   (slug, title, world, status, period_start, period_end, source_post_id, content_json)
-                   VALUES (?,?,?,?,?,?,?,?)""",
-                (g["slug"], g["title"], g["world"], g["status"], g["period_start"],
-                 g["period_end"], g["source_post_id"], g["content_json"]),
-            )
+    conn.execute('CREATE TABLE IF NOT EXISTS event_guide_seed_migrations (slug TEXT PRIMARY KEY)')
+    empty = conn.execute('SELECT COUNT(*) FROM event_guides').fetchone()[0] == 0
+    # Apply new defaults once. Preserve both live edits and deliberate deletions.
+    for g in DEFAULT_GUIDES:
+        first = conn.execute('INSERT OR IGNORE INTO event_guide_seed_migrations VALUES (?)', (g['slug'],)).rowcount
+        if not first or (not empty and g['slug'] != 'sogong-successor-2026'):
+            continue
+        conn.execute(
+            """INSERT OR IGNORE INTO event_guides
+               (slug, title, world, status, period_start, period_end, source_post_id, content_json)
+               VALUES (?,?,?,?,?,?,?,?)""",
+            (g["slug"], g["title"], g["world"], g["status"], g["period_start"],
+             g["period_end"], g["source_post_id"], g["content_json"]),
+        )
     conn.commit()
+
+
+def effective_event(row, now=None):
+    event = dict(row)
+    now = now or datetime.now(timezone.utc)
+    end = event.get('period_end')
+    if end and event['status'] == 'active':
+        try:
+            deadline = datetime.fromisoformat(end)
+            if deadline.tzinfo is None:
+                deadline = deadline.replace(tzinfo=timezone(timedelta(hours=9)))
+                if 'T' not in end:
+                    deadline += timedelta(days=1)  # date-only legacy guides include that day
+            if now >= deadline:
+                event['status'] = 'ended'
+        except ValueError:
+            pass  # Existing free-form admin periods remain untouched.
+    return event
 
 
 @router.get("/events")
@@ -139,7 +178,7 @@ def list_events():
                FROM event_guides
                ORDER BY CASE status WHEN 'active' THEN 0 ELSE 1 END, period_start DESC"""
         ).fetchall()
-        return {"events": [dict(r) for r in rows]}
+        return {"events": [effective_event(r) for r in rows]}
     finally:
         conn.close()
 
@@ -152,7 +191,7 @@ def get_event(slug: str):
         row = conn.execute("SELECT * FROM event_guides WHERE slug=?", (slug,)).fetchone()
         if not row:
             raise HTTPException(status_code=404, detail="이벤트 정리를 찾을 수 없습니다")
-        d = dict(row)
+        d = effective_event(row)
         try:
             d["content"] = json.loads(d.pop("content_json"))
         except json.JSONDecodeError:

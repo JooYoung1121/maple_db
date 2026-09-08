@@ -92,6 +92,8 @@ def _admin_password() -> str:
 def _collect_local(week_start: str) -> dict:
     """로컬 sqlite에서 material 번들 생성 (weekly_news.get_weekly_material과 동일 쿼리)."""
     from crawler.db import get_connection
+    from crawler.weekly_material import updated_official_posts
+    from crawler.observability import crawl_status
 
     week_end = (
         datetime.strptime(week_start, "%Y-%m-%d") + timedelta(days=6)
@@ -136,6 +138,9 @@ def _collect_local(week_start: str) -> dict:
             "week_start": week_start,
             "week_end": week_end,
             "official_posts": [dict(r) for r in official],
+            "updated_official_posts": updated_official_posts(conn, week_start, week_end),
+            "crawl_status": crawl_status(conn),
+            "warnings": [] if community else ["해당 기간 커뮤니티 자료가 0건입니다. 수집 상태와 원문을 확인한 뒤 발행하세요."],
             "community_posts": [dict(r) for r in community],
             "sprite_pool": sprite_pool,
         }
@@ -267,7 +272,7 @@ def validate_issue(
     community_by_url: dict[str, dict] = {}
     sprite_pool: set[tuple[str, int]] = set()
     if material is not None:
-        for post in material.get("official_posts", []):
+        for post in material.get("official_posts", []) + material.get("updated_official_posts", []):
             if post.get("url"):
                 material_urls.add(post["url"])
         for post in material.get("community_posts", []):

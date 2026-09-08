@@ -1,4 +1,6 @@
 "use client";
+import BattleMageKnownIssue from "@/components/BattleMageKnownIssue";
+import QuestDataWarning from "@/components/QuestDataWarning";
 
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -40,12 +42,12 @@ const AREAS_BETA = [
 
 const DIFFICULTY_MAP: Record<string, { label: string; color: string; bg: string; dot: string; glow: string }> = {
   "필수":   { label: "필수", color: "text-emerald-400", bg: "bg-emerald-500/15 border-emerald-500/30", dot: "bg-emerald-400", glow: "#34d399" },
-  "추천":   { label: "추천", color: "text-yellow-400",  bg: "bg-yellow-500/15 border-yellow-500/30",  dot: "bg-yellow-400",  glow: "#facc15" },
+  "추천":   { label: "추천", color: "text-yellow-800 dark:text-yellow-400",  bg: "bg-yellow-500/15 border-yellow-500/30",  dot: "bg-yellow-400",  glow: "#facc15" },
   "비추천": { label: "비추천", color: "text-red-400",     bg: "bg-red-500/15 border-red-500/30",     dot: "bg-red-400",     glow: "#f87171" },
   "일일":   { label: "일일", color: "text-sky-400",     bg: "bg-sky-500/15 border-sky-500/30",     dot: "bg-sky-400",     glow: "#38bdf8" },
-  "월드이동": { label: "월드이동", color: "text-purple-400", bg: "bg-purple-500/15 border-purple-500/30", dot: "bg-purple-400", glow: "#c084fc" },
+  "월드이동": { label: "월드이동", color: "text-purple-800 dark:text-purple-400", bg: "bg-purple-500/15 border-purple-500/30", dot: "bg-purple-400", glow: "#c084fc" },
   "히든":   { label: "히든", color: "text-pink-400",    bg: "bg-pink-500/15 border-pink-500/30",    dot: "bg-pink-400",    glow: "#f472b6" },
-  "체인":   { label: "체인", color: "text-orange-400",  bg: "bg-orange-500/15 border-orange-500/30",  dot: "bg-orange-400",  glow: "#fb923c" },
+  "체인":   { label: "체인", color: "text-orange-800 dark:text-orange-400",  bg: "bg-orange-500/15 border-orange-500/30",  dot: "bg-orange-400",  glow: "#fb923c" },
 };
 
 const SORT_OPTIONS = [
@@ -227,7 +229,7 @@ function InlineLegendBar() {
             className={`w-2 h-2 rounded-full ${item.dot} flex-shrink-0`}
             style={{ boxShadow: `0 0 4px ${item.glow}40` }}
           />
-          <span className="text-[11px] text-dim">{item.label}</span>
+          <span className="text-xs text-dim">{item.label}</span>
         </span>
       ))}
     </div>
@@ -323,24 +325,25 @@ function LevelBar({ level }: { level: number }) {
 
 /* ── 보상 칩 ── */
 function RewardChips({ quest }: { quest: Quest }) {
+  if (quest.data_status) return <span className="text-xs text-amber-900 dark:text-amber-200">{quest.data_status === "unconfirmed" ? "보상 미확인" : "조건 재검증 중"}</span>;
   const chips: { label: string; value: string; cls: string }[] = [];
   if (quest.exp_reward && quest.exp_reward > 0) {
-    chips.push({ label: "EXP", value: quest.exp_reward.toLocaleString(), cls: "bg-blue-500/20 text-blue-300 border-blue-500/30" });
+    chips.push({ label: "EXP", value: quest.exp_reward.toLocaleString(), cls: "bg-blue-500/20 text-blue-800 dark:text-blue-300 border-blue-500/30" });
   }
   if (quest.meso_reward && quest.meso_reward > 0) {
-    chips.push({ label: "메소", value: quest.meso_reward.toLocaleString(), cls: "bg-yellow-500/20 text-yellow-300 border-yellow-500/30" });
+    chips.push({ label: "메소", value: quest.meso_reward.toLocaleString(), cls: "bg-yellow-500/20 text-yellow-800 dark:text-yellow-300 border-yellow-500/30" });
   }
   if (quest.item_reward) {
-    chips.push({ label: "", value: quest.item_reward, cls: "bg-green-500/20 text-green-300 border-green-500/30" });
+    chips.push({ label: "", value: quest.item_reward, cls: "bg-green-500/20 text-green-800 dark:text-green-300 border-green-500/30" });
   }
   if (quest.extra_reward) {
-    chips.push({ label: "", value: quest.extra_reward, cls: "bg-purple-500/20 text-purple-300 border-purple-500/30" });
+    chips.push({ label: "", value: quest.extra_reward, cls: "bg-purple-500/20 text-purple-800 dark:text-purple-300 border-purple-500/30" });
   }
   if (chips.length === 0) return <span className="text-xs text-dim">-</span>;
   return (
     <div className="flex flex-wrap gap-1">
       {chips.map((c, i) => (
-        <span key={i} className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded border text-[10px] font-medium ${c.cls}`}>
+        <span key={i} className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded border text-xs font-medium ${c.cls}`}>
           {c.label && <span className="opacity-70">{c.label}</span>}
           {c.value}
         </span>
@@ -353,7 +356,7 @@ function RewardChips({ quest }: { quest: Quest }) {
 function ChainBadge({ quest }: { quest: Quest }) {
   if (!quest.is_chain) return null;
   return (
-    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-orange-500/15 border border-orange-500/30 text-orange-400 text-[10px] font-medium">
+    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-orange-500/15 border border-orange-500/30 text-orange-800 dark:text-orange-400 text-xs font-medium">
       <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
         <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" strokeLinecap="round" strokeLinejoin="round"/>
         <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" strokeLinecap="round" strokeLinejoin="round"/>
@@ -369,6 +372,7 @@ function ExpandedDetail({ quest, onGoDetail }: { quest: Quest; onGoDetail: () =>
 
   return (
     <div className="px-4 pb-4 pt-1 animate-questFadeIn">
+      <QuestDataWarning quest={quest} />
       <div className="pixel-panel grid grid-cols-1 md:grid-cols-3 gap-4 bg-surface2 p-4">
         {/* 왼쪽: 기본 정보 */}
         <div className="space-y-3">
@@ -409,7 +413,7 @@ function ExpandedDetail({ quest, onGoDetail }: { quest: Quest; onGoDetail: () =>
                 return (
                   <li key={i} className="flex items-start gap-2 text-sm">
                     <span className={`w-1.5 h-1.5 rounded-full mt-1.5 flex-shrink-0 ${isNum ? "bg-yellow-500" : "bg-amber-400"}`} />
-                    <span className={isNum ? "text-yellow-400/80" : "text-ink"}>
+                    <span className={isNum ? "text-yellow-800 dark:text-yellow-400/80" : "text-ink"}>
                       {isNum ? `조건 아이템 ${cond}개` : cond}
                     </span>
                   </li>
@@ -421,13 +425,13 @@ function ExpandedDetail({ quest, onGoDetail }: { quest: Quest; onGoDetail: () =>
           )}
           {quest.tip && (
             <div className="border-t border-edge/40 pt-2 mt-2">
-              <span className="text-[10px] text-dim uppercase block mb-1">TIP</span>
+              <span className="text-xs text-dim uppercase block mb-1">TIP</span>
               <p className="text-xs text-dim leading-relaxed">{quest.tip}</p>
             </div>
           )}
           {quest.note && (
             <div className="border-t border-edge/40 pt-2 mt-2">
-              <span className="text-[10px] text-dim uppercase block mb-1">NOTE</span>
+              <span className="text-xs text-dim uppercase block mb-1">NOTE</span>
               <p className="text-xs text-dim leading-relaxed">{quest.note}</p>
             </div>
           )}
@@ -439,26 +443,26 @@ function ExpandedDetail({ quest, onGoDetail }: { quest: Quest; onGoDetail: () =>
           <div className="space-y-1.5 text-sm">
             {quest.exp_reward && quest.exp_reward > 0 && (
               <div className="flex items-center justify-between">
-                <span className="text-blue-400">EXP</span>
-                <span className="font-mono text-blue-300">{quest.exp_reward.toLocaleString()}</span>
+                <span className="text-blue-800 dark:text-blue-400">EXP</span>
+                <span className="font-mono text-blue-800 dark:text-blue-300">{quest.exp_reward.toLocaleString()}</span>
               </div>
             )}
             {quest.meso_reward && quest.meso_reward > 0 && (
               <div className="flex items-center justify-between">
-                <span className="text-yellow-400">메소</span>
-                <span className="font-mono text-yellow-300">{quest.meso_reward.toLocaleString()}</span>
+                <span className="text-yellow-800 dark:text-yellow-400">메소</span>
+                <span className="font-mono text-yellow-800 dark:text-yellow-300">{quest.meso_reward.toLocaleString()}</span>
               </div>
             )}
             {quest.item_reward && (
               <div className="flex items-center justify-between">
-                <span className="text-green-400">아이템</span>
-                <span className="text-green-300">{quest.item_reward}</span>
+                <span className="text-green-800 dark:text-green-400">아이템</span>
+                <span className="text-green-800 dark:text-green-300">{quest.item_reward}</span>
               </div>
             )}
             {quest.extra_reward && (
               <div className="flex items-center justify-between">
-                <span className="text-purple-400">추가 보상</span>
-                <span className="text-purple-300">{quest.extra_reward}</span>
+                <span className="text-purple-800 dark:text-purple-400">추가 보상</span>
+                <span className="text-purple-800 dark:text-purple-300">{quest.extra_reward}</span>
               </div>
             )}
             {!quest.exp_reward && !quest.meso_reward && !quest.item_reward && !quest.extra_reward && (
@@ -587,6 +591,7 @@ function QuestsListView({
           <div className="pt-2">
             <select
               value={sortValue}
+              aria-label="퀘스트 정렬"
               onChange={(e) => setSortValue(e.target.value)}
               className="pixel-input w-full px-3 py-1.5 text-xs"
             >
@@ -666,6 +671,7 @@ function QuestsListView({
             <div className="lg:hidden">
               <select
                 value={currentArea}
+                aria-label="퀘스트 지역"
                 onChange={(e) => updateFilter("area", e.target.value)}
                 className="pixel-input px-2 py-1.5 text-xs"
               >
@@ -803,15 +809,15 @@ function QuestsTableView({
           <div className="flex gap-4 text-center">
             <div className="pixel-panel bg-surface2 px-4 py-2">
               <div className="text-lg font-bold text-ink">{total.toLocaleString()}</div>
-              <div className="text-[10px] font-pixel text-dim uppercase">전체 퀘스트</div>
+              <div className="text-xs font-pixel text-dim uppercase">전체 퀘스트</div>
             </div>
             <div className="pixel-panel bg-surface2 px-4 py-2">
               <div className="text-lg font-bold text-emerald-400">{stats.completedCount}</div>
-              <div className="text-[10px] font-pixel text-dim uppercase">완료</div>
+              <div className="text-xs font-pixel text-dim uppercase">완료</div>
             </div>
             <div className="pixel-panel bg-surface2 px-4 py-2">
-              <div className="text-lg font-bold text-blue-400">{stats.totalExp.toLocaleString()}</div>
-              <div className="text-[10px] font-pixel text-dim uppercase">페이지 총 EXP</div>
+              <div className="text-lg font-bold text-blue-800 dark:text-blue-400">{stats.totalExp.toLocaleString()}</div>
+              <div className="text-xs font-pixel text-dim uppercase">페이지 총 EXP</div>
             </div>
           </div>
         </div>
@@ -875,6 +881,7 @@ function QuestsTableView({
           <div className="relative">
             <select
               value={currentSort}
+              aria-label="퀘스트 표 정렬"
               onChange={(e) => updateFilter("sort", e.target.value)}
               className="pixel-input appearance-none pl-3 pr-8 py-2 text-sm cursor-pointer"
             >
@@ -892,7 +899,7 @@ function QuestsTableView({
             onClick={() => updateFilter("has_rewards", filterValues.has_rewards === "1" ? "" : "1")}
             className={`flex items-center gap-1.5 px-3 py-2 text-sm font-pixel transition-all border-2 ${
               filterValues.has_rewards === "1"
-                ? "bg-amber-500/20 border-amber-500/40 text-amber-400"
+                ? "bg-amber-500/20 border-amber-500/40 text-amber-800 dark:text-amber-400"
                 : "border-edge bg-surface2 text-dim hover:text-maple"
             }`}
           >
@@ -922,7 +929,7 @@ function QuestsTableView({
             onClick={() => setShowFavOnly(!showFavOnly)}
             className={`flex items-center gap-1.5 px-3 py-2 text-sm font-pixel transition-all border-2 ${
               showFavOnly
-                ? "bg-yellow-500/20 border-yellow-500/40 text-yellow-400"
+                ? "bg-yellow-500/20 border-yellow-500/40 text-yellow-800 dark:text-yellow-400"
                 : "border-edge bg-surface2 text-dim hover:text-maple"
             }`}
           >
@@ -982,7 +989,7 @@ function QuestsTableView({
         /* 테이블 뷰 */
         <div ref={tableRef} className="pixel-panel bg-surface overflow-hidden">
           {/* 테이블 헤더 */}
-          <div className="hidden md:grid grid-cols-[40px_40px_1fr_120px_100px_160px_80px] gap-2 px-4 py-2.5 bg-surface2 border-b-2 border-edge text-[11px] font-pixel text-dim uppercase tracking-wider">
+          <div className="hidden md:grid grid-cols-[40px_40px_1fr_120px_100px_160px_80px] gap-2 px-4 py-2.5 bg-surface2 border-b-2 border-edge text-xs font-pixel text-dim uppercase tracking-wider">
             <div />
             <div />
             <div>퀘스트</div>
@@ -1013,7 +1020,7 @@ function QuestsTableView({
                     {/* 즐겨찾기 */}
                     <button
                       onClick={(e) => { e.stopPropagation(); toggleFavorite(quest.id); }}
-                      className={`hidden md:block text-center text-lg leading-none transition-all ${isFav ? "text-yellow-400 scale-110" : "text-dim group-hover:text-ink"}`}
+                      className={`hidden md:block text-center text-lg leading-none transition-all ${isFav ? "text-yellow-800 dark:text-yellow-400 scale-110" : "text-dim group-hover:text-ink"}`}
                     >
                       {isFav ? "\u2605" : "\u2606"}
                     </button>
@@ -1031,7 +1038,7 @@ function QuestsTableView({
                         <span className="md:hidden flex items-center gap-1.5">
                           <button
                             onClick={(e) => { e.stopPropagation(); toggleFavorite(quest.id); }}
-                            className={`text-lg leading-none ${isFav ? "text-yellow-400" : "text-dim"}`}
+                            className={`text-lg leading-none ${isFav ? "text-yellow-800 dark:text-yellow-400" : "text-dim"}`}
                           >
                             {isFav ? "\u2605" : "\u2606"}
                           </button>
@@ -1043,7 +1050,7 @@ function QuestsTableView({
                         <ChainBadge quest={quest} />
                       </div>
                       <div className="md:hidden flex items-center gap-3 mt-1 text-xs text-dim">
-                        <span>Lv.{level}</span>
+                        <span>{level > 0 ? `Lv.${level}` : '레벨 미확인'}</span>
                         <span>{quest.area}</span>
                         {quest.quest_type && <span>{quest.quest_type}</span>}
                       </div>
@@ -1059,10 +1066,10 @@ function QuestsTableView({
                       {quest.difficulty ? (
                         <DifficultyDot difficulty={quest.difficulty} />
                       ) : quest.quest_type && quest.quest_type !== "일반" ? (
-                        <span className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium ${
-                          quest.quest_type === "반복" ? "bg-amber-500/15 text-amber-400" :
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
+                          quest.quest_type === "반복" ? "bg-amber-500/15 text-amber-800 dark:text-amber-400" :
                           quest.quest_type === "히든" ? "bg-pink-500/15 text-pink-400" :
-                          quest.quest_type === "월드이동" ? "bg-purple-500/15 text-purple-400" :
+                          quest.quest_type === "월드이동" ? "bg-purple-500/15 text-purple-800 dark:text-purple-400" :
                           "bg-surface2 text-dim"
                         }`}>
                           {quest.quest_type}
@@ -1160,7 +1167,7 @@ function QuestsTableView({
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <span className="text-xs font-mono font-bold text-dim">Lv.{level}</span>
+                        <span className="text-xs font-mono font-bold text-dim">{level > 0 ? `Lv.${level}` : '레벨 미확인'}</span>
                         <DifficultyDot difficulty={quest.difficulty} />
                         <ChainBadge quest={quest} />
                       </div>
@@ -1171,7 +1178,7 @@ function QuestsTableView({
                     <div className="flex items-center gap-1.5 flex-shrink-0">
                       <button
                         onClick={(e) => { e.stopPropagation(); toggleFavorite(quest.id); }}
-                        className={`text-lg leading-none transition-colors ${isFav ? "text-yellow-400" : "text-dim hover:text-yellow-500"}`}
+                        className={`text-lg leading-none transition-colors ${isFav ? "text-yellow-800 dark:text-yellow-400" : "text-dim hover:text-yellow-500"}`}
                       >
                         {isFav ? "\u2605" : "\u2606"}
                       </button>
@@ -1209,9 +1216,9 @@ function QuestsTableView({
                     )}
                     {quest.quest_type && quest.quest_type !== "일반" && (
                       <span className={`px-1.5 py-0.5 rounded ${
-                        quest.quest_type === "반복" ? "bg-amber-500/15 text-amber-400" :
+                        quest.quest_type === "반복" ? "bg-amber-500/15 text-amber-800 dark:text-amber-400" :
                         quest.quest_type === "히든" ? "bg-pink-500/15 text-pink-400" :
-                        quest.quest_type === "월드이동" ? "bg-purple-500/15 text-purple-400" :
+                        quest.quest_type === "월드이동" ? "bg-purple-500/15 text-purple-800 dark:text-purple-400" :
                         "bg-surface2 text-dim"
                       }`}>
                         {quest.quest_type}
@@ -1228,7 +1235,7 @@ function QuestsTableView({
 
                   {/* 팁 미리보기 */}
                   {quest.tip && (
-                    <p className="text-[11px] text-dim line-clamp-2 leading-relaxed">
+                    <p className="text-xs text-dim line-clamp-2 leading-relaxed">
                       {quest.tip}
                     </p>
                   )}
@@ -1293,7 +1300,8 @@ function QuestsPageContent() {
 
   return (
     <div className="space-y-4">
-      <div className="border-2 border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-300">
+      <BattleMageKnownIssue />
+      <div className="border-2 border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-900 dark:text-amber-200">
         현재 퀘스트 DB는 실제 메랜 퀘스트 ID가 아닌 임시 ID 기반 데이터입니다. 메랜디비 기준 정규 퀘스트 DB로 리빌드하기 전까지는 목록/보상/선행조건을 참고용으로만 봐주세요.
       </div>
       {/* 탭 바 */}

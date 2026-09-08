@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 
@@ -80,6 +80,7 @@ async def _maple_land_crawl_job():
     """Periodically check MapleLand/Tespia notice boards."""
     interval = _crawl_interval_seconds()
     while True:
+        conn = None
         try:
             from crawler.parsers.maple_land import crawl_maple_land
             from crawler.client import ThrottledClient
@@ -123,9 +124,11 @@ async def _maple_land_crawl_job():
                                 )
                             except Exception as be:
                                 print(f"[discord] 알림 오류: {be}")
-            conn.close()
         except Exception as e:
             print(f"[scheduler] maple-land 크롤링 오류: {e}")
+        finally:
+            if conn is not None:
+                conn.close()
         await asyncio.sleep(interval)
 
 
@@ -202,6 +205,7 @@ async def _community_crawl_job():
     """주간 뉴스 원자료 수집 — 디시 메이플랜드 갤러리 (하루 4회 기본)."""
     interval = _community_interval_seconds()
     while True:
+        conn = None
         try:
             from crawler.parsers.dcinside import crawl_dcinside
             from crawler.client import ThrottledClient
@@ -210,9 +214,11 @@ async def _community_crawl_job():
                 n = await crawl_dcinside(conn, client)
                 if n:
                     print(f"[scheduler] community(dcinside) {n}건 수집")
-            conn.close()
         except Exception as e:
             print(f"[scheduler] community 크롤링 오류: {e}")
+        finally:
+            if conn is not None:
+                conn.close()
         await asyncio.sleep(interval)
 
 
@@ -279,7 +285,14 @@ async def lifespan(app: FastAPI):
         print("[startup] WARNING: rotate the legacy GAME_ADMIN_PASSWORD value")
     # Startup: ensure DB and tables exist
     try:
-        init_db()
+        init_db().close()
+        from crawler.audit_repairs import repair_skill_classes, repair_quest_conditions
+        repair_conn = get_connection()
+        try:
+            repair_skill_classes(repair_conn)
+            repair_quest_conditions(repair_conn)
+        finally:
+            repair_conn.close()
     except Exception as e:
         print(f"[startup] DB init warning: {e}")
     # 날짜 형식 정규화 (구 파서 버그: YYYY.MM.DDN,NNN 형식 수정)
@@ -393,4 +406,15 @@ app.include_router(playground.router, prefix="/api")
 
 @app.get("/api/health")
 def health():
-    return {"status": "ok"}
+    conn = None
+    try:
+        conn = get_connection()
+        for table in ('mobs', 'skills', 'quests'):
+            if not conn.execute(f'SELECT 1 FROM {table} LIMIT 1').fetchone():
+                raise RuntimeError('Reference data not ready')
+        return {"status": "ok", "database": "ready"}
+    except Exception:
+        raise HTTPException(status_code=503, detail='Database not ready')
+    finally:
+        if conn is not None:
+            conn.close()

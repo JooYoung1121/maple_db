@@ -20,7 +20,7 @@ export default function CanonDiffInfo({ entry, compact = false, align = "right" 
   return (
     <details className="relative inline-block" onClick={(event) => event.stopPropagation()}>
       <summary
-        className={`list-none cursor-pointer select-none inline-flex items-center gap-1 border px-1.5 py-0.5 font-pixel text-[9px] bg-surface ${meta.className}`}
+        className={`list-none cursor-pointer select-none inline-flex items-center gap-1 border px-1.5 py-0.5 font-pixel text-xs bg-surface ${meta.className}`}
         title={`${entry.subject}: ${meta.label}`}
         aria-label={`${entry.subject} 원작 비교: ${meta.label}`}
       >
@@ -29,20 +29,20 @@ export default function CanonDiffInfo({ entry, compact = false, align = "right" 
       <div className={`absolute z-40 top-full mt-2 w-[min(19rem,calc(100vw-2rem))] pixel-panel p-3 text-left shadow-xl ${align === "left" ? "left-0" : "right-0"}`}>
         <div className="flex items-center justify-between gap-2 border-b border-edge pb-2">
           <b className="text-xs text-ink">{entry.subject}</b>
-          <span className={`font-pixel text-[9px] ${meta.className.split(" ").slice(1).join(" ")}`}>{meta.label}</span>
+          <span className={`font-pixel text-xs ${meta.className.split(" ").slice(1).join(" ")}`}>{meta.label}</span>
         </div>
-        <dl className="mt-2 space-y-2 text-[11px] leading-relaxed">
+        <dl className="mt-2 space-y-2 text-xs leading-relaxed">
           <div>
-            <dt className="font-pixel text-[9px] text-maple">메이플랜드</dt>
+            <dt className="font-pixel text-xs text-maple">메이플랜드</dt>
             <dd className="text-ink mt-0.5">{entry.mapleland}</dd>
           </div>
           <div>
-            <dt className="font-pixel text-[9px] text-dim">원작</dt>
+            <dt className="font-pixel text-xs text-dim">원작</dt>
             <dd className="text-dim mt-0.5">{entry.original}</dd>
           </div>
         </dl>
-        {entry.note && <p className="mt-2 pt-2 border-t border-edge text-[10px] text-dim leading-relaxed">{entry.note}</p>}
-        <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-[9px] text-dim">
+        {entry.note && <p className="mt-2 pt-2 border-t border-edge text-xs text-dim leading-relaxed">{entry.note}</p>}
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-dim">
           <span>검증 {entry.verifiedAt}</span>
           <span className="flex flex-wrap justify-end gap-2">
             <a href={entry.sourceUrl} target="_blank" rel="noopener noreferrer" className="text-maple underline">{entry.sourceLabel} ↗</a>

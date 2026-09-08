@@ -18,6 +18,7 @@ export interface Item {
 }
 
 export interface Mob {
+  field_evidence?: import("@/components/FieldEvidence").FieldEvidenceEntry[];
   id: number;
   name: string;
   level: number;
@@ -159,14 +160,17 @@ export interface Npc {
 }
 
 export interface Quest {
+  data_status?: "unconfirmed" | "needs_review";
+  data_warnings?: string[];
+  data_sources?: string[];
   id: number;
   name: string;
   level_req: number;
   area: string;
   start_location?: string | null;
   quest_conditions?: string[] | null;
-  exp_reward?: number;
-  meso_reward?: number;
+  exp_reward?: number | null;
+  meso_reward?: number | null;
   item_reward?: string | null;
   extra_reward?: string | null;
   note?: string | null;

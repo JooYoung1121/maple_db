@@ -105,12 +105,14 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/bimae", label: "비매박제", icon: "🚫", description: "비매 유저 신고" },
       { href: "/community", label: "투표", icon: "🗳️", description: "유저 투표 참여" },
       { href: "/version", label: "업데이트 소식", icon: "🧾", description: "사이트 변경 내역" },
+      { href: "/performance", label: "반응성 진단", icon: "⏱️", description: "선택형 로컬 INP 측정 · 서버 전송 없음" },
     ],
   },
   {
     label: "놀이터",
     icon: "🎮",
     items: [
+      { href: "/playground", label: "놀이터 모아보기", icon: "🎮", description: "오늘의 게임 · 파티 도구 · 최근 플레이" },
       { href: "/play", label: "룰렛 · 주사위", icon: "🎰", description: "룰렛, 주사위 굴리기" },
       { href: "/lotto", label: "로또", icon: "🎱", description: "랜덤 번호 생성" },
       { href: "/fortune", label: "오늘의 운세", icon: "🔮", description: "메이플 운세 보기" },

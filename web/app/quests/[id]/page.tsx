@@ -9,6 +9,7 @@ import QuestTabs from "@/components/QuestTabs";
 import QuestChain from "@/components/QuestChain";
 import { LevelBadge, DifficultyBadge, TypeBadge } from "@/components/QuestCard";
 import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
+import QuestDataWarning from "@/components/QuestDataWarning";
 
 /* -- 정보 행 -- */
 function InfoRow({ label, value }: { label: string; value: React.ReactNode }) {
@@ -32,6 +33,7 @@ function QuestSidebar({ quest }: { quest: Quest }) {
   return (
     <div className="pixel-panel p-5 space-y-3">
       <h3 className="font-pixel text-sm font-bold text-ink">빠른 정보</h3>
+      <QuestDataWarning quest={quest} />
       <div className="space-y-2.5 text-sm">
         <div className="flex items-center justify-between">
           <span className="text-dim">레벨</span>
