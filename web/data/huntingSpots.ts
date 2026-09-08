@@ -855,7 +855,7 @@ export const LEVELING_SPOTS: LevelingSpot[] = [
   { levelMin: 20, levelMax: 30, map: "광산 가는 길 · 가로등길", region: "에델슈타인 외곽", monsters: ["물 도둑", "더스트 박스", "가로등", "순찰로봇S"], tip: "물 도둑 Lv20~순찰로봇S Lv28. 두 번째·세 번째 임무 퀘스트 구간. 쿼드 블로우(2차) 광역으로 몰아잡기 시작.", source: "https://archive.maplestory.nexon.com/News/Update/147", jobs: ["배틀메이지"] },
   { levelMin: 30, levelMax: 40, map: "광산 입구 · 바위길 · 광석길", region: "레벤 광산 입구", monsters: ["안전제일", "아기 바위베어먹기", "큰 바위베어먹기"], tip: "안전제일 Lv31~큰 바위베어먹기 Lv35. 이후 40~65는 기존 공용 루트(와일드보어·쿨리좀비·차벌 등) 합류가 무난.", source: "https://archive.maplestory.nexon.com/News/Update/147", jobs: ["배틀메이지"] },
   { levelMin: 67, levelMax: 80, map: "갱도 1~4 · 너구리 소굴", region: "레벤 광산", monsters: ["경비로봇", "라키", "빅 스파이더", "카트베어", "라쿤", "경비로봇L"], tip: "경비로봇 Lv67~경비로봇L Lv79. 3차 데스 블로우 광역 구간 — 너구리 소굴(라쿤 밀집)이 핵심 자리 후보.", source: "https://archive.maplestory.nexon.com/News/Update/147", jobs: ["배틀메이지"] },
-  { levelMin: 82, levelMax: 105, map: "겔리메르 연구소 (제 2 광장~)", region: "레벤 광산 심부", monsters: ["라칸", "방어 시스템", "강화된 방어 시스템", "AF형 안드로이드", "고장난 DF형 안드로이드", "광석 이터"], tip: "라칸 Lv82 → 광석 이터 Lv101. 연구소 퀘스트 라인(겔리메르·실험에 필요한 것 1~3 등)과 병행. 9/7 이후 실측 효율 갱신 예정.", source: "https://archive.maplestory.nexon.com/News/Update/147", jobs: ["배틀메이지"] },
+  { levelMin: 83, levelMax: 105, map: "겔리메르 연구소 (제 2 광장~)", region: "레벤 광산 심부", monsters: ["라칸", "방어 시스템", "강화된 방어 시스템", "AF형 안드로이드", "고장난 DF형 안드로이드", "광석 이터"], tip: "라칸 Lv83 → 광석 이터 Lv101 (레벨은 9/7 공지 확정값). 연구소 퀘스트 라인(겔리메르·실험에 필요한 것 1~3 등)과 병행.", source: "https://maple.land/board/notices/nbudy1h3t2wjeqrx8i94yupm", jobs: ["배틀메이지"] },
 ];
 
 // ─── 직업별 특성 메모 ───

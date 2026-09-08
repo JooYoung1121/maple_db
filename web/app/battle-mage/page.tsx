@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  BALANCE_CHANGES_0907,
+  BATTLE_MAGE_FIELD_NOTES,
   BATTLE_MAGE_LEVELING,
   BATTLE_MAGE_SKILLS,
   BATTLE_MAGE_SOURCES,
@@ -38,12 +40,12 @@ export default function BattleMageGuidePage() {
       <header>
         <div className="mb-2 flex flex-wrap items-center gap-2">
           <EvidenceBadge level="official" />
-          <span className="text-xs text-dim">2026-09-07 업데이트 대비</span>
+          <span className="text-xs text-dim">2026-09-07 출시 · 당일 밸런스 조정 반영</span>
         </div>
         <h1 className="font-pixel text-2xl font-bold text-ink">배틀메이지 종합 가이드</h1>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-dim">
-          메이플랜드 공식 공지, KMS 1.2.105 원문, 빅뱅 이전 KMST 스킬 덤프와 9/4 클라이언트에서 확인된
-          커뮤니티 자료를 판본별로 분리했습니다. 출시 전 수치와 드롭 후보는 확정 정보와 섞지 않습니다.
+          메이플랜드 공식 공지(9/7 당일 수정본의 밸런스 조정 포함), KMS 1.2.105 원문, 빅뱅 이전 KMST
+          스킬 덤프와 커뮤니티 자료를 판본별로 분리했습니다. 원작 수치와 드롭 후보는 확정 정보와 섞지 않습니다.
         </p>
       </header>
 
@@ -52,7 +54,7 @@ export default function BattleMageGuidePage() {
           ["33", "공식 스킬"],
           ["117", "원작 공지 퀘스트"],
           ["29", "지역·훈련 몬스터"],
-          ["2", "인게임 확인 마북 드롭"],
+          ["6", "몬스터북 확인 마북 드롭"],
         ].map(([value, label]) => (
           <div key={label} className="pixel-panel p-4 text-center">
             <div className="font-pixel text-2xl font-bold text-maple">{value}</div>
@@ -64,10 +66,10 @@ export default function BattleMageGuidePage() {
       <section className="rounded-xl border border-amber-300 bg-amber-50 p-5 dark:border-amber-800 dark:bg-amber-950/30">
         <h2 className="font-pixel text-sm font-bold text-amber-800 dark:text-amber-200">판본을 이렇게 읽어주세요</h2>
         <ul className="mt-3 space-y-2 text-sm leading-relaxed text-amber-900 dark:text-amber-100">
-          <li>• 메이플랜드 공지는 배틀메이지 능력치를 “빅뱅 이전 KMST 공개 데이터” 기준으로 설정했다고 명시합니다.</li>
+          <li>• 메이플랜드 공지는 배틀메이지 능력치를 “빅뱅 패치 이전 2010년 5월 25일 KMST 공개 데이터” 기준으로 설정한 뒤, 9/7 패치노트에서 마스터 기준 조정치를 공개했습니다.</li>
+          <li>• 아래 스킬 표의 마스터 기준 수치는 9/7 조정치(메랜 공식)이고, 레벨별 세부 수치는 여전히 KMST 시험판 참고값입니다.</li>
           <li>• 링크된 KMS 1.2.105 공지는 2010-07-22 빅뱅 2차 본서버 공지이므로, 최종 스킬 목록·퀘스트 이름 확인용입니다.</li>
-          <li>• 세부 스킬 수치는 1.2.105 이전 KMST 시험판 자료입니다. 마스터 레벨이 바뀐 스킬은 시험판 수치를 참고값으로만 표시합니다.</li>
-          <li>• 에델슈타인 몬스터 HP·EXP는 GMS v95 원본값이며, 메이플랜드가 별도 조정했을 가능성은 출시 후 실측으로 갱신합니다.</li>
+          <li>• 에델슈타인 몬스터 레벨은 9/7 공지 확정값, 라키~광석 이터 구간 경험치와 광석 이터 HP는 9/7 커뮤니티 실측값입니다. 나머지 HP는 GMS v95 참고값이며 실측 제보로 계속 갱신합니다.</li>
         </ul>
       </section>
 
@@ -108,6 +110,34 @@ export default function BattleMageGuidePage() {
               </div>
             </details>
           ))}
+        </div>
+      </section>
+
+      <section>
+        <div className="mb-4 flex flex-wrap items-center gap-2">
+          <h2 className="font-pixel text-xl font-bold text-ink">9/7 밸런스 조정 (마스터 기준)</h2>
+          <EvidenceBadge level="official" />
+        </div>
+        <p className="mb-3 text-sm leading-relaxed text-dim">
+          9/7 패치노트 당일 수정본에 공개된 원작(KMST) 대비 조정 내역입니다. 특히 블로우류는 원작의
+          “정확한 타이밍 연타” 방식이 폐지되어, 각 차수 입력 한 번에 해당 타수 전체가 자동 발동합니다.
+        </p>
+        <div className="pixel-panel overflow-x-auto">
+          <table className="w-full min-w-[640px] text-sm">
+            <thead className="border-b border-edge text-left text-xs text-dim">
+              <tr><th className="px-4 py-2">차수</th><th className="px-4 py-2">스킬</th><th className="px-4 py-2">원작 (KMST)</th><th className="px-4 py-2">메이플랜드</th></tr>
+            </thead>
+            <tbody>
+              {BALANCE_CHANGES_0907.map((c) => (
+                <tr key={`${c.branch}-${c.skill}`} className="border-b border-edge/40 last:border-0">
+                  <td className="px-4 py-2 text-xs text-dim">{c.branch}</td>
+                  <td className="px-4 py-2 font-medium text-ink">{c.skill}</td>
+                  <td className="px-4 py-2 text-dim">{c.before}</td>
+                  <td className="px-4 py-2 text-maple">{c.after}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </section>
 
@@ -200,7 +230,23 @@ export default function BattleMageGuidePage() {
             </article>
           ))}
         </div>
-        <p className="mt-3 text-xs text-dim">출시 전 가이드입니다. 9/7 이후 실제 젠·지형·경험치 효율과 마북 몬스터북을 확인해 보정해야 합니다.</p>
+        <p className="mt-3 text-xs text-dim">원작 스탯 기반 추천 루트입니다. 실제 젠·지형·경험치 효율과 마북 드롭은 출시 후 실측 제보로 계속 보정합니다.</p>
+      </section>
+
+      <section>
+        <div className="mb-4 flex flex-wrap items-center gap-2">
+          <h2 className="font-pixel text-xl font-bold text-ink">출시 후 실측 메모 (9/7~9/8)</h2>
+          <EvidenceBadge level="verified" />
+        </div>
+        <div className="grid gap-3 md:grid-cols-2">
+          {BATTLE_MAGE_FIELD_NOTES.map((note) => (
+            <article key={note.title} className="pixel-panel p-4">
+              <h3 className="font-semibold text-ink">{note.title}</h3>
+              <p className="mt-1 text-sm leading-relaxed text-dim">{note.body}</p>
+              <a href={note.source} target="_blank" rel="noreferrer" className="mt-2 inline-block text-[11px] text-maple hover:underline">근거 보기 ↗</a>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="pixel-panel p-5">

@@ -301,7 +301,7 @@ def admin_sync_tables(request: Request, tables: str = Query(default="map_details
     import tempfile
     import urllib.request
 
-    ALLOWED = {"quests", "mob_drops", "mob_spawns", "sim_jobs", "sim_skills", "items", "map_details", "mapledb_quests"}
+    ALLOWED = {"quests", "mob_drops", "mob_spawns", "sim_jobs", "sim_skills", "items", "map_details", "mapledb_quests", "skills"}
     want = [t.strip() for t in tables.split(",") if t.strip()]
     bad = [t for t in want if t not in ALLOWED]
     if bad:
