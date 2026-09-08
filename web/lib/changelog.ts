@@ -15,6 +15,24 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.98.0",
+    date: "2026-09-08",
+    type: "minor",
+    title: "웨딩 파퀘 밧줄·발판 조합 도우미",
+    pages: ["/pq/amorian-solver", "/pq", "/wedding"],
+    features: [
+      {
+        category: "아모리안 챌린지",
+        items: [
+          "길드원 제작 아모리아 PQ Solver v4를 바탕으로 2단계 밧줄·3단계 발판 풀이 도구 추가",
+          "NPC 결과별 다음 배치·이동 인원 안내, 되돌리기, 퍼즐별 진행 자동저장 및 초기화 지원",
+          "밧줄 21가지·발판 126가지 정답 경로 검증 — 추론된 정답과 NPC 클리어 판정을 구분",
+          "파티퀘스트·결혼 가이드 및 통합검색에 조합 도우미 바로가기 추가",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.97.0",
     date: "2026-09-08",
     type: "minor",

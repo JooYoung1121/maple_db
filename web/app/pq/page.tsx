@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 
 const OFFICIAL_AMORIAN_PATCH = "https://maple.land/board/notices/u59poew390cw27yfl21j5fdf";
 const ORIGINAL_AMORIAN_GUIDE = "https://maplestorywiki.net/w/Amorian_Challenge";
@@ -317,6 +318,11 @@ export default function PQPage() {
         PQ 가이드, 재입장 타이머, 보상 비교
       </p>
 
+      <Link href="/pq/amorian-solver" className="pixel-panel block p-4 mb-6 border-maple hover:bg-surface2">
+        <span className="font-pixel font-bold">웨딩 파퀘 · 밧줄/발판 조합 도우미 →</span>
+        <span className="block text-sm text-dim mt-2">아모리안 챌린지 NPC 결과를 입력하고 다음 배치·이동 인원을 확인하세요.</span>
+      </Link>
+
       <div className="mb-6 rounded-xl border border-sky-200 dark:border-sky-900 bg-sky-50 dark:bg-sky-950/30 p-4">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-[10px] font-bold tracking-wide px-1.5 py-0.5 rounded bg-sky-600 text-white">2.0</span>
@@ -408,6 +414,7 @@ function GuideTab() {
           {/* 상세 내용 */}
           {openPQ === pq.id && (
             <div className="px-5 pb-5 border-t border-edge/40">
+              {pq.id === "amorian" && <Link href="/pq/amorian-solver" className="pixel-btn inline-flex items-center min-h-11 px-4 py-2 mt-4 text-sm">밧줄·발판 조합 도우미 열기 →</Link>}
               {/* 기본 정보 */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 mb-5">
                 <InfoBadge label="레벨" value={pq.levelLabel ?? `${pq.levelMin}~${pq.levelMax}`} />
