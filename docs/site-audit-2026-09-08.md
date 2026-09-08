@@ -164,7 +164,7 @@ P1은 데이터 신뢰와 결과 정확성 때문에 우선 수정, P2는 다음
 
 ### 운영 반영 방식과 남은 확인
 
-1. **머지 후 확인**: 앱 시작 시 seed sync 다음 `repair_skill_classes`/`repair_quest_conditions`를 적용한다. 배포 후 `/api/health`, `/api/skills/91`, `/api/quests/9`, `/api/events`를 확인한다. 원본은 `skill_aliases.original_json`, `quest_audit_backups.original_json`에 보존된다. 사용자 게임/길드 기록은 수정하지 않는다.
+1. **머지 후 확인**: 앱 시작 시 seed sync 다음 `repair_skill_classes`/`repair_quest_conditions`를 적용하고 변경이 있으면 통합 검색 색인도 갱신한다. 배포 후 `/api/health`, `/api/skills/91`, `/api/quests/9`, `/api/events`를 확인한다. 원본은 `skill_aliases.original_json`, `quest_audit_backups.original_json`에 보존된다. 사용자 게임/길드 기록은 수정하지 않는다.
 2. **크롤러 운영 원인**: 관리자 인증으로 `GET /api/weekly-news/crawl-status` 또는 material의 `crawl_status`를 확인한다. `enabled`, 최근 run의 상태·건수, `last_success_at`, `needs_attention`을 점검한다. 운영에서 0건이었던 원인을 로컬 수집 성공만으로 해결됐다고 단정하지 않는다.
 3. **주간 발행 전**: 신규 공식 글 + 수정 공식 글 + 커뮤니티 글 + 수집 경고를 함께 검토한다. `updated_at`은 실제 편집 시각이 아닌 **수정 감지 시각**이다. 이미 발행한 주간호를 이번 PR에서 자동 재발행/수정하지 않는다.
 4. **인게임 증거 대기**: 에델 117개 등의 정확한 보상·NPC·선행조건, 광석 이터 정확한 메랜 맵 ID, 미확인 마북 드롭/확률은 여전히 검증 대기다. 미확인/참고 표시는 구현했지만 이 값들을 새 확정 데이터로 채우지는 않았다.

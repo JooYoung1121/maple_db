@@ -289,8 +289,11 @@ async def lifespan(app: FastAPI):
         from crawler.audit_repairs import repair_skill_classes, repair_quest_conditions
         repair_conn = get_connection()
         try:
-            repair_skill_classes(repair_conn)
-            repair_quest_conditions(repair_conn)
+            repaired_skills = repair_skill_classes(repair_conn)
+            repaired_quests = repair_quest_conditions(repair_conn)
+            if repaired_skills or repaired_quests:
+                from crawler.db import rebuild_search_index
+                rebuild_search_index(repair_conn)
         finally:
             repair_conn.close()
     except Exception as e:
