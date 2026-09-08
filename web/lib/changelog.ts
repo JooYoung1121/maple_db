@@ -15,6 +15,22 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.96.1",
+    date: "2026-09-08",
+    type: "patch",
+    title: "에델슈타인 몹·맵 라이브 반영 실패 수정",
+    pages: ["/mobs", "/maps", "/battle-mage"],
+    features: [
+      {
+        category: "배포",
+        items: [
+          "에델슈타인 몬스터 29종·맵 48종·배메 스킬이 라이브 도감에 반영되지 않던 시드 동기화 버그 수정 — additive 블록이 커밋 없이 DETACH를 시도해 통째 실패(database locked)하던 문제",
+          "볼륨/시드 스키마(컬럼) 불일치에도 동작하도록 교집합 컬럼만 복사 + 결과를 seed_sync_log에 기록해 원격 진단 가능",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.96.0",
     date: "2026-09-04",
     type: "minor",

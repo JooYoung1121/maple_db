@@ -82,16 +82,30 @@ try:
 
     # mobs/maps는 관리자가 라이브에서 is_hidden 등을 수정할 수 있어 통째 교체 금지 —
     # 시드에만 있는 신규 행만 추가한다 (2026-09 에델슈타인 등 신규 지역 대응)
+    # [2026-09-08] 볼륨/시드의 컬럼 구성이 달라 INSERT가 통째 실패하던 문제 수정:
+    #   교집합 컬럼만 복사하고(어느 쪽 여분 컬럼이든 DEFAULT로), 결과를 seed_sync_log에 기록해 원격 진단 가능하게.
     for tbl in ['mobs', 'maps', 'npcs', 'skills']:
         try:
-            cols = [r[1] for r in vol.execute(f'PRAGMA table_info({tbl})').fetchall()]
-            col_list = ', '.join(cols)
+            vol_cols = [r[1] for r in vol.execute(f'PRAGMA table_info({tbl})').fetchall()]
+            seed_cols = {r[1] for r in vol.execute(f'PRAGMA seed.table_info({tbl})').fetchall()}
+            common = [c for c in vol_cols if c in seed_cols]
+            if not common:
+                raise RuntimeError(f'no common columns (vol={len(vol_cols)}, seed={len(seed_cols)})')
+            col_list = ', '.join(common)
             added = vol.execute(
                 f'INSERT OR IGNORE INTO {tbl} ({col_list}) SELECT {col_list} FROM seed.{tbl}'
             ).rowcount
             print(f'{tbl}: {added} rows added (additive only)')
+            vol.execute('INSERT INTO seed_sync_log VALUES (?,?,?,?)', (now, tbl, 'ok_additive', str(added)))
         except Exception as ne:
             print(f'{tbl} additive sync skip: {ne}')
+            try:
+                vol.execute('INSERT INTO seed_sync_log VALUES (?,?,?,?)', (now, tbl, 'fail_additive', repr(ne)[:500]))
+            except Exception:
+                pass
+    # DETACH 전에 반드시 커밋 — 미커밋 트랜잭션이 있으면 DETACH가 'database is locked'로 실패해
+    # 이 블록 전체가 무효화된다 (2026-09-04 배포에서 에델 몹/맵이 라이브에 안 들어간 원인)
+    vol.commit()
 
     # 검증: 퀘스트 조건 데이터가 제대로 들어왔는지
     sample = vol.execute(\"SELECT name, quest_conditions FROM quests WHERE name='버섯 몬스터를 연구하는 이유'\").fetchone()
