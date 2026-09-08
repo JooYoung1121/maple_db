@@ -22,7 +22,8 @@ VOLUME = '$VOLUME_DB'
 SEED = '$APP_DB'
 
 # 시드에서 교체할 레퍼런스 테이블 화이트리스트 (유저 데이터 아님)
-SEED_TABLES = ['quests', 'mob_drops', 'mob_spawns', 'sim_jobs', 'sim_skills', 'items', 'map_details', 'mapledb_quests']
+# skills는 크롤러·패치 스크립트만 쓰는 순수 레퍼런스라 통째 교체 (2026-09-08, 9/7 밸런스 패치 반영용)
+SEED_TABLES = ['quests', 'mob_drops', 'mob_spawns', 'sim_jobs', 'sim_skills', 'items', 'map_details', 'mapledb_quests', 'skills']
 
 try:
     vol = sqlite3.connect(VOLUME)
@@ -84,7 +85,12 @@ try:
     # 시드에만 있는 신규 행만 추가한다 (2026-09 에델슈타인 등 신규 지역 대응)
     # [2026-09-08] 볼륨/시드의 컬럼 구성이 달라 INSERT가 통째 실패하던 문제 수정:
     #   교집합 컬럼만 복사하고(어느 쪽 여분 컬럼이든 DEFAULT로), 결과를 seed_sync_log에 기록해 원격 진단 가능하게.
-    for tbl in ['mobs', 'maps', 'npcs', 'skills']:
+    # 몹 스탯은 시드가 원본(공식 패치노트·실측 반영)이므로 기존 행도 시드 기준으로 갱신하되,
+    # 관리자가 라이브에서 수정하는 컬럼(is_hidden, is_boss)과 이름·아이콘은 건드리지 않는다.
+    STAT_SYNC = {'mobs': ['level', 'hp', 'mp', 'exp', 'defense', 'accuracy', 'evasion',
+                          'physical_damage', 'magic_damage', 'magic_defense', 'speed',
+                          'is_undead', 'spawn_time']}
+    for tbl in ['mobs', 'maps', 'npcs']:
         try:
             vol_cols = [r[1] for r in vol.execute(f'PRAGMA table_info({tbl})').fetchall()]
             seed_cols = {r[1] for r in vol.execute(f'PRAGMA seed.table_info({tbl})').fetchall()}
@@ -97,6 +103,14 @@ try:
             ).rowcount
             print(f'{tbl}: {added} rows added (additive only)')
             vol.execute('INSERT INTO seed_sync_log VALUES (?,?,?,?)', (now, tbl, 'ok_additive', str(added)))
+            sync_cols = [c for c in STAT_SYNC.get(tbl, []) if c in common]
+            if sync_cols:
+                set_clause = ', '.join(f'{c}=(SELECT s.{c} FROM seed.{tbl} s WHERE s.id={tbl}.id)' for c in sync_cols)
+                synced = vol.execute(
+                    f'UPDATE {tbl} SET {set_clause} WHERE id IN (SELECT id FROM seed.{tbl})'
+                ).rowcount
+                print(f'{tbl}: {synced} rows stat-synced')
+                vol.execute('INSERT INTO seed_sync_log VALUES (?,?,?,?)', (now, tbl, 'ok_statsync', str(synced)))
         except Exception as ne:
             print(f'{tbl} additive sync skip: {ne}')
             try:
