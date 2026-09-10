@@ -4,8 +4,9 @@ maplestory.io GMS v92 /map/{id} JSON에서 맵 구조도를 그리는 데 필요
 추려서 map_details 테이블에 저장한다. 기존 maps 테이블은 건드리지 않는다.
 
 사용법:
-    python3 crawler/fetch_map_details.py            # 미수집분만
-    python3 crawler/fetch_map_details.py --force    # 전체 재수집
+    python3 crawler/fetch_map_details.py                    # 미수집분만
+    python3 crawler/fetch_map_details.py --force            # 전체 재수집
+    python3 crawler/fetch_map_details.py --api-version 95   # 신지역(에델슈타인 등)은 v92에 없어 v95로 수집
 """
 from __future__ import annotations
 
@@ -20,7 +21,7 @@ import httpx
 ROOT = Path(__file__).resolve().parents[1]
 DB_PATH = ROOT / "data" / "maple.db"
 REFERENCE_PATH = ROOT / "data" / "mapleland_reference.json"
-API_BASE = "https://maplestory.io/api/gms/92/map"
+API_BASE = "https://maplestory.io/api/gms/92/map"  # --api-version 으로 변경 가능
 CONCURRENCY = 4
 RETRIES = 3
 
@@ -123,7 +124,12 @@ async def fetch_one(client: httpx.AsyncClient, sem: asyncio.Semaphore, map_id: i
 async def main() -> None:
     import sqlite3
 
+    global API_BASE
     force = "--force" in sys.argv
+    if "--api-version" in sys.argv:
+        ver = sys.argv[sys.argv.index("--api-version") + 1]
+        API_BASE = f"https://maplestory.io/api/gms/{ver}/map"
+        print(f"API: {API_BASE}", flush=True)
     conn = sqlite3.connect(DB_PATH)
     conn.executescript(SCHEMA)
 

@@ -73,6 +73,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/pq", label: "파티퀘스트", icon: "🏰", description: "PQ 공략 및 보상", keywords: ["파퀘"] },
       { href: "/pq/amorian-solver", label: "웨딩 파퀘 조합", icon: "🪢", description: "아모리안 밧줄·발판 퍼즐 풀이와 이동 안내", keywords: ["아모리아", "아모리안", "엘리아스", "웨딩", "결혼", "파퀘", "조합표", "발판", "밧줄", "솔버"] },
       { href: "/hunt", label: "사냥터 추천", icon: "🎯", description: "레벨별 사냥터 가이드" },
+      { href: "/hp-exp", label: "체경비 사냥터", icon: "🩸", description: "체력 대비 경험치로 찾는 꿀 사냥터 — 맵별 마릿수·분포 기반", keywords: ["체경비", "체경", "효율", "꿀몹", "꿀맵", "가성비"] },
       { href: "/leveling", label: "직업별 사냥터", icon: "🗺️", description: "직업·레벨 구간별 육성 루트", keywords: ["육성", "레벨링"] },
       { href: "/events", label: "이벤트 정리", icon: "🗂️", description: "진행 중 이벤트 요약 · 아카이브" },
       { href: "/job", label: "전직 가이드", icon: "📋", description: "직업별 전직 경로" },
