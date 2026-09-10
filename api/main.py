@@ -22,6 +22,7 @@ from fastapi.middleware.gzip import GZipMiddleware
 
 from crawler.db import init_db, get_connection
 from api.routes import search, items, mobs, maps, npcs, quests, export, skills, admin, bimae, scroll_rankings, community
+from api.routes import efficiency
 from api.routes import maple_land
 from api.routes import worldcup
 from api.routes import codi
@@ -361,6 +362,7 @@ app.add_middleware(GZipMiddleware, minimum_size=1024)
 app.include_router(search.router, prefix="/api")
 app.include_router(items.router, prefix="/api")
 app.include_router(mobs.router, prefix="/api")
+app.include_router(efficiency.router, prefix="/api")
 app.include_router(maps.router, prefix="/api")
 app.include_router(npcs.router, prefix="/api")
 app.include_router(quests.router, prefix="/api")
