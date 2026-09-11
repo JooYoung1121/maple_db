@@ -15,10 +15,10 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: "3.100.0",
+    version: "4.0.0",
     date: "2026-09-11",
-    type: "minor",
-    title: "버닝 월드 종료 반영 · 월드 리프 안내",
+    type: "major",
+    title: "월드 통합 시대 — 버닝 종료·월드 리프 반영",
     pages: ["/news", "/hunt", "/leveling", "/events", "/job"],
     features: [
       {

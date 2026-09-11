@@ -54,6 +54,7 @@ def _snapshot() -> dict:
             }
 
         maps: list[dict] = []
+        geo: dict[int, tuple[int, int]] = {}  # map_id → (층수, 폭) — 미상 행 지형 폴백용
         mob_presence: dict[int, dict[str, int]] = {}  # mob_id → {map_count, total_spawns}
         for r in conn.execute(
             "SELECT map_id, spawns_json FROM map_details WHERE spawns_json IS NOT NULL AND spawns_json != '[]'"
@@ -76,12 +77,15 @@ def _snapshot() -> dict:
                 ys.add(int(s[2]) // FLOOR_BUCKET)
             if not counts:
                 continue
+            floors = len(ys)
+            width = (max(xs) - min(xs)) if len(xs) > 1 else 0
             maps.append({
                 "map_id": map_id,
                 "counts": counts,
-                "floors": len(ys),
-                "width": (max(xs) - min(xs)) if len(xs) > 1 else 0,
+                "floors": floors,
+                "width": width,
             })
+            geo[map_id] = (floors, width)
             for mid, cnt in counts.items():
                 p = mob_presence.setdefault(mid, {"map_count": 0, "total_spawns": 0})
                 p["map_count"] += 1
@@ -106,7 +110,7 @@ def _snapshot() -> dict:
 
     return {
         "mobs": mobs, "maps": maps, "presence": mob_presence,
-        "street": street, "fallback": fallback_spawns,
+        "street": street, "fallback": fallback_spawns, "geo": geo,
     }
 
 
@@ -117,6 +121,7 @@ def efficiency(
     mob_limit: int = Query(default=60, ge=1, le=200),
     map_limit: int = Query(default=40, ge=1, le=100),
     sort: str = Query(default="ratio", pattern="^(ratio|exp)$"),
+    min_count: int = Query(default=1, ge=1, le=30),
 ):
     if min_level > max_level:
         min_level, max_level = max_level, min_level
@@ -154,6 +159,8 @@ def efficiency(
         total_hp = sum(in_range[mid]["hp"] * cnt for mid, cnt in picked)
         total_exp = sum(in_range[mid]["exp"] * cnt for mid, cnt in picked)
         total_count = sum(cnt for _, cnt in picked)
+        if total_count < min_count:
+            continue
         out_of_range = sum(cnt for mid, cnt in entry["counts"].items() if mid not in in_range)
         map_rows.append({
             "map_id": entry["map_id"],
@@ -187,6 +194,7 @@ def efficiency(
                 synth.setdefault(map_id, []).append(mid)
     for map_id, mids in synth.items():
         ratios = [in_range[mid]["ratio"] for mid in mids]
+        g = snap["geo"].get(map_id)
         map_rows.append({
             "map_id": map_id,
             "name_kr": map_kr.get(map_id),
@@ -199,15 +207,18 @@ def efficiency(
             "out_of_range_count": 0,
             "weighted_ratio": round(sum(ratios) / len(ratios), 1),
             "exp_per_gen": None,
-            "floors": None,
-            "width": None,
+            "floors": g[0] if g else None,
+            "width": g[1] if g else None,
             "estimated": True,
         })
     if sort == "exp":
         # 한 젠 경험치 총량 내림차순 — 마릿수 미상(estimated) 행은 뒤로
         map_rows.sort(key=lambda x: (x["exp_per_gen"] is None, -(x["exp_per_gen"] or 0)))
     else:
-        map_rows.sort(key=lambda x: (x["weighted_ratio"] is None, x["weighted_ratio"]))
+        # 체경비 동률이면 마릿수 많은 맵 우선 (1~2마리 맵이 상위 도배되는 것 방지)
+        map_rows.sort(key=lambda x: (
+            x["weighted_ratio"] is None, x["weighted_ratio"], -(x["total_count"] or 0),
+        ))
 
     return {
         "min_level": min_level,
