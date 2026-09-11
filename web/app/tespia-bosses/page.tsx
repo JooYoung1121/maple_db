@@ -191,14 +191,14 @@ export default function TespiaBossesPage() {
         <div className="flex flex-wrap items-center gap-2">
           <Badge>테스피아 2.0</Badge>
           <Badge>Ver. Test 2.2.62</Badge>
-          <Badge>드롭/밸런스 변동 가능</Badge>
+          <Badge>2.0 오픈 전 작성</Badge>
         </div>
         <h1 className="text-2xl font-bold text-ink md:text-3xl font-pixel">
           테스피아 엔드 보스 공략 메모
         </h1>
         <p className="max-w-3xl text-sm leading-6 text-dim">
           카오스 자쿰, 카오스 혼테일, 핑크빈은 테스피아 공지에서 진행 가능 보스로 확인됐습니다.
-          이 페이지는 현재 사이트 DB와 v62 WZ 대조 결과를 기준으로 정리한 초안이며, 실제 메랜 테스피아의 드롭과 밸런스는 추후 변경될 수 있습니다.
+          이 페이지는 당시 사이트 DB와 v62 WZ 대조 결과를 기준으로 정리한 초안입니다.
         </p>
       </section>
 
