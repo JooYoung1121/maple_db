@@ -15,6 +15,23 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.0.1",
+    date: "2026-09-11",
+    type: "patch",
+    title: "에델슈타인 몹 출현맵 교정",
+    pages: ["/mobs", "/maps"],
+    features: [
+      {
+        category: "게임 데이터",
+        items: [
+          "에델슈타인 몹↔맵 매핑이 한 칸씩 밀려 있던 버그 수정 — 갱도1=라키·갱도2=빅 스파이더·갱도3=카트베어·위험한 너구리 소굴=라칸 등 (9/7 레벨 순서 추정 매핑 → GMS 스폰 좌표 기준 재생성, 커뮤니티 실측과 일치 확인)",
+          "출현맵에 스폰 마릿수(spawn_count) 함께 기록 — 몹·맵 상세와 체경비 페이지 데이터 일원화",
+          "GMS에 스폰이 없는 마을·통로 맵의 추정 등록 제거 (발전소 로비·제1/2광장 등)",
+        ],
+      },
+    ],
+  },
+  {
     version: "4.0.0",
     date: "2026-09-11",
     type: "major",
