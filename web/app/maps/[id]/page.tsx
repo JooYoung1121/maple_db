@@ -211,6 +211,7 @@ export default function MapDetailPage() {
         )}
         {detail?.bgm && <span className="px-2 py-0.5 border border-edge text-dim">♪ {detail.bgm.split("/").pop()}</span>}
         <CanonDiffInfo entry={CANON_DIFFS["system.spawn-policy"]} />
+        {(map.id >= 310000000 && map.id < 311000000) && <CanonDiffInfo entry={CANON_DIFFS["edelstein.data-provenance"]} />}
         {map.original_data_conflict && <CanonDiffInfo entry={CANON_DIFFS["data.map-id-collision"]} />}
       </div>
       <DatasetComparisonNotice type="map" className="mb-4" />
