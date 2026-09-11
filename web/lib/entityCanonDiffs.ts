@@ -151,7 +151,32 @@ const SKILL_DIFFS: CanonDiffEntry[] = SKILL_SPECS.map((spec, index) => ({
   entityNames: spec.names,
 }));
 
-export const ENTITY_CANON_DIFFS: CanonDiffEntry[] = [...MOB_DIFFS, ...ITEM_DIFFS, ...SKILL_DIFFS];
+// ── 에델슈타인 판본 주의 ──
+// 메랜은 "빅뱅 이전 KMST(2010-05-25) 공개 데이터"를 기준으로 자체 설정했다고 공지에 명시했지만,
+// 추출 가능한 원작 데이터(maplestory.io GMS v93~95)는 전부 빅뱅 이후 클라이언트뿐이다.
+// 실제로 몹 레벨 7종·경험치(약 2.3배)가 어긋나 공지·실측값으로 교체했다 — HP 등 나머지도 다를 수 있다.
+const EDELSTEIN_MOB_IDS = [
+  150000, 150001, 150002, 1150000, 1150001, 1150002, 2150000, 2150001, 2150002,
+  2150003, 3150000, 3150001, 3150002, 6150000, 7150000, 7150001, 7150002,
+  7150003, 7150004, 8105000, 8105001, 8105002, 8105003, 8105004, 8105005,
+];
+
+const EDELSTEIN_MOB_DIFFS: CanonDiffEntry[] = EDELSTEIN_MOB_IDS.map((id) => ({
+  id: `mob.edelstein-provenance.${id}`,
+  path: "/battle-mage",
+  subject: "에델슈타인 데이터 판본",
+  status: "version" as const,
+  mapleland: "메이플랜드는 빅뱅 이전 KMST(2010-05-25) 공개 데이터 기준으로 자체 설정 (공지 명시). 레벨은 9/7 공지 확정값, 경험치·일부 HP는 커뮤니티 실측값입니다.",
+  original: "추출 가능한 원작 데이터는 빅뱅 이후 GMS(v95) 클라이언트뿐이라 KMST 시점과 다를 수 있습니다 — 실제로 레벨 7종·경험치(약 2.3배)가 어긋나 교체했습니다.",
+  note: "실측으로 교체되지 않은 HP·드롭·스폰 배치는 빅뱅 후 GMS 참고값입니다. 실측 제보로 계속 갱신합니다.",
+  sourceLabel: "메이플랜드 9/7 패치노트 (KMST 기준 명시)",
+  sourceUrl: "https://maple.land/board/notices/nbudy1h3t2wjeqrx8i94yupm",
+  verifiedAt: "2026-09-11",
+  entityType: "mob" as const,
+  entityId: id,
+}));
+
+export const ENTITY_CANON_DIFFS: CanonDiffEntry[] = [...MOB_DIFFS, ...ITEM_DIFFS, ...SKILL_DIFFS, ...EDELSTEIN_MOB_DIFFS];
 
 export function getEntityCanonDiffs(type: CanonEntityType, id?: number, name?: string): CanonDiffEntry[] {
   const normalizedName = name ? normalizeName(name) : "";
