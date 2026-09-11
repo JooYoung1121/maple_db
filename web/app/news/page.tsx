@@ -264,34 +264,37 @@ export default function NewsPage() {
         </p>
       </div>
 
-      {/* 버닝 월드 안내 배너 */}
+      {/* 버닝 월드 종료 · 월드 리프 안내 배너 — 리프 기간 종료(9/25) 후 자동 숨김 */}
+      {Date.now() < new Date("2026-09-26T00:00:00+09:00").getTime() && (
       <div className="pixel-panel p-4">
         <div className="flex items-start gap-3">
-          <span className="text-2xl shrink-0">🔥</span>
+          <span className="text-2xl shrink-0">🍂</span>
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-pixel text-sm text-maple">버닝 월드 진행 중</span>
+              <span className="font-pixel text-sm text-maple">버닝 월드 종료 · 월드 리프 진행 중</span>
               <span className="pixel-badge font-pixel text-[10px] bg-[color-mix(in_srgb,var(--c-mush)_18%,transparent)] text-mush">
-                기간한정
+                ~9/25
               </span>
             </div>
             <p className="text-sm text-dim mt-1.5 leading-relaxed">
-              2.0 콘텐츠가 즉시 적용된 이벤트 월드 ·{" "}
-              <span className="text-ink">2026.6.19 ~ 9.11</span> 운영 ·{" "}
-              Lv.120 미만 <span className="text-ink">경험치 1.5배</span>, 공·마/이속/점프 상시 버프.
-              종료 후 <span className="text-ink">월드 리프</span>(본 월드 이전) ~2026.9.25.
+              버닝 월드가 <span className="text-ink">9/11 점검으로 운영 종료</span>됐습니다.
+              본 월드로의 <span className="text-ink">월드 리프는 ~2026.9.25</span>까지 —{" "}
+              <span className="text-ink">창고·거래소/택배·캐시샵 보관함 아이템과 길드</span>는 자동 이전되지 않으니
+              사전 조치가 필요합니다. 창고 확장 칸은 합산(초과분은 확장권으로 지급)되고, 버닝 전용
+              성장 지원·기간제 아이템은 수거될 수 있습니다.
             </p>
             <a
-              href="https://maple.land/board/events"
+              href="https://maple.land/board/notices/xyqhs4f9g9tqhmt82svhoag7"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block mt-2 text-xs text-maple hover:underline font-pixel"
             >
-              공식 이벤트 페이지 →
+              월드 리프 사전 안내 공지 →
             </a>
           </div>
         </div>
       </div>
+      )}
 
       {/* 검색 */}
       <form onSubmit={handleSearch} className="flex gap-2">

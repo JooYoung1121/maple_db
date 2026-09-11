@@ -15,6 +15,24 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "3.100.0",
+    date: "2026-09-11",
+    type: "minor",
+    title: "버닝 월드 종료 반영 · 월드 리프 안내",
+    pages: ["/news", "/hunt", "/leveling", "/events", "/job"],
+    features: [
+      {
+        category: "버닝 월드 종료 (9/11 패치)",
+        items: [
+          "소식 페이지 배너를 '버닝 월드 종료 · 월드 리프 진행 중(~9/25)' 안내로 교체 — 창고·거래소/택배·캐시 보관함·길드 사전 조치 요약 포함, 리프 기간 종료 후 자동 숨김",
+          "사냥터 추천의 버닝 경험치 토글을 시즌 미운영 시 자동 숨김 처리 (종료 시각 9/11 06:00 교정)",
+          "육성 사냥터·직업 가이드의 버닝 배지·버프 표기·'버닝 생성 불가' 문구 정리",
+          "이벤트 아카이브: 몬스터 파크(버닝 전용)·마스터M 종료 처리",
+        ],
+      },
+    ],
+  },
+  {
     version: "3.99.0",
     date: "2026-09-10",
     type: "minor",

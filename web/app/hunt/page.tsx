@@ -184,22 +184,24 @@ export default function HuntPage() {
           </div>
         </div>
 
-        {/* 버닝/본섭 토글 */}
-        <div className="mt-4 pt-3 border-t border-edge/40 flex items-start gap-3 flex-wrap">
-          <button
-            onClick={() => setBurning((v) => !v)}
-            className={`font-pixel text-[12px] px-3 py-1.5 shrink-0 ${
-              burning ? "pixel-btn" : "bg-surface2 text-dim hover:text-mush border-2 border-edge"
-            }`}
-          >
-            🔥 {BURNING.label} 기준 {burning ? "ON" : "OFF"}
-          </button>
-          <p className="text-xs text-dim flex-1 min-w-[14rem]">
-            {burning
-              ? `Lv.${BURNING.maxLevel} 미만 경험치 ${BURNING.expMultiplier}배 적용 중 · ${BURNING.patchNote}`
-              : "본섭(일반 월드) 기준 수치입니다. 버닝 월드는 토글을 켜세요."}
-          </p>
-        </div>
+        {/* 버닝/본섭 토글 — 버닝 시즌 운영 중에만 노출 (2026-09-11 버닝 월드 종료) */}
+        {isBurningActive() && (
+          <div className="mt-4 pt-3 border-t border-edge/40 flex items-start gap-3 flex-wrap">
+            <button
+              onClick={() => setBurning((v) => !v)}
+              className={`font-pixel text-[12px] px-3 py-1.5 shrink-0 ${
+                burning ? "pixel-btn" : "bg-surface2 text-dim hover:text-mush border-2 border-edge"
+              }`}
+            >
+              🔥 {BURNING.label} 기준 {burning ? "ON" : "OFF"}
+            </button>
+            <p className="text-xs text-dim flex-1 min-w-[14rem]">
+              {burning
+                ? `Lv.${BURNING.maxLevel} 미만 경험치 ${BURNING.expMultiplier}배 적용 중 · ${BURNING.patchNote}`
+                : "본섭(일반 월드) 기준 수치입니다. 버닝 월드는 토글을 켜세요."}
+            </p>
+          </div>
+        )}
       </div>
 
       {/* 결과 */}
