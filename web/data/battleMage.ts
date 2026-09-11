@@ -220,6 +220,11 @@ export const BATTLE_MAGE_FIELD_NOTES: { title: string; body: string; source: str
     body: "연결 글에는 쩔·파티사냥에서 오라 활용이 제한적이고 보스 파티에서는 가치가 높다는 개인 평가가 있습니다. 검증 과정이 제시된 실측 자료는 아닙니다. 파티 적용 범위·중첩 규칙과 사냥 효율은 별도 검증이 필요합니다.",
     source: "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=3943616",
   },
+  {
+    title: "9/11 오라 자동 전이 중단 — '오라캐' 차단",
+    body: "9/11 패치로 오라류에 자동 전이 중단 로직이 추가됐습니다(공식 패치노트). 저레벨 배메 부캐를 사냥터에 세워두고 다크 오라(파티 데미지 +10~20%)만 받는 '오라캐' 운용이 차단 대상 — 커뮤니티 실측으로는 시전자가 일정 시간 조작·전투 없이 방치되면 파티원 전이가 끊깁니다. 직접 플레이하는 배메의 오라는 영향이 없고, 재적용 세부 규칙은 실측 진행 중입니다.",
+    source: "https://maple.land/board/notices/uc6cu3mlb78f1zyavaceeq64",
+  },
 ];
 
 const LEGACY_QUESTS_RAW = `

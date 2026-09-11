@@ -18,9 +18,16 @@ export const CHANGELOG: ChangelogEntry[] = [
     version: "4.0.1",
     date: "2026-09-11",
     type: "patch",
-    title: "에델슈타인 몹 출현맵 교정",
-    pages: ["/mobs", "/maps"],
+    title: "에델슈타인 출현맵 교정 · 9/11 패치 반영",
+    pages: ["/mobs", "/maps", "/battle-mage", "/skills", "/quests"],
     features: [
+      {
+        category: "9/11 패치 반영",
+        items: [
+          "배메 오라류 자동 전이 중단(오라캐 차단) — 스킬 DB 6종 병기 + 가이드 실측 메모 추가, 쉘터 1레벨 쿨타임 오류 수정 반영",
+          "비단 깃털 드롭 조건 변경(퀘스트 진행 중만) — 아모리아의 벚꽃 정원 퀘스트 팁 갱신",
+        ],
+      },
       {
         category: "게임 데이터",
         items: [
