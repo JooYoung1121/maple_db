@@ -42,6 +42,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/quest-roadmap", label: "퀘스트 로드맵", icon: "🧭", description: "레벨별 퀘스트 진행 가이드" },
       { href: "/skills", label: "스킬", icon: "✨", description: "직업별 스킬 정보" },
       { href: "/drop-search", label: "획득 경로", icon: "🔎", description: "아이템 → 몬스터 → 출현 맵" },
+      { href: "/market", label: "아이템 시세", icon: "💰", description: "거래소 매물 집계 시세 — 일/주/월봉 추이", keywords: ["시세", "가격", "거래소", "메소"] },
       { href: "/differences", label: "원작 차이", icon: "ⓘ", description: "메이플랜드 변경점 · 원작 수치 대조" },
     ],
   },
@@ -127,7 +128,13 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/versus", label: "대전 게임", icon: "⚔️", description: "오목 · 짝맞추기 · 원카드 · 윷놀이" },
       { href: "/chosung", label: "초성퀴즈 검색기", icon: "🔤", description: "초성으로 메랜 이름 찾기" },
       { href: "/museum", label: "이세계 도감", icon: "🗃️", description: "메랜에 없는 몹·아이템 구경" },
-      { href: "/tespia-bosses", label: "테스피아 2.0 보스", icon: "🏺", description: "2.0 오픈 전 미리보기 아카이브" },
+    ],
+  },
+  {
+    label: "유물창고",
+    icon: "🏺",
+    items: [
+      { href: "/tespia-bosses", label: "테스피아 2.0 보스", icon: "🏺", description: "2.0 오픈 전 미리보기 — 역할을 다한 자료 보존", keywords: ["아카이브", "유물", "테스피아"] },
     ],
   },
   {

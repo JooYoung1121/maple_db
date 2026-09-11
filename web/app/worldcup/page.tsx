@@ -39,6 +39,33 @@ const GUILD_CANDIDATES: Candidate[] = [
   { id: 16, name: "가다로진2", img: "/worldcup-guild/gadarojin2.png", fallback_img: null, sub: null },
 ];
 
+/* ── 아이템 모드 대결 비교(월드컵 2단계): 핵심 스탯 + 거래소 시세 ── */
+const COMPACT_STAT: [string, string][] = [
+  ["incPAD", "공"], ["incMAD", "마"], ["incSTR", "힘"], ["incDEX", "민"],
+  ["incINT", "지"], ["incLUK", "럭"], ["incPDD", "방"], ["incACC", "명중"],
+  ["incEVA", "회피"], ["incSpeed", "이속"], ["incJump", "점프"], ["incMHP", "HP"], ["incMMP", "MP"],
+];
+
+function compactStats(raw: string | null | undefined): string | null {
+  if (!raw) return null;
+  try {
+    const s = JSON.parse(raw) as Record<string, number>;
+    const parts = COMPACT_STAT.filter(([k]) => s[k]).map(([k, label]) => `${label}+${s[k]}`).slice(0, 5);
+    return parts.length > 0 ? parts.join(" · ") : null;
+  } catch {
+    return null;
+  }
+}
+
+function fmtMeso(n: number): string {
+  const abs = Math.abs(Math.round(n));
+  if (abs >= 100_000_000) return `${(abs / 100_000_000).toFixed(2)}억`;
+  if (abs >= 10_000) return `${(abs / 10_000).toFixed(1)}만`;
+  return abs.toLocaleString("ko-KR");
+}
+
+interface PairInfo { price: number | null; stats: string | null }
+
 function shuffled<T>(arr: T[]): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -154,6 +181,38 @@ export default function WorldcupPage() {
   const b = pool[pairIdx * 2 + 1];
   const remaining = pool.length;
 
+  // 아이템 모드: 현재 대결 카드에 스탯·시세를 나란히 표시 (조회 결과는 캐시)
+  const [pairInfo, setPairInfo] = useState<Record<number, PairInfo>>({});
+  useEffect(() => {
+    if (mode !== "item" || phase !== "play" || !a || !b) return;
+    const ids = [a.id, b.id].filter((id) => pairInfo[id] === undefined);
+    if (ids.length === 0) return;
+    let alive = true;
+    (async () => {
+      const out: Record<number, PairInfo> = {};
+      await Promise.all(
+        ids.map(async (id) => {
+          out[id] = { price: null, stats: null };
+          try {
+            const d = await fetch(`${API_BASE}/api/items/${id}`).then((r) => (r.ok ? r.json() : null));
+            out[id].stats = compactStats(d?.item?.stats);
+          } catch { /* 무시 */ }
+        })
+      );
+      try {
+        const res = await fetch(`${API_BASE}/api/matip/quote/batch?itemCodes=${ids.join(",")}&resolution=month`)
+          .then((r) => (r.ok ? r.json() : null));
+        for (const [code, data] of Object.entries(res?.results || {})) {
+          const arr = (data as { sellActive?: { avg: number }[] })?.sellActive;
+          if (arr && arr.length > 0 && out[Number(code)]) out[Number(code)].price = arr[arr.length - 1].avg;
+        }
+      } catch { /* 무시 */ }
+      if (alive) setPairInfo((prev) => ({ ...prev, ...out }));
+    })();
+    return () => { alive = false; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, phase, a, b]);
+
   const shareText = champion
     ? `🏆 메랜 ${MODE_LABEL[mode]} 이상형 월드컵 (${roundSize}강)\n우승: ${champion.name}\n준우승: ${runnerUp?.name ?? "-"}\n나도 하기 → ${typeof window !== "undefined" ? window.location.origin : ""}/worldcup`
     : "";
@@ -220,6 +279,14 @@ export default function WorldcupPage() {
                   <span className="text-center">
                     <span className="block font-semibold">{c.name}</span>
                     {c.sub && <span className="block text-xs text-dim">{c.sub}</span>}
+                    {mode === "item" && pairInfo[c.id] && (
+                      <span className="mt-1 block text-[11px] leading-relaxed">
+                        {pairInfo[c.id].stats && <span className="block text-dim">{pairInfo[c.id].stats}</span>}
+                        <span className={`block ${pairInfo[c.id].price != null ? "text-maple font-semibold" : "text-dim"}`}>
+                          {pairInfo[c.id].price != null ? `시세 ${fmtMeso(pairInfo[c.id].price as number)} 메소` : "시세 정보 없음"}
+                        </span>
+                      </span>
+                    )}
                   </span>
                 </button>
               );

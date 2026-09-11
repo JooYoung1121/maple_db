@@ -74,6 +74,7 @@ export default function HpExpPage() {
   const [level, setLevel] = useState<number | "">("");
   const [range, setRange] = useState(10);
   const [sort, setSort] = useState<"ratio" | "exp">("ratio");
+  const [minCount, setMinCount] = useState(3);
   const [tab, setTab] = useState<"maps" | "mobs">("maps");
   const [data, setData] = useState<EffResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -93,6 +94,7 @@ export default function HpExpPage() {
       min_level: String(minLv),
       max_level: String(maxLv),
       sort,
+      min_count: String(minCount),
     });
     fetch(`${API_BASE}/api/efficiency?${qs}`)
       .then((r) => {
@@ -111,7 +113,7 @@ export default function HpExpPage() {
     return () => {
       alive = false;
     };
-  }, [minLv, maxLv, sort]);
+  }, [minLv, maxLv, sort, minCount]);
 
   return (
     <div className="mx-auto max-w-5xl space-y-6">
@@ -151,6 +153,19 @@ export default function HpExpPage() {
               className="w-40 accent-[var(--maple,#f97316)]"
               disabled={level === ""}
             />
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-xs text-dim">최소 마릿수</span>
+            <select
+              value={minCount}
+              onChange={(e) => setMinCount(Number(e.target.value))}
+              className="rounded border border-edge bg-surface px-2 py-2 text-sm text-ink"
+            >
+              <option value={1}>전체</option>
+              <option value={3}>3마리+</option>
+              <option value={6}>6마리+</option>
+              <option value={10}>10마리+</option>
+            </select>
           </label>
           <div className="text-sm text-dim">
             대상 몹: <span className="font-semibold text-maple">Lv.{minLv} ~ {maxLv}</span>

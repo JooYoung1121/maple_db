@@ -33,9 +33,6 @@ function SpotCard({ s, showJobs }: { s: LevelingSpot; showJobs: boolean }) {
           {s.miniDungeon && (
             <span className="pixel-badge font-pixel text-[10px] bg-[color-mix(in_srgb,var(--c-mush)_18%,transparent)] text-mush">미니던전</span>
           )}
-          {s.burningBuff && (
-            <span className="pixel-badge font-pixel text-[10px] bg-[color-mix(in_srgb,var(--c-mush)_24%,transparent)] text-mush">🔥 버닝버프</span>
-          )}
           <span className="font-bold text-ink">{s.map}</span>
           <svg className={`w-4 h-4 text-dim shrink-0 ml-auto transition-transform ${open ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -67,9 +64,6 @@ function SpotCard({ s, showJobs }: { s: LevelingSpot; showJobs: boolean }) {
             <Link href="/pq" className="inline-block text-xs text-maple hover:underline">
               파티퀘스트 보상·효율 비교 →
             </Link>
-          )}
-          {s.burningBuff && (
-            <p className="text-xs text-mush">🔥 {s.burningBuff}</p>
           )}
           {SPOT_SPAWN[s.map] && (
             <p className="text-xs text-dim">
@@ -125,11 +119,9 @@ export default function LevelingPage() {
       <div>
         <h1 className="font-pixel text-xl text-ink flex items-center gap-2 flex-wrap">
           <span>🗺️</span> 직업별 육성 사냥터
-          <span className="pixel-badge font-pixel text-[10px] bg-[color-mix(in_srgb,var(--c-mush)_18%,transparent)] text-mush">버닝 월드</span>
         </h1>
         <p className="text-sm text-dim mt-1">
           커뮤니티에서 모은 레벨 구간별 추천 사냥터. 직업을 고르면 그 직업이 가는 곳만 보여줍니다.
-          버닝 월드는 경험치 1.5배라 맵은 같고 체류 시간만 짧아집니다.
         </p>
       </div>
 
@@ -139,9 +131,6 @@ export default function LevelingPage() {
         <p className="text-sm text-dim">
           <span className="font-pixel text-mush text-[12px]">미니던전</span> · 2.0에서 인기 사냥터에 추가된 <span className="text-ink">개인 던전</span>입니다.
           자리싸움 없이 1회 입장당 약 2시간 사냥, 파티 동반 가능. 젠은 원작 기준.
-          버닝 월드(6/19~9/11)는 Lv120 미만 경험치 1.5배 + 상시 버프이며, <span className="text-ink">카에데 성은 버닝 진입 불가</span>입니다.
-          {" "}<span className="text-mush">최근 버닝 패치(6/24)</span>: 골렘의 숲·차디찬 벌판 <span className="text-ink">최대 몬스터 수 증가</span>,
-          경험치 2배 쿠폰 상자(120레벨 이전·매일 0시 6개) 지급.
         </p>
       </div>
 
@@ -220,7 +209,7 @@ export default function LevelingPage() {
       {!miniOnly && (
         <div>
           <h2 className="font-pixel text-[13px] text-mush mb-2 flex items-center gap-2">
-            <span className="inline-block w-2 h-2 bg-mush" />👹 보스 입문 (버닝 도전 가능)
+            <span className="inline-block w-2 h-2 bg-mush" />👹 보스 입문
           </h2>
           <div className="space-y-2">
             {boss.map((s, i) => <SpotCard key={`boss-${i}`} s={s} showJobs={false} />)}

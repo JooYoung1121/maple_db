@@ -387,7 +387,7 @@ const JOB_PATHS: JobPath[] = [
     name: "레지스탕스",
     icon: "⚙️",
     color: "amber",
-    description: "블랙윙에 점령당한 에델슈타인의 저항군 — 시티즌으로 시작하는 신규 직업군 (9/7 추가, 버닝 월드 생성 불가)",
+    description: "블랙윙에 점령당한 에델슈타인의 저항군 — 시티즌으로 시작하는 신규 직업군 (9/7 추가)",
     branches: [
       {
         name: "시티즌 → 배틀메이지",
