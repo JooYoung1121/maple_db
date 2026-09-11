@@ -91,8 +91,8 @@ const DOJO_SPECIAL: Medal[] = [
     name: "소공의 후계자",
     level: 80,
     stats: "올스탯+3 · HP+100 · MP+100",
-    condition: "2026년 9월 11일까지 무릉도장 38층 클리어",
-    note: "고유 아이템 · 교환 불가",
+    condition: "무릉도장 38층 클리어 (획득 기간 2026-09-11 종료)",
+    note: "고유 아이템 · 교환 불가 · 기간 한정 — 신규 획득 불가",
     iconVersion: 143,
     detailAvailable: false,
   },
@@ -200,7 +200,8 @@ export default function MedalsPage() {
           <CanonDiffInfo entry={CANON_DIFFS["dojo.successor-medal"]} />
         </div>
         <p className="text-xs text-dim mb-3">
-          공식 패치노트에 공개된 실제 메이플랜드 보상입니다. <Link href="/dojo" className="text-maple underline">38층 공략·점수 계산기 보기</Link>
+          공식 패치노트에 공개된 실제 메이플랜드 보상입니다. 소공의 후계자 획득 기간은 9/11로 종료됐습니다 —
+          이미 획득한 훈장은 유지됩니다. <Link href="/dojo" className="text-maple underline">38층 공략·점수 계산기 보기</Link>
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {DOJO_SPECIAL.map((m) => <MedalCard key={m.id} m={m} />)}

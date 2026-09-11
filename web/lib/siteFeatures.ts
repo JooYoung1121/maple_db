@@ -42,6 +42,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/quest-roadmap", label: "퀘스트 로드맵", icon: "🧭", description: "레벨별 퀘스트 진행 가이드" },
       { href: "/skills", label: "스킬", icon: "✨", description: "직업별 스킬 정보" },
       { href: "/drop-search", label: "획득 경로", icon: "🔎", description: "아이템 → 몬스터 → 출현 맵" },
+      { href: "/market", label: "아이템 시세", icon: "💰", description: "거래소 매물 집계 시세 — 일/주/월봉 추이", keywords: ["시세", "가격", "거래소", "메소"] },
       { href: "/differences", label: "원작 차이", icon: "ⓘ", description: "메이플랜드 변경점 · 원작 수치 대조" },
     ],
   },
