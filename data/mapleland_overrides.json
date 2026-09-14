@@ -1,7 +1,7 @@
 {
   "profile": "mapleland-current",
   "base_version": "wz83",
-  "updated_at": "2026-08-07",
+  "updated_at": "2026-09-14",
   "notes": [
     "MapleLand live/test-server deltas belong here after source verification.",
     "The canonical rebuild uses WZ v83 as the base, then applies these overrides.",
@@ -25,6 +25,10 @@
     "9300182": { "level": 62, "hp": 10500 }
   },
   "items": {
+    "1122059": {
+      "stats": { "incSTR": 5, "incDEX": 5, "incINT": 5, "incLUK": 5, "incPAD": 4, "incMAD": 8, "incEVA": 15, "incSpeed": 5, "incJump": 5, "incMHP": 150, "incMMP": 150 },
+      "source_note": "2026-01-23 official MapleLand patch: https://maple.land/board/notices/y71qps22nn1ze094s3rpctfh"
+    },
     "1002517": { "level_req": 0 },
     "1032031": { "level_req": 100 },
     "1041091": { "job_req": "전사" },

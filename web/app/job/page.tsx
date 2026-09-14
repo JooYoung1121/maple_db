@@ -515,6 +515,7 @@ export default function JobAdvancementPage() {
   return (
     <div className="max-w-4xl mx-auto">
       <h1 className="font-pixel text-2xl font-bold mb-2 text-ink">전직 가이드</h1>
+      <Link href="/skill-quests" className="mb-3 inline-block text-sm text-maple hover:underline">전직 후 스킬 배우기 · 직업별 획득 퀘스트 →</Link>
       <p className="text-dim mb-6">
         직업별 전직 경로, 요구 조건, 추천 스킬을 확인하세요
       </p>

@@ -47,6 +47,7 @@ def map_filters():
         town_count = conn.execute(f"SELECT COUNT(*) FROM maps WHERE {' AND '.join(town_conditions)}").fetchone()[0]
         return {
             "areas": [r["area"] for r in areas],
+            "regions": sorted({name.split(":", 1)[0].strip() for name in mapleland_name_kr_map("maps").values() if ":" in name}),
             "street_names": [r["street_name"] for r in streets],
             "town_count": town_count,
         }
@@ -59,6 +60,7 @@ def list_maps(
     page: int = Query(default=1, ge=1),
     per_page: int = Query(default=20, ge=1, le=100),
     area: Optional[str] = Query(default=None),
+    region: Optional[str] = Query(default=None),
     street_name: Optional[str] = Query(default=None),
     is_town: Optional[bool] = Query(default=None),
     q: Optional[str] = Query(default=None),
@@ -73,6 +75,10 @@ def list_maps(
         if mapleland_filter:
             conditions.append(mapleland_filter)
 
+    if region:
+        region_ids = [map_id for map_id, name in mapleland_name_kr_map("maps").items()
+                      if ":" in name and name.split(":", 1)[0].strip() == region]
+        conditions.append("id IN (" + ",".join(str(map_id) for map_id in region_ids) + ")" if region_ids else "0=1")
     if area:
         conditions.append("area LIKE ?")
         params.append(f"%{area}%")
@@ -83,18 +89,18 @@ def list_maps(
         conditions.append("is_town = ?")
         params.append(1 if is_town else 0)
     if q:
-        conditions.append(
-            "(name LIKE ? OR id IN (SELECT entity_id FROM entity_names_en WHERE entity_type='map' AND name_en LIKE ?))"
-        )
-        params.append(f"%{q}%")
-        params.append(f"%{q}%")
+        for token in q.split():
+            conditions.append(
+                "(REPLACE(name, ' ', '') LIKE ? OR id IN (SELECT entity_id FROM entity_names_en WHERE entity_type='map' AND REPLACE(name_en, ' ', '') LIKE ?))"
+            )
+            params.extend([f"%{token}%", f"%{token}%"])
 
     where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
 
     try:
         conn = get_connection()
     except Exception:
-        return {"maps": [], "total": 0, "page": page, "per_page": per_page}
+        raise HTTPException(status_code=503, detail="Database unavailable")
 
     try:
         total = conn.execute(f"SELECT COUNT(*) FROM maps {where}", params).fetchone()[0]
@@ -113,15 +119,15 @@ def list_maps(
             original_name_kr = kr["name_en"] if kr else None
             live_name_kr = live_names.get(m["id"])
             m["name_kr"] = _map_display_name(live_name_kr) if live_name_kr else original_name_kr
+            m["region_kr"] = live_name_kr.split(":", 1)[0].strip() if live_name_kr and ":" in live_name_kr else None
             m["original_name_kr"] = original_name_kr
             m["original_data_conflict"] = bool(
                 live_name_kr and original_name_kr
                 and _map_short_name(live_name_kr) != _map_short_name(original_name_kr)
             )
             results.append(m)
-    except Exception:
-        results = []
-        total = 0
+    except Exception as exc:
+        raise HTTPException(status_code=503, detail="Search unavailable") from exc
     finally:
         conn.close()
 

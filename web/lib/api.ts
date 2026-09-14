@@ -1,5 +1,9 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
+export async function getSkillAcquisitionGuides() {
+  return fetchJSON<import("./types").SkillAcquisitionCatalog>("/api/skills/acquisition");
+}
+
 async function fetchJSON<T>(path: string, headers?: Record<string, string>): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, headers ? { headers } : undefined);
   if (!res.ok) throw new Error(`API error: ${res.status}`);
@@ -26,7 +30,7 @@ export async function searchSuggest(q: string, limit = 10, type?: string) {
   );
 }
 
-export async function getItems(params: { page?: number; per_page?: number; category?: string; subcategory?: string; level_min?: number; level_max?: number; job?: string; q?: string; sort?: string } = {}) {
+export async function getItems(params: { page?: number; per_page?: number; equipment_only?: number; include_common?: number; category?: string; subcategory?: string; level_min?: number; level_max?: number; job?: string; q?: string; sort?: string } = {}) {
   return fetchJSON<{ items: import("./types").Item[]; total: number; page: number; per_page: number }>(
     `/api/items?${qs(params as Record<string, string | number>)}`
   );
@@ -62,7 +66,7 @@ export async function getMob(id: number) {
   );
 }
 
-export async function getMaps(params: { page?: number; per_page?: number; area?: string; q?: string } = {}) {
+export async function getMaps(params: { page?: number; per_page?: number; area?: string; region?: string; is_town?: number; q?: string } = {}) {
   return fetchJSON<{ maps: import("./types").MapData[]; total: number; page: number; per_page: number }>(
     `/api/maps?${qs(params as Record<string, string | number>)}`
   );
@@ -163,11 +167,11 @@ export async function getQuestRoadmap() {
 }
 
 export async function getMapFilters() {
-  return fetchJSON<{ areas: string[]; street_names: string[]; town_count: number }>(`/api/maps/filters`);
+  return fetchJSON<{ areas: string[]; regions: string[]; street_names: string[]; town_count: number }>(`/api/maps/filters`);
 }
 
 export async function getItemFilters() {
-  return fetchJSON<{ categories: string[]; subcategories: string[]; jobs: string[] }>(`/api/items/filters`);
+  return fetchJSON<{ categories: string[]; subcategories: string[]; jobs: string[]; subcategories_by_category: Record<string, string[]> }>(`/api/items/filters`);
 }
 
 export function getExportUrl(type: string) {

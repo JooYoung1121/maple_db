@@ -954,6 +954,26 @@ def apply_mapleland_reference_names(conn: sqlite3.Connection, reference_path: Pa
                 (entity_type, entity_id, name),
             )
             changed += max(cursor.rowcount, 0)
+    # Verified additions absent from the upstream public catalog, plus search aliases.
+    if reference_path is None:
+        from crawler.catalog_data import equipment_notes
+        for item_id, note in equipment_notes().items():
+            if not conn.execute("SELECT 1 FROM items WHERE id=?", (int(item_id),)).fetchone():
+                continue
+            names = [("mapleland-current", note["name_kr"])] + [
+                (f"catalog-alias-{i}", name) for i, name in enumerate(note.get("aliases", []))
+            ]
+            for source, name in names:
+                cursor = conn.execute(
+                    """INSERT INTO entity_names_en (entity_type,entity_id,name_en,source,source_url)
+                       VALUES ('item',?,?,?,?)
+                       ON CONFLICT(entity_type,entity_id,source) DO UPDATE SET
+                         name_en=excluded.name_en, source_url=excluded.source_url
+                       WHERE entity_names_en.name_en != excluded.name_en
+                          OR entity_names_en.source_url != excluded.source_url""",
+                    (int(item_id), name, source, note["sources"][0]["url"]),
+                )
+                changed += max(cursor.rowcount, 0)
     conn.commit()
     return changed
 

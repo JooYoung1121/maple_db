@@ -18,6 +18,8 @@ COPY api/ api/
 
 # 데이터 디렉토리
 RUN mkdir -p data/cache
+COPY data/equipment_notes.json data/equipment_notes.json
+COPY data/skill_acquisition_guides.json data/skill_acquisition_guides.json
 
 # DB 초기화
 RUN python -c "from crawler.db import init_db; init_db()"

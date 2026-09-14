@@ -33,7 +33,7 @@ export const SITE_SECTIONS: SiteSection[] = [
     label: "정보",
     icon: "📚",
     items: [
-      { href: "/items", label: "아이템", icon: "🗡️", description: "무기, 방어구, 소비" },
+      { href: "/items", label: "아이템", icon: "🗡️", description: "직업·레벨별 장비, 옵션·드롭처", keywords: ["장비", "방어구", "무기", "직업별", "레벨별"] },
       { href: "/mobs", label: "몬스터", icon: "👾", description: "일반 몬스터, 보스" },
       { href: "/bosses", label: "보스", icon: "💀", description: "보스 공략 정보" },
       { href: "/maps", label: "맵", icon: "🗺️", description: "사냥터, 마을, 던전" },
@@ -78,6 +78,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/leveling", label: "직업별 사냥터", icon: "🗺️", description: "직업·레벨 구간별 육성 루트", keywords: ["육성", "레벨링"] },
       { href: "/events", label: "이벤트 정리", icon: "🗂️", description: "진행 중 이벤트 요약 · 아카이브" },
       { href: "/job", label: "전직 가이드", icon: "📋", description: "직업별 전직 경로" },
+      { href: "/skill-quests", label: "스킬 획득 퀘스트", icon: "📚", description: "직업별 스킬 해금 · 선행 퀘스트 · 준비물 · 진행 순서", keywords: ["제네시스", "리저렉션", "스킬퀘", "직업퀘", "스킬북", "용사의 의지", "기분안기모띠"] },
       { href: "/battle-mage", label: "배틀메이지 가이드", homeLabel: "배틀메이지", icon: "⚙️", description: "스킬 · 마북 드롭 · 에델슈타인 퀘스트 · 육성", keywords: ["배메", "레지스탕스", "마북", "에델슈타인"] },
       { href: "/medals", label: "훈장 가이드", icon: "🎖️", description: "탐험가 · 기부왕 · 무릉 한정 훈장" },
       { href: "/ship", label: "배 시간표", icon: "🚢", description: "정기선 운항 시간", keywords: ["페리"] },

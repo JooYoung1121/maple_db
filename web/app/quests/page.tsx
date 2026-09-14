@@ -4,6 +4,7 @@ import QuestDataWarning from "@/components/QuestDataWarning";
 
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { getQuests, searchSuggest } from "@/lib/api";
 import type { Quest, SearchSuggestion } from "@/lib/types";
 import Pagination from "@/components/Pagination";
@@ -804,6 +805,7 @@ function QuestsTableView({
               퀘스트 데이터베이스
             </h1>
             <p className="text-sm text-dim mt-1">메이플랜드 전체 퀘스트를 인터랙티브 테이블로 탐색하세요</p>
+            <Link href="/skill-quests" className="mt-3 inline-block text-sm text-maple hover:underline">직업별 스킬 획득 퀘스트 · 선행·준비물·공략 →</Link>
           </div>
           {/* 미니 통계 */}
           <div className="flex gap-4 text-center">
@@ -1259,6 +1261,8 @@ function QuestsPageContent() {
   const [activeTab, setActiveTab] = useState<"list" | "table">("list");
   const { filterValues, page, sortValue, setFilterValues, setPage, setSortValue } = useQueryState();
   const [quests, setQuests] = useState<Quest[]>([]);
+  const [error, setError] = useState(false);
+  const [retry, setRetry] = useState(0);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [hideCompleted, setHideCompleted] = useState(false);
@@ -1284,15 +1288,16 @@ function QuestsPageContent() {
 
   // Load quests - 두 뷰가 같은 API 결과를 공유
   useEffect(() => {
-    setLoading(true);
+    let cancelled = false;
+    setLoading(true); setError(false);
     getQuests({ page, per_page: perPage, sort: sortValue || undefined, ...filterValues })
       .then((d) => {
-        setQuests(d.quests);
-        setTotal(d.total);
+        if (!cancelled) { setQuests(d.quests); setTotal(d.total); }
       })
-      .catch(() => setQuests([]))
-      .finally(() => setLoading(false));
-  }, [page, filterValues, sortValue]);
+      .catch(() => { if (!cancelled) { setQuests([]); setTotal(0); setError(true); } })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [page, filterValues, sortValue, retry]);
 
   const updateFilter = (key: string, value: string) => {
     setFilterValues({ ...filterValues, [key]: value });
@@ -1334,6 +1339,7 @@ function QuestsPageContent() {
         </button>
       </div>
 
+      {error && <div role="alert" className="pixel-panel p-4 text-center"><p>퀘스트를 불러오지 못했습니다.</p><button onClick={() => setRetry((v) => v + 1)} className="mt-2 text-maple">다시 시도</button></div>}
       {/* 뷰 렌더링 */}
       {activeTab === "list" ? (
         <QuestsListView
