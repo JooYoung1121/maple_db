@@ -1038,7 +1038,18 @@ def ensure_search_index(conn: sqlite3.Connection) -> bool:
         ).fetchone()[0] > 0
         for entity_type, table in SEARCH_INDEX_TABLES.items()
     )
-    if counts_mismatch or id_mismatch:
+    # Deployment adds seed aliases before init_db, so row/ID counts can stay
+    # unchanged while the volume's existing index still lacks the new names.
+    catalog_alias_mismatch = conn.execute(
+        """SELECT 1 FROM entity_names_en e
+           WHERE e.source LIKE 'catalog-alias-%'
+             AND NOT EXISTS (
+                 SELECT 1 FROM search_index s
+                 WHERE s.entity_type=e.entity_type AND s.entity_id=e.entity_id
+                   AND INSTR(COALESCE(s.content,''),e.name_en)>0
+             ) LIMIT 1"""
+    ).fetchone() is not None
+    if counts_mismatch or id_mismatch or catalog_alias_mismatch:
         rebuild_search_index(conn)
         return True
     return False

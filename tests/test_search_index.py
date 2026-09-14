@@ -143,6 +143,18 @@ class SearchIndexTests(unittest.TestCase):
                 self.assertEqual(result['results'][0]['variant_count'], 1)
                 self.assertEqual(len(search_suggest(q=query, type='quest', limit=10)['suggestions']), 1)
 
+    def test_deployment_alias_sync_refreshes_same_count_index(self):
+        conn = self.connection()
+        self.assertFalse(ensure_search_index(conn))
+        # start.sh copies new aliases before init_db applies reference names.
+        conn.execute("INSERT INTO entity_names_en VALUES ('quest',1,'새 배포 별칭','catalog-alias-0')")
+        conn.commit()
+        self.assertTrue(ensure_search_index(conn))
+        content = conn.execute("SELECT content FROM search_index WHERE entity_type='quest' AND entity_id=1").fetchone()[0]
+        self.assertIn('새 배포 별칭', content)
+        self.assertFalse(ensure_search_index(conn))
+        conn.close()
+
     def test_substring_results_keep_total_and_paginate(self):
         conn = self.connection()
         for i in range(10, 13):
