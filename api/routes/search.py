@@ -83,6 +83,37 @@ def _base_filters(type_filter: Optional[str]) -> tuple[str, list]:
     return where, params
 
 
+def _fallback_matches(conn, query: str, type_filter: Optional[str], limit: int, offset: int = 0):
+    """Substring searches keep canonical names, variant grouping, and pagination."""
+    like_where, like_params = _like_fallback_where("s.name || ' ' || COALESCE(s.content, '')", query)
+    where, type_params = _base_filters(type_filter)
+    where = where.replace("search_index MATCH ?", f"({like_where})")
+    cte = f"""WITH candidates AS (
+        SELECT s.entity_type,s.entity_id,s.name,s.content,
+            (SELECT e.name_en FROM entity_names_en e
+             WHERE e.entity_type=s.entity_type AND e.entity_id=s.entity_id
+               AND e.source IN ('mapleland-current','kms')
+             ORDER BY CASE e.source WHEN 'mapleland-current' THEN 0 ELSE 1 END LIMIT 1) AS name_kr
+        FROM search_index s WHERE {where}
+    ), grouped AS (
+        SELECT *, COUNT(*) OVER (PARTITION BY entity_type,COALESCE(name_kr,name)) AS variant_count,
+            ROW_NUMBER() OVER (PARTITION BY entity_type,COALESCE(name_kr,name) ORDER BY entity_id) AS variant_rank
+        FROM candidates
+    )"""
+    params = like_params + type_params
+    total = conn.execute(cte + " SELECT COUNT(*) FROM grouped WHERE variant_rank=1", params).fetchone()[0]
+    rows = conn.execute(cte + """ SELECT entity_type,entity_id,name,name_kr,variant_count,
+        SUBSTR(content,1,180) AS snippet,
+        CASE entity_type
+          WHEN 'item' THEN (SELECT icon_url FROM items WHERE id=entity_id)
+          WHEN 'mob' THEN (SELECT icon_url FROM mobs WHERE id=entity_id)
+          WHEN 'npc' THEN (SELECT icon_url FROM npcs WHERE id=entity_id)
+        END AS icon_url
+        FROM grouped WHERE variant_rank=1 ORDER BY entity_type,entity_id LIMIT ? OFFSET ?""",
+        params + [limit, offset]).fetchall()
+    return [dict(row) for row in rows], total
+
+
 @router.get("/search/suggest")
 def search_suggest(
     q: str = Query(default=""),
@@ -142,7 +173,13 @@ def search_suggest(
                 LEFT JOIN entity_names_en en
                   ON en.entity_type = s.entity_type
                  AND en.entity_id = s.entity_id
-                 AND en.source = 'kms'
+                 AND en.source = (
+                    SELECT preferred.source FROM entity_names_en preferred
+                    WHERE preferred.entity_type=s.entity_type AND preferred.entity_id=s.entity_id
+                      AND preferred.source IN ('mapleland-current','kms')
+                    ORDER BY CASE preferred.source WHEN 'mapleland-current' THEN 0 ELSE 1 END
+                    LIMIT 1
+                 )
                 WHERE {base_where}
             )
             SELECT
@@ -176,50 +213,7 @@ def search_suggest(
 
         # FTS가 전혀 못 찾은 중간 문자열 검색만 LIKE로 보완한다.
         if not suggestions:
-            en_filter = search_entity_filter_sql("e.entity_type", "e.entity_id")
-            en_extra_filter = f"AND {en_filter}" if en_filter else ""
-            en_type_filter = ""
-            like_where, en_params = _like_fallback_where("e.name_en", query)
-            if type and type in VALID_TYPES:
-                en_type_filter = "AND e.entity_type = ?"
-                en_params.append(type)
-            en_rows = conn.execute(
-                """WITH grouped AS (
-                    SELECT
-                        e.entity_type,
-                        MIN(e.entity_id) AS entity_id,
-                        e.name_en,
-                        COUNT(*) AS variant_count
-                    FROM entity_names_en e
-                    WHERE e.entity_type IN ('item','mob','map','npc','quest','skill')
-                      AND """ + like_where + """
-                    """ + en_type_filter + """
-                    """ + en_extra_filter + """
-                    GROUP BY e.entity_type, e.name_en
-                    LIMIT ?
-                )
-                SELECT g.entity_type, g.entity_id, g.name_en, g.variant_count,
-                    CASE g.entity_type
-                        WHEN 'item' THEN (SELECT name FROM items WHERE id = g.entity_id)
-                        WHEN 'mob'  THEN (SELECT name FROM mobs WHERE id = g.entity_id)
-                        WHEN 'map'  THEN (SELECT name FROM maps WHERE id = g.entity_id)
-                        WHEN 'npc'  THEN (SELECT name FROM npcs WHERE id = g.entity_id)
-                        WHEN 'quest' THEN (SELECT name FROM quests WHERE id = g.entity_id)
-                        WHEN 'skill' THEN (SELECT skill_name FROM skills WHERE id = g.entity_id)
-                    END AS name
-                FROM grouped g""",
-                en_params + [limit],
-            ).fetchall()
-
-            for row in en_rows:
-                suggestions.append({
-                    "entity_type": row["entity_type"],
-                    "entity_id": row["entity_id"],
-                    "name": row["name"] or row["name_en"],
-                    "name_kr": row["name_en"],
-                    "icon_url": None,
-                    "variant_count": row["variant_count"],
-                })
+            suggestions, _ = _fallback_matches(conn, query, type, limit)
 
         # 타입 필터가 없으면 정보공유 게시판 글도 함께 제안 (상위 3건)
         if type is None:
@@ -294,7 +288,13 @@ def search(
                 LEFT JOIN entity_names_en en
                   ON en.entity_type = s.entity_type
                  AND en.entity_id = s.entity_id
-                 AND en.source = 'kms'
+                 AND en.source = (
+                    SELECT preferred.source FROM entity_names_en preferred
+                    WHERE preferred.entity_type=s.entity_type AND preferred.entity_id=s.entity_id
+                      AND preferred.source IN ('mapleland-current','kms')
+                    ORDER BY CASE preferred.source WHEN 'mapleland-current' THEN 0 ELSE 1 END
+                    LIMIT 1
+                 )
                 WHERE {base_where}
                 GROUP BY s.entity_type, COALESCE(en.name_en, s.name)
             )
@@ -326,7 +326,13 @@ def search(
                 LEFT JOIN entity_names_en en
                   ON en.entity_type = s.entity_type
                  AND en.entity_id = s.entity_id
-                 AND en.source = 'kms'
+                 AND en.source = (
+                    SELECT preferred.source FROM entity_names_en preferred
+                    WHERE preferred.entity_type=s.entity_type AND preferred.entity_id=s.entity_id
+                      AND preferred.source IN ('mapleland-current','kms')
+                    ORDER BY CASE preferred.source WHEN 'mapleland-current' THEN 0 ELSE 1 END
+                    LIMIT 1
+                 )
                 WHERE {base_where}
             )
             SELECT entity_type, entity_id, name, name_kr, snippet, variant_count
@@ -352,54 +358,9 @@ def search(
             for row in rows
         ]
 
-        # 첫 페이지에서 FTS가 전혀 못 찾았을 때만 중간 문자열 LIKE 보완
-        if total == 0 and page == 1:
-            en_where, en_params = _like_fallback_where("name_en", query)
-            en_where = f"({en_where})"
-            if type and type in VALID_TYPES:
-                en_where += " AND entity_type = ?"
-                en_params.append(type)
-
-            en_filter = search_entity_filter_sql("e.entity_type", "e.entity_id")
-            if en_filter:
-                en_where += f" AND {en_filter}"
-
-            en_rows = conn.execute(
-                f"""WITH grouped AS (
-                    SELECT
-                        e.entity_type,
-                        MIN(e.entity_id) AS entity_id,
-                        e.name_en,
-                        COUNT(*) AS variant_count
-                    FROM entity_names_en e
-                    WHERE e.entity_type IN ('item','mob','map','npc','quest','skill')
-                      AND {en_where}
-                    GROUP BY e.entity_type, e.name_en
-                    LIMIT ?
-                )
-                SELECT g.entity_type, g.entity_id, g.name_en, g.variant_count,
-                    CASE g.entity_type
-                        WHEN 'item' THEN (SELECT name FROM items WHERE id = g.entity_id)
-                        WHEN 'mob'  THEN (SELECT name FROM mobs WHERE id = g.entity_id)
-                        WHEN 'map'  THEN (SELECT name FROM maps WHERE id = g.entity_id)
-                        WHEN 'npc'  THEN (SELECT name FROM npcs WHERE id = g.entity_id)
-                        WHEN 'quest' THEN (SELECT name FROM quests WHERE id = g.entity_id)
-                        WHEN 'skill' THEN (SELECT skill_name FROM skills WHERE id = g.entity_id)
-                    END AS name
-                FROM grouped g""",
-                en_params + [per_page],
-            ).fetchall()
-
-            for row in en_rows:
-                results.append({
-                    "entity_type": row["entity_type"],
-                    "entity_id": row["entity_id"],
-                    "name": row["name"] or row["name_en"],
-                    "name_kr": row["name_en"],
-                    "snippet": row["name_en"],
-                    "variant_count": row["variant_count"],
-                })
-            total = len(results)
+        # Substring results paginate just like FTS results.
+        if total == 0:
+            results, total = _fallback_matches(conn, query, type, per_page, offset)
 
         # 타입 필터가 없으면 첫 페이지에 정보공유 게시판 글도 포함 (글 수가 적어 페이지네이션 생략)
         if type is None and page == 1:

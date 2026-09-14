@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { Suspense, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useQueryState } from "@/lib/useQueryState";
+import { FilterChoices } from "@/components/FilterPanel";
+import Pagination from "@/components/Pagination";
 import SearchBar from "@/components/SearchBar";
 import HomeTodayBrief from "@/components/HomeTodayBrief";
 import { searchAll } from "@/lib/api";
@@ -21,30 +23,27 @@ function renderSnippet(snippet: string) {
 }
 
 function HomeContent() {
-  const searchParams = useSearchParams();
-  const query = searchParams.get("q") || "";
+  const { filterValues, page, setFilterValues, setPage } = useQueryState();
+  const query = filterValues.q || "";
+  const type = filterValues.type || "";
+  const perPage = 30;
   const [results, setResults] = useState<SearchResult[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [retry, setRetry] = useState(0);
 
   useEffect(() => {
-    if (!query) {
-      setResults([]);
-      setTotal(0);
-      return;
-    }
+    let cancelled = false;
+    setError(false);
+    if (!query) { setResults([]); setTotal(0); setLoading(false); return; }
     setLoading(true);
-    searchAll(query, undefined, 1, 50)
-      .then((data) => {
-        setResults(data.results);
-        setTotal(data.total);
-      })
-      .catch(() => {
-        setResults([]);
-        setTotal(0);
-      })
-      .finally(() => setLoading(false));
-  }, [query]);
+    searchAll(query, type || undefined, page, perPage)
+      .then((data) => { if (!cancelled) { setResults(data.results); setTotal(data.total); } })
+      .catch(() => { if (!cancelled) { setResults([]); setTotal(0); setError(true); } })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [query, type, page, retry]);
 
   return (
     <div>
@@ -94,6 +93,7 @@ function HomeContent() {
           <h2 className="font-pixel text-base mb-4 text-ink">
             <span className="text-maple">&ldquo;{query}&rdquo;</span> 검색 결과 ({total}건)
           </h2>
+          <div className="mb-5"><FilterChoices label="검색 대상" value={type} options={Object.entries(SEARCH_TYPE_META).map(([value, meta]) => ({ value, label: meta.label }))} onChange={(value) => setFilterValues({ q: query, type: value })} /></div>
           {(() => {
             const featureMatches = searchFeatures(query, 8);
             if (featureMatches.length === 0) return null;
@@ -116,6 +116,8 @@ function HomeContent() {
           })()}
           {loading ? (
             <div className="text-center py-12 text-dim font-pixel text-sm">검색 중...</div>
+          ) : error ? (
+            <div role="alert" className="py-8 text-center"><p>검색 결과를 불러오지 못했습니다.</p><button onClick={() => setRetry((v) => v + 1)} className="mt-3 text-maple">다시 시도</button></div>
           ) : results.length === 0 ? (
             searchFeatures(query, 1).length === 0 ? (
               <div className="text-center py-12 text-dim font-pixel text-sm">결과가 없습니다</div>
@@ -144,6 +146,7 @@ function HomeContent() {
               })}
             </div>
           )}
+          {!loading && !error && <Pagination page={page} totalPages={Math.ceil(total / perPage)} onChange={setPage} />}
         </section>
       ) : (
         <>

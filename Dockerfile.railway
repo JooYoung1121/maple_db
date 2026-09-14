@@ -40,6 +40,8 @@ COPY data/maple.db data/maple.db
 COPY data/v62_ids.json data/v62_ids.json
 COPY data/mapleland_reference.json data/mapleland_reference.json
 COPY data/mapleland_overrides.json data/mapleland_overrides.json
+COPY data/equipment_notes.json data/equipment_notes.json
+COPY data/skill_acquisition_guides.json data/skill_acquisition_guides.json
 COPY data/mapleland_items.json data/mapleland_items.json
 COPY data/mapleland_mobs.json data/mapleland_mobs.json
 COPY data/mapleland_maps.json data/mapleland_maps.json

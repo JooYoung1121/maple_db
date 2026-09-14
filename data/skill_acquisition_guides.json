@@ -1,0 +1,1759 @@
+{
+  "reviewed_at": "2026-09-14",
+  "scope": "모험가 4차 스킬 획득·상한 확장, 시그너스 Lv.100 공통 조건, 배틀메이지 용사의 의지",
+  "notice": "기분안기모띠의 빅뱅 이전 공략과 퀘스트 DB를 대조한 가이드입니다. 메이플랜드 공식 변경점은 별도로 표시하며, 현행 서버에서 모든 절차를 재현 검증한 것은 아닙니다.",
+  "job_groups": {
+    "전사": [
+      "히어로",
+      "팔라딘",
+      "다크나이트"
+    ],
+    "마법사": [
+      "불독",
+      "썬콜",
+      "비숍"
+    ],
+    "궁수": [
+      "보우마스터",
+      "신궁"
+    ],
+    "도적": [
+      "나이트로드",
+      "섀도어"
+    ],
+    "해적": [
+      "바이퍼",
+      "캡틴"
+    ],
+    "시그너스": [
+      "소울마스터",
+      "플레임위자드",
+      "윈드브레이커",
+      "나이트워커",
+      "스트라이커"
+    ],
+    "레지스탕스": [
+      "배틀메이지"
+    ]
+  },
+  "guides": [
+    {
+      "id": "shammos",
+      "title": "샤모스의 과거",
+      "jobs": [
+        "불독",
+        "썬콜",
+        "비숍"
+      ],
+      "method": "공통 선행",
+      "level": 120,
+      "start": "엘나스 · 로베이라",
+      "requirements": "",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "로베이라의 의뢰를 받고 헬리오스탑 도서관의 사서 위즈에게 책을 구합니다.",
+        "하인즈와 샤모스를 오가며 대화를 진행합니다.",
+        "로베이라와 샤모스의 연속 퀘스트를 끝내면 직업별 광역기 퀘스트로 이어집니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6160,
+        6161,
+        6162,
+        6163,
+        6164,
+        6165,
+        6166
+      ],
+      "skill_names": [],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/52"
+        }
+      ]
+    },
+    {
+      "id": "genesis",
+      "title": "제네시스",
+      "jobs": [
+        "비숍"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "엘나스 · 샤모스",
+      "requirements": "생명의 뿌리 1개 · 변신의 비약",
+      "party": "혼테일 파티퀘스트 동행 필요",
+      "prerequisites": [
+        "shammos"
+      ],
+      "steps": [
+        "샤모스의 과거를 완료하고 제네시스 퀘스트를 받습니다.",
+        "변신의 비약을 준비해 혼테일 파티퀘스트 구간에 입장합니다.",
+        "퀘스트 진행 중 생명의 뿌리 1개를 획득해 샤모스에게 전달합니다."
+      ],
+      "notes": [
+        "혼테일 본체 격파가 목적이 아닙니다. 생명의 뿌리는 스킬 퀘스트를 받은 상태에서 준비하세요.",
+        "2026-06-19부터 변신의 비약 재료 중 마뇽의 울음소리 1개가 용의 기운 10개로 바뀌었습니다. 다른 재료도 함께 준비해야 합니다."
+      ],
+      "quest_ids": [
+        6169
+      ],
+      "skill_names": [
+        "제네시스"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/72"
+        },
+        {
+          "label": "메이플랜드 공식 · 변신의 비약 재료 변경",
+          "url": "https://maple.land/board/notices/k2u06u7rr9x8vdzw7x1vse84"
+        }
+      ]
+    },
+    {
+      "id": "resurrection",
+      "title": "리저렉션",
+      "jobs": [
+        "비숍"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "리프레 사제의 숲 · 그리토",
+      "requirements": "검은 책 1개 · 죽은 자의 부적 5개 · 파이어봄의 불씨 50개 · 팬텀워치의 얼음조각 100개",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "쿨리 좀비에게 검은 책을 얻어 그리토에게 가져갑니다.",
+        "카르타에게 부적·불씨·얼음조각을 전달합니다.",
+        "위험한 바다협곡2의 차가운 동굴에서 솥에 차가운 불씨와 노트를 내려놓아 카론의 노트를 만듭니다.",
+        "카르타를 거쳐 기억하고 있는 자를 만난 뒤 잊혀진 회랑 중앙 문으로 들어갑니다.",
+        "어둠 속 발판 시험을 통과하고 죽음의 공포를 기억하고 있는 자에게 가져갑니다."
+      ],
+      "notes": [
+        "발판 위치는 원문 이미지를 참고하세요. 재료 수량은 퀘스트 DB와 대조했습니다."
+      ],
+      "quest_ids": [
+        6130,
+        6131,
+        6134
+      ],
+      "skill_names": [
+        "리저렉션"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/507"
+        }
+      ]
+    },
+    {
+      "id": "bahamut",
+      "title": "바하뮤트",
+      "jobs": [
+        "비숍"
+      ],
+      "method": "상한 확장",
+      "level": 120,
+      "start": "와이번의 협곡 · 기사 라울",
+      "requirements": "단계별 드래곤 하트 20 / 25 / 30 / 35 / 40개",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "드래곤 하트 20개로 스킬을 얻습니다.",
+        "이후 퀘스트를 순서대로 받아 드래곤 하트를 25·30·35·40개씩 전달합니다.",
+        "마스터레벨이 10 → 15 → 20 → 25 → 30으로 늘어납니다."
+      ],
+      "notes": [
+        "각 단계의 하트는 서로 다른 퀘스트 아이템입니다. 첫 획득과 후속 상한 확장을 함께 정리했습니다."
+      ],
+      "quest_ids": [
+        6120,
+        6121,
+        6122,
+        6123,
+        6124
+      ],
+      "skill_names": [
+        "바하뮤트"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/474"
+        }
+      ]
+    },
+    {
+      "id": "meteor",
+      "title": "메테오",
+      "jobs": [
+        "불독"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "엘나스 · 샤모스",
+      "requirements": "불의 눈 1개",
+      "party": "",
+      "prerequisites": [
+        "shammos"
+      ],
+      "steps": [
+        "공통 선행을 완료하고 메테오 퀘스트를 받습니다.",
+        "불의 눈 1개를 샤모스에게 전달합니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6167
+      ],
+      "skill_names": [
+        "메테오"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/114"
+        }
+      ]
+    },
+    {
+      "id": "blizzard",
+      "title": "블리자드",
+      "jobs": [
+        "썬콜"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "엘나스 · 샤모스",
+      "requirements": "식어버린 늑대의 심장 1개",
+      "party": "",
+      "prerequisites": [
+        "shammos"
+      ],
+      "steps": [
+        "공통 선행을 완료하고 블리자드 퀘스트를 받습니다.",
+        "라이칸스로프에게 식어버린 늑대의 심장을 구해 샤모스에게 전달합니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6168
+      ],
+      "skill_names": [
+        "블리자드"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/73"
+        }
+      ]
+    },
+    {
+      "id": "fire-demon",
+      "title": "파이어 데몬",
+      "jobs": [
+        "불독"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "리프레 · 그리토",
+      "requirements": "불타는 책 · 파이어봄의 불씨 30개 · 다이아몬드 2개 · 별의 돌 1개",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "붉은 켄타우로스에게 불타는 책을 얻어 그리토를 찾아갑니다.",
+        "하인즈 → 로베이라 → 아도비스 → 보겐의 안내를 따릅니다.",
+        "보겐에게 제작 재료를 전달해 용암을 담을 용기를 만듭니다.",
+        "폐광의 용암에서 용기를 채우고 얻은 아이템을 사용합니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6272,
+        6273
+      ],
+      "skill_names": [
+        "파이어 데몬"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/127"
+        }
+      ]
+    },
+    {
+      "id": "ice-demon",
+      "title": "아이스 데몬",
+      "jobs": [
+        "썬콜"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "리프레 · 그리토",
+      "requirements": "얼어붙은 책 · 팬텀워치의 얼음조각 30개 · 오리할콘 2개 · 달의 돌 1개",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "푸른 켄타우로스에게 얼어붙은 책을 얻어 그리토를 찾아갑니다.",
+        "하인즈 → 로베이라 → 제프 → 보겐의 안내를 따릅니다.",
+        "보겐에게 재료를 전달해 망치를 만듭니다.",
+        "얼음골짜기에서 얼음가루를 얻고 퀘스트를 완료합니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6262,
+        6263
+      ],
+      "skill_names": [
+        "아이스 데몬"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/126"
+        }
+      ]
+    },
+    {
+      "id": "elquines",
+      "title": "엘퀴네스",
+      "jobs": [
+        "불독"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "알케스터 · 허클 · 휴즈",
+      "requirements": "냉동포장 샥스핀 30개 · 팬텀워치의 얼음조각 40개 · 얼음 등뼈 30개",
+      "party": "불독·썬콜 4차 전직자 동행 필요",
+      "prerequisites": [
+        "fire-demon"
+      ],
+      "steps": [
+        "선행 데몬 스킬을 얻고 속성의 끝 퀘스트를 시작합니다.",
+        "속성 재료를 모은 뒤 허클과 휴즈에게 영혼의 주머니와 소환물의 뼈대를 준비합니다.",
+        "알케스터와 플로의 안내에 따라 게이트키퍼에게 이계의 열쇠를 구합니다.",
+        "반대 속성 아크메이지와 시험에 입장해 얼음의 영혼석을 구하고 알케스터에게 돌아갑니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6220,
+        6221,
+        6222,
+        6223,
+        6224,
+        6225,
+        6226
+      ],
+      "skill_names": [
+        "엘퀴네스"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/223"
+        }
+      ]
+    },
+    {
+      "id": "ifrit",
+      "title": "이프리트",
+      "jobs": [
+        "썬콜"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "알케스터 · 허클 · 휴즈",
+      "requirements": "파이어봄의 불씨 50개 · 켄타우로스의 불꽃 10개 · 작은 불꽃 깃털 10개",
+      "party": "불독·썬콜 4차 전직자 동행 필요",
+      "prerequisites": [
+        "ice-demon"
+      ],
+      "steps": [
+        "선행 데몬 스킬을 얻고 속성의 끝 퀘스트를 시작합니다.",
+        "속성 재료를 모은 뒤 허클과 휴즈에게 영혼의 주머니와 소환물의 뼈대를 준비합니다.",
+        "알케스터와 플로의 안내에 따라 게이트키퍼에게 이계의 열쇠를 구합니다.",
+        "반대 속성 아크메이지와 시험에 입장해 불의 영혼석을 구하고 알케스터에게 돌아갑니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6310,
+        6311,
+        6312,
+        6313,
+        6314,
+        6315,
+        6316
+      ],
+      "skill_names": [
+        "이프리트"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/128"
+        }
+      ]
+    },
+    {
+      "id": "rush",
+      "title": "돌진",
+      "jobs": [
+        "히어로",
+        "팔라딘",
+        "다크나이트"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "페리온 · 만지",
+      "requirements": "읽을 수 없는 책",
+      "party": "4차 전사 2명 필요",
+      "prerequisites": [],
+      "steps": [
+        "타우로스피어에게 읽을 수 없는 책을 얻고 만지를 찾아갑니다.",
+        "신전의 입구3 중앙의 훈련장에 동료와 입장합니다.",
+        "돌진 타우로스피어 200마리를 처치하고 만지에게 돌아갑니다."
+      ],
+      "notes": [],
+      "quest_ids": [],
+      "skill_names": [
+        "돌진"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/25"
+        }
+      ]
+    },
+    {
+      "id": "stance",
+      "title": "스탠스",
+      "jobs": [
+        "히어로",
+        "팔라딘",
+        "다크나이트"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "리프레 · 하르모니아",
+      "requirements": "크림슨발록의 계획서 · 라이칸스로프의 계획서",
+      "party": "다른 직업의 스킬북 획득과 함께 진행 가능",
+      "prerequisites": [],
+      "steps": [
+        "크림슨발록의 계획서를 얻어 하르모니아에게 전달합니다.",
+        "구름공원4 스피루나를 만난 뒤 라이칸스로프의 계획서를 구합니다.",
+        "하르모니아의 안내를 받고 엘나스에서 타일러스 호위를 완료합니다."
+      ],
+      "notes": [
+        "호위 중 인피니티·드래곤 펄스·쇼다운 스킬북도 확인하세요."
+      ],
+      "quest_ids": [
+        6190,
+        6191,
+        6192
+      ],
+      "skill_names": [
+        "스탠스"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/29"
+        }
+      ]
+    },
+    {
+      "id": "blocking",
+      "title": "블로킹",
+      "jobs": [
+        "히어로",
+        "팔라딘"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "리프레 숲의 갈림길 · 무스",
+      "requirements": "한손무기·방패 착용",
+      "party": "원문의 입장·장비 조건 확인",
+      "prerequisites": [],
+      "steps": [
+        "무스에게 방패 훈련을 신청합니다.",
+        "한손무기와 방패를 준비해 검은 켄타우로스 시험을 통과합니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6180
+      ],
+      "skill_names": [
+        "블로킹"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/15"
+        }
+      ]
+    },
+    {
+      "id": "enrage",
+      "title": "인레이지",
+      "jobs": [
+        "히어로"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "헬리오스탑 도서관 · 사서 위즈",
+      "requirements": "세이람의 목걸이 · 잊혀진 신전의 열쇠 · 세이람의 방패",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "사서 위즈에게 세이람 관련 의뢰를 받고 촌장 타타모를 만납니다.",
+        "그리프에게 세이람의 목걸이를 구한 뒤 의미없는 존재를 찾아갑니다.",
+        "주니어 발록에게 열쇠를 얻어 신전의 입구4의 숨겨진 지역에 진입합니다.",
+        "발록을 처치하고 방패를 일반 공격으로 부숴 세이람의 방패를 회수합니다.",
+        "위즈에게 돌아가 자기 직업의 스킬을 받습니다."
+      ],
+      "notes": [
+        "세이람 퀘스트의 보상은 히어로 인레이지, 다크나이트 버서크, 팔라딘 생츄어리로 구분됩니다."
+      ],
+      "quest_ids": [
+        6151,
+        6152,
+        6153
+      ],
+      "skill_names": [
+        "인레이지"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/3"
+        }
+      ]
+    },
+    {
+      "id": "berserk",
+      "title": "버서크",
+      "jobs": [
+        "다크나이트"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "헬리오스탑 도서관 · 사서 위즈",
+      "requirements": "세이람의 목걸이 · 잊혀진 신전의 열쇠 · 세이람의 방패",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "사서 위즈에게 세이람 관련 의뢰를 받고 촌장 타타모를 만납니다.",
+        "그리프에게 세이람의 목걸이를 구한 뒤 의미없는 존재를 찾아갑니다.",
+        "주니어 발록에게 열쇠를 얻어 신전의 입구4의 숨겨진 지역에 진입합니다.",
+        "발록을 처치하고 방패를 일반 공격으로 부숴 세이람의 방패를 회수합니다.",
+        "위즈에게 돌아가 자기 직업의 스킬을 받습니다."
+      ],
+      "notes": [
+        "세이람 퀘스트의 보상은 히어로 인레이지, 다크나이트 버서크, 팔라딘 생츄어리로 구분됩니다."
+      ],
+      "quest_ids": [
+        6151,
+        6152,
+        6153
+      ],
+      "skill_names": [
+        "버서크"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/13"
+        }
+      ]
+    },
+    {
+      "id": "sanctuary",
+      "title": "생츄어리",
+      "jobs": [
+        "팔라딘"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "헬리오스탑 도서관 · 사서 위즈",
+      "requirements": "세이람의 목걸이 · 잊혀진 신전의 열쇠 · 세이람의 방패",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "사서 위즈에게 세이람 관련 의뢰를 받고 촌장 타타모를 만납니다.",
+        "그리프에게 세이람의 목걸이를 구한 뒤 의미없는 존재를 찾아갑니다.",
+        "주니어 발록에게 열쇠를 얻어 신전의 입구4의 숨겨진 지역에 진입합니다.",
+        "발록을 처치하고 방패를 일반 공격으로 부숴 세이람의 방패를 회수합니다.",
+        "위즈에게 돌아가 자기 직업의 스킬을 받습니다."
+      ],
+      "notes": [
+        "세이람 퀘스트의 보상은 히어로 인레이지, 다크나이트 버서크, 팔라딘 생츄어리로 구분됩니다."
+      ],
+      "quest_ids": [
+        6151,
+        6152,
+        6153
+      ],
+      "skill_names": [
+        "생츄어리"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/14"
+        }
+      ]
+    },
+    {
+      "id": "holy-charge",
+      "title": "홀리 차지 · 디바인 차지",
+      "jobs": [
+        "팔라딘"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "리프레 · 하르모니아",
+      "requirements": "상어 틀니 10개 · 성배 · 변신의 비약",
+      "party": "혼테일 파티퀘스트 동행 필요",
+      "prerequisites": [],
+      "steps": [
+        "성스러운 기사의 검 퀘스트를 받고 탐사대장 탱을 찾아갑니다.",
+        "난파선의 무덤에서 이어지는 의뢰로 상어 틀니 10개를 전달해 성배를 받습니다.",
+        "변신의 비약을 준비하고 혼테일 파티퀘스트에서 성배를 채워 생명의 성수를 얻습니다.",
+        "오르비스탑 8층에서 마지막 절차를 완료합니다."
+      ],
+      "notes": [
+        "원문 제목에 생츄어리라고 적혀 있으나 본문 보상은 홀리 차지·디바인 차지입니다.",
+        "2026-06-19부터 변신의 비약 재료 중 마뇽의 울음소리 1개가 용의 기운 10개로 바뀌었습니다. 다른 재료도 함께 준비해야 합니다."
+      ],
+      "quest_ids": [
+        6280,
+        6281
+      ],
+      "skill_names": [
+        "홀리 차지 : 검",
+        "디바인 차지 : 둔기"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/24"
+        },
+        {
+          "label": "메이플랜드 공식 · 변신의 비약 재료 변경",
+          "url": "https://maple.land/board/notices/k2u06u7rr9x8vdzw7x1vse84"
+        }
+      ]
+    },
+    {
+      "id": "beholder-healing",
+      "title": "비홀더스 힐링",
+      "jobs": [
+        "다크나이트"
+      ],
+      "method": "상한 확장",
+      "level": 120,
+      "start": "리프레 · 하르모니아",
+      "requirements": "속박의 굴레 200개 + 500개",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "Mr. 피에로를 만나 타나토스 관련 의뢰를 완료합니다.",
+        "이후 속박의 굴레를 200개, 다음 단계에서 500개 전달합니다.",
+        "마스터레벨을 5 → 15 → 25로 확장합니다."
+      ],
+      "notes": [
+        "원문의 일부 퀘스트명·몬스터명이 혼재되어 있습니다. 수집품은 DB의 속박의 굴레를 기준으로 연결했습니다."
+      ],
+      "quest_ids": [
+        6290,
+        6291,
+        6292,
+        6293
+      ],
+      "skill_names": [
+        "비홀더스 힐링"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/19"
+        }
+      ]
+    },
+    {
+      "id": "beholder-buff",
+      "title": "비홀더스 버프",
+      "jobs": [
+        "다크나이트"
+      ],
+      "method": "상한 확장",
+      "level": 120,
+      "start": "리프레 · 하르모니아",
+      "requirements": "바이킹의 돛 200개 + 500개",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "플로를 만나 게이트키퍼에게 영혼의 계약서를 구합니다.",
+        "바이킹의 돛을 200개, 다음 단계에서 500개 전달합니다.",
+        "마스터레벨을 5 → 15 → 25로 확장합니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6294,
+        6295,
+        6296,
+        6297
+      ],
+      "skill_names": [
+        "비홀더스 버프"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/17"
+        }
+      ]
+    },
+    {
+      "id": "phoenix",
+      "title": "피닉스",
+      "jobs": [
+        "보우마스터"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "리프레 · 레고르",
+      "requirements": "피닉스의 알",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "시련의 동굴3에서 소환수의 알을 구합니다.",
+        "리프레 하늘 둥지1의 위쪽 숨겨진 장소에서 알을 내려놓습니다.",
+        "소환된 새를 처치하고 퀘스트를 완료합니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6240,
+        6241
+      ],
+      "skill_names": [
+        "피닉스"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/551"
+        }
+      ]
+    },
+    {
+      "id": "frostprey",
+      "title": "프리져",
+      "jobs": [
+        "신궁"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "리프레 · 레고르",
+      "requirements": "프리져의 알",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "위험한 절벽에서 소환수의 알을 구합니다.",
+        "리프레 하늘 둥지1의 위쪽 숨겨진 장소에서 알을 내려놓습니다.",
+        "소환된 새를 처치하고 퀘스트를 완료합니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6242,
+        6243
+      ],
+      "skill_names": [
+        "프리져"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/538"
+        }
+      ]
+    },
+    {
+      "id": "hurricane",
+      "title": "폭풍의 시",
+      "jobs": [
+        "보우마스터"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "리프레 · 레고르",
+      "requirements": "헬레나의 오래된 장갑 1개",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "4차 전직 후 레고르의 헬레나 관련 의뢰를 받습니다.",
+        "켄타우로스에게 헬레나의 오래된 장갑을 구합니다.",
+        "헤네시스의 헬레나에게 전달합니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6250
+      ],
+      "skill_names": [
+        "폭풍의 시"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/339"
+        }
+      ]
+    },
+    {
+      "id": "piercing",
+      "title": "피어싱",
+      "jobs": [
+        "신궁"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "리프레 · 레고르",
+      "requirements": "헬레나의 오래된 장갑 1개",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "4차 전직 후 레고르의 헬레나 관련 의뢰를 받습니다.",
+        "켄타우로스에게 헬레나의 오래된 장갑을 구합니다.",
+        "헤네시스의 헬레나에게 전달합니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6251
+      ],
+      "skill_names": [
+        "피어싱"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/233"
+        }
+      ]
+    },
+    {
+      "id": "concentrate",
+      "title": "집중",
+      "jobs": [
+        "보우마스터"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "헬리오스탑 도서관 · 사서 위즈",
+      "requirements": "오래된 책 · 해독 재료 · 어둠의 영혼석 50개",
+      "party": "4차 궁수 2명 필요",
+      "prerequisites": [],
+      "steps": [
+        "샤크·콜드샤크에게 오래된 책을 구하고 위즈에게 해독을 의뢰합니다.",
+        "먹물병·맑은 물·마법의 돌을 준비한 뒤 헬레나 → 레네 → 샤모스의 안내를 따릅니다.",
+        "기억하고 있는 자를 거쳐 의미없는 존재에게 어둠의 영혼석 50개를 전달합니다.",
+        "궁수 수련장에서 이계의 주니어 발록 300마리를 처치합니다."
+      ],
+      "notes": [
+        "같은 시험이지만 보우마스터는 집중, 신궁은 스나이핑을 얻습니다."
+      ],
+      "quest_ids": [
+        6107,
+        6108
+      ],
+      "skill_names": [
+        "집중"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/384"
+        }
+      ]
+    },
+    {
+      "id": "snipe",
+      "title": "스나이핑",
+      "jobs": [
+        "신궁"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "헬리오스탑 도서관 · 사서 위즈",
+      "requirements": "오래된 책 · 해독 재료 · 어둠의 영혼석 50개",
+      "party": "4차 궁수 2명 필요",
+      "prerequisites": [],
+      "steps": [
+        "샤크·콜드샤크에게 오래된 책을 구하고 위즈에게 해독을 의뢰합니다.",
+        "먹물병·맑은 물·마법의 돌을 준비한 뒤 헬레나 → 레네 → 샤모스의 안내를 따릅니다.",
+        "기억하고 있는 자를 거쳐 의미없는 존재에게 어둠의 영혼석 50개를 전달합니다.",
+        "궁수 수련장에서 이계의 주니어 발록 300마리를 처치합니다."
+      ],
+      "notes": [
+        "같은 시험이지만 보우마스터는 집중, 신궁은 스나이핑을 얻습니다."
+      ],
+      "quest_ids": [
+        6107,
+        6108
+      ],
+      "skill_names": [
+        "스나이핑"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/530"
+        }
+      ]
+    },
+    {
+      "id": "ninja-ambush",
+      "title": "닌자 앰부쉬",
+      "jobs": [
+        "나이트로드",
+        "섀도어"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "커닝시티 · 다크로드",
+      "requirements": "",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "4차 전직 후 다크로드의 훈련을 신청합니다.",
+        "다크로드의 제자 6명을 처치하고 대화를 마칩니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6140,
+        6141
+      ],
+      "skill_names": [
+        "닌자 앰부쉬"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/570"
+        }
+      ]
+    },
+    {
+      "id": "ninja-storm",
+      "title": "닌자 스톰",
+      "jobs": [
+        "나이트로드"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "루디브리엄 · 숨겨진 테라스",
+      "requirements": "정체불명의 편지 · 단풍잎 구슬 · 세 가지 바람",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "정체불명의 편지로 어둠의 추적자 퀘스트를 시작합니다.",
+        "구름테라스5 → 구름발코니를 거쳐 숨겨진 테라스에 들어갑니다.",
+        "오르비스 만남의 언덕 길드사무소 옥상에서 단풍잎 구슬을 구합니다.",
+        "그리프·타나토스·부기에게 세 가지 바람을 모아 헬린에게 가져갑니다."
+      ],
+      "notes": [
+        "원문의 섀도어 표기는 퀘스트 DB의 나이트로드 직업 조건으로 바로잡았습니다. 시작 아이템 드롭처는 원문에 다른 퀘스트명이 섞여 있어 확정하지 않았습니다."
+      ],
+      "quest_ids": [
+        6230,
+        6231
+      ],
+      "skill_names": [
+        "닌자 스톰"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/594"
+        }
+      ]
+    },
+    {
+      "id": "assassinate",
+      "title": "암살",
+      "jobs": [
+        "섀도어"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "유적 발굴지 · 샨",
+      "requirements": "샨의 의뢰품",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "샨에게 묘한 의뢰를 받습니다.",
+        "다크 사이트를 활용해 위험한 골렘 구간을 지나 상자를 조사합니다.",
+        "샨의 의뢰품을 전달하고 엘나스의 아레크와 대화합니다."
+      ],
+      "notes": [
+        "상자·포탈 순서는 원문 이미지를 참고하세요."
+      ],
+      "quest_ids": [
+        6200,
+        6201,
+        6202
+      ],
+      "skill_names": [
+        "암살"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/576"
+        }
+      ]
+    },
+    {
+      "id": "smokescreen",
+      "title": "연막탄",
+      "jobs": [
+        "섀도어"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "아쿠아리움 · 휴즈",
+      "requirements": "검은 구름 제조법 · 환기 팬 · 오래가는 건전지",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "루이넬에게 검은 구름 제조법을 얻고 휴즈를 찾아갑니다.",
+        "휴즈가 요구하는 연막탄 재료를 수집합니다.",
+        "지구방위본부의 케이에게 환기 팬, 포터에게 오래가는 건전지를 준비합니다.",
+        "부품을 휴즈에게 가져가 연막탄 퀘스트를 마칩니다."
+      ],
+      "notes": [
+        "건전지 의뢰에는 파풀라투스의 증표가 필요합니다. 아래 DB 목록은 연결된 하위 퀘스트의 준비물입니다."
+      ],
+      "quest_ids": [
+        6211,
+        6212
+      ],
+      "skill_names": [
+        "연막탄"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/565"
+        }
+      ]
+    },
+    {
+      "id": "super-transform",
+      "title": "슈퍼 트랜스폼",
+      "jobs": [
+        "바이퍼"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "노틸러스 · 카이린",
+      "requirements": "",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "4차 전직 후 카이린에게 수련을 신청합니다.",
+        "카이린의 공격을 견디며 2분 동안 시험을 수행합니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6330
+      ],
+      "skill_names": [
+        "슈퍼 트랜스폼"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/615"
+        }
+      ]
+    },
+    {
+      "id": "demolition",
+      "title": "데몰리션",
+      "jobs": [
+        "바이퍼"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "노틸러스 · 카이린",
+      "requirements": "블루 드래곤터틀 150마리 · 단단한 가죽 50개",
+      "party": "",
+      "prerequisites": [
+        "super-transform"
+      ],
+      "steps": [
+        "슈퍼 트랜스폼을 익힌 뒤 후속 수련을 받습니다.",
+        "블루 드래곤터틀 150마리를 처치하고 단단한 가죽 50개를 전달합니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6350
+      ],
+      "skill_names": [
+        "데몰리션"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/254"
+        }
+      ]
+    },
+    {
+      "id": "snatch",
+      "title": "스내치",
+      "jobs": [
+        "바이퍼"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "노틸러스 · 카이린",
+      "requirements": "레드 드래곤터틀 150마리 · 돌의 심장 50개",
+      "party": "",
+      "prerequisites": [
+        "super-transform"
+      ],
+      "steps": [
+        "슈퍼 트랜스폼을 익힌 뒤 후속 수련을 받습니다.",
+        "레드 드래곤터틀 150마리를 처치하고 돌의 심장 50개를 전달합니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6340
+      ],
+      "skill_names": [
+        "스내치"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/614"
+        }
+      ]
+    },
+    {
+      "id": "time-leap",
+      "title": "타임리프",
+      "jobs": [
+        "바이퍼"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "노틸러스 · 롤로네",
+      "requirements": "파풀라투스의 열쇠",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "시공간 변형에 대한 연구를 진행합니다.",
+        "파풀라투스를 처치해 열쇠를 구합니다.",
+        "시계탑 깊은 곳을 다시 방문해 과거의 파풀라투스를 만납니다.",
+        "롤로네에게 돌아가 의뢰를 완료합니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6360,
+        6361,
+        6362,
+        6363
+      ],
+      "skill_names": [
+        "타임리프"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/595"
+        }
+      ]
+    },
+    {
+      "id": "battleship",
+      "title": "배틀쉽",
+      "jobs": [
+        "캡틴"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "노틸러스 · 카이린",
+      "requirements": "",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "4차 전직 후 카이린에게 수련을 신청합니다.",
+        "2분 동안 카이린의 시험을 견딥니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6370
+      ],
+      "skill_names": [
+        "배틀쉽"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/625"
+        }
+      ]
+    },
+    {
+      "id": "battleship-cannon",
+      "title": "배틀쉽 캐논",
+      "jobs": [
+        "캡틴"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "노틸러스 · 카이린",
+      "requirements": "바이킹 150마리 · 퀘스트 깃발 50개",
+      "party": "",
+      "prerequisites": [
+        "battleship"
+      ],
+      "steps": [
+        "배틀쉽을 배운 뒤 바이킹 관찰을 받습니다.",
+        "바이킹 150마리를 처치하고 깃발 50개를 전달합니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6380
+      ],
+      "skill_names": [
+        "배틀쉽 캐논"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/635"
+        }
+      ]
+    },
+    {
+      "id": "battleship-torpedo",
+      "title": "배틀쉽 토르페도",
+      "jobs": [
+        "캡틴"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "노틸러스 · 카이린",
+      "requirements": "기간틱 바이킹 150마리 · 퀘스트 증표 50개",
+      "party": "",
+      "prerequisites": [
+        "battleship"
+      ],
+      "steps": [
+        "배틀쉽을 배운 뒤 기간틱 바이킹 관찰을 받습니다.",
+        "기간틱 바이킹 150마리를 처치하고 증표 50개를 전달합니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6390
+      ],
+      "skill_names": [
+        "배틀쉽 토르페도"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/91"
+        }
+      ]
+    },
+    {
+      "id": "air-strike",
+      "title": "에어 스트라이크",
+      "jobs": [
+        "캡틴"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "노틸러스 상층 · 조나단",
+      "requirements": "",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "조나단 알현 의뢰를 받고 선실에 입장합니다.",
+        "비밀 문구를 입력하고 바르트 시험에서 진짜 대상을 일반 공격합니다.",
+        "석상 순서 시험을 통과한 뒤 조나단과 대화합니다."
+      ],
+      "notes": [
+        "암호·석상 배열은 원문의 그림을 확인하세요."
+      ],
+      "quest_ids": [
+        6400
+      ],
+      "skill_names": [
+        "에어 스트라이크"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/531"
+        }
+      ]
+    },
+    {
+      "id": "mind-control",
+      "title": "마인드 컨트롤",
+      "jobs": [
+        "캡틴"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "노틸러스 · 카이린",
+      "requirements": "",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "몬스터 해방 작전을 받고 이동 시험을 진행합니다.",
+        "델리를 6분 동안 보호하고 의뢰를 완료합니다."
+      ],
+      "notes": [],
+      "quest_ids": [
+        6410
+      ],
+      "skill_names": [
+        "마인드 컨트롤"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/629"
+        }
+      ]
+    },
+    {
+      "id": "heros-will",
+      "title": "용사의 의지",
+      "jobs": [
+        "히어로",
+        "팔라딘",
+        "다크나이트",
+        "불독",
+        "썬콜",
+        "비숍",
+        "보우마스터",
+        "신궁",
+        "나이트로드",
+        "섀도어",
+        "바이퍼",
+        "캡틴",
+        "배틀메이지"
+      ],
+      "method": "퀘스트",
+      "level": 120,
+      "start": "리프레 · 촌장 타타모",
+      "requirements": "피아누스의 미니어처 · 의지의 조각 40개 · 낡은 팔찌 1개 · 미스릴 10개",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "타타모를 거쳐 카르타의 의뢰를 받습니다.",
+        "피아누스의 미니어처로 차원의 공간에 들어가 의지의 조각 40개를 모읍니다.",
+        "그리프에게 낡은 팔찌를 구하고 미스릴 10개와 함께 미스릴 팔찌를 준비합니다.",
+        "카르타에게 돌아가 굳은 의지를 얻고 사용합니다."
+      ],
+      "notes": [
+        "2026-09-08 공식 패치에서 레지스탕스의 용사의 의지 퀘스트 진행 불가 문제가 수정되었습니다."
+      ],
+      "quest_ids": [
+        6300,
+        6301,
+        6302,
+        6303
+      ],
+      "skill_names": [
+        "용사의 의지"
+      ],
+      "item_ids": [],
+      "evidence": "원작 공략·DB 대조",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 원작 스킬 퀘스트 공략",
+          "url": "https://maplekibun.tistory.com/508"
+        },
+        {
+          "label": "메이플랜드 공식 · 레지스탕스 진행 수정",
+          "url": "https://maple.land/board/notices/fb512pkiipw63su7gi4d73gg"
+        }
+      ]
+    },
+    {
+      "id": "angel-ray",
+      "title": "엔젤 레이",
+      "jobs": [
+        "비숍"
+      ],
+      "method": "스킬북",
+      "level": 120,
+      "start": "자쿰 원정대 · 본체 드롭",
+      "requirements": "",
+      "party": "자쿰 원정대 참여",
+      "prerequisites": [],
+      "steps": [
+        "자쿰 원정대에서 본체를 처치해 자기 직업의 스킬북을 획득합니다.",
+        "4차 전직 후 스킬북을 사용해 스킬을 엽니다."
+      ],
+      "notes": [
+        "스킬을 처음 여는 스킬북과, 배운 스킬의 상한을 높이는 마스터리북은 다릅니다."
+      ],
+      "quest_ids": [],
+      "skill_names": [
+        "엔젤 레이"
+      ],
+      "item_ids": [
+        2280009
+      ],
+      "evidence": "아이템·드롭 DB",
+      "sources": [
+        {
+          "label": "스킬북 · 공개 도감",
+          "url": "https://mapledb.kr/search.php?q=2280009&t=item"
+        }
+      ]
+    },
+    {
+      "id": "triple-throw",
+      "title": "트리플 스로우",
+      "jobs": [
+        "나이트로드"
+      ],
+      "method": "스킬북",
+      "level": 120,
+      "start": "자쿰 원정대 · 본체 드롭",
+      "requirements": "",
+      "party": "자쿰 원정대 참여",
+      "prerequisites": [],
+      "steps": [
+        "자쿰 원정대에서 본체를 처치해 자기 직업의 스킬북을 획득합니다.",
+        "4차 전직 후 스킬북을 사용해 스킬을 엽니다."
+      ],
+      "notes": [
+        "스킬을 처음 여는 스킬북과, 배운 스킬의 상한을 높이는 마스터리북은 다릅니다."
+      ],
+      "quest_ids": [],
+      "skill_names": [
+        "트리플 스로우"
+      ],
+      "item_ids": [
+        2280010
+      ],
+      "evidence": "아이템·드롭 DB",
+      "sources": [
+        {
+          "label": "스킬북 · 공개 도감",
+          "url": "https://mapledb.kr/search.php?q=2280010&t=item"
+        }
+      ]
+    },
+    {
+      "id": "advanced-combo",
+      "title": "어드밴스드 콤보",
+      "jobs": [
+        "히어로"
+      ],
+      "method": "스킬북",
+      "level": 120,
+      "start": "자쿰 원정대 · 본체 드롭",
+      "requirements": "",
+      "party": "자쿰 원정대 참여",
+      "prerequisites": [],
+      "steps": [
+        "자쿰 원정대에서 본체를 처치해 자기 직업의 스킬북을 획득합니다.",
+        "4차 전직 후 스킬북을 사용해 스킬을 엽니다."
+      ],
+      "notes": [
+        "스킬을 처음 여는 스킬북과, 배운 스킬의 상한을 높이는 마스터리북은 다릅니다."
+      ],
+      "quest_ids": [],
+      "skill_names": [
+        "어드밴스드 콤보 어택"
+      ],
+      "item_ids": [
+        2280007
+      ],
+      "evidence": "아이템·드롭 DB",
+      "sources": [
+        {
+          "label": "스킬북 · 공개 도감",
+          "url": "https://mapledb.kr/search.php?q=2280007&t=item"
+        }
+      ]
+    },
+    {
+      "id": "advanced-charge",
+      "title": "어드밴스드 차지",
+      "jobs": [
+        "팔라딘"
+      ],
+      "method": "스킬북",
+      "level": 120,
+      "start": "자쿰 원정대 · 본체 드롭",
+      "requirements": "",
+      "party": "자쿰 원정대 참여",
+      "prerequisites": [],
+      "steps": [
+        "자쿰 원정대에서 본체를 처치해 자기 직업의 스킬북을 획득합니다.",
+        "4차 전직 후 스킬북을 사용해 스킬을 엽니다."
+      ],
+      "notes": [
+        "스킬을 처음 여는 스킬북과, 배운 스킬의 상한을 높이는 마스터리북은 다릅니다."
+      ],
+      "quest_ids": [],
+      "skill_names": [
+        "어드밴스드 차지"
+      ],
+      "item_ids": [
+        2280008
+      ],
+      "evidence": "아이템·드롭 DB",
+      "sources": [
+        {
+          "label": "스킬북 · 공개 도감",
+          "url": "https://mapledb.kr/search.php?q=2280008&t=item"
+        }
+      ]
+    },
+    {
+      "id": "infinity",
+      "title": "인피니티",
+      "jobs": [
+        "불독",
+        "썬콜",
+        "비숍"
+      ],
+      "method": "스킬북",
+      "level": 120,
+      "start": "엘나스 · 타일러스 호위",
+      "requirements": "",
+      "party": "스탠스 퀘스트 진행자와 동행",
+      "prerequisites": [
+        "stance"
+      ],
+      "steps": [
+        "스탠스 퀘스트를 진행하는 4차 전사와 타일러스 호위에 동행합니다.",
+        "호위 중 나타나는 몬스터에게 해당 스킬북을 구합니다.",
+        "자기 직업의 스킬북을 사용해 스킬을 엽니다."
+      ],
+      "notes": [
+        "스킬을 처음 여는 스킬북과, 배운 스킬의 상한을 높이는 마스터리북은 다릅니다."
+      ],
+      "quest_ids": [],
+      "skill_names": [
+        "인피니티"
+      ],
+      "item_ids": [
+        2280004
+      ],
+      "evidence": "아이템·드롭 DB",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 타일러스 호위 스킬북",
+          "url": "https://maplekibun.tistory.com/29"
+        }
+      ]
+    },
+    {
+      "id": "dragon-pulse",
+      "title": "드래곤 펄스",
+      "jobs": [
+        "보우마스터",
+        "신궁"
+      ],
+      "method": "스킬북",
+      "level": 120,
+      "start": "엘나스 · 타일러스 호위",
+      "requirements": "",
+      "party": "스탠스 퀘스트 진행자와 동행",
+      "prerequisites": [
+        "stance"
+      ],
+      "steps": [
+        "스탠스 퀘스트를 진행하는 4차 전사와 타일러스 호위에 동행합니다.",
+        "호위 중 나타나는 몬스터에게 해당 스킬북을 구합니다.",
+        "자기 직업의 스킬북을 사용해 스킬을 엽니다."
+      ],
+      "notes": [
+        "스킬을 처음 여는 스킬북과, 배운 스킬의 상한을 높이는 마스터리북은 다릅니다."
+      ],
+      "quest_ids": [],
+      "skill_names": [
+        "드래곤 펄스"
+      ],
+      "item_ids": [
+        2280005
+      ],
+      "evidence": "아이템·드롭 DB",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 타일러스 호위 스킬북",
+          "url": "https://maplekibun.tistory.com/29"
+        }
+      ]
+    },
+    {
+      "id": "showdown",
+      "title": "쇼다운",
+      "jobs": [
+        "나이트로드",
+        "섀도어"
+      ],
+      "method": "스킬북",
+      "level": 120,
+      "start": "엘나스 · 타일러스 호위",
+      "requirements": "",
+      "party": "스탠스 퀘스트 진행자와 동행",
+      "prerequisites": [
+        "stance"
+      ],
+      "steps": [
+        "스탠스 퀘스트를 진행하는 4차 전사와 타일러스 호위에 동행합니다.",
+        "호위 중 나타나는 몬스터에게 해당 스킬북을 구합니다.",
+        "자기 직업의 스킬북을 사용해 스킬을 엽니다."
+      ],
+      "notes": [
+        "스킬을 처음 여는 스킬북과, 배운 스킬의 상한을 높이는 마스터리북은 다릅니다."
+      ],
+      "quest_ids": [],
+      "skill_names": [
+        "쇼다운"
+      ],
+      "item_ids": [
+        2280006
+      ],
+      "evidence": "아이템·드롭 DB",
+      "sources": [
+        {
+          "label": "기분안기모띠 · 타일러스 호위 스킬북",
+          "url": "https://maplekibun.tistory.com/29"
+        }
+      ]
+    },
+    {
+      "id": "cygnus-training",
+      "title": "100레벨 스킬 퀘스트",
+      "jobs": [
+        "소울마스터",
+        "플레임위자드",
+        "윈드브레이커",
+        "나이트워커",
+        "스트라이커"
+      ],
+      "method": "퀘스트",
+      "level": 100,
+      "start": "에레브 · 직업별 기사단장",
+      "requirements": "시그너스 Lv.100 · 필수 퀘스트 완료",
+      "party": "",
+      "prerequisites": [],
+      "steps": [
+        "시그너스의 필수 퀘스트와 전직 과정을 먼저 완료합니다.",
+        "Lv.100 스킬 퀘스트를 직업별 기사단장의 안내에 따라 진행합니다.",
+        "완료 시 추가 HP·MP 지급도 확인합니다."
+      ],
+      "notes": [
+        "공식 공지로 확인된 공통 조건입니다. 직업별 시험 세부 절차·보상 스킬명과 110레벨 후속 퀘스트는 현행 메이플랜드 검증 전입니다."
+      ],
+      "quest_ids": [],
+      "skill_names": [],
+      "item_ids": [],
+      "evidence": "공식 조건 확인 · 세부 공략 확인 중",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 · 시그너스 추가 및 Lv.100 보상",
+          "url": "https://maple.land/board/notices/k2u06u7rr9x8vdzw7x1vse84"
+        }
+      ]
+    }
+  ]
+}

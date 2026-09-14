@@ -75,18 +75,18 @@ def list_mobs(
         conditions.append("is_boss = ?")
         params.append(1 if is_boss else 0)
     if q:
-        conditions.append(
-            "(name LIKE ? OR id IN (SELECT entity_id FROM entity_names_en WHERE entity_type='mob' AND name_en LIKE ?))"
-        )
-        params.append(f"%{q}%")
-        params.append(f"%{q}%")
+        for token in q.split():
+            conditions.append(
+                "(REPLACE(name, ' ', '') LIKE ? OR id IN (SELECT entity_id FROM entity_names_en WHERE entity_type='mob' AND REPLACE(name_en, ' ', '') LIKE ?))"
+            )
+            params.extend([f"%{token}%", f"%{token}%"])
 
     where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
 
     try:
         conn = get_connection()
     except Exception:
-        return {"mobs": [], "total": 0, "page": page, "per_page": per_page}
+        raise HTTPException(status_code=503, detail="Database unavailable")
 
     try:
         valid_sorts = {
@@ -114,9 +114,8 @@ def list_mobs(
             ).fetchone()
             mob["name_kr"] = kr["name_en"] if kr else None
             results.append(mob)
-    except Exception:
-        results = []
-        total = 0
+    except Exception as exc:
+        raise HTTPException(status_code=503, detail="Search unavailable") from exc
     finally:
         conn.close()
 
@@ -158,11 +157,11 @@ def nhit_mob_presets(
         conditions.append("level <= ?")
         params.append(level_max)
     if q:
-        conditions.append(
-            "(name LIKE ? OR id IN (SELECT entity_id FROM entity_names_en WHERE entity_type='mob' AND name_en LIKE ?))"
-        )
-        params.append(f"%{q}%")
-        params.append(f"%{q}%")
+        for token in q.split():
+            conditions.append(
+                "(REPLACE(name, ' ', '') LIKE ? OR id IN (SELECT entity_id FROM entity_names_en WHERE entity_type='mob' AND REPLACE(name_en, ' ', '') LIKE ?))"
+            )
+            params.extend([f"%{token}%", f"%{token}%"])
 
     where = "WHERE " + " AND ".join(conditions)
 
@@ -226,11 +225,11 @@ def list_bosses(
         conditions.append("level <= ?")
         params.append(level_max)
     if q:
-        conditions.append(
-            "(name LIKE ? OR id IN (SELECT entity_id FROM entity_names_en WHERE entity_type='mob' AND name_en LIKE ?))"
-        )
-        params.append(f"%{q}%")
-        params.append(f"%{q}%")
+        for token in q.split():
+            conditions.append(
+                "(REPLACE(name, ' ', '') LIKE ? OR id IN (SELECT entity_id FROM entity_names_en WHERE entity_type='mob' AND REPLACE(name_en, ' ', '') LIKE ?))"
+            )
+            params.extend([f"%{token}%", f"%{token}%"])
 
     where = "WHERE " + " AND ".join(conditions)
 

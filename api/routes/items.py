@@ -3,9 +3,15 @@ from fastapi import APIRouter, Query, HTTPException
 from typing import Optional
 
 from crawler.db import get_connection
+from crawler.catalog_data import equipment_notes
 from api.routes.mapleland_reference import id_filter_sql, require_mapleland_id
 
 router = APIRouter()
+
+EQUIPMENT_CATEGORIES = ("Armor", "Accessory", "One-Handed Weapon", "Two-Handed Weapon", "Weapon")
+COMMON_JOB_SQL = "COALESCE(job_req, '') IN ('', '공용', 'All', 'Beginner')"
+JOB_NAMES = {"Warrior": "전사", "Magician": "마법사", "Bowman": "궁수", "Thief": "도적", "Pirate": "해적"}
+
 
 
 @router.get("/items/filters")
@@ -16,7 +22,9 @@ def item_filters():
         return {"categories": [], "subcategories": [], "jobs": []}
     try:
         mapleland_filter = id_filter_sql("id", "items")
-        where = f"WHERE {mapleland_filter}" if mapleland_filter else ""
+        where = "WHERE COALESCE(is_hidden, 0) = 0"
+        if mapleland_filter:
+            where += f" AND {mapleland_filter}"
         prefix = f"{where} AND" if where else "WHERE"
         cats = conn.execute(
             f"SELECT DISTINCT category FROM items {prefix} category IS NOT NULL AND category != '' ORDER BY category"
@@ -31,6 +39,12 @@ def item_filters():
             "categories": [r["category"] for r in cats],
             "subcategories": [r["subcategory"] for r in subcats],
             "jobs": [r["job_req"] for r in jobs],
+            "subcategories_by_category": {
+                r["category"]: [s["subcategory"] for s in conn.execute(
+                    f"SELECT DISTINCT subcategory FROM items {prefix} category = ? AND subcategory IS NOT NULL AND subcategory != '' ORDER BY subcategory",
+                    (r["category"],),
+                )] for r in cats
+            },
         }
     finally:
         conn.close()
@@ -45,7 +59,7 @@ def list_item_categories():
         return {"categories": []}
     try:
         mapleland_filter = id_filter_sql("id", "items")
-        conditions = ["category IS NOT NULL", "category != ''"]
+        conditions = ["category IS NOT NULL", "category != ''", "COALESCE(is_hidden, 0) = 0"]
         if mapleland_filter:
             conditions.insert(0, mapleland_filter)
         rows = conn.execute(
@@ -68,6 +82,8 @@ def list_items(
     q: Optional[str] = Query(default=None),
     sort: Optional[str] = Query(default=None),
     mapleland_only: bool = Query(default=True),
+    equipment_only: bool = Query(default=False),
+    include_common: bool = Query(default=True),
 ):
     offset = (page - 1) * per_page
     conditions = ["COALESCE(is_hidden, 0) = 0"]
@@ -77,6 +93,12 @@ def list_items(
         mapleland_filter = id_filter_sql("id", "items")
         if mapleland_filter:
             conditions.append(mapleland_filter)
+
+    if level_min is not None and level_max is not None and level_min > level_max:
+        raise HTTPException(status_code=422, detail="최소 레벨은 최대 레벨보다 클 수 없습니다")
+    if equipment_only:
+        conditions.append("category IN (" + ",".join("?" for _ in EQUIPMENT_CATEGORIES) + ")")
+        params.extend(EQUIPMENT_CATEGORIES)
 
     if category:
         if "," in category:
@@ -97,8 +119,13 @@ def list_items(
         conditions.append("level_req <= ?")
         params.append(level_max)
     if job:
-        conditions.append("job_req LIKE ?")
-        params.append(f"%{job}%")
+        if job in ("공용", "common"):
+            conditions.append(COMMON_JOB_SQL)
+        else:
+            job_name = JOB_NAMES.get(job, job)
+            job_condition = "('/' || COALESCE(job_req, '') || '/') LIKE ?"
+            conditions.append(f"({job_condition} OR {COMMON_JOB_SQL})" if include_common else job_condition)
+            params.append(f"%/{job_name}/%")
     if q:
         # 공백 차이를 무시하고 토큰별 AND 매칭 ("자쿰 투구" → "자쿰의 투구")
         for token in q.split() or [q]:
@@ -116,14 +143,14 @@ def list_items(
     try:
         conn = get_connection()
     except Exception:
-        return {"items": [], "total": 0, "page": page, "per_page": per_page}
+        raise HTTPException(status_code=503, detail="Database unavailable")
 
     try:
         total = conn.execute(f"SELECT COUNT(*) FROM items {where}", params).fetchone()[0]
         valid_sorts = {
-            "level_asc": "level_req ASC",
-            "level_desc": "level_req DESC",
-            "name_asc": "name ASC",
+            "level_asc": "level_req ASC, id ASC",
+            "level_desc": "level_req DESC, id ASC",
+            "name_asc": "COALESCE((SELECT name_en FROM entity_names_en WHERE entity_type='item' AND entity_id=items.id ORDER BY CASE source WHEN 'mapleland-current' THEN 0 WHEN 'kms' THEN 1 ELSE 2 END LIMIT 1), name) ASC, id ASC",
             "name_desc": "name DESC",
         }
         order = valid_sorts.get(sort or "", "id")
@@ -131,6 +158,22 @@ def list_items(
             f"SELECT * FROM items {where} ORDER BY {order} LIMIT ? OFFSET ?",
             params + [per_page, offset],
         ).fetchall()
+        # Fetch drop sources once for the current page, respecting the live mob scope.
+        drops_by_item = {}
+        if rows:
+            mob_scope = id_filter_sql("m.id", "mobs")
+            scope = f" AND {mob_scope}" if mob_scope else ""
+            ids = [row["id"] for row in rows]
+            drop_rows = conn.execute(
+                f"""SELECT md.item_id, m.id AS mob_id, m.name AS mob_name, m.level,
+                    (SELECT name_en FROM entity_names_en WHERE entity_type='mob' AND entity_id=m.id
+                     ORDER BY CASE source WHEN 'mapleland-current' THEN 0 WHEN 'kms' THEN 1 ELSE 2 END LIMIT 1) AS mob_name_kr
+                    FROM mob_drops md JOIN mobs m ON m.id=md.mob_id
+                    WHERE md.item_id IN ({','.join('?' for _ in ids)}) AND COALESCE(m.is_hidden,0)=0{scope}
+                    ORDER BY m.level, m.id""", ids,
+            ).fetchall()
+            for drop in drop_rows:
+                drops_by_item.setdefault(drop["item_id"], []).append(dict(drop))
         results = []
         for row in rows:
             item = dict(row)
@@ -142,10 +185,13 @@ def list_items(
                 (item["id"],),
             ).fetchone()
             item["name_kr"] = kr["name_en"] if kr else None
+            drops = drops_by_item.get(item["id"], [])
+            item["drop_count"] = len(drops)
+            item["drop_sources"] = drops[:3]
+            item["catalog_notes"] = equipment_notes().get(str(item["id"]))
             results.append(item)
-    except Exception:
-        results = []
-        total = 0
+    except Exception as exc:
+        raise HTTPException(status_code=503, detail="Search unavailable") from exc
     finally:
         conn.close()
 
@@ -168,6 +214,7 @@ def get_item(item_id: int):
             raise HTTPException(status_code=404, detail="Item not found")
 
         item = dict(row)
+        item["catalog_notes"] = equipment_notes().get(str(item_id))
 
         # 영문명
         en_rows = conn.execute(

@@ -38,6 +38,7 @@ export default function SkillDetailPage() {
       <Link href="/skills" className="text-sm text-maple hover:underline">&larr; 스킬 목록</Link>
       <div className="pixel-panel p-6 mt-3">
         <h1 className="text-2xl font-bold font-pixel">{skill.skill_name}</h1>
+        <Link href={`/skill-quests?q=${encodeURIComponent(skill.skill_name)}`} className="mt-3 inline-block text-sm text-maple hover:underline">이 스킬의 획득 퀘스트 찾아보기 →</Link>
         <div className="flex gap-2 mt-2">
           <span className="text-xs px-2 py-0.5 bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] text-maple">{skill.job_class}</span>
           {skill.job_branch && <span className="text-xs px-2 py-0.5 bg-surface2 border border-edge">{skill.job_branch}</span>}

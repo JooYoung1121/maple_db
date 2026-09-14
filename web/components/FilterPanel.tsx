@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { searchSuggest } from "@/lib/api";
 import type { SearchSuggestion } from "@/lib/types";
 
@@ -8,16 +8,14 @@ export interface SortOption {
   value: string;
   label: string;
 }
-
 export interface FilterDef {
   key: string;
   label: string;
   type: "text" | "number" | "select" | "checkbox" | "toggle";
-  options?: { value: string; label: string }[];
+  options?: SortOption[];
   placeholder?: string;
   suggestType?: "item" | "mob" | "map" | "npc" | "quest" | "skill";
 }
-
 interface Props {
   filters: FilterDef[];
   values: Record<string, string>;
@@ -27,200 +25,181 @@ interface Props {
   onSortChange?: (value: string) => void;
 }
 
-/** text/number 입력용 debounced input */
-function DebouncedInput({
+export function FilterChoices({
+  label,
   value,
+  options,
   onChange,
-  type,
-  placeholder,
-  className,
-  delay = 400,
 }: {
+  label: string;
   value: string;
-  onChange: (v: string) => void;
-  type: string;
-  placeholder?: string;
-  className?: string;
-  delay?: number;
+  options: SortOption[];
+  onChange: (value: string) => void;
 }) {
-  const [local, setLocal] = useState(value);
-  const timer = useRef<ReturnType<typeof setTimeout>>(null);
-  const onChangeRef = useRef(onChange);
-  onChangeRef.current = onChange;
-
-  // 외부 value가 바뀌면 local 동기화 (뒤로가기 등)
-  useEffect(() => {
-    setLocal(value);
-  }, [value]);
-
-  const handleChange = useCallback(
-    (v: string) => {
-      setLocal(v);
-      if (timer.current) clearTimeout(timer.current);
-      timer.current = setTimeout(() => onChangeRef.current(v), delay);
-    },
-    [delay]
-  );
-
-  // 언마운트 시 pending timer flush
-  useEffect(() => {
-    return () => {
-      if (timer.current) clearTimeout(timer.current);
-    };
-  }, []);
-
+  const [query, setQuery] = useState("");
+  const choices = [
+    { value: "", label: "전체" },
+    ...options.filter((o) => o.value !== ""),
+  ];
   return (
-    <input
-      type={type}
-      value={local}
-      onChange={(e) => handleChange(e.target.value)}
-      placeholder={placeholder}
-      className={className}
-    />
+    <fieldset className="min-w-0">
+      <legend className="mb-2 text-sm font-semibold text-ink">{label}</legend>
+      {choices.length > 14 && (
+        <input
+          aria-label={`${label} 선택지 검색`}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder={`${label} 찾기`}
+          className="pixel-input mb-2 w-full px-3 py-2 text-sm"
+        />
+      )}
+      <div
+        className={`flex flex-wrap gap-2 ${choices.length > 14 ? "max-h-44 overflow-y-auto p-1" : ""}`}
+      >
+        {choices
+          .filter((o) => !query || o.label.includes(query) || o.value === value)
+          .map((o) => (
+            <button
+              key={o.value}
+              type="button"
+              aria-pressed={value === o.value}
+              onClick={() => onChange(o.value)}
+              className={`min-h-10 rounded-lg border px-3 py-2 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-maple ${value === o.value ? "border-maple bg-[color-mix(in_srgb,var(--c-maple)_14%,var(--c-surface))] font-semibold text-maple" : "border-edge bg-surface2 text-ink hover:border-maple"}`}
+            >
+              {o.label}
+            </button>
+          ))}
+      </div>
+    </fieldset>
   );
 }
 
-function SuggestionInput({
+function SearchInput({
+  filter,
   value,
   onChange,
-  placeholder,
-  className,
-  suggestType,
-  delay = 350,
+  onSubmit,
 }: {
+  filter: FilterDef;
   value: string;
-  onChange: (v: string) => void;
-  placeholder?: string;
-  className?: string;
-  suggestType: NonNullable<FilterDef["suggestType"]>;
-  delay?: number;
+  onChange: (value: string) => void;
+  onSubmit: (value: string) => void;
 }) {
-  const [local, setLocal] = useState(value);
+  const id = useId();
   const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
   const [open, setOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(-1);
-  const timer = useRef<ReturnType<typeof setTimeout>>(null);
-  const ref = useRef<HTMLDivElement>(null);
-  const onChangeRef = useRef(onChange);
-  onChangeRef.current = onChange;
-
+  const [active, setActive] = useState(-1);
+  const focused = useRef(false);
   useEffect(() => {
-    setLocal(value);
-  }, [value]);
-
-  useEffect(() => {
-    function handleClick(e: MouseEvent) {
-      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
-    }
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, []);
-
-  const fetchSuggestions = useCallback(
-    async (q: string) => {
-      if (!q.trim()) {
-        setSuggestions([]);
-        setOpen(false);
-        return;
-      }
-      try {
-        const data = await searchSuggest(q, 8, suggestType);
-        setSuggestions(data.suggestions);
-        setOpen(data.suggestions.length > 0);
-        setActiveIndex(-1);
-      } catch {
-        setSuggestions([]);
-        setOpen(false);
-      }
-    },
-    [suggestType]
-  );
-
-  const handleChange = useCallback(
-    (v: string) => {
-      setLocal(v);
-      if (timer.current) clearTimeout(timer.current);
-      timer.current = setTimeout(() => {
-        onChangeRef.current(v);
-        void fetchSuggestions(v);
-      }, delay);
-      if (!v.trim()) {
-        setSuggestions([]);
-        setOpen(false);
-      }
-    },
-    [delay, fetchSuggestions]
-  );
-
-  useEffect(() => {
+    let cancelled = false;
+    setSuggestions([]);
+    setActive(-1);
+    if (!value.trim() || !filter.suggestType) return;
+    const timer = setTimeout(() => {
+      searchSuggest(value, 8, filter.suggestType)
+        .then((data) => {
+          if (!cancelled) {
+            setSuggestions(data.suggestions);
+            setOpen(focused.current);
+          }
+        })
+        .catch(() => {
+          if (!cancelled) setSuggestions([]);
+        });
+    }, 250);
     return () => {
-      if (timer.current) clearTimeout(timer.current);
+      cancelled = true;
+      clearTimeout(timer);
     };
-  }, []);
-
-  function applySuggestion(s: SearchSuggestion) {
-    const next = s.name_kr || s.name;
-    if (timer.current) clearTimeout(timer.current);
-    setLocal(next);
+  }, [value, filter.suggestType]);
+  function select(s: SearchSuggestion) {
     setOpen(false);
-    setActiveIndex(-1);
-    onChangeRef.current(next);
+    onSubmit(s.name_kr || s.name);
   }
-
-  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (!open || suggestions.length === 0) {
-      if (e.key === "Enter" && !e.nativeEvent.isComposing) onChangeRef.current(local);
-      return;
-    }
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setActiveIndex((prev) => (prev < suggestions.length - 1 ? prev + 1 : 0));
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setActiveIndex((prev) => (prev > 0 ? prev - 1 : suggestions.length - 1));
-    } else if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-      e.preventDefault();
-      if (activeIndex >= 0) applySuggestion(suggestions[activeIndex]);
-      else onChangeRef.current(local);
-    } else if (e.key === "Escape") {
-      setOpen(false);
-    }
-  }
-
   return (
-    <div ref={ref} className="relative">
+    <div className="relative">
+      <label htmlFor={id} className="mb-2 block text-sm font-semibold text-ink">
+        {filter.label}
+      </label>
       <input
-        type="text"
-        value={local}
-        onChange={(e) => handleChange(e.target.value)}
+        id={id}
+        type="search"
+        role="combobox"
+        aria-autocomplete="list"
+        aria-expanded={open && suggestions.length > 0}
+        aria-controls={`${id}-options`}
+        aria-activedescendant={
+          open && active >= 0 ? `${id}-${active}` : undefined
+        }
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={filter.placeholder}
         onFocus={() => {
-          if (suggestions.length > 0) setOpen(true);
-          else void fetchSuggestions(local);
+          focused.current = true;
+          setOpen(true);
         }}
-        onKeyDown={handleKeyDown}
-        placeholder={placeholder}
-        className={className}
+        onBlur={() => {
+          focused.current = false;
+          setOpen(false);
+        }}
+        onKeyDown={(e) => {
+          if (e.nativeEvent.isComposing) return;
+          if (e.key === "Escape") {
+            setOpen(false);
+            return;
+          }
+          if (
+            open &&
+            suggestions.length &&
+            (e.key === "ArrowDown" || e.key === "ArrowUp")
+          ) {
+            e.preventDefault();
+            setActive(
+              (prev) =>
+                (prev +
+                  (e.key === "ArrowDown" ? 1 : suggestions.length - 1) +
+                  suggestions.length) %
+                suggestions.length,
+            );
+          }
+          if (e.key === "Enter") {
+            e.preventDefault();
+            if (open && active >= 0) select(suggestions[active]);
+            else {
+              setOpen(false);
+              onSubmit(value);
+            }
+          }
+        }}
+        className="pixel-input w-full px-4 py-3 text-base"
       />
       {open && suggestions.length > 0 && (
-        <div className="pixel-panel absolute z-50 mt-2 w-full max-h-72 overflow-y-auto">
-          {suggestions.map((s, idx) => (
+        <div
+          id={`${id}-options`}
+          role="listbox"
+          aria-label="검색 제안"
+          className="pixel-panel absolute z-50 mt-1 max-h-72 w-full overflow-y-auto"
+        >
+          {suggestions.map((s, i) => (
             <button
-              key={`${s.entity_type}-${s.entity_id}`}
+              key={s.entity_id}
+              id={`${id}-${i}`}
               type="button"
+              role="option"
+              aria-selected={active === i}
               onMouseDown={(e) => e.preventDefault()}
-              onClick={() => applySuggestion(s)}
-              onMouseEnter={() => setActiveIndex(idx)}
-              className={`flex w-full items-center gap-2 px-3 py-2 text-left text-sm transition-colors ${
-                idx === activeIndex
-                  ? "bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] text-maple"
-                  : "text-ink hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]"
-              }`}
+              onClick={() => select(s)}
+              onMouseEnter={() => setActive(i)}
+              className={`flex w-full items-center gap-3 px-4 py-3 text-left text-sm ${active === i ? "bg-surface2 text-maple" : "text-ink"}`}
             >
-              {s.icon_url && <img src={s.icon_url} alt="" className="h-6 w-6 flex-shrink-0 object-contain" />}
-              <span className="min-w-0 flex-1 truncate">{s.name_kr || s.name}</span>
-              {s.name_kr && s.name_kr !== s.name && (
-                <span className="hidden max-w-28 truncate text-xs text-dim sm:inline">{s.name}</span>
+              {s.icon_url && (
+                <img
+                  src={s.icon_url}
+                  alt=""
+                  className="h-7 w-7 object-contain"
+                />
               )}
+              <span>{s.name_kr || s.name}</span>
             </button>
           ))}
         </div>
@@ -229,96 +208,275 @@ function SuggestionInput({
   );
 }
 
-export default function FilterPanel({ filters, values, onChange, sortOptions, sortValue, onSortChange }: Props) {
+export default function FilterPanel({
+  filters,
+  values,
+  onChange,
+  sortOptions,
+  sortValue,
+  onSortChange,
+}: Props) {
+  const [draft, setDraft] = useState(values);
   const [expanded, setExpanded] = useState(true);
-
-  function update(key: string, value: string) {
-    onChange({ ...values, [key]: value });
+  const [error, setError] = useState("");
+  const id = useId();
+  useEffect(() => {
+    setDraft(values);
+    setError("");
+  }, [values]);
+  const active = filters.filter(
+    (f) => values[f.key] !== undefined && values[f.key] !== "",
+  );
+  const hasLevels =
+    filters.some((f) => f.key === "level_min") &&
+    filters.some((f) => f.key === "level_max");
+  function apply(next: Record<string, string>) {
+    if (
+      hasLevels &&
+      ((next.level_min && !/^\d+$/.test(next.level_min)) ||
+        (next.level_max && !/^\d+$/.test(next.level_max)))
+    ) {
+      setError("레벨은 0 이상의 정수로 입력해주세요.");
+      return;
+    }
+    if (
+      hasLevels &&
+      next.level_min &&
+      next.level_max &&
+      Number(next.level_min) > Number(next.level_max)
+    ) {
+      setError("최소 레벨은 최대 레벨보다 작거나 같아야 합니다.");
+      return;
+    }
+    setError("");
+    setDraft(next);
+    onChange(next);
   }
-
+  function change(key: string, value: string) {
+    apply({ ...draft, [key]: value });
+  }
   return (
-    <div className="pixel-panel p-4">
-      <button
-        onClick={() => setExpanded(!expanded)}
-        className="font-pixel flex items-center justify-between w-full text-[13px] text-ink"
-      >
-        <span>필터</span>
-        <span className="text-maple">{expanded ? "▲" : "▼"}</span>
-      </button>
+    <form
+      className="pixel-panel p-4 sm:p-5"
+      onSubmit={(e) => {
+        e.preventDefault();
+        apply(draft);
+      }}
+    >
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <button
+          type="button"
+          aria-expanded={expanded}
+          aria-controls={`${id}-filters`}
+          onClick={() => setExpanded(!expanded)}
+          className="py-1 text-sm font-bold text-ink"
+        >
+          검색 조건{" "}
+          {active.length > 0 && (
+            <span className="text-maple">{active.length}</span>
+          )}{" "}
+          <span className="ml-2 text-dim">
+            {expanded ? "접기 ▴" : "펼치기 ▾"}
+          </span>
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            const next = { ...values };
+            filters.forEach((f) => {
+              delete next[f.key];
+            });
+            apply(next);
+          }}
+          className="min-h-10 px-2 text-sm text-maple hover:underline"
+        >
+          조건 초기화
+        </button>
+      </div>
       {expanded && (
-        <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-          {sortOptions && sortOptions.length > 0 && (
-            <div>
-              <label className="block text-xs font-medium text-dim mb-1">정렬</label>
-              <select
-                aria-label="정렬"
-                value={sortValue || ""}
-                onChange={(e) => onSortChange?.(e.target.value)}
-                className="pixel-input w-full px-3 py-2 text-sm"
-              >
-                {sortOptions.map((o) => (
-                  <option key={o.value} value={o.value}>{o.label}</option>
+        <div id={`${id}-filters`} className="mt-3 space-y-4">
+          {filters
+            .filter((f) => f.type === "text")
+            .map((f) => (
+              <SearchInput
+                key={f.key}
+                filter={f}
+                value={draft[f.key] || ""}
+                onChange={(v) => setDraft({ ...draft, [f.key]: v })}
+                onSubmit={(v) => change(f.key, v)}
+              />
+            ))}
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            {filters
+              .filter((f) => f.type === "select")
+              .map((f) => (
+                <div
+                  key={f.key}
+                  className={
+                    f.key === "subcategory" || (f.options?.length || 0) > 8
+                      ? "lg:col-span-2"
+                      : ""
+                  }
+                >
+                  <FilterChoices
+                    label={f.label}
+                    value={draft[f.key] || ""}
+                    options={f.options || []}
+                    onChange={(v) => change(f.key, v)}
+                  />
+                </div>
+              ))}
+          </div>
+          {hasLevels && (
+            <fieldset>
+              <legend className="mb-2 text-sm font-semibold text-ink">
+                레벨 범위
+              </legend>
+              <div className="mb-3 flex flex-wrap gap-2">
+                {[
+                  ["전체", "", ""],
+                  ["1–30", "1", "30"],
+                  ["31–70", "31", "70"],
+                  ["71–120", "71", "120"],
+                  ["121 이상", "121", ""],
+                ].map(([label, min, max]) => (
+                  <button
+                    key={label}
+                    type="button"
+                    aria-pressed={
+                      (draft.level_min || "") === min &&
+                      (draft.level_max || "") === max
+                    }
+                    onClick={() =>
+                      apply({ ...draft, level_min: min, level_max: max })
+                    }
+                    className={`min-h-10 rounded-lg border px-3 py-2 text-sm ${(draft.level_min || "") === min && (draft.level_max || "") === max ? "border-maple text-maple bg-surface2" : "border-edge text-ink"}`}
+                  >
+                    {label}
+                  </button>
                 ))}
-              </select>
-            </div>
-          )}
-          {filters.map((f) => (
-            <div key={f.key}>
-              <label className="block text-xs font-medium text-dim mb-1">{f.label}</label>
-              {f.type === "select" ? (
-                <select
-                  aria-label={f.label}
-                  value={values[f.key] || ""}
-                  onChange={(e) => update(f.key, e.target.value)}
-                  className="pixel-input w-full px-3 py-2 text-sm"
-                >
-                  <option value="">전체</option>
-                  {f.options?.map((o) => (
-                    <option key={o.value} value={o.value}>{o.label}</option>
-                  ))}
-                </select>
-              ) : f.type === "toggle" ? (
-                <button
-                  type="button"
-                  onClick={() => update(f.key, values[f.key] === "1" ? "" : "1")}
-                  className="flex items-center gap-2"
-                >
-                  <div className={`relative w-11 h-6 rounded-full transition-colors ${values[f.key] === "1" ? "bg-maple" : "bg-edge"}`}>
-                    <div className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${values[f.key] === "1" ? "translate-x-5" : "translate-x-0"}`} />
+              </div>
+              <div className="flex max-w-sm items-center gap-2">
+                {["level_min", "level_max"].map((key, i) => (
+                  <div className="min-w-0 flex-1" key={key}>
+                    <label
+                      htmlFor={`${id}-${key}`}
+                      className="mb-1 block text-xs text-dim"
+                    >
+                      {i === 0 ? "최소 레벨" : "최대 레벨"}
+                    </label>
+                    <input
+                      id={`${id}-${key}`}
+                      type="number"
+                      min="0"
+                      step="1"
+                      value={draft[key] || ""}
+                      onChange={(e) =>
+                        setDraft({ ...draft, [key]: e.target.value })
+                      }
+                      placeholder="제한 없음"
+                      className="pixel-input w-full px-3 py-2 text-sm"
+                    />
                   </div>
-                  <span className="text-sm text-dim">{f.placeholder || "예"}</span>
-                </button>
-              ) : f.type === "checkbox" ? (
-                <label className="flex items-center gap-2">
+                ))}
+              </div>
+            </fieldset>
+          )}
+          {filters
+            .filter(
+              (f) =>
+                f.type === "number" &&
+                (!hasLevels || !["level_min", "level_max"].includes(f.key)),
+            )
+            .map((f) => (
+              <label key={f.key} className="block text-sm">
+                {f.label}
+                <input
+                  aria-label={f.label}
+                  type="number"
+                  value={draft[f.key] || ""}
+                  onChange={(e) =>
+                    setDraft({ ...draft, [f.key]: e.target.value })
+                  }
+                  placeholder={f.placeholder}
+                  className="pixel-input ml-2 px-3 py-2"
+                />
+              </label>
+            ))}
+          <div className="flex flex-wrap gap-4">
+            {filters
+              .filter((f) => ["checkbox", "toggle"].includes(f.type))
+              .map((f) => (
+                <label
+                  key={f.key}
+                  className="flex min-h-10 cursor-pointer items-center gap-2 text-sm text-ink"
+                >
                   <input
                     type="checkbox"
-                    checked={values[f.key] === "1"}
-                    onChange={(e) => update(f.key, e.target.checked ? "1" : "")}
-                    className="rounded border-edge text-maple focus:ring-maple"
+                    checked={draft[f.key] === "1"}
+                    onChange={(e) => change(f.key, e.target.checked ? "1" : "")}
+                    className="h-4 w-4 accent-[var(--c-maple)]"
                   />
-                  <span className="text-sm text-dim">{f.placeholder || "예"}</span>
+                  {f.placeholder || f.label}
                 </label>
-              ) : f.suggestType && f.type === "text" ? (
-                <SuggestionInput
-                  value={values[f.key] || ""}
-                  onChange={(v) => update(f.key, v)}
-                  placeholder={f.placeholder}
-                  suggestType={f.suggestType}
-                  className="pixel-input w-full px-3 py-2 text-sm"
-                />
-              ) : (
-                <DebouncedInput
-                  type={f.type}
-                  value={values[f.key] || ""}
-                  onChange={(v) => update(f.key, v)}
-                  placeholder={f.placeholder}
-                  className="pixel-input w-full px-3 py-2 text-sm"
-                />
-              )}
-            </div>
+              ))}
+          </div>
+          <div className="flex flex-wrap items-end justify-between gap-3 border-t border-edge pt-4">
+            {sortOptions && (
+              <label className="text-sm text-dim">
+                정렬
+                <select
+                  aria-label="정렬"
+                  value={sortValue || ""}
+                  onChange={(e) => onSortChange?.(e.target.value)}
+                  className="pixel-input ml-2 max-w-full px-3 py-2 text-sm text-ink"
+                >
+                  {sortOptions.map((o) => (
+                    <option key={o.value} value={o.value}>
+                      {o.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
+            <button
+              type="submit"
+              className="min-h-11 rounded-lg bg-maple px-6 py-2 font-semibold text-white dark:text-black"
+            >
+              검색하기
+            </button>
+          </div>
+        </div>
+      )}
+      {error && (
+        <p role="alert" className="mt-3 text-sm text-mush">
+          {error}
+        </p>
+      )}
+      {active.length > 0 && (
+        <div
+          className="mt-4 flex flex-wrap items-center gap-2 border-t border-edge pt-3"
+          aria-label="적용된 검색 조건"
+        >
+          <span className="text-xs text-dim">적용 중</span>
+          {active.map((f) => (
+            <button
+              type="button"
+              key={f.key}
+              onClick={() => apply({ ...values, [f.key]: "" })}
+              aria-label={`${f.label} 조건 해제`}
+              className="min-h-9 rounded-full border border-edge bg-surface2 px-3 py-1 text-xs text-ink"
+            >
+              {f.label}:{" "}
+              {f.options?.find((o) => o.value === values[f.key])?.label ||
+                (["checkbox", "toggle"].includes(f.type)
+                  ? "켜짐"
+                  : values[f.key])}
+              <span className="ml-2 text-maple">×</span>
+            </button>
           ))}
         </div>
       )}
-    </div>
+    </form>
   );
 }
