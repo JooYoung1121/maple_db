@@ -8,6 +8,19 @@ from crawler.db import get_connection
 router = APIRouter()
 
 
+@router.get("/skills/acquisition")
+def skill_acquisition_guides():
+    from api.skill_acquisition import enriched_guides
+    try:
+        conn = get_connection()
+    except Exception as exc:
+        raise HTTPException(status_code=503, detail="Database unavailable") from exc
+    try:
+        return enriched_guides(conn)
+    finally:
+        conn.close()
+
+
 @router.get("/skills/filters")
 def skill_filters():
     try:
@@ -56,15 +69,16 @@ def list_skills(
         conditions.append("skill_type = ?")
         params.append(skill_type)
     if q:
-        conditions.append("skill_name LIKE ?")
-        params.append(f"%{q}%")
+        for token in q.split():
+            conditions.append("REPLACE(skill_name, ' ', '') LIKE ?")
+            params.append(f"%{token}%")
 
     where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
 
     try:
         conn = get_connection()
     except Exception:
-        return {"skills": [], "total": 0, "page": page, "per_page": per_page}
+        raise HTTPException(status_code=503, detail="Database unavailable")
 
     try:
         total = conn.execute(f"SELECT COUNT(*) FROM skills {where}", params).fetchone()[0]
@@ -73,9 +87,8 @@ def list_skills(
             params + [per_page, offset],
         ).fetchall()
         results = [dict(r) for r in rows]
-    except Exception:
-        results = []
-        total = 0
+    except Exception as exc:
+        raise HTTPException(status_code=503, detail="Search unavailable") from exc
     finally:
         conn.close()
 

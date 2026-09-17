@@ -2,6 +2,7 @@
 
 import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { getSkills } from "@/lib/api";
 import type { Skill } from "@/lib/types";
 import DataTable, { Column } from "@/components/DataTable";
@@ -36,6 +37,8 @@ function SkillsPageContent() {
   const [skills, setSkills] = useState<Skill[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [retry, setRetry] = useState(0);
   const perPage = 30;
 
   // job_class는 filterValues에서 관리 (URL 동기화)
@@ -52,13 +55,15 @@ function SkillsPageContent() {
   };
 
   useEffect(() => {
-    setLoading(true);
+    let cancelled = false;
+    setLoading(true); setError(false);
     const params: Record<string, string | number> = { page, per_page: perPage, ...filterValues };
     getSkills(params as Parameters<typeof getSkills>[0])
-      .then((d) => { setSkills(d.skills); setTotal(d.total); })
-      .catch(() => setSkills([]))
-      .finally(() => setLoading(false));
-  }, [page, filterValues]);
+      .then((d) => { if (!cancelled) { setSkills(d.skills); setTotal(d.total); } })
+      .catch(() => { if (!cancelled) { setSkills([]); setTotal(0); setError(true); } })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [page, filterValues, retry]);
 
   const filters: FilterDef[] = [
     { key: "q", label: "스킬 검색", type: "text", placeholder: "스킬 이름", suggestType: "skill" },
@@ -74,6 +79,7 @@ function SkillsPageContent() {
   return (
     <div>
       <h1 className="text-2xl font-bold mb-4 font-pixel">스킬</h1>
+      <Link href="/skill-quests" className="mb-4 block rounded-lg border border-edge bg-surface2 p-4 text-sm text-maple hover:underline">스킬을 배우는 방법이 궁금하다면? 직업별 획득 퀘스트 · 준비물·진행 순서 →</Link>
       <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 dark:bg-amber-950/30 dark:border-amber-900 px-4 py-3 text-sm text-amber-800 dark:text-amber-200">
         현재 스킬 DB는 과거 수집 데이터가 섞여 있어 메랜 기준 정규 리빌드가 필요합니다. 직업별 스킬 배치와 마스터레벨은 검증 중인 참고 정보로 봐주세요.
       </div>
@@ -97,6 +103,8 @@ function SkillsPageContent() {
       <div className="mt-4">
         {loading ? (
           <div className="text-center py-12 text-dim">로딩 중...</div>
+        ) : error ? (
+          <div role="alert" className="pixel-panel p-8 text-center"><p>스킬을 불러오지 못했습니다.</p><button onClick={() => setRetry((v) => v + 1)} className="mt-3 text-maple">다시 시도</button></div>
         ) : (
           <>
             <p className="text-sm text-dim mb-2">총 {total.toLocaleString()}건</p>

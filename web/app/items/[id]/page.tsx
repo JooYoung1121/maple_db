@@ -6,6 +6,7 @@ import Link from "next/link";
 import { getItem } from "@/lib/api";
 import type { Item } from "@/lib/types";
 import StatGrid from "@/components/StatGrid";
+import EquipmentNotes from "@/components/EquipmentNotes";
 import PriceChart from "@/components/PriceChart";
 import { toCategoryKr, toSubcategoryKr } from "@/lib/translations";
 import EntityCanonDiffPanel from "@/components/EntityCanonDiffPanel";
@@ -140,8 +141,9 @@ export default function ItemDetailPage() {
 
         {/* 장비 스탯 — StatGrid 컴포넌트 */}
         {Object.keys(equipStats).length > 0 && (
-          <StatGrid stats={equipStats} title="장비 스탯" />
+          <StatGrid stats={equipStats} title="장비 기본 옵션 · 강화 전" />
         )}
+        {item.catalog_notes && <EquipmentNotes notes={item.catalog_notes} />}
       </div>
 
       <div className="mt-6">

@@ -46,7 +46,8 @@ export function useQueryState(defaults: Record<string, string> = {}) {
     return values;
   }, [searchParamsKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const page = Number(searchParams.get("page") || "1");
+  const rawPage = Number(searchParams.get("page") || "1");
+  const page = Number.isSafeInteger(rawPage) && rawPage > 0 ? rawPage : 1;
   const sortValue = searchParams.get("sort") || "";
 
   const buildUrl = useCallback(

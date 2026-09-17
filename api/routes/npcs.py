@@ -47,18 +47,18 @@ def list_npcs(
         conditions.append("is_shop = ?")
         params.append(1 if is_shop else 0)
     if q:
-        conditions.append(
-            "(name LIKE ? OR id IN (SELECT entity_id FROM entity_names_en WHERE entity_type='npc' AND name_en LIKE ?))"
-        )
-        params.append(f"%{q}%")
-        params.append(f"%{q}%")
+        for token in q.split():
+            conditions.append(
+                "(REPLACE(name, ' ', '') LIKE ? OR id IN (SELECT entity_id FROM entity_names_en WHERE entity_type='npc' AND REPLACE(name_en, ' ', '') LIKE ?))"
+            )
+            params.extend([f"%{token}%", f"%{token}%"])
 
     where = ("WHERE " + " AND ".join(conditions)) if conditions else ""
 
     try:
         conn = get_connection()
     except Exception:
-        return {"npcs": [], "total": 0, "page": page, "per_page": per_page}
+        raise HTTPException(status_code=503, detail="Database unavailable")
 
     try:
         total = conn.execute(f"SELECT COUNT(*) FROM npcs {where}", params).fetchone()[0]
@@ -76,9 +76,8 @@ def list_npcs(
             ).fetchone()
             n["name_kr"] = live_names.get(n["id"]) or (kr["name_en"] if kr else None)
             results.append(n)
-    except Exception:
-        results = []
-        total = 0
+    except Exception as exc:
+        raise HTTPException(status_code=503, detail="Search unavailable") from exc
     finally:
         conn.close()
 

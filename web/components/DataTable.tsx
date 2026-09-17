@@ -48,7 +48,7 @@ export default function DataTable<T extends Record<string, any>>({
           {data.length === 0 ? (
             <tr>
               <td colSpan={columns.length} className="px-4 py-12 text-center text-dim">
-                데이터가 없습니다
+                조건에 맞는 결과가 없습니다. 검색어를 바꾸거나 필터를 해제해보세요.
               </td>
             </tr>
           ) : (

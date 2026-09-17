@@ -129,6 +129,48 @@ class SearchIndexTests(unittest.TestCase):
         self.assertFalse(ensure_search_index(conn))
         conn.close()
 
+    def test_current_names_and_aliases_do_not_duplicate_variants(self):
+        conn = self.connection()
+        conn.execute("INSERT INTO entity_names_en VALUES ('quest',1,'현행 퀘스트명','mapleland-current')")
+        conn.execute("INSERT INTO entity_names_en VALUES ('quest',1,'현행 퀘스트의 별칭','catalog-alias-0')")
+        conn.commit()
+        rebuild_search_index(conn)
+        conn.close()
+        with patch('api.routes.search.get_connection', side_effect=self.connection), patch('api.routes.search.search_entity_filter_sql', return_value=None):
+            for query in ['현행', '퀘스트명']:
+                result = search(q=query, type='quest', page=1, per_page=20)
+                self.assertEqual(result['results'][0]['name_kr'], '현행 퀘스트명')
+                self.assertEqual(result['results'][0]['variant_count'], 1)
+                self.assertEqual(len(search_suggest(q=query, type='quest', limit=10)['suggestions']), 1)
+
+    def test_deployment_alias_sync_refreshes_same_count_index(self):
+        conn = self.connection()
+        self.assertFalse(ensure_search_index(conn))
+        # start.sh copies new aliases before init_db applies reference names.
+        conn.execute("INSERT INTO entity_names_en VALUES ('quest',1,'새 배포 별칭','catalog-alias-0')")
+        conn.commit()
+        self.assertTrue(ensure_search_index(conn))
+        content = conn.execute("SELECT content FROM search_index WHERE entity_type='quest' AND entity_id=1").fetchone()[0]
+        self.assertIn('새 배포 별칭', content)
+        self.assertFalse(ensure_search_index(conn))
+        conn.close()
+
+    def test_substring_results_keep_total_and_paginate(self):
+        conn = self.connection()
+        for i in range(10, 13):
+            conn.execute("INSERT INTO quests(id,name) VALUES (?,?)", (i, f'Quest {i}'))
+            conn.execute("INSERT INTO entity_names_en VALUES ('quest',?,?, 'kms')", (i, f'긴검색어 {i}'))
+        conn.commit()
+        rebuild_search_index(conn)
+        conn.close()
+        with patch('api.routes.search.get_connection', side_effect=self.connection), patch('api.routes.search.search_entity_filter_sql', return_value=None):
+            first = search(q='검색어', type='quest', page=1, per_page=2)
+            second = search(q='검색어', type='quest', page=2, per_page=2)
+            self.assertEqual(first['total'], 3)
+            self.assertEqual(second['total'], 3)
+            self.assertEqual([r['entity_id'] for r in first['results']], [10,11])
+            self.assertEqual([r['entity_id'] for r in second['results']], [12])
+
 
 if __name__ == "__main__":
     unittest.main()

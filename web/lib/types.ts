@@ -1,4 +1,35 @@
+export interface SkillAcquisitionGuide {
+  id: string;
+  title: string;
+  jobs: string[];
+  method: string;
+  level: number;
+  start: string;
+  requirements: string;
+  party: string;
+  prerequisites: string[];
+  steps: string[];
+  notes: string[];
+  evidence: string;
+  sources: { label: string; url: string }[];
+  skills: { id: number; skill_name: string; job_class: string }[];
+  books: { id: number; href: string }[];
+  db_quests: { id: number; name: string; start_npc: string | null; requirements: { id?: number; name?: string; raw: string; href: string | null }[] }[];
+}
+
+export interface SkillAcquisitionCatalog {
+  reviewed_at: string;
+  scope: string;
+  notice: string;
+  job_groups: Record<string, string[]>;
+  guides: SkillAcquisitionGuide[];
+  quest_database_available: boolean;
+}
+
 export interface Item {
+  catalog_notes?: EquipmentCatalogNotes | null;
+  drop_count?: number;
+  drop_sources?: { mob_id: number; mob_name: string; mob_name_kr?: string | null; level: number }[];
   id: number;
   name: string;
   category: string | null;
@@ -15,6 +46,16 @@ export interface Item {
   overall_category?: string | null;
   names_en?: NameEn[];
   name_kr?: string | null;
+}
+
+export interface EquipmentCatalogNotes {
+  name_kr: string;
+  acquisition: string;
+  steps?: string[];
+  note: string;
+  variation_status?: "unverified" | "verified";
+  stat_ranges?: Record<string, { min: number; max: number }>;
+  sources: { label: string; url: string }[];
 }
 
 export interface Mob {

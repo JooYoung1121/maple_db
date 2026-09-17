@@ -42,8 +42,9 @@ def list_quests(
         conditions.append("level_req <= ?")
         params.append(level_max)
     if q:
-        conditions.append("name LIKE ?")
-        params.append(f"%{q}%")
+        for token in q.split():
+            conditions.append("REPLACE(name, ' ', '') LIKE ?")
+            params.append(f"%{token}%")
     if area:
         conditions.append("area = ?")
         params.append(area)
@@ -72,7 +73,7 @@ def list_quests(
     try:
         conn = get_connection()
     except Exception:
-        return {"quests": [], "total": 0, "page": page, "per_page": per_page}
+        raise HTTPException(status_code=503, detail="Database unavailable")
 
     try:
         total = conn.execute(f"SELECT COUNT(*) FROM quests {where}", params).fetchone()[0]
@@ -97,8 +98,7 @@ def list_quests(
 
     except Exception as e:
         logger.warning("list_quests error: %s", e)
-        results = []
-        total = 0
+        raise HTTPException(status_code=503, detail="Search unavailable") from e
     finally:
         conn.close()
 

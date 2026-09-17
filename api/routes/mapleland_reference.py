@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 from functools import lru_cache
 from pathlib import Path
+from crawler.catalog_data import equipment_notes
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
 COMBINED_PATH = DATA_DIR / "mapleland_reference.json"
@@ -27,7 +28,13 @@ def _valid_display_name(value: object) -> bool:
 @lru_cache(maxsize=1)
 def _reference() -> dict:
     try:
-        return json.loads(COMBINED_PATH.read_text(encoding="utf-8"))
+        payload = json.loads(COMBINED_PATH.read_text(encoding="utf-8"))
+        records = payload.setdefault("entities", {}).setdefault("items", {}).setdefault("records", [])
+        known = {int(row["id"]) for row in records}
+        for item_id, note in equipment_notes().items():
+            if note.get("publish") and int(item_id) not in known:
+                records.append({"id": int(item_id), "name_kr": note["name_kr"], "level": note["level"]})
+        return payload
     except Exception:
         return {"entities": {}}
 

@@ -44,12 +44,15 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
   // 기능/가이드 페이지는 로컬 데이터라 디바운스 없이 즉시 매칭
   const featureMatches = useMemo(() => (query.trim() ? searchFeatures(query.trim(), 4) : []), [query]);
 
+  const grouped = useMemo(() => groupByType(suggestions), [suggestions]);
+  const requestVersion = useRef(0);
+
   const flatList: SuggestRow[] = useMemo(
     () => [
       ...featureMatches.map((feature) => ({ kind: "feature" as const, feature })),
-      ...suggestions.map((suggestion) => ({ kind: "entity" as const, suggestion })),
+      ...grouped.flatMap((group) => group.items).map((suggestion) => ({ kind: "entity" as const, suggestion })),
     ],
-    [featureMatches, suggestions]
+    [featureMatches, grouped]
   );
 
   useEffect(() => {
@@ -60,19 +63,25 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
-  const fetchSuggestions = useCallback(async (q: string) => {
+  useEffect(() => () => { requestVersion.current++; if (timer.current) clearTimeout(timer.current); }, []);
+
+  const fetchSuggestions = useCallback(async (q: string, version: number) => {
     try {
       const data = await searchSuggest(q, 10);
+      if (version !== requestVersion.current) return;
       setSuggestions(data.suggestions);
       setOpen(data.suggestions.length > 0 || searchFeatures(q, 4).length > 0);
       setActiveIndex(-1);
     } catch {
+      if (version !== requestVersion.current) return;
       setSuggestions([]);
     }
   }, []);
 
   function handleChange(q: string) {
+    const version = ++requestVersion.current;
     setQuery(q);
+    setSuggestions([]);
     if (timer.current) clearTimeout(timer.current);
     if (q.trim().length < 1) {
       setSuggestions([]);
@@ -82,10 +91,13 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
     // 기능 매칭은 즉시 노출, 엔티티 제안은 디바운스 후 합류
     setOpen(searchFeatures(q.trim(), 4).length > 0 || suggestions.length > 0);
     setActiveIndex(-1);
-    timer.current = setTimeout(() => fetchSuggestions(q), 300);
+    timer.current = setTimeout(() => fetchSuggestions(q, version), 300);
   }
 
   function goToRow(row: SuggestRow) {
+    if (!row) return;
+    requestVersion.current++;
+    if (timer.current) clearTimeout(timer.current);
     setOpen(false);
     if (row.kind === "feature") {
       router.push(row.feature.href);
@@ -96,6 +108,7 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
   }
 
   function handleKeyDown(e: React.KeyboardEvent) {
+    if (e.nativeEvent.isComposing) return;
     if (!open || flatList.length === 0) return;
 
     if (e.key === "ArrowDown") {
@@ -119,12 +132,13 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
       return;
     }
     if (query.trim()) {
+      requestVersion.current++;
+      if (timer.current) clearTimeout(timer.current);
       setOpen(false);
       router.push(`/?q=${encodeURIComponent(query.trim())}`);
     }
   }
 
-  const grouped = groupByType(suggestions);
 
   // Build a flat index mapping for keyboard navigation within grouped display
   let flatIdx = 0;
