@@ -3,6 +3,7 @@ from fastapi import APIRouter, Query, HTTPException
 from typing import Optional
 import json
 import logging
+import re
 
 from crawler.db import get_connection
 from crawler.data_quality import annotate_quest
@@ -262,3 +263,183 @@ def quest_roadmap():
         conn.close()
 
     return {"quests": out}
+
+
+# ── 퀘스트 스페셜리스트 훈장 가이드 ─────────────────────────────
+# 훈장(1142002)은 이벤트 퀘 제외 800개 완료 조건이라 사실상 전 퀘스트 소화가 필요.
+# 전달형(아이템만 요구) 퀘스트는 준비물을 미리 사두면 수락 즉시 완료되므로
+# "사전 준비 → 연속 완료" 동선을 데이터로 뽑아준다.
+
+_QUEST_ITEM_MIN, _QUEST_ITEM_MAX = 4030000, 4040000  # 퀘스트 진행 중에만 얻는 전용 아이템 대역
+
+_COUNT_RE = re.compile(r"(\d[\d,]*)\s*(?:개|마리)")
+
+
+def _req_count(raw: str | None) -> int:
+    m = _COUNT_RE.search(raw or "")
+    return int(m.group(1).replace(",", "")) if m else 1
+
+
+def _is_preparable_item(item_id) -> bool:
+    """거래·사냥으로 미리 구할 수 있는 아이템인지 (퀘스트 전용 대역 제외)."""
+    return isinstance(item_id, int) and not (_QUEST_ITEM_MIN <= item_id < _QUEST_ITEM_MAX)
+
+
+@router.get("/quests/specialist/guide")
+def quest_specialist_guide():
+    """퀘스트 스페셜리스트 훈장용 효율 가이드 데이터.
+
+    - deliver_only: 아이템 전달만으로 완료되는 퀘스트 (선준비 → 즉시 완료)
+    - kill_quests: 몬스터 처치가 포함된 퀘스트 (사냥 동선에 배치)
+    - chains: prereq/next로 이어진 3개 이상 연계 묶음 + 준비물/처치 총량
+    - mob_synergy: 여러 퀘스트가 같은 몹을 요구 → 한 번 잡을 때 같이 진행
+    """
+    empty = {"deliver_only": [], "kill_quests": [], "chains": [], "mob_synergy": []}
+    try:
+        conn = get_connection()
+    except Exception:
+        return empty
+    try:
+        try:
+            rows = [dict(r) for r in conn.execute(
+                """SELECT quest_id, name, repeatable, min_level, max_level,
+                          start_npc, end_npc, exp, meso, fame,
+                          prereq_json, next_json, requirements_json
+                   FROM mapledb_quests"""
+            ).fetchall()]
+        except Exception:
+            return empty  # 시드 전 허용
+    finally:
+        conn.close()
+
+    for r in rows:
+        for key in ("prereq_json", "next_json", "requirements_json"):
+            try:
+                r[key[:-5]] = json.loads(r.pop(key) or "[]")
+            except Exception:
+                r[key[:-5]] = []
+
+    # 1) 전달형 퀘스트 — 요구가 전부 '사전 준비 가능한 아이템'
+    deliver_only = []
+    for r in rows:
+        reqs = r["requirements"]
+        items = [x for x in reqs if x.get("type") == "item"]
+        if not reqs or not items or len(items) != len(reqs):
+            continue
+        parsed = [
+            {"id": x.get("id"), "name": x.get("name"), "count": _req_count(x.get("raw"))}
+            for x in items
+        ]
+        if any(not _is_preparable_item(p["id"]) or p["count"] <= 0 for p in parsed):
+            continue
+        deliver_only.append({
+            "quest_id": r["quest_id"], "name": r["name"],
+            "min_level": r["min_level"], "max_level": r["max_level"],
+            "start_npc": r["start_npc"], "repeatable": r["repeatable"],
+            "exp": r["exp"], "meso": r["meso"], "fame": r["fame"],
+            "items": parsed,
+        })
+    deliver_only.sort(key=lambda d: (d["min_level"], d["quest_id"]))
+
+    # 1-2) 처치형 퀘스트 — 몹 처치가 하나라도 포함 (함께 전달할 아이템도 표기)
+    kill_quests = []
+    for r in rows:
+        mobs = [x for x in r["requirements"] if x.get("type") == "mob"]
+        if not mobs:
+            continue
+        items = [x for x in r["requirements"] if x.get("type") == "item"]
+        kill_quests.append({
+            "quest_id": r["quest_id"], "name": r["name"],
+            "min_level": r["min_level"], "max_level": r["max_level"],
+            "start_npc": r["start_npc"], "repeatable": r["repeatable"],
+            "exp": r["exp"], "meso": r["meso"], "fame": r["fame"],
+            "mobs": [
+                {"id": x.get("id"), "name": x.get("name"), "count": _req_count(x.get("raw"))}
+                for x in mobs
+            ],
+            "items": [
+                {"id": x.get("id"), "name": x.get("name"), "count": _req_count(x.get("raw")),
+                 "preparable": _is_preparable_item(x.get("id"))}
+                for x in items
+            ],
+        })
+    kill_quests.sort(key=lambda d: (d["min_level"], d["quest_id"]))
+
+    # 2) 연계 묶음 — prereq/next 링크 기준 union-find
+    ids = {r["quest_id"] for r in rows}
+    parent = {qid: qid for qid in ids}
+
+    def find(x: int) -> int:
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    for r in rows:
+        for link in r["prereq"] + r["next"]:
+            other = link[0] if isinstance(link, list) and link else None
+            if other in ids:
+                parent[find(r["quest_id"])] = find(other)
+
+    groups: dict[int, list[dict]] = {}
+    for r in rows:
+        groups.setdefault(find(r["quest_id"]), []).append(r)
+
+    chains = []
+    for members in groups.values():
+        if len(members) < 3:
+            continue
+        members.sort(key=lambda r: (r["min_level"], r["quest_id"]))
+        prep: dict[tuple, int] = {}
+        kills: dict[tuple, int] = {}
+        for r in members:
+            for x in r["requirements"]:
+                key = (x.get("id"), x.get("name"))
+                n = _req_count(x.get("raw"))
+                if x.get("type") == "item" and _is_preparable_item(x.get("id")) and n > 0:
+                    prep[key] = prep.get(key, 0) + n
+                elif x.get("type") == "mob":
+                    kills[key] = kills.get(key, 0) + n
+        chains.append({
+            "title": f"{members[0]['name']} → {members[-1]['name']}",
+            "min_level": min(r["min_level"] for r in members),
+            "quest_count": len(members),
+            "total_exp": sum(r["exp"] or 0 for r in members),
+            "quests": [
+                {"quest_id": r["quest_id"], "name": r["name"], "min_level": r["min_level"]}
+                for r in members
+            ],
+            "prep_items": [
+                {"id": k[0], "name": k[1], "count": v}
+                for k, v in sorted(prep.items(), key=lambda e: -e[1])
+            ],
+            "mob_kills": [
+                {"id": k[0], "name": k[1], "count": v}
+                for k, v in sorted(kills.items(), key=lambda e: -e[1])
+            ],
+        })
+    chains.sort(key=lambda c: -c["quest_count"])
+
+    # 3) 몹 시너지 — 같은 몹을 요구하는 퀘스트 2개 이상
+    mob_quests: dict[tuple, list] = {}
+    for r in rows:
+        for x in r["requirements"]:
+            if x.get("type") != "mob":
+                continue
+            key = (x.get("id"), x.get("name"))
+            mob_quests.setdefault(key, []).append({
+                "quest_id": r["quest_id"], "name": r["name"],
+                "min_level": r["min_level"], "count": _req_count(x.get("raw")),
+            })
+    mob_synergy = [
+        {"id": k[0], "name": k[1], "quests": sorted(v, key=lambda q: q["min_level"])}
+        for k, v in mob_quests.items() if len(v) >= 2
+    ]
+    mob_synergy.sort(key=lambda m: -len(m["quests"]))
+
+    return {
+        "deliver_only": deliver_only,
+        "kill_quests": kill_quests,
+        "chains": chains,
+        "mob_synergy": mob_synergy,
+    }

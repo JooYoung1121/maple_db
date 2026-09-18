@@ -81,6 +81,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/skill-quests", label: "스킬 획득 퀘스트", icon: "📚", description: "직업별 스킬 해금 · 선행 퀘스트 · 준비물 · 진행 순서", keywords: ["제네시스", "리저렉션", "스킬퀘", "직업퀘", "스킬북", "용사의 의지", "기분안기모띠"] },
       { href: "/battle-mage", label: "배틀메이지 가이드", homeLabel: "배틀메이지", icon: "⚙️", description: "스킬 · 마북 드롭 · 에델슈타인 퀘스트 · 육성", keywords: ["배메", "레지스탕스", "마북", "에델슈타인"] },
       { href: "/medals", label: "훈장 가이드", icon: "🎖️", description: "탐험가 · 기부왕 · 무릉 한정 훈장" },
+      { href: "/quest-specialist", label: "퀘스트 스페셜리스트", icon: "🏅", description: "퀘스트 800개 훈장 — 레벨 제한 퀘 · 전달형 즉시 완료 · 연계 준비물 총량", keywords: ["퀘스페", "훈장", "800", "퀘스트 훈장", "달리어", "칭호"] },
       { href: "/ship", label: "배 시간표", icon: "🚢", description: "정기선 운항 시간", keywords: ["페리"] },
       { href: "/trap", label: "함정 타이머", homeLabel: "트랩 타이머", icon: "⏱️", description: "트랩 주기 타이머" },
       { href: "/wedding", label: "결혼 시스템", icon: "💍", description: "준비물 · 절차 · 채플 vs 대성당 · 하객 보상", keywords: ["웨딩"] },
