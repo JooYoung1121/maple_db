@@ -15,6 +15,25 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.2.0",
+    date: "2026-09-18",
+    type: "minor",
+    title: "핑크빈 공략 페이지",
+    pages: ["/pinkbean"],
+    features: [
+      {
+        category: "핑크빈 공략",
+        items: [
+          "시간의 신전 원정대 보스 핑크빈 전용 페이지 신설 — 9/18 정식 등장 대비",
+          "입장 경로(코르바 드래곤 이동·과거의 길 길뚫·원정대), 석상 5종+본체 HP 구조, 주요 패턴 정리",
+          "메이플랜드 구조상 클리어 가능성 분석 — 맥뎀(데미지 상한) 중심 3개 시나리오",
+          "빅뱅 전 '깨지 말라고 낸 보스' 역사와 9/9 원정대 차단→9/18 오픈 타임라인",
+          "데이터 판본 주의(빅뱅 전 KMST 기준) 명시 — 페이즈·반사 주기·드롭률은 오픈 후 실측으로 확정 예정",
+        ],
+      },
+    ],
+  },
+  {
     version: "4.1.0",
     date: "2026-09-14",
     type: "minor",
