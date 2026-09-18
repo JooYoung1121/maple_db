@@ -47,6 +47,9 @@ const drops = [
 
 const sourceLinks = [
   { label: "메이플홀릭 — 「진짜로 깨지 말라고 낸 보스, 핑크빈」 (빅뱅 전 KMS 실측 분석)", href: "https://youtu.be/BHNzK7xrLDk" },
+  { label: "레고77 (9/18 첫 30인 트라이 방송)", href: "https://www.youtube.com/@%EB%A0%88%EA%B3%A077" },
+  { label: "디시 메랜갤 — 첫 트라이 딜 견적 계산 (2026-09-18)", href: "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=3972779" },
+  { label: "디시 메랜갤 — 발판 동선·좌우 분업 오더 분석 (2026-09-18)", href: "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=3973031" },
   { label: "메이플랜드 공지 — 보스 <핑크빈> 원정대 입장 차단 (2026-09-09)", href: "https://maple.land/board/notices/qr1jijfy00snag5nzooeoznx" },
   { label: "메이플랜드 공지 — 9월 18일(금) 점검 예정 안내", href: "https://maple.land/board/notices/zo71uykp1t3kgxo8k96mvj2r" },
   { label: "나무위키 — 핑크빈", href: "https://namu.wiki/w/%ED%95%91%ED%81%AC%EB%B9%88" },
@@ -175,6 +178,46 @@ export default function PinkBeanPage() {
         </p>
       </section>
 
+      {/* 9/18 첫 트라이 실측 */}
+      <section className="pixel-panel p-5">
+        <SectionTitle>9/18 첫 트라이 실측 — 30인 공대, 아리엘에서 실패</SectionTitle>
+        <div className="mt-3 space-y-3 text-sm leading-6 text-ink">
+          <p>
+            오픈 당일 스트리머 레고77의 30인 원정대(커뮤니티 평가 기준 최상위권 스펙)가 첫 도전했으나,
+            <strong> 석상 페이즈에서 시간을 소진해 아리엘(5페이즈)을 넘지 못하고 실패</strong>했습니다. 본체는 아무도 보지 못했습니다.
+          </p>
+          <div className="grid gap-2 md:grid-cols-2">
+            <div className="border-2 border-edge bg-surface2 p-3">
+              <p className="font-pixel text-amber-900 dark:text-maple">딜 견적 (커뮤니티 계산)</p>
+              <p className="mt-1 text-dim">
+                총 76.5억 기준, 1번 솔로몬(3억)을 <strong className="text-ink">이론상 2분 20초, 변수 감안 90초</strong> 안에 잡아야 1시간 내 클리어 각.
+                첫 공대는 <strong className="text-ink">1석상에 3분 30초</strong> — 지금 스펙·숙련도로는 딜이 약 2배 모자란다는 평가.
+              </p>
+            </div>
+            <div className="border-2 border-edge bg-surface2 p-3">
+              <p className="font-pixel text-amber-900 dark:text-maple">발판 밸런스 조정의 의미</p>
+              <p className="mt-1 text-dim">
+                9/18 패치의 발판 조정은 <strong className="text-ink">발판 위에서 석상 타격 가능 + 발판은 공반·단체유혹 범위 밖</strong>이라는 뜻으로 해석되고 있습니다.
+                근딜도 휘긴/무닌 옆 1.5층 발판에서 안전하게 딜하는 동선이 정석 — 첫 공대는 이 동선을 쓰지 못해 근격 파티가 놀았습니다.
+              </p>
+            </div>
+          </div>
+          <div className="border-2 border-edge bg-surface2 p-3">
+            <p className="font-pixel text-amber-900 dark:text-maple">직업 구성 논쟁 (첫날 기준)</p>
+            <ul className="mt-1 grid gap-1 text-dim">
+              <li>· <strong className="text-ink">나이트로드(원거리) 주딜</strong> — 단 아리엘·본체의 제네시스급 고정뎀을 피하는 숙련이 전제. 회피에 익숙하면 아리엘도 나로가 치는 쪽이 낫다는 의견.</li>
+              <li>· <strong className="text-ink">팔라딘 1~2명 가치 상승</strong> — 휘긴=얼음 약점·무닌=불 약점 속성 차지 + 생츄어리. 아리엘(성속 무효)만 예외.</li>
+              <li>· <strong className="text-ink">히어로는 비추 여론</strong> — 본체가 물리 반감이라 동스펙 나로의 66% 딜(윈부 포함 계산). 석상은 발판 동선으로 가능하지만 기용 이유가 약함.</li>
+              <li>· 전사 소수는 본체 대비용(돌진으로 본체를 우측에 몰아 음표 유혹 몸박사 방지) — 원거리는 좌측에서 딜.</li>
+              <li>· 페이즈 병행 오더가 핵심: 공반 중에는 다음 석상을 미리 치고, 좌(근격)·우(원격) 분업으로 딜로스를 줄이는 동선이 제안됨.</li>
+            </ul>
+          </div>
+          <p className="text-xs text-dim">
+            ⚠️ 본체 패턴(제네시스·빅뱅·음표 유혹·공반 25초/40~45초 주기 설)은 원작 데이터 기반 커뮤니티 분석으로, 메랜 본체 실측은 아직 없습니다.
+          </p>
+        </div>
+      </section>
+
       {/* 클리어 가능성 분석 — 핵심 */}
       <section className="pixel-panel p-5">
         <SectionTitle>메이플랜드 구조상 클리어 가능성</SectionTitle>
@@ -208,8 +251,8 @@ export default function PinkBeanPage() {
             참고: 바이퍼의 <strong className="text-ink">오크통</strong>(1바이퍼)은 물약쌀에는 유효하지만, 본체(6페이지)에는 통하지 않아 클리어 타임 단축에는 무의미합니다 — 커뮤니티의 「1바이퍼로 가능?」 논쟁에 대한 답.
           </p>
           <p className="text-dim">
-            ⚠️ 9/18 오픈 직후 기준 실제 클리어 제보는 아직 없습니다. 완화된 판정으로 실제 격파가 나오는지·드롭이 무엇인지 확인되는 대로 이 섹션을 확정 결론으로 갱신합니다.
-            클리어 여부는 신전 사냥의 산물인 <strong className="text-ink">시간의 조각</strong> 시세와도 직결됩니다.
+            ⚠️ 9/18 첫 30인 트라이는 아리엘에서 실패(위 실측 섹션). 현 스펙 기준 딜이 약 2배 부족하다는 평가라, 당분간은 스펙 성장·동선 숙련·조합 최적화 싸움입니다.
+            실제 격파·드롭이 확인되는 대로 이 섹션을 확정 결론으로 갱신합니다. 클리어 여부는 신전 사냥의 산물인 <strong className="text-ink">시간의 조각</strong> 시세와도 직결됩니다.
           </p>
         </div>
       </section>

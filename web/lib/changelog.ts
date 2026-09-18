@@ -15,6 +15,23 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.3.1",
+    date: "2026-09-18",
+    type: "patch",
+    title: "핑크빈 첫 트라이 실측 반영",
+    pages: ["/pinkbean"],
+    features: [
+      {
+        category: "핑크빈",
+        items: [
+          "9/18 첫 30인 공대 트라이 실측 — 아리엘(5페이즈)에서 실패, 본체 미도달",
+          "딜 견적(1석상 90초~2분20초 컷 필요 vs 실측 3분30초)과 발판 밸런스 조정의 공략적 의미(발판=공반·유혹 범위 밖) 정리",
+          "직업 구성 첫날 여론 — 나로 주딜·팔라딘 속성 차지 가치·히어로 비추(본체 물리 반감)·전사 몰이 역할",
+        ],
+      },
+    ],
+  },
+  {
     version: "4.3.0",
     date: "2026-09-18",
     type: "minor",
