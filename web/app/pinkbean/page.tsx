@@ -16,7 +16,7 @@ const timeline = [
   ["2009-05", "테스트 서버에서 스피드핵 6인이 한국 서버 첫 격파. 드롭이 이때 처음 확인됨."],
   ["2010-07-17", "빅뱅 패치(데미지 공식 변경) 이후 스카니아 서버가 정식 첫 격파."],
   ["2026-09-09", "메이플랜드, 「보스 <핑크빈> 원정대 입장 차단 안내」 — 미공개 보스 비정상 접근(5명) 긴급 차단."],
-  ["2026-09-18", "정기 점검(07:00~12:00)에서 핑크빈 정식 등장."],
+  ["2026-09-18", "메이플랜드 정식 등장(9/18 패치노트). 원본보다 완화 — 원정대 3인 이상, 7일 최대 2회, 발판·마법 구체 판정 조정."],
 ];
 
 // 처치 순서: 페이지가 오를수록 상대할 석상이 늘어난다. 총 16마리.
@@ -99,7 +99,7 @@ export default function PinkBeanPage() {
         <ul className="mt-3 grid gap-2 text-sm leading-6 text-ink">
           <li>· 석상 5종을 정해진 순서로 <strong>총 16마리</strong> 처치(솔로몬 5·렉스 4·휘긴 3·무닌 2·아리엘 1)한 뒤, 본체 21억을 잡는 원정대 보스. 제한시간 1시간.</li>
           <li>· 빅뱅 전 원본은 한국 서버 기준 약 2년간 정식 격파 실패 — 그러나 원인은 스펙 부족이 아니라 <strong>캐시성 물량(부활·회복·체력) 강제 구조</strong>였다는 것이 실측 분석의 결론입니다.</li>
-          <li>· 메이플랜드에서의 클리어 가능성은 <strong>데미지 공식(맥뎀) + 캐시 소모품 투입 의지</strong>에 달려 있습니다(아래 분석).</li>
+          <li>· <strong className="text-ink">메랜은 원본보다 완화해 출시</strong>했습니다 — 원정대 최소 3인, 발판·마법 구체 판정 조정, 7일 2회 반복 입장 구조로 <strong>클리어를 전제한 반복 레이드</strong>에 가깝습니다(아래 분석).</li>
         </ul>
       </section>
 
@@ -124,11 +124,11 @@ export default function PinkBeanPage() {
       <section className="pixel-panel p-5">
         <SectionTitle>입장 경로</SectionTitle>
         <ol className="mt-3 grid gap-2 text-sm leading-6 text-ink">
-          <li><strong>레벨 조건:</strong> 퀘스트라인 수행 레벨 140부터 도전 가능(최저 레벨 제한 자체는 없으나 길뚫 퀘스트가 140 요구).</li>
+          <li><strong>레벨 조건:</strong> <strong className="text-ink">140레벨 이상</strong>(9/18 패치노트 확정).</li>
           <li><strong>1.</strong> 리프레 정거장 → 미니맵 위쪽 연두색 지점의 NPC <strong>코르바</strong>와 대화해 드래곤으로 변신, 직접 조작해 시간의 신전으로 이동.</li>
           <li><strong>2.</strong> 시간의 신전에서 <strong>신전관리인</strong>과 대화. 과거의 문으로 진입해 추억 → 후회 → 망각의 길을 길뚫.</li>
-          <li><strong>3.</strong> 부서진 회랑의 결계를 풀려면 퀘스트 보상인 <strong>카오스의 구슬</strong>이 필요(매일 제작 가능하나 재료 수급이 관문). 이 구슬로 신전 최심부로 이동.</li>
-          <li><strong>4.</strong> 입장은 <strong>15채널</strong>에서만 가능. 잊혀진 신전관리인을 통해 「신들의 황혼」으로 <strong>최대 30인 원정대</strong> 입장. 제한시간 1시간. <span className="text-dim">⚠️ 메랜 본섭의 레벨·채널·인원 규칙은 오픈 후 공지로 재확인.</span></li>
+          <li><strong>3.</strong> 부서진 회랑의 결계를 풀려면 퀘스트 보상인 <strong>카오스의 구슬</strong>이 필요(매일 제작 가능하나 재료 수급이 관문). 이 구슬로 신전 폐허에서 「잊혀진 황혼」으로 입장.</li>
+          <li><strong>4.</strong> 「잊혀진 황혼」의 <strong>잊혀진 신전관리인</strong> NPC를 통해 <strong className="text-ink">3인 이상 원정대</strong>로 도전. <strong>첫 입장 시점부터 7일간 최대 2회</strong> 입장(7일 경과 후 초기화). <span className="text-dim">— 원본 KMS는 최대 30인·15채널 한정·제한 1시간이었으나, 메랜은 진입 문턱을 대폭 낮춰 출시.</span></li>
         </ol>
         <p className="mt-3 text-xs text-dim">
           관련 데이터: <Link href="/maps?q=시간의 신전" className="text-amber-900 dark:text-maple underline">시간의 신전 맵</Link>,{" "}
@@ -186,26 +186,29 @@ export default function PinkBeanPage() {
             사실상 개발진이 의도한 공략이었습니다. 한국은 공략(2009 초 완성)과 딜이 부족해서가 아니라, 그 물량을 쏟지 않아 못 깬 것으로 분석됩니다.
             <span className="text-dim"> (빅뱅의 데미지 공식 변경 이후에야 2010.7 스카니아 첫 격파.)</span>
           </p>
-          <p className="font-bold text-ink">메이플랜드 관점 시나리오(추론):</p>
+          <p className="font-bold text-ink">9/18 패치로 확인된 메랜의 방향:</p>
           <div className="grid gap-2 md:grid-cols-3">
             <div className="border-2 border-edge bg-surface2 p-3">
-              <p className="font-pixel text-amber-900 dark:text-maple">① 원본 데미지 공식 유지</p>
-              <p className="mt-1 text-dim">맥뎀·데미지 공식이 빅뱅 전 그대로면 딜 부족 + 반사·투명 파워업으로 타임어택이 극악. 캐시 물량 없이는 사실상 불가.</p>
+              <p className="font-pixel text-amber-900 dark:text-maple">발판 완화</p>
+              <p className="mt-1 text-dim">상단 발판 길이를 늘리고 위치 조정, 중·하단 발판 위치 조정 — 이동·회피 난이도를 낮췄습니다.</p>
             </div>
             <div className="border-2 border-edge bg-surface2 p-3">
-              <p className="font-pixel text-amber-900 dark:text-maple">② 캐시 물량 총동원</p>
-              <p className="mt-1 text-dim">수레바퀴·AP 되돌리기·만병통치약을 갈아넣고 비숍을 딜러로 대체하는 「의도된 공략」을 그대로 재현하면, 30인 극한 스펙 기준 이론상 가능.</p>
+              <p className="font-pixel text-amber-900 dark:text-maple">패턴 하향</p>
+              <p className="mt-1 text-dim">마법 구체를 터뜨리는 공격의 가로 타격 범위를 10% 축소 — 원본 대비 피격 부담 감소.</p>
             </div>
             <div className="border-2 border-edge bg-surface2 p-3">
-              <p className="font-pixel text-amber-900 dark:text-maple">③ 운영 밸런스 조정</p>
-              <p className="mt-1 text-dim">메랜이 데미지 상한을 올리거나 직업 버프를 동반하면 난이도 급락. 넥슨의 9/9 차단 기조를 보면 통제 의도가 읽힙니다.</p>
+              <p className="font-pixel text-amber-900 dark:text-maple">반복 레이드화</p>
+              <p className="mt-1 text-dim">최소 3인·7일 2회 구조는 「소수 정예가 반복 도전」을 전제 — 클리어 가능성을 열어둔 설계로 읽힙니다.</p>
             </div>
           </div>
+          <p className="text-dim">
+            즉 메랜은 「원본 맥뎀·캐시 강제」를 그대로 재현하기보다 <strong className="text-ink">완화판으로 출시</strong>했습니다. 다만 본체의 20초 반사·투명 파워업·언데드는 유지될 가능성이 커, 원정대 딜·비숍 운용·타이머 관리가 여전히 관건입니다.
+          </p>
           <p className="text-dim">
             참고: 바이퍼의 <strong className="text-ink">오크통</strong>(1바이퍼)은 물약쌀에는 유효하지만, 본체(6페이지)에는 통하지 않아 클리어 타임 단축에는 무의미합니다 — 커뮤니티의 「1바이퍼로 가능?」 논쟁에 대한 답.
           </p>
           <p className="text-dim">
-            ⚠️ 9/18 오픈 시점 기준 실제 클리어 제보는 없습니다. 맥뎀·캐시 소모품 적용 여부가 확인되는 대로 이 섹션을 확정 결론으로 갱신합니다.
+            ⚠️ 9/18 오픈 직후 기준 실제 클리어 제보는 아직 없습니다. 완화된 판정으로 실제 격파가 나오는지·드롭이 무엇인지 확인되는 대로 이 섹션을 확정 결론으로 갱신합니다.
             클리어 여부는 신전 사냥의 산물인 <strong className="text-ink">시간의 조각</strong> 시세와도 직결됩니다.
           </p>
         </div>
