@@ -166,6 +166,30 @@ export async function getQuestRoadmap() {
   return fetchJSON<{ quests: RoadmapQuest[] }>(`/api/quests/roadmap/all`);
 }
 
+export interface SpecialistItem { id: number | null; name: string; count: number }
+export interface SpecialistDeliverQuest {
+  quest_id: number; name: string; min_level: number; max_level: number | null;
+  start_npc: string | null; repeatable: number; exp: number; meso: number; fame: number;
+  items: SpecialistItem[];
+}
+export interface SpecialistChain {
+  title: string; min_level: number; quest_count: number; total_exp: number;
+  quests: { quest_id: number; name: string; min_level: number }[];
+  prep_items: SpecialistItem[];
+  mob_kills: SpecialistItem[];
+}
+export interface SpecialistMobSynergy {
+  id: number | null; name: string;
+  quests: { quest_id: number; name: string; min_level: number; count: number }[];
+}
+export async function getQuestSpecialistGuide() {
+  return fetchJSON<{
+    deliver_only: SpecialistDeliverQuest[];
+    chains: SpecialistChain[];
+    mob_synergy: SpecialistMobSynergy[];
+  }>(`/api/quests/specialist/guide`);
+}
+
 export async function getMapFilters() {
   return fetchJSON<{ areas: string[]; regions: string[]; street_names: string[]; town_count: number }>(`/api/maps/filters`);
 }
