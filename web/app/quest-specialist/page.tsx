@@ -6,6 +6,7 @@ import {
   getQuestSpecialistGuide,
   type SpecialistChain,
   type SpecialistDeliverQuest,
+  type SpecialistKillQuest,
   type SpecialistMobSynergy,
 } from "@/lib/api";
 
@@ -62,20 +63,45 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   return <h2 className="text-lg font-bold text-ink font-pixel">{children}</h2>;
 }
 
-function DeliverSection({ quests }: { quests: SpecialistDeliverQuest[] }) {
+function QuestTablesSection({ deliverQuests, killQuests }: {
+  deliverQuests: SpecialistDeliverQuest[];
+  killQuests: SpecialistKillQuest[];
+}) {
+  const [tab, setTab] = useState<"deliver" | "kill">("deliver");
   const [maxLevel, setMaxLevel] = useState<number | null>(null);
+  const [showAll, setShowAll] = useState(false);
+  const quests: (SpecialistDeliverQuest | SpecialistKillQuest)[] =
+    tab === "deliver" ? deliverQuests : killQuests;
   const filtered = useMemo(
     () => (maxLevel === null ? quests : quests.filter((q) => q.min_level <= maxLevel)),
     [quests, maxLevel],
   );
-  const [showAll, setShowAll] = useState(false);
   const visible = showAll ? filtered : filtered.slice(0, 30);
+  const cols = tab === "deliver"
+    ? "grid-cols-[0.6fr_1.4fr_1fr_2fr_0.8fr]"
+    : "grid-cols-[0.6fr_1.3fr_1.4fr_1.6fr_0.8fr]";
   return (
     <section className="pixel-panel p-5">
-      <SectionTitle>전달형 퀘스트 — 준비물만 있으면 즉시 완료 ({num(quests.length)}개)</SectionTitle>
-      <p className="mt-1 text-sm text-dim">
-        요구 조건이 전부 「미리 구할 수 있는 아이템」뿐이라, 거래·사냥으로 준비해 두면 수락 즉시 완료됩니다.
-        퀘스트 진행 중에만 얻는 전용 아이템(4031번대)이 섞인 퀘스트는 제외했습니다.
+      <div className="flex flex-wrap gap-2">
+        <button
+          type="button"
+          onClick={() => { setTab("deliver"); setShowAll(false); }}
+          className={`min-h-11 border-2 px-4 py-2 text-sm font-bold font-pixel ${tab === "deliver" ? "border-maple text-maple bg-surface2" : "border-edge text-ink hover:border-maple"}`}
+        >
+          🎒 전달형 — 즉시 완료 ({num(deliverQuests.length)})
+        </button>
+        <button
+          type="button"
+          onClick={() => { setTab("kill"); setShowAll(false); }}
+          className={`min-h-11 border-2 px-4 py-2 text-sm font-bold font-pixel ${tab === "kill" ? "border-maple text-maple bg-surface2" : "border-edge text-ink hover:border-maple"}`}
+        >
+          ⚔️ 처치형 — 사냥 동선에 ({num(killQuests.length)})
+        </button>
+      </div>
+      <p className="mt-2 text-sm text-dim">
+        {tab === "deliver"
+          ? "요구 조건이 전부 「미리 구할 수 있는 아이템」뿐이라, 거래·사냥으로 준비해 두면 수락 즉시 완료됩니다. 퀘스트 진행 중에만 얻는 전용 아이템(4031번대)이 섞인 퀘스트는 제외했습니다."
+          : "몬스터 처치가 포함된 퀘스트입니다. 사냥 나가기 전에 해당 레벨대 처치 퀘스트를 전부 수락해 두고, 「함께 전달」 아이템도 미리 챙기면 한 번의 사냥으로 끝납니다."}
       </p>
       <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
         <span className="text-dim">내 레벨로 필터:</span>
@@ -92,19 +118,44 @@ function DeliverSection({ quests }: { quests: SpecialistDeliverQuest[] }) {
         <span className="text-dim">{num(filtered.length)}개 표시</span>
       </div>
       <div className="mt-3 overflow-x-auto">
-        <div className="min-w-[640px] overflow-hidden border-2 border-edge">
-          <div className="grid grid-cols-[0.6fr_1.4fr_1fr_2fr_0.8fr] gap-2 bg-surface2 px-3 py-1.5 font-pixel text-xs text-dim">
-            <span>레벨</span><span>퀘스트</span><span>시작 NPC</span><span>준비물</span><span>EXP</span>
+        <div className="min-w-[680px] overflow-hidden border-2 border-edge">
+          <div className={`grid ${cols} gap-2 bg-surface2 px-3 py-1.5 font-pixel text-xs text-dim`}>
+            <span>레벨</span><span>퀘스트</span>
+            {tab === "deliver" ? <span>시작 NPC</span> : <span>처치 몹</span>}
+            {tab === "deliver" ? <span>준비물</span> : <span>함께 전달</span>}
+            <span>EXP</span>
           </div>
           {visible.map((q) => (
-            <div key={q.quest_id} className="grid grid-cols-[0.6fr_1.4fr_1fr_2fr_0.8fr] gap-2 border-t border-edge/40 px-3 py-2 text-sm">
+            <div key={q.quest_id} className={`grid ${cols} gap-2 border-t border-edge/40 px-3 py-2 text-sm`}>
               <span className="text-dim">{q.min_level > 0 ? `Lv.${q.min_level}` : "-"}</span>
               <span className="font-medium text-ink">
                 {q.name}
                 {q.repeatable ? <span className="ml-1 text-xs text-amber-900 dark:text-maple">(반복)</span> : null}
+                {tab === "kill" && <span className="block text-xs font-normal text-dim">{q.start_npc || ""}</span>}
               </span>
-              <span className="text-dim">{q.start_npc || "-"}</span>
-              <span className="text-dim">{q.items.map((it) => `${it.name} ${num(it.count)}개`).join(" · ")}</span>
+              {tab === "deliver" ? (
+                <span className="text-dim">{(q as SpecialistDeliverQuest).start_npc || "-"}</span>
+              ) : (
+                <span className="text-dim">
+                  {(q as SpecialistKillQuest).mobs.map((m) => `${m.name} ${num(m.count)}마리`).join(" · ")}
+                </span>
+              )}
+              {tab === "deliver" ? (
+                <span className="text-dim">
+                  {(q as SpecialistDeliverQuest).items.map((it) => `${it.name} ${num(it.count)}개`).join(" · ")}
+                </span>
+              ) : (
+                <span className="text-dim">
+                  {(() => {
+                    const kq = q as SpecialistKillQuest;
+                    const prep = kq.items.filter((it) => it.preparable && it.count > 0);
+                    const questOnly = kq.items.length - prep.length;
+                    const parts = prep.map((it) => `${it.name} ${num(it.count)}개`);
+                    if (questOnly > 0) parts.push(`퀘스트 진행품 ${questOnly}종`);
+                    return parts.length ? parts.join(" · ") : "-";
+                  })()}
+                </span>
+              )}
               <span className="text-dim">{q.exp ? num(q.exp) : "-"}</span>
             </div>
           ))}
@@ -166,6 +217,7 @@ function ChainCard({ chain }: { chain: SpecialistChain }) {
 
 export default function QuestSpecialistPage() {
   const [deliverOnly, setDeliverOnly] = useState<SpecialistDeliverQuest[]>([]);
+  const [killQuests, setKillQuests] = useState<SpecialistKillQuest[]>([]);
   const [chains, setChains] = useState<SpecialistChain[]>([]);
   const [mobSynergy, setMobSynergy] = useState<SpecialistMobSynergy[]>([]);
   const [loading, setLoading] = useState(true);
@@ -175,6 +227,7 @@ export default function QuestSpecialistPage() {
     getQuestSpecialistGuide()
       .then((d) => {
         setDeliverOnly(d.deliver_only);
+        setKillQuests(d.kill_quests);
         setChains(d.chains);
         setMobSynergy(d.mob_synergy);
       })
@@ -234,7 +287,7 @@ export default function QuestSpecialistPage() {
         </div>
       ) : (
         <>
-          <DeliverSection quests={deliverOnly} />
+          <QuestTablesSection deliverQuests={deliverOnly} killQuests={killQuests} />
 
           <section className="pixel-panel p-5">
             <SectionTitle>연계 퀘스트 준비물 총량 ({num(chains.length)}묶음)</SectionTitle>

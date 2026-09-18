@@ -114,6 +114,17 @@ class QuestSpecialistGuideTests(unittest.TestCase):
         self.assertEqual(chain["prep_items"], [{"id": 4000020, "name": "송곳니", "count": 150}])
         self.assertEqual(chain["mob_kills"], [{"id": 2230100, "name": "이블아이", "count": 80}])
 
+    def test_kill_quests_include_mob_and_side_items(self):
+        kills = self.guide()["kill_quests"]
+        names = [q["name"] for q in kills]
+        self.assertEqual(names, ["이블아이 의뢰", "체인 중간", "체인 끝"])  # min_level 순
+        self.assertNotIn("전달형", names)
+        mid = next(q for q in kills if q["name"] == "체인 중간")
+        self.assertEqual(mid["mobs"], [{"id": 2230100, "name": "이블아이", "count": 50}])
+        self.assertEqual(mid["items"], [
+            {"id": 4000020, "name": "송곳니", "count": 50, "preparable": True},
+        ])
+
     def test_mob_synergy_groups_shared_mobs(self):
         synergy = self.guide()["mob_synergy"]
         self.assertEqual(len(synergy), 1)

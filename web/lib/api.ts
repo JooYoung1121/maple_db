@@ -172,6 +172,12 @@ export interface SpecialistDeliverQuest {
   start_npc: string | null; repeatable: number; exp: number; meso: number; fame: number;
   items: SpecialistItem[];
 }
+export interface SpecialistKillQuest {
+  quest_id: number; name: string; min_level: number; max_level: number | null;
+  start_npc: string | null; repeatable: number; exp: number; meso: number; fame: number;
+  mobs: SpecialistItem[];
+  items: (SpecialistItem & { preparable: boolean })[];
+}
 export interface SpecialistChain {
   title: string; min_level: number; quest_count: number; total_exp: number;
   quests: { quest_id: number; name: string; min_level: number }[];
@@ -185,6 +191,7 @@ export interface SpecialistMobSynergy {
 export async function getQuestSpecialistGuide() {
   return fetchJSON<{
     deliver_only: SpecialistDeliverQuest[];
+    kill_quests: SpecialistKillQuest[];
     chains: SpecialistChain[];
     mob_synergy: SpecialistMobSynergy[];
   }>(`/api/quests/specialist/guide`);

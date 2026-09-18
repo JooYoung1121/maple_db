@@ -290,13 +290,15 @@ def quest_specialist_guide():
     """퀘스트 스페셜리스트 훈장용 효율 가이드 데이터.
 
     - deliver_only: 아이템 전달만으로 완료되는 퀘스트 (선준비 → 즉시 완료)
+    - kill_quests: 몬스터 처치가 포함된 퀘스트 (사냥 동선에 배치)
     - chains: prereq/next로 이어진 3개 이상 연계 묶음 + 준비물/처치 총량
     - mob_synergy: 여러 퀘스트가 같은 몹을 요구 → 한 번 잡을 때 같이 진행
     """
+    empty = {"deliver_only": [], "kill_quests": [], "chains": [], "mob_synergy": []}
     try:
         conn = get_connection()
     except Exception:
-        return {"deliver_only": [], "chains": [], "mob_synergy": []}
+        return empty
     try:
         try:
             rows = [dict(r) for r in conn.execute(
@@ -306,7 +308,7 @@ def quest_specialist_guide():
                    FROM mapledb_quests"""
             ).fetchall()]
         except Exception:
-            return {"deliver_only": [], "chains": [], "mob_synergy": []}  # 시드 전 허용
+            return empty  # 시드 전 허용
     finally:
         conn.close()
 
@@ -338,6 +340,30 @@ def quest_specialist_guide():
             "items": parsed,
         })
     deliver_only.sort(key=lambda d: (d["min_level"], d["quest_id"]))
+
+    # 1-2) 처치형 퀘스트 — 몹 처치가 하나라도 포함 (함께 전달할 아이템도 표기)
+    kill_quests = []
+    for r in rows:
+        mobs = [x for x in r["requirements"] if x.get("type") == "mob"]
+        if not mobs:
+            continue
+        items = [x for x in r["requirements"] if x.get("type") == "item"]
+        kill_quests.append({
+            "quest_id": r["quest_id"], "name": r["name"],
+            "min_level": r["min_level"], "max_level": r["max_level"],
+            "start_npc": r["start_npc"], "repeatable": r["repeatable"],
+            "exp": r["exp"], "meso": r["meso"], "fame": r["fame"],
+            "mobs": [
+                {"id": x.get("id"), "name": x.get("name"), "count": _req_count(x.get("raw"))}
+                for x in mobs
+            ],
+            "items": [
+                {"id": x.get("id"), "name": x.get("name"), "count": _req_count(x.get("raw")),
+                 "preparable": _is_preparable_item(x.get("id"))}
+                for x in items
+            ],
+        })
+    kill_quests.sort(key=lambda d: (d["min_level"], d["quest_id"]))
 
     # 2) 연계 묶음 — prereq/next 링크 기준 union-find
     ids = {r["quest_id"] for r in rows}
@@ -411,4 +437,9 @@ def quest_specialist_guide():
     ]
     mob_synergy.sort(key=lambda m: -len(m["quests"]))
 
-    return {"deliver_only": deliver_only, "chains": chains, "mob_synergy": mob_synergy}
+    return {
+        "deliver_only": deliver_only,
+        "kill_quests": kill_quests,
+        "chains": chains,
+        "mob_synergy": mob_synergy,
+    }
