@@ -8,6 +8,7 @@ import type { Mob, MobDrop, MobSpawn } from "@/lib/types";
 import EntityCanonDiffPanel from "@/components/EntityCanonDiffPanel";
 import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
 import FieldEvidence from "@/components/FieldEvidence";
+import DropRateBadge from "@/components/DropRateBadge";
 import { getEntityCanonDiffs } from "@/lib/entityCanonDiffs";
 
 export default function MobDetailPage() {
@@ -90,7 +91,12 @@ export default function MobDetailPage() {
                   <span className="font-medium">{d.name_kr || d.name}</span>
                   {d.category && <span className="text-xs text-dim bg-surface2 px-1.5 py-0.5 rounded">{d.category}</span>}
                 </div>
-                {d.drop_rate != null && <span className="text-sm text-dim">{(d.drop_rate * 100).toFixed(2)}%</span>}
+                {d.drop_rate != null && (
+                  <span className="text-sm text-dim">
+                    {(d.drop_rate * 100).toFixed(2)}%
+                    <DropRateBadge source={d.drop_rate_source} />
+                  </span>
+                )}
               </Link>
             ))}
           </div>

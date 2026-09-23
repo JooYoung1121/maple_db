@@ -230,7 +230,7 @@ def get_item(item_id: int):
             drop_conditions.append(mob_filter)
         drop_rows = conn.execute(
             f"""
-            SELECT m.id as mob_id, m.name as mob_name, m.level, m.is_boss, md.drop_rate,
+            SELECT m.id as mob_id, m.name as mob_name, m.level, m.is_boss, md.drop_rate, md.drop_rate_source,
                    (SELECT name_en FROM entity_names_en
                     WHERE entity_type='mob' AND entity_id=m.id AND source='kms') as mob_name_kr
             FROM mob_drops md
