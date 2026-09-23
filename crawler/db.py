@@ -40,6 +40,8 @@ CREATE TABLE IF NOT EXISTS mob_drops (
     item_id INTEGER NOT NULL,
     item_name TEXT,
     drop_rate REAL,
+    -- 드랍률 출처: 'mapledb'(메랜DB 동기화) | 'community'(실측 검증) | 'maplekibun'(옛메 블로그 참고값)
+    drop_rate_source TEXT,
     PRIMARY KEY (mob_id, item_id),
     FOREIGN KEY (mob_id) REFERENCES mobs(id),
     FOREIGN KEY (item_id) REFERENCES items(id)

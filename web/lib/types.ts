@@ -102,6 +102,7 @@ export interface MobDrop {
   name_kr?: string | null;
   category?: string | null;
   drop_rate: number | null;
+  drop_rate_source?: string | null;
 }
 
 export interface MobSpawn {

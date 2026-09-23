@@ -12,12 +12,14 @@ import { toCategoryKr, toSubcategoryKr } from "@/lib/translations";
 import EntityCanonDiffPanel from "@/components/EntityCanonDiffPanel";
 import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
 import { getEntityCanonDiffs } from "@/lib/entityCanonDiffs";
+import DropRateBadge from "@/components/DropRateBadge";
 
 interface DroppedByMob {
   mob_id: number;
   mob_name: string;
   mob_name_kr?: string | null;
   drop_rate: number | null;
+  drop_rate_source?: string | null;
 }
 
 export default function ItemDetailPage() {
@@ -162,7 +164,12 @@ export default function ItemDetailPage() {
                 className="flex items-center justify-between px-4 py-3 hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]"
               >
                 <span className="font-medium">{m.mob_name_kr || m.mob_name}</span>
-                {m.drop_rate != null && <span className="text-sm text-dim">{(m.drop_rate * 100).toFixed(2)}%</span>}
+                {m.drop_rate != null && (
+                  <span className="text-sm text-dim">
+                    {(m.drop_rate * 100).toFixed(2)}%
+                    <DropRateBadge source={m.drop_rate_source} />
+                  </span>
+                )}
               </Link>
             ))}
           </div>

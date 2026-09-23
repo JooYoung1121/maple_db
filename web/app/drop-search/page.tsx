@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { getItems, getItem } from "@/lib/api";
 import type { Item } from "@/lib/types";
+import DropRateBadge from "@/components/DropRateBadge";
 import Link from "next/link";
 
 interface DropSource {
@@ -10,6 +11,7 @@ interface DropSource {
   mob_name: string;
   mob_name_kr?: string | null;
   drop_rate: number | null;
+  drop_rate_source?: string | null;
   spawn_maps?: {
     map_id: number;
     map_name: string;
@@ -192,6 +194,7 @@ export default function DropSearchPage() {
                         {(mob.drop_rate * 100).toFixed(2)}%
                       </span>
                     )}
+                    {mob.drop_rate !== null && <DropRateBadge source={mob.drop_rate_source} />}
                   </div>
                   {(mob.spawn_maps || []).length > 0 ? (
                     <div className="mt-3 pt-3 border-t border-edge/60">

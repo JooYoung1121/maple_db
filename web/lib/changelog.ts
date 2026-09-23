@@ -15,6 +15,24 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.4.0",
+    date: "2026-09-23",
+    type: "minor",
+    title: "드랍률 메랜DB 동기화 · 출처 표기",
+    pages: ["/mobs", "/items", "/drop-search"],
+    features: [
+      {
+        category: "드랍률 신뢰도",
+        items: [
+          "드랍률을 메랜DB(mapledb.kr) 기준으로 전면 동기화 — 기존 수치는 옛메 블로그(2020) 참고값이라 외부 사이트와 상이했음",
+          "드랍률마다 출처 배지 표기: 실측(커뮤니티 몬스터북·툴팁 검증) · 메랜DB · 참고(옛메 블로그, 메랜 실측 아님)",
+          "출처 우선순위는 에델슈타인 판본 원칙과 동일 — 실측 > 메랜DB > 참고값, 실측 검증분은 덮어쓰지 않음",
+          "메랜DB에만 있던 드랍 조합 신규 추가, 몹 상세·아이템 상세·획득 경로 3개 페이지 적용",
+        ],
+      },
+    ],
+  },
+  {
     version: "4.3.1",
     date: "2026-09-18",
     type: "patch",
