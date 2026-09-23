@@ -3,7 +3,7 @@
 /**
  * 구인·구직 카드 메이커.
  * 합성은 전부 브라우저 캔버스에서 처리한다 — 업로드 이미지는 서버로 전송되지 않는다.
- * 서버 기능은 선택형 "AI 일러스트 변환"(Gemini 무료 티어, 일 3회)뿐이다.
+ * 서버 기능은 선택형 "AI 일러스트 변환"(Gemini 무료 티어, 디스코드 로그인 유저 월 2회)뿐이다.
  *
  * 템플릿: 모티프(번개·단풍·픽셀 밤하늘 등)를 직접 그리는 프로시저럴 8종.
  * 사전 생성 아트(web/public/recruit-card/tpl-*.png)가 존재하면 해당 템플릿의
@@ -620,6 +620,7 @@ export default function RecruitCardPage() {
   const [characterFile, setCharacterFile] = useState<string | null>(null);
   const [aiRemaining, setAiRemaining] = useState<number | null>(null);
   const [aiEnabled, setAiEnabled] = useState(false);
+  const [aiLoggedIn, setAiLoggedIn] = useState(true);
   const [aiBusy, setAiBusy] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
   const [bgArts, setBgArts] = useState<Partial<Record<TemplateKey, HTMLImageElement>>>({});
@@ -644,9 +645,13 @@ export default function RecruitCardPage() {
   }, []);
 
   useEffect(() => {
-    fetch("/api/recruit-card/quota")
+    fetch("/api/recruit-card/quota", { credentials: "include" })
       .then((r) => r.json())
-      .then((d) => { setAiRemaining(d.remaining ?? null); setAiEnabled(Boolean(d.enabled) && !d.global_exhausted); })
+      .then((d) => {
+        setAiRemaining(d.remaining ?? null);
+        setAiLoggedIn(Boolean(d.logged_in));
+        setAiEnabled(Boolean(d.enabled) && !d.global_exhausted);
+      })
       .catch(() => setAiEnabled(false));
   }, []);
 
@@ -788,11 +793,18 @@ export default function RecruitCardPage() {
               <input type="file" accept="image/png,image/jpeg,image/webp" className="mt-1 block w-full text-xs text-dim"
                 onChange={(e) => onCharacterFile(e.target.files?.[0] ?? null)} />
             </label>
-            <button type="button" onClick={generateAI} disabled={!aiEnabled || aiBusy || !characterFile || (aiRemaining !== null && aiRemaining <= 0)}
-              className="min-h-11 w-full border-2 border-maple px-3 font-pixel text-sm font-bold text-maple disabled:opacity-40 hover:bg-surface2">
-              {aiBusy ? "일러스트 생성 중… (최대 1분)" : `✨ 내 캡쳐를 AI 치비 일러스트로${aiRemaining !== null ? ` (오늘 ${aiRemaining}회)` : ""}`}
-            </button>
-            {!aiEnabled && <p className="text-xs text-dim">AI 변환은 준비 중이거나 오늘 무료분이 소진됐습니다 — 프리셋·직접 업로드는 언제나 가능해요.</p>}
+            {aiLoggedIn ? (
+              <button type="button" onClick={generateAI} disabled={!aiEnabled || aiBusy || !characterFile || (aiRemaining !== null && aiRemaining <= 0)}
+                className="min-h-11 w-full border-2 border-maple px-3 font-pixel text-sm font-bold text-maple disabled:opacity-40 hover:bg-surface2">
+                {aiBusy ? "일러스트 생성 중… (최대 1분)" : `✨ 내 캡쳐를 AI 치비 일러스트로${aiRemaining !== null ? ` (이번 달 ${aiRemaining}회)` : ""}`}
+              </button>
+            ) : (
+              <a href={`/api/auth/discord/login?next=${encodeURIComponent("/recruit-card")}`}
+                className="block min-h-11 w-full border-2 border-maple px-3 py-2.5 text-center font-pixel text-sm font-bold text-maple hover:bg-surface2">
+                ✨ AI 치비 변환은 디스코드 로그인 후 (월 2회)
+              </a>
+            )}
+            {aiLoggedIn && !aiEnabled && <p className="text-xs text-dim">AI 변환은 준비 중이거나 이번 달 무료분이 소진됐습니다 — 프리셋·직접 업로드는 언제나 가능해요.</p>}
             {aiError && <p className="text-xs text-red-500">{aiError}</p>}
             <label className="flex items-center gap-2 text-xs text-dim">
               <input type="checkbox" checked={state.flipCharacter} onChange={(e) => set("flipCharacter", e.target.checked)} />

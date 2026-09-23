@@ -5,8 +5,8 @@
 
 - 모델: GEMINI_IMAGE_MODEL (기본 gemini-2.5-flash-image) — fortune/nhit과 동일하게
   httpx REST 직접 호출 (SDK 미설치 환경)
-- 남용 방지: fortune_rate_limit 패턴 그대로 — IP당 일 3회 + 쿨다운 30초,
-  무료 티어 보호용 전역 일일 상한 30회
+- 남용 방지: 디스코드 로그인 필수 + 유저당 월 2회 + 쿨다운 30초,
+  무료 티어 보호용 전역 월 상한 60회
 """
 from __future__ import annotations
 
@@ -31,8 +31,8 @@ GEMINI_IMAGE_URL = (
     f"{GEMINI_IMAGE_MODEL}:generateContent"
 )
 
-DAILY_LIMIT_PER_IP = 3
-GLOBAL_DAILY_LIMIT = 30  # 무료 티어 보호 — 전 사용자 합산
+MONTHLY_LIMIT_PER_USER = 2   # 디스코드 로그인 유저당 월 2회 (사용자 지정)
+GLOBAL_MONTHLY_LIMIT = 60    # 무료 티어 보호 — 전 사용자 합산 (월)
 COOLDOWN_SEC = 30
 MAX_IMAGE_BYTES = 4 * 1024 * 1024  # base64 디코드 기준 4MB
 
@@ -47,8 +47,8 @@ Draw a single high-quality chibi (SD, super-deformed) illustration of this exact
 - One character only, centered, full body visible."""
 
 
-def _kst_today() -> str:
-    return datetime.now(KST).strftime("%Y-%m-%d")
+def _kst_month() -> str:
+    return datetime.now(KST).strftime("%Y-%m")
 
 
 def _client_ip(request: Request) -> str:
@@ -59,6 +59,7 @@ def _client_ip(request: Request) -> str:
 
 
 def _ensure_table(conn) -> None:
+    # subject = "user:<discord_id>" — 월 단위(YYYY-MM) 사용량. 컬럼명 ip는 과거 호환용.
     conn.execute(
         """CREATE TABLE IF NOT EXISTS recruit_card_rate_limit (
             ip TEXT NOT NULL,
@@ -70,33 +71,39 @@ def _ensure_table(conn) -> None:
     )
 
 
-def _quota(conn, ip: str) -> dict:
-    today = _kst_today()
-    row = conn.execute(
-        "SELECT request_count FROM recruit_card_rate_limit WHERE ip=? AND request_date=?",
-        (ip, today),
-    ).fetchone()
-    used = row["request_count"] if row else 0
+def _quota(conn, uid: int | None) -> dict:
+    month = _kst_month()
     total = conn.execute(
         "SELECT COALESCE(SUM(request_count),0) FROM recruit_card_rate_limit WHERE request_date=?",
-        (today,),
+        (month,),
     ).fetchone()[0]
+    remaining = None
+    if uid is not None:
+        row = conn.execute(
+            "SELECT request_count FROM recruit_card_rate_limit WHERE ip=? AND request_date=?",
+            (f"user:{uid}", month),
+        ).fetchone()
+        used = row["request_count"] if row else 0
+        remaining = max(MONTHLY_LIMIT_PER_USER - used, 0)
     return {
-        "remaining": max(DAILY_LIMIT_PER_IP - used, 0),
-        "daily_limit": DAILY_LIMIT_PER_IP,
-        "global_exhausted": total >= GLOBAL_DAILY_LIMIT,
+        "logged_in": uid is not None,
+        "remaining": remaining,
+        "monthly_limit": MONTHLY_LIMIT_PER_USER,
+        "global_exhausted": total >= GLOBAL_MONTHLY_LIMIT,
     }
 
 
 @router.get("/recruit-card/quota")
 def get_quota(request: Request):
+    from api.routes.auth import current_user_id
+
     try:
         conn = get_connection()
     except Exception:
         raise HTTPException(status_code=503, detail="Database unavailable")
     try:
         _ensure_table(conn)
-        info = _quota(conn, _client_ip(request))
+        info = _quota(conn, current_user_id(request))
         info["enabled"] = bool(GEMINI_API_KEY)
         return info
     finally:
@@ -203,9 +210,14 @@ async def generate_illustration(body: IllustrationRequest, request: Request):
         raise HTTPException(status_code=503, detail="AI 일러스트 기능이 아직 활성화되지 않았습니다.")
     mime, image_b64 = _decode_image(body.image_base64)
 
-    ip = _client_ip(request)
+    from api.routes.auth import current_user_id
+
+    uid = current_user_id(request)
+    if uid is None:
+        raise HTTPException(status_code=401, detail="디스코드 로그인 후 사용할 수 있습니다.")
+    subject = f"user:{uid}"
     now = time.time()
-    today = _kst_today()
+    month = _kst_month()
     try:
         conn = get_connection()
     except Exception:
@@ -214,36 +226,36 @@ async def generate_illustration(body: IllustrationRequest, request: Request):
         _ensure_table(conn)
         total = conn.execute(
             "SELECT COALESCE(SUM(request_count),0) FROM recruit_card_rate_limit WHERE request_date=?",
-            (today,),
+            (month,),
         ).fetchone()[0]
-        if total >= GLOBAL_DAILY_LIMIT:
-            raise HTTPException(status_code=429, detail="오늘의 무료 생성분이 모두 소진됐습니다. 내일 다시 시도해주세요.")
+        if total >= GLOBAL_MONTHLY_LIMIT:
+            raise HTTPException(status_code=429, detail="이번 달 무료 생성분이 모두 소진됐습니다. 다음 달에 다시 시도해주세요.")
         row = conn.execute(
             "SELECT request_count, last_request_at FROM recruit_card_rate_limit WHERE ip=? AND request_date=?",
-            (ip, today),
+            (subject, month),
         ).fetchone()
         if row:
             if now - (row["last_request_at"] or 0) < COOLDOWN_SEC:
                 wait = int(COOLDOWN_SEC - (now - row["last_request_at"])) + 1
                 raise HTTPException(status_code=429, detail=f"{wait}초 후에 다시 시도해주세요.")
-            if row["request_count"] >= DAILY_LIMIT_PER_IP:
+            if row["request_count"] >= MONTHLY_LIMIT_PER_USER:
                 raise HTTPException(
                     status_code=429,
-                    detail=f"오늘 생성 횟수를 모두 사용했습니다. (일 {DAILY_LIMIT_PER_IP}회)",
+                    detail=f"이번 달 생성 횟수를 모두 사용했습니다. (월 {MONTHLY_LIMIT_PER_USER}회)",
                 )
             conn.execute(
                 "UPDATE recruit_card_rate_limit SET request_count=request_count+1, last_request_at=? "
                 "WHERE ip=? AND request_date=?",
-                (now, ip, today),
+                (now, subject, month),
             )
         else:
             conn.execute(
                 "INSERT INTO recruit_card_rate_limit (ip, request_date, request_count, last_request_at) "
                 "VALUES (?, ?, 1, ?)",
-                (ip, today, now),
+                (subject, month, now),
             )
         conn.commit()
-        remaining = _quota(conn, ip)["remaining"]
+        remaining = _quota(conn, uid)["remaining"]
     finally:
         conn.close()
 
