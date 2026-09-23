@@ -107,6 +107,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/news", label: "공홈 소식", homeLabel: "메랜 공홈 소식", icon: "📰", description: "메이플랜드 공지·이벤트" },
       { href: "/weekly", label: "주간 메랜", icon: "🗞️", description: "한 주의 공식·커뮤니티 소식" },
       { href: "/channels", label: "채널 · 커뮤니티", icon: "📺", description: "메랜 방송 · 영상 · 공식 Discord 모음" },
+      { href: "/recruit-card", label: "구인구직 카드", icon: "🪧", description: "스탯창·캐릭터 캡쳐로 공대 구인·구직 홍보 카드 제작 — AI 일러스트 변환(베타)", keywords: ["구직", "구인", "공대 모집", "홍보", "카드 메이커", "포스터"] },
       { href: "/bimae", label: "비매박제", icon: "🚫", description: "비매 유저 신고" },
       { href: "/community", label: "투표", icon: "🗳️", description: "유저 투표 참여" },
       { href: "/version", label: "업데이트 소식", icon: "🧾", description: "사이트 변경 내역" },
