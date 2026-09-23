@@ -158,6 +158,45 @@ async def _call_gemini(mime: str, image_b64: str, job: str) -> str:
     raise HTTPException(status_code=502, detail="이미지 생성 결과가 비어 있습니다.")
 
 
+class TemplateArtRequest(BaseModel):
+    prompt: str
+
+
+@router.post("/recruit-card/template-art")
+async def generate_template_art(body: TemplateArtRequest, request: Request):
+    """템플릿 배경 아트 사전 생성 (관리자 전용 — 유저 쿼터와 분리).
+
+    생성물은 web/public/recruit-card/ 에 정적 자산으로 커밋해 두고,
+    런타임 카드 합성은 이 아트 위에 값만 얹는다 (무료 티어 보호).
+    """
+    from api.routes.admin import _require_admin
+
+    _require_admin(request)
+    if not GEMINI_API_KEY:
+        raise HTTPException(status_code=503, detail="GEMINI_API_KEY 미설정")
+    prompt = body.prompt.strip()
+    if not prompt:
+        raise HTTPException(status_code=400, detail="prompt가 필요합니다.")
+    payload = {
+        "contents": [{"parts": [{"text": prompt}]}],
+        "generationConfig": {"responseModalities": ["IMAGE"]},
+    }
+    async with httpx.AsyncClient(timeout=90.0) as client:
+        resp = await client.post(GEMINI_IMAGE_URL, params={"key": GEMINI_API_KEY}, json=payload)
+    if resp.status_code >= 400:
+        raise HTTPException(status_code=502, detail=f"생성 실패 ({resp.status_code}): {resp.text[:300]}")
+    data = resp.json()
+    try:
+        for part in data["candidates"][0]["content"]["parts"]:
+            inline = part.get("inlineData") or part.get("inline_data")
+            if inline and inline.get("data"):
+                out_mime = inline.get("mimeType") or inline.get("mime_type") or "image/png"
+                return {"image": f"data:{out_mime};base64,{inline['data']}"}
+    except (KeyError, IndexError, TypeError):
+        pass
+    raise HTTPException(status_code=502, detail="생성 결과가 비어 있습니다.")
+
+
 @router.post("/recruit-card/illustration")
 async def generate_illustration(body: IllustrationRequest, request: Request):
     if not GEMINI_API_KEY:

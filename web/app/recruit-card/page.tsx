@@ -10,18 +10,30 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 const SIZE = 1080;
 
-type TemplateKey = "storm" | "maple" | "night";
+type TemplateKey = "storm" | "maple" | "night" | "darkknight" | "pastel";
 
-const TEMPLATES: Record<TemplateKey, {
+interface TemplateDef {
   label: string;
-  base: [string, string];      // 배경 그라데이션 (위, 아래)
+  base: [string, string];      // 배경 그라데이션 (위, 아래) — 아트 없을 때 폴백
   glow: string;                // 캐릭터 뒤 광원
   streak: string;              // 에너지 스트로크
-  accent: string;              // 포인트(노랑 계열 유지하되 템플릿별 톤)
-}> = {
+  accent: string;              // 포인트 색
+  /** 사전 생성된 배경 아트(web/public). 로드 실패 시 프로시저럴 배경으로 폴백하고 선택지에서 숨긴다. */
+  bgImage?: string;
+}
+
+const TEMPLATES: Record<TemplateKey, TemplateDef> = {
   storm: { label: "번개", base: ["#04120a", "#020604"], glow: "rgba(57,255,20,0.55)", streak: "rgba(120,255,80,0.5)", accent: "#ffd54a" },
   maple: { label: "단풍", base: ["#1c0b02", "#0a0301"], glow: "rgba(255,140,40,0.55)", streak: "rgba(255,180,80,0.5)", accent: "#ffcf3f" },
   night: { label: "밤하늘", base: ["#0a0a24", "#030310"], glow: "rgba(140,120,255,0.55)", streak: "rgba(170,150,255,0.5)", accent: "#ffe066" },
+  darkknight: {
+    label: "다크나이트", base: ["#150520", "#050208"], glow: "rgba(190,80,255,0.5)",
+    streak: "rgba(200,120,255,0.45)", accent: "#c77bff", bgImage: "/recruit-card/tpl-darkknight.png",
+  },
+  pastel: {
+    label: "픽셀 파스텔", base: ["#1a2050", "#0c1030"], glow: "rgba(255,170,220,0.4)",
+    streak: "rgba(160,190,255,0.35)", accent: "#ffb3d9", bgImage: "/recruit-card/tpl-pastel.png",
+  },
 };
 
 interface InfoRow { icon: string; text: string }
@@ -71,38 +83,53 @@ function drawCard(
   s: CardState,
   characterImg: HTMLImageElement | null,
   statImg: HTMLImageElement | null,
+  bgArt: HTMLImageElement | null,
 ) {
   const t = TEMPLATES[s.template];
   // ── 배경 ──────────────────────────────────────────────
-  const bg = ctx.createLinearGradient(0, 0, 0, SIZE);
-  bg.addColorStop(0, t.base[0]);
-  bg.addColorStop(1, t.base[1]);
-  ctx.fillStyle = bg;
-  ctx.fillRect(0, 0, SIZE, SIZE);
+  if (bgArt) {
+    // 사전 생성 아트: cover 방식으로 채우고, 텍스트 가독용 어둡기 보정
+    const scale = Math.max(SIZE / bgArt.width, SIZE / bgArt.height);
+    const dw = bgArt.width * scale;
+    const dh = bgArt.height * scale;
+    ctx.drawImage(bgArt, (SIZE - dw) / 2, (SIZE - dh) / 2, dw, dh);
+    const dim = ctx.createLinearGradient(0, 0, 0, SIZE);
+    dim.addColorStop(0, "rgba(0,0,0,0.30)");
+    dim.addColorStop(0.45, "rgba(0,0,0,0.12)");
+    dim.addColorStop(1, "rgba(0,0,0,0.35)");
+    ctx.fillStyle = dim;
+    ctx.fillRect(0, 0, SIZE, SIZE);
+  } else {
+    const bg = ctx.createLinearGradient(0, 0, 0, SIZE);
+    bg.addColorStop(0, t.base[0]);
+    bg.addColorStop(1, t.base[1]);
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, SIZE, SIZE);
 
-  // 에너지 스트로크 (우측 상단 캐릭터 존 중심)
-  ctx.save();
-  ctx.translate(SIZE * 0.74, SIZE * 0.3);
-  for (let i = 0; i < 14; i++) {
-    const angle = (Math.PI * 2 * i) / 14 + 0.4;
-    const len = 180 + (i % 4) * 90;
-    ctx.strokeStyle = t.streak;
-    ctx.globalAlpha = 0.12 + (i % 3) * 0.08;
-    ctx.lineWidth = 3 + (i % 3) * 3;
-    ctx.beginPath();
-    ctx.moveTo(Math.cos(angle) * 60, Math.sin(angle) * 60);
-    ctx.lineTo(Math.cos(angle) * len, Math.sin(angle) * len);
-    ctx.stroke();
+    // 에너지 스트로크 (우측 상단 캐릭터 존 중심)
+    ctx.save();
+    ctx.translate(SIZE * 0.74, SIZE * 0.3);
+    for (let i = 0; i < 14; i++) {
+      const angle = (Math.PI * 2 * i) / 14 + 0.4;
+      const len = 180 + (i % 4) * 90;
+      ctx.strokeStyle = t.streak;
+      ctx.globalAlpha = 0.12 + (i % 3) * 0.08;
+      ctx.lineWidth = 3 + (i % 3) * 3;
+      ctx.beginPath();
+      ctx.moveTo(Math.cos(angle) * 60, Math.sin(angle) * 60);
+      ctx.lineTo(Math.cos(angle) * len, Math.sin(angle) * len);
+      ctx.stroke();
+    }
+    ctx.restore();
+    ctx.globalAlpha = 1;
+
+    // 캐릭터 뒤 광원
+    const glow = ctx.createRadialGradient(SIZE * 0.74, SIZE * 0.32, 40, SIZE * 0.74, SIZE * 0.32, 380);
+    glow.addColorStop(0, t.glow);
+    glow.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, SIZE, SIZE);
   }
-  ctx.restore();
-  ctx.globalAlpha = 1;
-
-  // 캐릭터 뒤 광원
-  const glow = ctx.createRadialGradient(SIZE * 0.74, SIZE * 0.32, 40, SIZE * 0.74, SIZE * 0.32, 380);
-  glow.addColorStop(0, t.glow);
-  glow.addColorStop(1, "rgba(0,0,0,0)");
-  ctx.fillStyle = glow;
-  ctx.fillRect(0, 0, SIZE, SIZE);
 
   // ── 상단 인사 배너 ────────────────────────────────────
   ctx.textAlign = "left";
@@ -288,7 +315,19 @@ export default function RecruitCardPage() {
   const [aiEnabled, setAiEnabled] = useState(false);
   const [aiBusy, setAiBusy] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
+  const [bgArts, setBgArts] = useState<Partial<Record<TemplateKey, HTMLImageElement>>>({});
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // 사전 생성 배경 아트 로드 — 없는 템플릿은 선택지에서 숨김
+  useEffect(() => {
+    (Object.keys(TEMPLATES) as TemplateKey[]).forEach((key) => {
+      const src = TEMPLATES[key].bgImage;
+      if (!src) return;
+      const el = new Image();
+      el.onload = () => setBgArts((m) => ({ ...m, [key]: el }));
+      el.src = src;
+    });
+  }, []);
 
   useEffect(() => {
     fetch("/api/recruit-card/quota")
@@ -303,9 +342,10 @@ export default function RecruitCardPage() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    drawCard(ctx, state, characterImg, statImg);
-    document.fonts?.ready?.then(() => drawCard(ctx, state, characterImg, statImg));
-  }, [state, characterImg, statImg]);
+    const bgArt = bgArts[state.template] ?? null;
+    drawCard(ctx, state, characterImg, statImg, bgArt);
+    document.fonts?.ready?.then(() => drawCard(ctx, state, characterImg, statImg, bgArt));
+  }, [state, characterImg, statImg, bgArts]);
 
   const onCharacterFile = (file: File | null) => {
     loadCharacter(file);
@@ -424,14 +464,17 @@ export default function RecruitCardPage() {
 
           <div className="border-t-2 border-edge pt-4">
             <p className="mb-2 text-xs text-dim">배경 템플릿</p>
-            <div className="flex gap-2">
-              {(Object.keys(TEMPLATES) as TemplateKey[]).map((k) => (
-                <button key={k} type="button" onClick={() => set("template", k)}
-                  className={`min-h-10 flex-1 border-2 px-2 text-sm ${state.template === k ? "border-maple text-maple" : "border-edge text-ink"}`}>
-                  {TEMPLATES[k].label}
-                </button>
-              ))}
+            <div className="flex flex-wrap gap-2">
+              {(Object.keys(TEMPLATES) as TemplateKey[])
+                .filter((k) => !TEMPLATES[k].bgImage || bgArts[k])
+                .map((k) => (
+                  <button key={k} type="button" onClick={() => set("template", k)}
+                    className={`min-h-10 flex-1 basis-[30%] border-2 px-2 text-sm ${state.template === k ? "border-maple text-maple" : "border-edge text-ink"}`}>
+                    {TEMPLATES[k].bgImage ? "🎨 " : ""}{TEMPLATES[k].label}
+                  </button>
+                ))}
             </div>
+            <p className="mt-1 text-[11px] text-dim">🎨 표시는 일러스트 배경 — 프리셋 아트가 순차 추가됩니다</p>
           </div>
 
           <button type="button" onClick={download}

@@ -65,6 +65,13 @@ class RecruitCardTests(unittest.TestCase):
                                    json={"image_base64": DATA_URL, "job": "신궁"})
             self.assertEqual(res.status_code, 429)  # 일 3회 초과
 
+    def test_template_art_requires_admin(self):
+        import os
+
+        with patch.dict(os.environ, {"GAME_ADMIN_PASSWORD": "test-secret"}):
+            res = self.client.post("/api/recruit-card/template-art", json={"prompt": "test bg"})
+            self.assertEqual(res.status_code, 403)
+
     def test_disabled_without_key(self):
         with patch("api.routes.recruit_card.GEMINI_API_KEY", ""):
             res = self.client.post("/api/recruit-card/illustration",
