@@ -15,12 +15,21 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
-    version: "4.4.1",
+    version: "4.5.0",
     date: "2026-09-23",
-    type: "patch",
-    title: "자쿰 드랍률 대표 파츠 병합",
-    pages: ["/mobs", "/items"],
+    type: "minor",
+    title: "구인구직 카드 메이커 · 드랍률 후속 정정",
+    pages: ["/recruit-card", "/mobs", "/items"],
     features: [
+      {
+        category: "구인구직 카드 메이커",
+        items: [
+          "스탯창·캐릭터 캡쳐와 레벨·직업·문구만 넣으면 1080×1080 홍보 카드를 만들어주는 페이지 신설",
+          "이미지 합성은 전부 브라우저에서 처리 — 업로드 이미지가 서버로 전송되지 않음",
+          "AI 치비 일러스트 변환(베타) — 캐릭터 캡쳐를 일러스트로 변환, 무료 테스트 기간 일 3회 제한",
+          "배경 템플릿 3종(번개·단풍·밤하늘), 구직/구인 모드, PNG 저장",
+        ],
+      },
       {
         category: "드랍률 후속 정정",
         items: [
