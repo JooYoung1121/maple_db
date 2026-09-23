@@ -17,7 +17,8 @@ const SIZE = 1080;
 
 type TemplateKey =
   | "storm" | "darkknight" | "maple" | "pastel"
-  | "aqua" | "snow" | "gold" | "cherry";
+  | "aqua" | "snow" | "gold" | "cherry"
+  | "flame" | "forest" | "poison" | "alley" | "harbor";
 
 interface TemplateDef {
   label: string;
@@ -252,14 +253,34 @@ function motifDarkKnight(ctx: CanvasRenderingContext2D) {
 }
 
 const TEMPLATES: Record<TemplateKey, TemplateDef> = {
-  storm:      { label: "초록 번개", base: ["#06170c", "#020a05"], glow: "rgba(57,255,20,0.5)",  accent: "#ffd54a", motif: motifLightning("rgba(140,255,90,0.7)"), bgImage: "/recruit-card/tpl-storm.png" },
-  darkknight: { label: "다크나이트", base: ["#170627", "#06020c"], glow: "rgba(190,80,255,0.5)", accent: "#c77bff", motif: motifDarkKnight, bgImage: "/recruit-card/tpl-darkknight.png" },
-  maple:      { label: "단풍", base: ["#241005", "#0d0502"], glow: "rgba(255,140,40,0.5)",  accent: "#ffcf3f", motif: motifMaple, bgImage: "/recruit-card/tpl-maple.png" },
-  pastel:     { label: "픽셀 밤하늘", base: ["#232a5c", "#0d1234"], glow: "rgba(255,170,220,0.35)", accent: "#ffb3d9", motif: motifPixelNight, bgImage: "/recruit-card/tpl-pastel.png" },
-  aqua:       { label: "아쿠아", base: ["#04263a", "#020d16"], glow: "rgba(90,200,255,0.45)", accent: "#8fe1ff", motif: motifBubbles, bgImage: "/recruit-card/tpl-aqua.png" },
-  snow:       { label: "설원", base: ["#12213a", "#070d1a"], glow: "rgba(190,220,255,0.45)", accent: "#cfe4ff", motif: motifSnow, bgImage: "/recruit-card/tpl-snow.png" },
-  gold:       { label: "골드", base: ["#211302", "#0c0701"], glow: "rgba(255,205,90,0.5)",  accent: "#ffd876", motif: motifGold, bgImage: "/recruit-card/tpl-gold.png" },
-  cherry:     { label: "벚꽃", base: ["#2a0f22", "#12060f"], glow: "rgba(255,150,200,0.45)", accent: "#ffb3d9", motif: motifCherry, bgImage: "/recruit-card/tpl-cherry.png" },
+  // 일러스트 배경 (사전 제작 아트 — 어울리는 직업 가이드는 라벨 옆 표기)
+  darkknight: { label: "다크 판타지", base: ["#170627", "#06020c"], glow: "rgba(190,80,255,0.5)", accent: "#c77bff", motif: motifDarkKnight, bgImage: "/recruit-card/tpl-darkknight.jpg" },
+  flame:      { label: "용암 성채", base: ["#240a06", "#0d0302"], glow: "rgba(255,110,50,0.5)",  accent: "#ff9a5a", motif: motifLightning("rgba(255,140,80,0.6)"), bgImage: "/recruit-card/tpl-flame.jpg" },
+  gold:       { label: "황금 신전", base: ["#211302", "#0c0701"], glow: "rgba(255,205,90,0.5)",  accent: "#ffd876", motif: motifGold, bgImage: "/recruit-card/tpl-gold.jpg" },
+  forest:     { label: "초록 숲", base: ["#0a2010", "#040d06"], glow: "rgba(120,230,120,0.4)", accent: "#9fe873", motif: motifLightning("rgba(150,255,140,0.5)"), bgImage: "/recruit-card/tpl-forest.jpg" },
+  snow:       { label: "얼음 성채", base: ["#12213a", "#070d1a"], glow: "rgba(190,220,255,0.45)", accent: "#cfe4ff", motif: motifSnow, bgImage: "/recruit-card/tpl-snow.jpg" },
+  poison:     { label: "독안개", base: ["#1a1206", "#0a0703"], glow: "rgba(190,255,90,0.4)",  accent: "#c8ff5e", motif: motifLightning("rgba(190,255,110,0.5)"), bgImage: "/recruit-card/tpl-poison.jpg" },
+  alley:      { label: "달빛 뒷골목", base: ["#0c1218", "#04070a"], glow: "rgba(200,220,255,0.35)", accent: "#ffd27a", motif: motifSnow, bgImage: "/recruit-card/tpl-alley.jpg" },
+  harbor:     { label: "해적선 항구", base: ["#0a1420", "#03070d"], glow: "rgba(255,190,110,0.4)", accent: "#ffcf8a", motif: motifBubbles, bgImage: "/recruit-card/tpl-harbor.jpg" },
+  aqua:       { label: "청록 파도", base: ["#04263a", "#020d16"], glow: "rgba(90,220,230,0.45)", accent: "#8fe1ff", motif: motifBubbles, bgImage: "/recruit-card/tpl-aqua.jpg" },
+  // 그래픽 배경 (프로시저럴)
+  storm:      { label: "초록 번개", base: ["#06170c", "#020a05"], glow: "rgba(57,255,20,0.5)",  accent: "#ffd54a", motif: motifLightning("rgba(140,255,90,0.7)") },
+  maple:      { label: "단풍", base: ["#241005", "#0d0502"], glow: "rgba(255,140,40,0.5)",  accent: "#ffcf3f", motif: motifMaple },
+  pastel:     { label: "픽셀 밤하늘", base: ["#232a5c", "#0d1234"], glow: "rgba(255,170,220,0.35)", accent: "#ffb3d9", motif: motifPixelNight },
+  cherry:     { label: "벚꽃", base: ["#2a0f22", "#12060f"], glow: "rgba(255,150,200,0.45)", accent: "#ffb3d9", motif: motifCherry },
+};
+
+// 템플릿별 어울리는 직업 힌트 (선택 보조)
+const TEMPLATE_JOB_HINT: Partial<Record<TemplateKey, string>> = {
+  darkknight: "다크나이트·나로·배메",
+  flame: "히어로",
+  gold: "팔라딘·비숍",
+  forest: "보우마스터",
+  snow: "신궁·썬콜",
+  poison: "불독",
+  alley: "섀도어",
+  harbor: "캡틴",
+  aqua: "바이퍼",
 };
 
 // 직업 프리셋 캐릭터 — 파일(web/public/recruit-card/char*.png)이 있으면 자동 노출
@@ -847,6 +868,7 @@ export default function RecruitCardPage() {
             <div className="grid grid-cols-4 gap-1.5">
               {(Object.keys(TEMPLATES) as TemplateKey[]).map((k) => (
                 <button key={k} type="button" onClick={() => set("template", k)}
+                  title={TEMPLATE_JOB_HINT[k] ? `어울리는 직업: ${TEMPLATE_JOB_HINT[k]}` : undefined}
                   className={`min-h-10 border-2 px-1 text-xs ${state.template === k ? "border-maple text-maple" : "border-edge text-ink"}`}>
                   {bgArts[k] ? "🎨" : ""}{TEMPLATES[k].label}
                 </button>
