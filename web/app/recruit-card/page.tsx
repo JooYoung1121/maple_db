@@ -262,20 +262,31 @@ const TEMPLATES: Record<TemplateKey, TemplateDef> = {
   cherry:     { label: "벚꽃", base: ["#2a0f22", "#12060f"], glow: "rgba(255,150,200,0.45)", accent: "#ffb3d9", motif: motifCherry, bgImage: "/recruit-card/tpl-cherry.png" },
 };
 
-// 직업 프리셋 캐릭터 — 파일(web/public/recruit-card/char-*.png)이 있으면 자동 노출
-const CHAR_PRESETS: { key: string; label: string }[] = [
-  { key: "hero", label: "히어로" },
-  { key: "darkknight", label: "다크나이트" },
-  { key: "paladin", label: "팔라딘" },
-  { key: "bowmaster", label: "보우마스터" },
-  { key: "marksman", label: "신궁" },
-  { key: "nightlord", label: "나이트로드" },
-  { key: "shadower", label: "섀도어" },
-  { key: "archmage", label: "아크메이지" },
-  { key: "bishop", label: "비숍" },
-  { key: "viper", label: "바이퍼" },
-  { key: "captain", label: "캡틴" },
-  { key: "battlemage", label: "배틀메이지" },
+// 직업 프리셋 캐릭터 — 파일(web/public/recruit-card/char*.png)이 있으면 자동 노출
+// illust: 일러스트 13종(직접 제작·업로드) / sprite: 게임 스프라이트 12종(자쿰 투구+리버스)
+interface CharPreset { key: string; label: string; src: string; group: "illust" | "sprite" }
+
+const ILLUST_JOBS: [string, string][] = [
+  ["hero", "히어로"], ["paladin", "팔라딘"], ["darkknight", "다크나이트"],
+  ["bowmaster", "보우마스터"], ["marksman", "신궁"],
+  ["nightlord", "나이트로드"], ["shadower", "섀도어"],
+  ["archmage_il", "아크메(썬콜)"], ["archmage_fp", "아크메(불독)"],
+  ["bishop", "비숍"], ["viper", "바이퍼"], ["captain", "캡틴"], ["battlemage", "배틀메이지"],
+];
+const SPRITE_JOBS: [string, string][] = [
+  ["hero", "히어로"], ["darkknight", "다크나이트"], ["paladin", "팔라딘"],
+  ["bowmaster", "보우마스터"], ["marksman", "신궁"],
+  ["nightlord", "나이트로드"], ["shadower", "섀도어"],
+  ["archmage", "아크메이지"], ["bishop", "비숍"],
+  ["viper", "바이퍼"], ["captain", "캡틴"], ["battlemage", "배틀메이지"],
+];
+const CHAR_PRESETS: CharPreset[] = [
+  ...ILLUST_JOBS.map(([k, label]) => ({
+    key: `ai-${k}`, label, src: `/recruit-card/char-ai-${k}.png`, group: "illust" as const,
+  })),
+  ...SPRITE_JOBS.map(([k, label]) => ({
+    key: k, label, src: `/recruit-card/char-${k}.png`, group: "sprite" as const,
+  })),
 ];
 
 // 직접 입력 스탯창 기본 항목
@@ -625,10 +636,10 @@ export default function RecruitCardPage() {
       el.onload = () => setBgArts((m) => ({ ...m, [key]: el }));
       el.src = src;
     });
-    CHAR_PRESETS.forEach(({ key }) => {
+    CHAR_PRESETS.forEach(({ key, src }) => {
       const el = new Image();
       el.onload = () => setCharPresets((m) => ({ ...m, [key]: el }));
-      el.src = `/recruit-card/char-${key}.png`;
+      el.src = src;
     });
   }, []);
 
@@ -658,10 +669,10 @@ export default function RecruitCardPage() {
     reader.readAsDataURL(file);
   };
 
-  const pickPreset = (key: string) => {
-    setActivePreset(key);
+  const pickPreset = (p: CharPreset) => {
+    setActivePreset(p.key);
     setCharacterFile(null);
-    loadCharacter(`/recruit-card/char-${key}.png`);
+    loadCharacter(p.src);
   };
 
   const generateAI = async () => {
@@ -754,19 +765,25 @@ export default function RecruitCardPage() {
           {/* ── 캐릭터 ── */}
           <div className="space-y-2 border-t-2 border-edge pt-4">
             <p className="text-xs font-bold text-ink">캐릭터</p>
-            {availablePresets.length > 0 && (
-              <div>
-                <p className="mb-1 text-xs text-dim">직업 프리셋 (스샷 없이 바로 사용)</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {availablePresets.map((p) => (
-                    <button key={p.key} type="button" onClick={() => pickPreset(p.key)}
-                      className={`min-h-9 border-2 px-2 text-xs ${activePreset === p.key ? "border-maple text-maple" : "border-edge text-ink"}`}>
-                      {p.label}
-                    </button>
-                  ))}
+            {(["illust", "sprite"] as const).map((group) => {
+              const items = availablePresets.filter((p) => p.group === group);
+              if (!items.length) return null;
+              return (
+                <div key={group}>
+                  <p className="mb-1 text-xs text-dim">
+                    {group === "illust" ? "🎨 일러스트 프리셋" : "👾 게임 스프라이트 프리셋"} (스샷 없이 바로 사용)
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {items.map((p) => (
+                      <button key={p.key} type="button" onClick={() => pickPreset(p)}
+                        className={`min-h-9 border-2 px-2 text-xs ${activePreset === p.key ? "border-maple text-maple" : "border-edge text-ink"}`}>
+                        {p.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              );
+            })}
             <label className="block text-xs text-dim">직접 업로드 (캡쳐 또는 일러스트)
               <input type="file" accept="image/png,image/jpeg,image/webp" className="mt-1 block w-full text-xs text-dim"
                 onChange={(e) => onCharacterFile(e.target.files?.[0] ?? null)} />
