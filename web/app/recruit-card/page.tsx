@@ -332,13 +332,13 @@ interface CardState {
 
 const DEFAULT_STATE: CardState = {
   mode: "구직",
-  level: "173",
-  job: "신궁",
+  level: "000",
+  job: "00",
   headline: "",
   subline: "우3 구직합니다!",
-  pill: "메사비 6900+ 입니다",
+  pill: "메사비 0000+ 입니다",
   rows: [
-    { icon: "⭐", text: "메사비 6900+" },
+    { icon: "⭐", text: "메사비 0000+" },
     { icon: "🎯", text: "망각의길 우3" },
     { icon: "⚔️", text: "주 5일 저녁 가능" },
   ],
@@ -346,7 +346,7 @@ const DEFAULT_STATE: CardState = {
   template: "storm",
   flipCharacter: false,
   statMode: "upload",
-  stats: { 공격력: "5651 ~ 6932", 물리방어력: "670", 마력: "91", 마법방어력: "605", 명중률: "743", 회피율: "448", 손재주: "1228", 이동속도: "140%", 점프력: "123%" },
+  stats: { 공격력: "0000 ~ 0000", 물리방어력: "000", 마력: "000", 마법방어력: "000", 명중률: "000", 회피율: "000", 손재주: "000", 이동속도: "100%", 점프력: "100%" },
 };
 
 function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
@@ -761,17 +761,17 @@ export default function RecruitCardPage() {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <label className="text-xs text-dim">레벨
-              <input className={inputCls} value={state.level} onChange={(e) => set("level", e.target.value)} placeholder="173" />
+              <input className={inputCls} value={state.level} onChange={(e) => set("level", e.target.value)} placeholder="000" />
             </label>
             <label className="text-xs text-dim">직업
-              <input className={inputCls} value={state.job} onChange={(e) => set("job", e.target.value)} placeholder="신궁" />
+              <input className={inputCls} value={state.job} onChange={(e) => set("job", e.target.value)} placeholder="직업" />
             </label>
           </div>
           <label className="block text-xs text-dim">노란 문구 (핵심 한 줄)
             <input className={inputCls} value={state.subline} onChange={(e) => set("subline", e.target.value)} placeholder="우3 구직합니다!" />
           </label>
           <label className="block text-xs text-dim">강조 알약 (비우면 숨김)
-            <input className={inputCls} value={state.pill} onChange={(e) => set("pill", e.target.value)} placeholder="메사비 6900+ 입니다" />
+            <input className={inputCls} value={state.pill} onChange={(e) => set("pill", e.target.value)} placeholder="메사비 0000+ 입니다" />
           </label>
           <div className="space-y-2">
             <p className="text-xs text-dim">정보 행 (아이콘 + 12자 이내)</p>
