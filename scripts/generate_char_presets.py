@@ -24,26 +24,25 @@ HAIR = 30020         # 블랙 레벨컷 (삐죽머리)
 
 ZAKUM_HELM = 1002357
 GUILTIAN = 1002154   # 다크 길티언 (배메용)
-# 타임리스 모자 (직업군별)
-HAT = {"archer": 1002778, "thief": 1002779, "mage": 1002777, "pirate": 1002780}
+# 전 프리셋 자쿰 투구 통일 (사용자 지정)
 
 # 타임리스 한벌옷
 OVERALL = {"warrior": 1052155, "archer": 1052157, "thief": 1052158, "mage": 1052156, "pirate": 1052159}
 
 # key → (라벨, [장비 ids], 포즈)
 PRESETS: dict[str, tuple[str, list[int], str]] = {
-    "hero":        ("히어로",       [ZAKUM_HELM, OVERALL["warrior"], 1402046], "stand2"),  # 타임리스 니플하임(두손검)
-    "darkknight":  ("다크나이트",   [ZAKUM_HELM, OVERALL["warrior"], 1432047], "stand2"),  # 알슈피스(창)
-    "paladin":     ("팔라딘",       [ZAKUM_HELM, OVERALL["warrior"], 1322060], "stand1"),  # 알라르간도(둔기)
-    "bowmaster":   ("보우마스터",   [HAT["archer"], OVERALL["archer"], 1452057], "alert"),               # 엔가우(활)
-    "marksman":    ("신궁",         [HAT["archer"], OVERALL["archer"], 1462050], "alert"),               # 블랙뷰티(석궁)
-    "nightlord":   ("나이트로드",   [HAT["thief"], OVERALL["thief"], 1472068], "alert"),                # 람피온(클로)
-    "shadower":    ("섀도어",       [HAT["thief"], OVERALL["thief"], 1332073], "stand1"),                # 페스카즈(단검)
-    "archmage":    ("아크메이지",   [HAT["mage"], OVERALL["mage"], 1372044], "stand1"),                 # 엔릴 티어(완드)
-    "bishop":      ("비숍",         [HAT["mage"], OVERALL["mage"], 1382057], "alert"),                 # 에아스 핸드(스태프)
-    "viper":       ("바이퍼",       [HAT["pirate"], OVERALL["pirate"], 1482013], "alert"),               # 용아주조(너클)
-    "captain":     ("캡틴",         [HAT["pirate"], OVERALL["pirate"], 1492013], "alert"),               # 드래곤 세인트(건)
-    "battlemage":  ("배틀메이지",   [GUILTIAN, OVERALL["mage"], 1382057], "alert"),       # v92 대체 코디
+    "hero":        ("히어로",       [ZAKUM_HELM, OVERALL["warrior"], 1402047], "stand2"),  # 타임리스 니플하임(두손검)
+    "darkknight":  ("다크나이트",   [ZAKUM_HELM, OVERALL["warrior"], 1432049], "stand2"),  # 알슈피스(창)
+    "paladin":     ("팔라딘",       [ZAKUM_HELM, OVERALL["warrior"], 1322061], "stand1"),  # 알라르간도(둔기)
+    "bowmaster":   ("보우마스터",   [ZAKUM_HELM, OVERALL["archer"], 1452059], "alert"),               # 엔가우(활)
+    "marksman":    ("신궁",         [ZAKUM_HELM, OVERALL["archer"], 1462051], "alert"),               # 블랙뷰티(석궁)
+    "nightlord":   ("나이트로드",   [ZAKUM_HELM, OVERALL["thief"], 1472071], "alert"),                # 람피온(클로)
+    "shadower":    ("섀도어",       [ZAKUM_HELM, OVERALL["thief"], 1332075], "stand1"),                # 페스카즈(단검)
+    "archmage":    ("아크메이지",   [ZAKUM_HELM, OVERALL["mage"], 1372045], "stand1"),                 # 엔릴 티어(완드)
+    "bishop":      ("비숍",         [ZAKUM_HELM, OVERALL["mage"], 1382059], "alert"),                 # 에아스 핸드(스태프)
+    "viper":       ("바이퍼",       [ZAKUM_HELM, OVERALL["pirate"], 1482024], "alert"),               # 용아주조(너클)
+    "captain":     ("캡틴",         [ZAKUM_HELM, OVERALL["pirate"], 1492025], "alert"),               # 드래곤 세인트(건)
+    "battlemage":  ("배틀메이지",   [ZAKUM_HELM, 1052161, 1382059], "alert"),       # v92 대체 코디
 }
 
 
