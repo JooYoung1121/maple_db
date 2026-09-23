@@ -15,6 +15,24 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.4.1",
+    date: "2026-09-23",
+    type: "patch",
+    title: "자쿰 드랍률 대표 파츠 병합",
+    pages: ["/mobs", "/items"],
+    features: [
+      {
+        category: "드랍률 후속 정정",
+        items: [
+          "자쿰 메랜DB 드랍률 39건을 대표 파츠(8800002)로 병합 — 동기화가 비노출 파츠(8800000)에 넣었던 것 정정",
+          "피아누스는 좌·우 개체의 드랍이 실제로 달라(샤프 아이즈 확률 등) 분리 유지",
+          "커버리지 조사 결과: 혼테일·핑크빈·카오스 자쿰·시간의 신전 몹은 메랜DB 미등록 확정 — 참고 배지 유지, 실측 대기",
+          "시간의 조각 드랍률은 커뮤니티 너프 논쟁 중이나 표본 실측 부재로 반영 보류",
+        ],
+      },
+    ],
+  },
+  {
     version: "4.4.0",
     date: "2026-09-23",
     type: "minor",
