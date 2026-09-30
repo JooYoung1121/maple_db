@@ -10,7 +10,10 @@ import {
   magicHitChance,
   type DamageResult,
 } from "@/lib/damageFormula";
+import { JOB_SKILL_DATA, JOB_GROUPS } from "@/lib/jobSkillData";
 import { readMyMapleProfile } from "@/lib/myMaple";
+import PageGuide from "@/components/PageGuide";
+import { HP_EXP_GUIDE } from "@/lib/pageGuides";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -44,6 +47,7 @@ interface EffMap {
   floors: number | null;
   width: number | null;
   estimated: boolean;
+  variant_count?: number;
 }
 
 interface EffResponse {
@@ -56,28 +60,31 @@ interface EffResponse {
 }
 
 // ─── 내 캐릭터 입력 (localStorage 유지) ───
+// 직업을 고르면 무기·숙련도·스킬 목록이 자동 세팅되고, 스펙(스탯·공/마력·명중)만 채우면 된다.
+const BASIC_ATTACK = "평타";
+
 interface CharState {
   enabled: boolean;
-  mode: "physical" | "magic";
-  weapon: string; // WEAPON_MULTIPLIERS 키
+  job: string; // JOB_SKILL_DATA 키 (히어로, 비숍 등 12직업)
+  weapon: string; // 직업 무기 중 선택
+  skill: string; // BASIC_ATTACK 또는 직업 액티브 스킬명
   mainStat: number;
   subStat: number;
   atk: number;
-  mastery: number; // %
+  mastery: number; // % — 직업 선택 시 자동, 수정 가능
   int: number;
   luk: number;
   ma: number;
-  skillPct: number; // 스킬 데미지 %
-  hits: number; // 스킬 타격 수
   acc: number; // 물리 명중률 스탯
 }
 
-const CHAR_STORAGE_KEY = "hp_exp_char_v1";
+const CHAR_STORAGE_KEY = "hp_exp_char_v2";
 
 const DEFAULT_CHAR: CharState = {
   enabled: false,
-  mode: "physical",
+  job: "히어로",
   weapon: "두손검",
+  skill: BASIC_ATTACK,
   mainStat: 100,
   subStat: 25,
   atk: 60,
@@ -85,16 +92,34 @@ const DEFAULT_CHAR: CharState = {
   int: 100,
   luk: 25,
   ma: 100,
-  skillPct: 100,
-  hits: 1,
   acc: 60,
 };
+
+function jobMastery(job: string): number {
+  const data = JOB_SKILL_DATA[job];
+  if (!data) return 60;
+  return Math.max(...data.passives.map((p) => p.mastery ?? 0), 50);
+}
+
+/** 마이 프로필의 직업(계열/세부)을 JOB_SKILL_DATA 키로 매칭 */
+function matchProfileJob(job: string, subJob: string): string | null {
+  if (subJob) {
+    if (JOB_SKILL_DATA[subJob]) return subJob;
+    const partial = Object.keys(JOB_SKILL_DATA).find(
+      (k) => k.includes(subJob) || subJob.includes(k),
+    );
+    if (partial) return partial;
+  }
+  return JOB_GROUPS[job]?.[0] ?? null;
+}
 
 function readChar(): CharState {
   if (typeof window === "undefined") return DEFAULT_CHAR;
   try {
     const raw = window.localStorage.getItem(CHAR_STORAGE_KEY);
-    return raw ? { ...DEFAULT_CHAR, ...JSON.parse(raw) } : DEFAULT_CHAR;
+    const parsed = raw ? { ...DEFAULT_CHAR, ...JSON.parse(raw) } : DEFAULT_CHAR;
+    if (!JOB_SKILL_DATA[parsed.job]) parsed.job = DEFAULT_CHAR.job;
+    return parsed;
   } catch {
     return DEFAULT_CHAR;
   }
@@ -109,13 +134,19 @@ interface MobCombat {
 }
 
 function calcMobCombat(mob: EffMob, char: CharState, charLevel: number): MobCombat | null {
+  const jobData = JOB_SKILL_DATA[char.job];
+  if (!jobData) return null;
+  const active = jobData.actives.find((s) => s.name === char.skill);
+  const skillPct = active ? active.damage : 100;
+  const hits = active ? active.hits : 1;
+
   let dmg: DamageResult;
   let hit: number;
-  if (char.mode === "magic") {
+  if (jobData.isMagic) {
     if (char.ma <= 0) return null;
     dmg = calcMagicDamage(
-      char.int, char.luk, char.ma, char.skillPct, 1,
-      char.hits, charLevel, mob.level, mob.mdef,
+      char.int, char.luk, char.ma, skillPct, 1,
+      hits, charLevel, mob.level, mob.mdef,
     );
     hit = magicHitChance(char.int, char.luk, mob.avoid, charLevel, mob.level);
   } else {
@@ -123,7 +154,7 @@ function calcMobCombat(mob: EffMob, char: CharState, charLevel: number): MobComb
     if (!mult || char.atk <= 0) return null;
     dmg = calcPhysicalDamage(
       char.mainStat, char.subStat, char.atk, mult.maxMult, mult.minMult,
-      char.mastery / 100, char.skillPct, char.hits, charLevel, mob.level, mob.wdef,
+      char.mastery / 100, skillPct, hits, charLevel, mob.level, mob.wdef,
     );
     hit = physicalHitChance(char.acc, mob.avoid, charLevel, mob.level);
   }
@@ -177,6 +208,14 @@ function terrainSummary(floors: number | null, width: number | null): string | n
   return `${floors}층`;
 }
 
+// 지형 기반 직업 적합 힌트 — 스킬 범위·이동기까지 계산하진 못하므로 참고 배지만 제공
+function terrainHint(floors: number | null, width: number | null): string | null {
+  if (floors === null || width === null) return null;
+  if (floors <= 2 && width >= 900) return "근접 동선 편함";
+  if (floors >= 5) return "원거리·텔레포트 유리";
+  return null;
+}
+
 function NumField({
   label, value, onChange, width = "w-20",
 }: {
@@ -214,8 +253,20 @@ export default function HpExpPage() {
   const [mySort, setMySort] = useState(false); // 내 캐릭터 효율(타수당 경험치)순
 
   useEffect(() => {
-    setChar(readChar());
+    const saved =
+      typeof window !== "undefined" && !!window.localStorage.getItem(CHAR_STORAGE_KEY);
+    const base = readChar();
     const profile = readMyMapleProfile();
+    if (!saved) {
+      // 저장된 캐릭터가 없으면 마이 프로필의 직업으로 초기 세팅
+      const job = matchProfileJob(profile.job, profile.subJob);
+      if (job && JOB_SKILL_DATA[job]) {
+        base.job = job;
+        base.weapon = JOB_SKILL_DATA[job].weapons[0];
+        base.mastery = jobMastery(job);
+      }
+    }
+    setChar(base);
     if (profile.level > 1) setLevel((prev) => (prev === "" ? profile.level : prev));
     setCharLoaded(true);
   }, []);
@@ -231,6 +282,19 @@ export default function HpExpPage() {
 
   const patchChar = (patch: Partial<CharState>) => setChar((c) => ({ ...c, ...patch }));
 
+  // 직업 변경 시 무기·숙련도·스킬을 그 직업 기준으로 재세팅
+  const changeJob = (job: string) => {
+    const data = JOB_SKILL_DATA[job];
+    if (!data) return;
+    setChar((c) => ({
+      ...c,
+      job,
+      weapon: data.weapons.includes(c.weapon) ? c.weapon : data.weapons[0],
+      skill: BASIC_ATTACK,
+      mastery: jobMastery(job),
+    }));
+  };
+
   const [minLv, maxLv] = useMemo(() => {
     if (level === "" || !Number.isFinite(Number(level))) return [1, 200];
     const lv = Number(level);
@@ -238,6 +302,13 @@ export default function HpExpPage() {
   }, [level, range]);
 
   useEffect(() => {
+    // 캐릭터 레벨이 없으면 추천을 만들지 않는다 — 입력(또는 프로필 로드)이 선행 조건
+    if (level === "") {
+      setData(null);
+      setLoading(false);
+      setError(false);
+      return;
+    }
     let alive = true;
     setLoading(true);
     setError(false);
@@ -264,7 +335,7 @@ export default function HpExpPage() {
     return () => {
       alive = false;
     };
-  }, [minLv, maxLv, sort, minCount]);
+  }, [level, minLv, maxLv, sort, minCount]);
 
   // 내 캐릭터 계산 활성 조건: 토글 on + 레벨 입력
   const charActive = char.enabled && level !== "";
@@ -325,12 +396,17 @@ export default function HpExpPage() {
     });
   }, [data, charActive, mySort, mapScore]);
 
-  const weaponKeys = Object.keys(WEAPON_MULTIPLIERS);
+  const jobData = JOB_SKILL_DATA[char.job];
+  const weaponMult = jobData && !jobData.isMagic ? WEAPON_MULTIPLIERS[char.weapon] : null;
+  const activeSkill = jobData?.actives.find((s) => s.name === char.skill);
 
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       <header>
-        <h1 className="font-pixel text-2xl font-bold text-ink">체경비 사냥터</h1>
+        <div className="flex flex-wrap items-center gap-3">
+          <h1 className="font-pixel text-2xl font-bold text-ink">체경비 사냥터</h1>
+          <PageGuide guide={HP_EXP_GUIDE} autoOpenKey="hp-exp" />
+        </div>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-dim">
           체경비 = 몹 체력 ÷ 경험치. <span className="font-semibold text-ink">경험치 1을 얻기 위해 깎아야 하는 체력</span>이라
           낮을수록 꿀입니다. 맵별 몹 마릿수·배치(스폰 데이터)와 조합해 어디로 가면 좋을지 추천하고,
@@ -338,6 +414,57 @@ export default function HpExpPage() {
         </p>
       </header>
 
+      {level === "" && (
+        <section className="pixel-panel p-6 sm:p-8">
+          <h2 className="font-pixel text-lg font-bold text-ink">🍄 내 캐릭터부터 알려주세요</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-dim">
+            체경비 사냥터는 <span className="font-semibold text-ink">캐릭터 레벨·직업 기준 맞춤 추천</span> 페이지예요.
+            레벨을 입력하면 그 레벨대 사냥터·몬스터가 나오고, 스펙까지 입력하면 N방컷·명중률·타수당
+            경험치로 &quot;내 효율순&quot; 추천까지 계산합니다.
+          </p>
+          <div className="mt-4 flex flex-wrap items-end gap-3">
+            <label className="block">
+              <span className="mb-1 block text-xs text-dim">내 레벨</span>
+              <input
+                type="number"
+                min={1}
+                max={200}
+                value={level}
+                placeholder="예: 45"
+                autoFocus
+                onChange={(e) => {
+                  const v = e.target.value;
+                  setLevel(v === "" ? "" : Math.max(1, Math.min(200, Number(v))));
+                }}
+                className="w-28 rounded border border-edge bg-surface px-3 py-2 text-sm text-ink"
+              />
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-xs text-dim">직업</span>
+              <select
+                value={char.job}
+                onChange={(e) => changeJob(e.target.value)}
+                className="rounded border border-edge bg-surface px-2 py-2 text-sm text-ink"
+              >
+                {Object.entries(JOB_GROUPS).map(([group, jobs]) => (
+                  <optgroup key={group} label={group}>
+                    {jobs.map((j) => (
+                      <option key={j} value={j}>{j}</option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </label>
+          </div>
+          <p className="mt-3 text-xs text-dim">
+            <Link href="/me" className="text-maple hover:underline">마이페이지</Link>에 캐릭터 프로필(레벨·직업)을
+            저장해두면 다음부터 자동으로 불러옵니다.
+          </p>
+        </section>
+      )}
+
+      {level !== "" && (
+        <>
       <section className="pixel-panel p-4">
         <div className="flex flex-wrap items-end gap-4">
           <label className="block">
@@ -347,7 +474,7 @@ export default function HpExpPage() {
               min={1}
               max={200}
               value={level}
-              placeholder="전체"
+              placeholder="레벨"
               onChange={(e) => {
                 const v = e.target.value;
                 setLevel(v === "" ? "" : Math.max(1, Math.min(200, Number(v))));
@@ -364,7 +491,6 @@ export default function HpExpPage() {
               value={range}
               onChange={(e) => setRange(Number(e.target.value))}
               className="w-40 accent-[var(--maple,#f97316)]"
-              disabled={level === ""}
             />
           </label>
           <label className="block">
@@ -422,9 +548,6 @@ export default function HpExpPage() {
           >
             {char.enabled ? "켜짐" : "꺼짐"}
           </button>
-          {char.enabled && level === "" && (
-            <span className="text-xs text-amber-600 dark:text-amber-400">위의 &quot;내 레벨&quot;을 입력하면 계산이 시작됩니다.</span>
-          )}
           <span className="ml-auto text-[11px] text-dim">
             정밀 계산·원킬컷 역산은 <Link href="/nhit" className="text-maple hover:underline">엔방컷 계산기</Link>
           </span>
@@ -434,32 +557,62 @@ export default function HpExpPage() {
           <div className="mt-3 space-y-3">
             <div className="flex flex-wrap items-end gap-3">
               <label className="block">
-                <span className="mb-1 block text-[11px] text-dim">공격 유형</span>
+                <span className="mb-1 block text-[11px] text-dim">직업</span>
                 <select
-                  value={char.mode}
-                  onChange={(e) => patchChar({ mode: e.target.value as CharState["mode"] })}
+                  value={char.job}
+                  onChange={(e) => changeJob(e.target.value)}
                   className="rounded border border-edge bg-surface px-2 py-1.5 text-sm text-ink"
                 >
-                  <option value="physical">물리 (스공)</option>
-                  <option value="magic">마법 (마력)</option>
+                  {Object.entries(JOB_GROUPS).map(([group, jobs]) => (
+                    <optgroup key={group} label={group}>
+                      {jobs.map((j) => (
+                        <option key={j} value={j}>{j}</option>
+                      ))}
+                    </optgroup>
+                  ))}
                 </select>
               </label>
-              {char.mode === "physical" ? (
+              <label className="block">
+                <span className="mb-1 block text-[11px] text-dim">스킬</span>
+                <select
+                  value={char.skill}
+                  onChange={(e) => patchChar({ skill: e.target.value })}
+                  className="rounded border border-edge bg-surface px-2 py-1.5 text-sm text-ink"
+                >
+                  <option value={BASIC_ATTACK}>평타 (100%)</option>
+                  {jobData?.actives.map((s) => (
+                    <option key={s.name} value={s.name}>
+                      {s.name} ({s.damage}%{s.hits > 1 ? ` ×${s.hits}타` : ""})
+                    </option>
+                  ))}
+                </select>
+              </label>
+              {jobData && !jobData.isMagic ? (
                 <>
-                  <label className="block">
-                    <span className="mb-1 block text-[11px] text-dim">무기</span>
-                    <select
-                      value={char.weapon}
-                      onChange={(e) => patchChar({ weapon: e.target.value })}
-                      className="rounded border border-edge bg-surface px-2 py-1.5 text-sm text-ink"
-                    >
-                      {weaponKeys.map((w) => (
-                        <option key={w} value={w}>{w}</option>
-                      ))}
-                    </select>
-                  </label>
-                  <NumField label="주스탯 (총합)" value={char.mainStat} onChange={(v) => patchChar({ mainStat: v })} />
-                  <NumField label="부스탯 (총합)" value={char.subStat} onChange={(v) => patchChar({ subStat: v })} />
+                  {(jobData.weapons.length > 1) && (
+                    <label className="block">
+                      <span className="mb-1 block text-[11px] text-dim">무기</span>
+                      <select
+                        value={char.weapon}
+                        onChange={(e) => patchChar({ weapon: e.target.value })}
+                        className="rounded border border-edge bg-surface px-2 py-1.5 text-sm text-ink"
+                      >
+                        {jobData.weapons.map((w) => (
+                          <option key={w} value={w}>{w}</option>
+                        ))}
+                      </select>
+                    </label>
+                  )}
+                  <NumField
+                    label={`주스탯 ${weaponMult ? `(${weaponMult.mainStat} 총합)` : "(총합)"}`}
+                    value={char.mainStat}
+                    onChange={(v) => patchChar({ mainStat: v })}
+                  />
+                  <NumField
+                    label={`부스탯 ${weaponMult ? `(${weaponMult.subStat} 총합)` : "(총합)"}`}
+                    value={char.subStat}
+                    onChange={(v) => patchChar({ subStat: v })}
+                  />
                   <NumField label="공격력" value={char.atk} onChange={(v) => patchChar({ atk: v })} />
                   <NumField label="숙련도 %" value={char.mastery} onChange={(v) => patchChar({ mastery: Math.min(100, v) })} width="w-16" />
                   <NumField label="명중률" value={char.acc} onChange={(v) => patchChar({ acc: v })} width="w-16" />
@@ -471,12 +624,13 @@ export default function HpExpPage() {
                   <NumField label="마력" value={char.ma} onChange={(v) => patchChar({ ma: v })} />
                 </>
               )}
-              <NumField label="스킬 데미지 %" value={char.skillPct} onChange={(v) => patchChar({ skillPct: v })} width="w-20" />
-              <NumField label="타격 수" value={char.hits} onChange={(v) => patchChar({ hits: Math.max(1, v) })} width="w-14" />
             </div>
             <p className="text-[11px] leading-4 text-dim">
-              평타는 스킬 데미지 100%·타격 수 1. 명중률·데미지 공식은 빅뱅 전 커뮤니티 역산 공식 기반 참고치입니다
-              (속성·크리티컬 미반영 — 상세 시뮬레이션은 엔방컷 계산기).
+              {activeSkill
+                ? `${activeSkill.name}: 데미지 ${activeSkill.damage}%${activeSkill.hits > 1 ? ` × ${activeSkill.hits}타` : ""}${(activeSkill.mobs ?? 1) > 1 ? ` · 최대 ${activeSkill.mobs}마리 (계산은 단일 대상 기준)` : ""} · 숙련도 ${jobData?.isMagic ? "60% 고정" : `${char.mastery}%`}`
+                : `평타 100% · 숙련도 ${jobData?.isMagic ? "60% 고정" : `${char.mastery}% (직업 마스터리 자동 반영)`}`}
+              {" — "}명중률·데미지 공식은 빅뱅 전 커뮤니티 역산 공식 기반 참고치입니다
+              (속성·크리티컬 미반영, 스킬은 만렙 수치 — 상세 시뮬레이션은 엔방컷 계산기).
             </p>
           </div>
         )}
@@ -538,7 +692,13 @@ export default function HpExpPage() {
                     <span className={m.mob_rate > 1 ? "text-emerald-600 dark:text-emerald-400" : ""}>젠 배율 ×{m.mob_rate}</span>
                   )}
                   {terrainSummary(m.floors, m.width) && <span>지형 {terrainSummary(m.floors, m.width)}</span>}
+                  {terrainHint(m.floors, m.width) && (
+                    <span className="text-skill" title="스폰 좌표 분포로 추정한 참고 배지 — 스킬 범위·이동기는 계산에 미반영">
+                      {terrainHint(m.floors, m.width)}
+                    </span>
+                  )}
                   {m.width !== null && m.width > 0 && <span>폭 {formatNumber(m.width)}px</span>}
+                  {(m.variant_count ?? 1) > 1 && <span>동일 구성 {m.variant_count}개 구역</span>}
                   {m.out_of_range_count > 0 && <span className="text-amber-600 dark:text-amber-400">범위 밖 몹 +{m.out_of_range_count}마리 주의</span>}
                   {charActive && score !== undefined && (
                     <span className="font-semibold text-maple">내 타수당 EXP {score.toFixed(1)}</span>
@@ -643,12 +803,22 @@ export default function HpExpPage() {
           에델슈타인 몹의 경험치는 9/7 커뮤니티 실측(본섭 환산)이 반영돼 있습니다.
         </p>
         <p className="mt-1">
+          · 파티퀘스트·전직 시험·이벤트 인스턴스의 맵과 전용 몹은 일반 사냥터가 아니라서 추천에서 제외했습니다.
+        </p>
+        <p className="mt-1">
+          · <span className="font-semibold text-ink">계산에 반영되는 것</span>: 레벨 차 페널티, 몹 방어(물/마), 명중률(미스 확률), 데미지 편차.{" "}
+          <span className="font-semibold text-ink">반영되지 않는 것</span>: 스킬 범위(다수기 동시 타격), 이동기·점프 동선, 몹 공격에 따른 생존/포션 비용 —
+          지형 배지(일자형/복층)는 이를 가늠하는 참고 정보입니다.
+        </p>
+        <p className="mt-1">
           · N방컷·명중률은 빅뱅 전 커뮤니티 역산 공식 기반 참고치입니다 — 원킬컷 역산·타수 분포 시뮬레이션은{" "}
           <Link href="/nhit" className="text-maple hover:underline">엔방컷 계산기</Link>,
           직업별 추천은 <Link href="/hunt" className="text-maple hover:underline">사냥터 추천</Link>,
           한타임 계산은 <Link href="/exp" className="text-maple hover:underline">경험치 계산기</Link>를 참고.
         </p>
       </section>
+        </>
+      )}
     </div>
   );
 }

@@ -231,6 +231,23 @@ class ChatbotServiceTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("던전: 슬리피우드", reply)
         self.assertIn("/maps/105040300", reply)
 
+    async def test_drop_query_falls_back_to_item_reverse_lookup(self):
+        # "시간조각 드랍 테이블 알려줘" 류 — 몹이 아니면 아이템 역방향으로 응답 (2026-09-30 피드백)
+        reply = await chatbot_service.handle_chat_message(
+            "discord:dropfb:1", "오래된뼈 드랍 테이블 알려줘"
+        )
+        self.assertIn("오래된 뼈", reply)  # 축약 표기("오래된뼈")도 loose 매칭으로 찾는다
+        self.assertIn("스켈로스", reply)
+        self.assertIn("/items/4000273", reply)
+
+    async def test_drop_query_not_found_gives_usage_guide(self):
+        reply = await chatbot_service.handle_chat_message(
+            "discord:dropfb:2", "없는것 드랍"
+        )
+        self.assertIn("어디서 드랍해", reply)  # 질문 예시 안내
+        self.assertIn("/mobs?q=", reply)
+        self.assertIn("/items?q=", reply)
+
     async def test_drop_query_still_reaches_drop_branch(self):
         # 조기 내비게이션 분기가 실데이터 질의를 가로채면 안 된다
         reply = await chatbot_service.handle_chat_message(

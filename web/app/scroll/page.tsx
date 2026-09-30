@@ -1,5 +1,7 @@
 "use client";
 
+import PageGuide from "@/components/PageGuide";
+import { SCROLL_GUIDE } from "@/lib/pageGuides";
 import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 
 // ─── 주문서 데이터 ───
@@ -347,7 +349,10 @@ export default function ScrollPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-1 font-pixel">주문서 확률 계산기</h1>
+      <div className="flex flex-wrap items-center gap-3 mb-1">
+        <h1 className="text-2xl font-bold font-pixel">주문서 확률 계산기</h1>
+        <PageGuide guide={SCROLL_GUIDE} />
+      </div>
       <p className="text-sm text-dim mb-6">
         주문서 성공 확률 계산, 시뮬레이션, 스탯 참고표, 랭킹
       </p>

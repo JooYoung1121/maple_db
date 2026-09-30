@@ -1,5 +1,7 @@
 "use client";
 
+import PageGuide from "@/components/PageGuide";
+import { GEAR_SIM_GUIDE } from "@/lib/pageGuides";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { getItems } from "@/lib/api";
@@ -356,7 +358,10 @@ export default function GearSimPage() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      <h1 className="text-2xl font-bold mb-1 font-pixel">🧰 장비 세팅 시뮬레이터</h1>
+      <div className="flex flex-wrap items-center gap-3 mb-1">
+        <h1 className="text-2xl font-bold font-pixel">🧰 장비 세팅 시뮬레이터</h1>
+        <PageGuide guide={GEAR_SIM_GUIDE} />
+      </div>
       <p className="text-sm text-dim mb-6">
         장비를 조합해 스탯 합계와 기본 데미지를 확인하세요. 작(주문서) 결과는 아래 <span className="text-maple">추가 보정</span>에 합산 입력하면 됩니다.
         세팅은 브라우저에 저장됩니다.

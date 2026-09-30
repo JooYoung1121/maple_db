@@ -1,5 +1,7 @@
 "use client";
 
+import PageGuide from "@/components/PageGuide";
+import { MARKET_GUIDE } from "@/lib/pageGuides";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 
@@ -133,7 +135,10 @@ export default function MarketPage() {
   return (
     <div className="mx-auto max-w-4xl space-y-6">
       <header>
-        <h1 className="font-pixel text-2xl font-bold text-ink">아이템 시세</h1>
+        <div className="flex flex-wrap items-center gap-3">
+          <h1 className="font-pixel text-2xl font-bold text-ink">아이템 시세</h1>
+          <PageGuide guide={MARKET_GUIDE} />
+        </div>
         <p className="mt-2 text-sm leading-relaxed text-dim">
           거래소 매물 집계 기반 시세를 조회합니다. 9/11 버닝 월드 통합 직후라{" "}
           <span className="font-semibold text-ink">시세 변동이 클 수 있는 시기</span>이니 최근 매물 수(건수)를 함께 확인하세요.

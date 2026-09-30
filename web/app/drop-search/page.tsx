@@ -1,5 +1,7 @@
 "use client";
 
+import PageGuide from "@/components/PageGuide";
+import { DROP_SEARCH_GUIDE } from "@/lib/pageGuides";
 import { useState, useEffect, useCallback } from "react";
 import { getItems, getItem } from "@/lib/api";
 import type { Item } from "@/lib/types";
@@ -64,7 +66,10 @@ export default function DropSearchPage() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-2 font-pixel text-ink">🔎 아이템 획득 경로</h1>
+      <div className="flex flex-wrap items-center gap-3 mb-2">
+        <h1 className="text-2xl font-bold font-pixel text-ink">🔎 아이템 획득 경로</h1>
+        <PageGuide guide={DROP_SEARCH_GUIDE} />
+      </div>
       <p className="text-dim mb-6">
         아이템을 고르면 드롭 몬스터와 그 몬스터가 출현하는 맵까지 한 번에 이어서 보여줍니다.
       </p>

@@ -1,5 +1,7 @@
 "use client";
 
+import PageGuide from "@/components/PageGuide";
+import { EXP_GUIDE } from "@/lib/pageGuides";
 import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 
 // 레벨별 필요 경험치 — 단일 소스 lib/expTable.ts 공유 (브레인 성장 예측과 동일 테이블)
@@ -23,7 +25,10 @@ export default function ExpPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-1 font-pixel">경험치 계산기</h1>
+      <div className="flex flex-wrap items-center gap-3 mb-1">
+        <h1 className="text-2xl font-bold font-pixel">경험치 계산기</h1>
+        <PageGuide guide={EXP_GUIDE} />
+      </div>
       <p className="text-sm text-dim mb-6">
         레벨별 경험치 표, 한타임 사냥 계산기, 목표 레벨 계산
       </p>
