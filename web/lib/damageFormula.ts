@@ -220,6 +220,66 @@ export function calcOneKillMa(
   return Math.ceil((-540 + Math.sqrt(disc)) / 2);
 }
 
+// ─── 명중률 (빅뱅 전, 커뮤니티 역산 공식) ───
+// 물리 (D = max(몹Lv - 캐릭Lv, 0)):
+//   100% 명중 필요 ACC = (avoid + 1) × (1 + D/24)
+//   인스타미스 하한   = 필요 ACC × 10/24  (이 밑에선 전부 미스)
+//   그 사이는 선형 보간 — 옛메 커뮤니티(SouthPerry 계열) 역산, 프리BB 서버 계산기들이
+//   공용하는 모델. 출처: HIT_FORMULA_SOURCES.
+// 마법 (Thikket & Nekonecat 역산):
+//   x = (trunc(INT/10) + trunc(LUK/10)) ÷ ((avoid + 1) × (1 + 0.0415×D))
+//   명중률 = -2.5795x² + 5.2343x - 1.6749  (0~1 클램프)
+// 두 공식 모두 메이플랜드 실측 검증치가 아니라 참고치다.
+
+export const HIT_FORMULA_SOURCES = [
+  {
+    label: "AyumiLove · MapleStory Formula Compilation (2009, 프리BB)",
+    href: "https://ayumilovemaple.wordpress.com/2009/09/06/maplestory-formula-compilation/",
+  },
+  {
+    label: "StrategyWiki · MapleStory Formulas",
+    href: "https://strategywiki.org/wiki/MapleStory/Formulas",
+  },
+] as const;
+
+/** 100% 명중에 필요한 물리 명중률 스탯 */
+export function requiredAccuracy(avoid: number, charLevel: number, mobLevel: number): number {
+  const D = Math.max(mobLevel - charLevel, 0);
+  return (Math.max(0, avoid) + 1) * (1 + D / 24);
+}
+
+export function physicalHitChance(
+  acc: number,
+  avoid: number,
+  charLevel: number,
+  mobLevel: number,
+): number {
+  const need = requiredAccuracy(avoid, charLevel, mobLevel);
+  if (need <= 0) return 1;
+  const floor = need * (10 / 24);
+  if (acc >= need) return 1;
+  if (acc <= floor) return 0;
+  return (acc - floor) / (need - floor);
+}
+
+export function magicHitChance(
+  int_: number,
+  luk: number,
+  avoid: number,
+  charLevel: number,
+  mobLevel: number,
+): number {
+  const D = Math.max(mobLevel - charLevel, 0);
+  const magicAcc = Math.trunc(int_ / 10) + Math.trunc(luk / 10);
+  const denom = (Math.max(0, avoid) + 1) * (1 + 0.0415 * D);
+  if (denom <= 0) return 1;
+  const x = magicAcc / denom;
+  // 회귀식은 x≈1.015(정점, ~98%) 이후 하강하는 2차 피팅 — 정점 이상은 노미스로 취급
+  if (x >= 5.2343 / (2 * 2.5795)) return 1;
+  const rate = -2.5795 * x * x + 5.2343 * x - 1.6749;
+  return Math.min(1, Math.max(0, rate));
+}
+
 // ─── 몬테카를로 시뮬레이션 ───
 
 export interface MonteCarloResult {
