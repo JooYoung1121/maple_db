@@ -4,25 +4,9 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import Link from "next/link";
 import { getItems } from "@/lib/api";
 import type { Item } from "@/lib/types";
+import { WEAPON_MULTIPLIERS } from "@/lib/damageFormula";
 
-/* ── 무기 배율 테이블 — /nhit 엔방컷 계산기와 동일 (메이플랜드 공식 검증 완료) ── */
-const WEAPON_MULTIPLIERS: Record<
-  string,
-  { maxMult: number; minMult: number; mainStat: "STR" | "DEX" | "LUK"; subStat: string; type: "melee" | "ranged" }
-> = {
-  "한손검":       { maxMult: 4.0, minMult: 4.0, mainStat: "STR", subStat: "DEX",     type: "melee"  },
-  "두손검":       { maxMult: 4.6, minMult: 4.6, mainStat: "STR", subStat: "DEX",     type: "melee"  },
-  "한손도끼/둔기": { maxMult: 4.4, minMult: 3.2, mainStat: "STR", subStat: "DEX",     type: "melee"  },
-  "두손도끼/둔기": { maxMult: 4.8, minMult: 3.4, mainStat: "STR", subStat: "DEX",     type: "melee"  },
-  "창":           { maxMult: 5.0, minMult: 3.0, mainStat: "STR", subStat: "DEX",     type: "melee"  },
-  "폴암":         { maxMult: 5.0, minMult: 3.0, mainStat: "STR", subStat: "DEX",     type: "melee"  },
-  "활":           { maxMult: 3.4, minMult: 3.4, mainStat: "DEX", subStat: "STR",     type: "ranged" },
-  "석궁":         { maxMult: 3.6, minMult: 3.6, mainStat: "DEX", subStat: "STR",     type: "ranged" },
-  "단검":         { maxMult: 3.6, minMult: 3.6, mainStat: "LUK", subStat: "STR+DEX", type: "melee"  },
-  "아대/클로":    { maxMult: 3.6, minMult: 3.6, mainStat: "LUK", subStat: "STR+DEX", type: "melee"  },
-  "너클":         { maxMult: 4.8, minMult: 4.8, mainStat: "STR", subStat: "DEX",     type: "melee"  },
-  "건":           { maxMult: 3.6, minMult: 3.6, mainStat: "DEX", subStat: "STR",     type: "ranged" },
-};
+/* 무기 배율은 web/lib/damageFormula.ts 공유 정본 사용 (/nhit·/hp-exp와 동일 값 보장) */
 
 /* ── 무기 종류 (DB subcategory → 표기/배율 키) ── */
 const WEAPON_TYPES: { sub: string; label: string; multKey: string | null; twoHanded: boolean }[] = [

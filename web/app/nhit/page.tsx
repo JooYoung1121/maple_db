@@ -3,25 +3,18 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { getNhitMobPresets } from "@/lib/api";
 import type { NHitMobPreset } from "@/lib/types";
-
-// ─── 무기 배율 테이블 ───
-const WEAPON_MULTIPLIERS: Record<
-  string,
-  { maxMult: number; minMult: number; mainStat: string; subStat: string; type: "melee" | "ranged" | "magic" }
-> = {
-  "한손검":       { maxMult: 4.0, minMult: 4.0, mainStat: "STR", subStat: "DEX",     type: "melee"  },
-  "두손검":       { maxMult: 4.6, minMult: 4.6, mainStat: "STR", subStat: "DEX",     type: "melee"  },
-  "한손도끼/둔기": { maxMult: 4.4, minMult: 3.2, mainStat: "STR", subStat: "DEX",     type: "melee"  },
-  "두손도끼/둔기": { maxMult: 4.8, minMult: 3.4, mainStat: "STR", subStat: "DEX",     type: "melee"  },
-  "창":           { maxMult: 5.0, minMult: 3.0, mainStat: "STR", subStat: "DEX",     type: "melee"  },
-  "폴암":         { maxMult: 5.0, minMult: 3.0, mainStat: "STR", subStat: "DEX",     type: "melee"  },
-  "활":           { maxMult: 3.4, minMult: 3.4, mainStat: "DEX", subStat: "STR",     type: "ranged" },
-  "석궁":         { maxMult: 3.6, minMult: 3.6, mainStat: "DEX", subStat: "STR",     type: "ranged" },
-  "단검":         { maxMult: 3.6, minMult: 3.6, mainStat: "LUK", subStat: "STR+DEX", type: "melee"  },
-  "아대/클로":    { maxMult: 3.6, minMult: 3.6, mainStat: "LUK", subStat: "STR+DEX", type: "melee"  },
-  "너클":         { maxMult: 4.8, minMult: 4.8, mainStat: "STR", subStat: "DEX",     type: "melee"  },
-  "건":           { maxMult: 3.6, minMult: 3.6, mainStat: "DEX", subStat: "STR",     type: "ranged" },
-};
+import {
+  WEAPON_MULTIPLIERS,
+  calcPhysicalDamage,
+  calcMagicDamage,
+  calcNHit,
+  calcOneKillAtk,
+  calcOneKillMa,
+  runMonteCarlo,
+  MAGIC_MASTERY,
+  type DamageResult,
+  type MonteCarloResult,
+} from "@/lib/damageFormula";
 
 // ─── 스킬 데이터 ───
 interface ActiveSkill {
@@ -543,175 +536,7 @@ function mapPresetMob(mob: NHitMobPreset): Monster {
   };
 }
 
-// ─── 데미지 계산 ───
-interface DamageResult {
-  maxDmg: number;
-  minDmg: number;
-  avgDmg: number;
-}
-
-function calcPhysicalDamage(
-  mainStat: number,
-  subStat: number,
-  atk: number,
-  maxMult: number,
-  minMult: number,
-  mastery: number,
-  skillPct: number,
-  hits: number,
-  charLevel: number,
-  monLevel: number,
-  wdef: number
-): DamageResult {
-  const D = Math.max(monLevel - charLevel, 0);
-  const levelPenalty = 1 - 0.01 * D;
-  const maxDmg =
-    Math.max(
-      ((mainStat * maxMult + subStat) * (atk / 100) * levelPenalty - wdef * 0.5) *
-        (skillPct / 100),
-      1
-    ) * hits;
-  const minDmg =
-    Math.max(
-      ((mainStat * minMult * 0.9 * mastery + subStat) * (atk / 100) * levelPenalty -
-        wdef * 0.6) *
-        (skillPct / 100),
-      1
-    ) * hits;
-  return { maxDmg, minDmg, avgDmg: (maxDmg + minDmg) / 2 };
-}
-
-// ─── 법사 데미지 공식 (메이플랜드 공식 검증 완료) ───
-// MAX = ((MA²/1000 + MA) / 30 + INT/200) × skillPct × attrMult - mdef × 0.5 × defMult
-// MIN = ((MA²/1000 + MA×0.6×0.9) / 30 + INT/200) × skillPct × attrMult - mdef × 0.6 × defMult
-// attrMult는 방어 차감 전에 적용 (속성약점 ×1.5 포함)
-const MAGIC_MASTERY = 0.6;
-
-function calcMagicDamage(
-  int_: number,
-  _luk: number,
-  ma: number,
-  skillPct: number,
-  attrMult: number,
-  hits: number,
-  charLevel: number,
-  monLevel: number,
-  mdef: number
-): DamageResult {
-  const D = Math.max(monLevel - charLevel, 0);
-  const defMult = 1 + 0.01 * D;
-  const maBase = ma * ma / 1000;
-  const maxPower = (maBase + ma) / 30 + int_ / 200;
-  const minPower = (maBase + ma * MAGIC_MASTERY * 0.9) / 30 + int_ / 200;
-  const maxDmg = Math.max(maxPower * skillPct * attrMult - mdef * 0.5 * defMult, 1) * hits;
-  const minDmg = Math.max(minPower * skillPct * attrMult - mdef * 0.6 * defMult, 1) * hits;
-  return { maxDmg, minDmg, avgDmg: (maxDmg + minDmg) / 2 };
-}
-
-function calcNHit(hp: number, dmg: DamageResult): { nHitMax: number; nHitAvg: number } {
-  const nHitMax = Math.ceil(hp / dmg.maxDmg);
-  const nHitAvg = Math.ceil(hp / dmg.avgDmg);
-  return { nHitMax, nHitAvg };
-}
-
-// 원킬컷 역산: physical ATK (최소 데미지 기준 보장 컷)
-function calcOneKillAtk(
-  hp: number,
-  mainStat: number,
-  subStat: number,
-  minMult: number,
-  mastery: number,
-  skillPct: number,
-  hits: number,
-  charLevel: number,
-  monLevel: number,
-  wdef: number
-): number {
-  const D = Math.max(monLevel - charLevel, 0);
-  const levelPenalty = Math.max(1 - 0.01 * D, 0);
-  const statTerm = mainStat * minMult * 0.9 * mastery + subStat;
-  if (levelPenalty <= 0 || statTerm <= 0 || skillPct <= 0 || hits <= 0) return 0;
-  const requiredBeforeDefense = (hp / hits) * 100 / skillPct + wdef * 0.6;
-  return Math.ceil(requiredBeforeDefense * 100 / (statTerm * levelPenalty));
-}
-
-// 원킬컷 역산: magic MA (이차방정식 풀이)
-// 원킬컷 역산: MA² + 540×MA - 30000T = 0, T = (hp/hits + mdef×0.6×defMult)/(skillPct×attrMult) - INT/200
-function calcOneKillMa(
-  hp: number,
-  int_: number,
-  _luk: number,
-  skillPct: number,
-  attrMult: number,
-  hits: number,
-  charLevel: number,
-  monLevel: number,
-  mdef: number
-): number {
-  const D = Math.max(monLevel - charLevel, 0);
-  const defMult = 1 + 0.01 * D;
-  const divisor = skillPct * attrMult;
-  if (divisor <= 0) return 0;
-  const T = (hp / hits + mdef * 0.6 * defMult) / divisor - int_ / 200;
-  const disc = 540 * 540 + 4 * 30000 * T;
-  if (disc < 0) return 0;
-  return Math.ceil((-540 + Math.sqrt(disc)) / 2);
-}
-
-// ─── 몬테카를로 시뮬레이션 ───
-interface MonteCarloResult {
-  distribution: Record<number, number>;
-  expectedHits: number;
-  median: number;
-  pOneHit: number;
-  pTwoHit: number;
-  pThreeHit: number;
-  pFourPlusHit: number;
-}
-
-function runMonteCarlo(
-  hp: number,
-  minDmg: number,
-  maxDmg: number,
-  critRate: number,
-  critMultiplier: number,
-  simCount: number = 10000
-): MonteCarloResult {
-  const hitCounts: number[] = [];
-  for (let i = 0; i < simCount; i++) {
-    let remaining = hp;
-    let hits = 0;
-    while (remaining > 0) {
-      const rawDmg = minDmg + Math.random() * (maxDmg - minDmg);
-      const isCrit = critRate > 0 && Math.random() * 100 < critRate;
-      const dmg = isCrit ? rawDmg * critMultiplier : rawDmg;
-      remaining -= dmg;
-      hits++;
-      if (hits > 9999) break;
-    }
-    hitCounts.push(hits);
-  }
-
-  const countMap: Record<number, number> = {};
-  for (const h of hitCounts) {
-    countMap[h] = (countMap[h] ?? 0) + 1;
-  }
-  const distribution: Record<number, number> = {};
-  for (const [k, v] of Object.entries(countMap)) {
-    distribution[Number(k)] = v / simCount;
-  }
-
-  hitCounts.sort((a, b) => a - b);
-  const expectedHits = hitCounts.reduce((s, v) => s + v, 0) / simCount;
-  const median = hitCounts[Math.floor(simCount / 2)];
-
-  const pOneHit = distribution[1] ?? 0;
-  const pTwoHit = distribution[2] ?? 0;
-  const pThreeHit = distribution[3] ?? 0;
-  const pFourPlusHit = 1 - pOneHit - pTwoHit - pThreeHit;
-
-  return { distribution, expectedHits, median, pOneHit, pTwoHit, pThreeHit, pFourPlusHit };
-}
+// ─── 데미지 계산 — 공식·몬테카를로는 web/lib/damageFormula.ts 공유 정본을 사용 ───
 
 // 공통 입력 컴포넌트 (백스페이스 편집 가능)
 function NumberInput({
