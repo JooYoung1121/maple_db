@@ -13,16 +13,20 @@ chat log.
 """
 from __future__ import annotations
 
+import json
 import os
 import re
 import time
 from dataclasses import dataclass, field
+from functools import lru_cache
 from datetime import date, datetime, timedelta, timezone
+from pathlib import Path
 from typing import Any, Optional
 from urllib.parse import quote, urlparse
 
 import httpx
 
+from api.routes.mapleland_reference import id_filter_sql
 from crawler.db import get_connection
 
 
@@ -79,6 +83,50 @@ SITE_LINK_RULES = [
     (("이상형월드컵", "이상형 월드컵"), "메이플 이상형 월드컵", "/worldcup"),
     (("추억틀", "단어유사도", "단어 유사도"), "추억틀", "/mapletle"),
 ]
+
+# siteFeatures.ts(정본 카탈로그) → scripts/export_site_features.py 산출물.
+# 수기 SITE_LINK_RULES 가 커버하지 못하던 페이지(체경비·핑크빈·놀이터 등)를
+# 라벨/homeLabel/keywords 별칭으로 자동 커버한다. 신규 페이지는 export 재실행으로 반영.
+SITE_FEATURES_PATH = Path(__file__).resolve().parents[1] / "data" / "site_features.json"
+
+
+# 라벨 끝의 일반 접미사 — 떼어낸 명칭("무릉도장 공략"→"무릉도장")도 트리거로 등록
+_GENERIC_LABEL_SUFFIX_RE = re.compile(r"\s*(공략|정리|계산기|시뮬레이터|가이드|모음|검색|추천)$")
+
+
+def _load_generated_site_rules() -> list[tuple[tuple[str, ...], str, str]]:
+    try:
+        features = json.loads(SITE_FEATURES_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        return []
+    rules: list[tuple[tuple[str, ...], str, str]] = []
+    for f in features:
+        triggers: list[str] = [f.get("label") or ""]
+        if f.get("homeLabel"):
+            triggers.append(f["homeLabel"])
+        for label in list(triggers):
+            trimmed = label
+            while True:
+                shorter = _GENERIC_LABEL_SUFFIX_RE.sub("", trimmed)
+                if shorter == trimmed:
+                    break
+                trimmed = shorter
+            if len(trimmed.replace(" ", "")) >= 2:
+                triggers.append(trimmed)
+        triggers.extend(f.get("keywords") or [])
+        # 한 글자 트리거("맵" 등)는 일상 문장을 오인하므로 제외
+        seen = tuple(dict.fromkeys(t for t in triggers if len(t.replace(" ", "")) >= 2))
+        if seen and f.get("href"):
+            rules.append((seen, f["label"], f["href"]))
+    return rules
+
+
+GENERATED_SITE_RULES = _load_generated_site_rules()
+
+# 내비게이션 의도 판별 시 질문에서 걷어내는 군더더기
+_NAV_FILLER_RE = re.compile(
+    r"(페이지|링크|주소|바로가기|알려\s*줘|보여\s*줘|가르쳐\s*줘|어디(야|에|서)?|있(어|나)요?|해줘|좀|요)"
+)
 
 PATCH_NEWS_PHRASES = (
     "패치노트",
@@ -601,8 +649,9 @@ def _info_reply(actor: Optional[ChatActor]) -> str:
         "",
         "**바로 물어보기**",
         "• `스켈로스 드랍템` · `오늘 패치내용` · `공홈소식 링크`",
+        "• `슬리피우드 맵` · `헤이스트 스킬` · `발록 어디서 나와` — 상세 페이지 연결",
         "• `서울 오늘 날씨` · `최신 메이플랜드 소식 검색해줘`",
-        "• 사이트의 몬스터·아이템·공지·계산기·가이드 링크",
+        "• 사이트의 몬스터·아이템·공지·계산기·가이드 링크 (체경비·놀이터 포함)",
         "",
         "**서버 메모 스킬**",
         "• `!저장 이름 = 내용` · `!기억 이름` · `!저장목록`",
@@ -619,17 +668,25 @@ def _info_reply(actor: Optional[ChatActor]) -> str:
     return "\n".join(lines)
 
 
+@lru_cache(maxsize=None)
+def _whitelist_clause(column: str, kind: str) -> str:
+    """레퍼런스 화이트리스트 필터 — 비노출 엔티티 링크(죽은 페이지) 방지."""
+    clause = id_filter_sql(column, kind)
+    return f"AND {clause}" if clause else ""
+
+
 def _find_mob(conn, name: str):
     cleaned = _clean_spaces(name).strip("?!.,~ ")
     if not cleaned:
         return None
     return conn.execute(
-        """
+        f"""
         SELECT m.id, e.name_en AS name_kr, m.level, m.hp, m.exp, m.is_boss
         FROM entity_names_en e
         JOIN mobs m ON m.id=e.entity_id
         WHERE e.entity_type='mob' AND e.source='kms'
           AND e.name_en LIKE ? AND COALESCE(m.is_hidden, 0)=0
+          {_whitelist_clause("m.id", "mobs")}
         ORDER BY
           CASE WHEN e.name_en=? THEN 0 ELSE 1 END,
           ABS(LENGTH(e.name_en)-LENGTH(?)),
@@ -645,12 +702,13 @@ def _find_item(conn, name: str):
     if not cleaned:
         return None
     return conn.execute(
-        """
+        f"""
         SELECT i.id, e.name_en AS name_kr
         FROM entity_names_en e
         JOIN items i ON i.id=e.entity_id
         WHERE e.entity_type='item' AND e.source='kms'
           AND e.name_en LIKE ? AND COALESCE(i.is_hidden, 0)=0
+          {_whitelist_clause("i.id", "items")}
         ORDER BY
           CASE WHEN e.name_en=? THEN 0 ELSE 1 END,
           ABS(LENGTH(e.name_en)-LENGTH(?)),
@@ -659,6 +717,100 @@ def _find_item(conn, name: str):
         """,
         (f"%{cleaned}%", cleaned, cleaned),
     ).fetchone()
+
+
+# ─── 엔티티 상세 페이지 링크 (FTS 통합검색 재사용) ───
+
+_ENTITY_DETAIL_PATTERNS: list[tuple[re.Pattern[str], str, str, str]] = [
+    (re.compile(r"^(?P<name>.+?)\s*맵$"), "map", "maps", "🗺️"),
+    (re.compile(r"^(?P<name>.+?)\s*스킬$"), "skill", "skills", "✨"),
+    (re.compile(r"^(?P<name>.+?)\s*퀘스트$"), "quest", "quests", "📜"),
+    (re.compile(r"^(?P<name>.+?)\s*(?:NPC|엔피시)$", re.I), "npc", "npcs", "🧑"),
+    (re.compile(r"^(?P<name>.+?)\s*(?:아이템|장비)$"), "item", "items", "🗡️"),
+]
+
+_SPAWN_QUESTION_RE = re.compile(
+    r"^(?P<name>.+?)\s*(?:어디서|어디에|어느\s*맵)\s*(?:나와|나옴|나오|출현|젠)"
+)
+
+_ENTITY_PATH_PREFIX = {
+    "item": "items", "mob": "mobs", "map": "maps",
+    "npc": "npcs", "quest": "quests", "skill": "skills",
+}
+
+
+def _entity_search(name: str, entity_type: Optional[str], limit: int = 3):
+    """/api/search 의 공백 무시·토큰 AND 폴백 검색을 챗봇에서 재사용한다."""
+    from api.routes.search import _fallback_matches
+
+    conn = get_connection()
+    try:
+        return _fallback_matches(conn, name, entity_type, limit)
+    except Exception as exc:
+        print(f"[chatbot] 엔티티 검색 실패 ({name}/{entity_type}): {exc}")
+        return [], 0
+    finally:
+        conn.close()
+
+
+def _entity_detail_reply(question: str) -> Optional[str]:
+    """맵·스킬·퀘스트·NPC·아이템 상세 질문을 사이트 상세 페이지로 연결한다."""
+    # "발록 어디서 나와" — 출현맵 질문은 몹 상세 페이지가 정답
+    spawn = _SPAWN_QUESTION_RE.match(question)
+    if spawn:
+        name = _clean_spaces(spawn.group("name")).strip("?!.,~ ")
+        if len(name) >= 2:
+            conn = get_connection()
+            try:
+                mob = _find_mob(conn, name)
+            finally:
+                conn.close()
+            if mob:
+                return (
+                    f"👾 **{mob['name_kr']}** (Lv.{mob['level']}) 출현 맵은 "
+                    f"몬스터 상세 페이지에서 확인할 수 있어요.\n{_site()}/mobs/{mob['id']}"
+                )
+        return None
+
+    core = _clean_spaces(_NAV_FILLER_RE.sub(" ", question)).strip("?!.,~ ")
+    stripped = re.sub(r"\s*(정보|상세|위치|옵션|스탯)$", "", core)
+    for pattern, entity_type, path_prefix, icon in _ENTITY_DETAIL_PATTERNS:
+        matched = pattern.match(stripped)
+        if not matched:
+            continue
+        name = _clean_spaces(matched.group("name")).strip("?!.,~ ")
+        if len(name) < 2:
+            return None
+        rows, total = _entity_search(name, entity_type)
+        if not rows:
+            return (
+                f"`{name}` 관련 결과를 찾지 못했어요.\n"
+                f"{_site()}/{path_prefix}?q={quote(name)}"
+            )
+        top = rows[0]
+        display = top.get("name_kr") or top.get("name")
+        lines = [
+            f"{icon} **{display}** — 상세 정보는 여기서 확인하세요.",
+            f"{_site()}/{path_prefix}/{top['entity_id']}",
+        ]
+        if total > 1:
+            lines.append(f"비슷한 결과 {total}개: {_site()}/{path_prefix}?q={quote(name)}")
+        return "\n".join(lines)
+
+    # 타입 단어 없이 "<이름> 정보" — 이름이 정확히 일치할 때만 (오발동 방지)
+    if stripped != core and len(stripped) >= 2:
+        rows, _total = _entity_search(stripped, None, limit=5)
+        target = stripped.replace(" ", "")
+        for row in rows:
+            display = row.get("name_kr") or row.get("name") or ""
+            if display.replace(" ", "") == target:
+                prefix = _ENTITY_PATH_PREFIX.get(row["entity_type"])
+                if prefix:
+                    return (
+                        f"🔎 **{display}** — 상세 정보는 여기서 확인하세요.\n"
+                        f"{_site()}/{prefix}/{row['entity_id']}"
+                    )
+    return None
 
 
 def _extract_drop_mob_name(text: str) -> str:
@@ -1108,12 +1260,48 @@ async def _fetch_weather(location: str, day_offset: int = 0) -> Optional[str]:
     return "\n".join(lines)
 
 
-def _site_link_reply(text: str) -> Optional[str]:
+def _match_site_rule(text: str, *, navigation_only: bool = False) -> Optional[tuple[str, str]]:
+    """질문에 걸리는 사이트 링크 규칙을 찾는다 — 최장 키워드 우선(가장 구체적인 규칙 승리).
+
+    navigation_only=True 는 몹/드랍 분기보다 앞에서 실행되는 조기 검사용:
+    복합 키워드(4자+)가 들어 있거나, 군더더기를 걷어낸 질문이 키워드와 거의 같을 때만
+    내비게이션 의도로 확신한다. ("몬스터 검색 페이지" → /mobs, 단 "주황버섯 드랍"은 통과)
+    """
     normalized = text.replace(" ", "")
-    for keywords, label, path in SITE_LINK_RULES:
-        if any(keyword.replace(" ", "") in normalized for keyword in keywords):
-            return f"🔎 **{label}**는 여기에서 확인할 수 있어요.\n{_site()}{path}"
-    return None
+    stripped = _NAV_FILLER_RE.sub("", text).replace(" ", "").strip("?!.,~ ")
+    best: Optional[tuple[int, int, str, str]] = None  # (키워드 길이, 우선순위, label, path)
+    for priority, ruleset in ((0, SITE_LINK_RULES), (1, GENERATED_SITE_RULES)):
+        for keywords, label, path in ruleset:
+            for keyword in keywords:
+                k = keyword.replace(" ", "")
+                if k not in normalized:
+                    continue
+                if navigation_only and not (
+                    stripped == k or (len(k) >= 4 and len(stripped) <= len(k) + 4)
+                ):
+                    continue
+                if best is None or (len(k), -priority) > (best[0], -best[1]):
+                    best = (len(k), priority, label, path)
+    if best is None and len(stripped) >= 2:
+        # 역방향 보완: 질문 전체가 라벨의 일부인 경우 ("퀴즈" → "메이플 퀴즈")
+        for priority, ruleset in ((0, SITE_LINK_RULES), (1, GENERATED_SITE_RULES)):
+            for keywords, label, path in ruleset:
+                for keyword in keywords:
+                    k = keyword.replace(" ", "")
+                    if stripped in k and len(k) <= len(stripped) + 6:
+                        if best is None or (len(k), -priority) < (best[0], -best[1]):
+                            best = (len(k), priority, label, path)
+    if best is None:
+        return None
+    return best[2], best[3]
+
+
+def _site_link_reply(text: str, *, navigation_only: bool = False) -> Optional[str]:
+    matched = _match_site_rule(text, navigation_only=navigation_only)
+    if not matched:
+        return None
+    label, path = matched
+    return f"🔎 **{label}**는 여기에서 확인할 수 있어요.\n{_site()}{path}"
 
 
 def _should_web_search(text: str) -> bool:
@@ -1393,6 +1581,14 @@ async def handle_chat_message(
         _remember(session, question, reply)
         return reply
 
+    # 내비게이션 확신 질문("몬스터 검색 페이지", "드랍검색", "오늘의 몬스터")은
+    # 몹/드랍 분기가 가로채기 전에 사이트 링크로 응답한다 — 분기 순서 때문에
+    # 등록된 규칙 4건이 절대 도달하지 못하던 버그 수정 (2026-09-29 감사)
+    nav_reply = _site_link_reply(question, navigation_only=True)
+    if nav_reply:
+        _remember(session, question, nav_reply)
+        return nav_reply
+
     reverse_drop = (
         ("드랍" in question or "드롭" in question)
         and any(token in question for token in ("어디", "누가", "어느 몹", "어떤 몹"))
@@ -1448,6 +1644,11 @@ async def handle_chat_message(
             conn.close()
         _remember(session, question, reply)
         return reply
+
+    entity_reply = _entity_detail_reply(question)
+    if entity_reply:
+        _remember(session, question, entity_reply)
+        return entity_reply
 
     site_reply = _site_link_reply(question)
     if site_reply:

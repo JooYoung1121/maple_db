@@ -1,0 +1,612 @@
+[
+ {
+  "href": "/brain",
+  "label": "메랜 브레인",
+  "homeLabel": "메랜 브레인",
+  "description": "내 캐릭터 중심 지식 그래프 — 사냥터·퀘스트·드랍 탐색",
+  "keywords": []
+ },
+ {
+  "href": "/me",
+  "label": "마이페이지",
+  "homeLabel": null,
+  "description": "계정·캐릭터·즐겨찾기·추천을 한 곳에서",
+  "keywords": []
+ },
+ {
+  "href": "/items",
+  "label": "아이템",
+  "homeLabel": null,
+  "description": "직업·레벨별 장비, 옵션·드롭처",
+  "keywords": [
+   "장비",
+   "방어구",
+   "무기",
+   "직업별",
+   "레벨별"
+  ]
+ },
+ {
+  "href": "/mobs",
+  "label": "몬스터",
+  "homeLabel": null,
+  "description": "일반 몬스터, 보스",
+  "keywords": []
+ },
+ {
+  "href": "/bosses",
+  "label": "보스",
+  "homeLabel": null,
+  "description": "보스 공략 정보",
+  "keywords": []
+ },
+ {
+  "href": "/maps",
+  "label": "맵",
+  "homeLabel": null,
+  "description": "사냥터, 마을, 던전",
+  "keywords": []
+ },
+ {
+  "href": "/npcs",
+  "label": "NPC",
+  "homeLabel": null,
+  "description": "상점, 퀘스트 NPC",
+  "keywords": []
+ },
+ {
+  "href": "/quests",
+  "label": "퀘스트",
+  "homeLabel": null,
+  "description": "메인, 서브 퀘스트",
+  "keywords": []
+ },
+ {
+  "href": "/quest-roadmap",
+  "label": "퀘스트 로드맵",
+  "homeLabel": null,
+  "description": "레벨별 퀘스트 진행 가이드",
+  "keywords": []
+ },
+ {
+  "href": "/skills",
+  "label": "스킬",
+  "homeLabel": null,
+  "description": "직업별 스킬 정보",
+  "keywords": []
+ },
+ {
+  "href": "/drop-search",
+  "label": "획득 경로",
+  "homeLabel": null,
+  "description": "아이템 → 몬스터 → 출현 맵",
+  "keywords": []
+ },
+ {
+  "href": "/market",
+  "label": "아이템 시세",
+  "homeLabel": null,
+  "description": "거래소 매물 집계 시세 — 일/주/월봉 추이",
+  "keywords": [
+   "시세",
+   "가격",
+   "거래소",
+   "메소"
+  ]
+ },
+ {
+  "href": "/differences",
+  "label": "원작 차이",
+  "homeLabel": null,
+  "description": "메이플랜드 변경점 · 원작 수치 대조",
+  "keywords": []
+ },
+ {
+  "href": "/damage",
+  "label": "스공 계산기",
+  "homeLabel": "스공 계산기",
+  "description": "스탯·메용·도핑 반영",
+  "keywords": []
+ },
+ {
+  "href": "/scroll",
+  "label": "주문서 계산기",
+  "homeLabel": "주문서",
+  "description": "강화 시뮬레이터",
+  "keywords": []
+ },
+ {
+  "href": "/exp",
+  "label": "경험치 계산기",
+  "homeLabel": "경험치",
+  "description": "레벨업 계산",
+  "keywords": []
+ },
+ {
+  "href": "/nhit",
+  "label": "엔방컷 계산기",
+  "homeLabel": "엔방컷",
+  "description": "젠컷 계산",
+  "keywords": []
+ },
+ {
+  "href": "/fee",
+  "label": "공대 분배 계산기",
+  "homeLabel": "공대 분배",
+  "description": "보스 드랍 아이템 N빵 정산",
+  "keywords": []
+ },
+ {
+  "href": "/maker",
+  "label": "메이커",
+  "homeLabel": null,
+  "description": "제작 정보와 리버스 무기 기대값",
+  "keywords": []
+ },
+ {
+  "href": "/skill-sim",
+  "label": "스킬 시뮬레이터",
+  "homeLabel": null,
+  "description": "직업별 스킬 빌드 설계",
+  "keywords": []
+ },
+ {
+  "href": "/gear-sim",
+  "label": "장비 세팅",
+  "homeLabel": null,
+  "description": "장비 조합 스탯 · 데미지 시뮬",
+  "keywords": []
+ },
+ {
+  "href": "/codi",
+  "label": "코디 시뮬레이터",
+  "homeLabel": null,
+  "description": "헤어 · 성형 · 장비 입혀보기",
+  "keywords": []
+ },
+ {
+  "href": "/pq",
+  "label": "파티퀘스트",
+  "homeLabel": null,
+  "description": "PQ 공략 및 보상",
+  "keywords": [
+   "파퀘"
+  ]
+ },
+ {
+  "href": "/pq/amorian-solver",
+  "label": "웨딩 파퀘 조합",
+  "homeLabel": null,
+  "description": "아모리안 밧줄·발판 퍼즐 풀이와 이동 안내",
+  "keywords": [
+   "아모리아",
+   "아모리안",
+   "엘리아스",
+   "웨딩",
+   "결혼",
+   "파퀘",
+   "조합표",
+   "발판",
+   "밧줄",
+   "솔버"
+  ]
+ },
+ {
+  "href": "/hunt",
+  "label": "사냥터 추천",
+  "homeLabel": null,
+  "description": "레벨별 사냥터 가이드",
+  "keywords": []
+ },
+ {
+  "href": "/hp-exp",
+  "label": "체경비 사냥터",
+  "homeLabel": null,
+  "description": "체력 대비 경험치로 찾는 꿀 사냥터 — 맵별 마릿수·분포 기반",
+  "keywords": [
+   "체경비",
+   "체경",
+   "효율",
+   "꿀몹",
+   "꿀맵",
+   "가성비"
+  ]
+ },
+ {
+  "href": "/leveling",
+  "label": "직업별 사냥터",
+  "homeLabel": null,
+  "description": "직업·레벨 구간별 육성 루트",
+  "keywords": [
+   "육성",
+   "레벨링"
+  ]
+ },
+ {
+  "href": "/events",
+  "label": "이벤트 정리",
+  "homeLabel": null,
+  "description": "진행 중 이벤트 요약 · 아카이브",
+  "keywords": []
+ },
+ {
+  "href": "/job",
+  "label": "전직 가이드",
+  "homeLabel": null,
+  "description": "직업별 전직 경로",
+  "keywords": []
+ },
+ {
+  "href": "/skill-quests",
+  "label": "스킬 획득 퀘스트",
+  "homeLabel": null,
+  "description": "직업별 스킬 해금 · 선행 퀘스트 · 준비물 · 진행 순서",
+  "keywords": [
+   "제네시스",
+   "리저렉션",
+   "스킬퀘",
+   "직업퀘",
+   "스킬북",
+   "용사의 의지",
+   "기분안기모띠"
+  ]
+ },
+ {
+  "href": "/battle-mage",
+  "label": "배틀메이지 가이드",
+  "homeLabel": "배틀메이지",
+  "description": "스킬 · 마북 드롭 · 에델슈타인 퀘스트 · 육성",
+  "keywords": [
+   "배메",
+   "레지스탕스",
+   "마북",
+   "에델슈타인"
+  ]
+ },
+ {
+  "href": "/medals",
+  "label": "훈장 가이드",
+  "homeLabel": null,
+  "description": "탐험가 · 기부왕 · 무릉 한정 훈장",
+  "keywords": []
+ },
+ {
+  "href": "/quest-specialist",
+  "label": "퀘스트 스페셜리스트",
+  "homeLabel": null,
+  "description": "퀘스트 800개 훈장 — 레벨 제한 퀘 · 전달형 즉시 완료 · 연계 준비물 총량",
+  "keywords": [
+   "퀘스페",
+   "훈장",
+   "800",
+   "퀘스트 훈장",
+   "달리어",
+   "칭호"
+  ]
+ },
+ {
+  "href": "/ship",
+  "label": "배 시간표",
+  "homeLabel": null,
+  "description": "정기선 운항 시간",
+  "keywords": [
+   "페리"
+  ]
+ },
+ {
+  "href": "/trap",
+  "label": "함정 타이머",
+  "homeLabel": "트랩 타이머",
+  "description": "트랩 주기 타이머",
+  "keywords": []
+ },
+ {
+  "href": "/wedding",
+  "label": "결혼 시스템",
+  "homeLabel": null,
+  "description": "준비물 · 절차 · 채플 vs 대성당 · 하객 보상",
+  "keywords": [
+   "웨딩"
+  ]
+ },
+ {
+  "href": "/charlie",
+  "label": "찰리중사 교환",
+  "homeLabel": null,
+  "description": "물물교환 보상표 · 확률 · 시세 효율 계산",
+  "keywords": []
+ },
+ {
+  "href": "/horntail",
+  "label": "혼테일 공략",
+  "homeLabel": null,
+  "description": "패턴 · 직업별 준비물 · 파츠별 딜 위치",
+  "keywords": [
+   "혼텔",
+   "보스 공략"
+  ]
+ },
+ {
+  "href": "/pinkbean",
+  "label": "핑크빈 공략",
+  "homeLabel": null,
+  "description": "시간의 신전 원정대 보스 — 입장 경로 · 석상 6단계 · 클리어 가능성 분석",
+  "keywords": [
+   "핑크빈",
+   "시간의 신전",
+   "신들의 황혼",
+   "원정대",
+   "시조",
+   "타임리스",
+   "리버스"
+  ]
+ },
+ {
+  "href": "/boss-timer",
+  "label": "보스 타이머",
+  "homeLabel": null,
+  "description": "혼테일 · 카쿰 — 리저 · 유혹 · 벞해 쿨타임 공유",
+  "keywords": [
+   "카쿰 타이머",
+   "혼테일 타이머",
+   "리저 타이머",
+   "쿨타임"
+  ]
+ },
+ {
+  "href": "/field-boss",
+  "label": "필드보스 채널",
+  "homeLabel": null,
+  "description": "처치 채널 · 시각 공유로 젠 로테이션",
+  "keywords": [
+   "필보"
+  ]
+ },
+ {
+  "href": "/dojo",
+  "label": "무릉도장 공략",
+  "homeLabel": null,
+  "description": "38층 · 점수 효율 계산기 · 파티 조합",
+  "keywords": []
+ },
+ {
+  "href": "/guild-war",
+  "label": "길드대항전",
+  "homeLabel": null,
+  "description": "샤레니안 공략 · 상자 배분 · 제물 솔버 · 분배 정산",
+  "keywords": [
+   "길드전"
+  ]
+ },
+ {
+  "href": "/news",
+  "label": "공홈 소식",
+  "homeLabel": "메랜 공홈 소식",
+  "description": "메이플랜드 공지·이벤트",
+  "keywords": []
+ },
+ {
+  "href": "/weekly",
+  "label": "주간 메랜",
+  "homeLabel": null,
+  "description": "한 주의 공식·커뮤니티 소식",
+  "keywords": []
+ },
+ {
+  "href": "/channels",
+  "label": "채널 · 커뮤니티",
+  "homeLabel": null,
+  "description": "메랜 방송 · 영상 · 공식 Discord 모음",
+  "keywords": []
+ },
+ {
+  "href": "/recruit-card",
+  "label": "구인구직 카드",
+  "homeLabel": null,
+  "description": "스탯창·캐릭터 캡쳐로 공대 구인·구직 홍보 카드 제작 — AI 일러스트 변환(베타)",
+  "keywords": [
+   "구직",
+   "구인",
+   "공대 모집",
+   "홍보",
+   "카드 메이커",
+   "포스터"
+  ]
+ },
+ {
+  "href": "/bimae",
+  "label": "비매박제",
+  "homeLabel": null,
+  "description": "비매 유저 신고",
+  "keywords": []
+ },
+ {
+  "href": "/community",
+  "label": "투표",
+  "homeLabel": null,
+  "description": "유저 투표 참여",
+  "keywords": []
+ },
+ {
+  "href": "/version",
+  "label": "업데이트 소식",
+  "homeLabel": null,
+  "description": "사이트 변경 내역",
+  "keywords": []
+ },
+ {
+  "href": "/performance",
+  "label": "반응성 진단",
+  "homeLabel": null,
+  "description": "선택형 로컬 INP 측정 · 서버 전송 없음",
+  "keywords": []
+ },
+ {
+  "href": "/playground",
+  "label": "놀이터 모아보기",
+  "homeLabel": null,
+  "description": "오늘의 게임 · 파티 도구 · 최근 플레이",
+  "keywords": []
+ },
+ {
+  "href": "/play",
+  "label": "룰렛 · 주사위",
+  "homeLabel": null,
+  "description": "룰렛, 주사위 굴리기",
+  "keywords": []
+ },
+ {
+  "href": "/lotto",
+  "label": "로또",
+  "homeLabel": null,
+  "description": "랜덤 번호 생성",
+  "keywords": []
+ },
+ {
+  "href": "/fortune",
+  "label": "오늘의 운세",
+  "homeLabel": null,
+  "description": "메이플 운세 보기",
+  "keywords": []
+ },
+ {
+  "href": "/quiz",
+  "label": "메이플 퀴즈",
+  "homeLabel": null,
+  "description": "스피드퀴즈 · 실루엣 퀴즈",
+  "keywords": []
+ },
+ {
+  "href": "/daily-mob",
+  "label": "오늘의 몬스터",
+  "homeLabel": null,
+  "description": "매일 바뀌는 몬스터 추리",
+  "keywords": []
+ },
+ {
+  "href": "/highlow",
+  "label": "메랜 하이로우",
+  "homeLabel": null,
+  "description": "레벨·HP·EXP 높낮이 연승",
+  "keywords": []
+ },
+ {
+  "href": "/map-guess",
+  "label": "미니맵 어디게?",
+  "homeLabel": null,
+  "description": "미니맵 모양으로 장소 추리",
+  "keywords": []
+ },
+ {
+  "href": "/drop-chain",
+  "label": "드랍 연결 퍼즐",
+  "homeLabel": null,
+  "description": "몬스터·드랍템·사냥터 연결",
+  "keywords": []
+ },
+ {
+  "href": "/mapletle",
+  "label": "추억틀",
+  "homeLabel": null,
+  "description": "단어 유사도로 메랜 단어 추리",
+  "keywords": []
+ },
+ {
+  "href": "/worldcup",
+  "label": "이상형 월드컵",
+  "homeLabel": null,
+  "description": "몬스터 · 코디템 최애 뽑기",
+  "keywords": []
+ },
+ {
+  "href": "/versus",
+  "label": "대전 게임",
+  "homeLabel": null,
+  "description": "오목 · 짝맞추기 · 원카드 · 윷놀이",
+  "keywords": []
+ },
+ {
+  "href": "/chosung",
+  "label": "초성퀴즈 검색기",
+  "homeLabel": null,
+  "description": "초성으로 메랜 이름 찾기",
+  "keywords": []
+ },
+ {
+  "href": "/museum",
+  "label": "이세계 도감",
+  "homeLabel": null,
+  "description": "메랜에 없는 몹·아이템 구경",
+  "keywords": []
+ },
+ {
+  "href": "/tespia-bosses",
+  "label": "테스피아 2.0 보스",
+  "homeLabel": null,
+  "description": "2.0 오픈 전 미리보기 — 역할을 다한 자료 보존",
+  "keywords": [
+   "아카이브",
+   "유물",
+   "테스피아"
+  ]
+ },
+ {
+  "href": "/guild",
+  "label": "공지 · 이벤트",
+  "homeLabel": null,
+  "description": "길드 공지사항",
+  "keywords": []
+ },
+ {
+  "href": "/guild/events",
+  "label": "이벤트 모집",
+  "homeLabel": null,
+  "description": "유저 주최 이벤트 — 지원 · 룰렛 추첨",
+  "keywords": []
+ },
+ {
+  "href": "/guild/members",
+  "label": "길드원 명단",
+  "homeLabel": null,
+  "description": "길드원 정보",
+  "keywords": []
+ },
+ {
+  "href": "/guild/attendance",
+  "label": "출석부",
+  "homeLabel": null,
+  "description": "출석 체크 · 월간 랭킹",
+  "keywords": []
+ },
+ {
+  "href": "/guild/boss",
+  "label": "보스",
+  "homeLabel": null,
+  "description": "보스 파티 · 기록",
+  "keywords": []
+ },
+ {
+  "href": "/guild/board",
+  "label": "자유게시판",
+  "homeLabel": null,
+  "description": "길드원 소통",
+  "keywords": []
+ },
+ {
+  "href": "/guild/info",
+  "label": "정보공유",
+  "homeLabel": null,
+  "description": "길드 공략과 자료 공유",
+  "keywords": [
+   "공략 게시판",
+   "정보 게시판"
+  ]
+ },
+ {
+  "href": "/guild/discord",
+  "label": "디스코드 봇",
+  "homeLabel": null,
+  "description": "대화형 챗봇 · 알림 설정",
+  "keywords": []
+ }
+]

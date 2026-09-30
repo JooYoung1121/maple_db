@@ -2,6 +2,15 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import {
+  WEAPON_MULTIPLIERS,
+  calcPhysicalDamage,
+  calcMagicDamage,
+  physicalHitChance,
+  magicHitChance,
+  type DamageResult,
+} from "@/lib/damageFormula";
+import { readMyMapleProfile } from "@/lib/myMaple";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -12,8 +21,13 @@ interface EffMob {
   hp: number;
   exp: number;
   ratio: number;
+  wdef: number;
+  mdef: number;
+  avoid: number;
+  undead: number;
   map_count: number;
   total_spawns: number | null;
+  spawns_estimated?: boolean;
   count?: number | null;
 }
 
@@ -26,6 +40,7 @@ interface EffMap {
   out_of_range_count: number;
   weighted_ratio: number | null;
   exp_per_gen: number | null;
+  mob_rate: number | null;
   floors: number | null;
   width: number | null;
   estimated: boolean;
@@ -37,6 +52,92 @@ interface EffResponse {
   mobs: EffMob[];
   maps: EffMap[];
   total_maps: number;
+  total_mobs: number;
+}
+
+// ─── 내 캐릭터 입력 (localStorage 유지) ───
+interface CharState {
+  enabled: boolean;
+  mode: "physical" | "magic";
+  weapon: string; // WEAPON_MULTIPLIERS 키
+  mainStat: number;
+  subStat: number;
+  atk: number;
+  mastery: number; // %
+  int: number;
+  luk: number;
+  ma: number;
+  skillPct: number; // 스킬 데미지 %
+  hits: number; // 스킬 타격 수
+  acc: number; // 물리 명중률 스탯
+}
+
+const CHAR_STORAGE_KEY = "hp_exp_char_v1";
+
+const DEFAULT_CHAR: CharState = {
+  enabled: false,
+  mode: "physical",
+  weapon: "두손검",
+  mainStat: 100,
+  subStat: 25,
+  atk: 60,
+  mastery: 60,
+  int: 100,
+  luk: 25,
+  ma: 100,
+  skillPct: 100,
+  hits: 1,
+  acc: 60,
+};
+
+function readChar(): CharState {
+  if (typeof window === "undefined") return DEFAULT_CHAR;
+  try {
+    const raw = window.localStorage.getItem(CHAR_STORAGE_KEY);
+    return raw ? { ...DEFAULT_CHAR, ...JSON.parse(raw) } : DEFAULT_CHAR;
+  } catch {
+    return DEFAULT_CHAR;
+  }
+}
+
+interface MobCombat {
+  avgDmg: number;
+  nHitAvg: number; // 평균 데미지 기준 N방컷
+  hitChance: number; // 0~1
+  expectedAttacks: number; // 미스 포함 기대 타수
+  expPerAttack: number; // 타수당 경험치
+}
+
+function calcMobCombat(mob: EffMob, char: CharState, charLevel: number): MobCombat | null {
+  let dmg: DamageResult;
+  let hit: number;
+  if (char.mode === "magic") {
+    if (char.ma <= 0) return null;
+    dmg = calcMagicDamage(
+      char.int, char.luk, char.ma, char.skillPct, 1,
+      char.hits, charLevel, mob.level, mob.mdef,
+    );
+    hit = magicHitChance(char.int, char.luk, mob.avoid, charLevel, mob.level);
+  } else {
+    const mult = WEAPON_MULTIPLIERS[char.weapon];
+    if (!mult || char.atk <= 0) return null;
+    dmg = calcPhysicalDamage(
+      char.mainStat, char.subStat, char.atk, mult.maxMult, mult.minMult,
+      char.mastery / 100, char.skillPct, char.hits, charLevel, mob.level, mob.wdef,
+    );
+    hit = physicalHitChance(char.acc, mob.avoid, charLevel, mob.level);
+  }
+  if (dmg.avgDmg <= 0) return null;
+  const nHitAvg = Math.ceil(mob.hp / dmg.avgDmg);
+  // 명중률 0 = 필요명중의 절반 이하 → 전부 미스, 사냥 불가
+  const expectedAttacks = hit > 0 ? nHitAvg / hit : Infinity;
+  return {
+    avgDmg: dmg.avgDmg,
+    nHitAvg,
+    hitChance: hit,
+    expectedAttacks,
+    expPerAttack: hit > 0 ? mob.exp / expectedAttacks : 0,
+  };
 }
 
 function formatNumber(n: number): string {
@@ -62,12 +163,40 @@ function ratioLabel(r: number | null): string {
   return "빡셈";
 }
 
+function hitClass(hit: number): string {
+  if (hit >= 0.95) return "text-emerald-600 dark:text-emerald-400";
+  if (hit >= 0.7) return "text-amber-600 dark:text-amber-400";
+  return "text-red-500 dark:text-red-400";
+}
+
 // 스폰 분포 요약 — 층수·가로폭으로 지형 성격 추정
 function terrainSummary(floors: number | null, width: number | null): string | null {
   if (floors === null || width === null) return null;
   if (floors <= 2 && width >= 900) return "일자형";
   if (floors >= 8) return "복층";
   return `${floors}층`;
+}
+
+function NumField({
+  label, value, onChange, width = "w-20",
+}: {
+  label: string;
+  value: number;
+  onChange: (v: number) => void;
+  width?: string;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-1 block text-[11px] text-dim">{label}</span>
+      <input
+        type="number"
+        value={value}
+        min={0}
+        onChange={(e) => onChange(Math.max(0, Number(e.target.value) || 0))}
+        className={`${width} rounded border border-edge bg-surface px-2 py-1.5 text-sm text-ink`}
+      />
+    </label>
+  );
 }
 
 export default function HpExpPage() {
@@ -79,6 +208,28 @@ export default function HpExpPage() {
   const [data, setData] = useState<EffResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  const [char, setChar] = useState<CharState>(DEFAULT_CHAR);
+  const [charLoaded, setCharLoaded] = useState(false);
+  const [mySort, setMySort] = useState(false); // 내 캐릭터 효율(타수당 경험치)순
+
+  useEffect(() => {
+    setChar(readChar());
+    const profile = readMyMapleProfile();
+    if (profile.level > 1) setLevel((prev) => (prev === "" ? profile.level : prev));
+    setCharLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!charLoaded || typeof window === "undefined") return;
+    try {
+      window.localStorage.setItem(CHAR_STORAGE_KEY, JSON.stringify(char));
+    } catch {
+      /* 저장 실패는 무시 — 입력 자체는 동작 */
+    }
+  }, [char, charLoaded]);
+
+  const patchChar = (patch: Partial<CharState>) => setChar((c) => ({ ...c, ...patch }));
 
   const [minLv, maxLv] = useMemo(() => {
     if (level === "" || !Number.isFinite(Number(level))) return [1, 200];
@@ -115,13 +266,75 @@ export default function HpExpPage() {
     };
   }, [minLv, maxLv, sort, minCount]);
 
+  // 내 캐릭터 계산 활성 조건: 토글 on + 레벨 입력
+  const charActive = char.enabled && level !== "";
+  const charLevel = level === "" ? 0 : Number(level);
+
+  const combatByMob = useMemo(() => {
+    if (!charActive || !data) return new Map<number, MobCombat>();
+    const out = new Map<number, MobCombat>();
+    const seen = new Map<number, EffMob>();
+    for (const mob of data.mobs) seen.set(mob.id, mob);
+    for (const m of data.maps) for (const mob of m.mobs) if (!seen.has(mob.id)) seen.set(mob.id, mob);
+    for (const [id, mob] of seen) {
+      const c = calcMobCombat(mob, char, charLevel);
+      if (c) out.set(id, c);
+    }
+    return out;
+  }, [charActive, data, char, charLevel]);
+
+  // 맵별 내 캐릭터 효율: 젠 가중 타수당 경험치 = Σ(count×exp) ÷ Σ(count×기대타수)
+  const mapScore = useMemo(() => {
+    const out = new Map<number, number>();
+    if (!charActive || !data) return out;
+    for (const m of data.maps) {
+      let totalExp = 0;
+      let totalAttacks = 0;
+      let covered = false;
+      for (const mob of m.mobs) {
+        const c = combatByMob.get(mob.id);
+        const cnt = mob.count ?? 0;
+        // 명중 불가 몹은 사냥 대상에서 제외하고 나머지로 효율을 낸다
+        if (!c || !cnt || c.hitChance <= 0) continue;
+        covered = true;
+        totalExp += mob.exp * cnt;
+        totalAttacks += c.expectedAttacks * cnt;
+      }
+      if (covered && totalAttacks > 0) out.set(m.map_id, totalExp / totalAttacks);
+    }
+    return out;
+  }, [charActive, data, combatByMob]);
+
+  const sortedMobs = useMemo(() => {
+    if (!data) return [];
+    if (!charActive || !mySort) return data.mobs;
+    return [...data.mobs].sort((a, b) => {
+      const ca = combatByMob.get(a.id)?.expPerAttack ?? -1;
+      const cb = combatByMob.get(b.id)?.expPerAttack ?? -1;
+      return cb - ca;
+    });
+  }, [data, charActive, mySort, combatByMob]);
+
+  const sortedMaps = useMemo(() => {
+    if (!data) return [];
+    if (!charActive || !mySort) return data.maps;
+    return [...data.maps].sort((a, b) => {
+      const sa = mapScore.get(a.map_id) ?? -1;
+      const sb = mapScore.get(b.map_id) ?? -1;
+      return sb - sa;
+    });
+  }, [data, charActive, mySort, mapScore]);
+
+  const weaponKeys = Object.keys(WEAPON_MULTIPLIERS);
+
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       <header>
         <h1 className="font-pixel text-2xl font-bold text-ink">체경비 사냥터</h1>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-dim">
           체경비 = 몹 체력 ÷ 경험치. <span className="font-semibold text-ink">경험치 1을 얻기 위해 깎아야 하는 체력</span>이라
-          낮을수록 꿀입니다. 맵별 몹 마릿수·배치(스폰 데이터)와 조합해 어디로 가면 좋을지 추천합니다.
+          낮을수록 꿀입니다. 맵별 몹 마릿수·배치(스폰 데이터)와 조합해 어디로 가면 좋을지 추천하고,
+          내 캐릭터를 입력하면 <span className="font-semibold text-ink">N방컷·명중률·타수당 경험치</span>까지 계산합니다.
         </p>
       </header>
 
@@ -177,14 +390,96 @@ export default function HpExpPage() {
             ] as const).map(([key, label]) => (
               <button
                 key={key}
-                onClick={() => setSort(key)}
-                className={`pixel-btn px-3 py-2 text-xs ${sort === key ? "bg-maple text-white" : ""}`}
+                onClick={() => {
+                  setSort(key);
+                  setMySort(false);
+                }}
+                className={`pixel-btn px-3 py-2 text-xs ${sort === key && !mySort ? "bg-maple text-white" : ""}`}
               >
                 {label}
               </button>
             ))}
+            {charActive && (
+              <button
+                onClick={() => setMySort(true)}
+                className={`pixel-btn px-3 py-2 text-xs ${mySort ? "bg-maple text-white" : ""}`}
+                title="미스 확률을 포함한 기대 타수당 경험치가 높은 순"
+              >
+                내 효율순
+              </button>
+            )}
           </div>
         </div>
+      </section>
+
+      {/* ─── 내 캐릭터 ─── */}
+      <section className="pixel-panel p-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <h2 className="font-pixel text-sm font-bold text-ink">⚔️ 내 캐릭터로 계산</h2>
+          <button
+            onClick={() => patchChar({ enabled: !char.enabled })}
+            className={`pixel-btn px-3 py-1.5 text-xs ${char.enabled ? "bg-maple text-white" : ""}`}
+          >
+            {char.enabled ? "켜짐" : "꺼짐"}
+          </button>
+          {char.enabled && level === "" && (
+            <span className="text-xs text-amber-600 dark:text-amber-400">위의 &quot;내 레벨&quot;을 입력하면 계산이 시작됩니다.</span>
+          )}
+          <span className="ml-auto text-[11px] text-dim">
+            정밀 계산·원킬컷 역산은 <Link href="/nhit" className="text-maple hover:underline">엔방컷 계산기</Link>
+          </span>
+        </div>
+
+        {char.enabled && (
+          <div className="mt-3 space-y-3">
+            <div className="flex flex-wrap items-end gap-3">
+              <label className="block">
+                <span className="mb-1 block text-[11px] text-dim">공격 유형</span>
+                <select
+                  value={char.mode}
+                  onChange={(e) => patchChar({ mode: e.target.value as CharState["mode"] })}
+                  className="rounded border border-edge bg-surface px-2 py-1.5 text-sm text-ink"
+                >
+                  <option value="physical">물리 (스공)</option>
+                  <option value="magic">마법 (마력)</option>
+                </select>
+              </label>
+              {char.mode === "physical" ? (
+                <>
+                  <label className="block">
+                    <span className="mb-1 block text-[11px] text-dim">무기</span>
+                    <select
+                      value={char.weapon}
+                      onChange={(e) => patchChar({ weapon: e.target.value })}
+                      className="rounded border border-edge bg-surface px-2 py-1.5 text-sm text-ink"
+                    >
+                      {weaponKeys.map((w) => (
+                        <option key={w} value={w}>{w}</option>
+                      ))}
+                    </select>
+                  </label>
+                  <NumField label="주스탯 (총합)" value={char.mainStat} onChange={(v) => patchChar({ mainStat: v })} />
+                  <NumField label="부스탯 (총합)" value={char.subStat} onChange={(v) => patchChar({ subStat: v })} />
+                  <NumField label="공격력" value={char.atk} onChange={(v) => patchChar({ atk: v })} />
+                  <NumField label="숙련도 %" value={char.mastery} onChange={(v) => patchChar({ mastery: Math.min(100, v) })} width="w-16" />
+                  <NumField label="명중률" value={char.acc} onChange={(v) => patchChar({ acc: v })} width="w-16" />
+                </>
+              ) : (
+                <>
+                  <NumField label="INT (총합)" value={char.int} onChange={(v) => patchChar({ int: v })} />
+                  <NumField label="LUK (총합)" value={char.luk} onChange={(v) => patchChar({ luk: v })} />
+                  <NumField label="마력" value={char.ma} onChange={(v) => patchChar({ ma: v })} />
+                </>
+              )}
+              <NumField label="스킬 데미지 %" value={char.skillPct} onChange={(v) => patchChar({ skillPct: v })} width="w-20" />
+              <NumField label="타격 수" value={char.hits} onChange={(v) => patchChar({ hits: Math.max(1, v) })} width="w-14" />
+            </div>
+            <p className="text-[11px] leading-4 text-dim">
+              평타는 스킬 데미지 100%·타격 수 1. 명중률·데미지 공식은 빅뱅 전 커뮤니티 역산 공식 기반 참고치입니다
+              (속성·크리티컬 미반영 — 상세 시뮬레이션은 엔방컷 계산기).
+            </p>
+          </div>
+        )}
       </section>
 
       <nav className="flex gap-1">
@@ -200,6 +495,11 @@ export default function HpExpPage() {
             {label}
           </button>
         ))}
+        {data && tab === "maps" && data.total_maps > data.maps.length && (
+          <span className="ml-auto self-center text-xs text-dim">
+            조건에 맞는 맵 {formatNumber(data.total_maps)}개 중 상위 {data.maps.length}개 표시
+          </span>
+        )}
       </nav>
 
       {loading && <div className="pixel-panel p-8 text-center text-sm text-dim">불러오는 중...</div>}
@@ -210,54 +510,73 @@ export default function HpExpPage() {
           {data.maps.length === 0 && (
             <div className="pixel-panel p-8 text-center text-sm text-dim">이 레벨 범위에 추천할 맵이 없습니다. 범위를 넓혀보세요.</div>
           )}
-          {data.maps.map((m, i) => (
-            <article key={m.map_id} className="pixel-panel p-4">
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                <span className="font-pixel text-sm font-bold text-dim">#{i + 1}</span>
-                <Link href={`/maps/${m.map_id}`} className="font-semibold text-ink hover:text-maple">
-                  {m.name_kr || `맵 ${m.map_id}`}
-                </Link>
-                {m.street_name && <span className="text-xs text-dim">{m.street_name}</span>}
-                <span className={`ml-auto font-pixel text-sm font-bold ${ratioClass(m.weighted_ratio)}`}>
-                  체경비 {m.weighted_ratio ?? "-"} · {ratioLabel(m.weighted_ratio)}
-                </span>
-              </div>
-              <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-dim">
-                {m.estimated ? (
-                  <span>마릿수 데이터 없음 (구조물 젠 등) — 서식 몹 기준 추천</span>
-                ) : (
-                  <>
-                    <span>총 <span className="font-semibold text-ink">{m.total_count}마리</span> 젠</span>
-                    {m.exp_per_gen !== null && <span>한 젠 경험치 <span className="font-semibold text-ink">{formatNumber(m.exp_per_gen)}</span></span>}
-                    {terrainSummary(m.floors, m.width) && <span>지형 {terrainSummary(m.floors, m.width)}</span>}
-                    {m.width !== null && m.width > 0 && <span>폭 {formatNumber(m.width)}px</span>}
-                    {m.out_of_range_count > 0 && <span className="text-amber-600 dark:text-amber-400">범위 밖 몹 +{m.out_of_range_count}마리 주의</span>}
-                  </>
-                )}
-              </div>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {m.mobs.map((mob) => (
-                  <Link
-                    key={mob.id}
-                    href={`/mobs/${mob.id}`}
-                    className="flex items-center gap-1.5 rounded bg-surface2 px-2 py-1 text-xs text-ink hover:text-maple"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={`${API_BASE}/api/icon/mob/${mob.id}`} alt="" className="h-6 w-6 object-contain" loading="lazy" onError={hideOnError} />
-                    <span>{mob.name_kr || mob.id}</span>
-                    {mob.count !== null && mob.count !== undefined && <span className="text-dim">×{mob.count}</span>}
-                    <span className={`font-semibold ${ratioClass(mob.ratio)}`}>{mob.ratio}</span>
+          {sortedMaps.map((m, i) => {
+            const score = mapScore.get(m.map_id);
+            return (
+              <article key={m.map_id} className="pixel-panel p-4">
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <span className="font-pixel text-sm font-bold text-dim">#{i + 1}</span>
+                  <Link href={`/maps/${m.map_id}`} className="font-semibold text-ink hover:text-maple">
+                    {m.name_kr || `맵 ${m.map_id}`}
                   </Link>
-                ))}
-              </div>
-            </article>
-          ))}
+                  {m.street_name && <span className="text-xs text-dim">{m.street_name}</span>}
+                  <span className={`ml-auto font-pixel text-sm font-bold ${ratioClass(m.weighted_ratio)}`}>
+                    체경비 {m.weighted_ratio ?? "-"} · {ratioLabel(m.weighted_ratio)}
+                  </span>
+                </div>
+                <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-dim">
+                  {m.total_count === null ? (
+                    <span>마릿수 미상 (구조물 젠 등) — 서식 몹 기준 추천</span>
+                  ) : (
+                    <span>
+                      총 <span className="font-semibold text-ink">{m.total_count}마리</span>
+                      {m.estimated ? " (추정)" : " 젠"}
+                    </span>
+                  )}
+                  {m.exp_per_gen !== null && <span>한 젠 경험치 <span className="font-semibold text-ink">{formatNumber(m.exp_per_gen)}</span></span>}
+                  {m.mob_rate !== null && m.mob_rate !== 1 && (
+                    <span className={m.mob_rate > 1 ? "text-emerald-600 dark:text-emerald-400" : ""}>젠 배율 ×{m.mob_rate}</span>
+                  )}
+                  {terrainSummary(m.floors, m.width) && <span>지형 {terrainSummary(m.floors, m.width)}</span>}
+                  {m.width !== null && m.width > 0 && <span>폭 {formatNumber(m.width)}px</span>}
+                  {m.out_of_range_count > 0 && <span className="text-amber-600 dark:text-amber-400">범위 밖 몹 +{m.out_of_range_count}마리 주의</span>}
+                  {charActive && score !== undefined && (
+                    <span className="font-semibold text-maple">내 타수당 EXP {score.toFixed(1)}</span>
+                  )}
+                </div>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {m.mobs.map((mob) => {
+                    const c = combatByMob.get(mob.id);
+                    return (
+                      <Link
+                        key={mob.id}
+                        href={`/mobs/${mob.id}`}
+                        className="flex items-center gap-1.5 rounded bg-surface2 px-2 py-1 text-xs text-ink hover:text-maple"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={`${API_BASE}/api/icon/mob/${mob.id}`} alt="" className="h-6 w-6 object-contain" loading="lazy" onError={hideOnError} />
+                        <span>{mob.name_kr || mob.id}</span>
+                        {mob.count !== null && mob.count !== undefined && <span className="text-dim">×{mob.count}</span>}
+                        <span className={`font-semibold ${ratioClass(mob.ratio)}`}>{mob.ratio}</span>
+                        {charActive && c && (
+                          <span className="text-dim">
+                            · <span className="font-semibold text-ink">{c.nHitAvg}방</span>
+                            <span className={hitClass(c.hitChance)}> {Math.round(c.hitChance * 100)}%</span>
+                          </span>
+                        )}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </article>
+            );
+          })}
         </section>
       )}
 
       {!loading && !error && data && tab === "mobs" && (
         <section className="pixel-panel overflow-x-auto">
-          <table className="w-full min-w-[640px] text-sm">
+          <table className={`w-full text-sm ${charActive ? "min-w-[920px]" : "min-w-[640px]"}`}>
             <thead className="border-b border-edge text-left text-xs text-dim">
               <tr>
                 <th className="px-4 py-2">몹</th>
@@ -265,28 +584,53 @@ export default function HpExpPage() {
                 <th className="px-4 py-2">HP</th>
                 <th className="px-4 py-2">EXP</th>
                 <th className="px-4 py-2">체경비</th>
+                {charActive && (
+                  <>
+                    <th className="px-4 py-2" title="평균 데미지 기준 필요 타수">N방컷</th>
+                    <th className="px-4 py-2" title="내 명중률 vs 몹 회피 (레벨차 반영)">명중률</th>
+                    <th className="px-4 py-2" title="미스 포함 기대 타수당 얻는 경험치">타수당 EXP</th>
+                  </>
+                )}
                 <th className="px-4 py-2">서식 맵</th>
                 <th className="px-4 py-2">총 마릿수</th>
               </tr>
             </thead>
             <tbody>
-              {data.mobs.map((mob) => (
-                <tr key={mob.id} className="border-b border-edge/40 last:border-0">
-                  <td className="px-4 py-2">
-                    <Link href={`/mobs/${mob.id}`} className="flex items-center gap-2 font-medium text-ink hover:text-maple">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={`${API_BASE}/api/icon/mob/${mob.id}`} alt="" className="h-7 w-7 object-contain" loading="lazy" onError={hideOnError} />
-                      {mob.name_kr || mob.id}
-                    </Link>
-                  </td>
-                  <td className="px-4 py-2 text-dim">{mob.level}</td>
-                  <td className="px-4 py-2 text-dim">{formatNumber(mob.hp)}</td>
-                  <td className="px-4 py-2 text-dim">{formatNumber(mob.exp)}</td>
-                  <td className={`px-4 py-2 font-pixel font-bold ${ratioClass(mob.ratio)}`}>{mob.ratio}</td>
-                  <td className="px-4 py-2 text-dim">{mob.map_count > 0 ? `${mob.map_count}곳` : "-"}</td>
-                  <td className="px-4 py-2 text-dim">{mob.total_spawns !== null ? `${mob.total_spawns}마리` : "미상"}</td>
-                </tr>
-              ))}
+              {sortedMobs.map((mob) => {
+                const c = combatByMob.get(mob.id);
+                return (
+                  <tr key={mob.id} className="border-b border-edge/40 last:border-0">
+                    <td className="px-4 py-2">
+                      <Link href={`/mobs/${mob.id}`} className="flex items-center gap-2 font-medium text-ink hover:text-maple">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={`${API_BASE}/api/icon/mob/${mob.id}`} alt="" className="h-7 w-7 object-contain" loading="lazy" onError={hideOnError} />
+                        {mob.name_kr || mob.id}
+                      </Link>
+                    </td>
+                    <td className="px-4 py-2 text-dim">{mob.level}</td>
+                    <td className="px-4 py-2 text-dim">{formatNumber(mob.hp)}</td>
+                    <td className="px-4 py-2 text-dim">{formatNumber(mob.exp)}</td>
+                    <td className={`px-4 py-2 font-pixel font-bold ${ratioClass(mob.ratio)}`}>{mob.ratio}</td>
+                    {charActive && (
+                      <>
+                        <td className="px-4 py-2 font-semibold text-ink">{c ? `${c.nHitAvg}방` : "-"}</td>
+                        <td className={`px-4 py-2 font-semibold ${c ? hitClass(c.hitChance) : "text-dim"}`}>
+                          {c ? `${Math.round(c.hitChance * 100)}%` : "-"}
+                        </td>
+                        <td className="px-4 py-2 font-semibold text-maple">
+                          {c ? (c.hitChance > 0 ? c.expPerAttack.toFixed(1) : "사냥 불가") : "-"}
+                        </td>
+                      </>
+                    )}
+                    <td className="px-4 py-2 text-dim">{mob.map_count > 0 ? `${mob.map_count}곳` : "-"}</td>
+                    <td className="px-4 py-2 text-dim">
+                      {mob.total_spawns !== null
+                        ? `${mob.total_spawns}마리${mob.spawns_estimated ? " (추정)" : ""}`
+                        : "미상"}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </section>
@@ -295,10 +639,12 @@ export default function HpExpPage() {
       <section className="rounded-lg border border-edge bg-surface2 p-4 text-xs leading-relaxed text-dim">
         <p>
           · 마릿수·배치는 원작(GMS) 스폰 데이터 기준이며, 메이플랜드의 실제 젠 수·리젠 속도와 다를 수 있습니다.
+          젠 배율(×)은 맵의 리젠 속도 계수로, &quot;한 젠 경험치순&quot; 정렬에 보정 반영됩니다.
           에델슈타인 몹의 경험치는 9/7 커뮤니티 실측(본섭 환산)이 반영돼 있습니다.
         </p>
         <p className="mt-1">
-          · 체경비는 순수 스탯 지표입니다 — 명중률, 몹 공격력, 접근성(지형·이동)은 별도로 고려하세요.
+          · N방컷·명중률은 빅뱅 전 커뮤니티 역산 공식 기반 참고치입니다 — 원킬컷 역산·타수 분포 시뮬레이션은{" "}
+          <Link href="/nhit" className="text-maple hover:underline">엔방컷 계산기</Link>,
           직업별 추천은 <Link href="/hunt" className="text-maple hover:underline">사냥터 추천</Link>,
           한타임 계산은 <Link href="/exp" className="text-maple hover:underline">경험치 계산기</Link>를 참고.
         </p>

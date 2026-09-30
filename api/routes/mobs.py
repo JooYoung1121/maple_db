@@ -309,7 +309,9 @@ def get_mob(mob_id: int):
             drop_conditions.append(item_filter)
         drop_rows = conn.execute(
             f"""
-            SELECT i.id, i.name, i.category, md.drop_rate, md.drop_rate_source,
+            SELECT i.id, i.name, i.category, md.drop_rate,
+                   -- 확률 출처가 없으면 목록 검증 출처(list_source)로 배지 유지
+                   COALESCE(md.drop_rate_source, md.list_source) AS drop_rate_source,
                    (SELECT name_en FROM entity_names_en
                     WHERE entity_type='item' AND entity_id=i.id AND source='kms') as name_kr
             FROM mob_drops md

@@ -24,13 +24,19 @@ class ChatbotServiceTests(unittest.IsolatedAsyncioTestCase):
                 hp INTEGER,
                 exp INTEGER,
                 is_boss INTEGER DEFAULT 0,
-                is_hidden INTEGER DEFAULT 0
+                is_hidden INTEGER DEFAULT 0,
+                icon_url TEXT
             );
             CREATE TABLE items (
                 id INTEGER PRIMARY KEY,
                 name TEXT NOT NULL,
                 category TEXT,
-                is_hidden INTEGER DEFAULT 0
+                is_hidden INTEGER DEFAULT 0,
+                icon_url TEXT
+            );
+            CREATE TABLE npcs (
+                id INTEGER PRIMARY KEY,
+                icon_url TEXT
             );
             CREATE TABLE entity_names_en (
                 entity_type TEXT NOT NULL,
@@ -85,10 +91,23 @@ class ChatbotServiceTests(unittest.IsolatedAsyncioTestCase):
                 updated_at TEXT DEFAULT (datetime('now')),
                 UNIQUE(guild_id, normalized_key)
             );
+            -- 운영은 FTS5 가상 테이블이지만 챗봇 폴백 검색은 LIKE만 쓰므로 일반 테이블로 충분
+            CREATE TABLE search_index (
+                entity_type TEXT,
+                entity_id INTEGER,
+                name TEXT,
+                content TEXT
+            );
             """
         )
         conn.execute(
-            "INSERT INTO mobs VALUES (8190004, 'Skelosaurus', 113, 85000, 4750, 0, 0)"
+            "INSERT INTO search_index VALUES ('map', 105040300, 'Sleepywood', 'Dungeon 슬리피우드 던전: 슬리피우드')"
+        )
+        conn.execute(
+            "INSERT INTO entity_names_en VALUES ('map', 105040300, '던전: 슬리피우드', 'kms')"
+        )
+        conn.execute(
+            "INSERT INTO mobs VALUES (8190004, 'Skelosaurus', 113, 85000, 4750, 0, 0, NULL)"
         )
         conn.execute(
             """
@@ -107,7 +126,7 @@ class ChatbotServiceTests(unittest.IsolatedAsyncioTestCase):
             "INSERT INTO entity_names_en VALUES ('mob', 8190004, '스켈로스', 'kms')"
         )
         conn.executemany(
-            "INSERT INTO items VALUES (?, ?, ?, 0)",
+            "INSERT INTO items VALUES (?, ?, ?, 0, NULL)",
             [
                 (4000273, "Old Neck Bone", "Other"),
                 (1040121, "Blue Neos", "Armor"),
@@ -180,6 +199,44 @@ class ChatbotServiceTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("장비 드랍 **1종**", followup)
         self.assertIn("블루 네오스", followup)
         self.assertNotIn("오래된 뼈", followup)
+
+    async def test_navigation_questions_bypass_mob_and_drop_branches(self):
+        # 몹/드랍 분기가 먼저 실행돼 절대 도달하지 못하던 규칙 4건 (2026-09-29 감사)
+        cases = {
+            "몬스터 검색 페이지 알려줘": "/mobs",
+            "드랍검색": "/drop-search",
+            "오늘의 몬스터": "/daily-mob",
+            "몬스터파크": "/events/monster-park-2026",
+        }
+        for question, path in cases.items():
+            reply = await chatbot_service.handle_chat_message(
+                f"discord:nav:{path}", question
+            )
+            self.assertIn(path, reply, msg=question)
+
+    async def test_generated_site_rules_cover_catalog_pages(self):
+        # siteFeatures.ts 자동 생성 규칙 — 수기 규칙에 없던 페이지들
+        reply = await chatbot_service.handle_chat_message("discord:gen:1", "체경비")
+        self.assertIn("/hp-exp", reply)
+        # 과거엔 '사냥터' 수기 규칙에 걸려 /hunt 로 오연결됐다 — 최장 키워드 우선으로 해소
+        reply = await chatbot_service.handle_chat_message("discord:gen:2", "체경비 사냥터")
+        self.assertIn("/hp-exp", reply)
+        reply = await chatbot_service.handle_chat_message("discord:gen:3", "무릉도장")
+        self.assertIn("/dojo", reply)
+
+    async def test_entity_detail_question_links_search_index_result(self):
+        reply = await chatbot_service.handle_chat_message(
+            "discord:map:1", "슬리피우드 맵 알려줘"
+        )
+        self.assertIn("던전: 슬리피우드", reply)
+        self.assertIn("/maps/105040300", reply)
+
+    async def test_drop_query_still_reaches_drop_branch(self):
+        # 조기 내비게이션 분기가 실데이터 질의를 가로채면 안 된다
+        reply = await chatbot_service.handle_chat_message(
+            "discord:nav:guard", "스켈로스 드랍 알려줘"
+        )
+        self.assertIn("/mobs/8190004", reply)
 
     async def test_notice_content_returns_latest_verified_post(self):
         reply = await chatbot_service.handle_chat_message(

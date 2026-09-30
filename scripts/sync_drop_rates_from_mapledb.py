@@ -8,10 +8,18 @@
 
 출처 우선순위 (에델슈타인 판본 원칙과 동일):
   community(실측 검증) > mapledb(메랜DB) > maplekibun(옛메 참고값)
-  - community 행은 덮어쓰지 않는다 (몬스터북/툴팁 스크린샷 검증분)
   - mapledb 에 있는 (몹, 아이템) 조합은 rate 를 mapledb 값으로 교체
   - mapledb 에만 있는 조합은 새로 추가 (items 테이블에 존재하는 아이템만)
   - 우리에게만 있는 조합은 남기되 maplekibun 참고값으로 표기
+
+목록 검증과 확률 실측의 분리 (2026-09-30 개정):
+  - list_source: "이 (몹, 아이템) 드랍 조합이 검증됨"의 출처 — 에델슈타인 몹의
+    몬스터북·툴팁 스크린샷 검증은 목록 검증이지 확률 실측이 아니다.
+  - drop_rate_source: "확률 수치"의 출처. community 는 실측 확률이 있을 때만.
+  - 과거엔 목록 검증을 drop_rate_source='community' 로 표기해 보존 규칙이 확률
+    백필까지 영구 차단했다(감사: community 36행 전부 rate NULL). 이제 목록 검증
+    행(list_source='community')도 rate 가 비어 있으면 mapledb 확률을 받는다.
+  - drop_rate_source='community'(실측 확률) 행만 어떤 동기화도 덮어쓰지 않는다.
 
 주의: [[project-mapledb-parser-broken]] — 기존 mobs/maps 파서와 무관한
 읽기 전용 신규 파서다. 몹 이름·레벨 등 다른 컬럼은 절대 건드리지 않는다.
@@ -89,12 +97,19 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--apply", action="store_true")
     ap.add_argument("--limit", type=int, default=None, help="크롤 몹 수 제한 (테스트용)")
+    ap.add_argument(
+        "--mobs", default=None,
+        help="쉼표 구분 몹 ID 목록만 크롤 (예: --mobs 7150000,8105000)",
+    )
     args = ap.parse_args()
 
     ref = json.loads(REFERENCE.read_text(encoding="utf-8"))
     mob_ids = sorted(
         int(r["id"]) for r in ref["entities"]["mobs"]["records"] if r.get("id")
     )
+    if args.mobs:
+        wanted = {int(x) for x in args.mobs.split(",") if x.strip()}
+        mob_ids = [m for m in mob_ids if m in wanted]
     if args.limit:
         mob_ids = mob_ids[: args.limit]
 
@@ -102,14 +117,23 @@ def main() -> None:
     cols = {r[1] for r in conn.execute("PRAGMA table_info(mob_drops)")}
     if "drop_rate_source" not in cols:
         conn.execute("ALTER TABLE mob_drops ADD COLUMN drop_rate_source TEXT")
+    if "list_source" not in cols:
+        conn.execute("ALTER TABLE mob_drops ADD COLUMN list_source TEXT")
 
     known_items = {r[0] for r in conn.execute("SELECT id FROM items")}
 
-    # 1) 기존 행 출처 백필 (아직 출처 없는 행만)
+    # 1) 기존 행 출처 백필/이관
+    #    에델 검증 몹: 목록 검증 표시는 list_source 로. 확률 없는 행의
+    #    drop_rate_source='community' 는 과표기였으므로 해제해 mapledb 백필 대상으로 만든다.
+    community_ids_sql = ",".join(str(i) for i in sorted(COMMUNITY_MOB_IDS))
     conn.execute(
-        "UPDATE mob_drops SET drop_rate_source='community' "
-        "WHERE drop_rate_source IS NULL AND mob_id IN (%s)"
-        % ",".join(str(i) for i in sorted(COMMUNITY_MOB_IDS))
+        f"UPDATE mob_drops SET list_source='community' "
+        f"WHERE list_source IS NULL AND mob_id IN ({community_ids_sql})"
+    )
+    conn.execute(
+        f"UPDATE mob_drops SET drop_rate_source=NULL "
+        f"WHERE drop_rate_source='community' AND drop_rate IS NULL "
+        f"AND mob_id IN ({community_ids_sql})"
     )
     conn.execute(
         "UPDATE mob_drops SET drop_rate_source='maplekibun' "
