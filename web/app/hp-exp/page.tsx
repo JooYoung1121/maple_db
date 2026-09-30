@@ -300,6 +300,13 @@ export default function HpExpPage() {
   }, [level, range]);
 
   useEffect(() => {
+    // 캐릭터 레벨이 없으면 추천을 만들지 않는다 — 입력(또는 프로필 로드)이 선행 조건
+    if (level === "") {
+      setData(null);
+      setLoading(false);
+      setError(false);
+      return;
+    }
     let alive = true;
     setLoading(true);
     setError(false);
@@ -326,7 +333,7 @@ export default function HpExpPage() {
     return () => {
       alive = false;
     };
-  }, [minLv, maxLv, sort, minCount]);
+  }, [level, minLv, maxLv, sort, minCount]);
 
   // 내 캐릭터 계산 활성 조건: 토글 on + 레벨 입력
   const charActive = char.enabled && level !== "";
@@ -402,6 +409,57 @@ export default function HpExpPage() {
         </p>
       </header>
 
+      {level === "" && (
+        <section className="pixel-panel p-6 sm:p-8">
+          <h2 className="font-pixel text-lg font-bold text-ink">🍄 내 캐릭터부터 알려주세요</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-dim">
+            체경비 사냥터는 <span className="font-semibold text-ink">캐릭터 레벨·직업 기준 맞춤 추천</span> 페이지예요.
+            레벨을 입력하면 그 레벨대 사냥터·몬스터가 나오고, 스펙까지 입력하면 N방컷·명중률·타수당
+            경험치로 &quot;내 효율순&quot; 추천까지 계산합니다.
+          </p>
+          <div className="mt-4 flex flex-wrap items-end gap-3">
+            <label className="block">
+              <span className="mb-1 block text-xs text-dim">내 레벨</span>
+              <input
+                type="number"
+                min={1}
+                max={200}
+                value={level}
+                placeholder="예: 45"
+                autoFocus
+                onChange={(e) => {
+                  const v = e.target.value;
+                  setLevel(v === "" ? "" : Math.max(1, Math.min(200, Number(v))));
+                }}
+                className="w-28 rounded border border-edge bg-surface px-3 py-2 text-sm text-ink"
+              />
+            </label>
+            <label className="block">
+              <span className="mb-1 block text-xs text-dim">직업</span>
+              <select
+                value={char.job}
+                onChange={(e) => changeJob(e.target.value)}
+                className="rounded border border-edge bg-surface px-2 py-2 text-sm text-ink"
+              >
+                {Object.entries(JOB_GROUPS).map(([group, jobs]) => (
+                  <optgroup key={group} label={group}>
+                    {jobs.map((j) => (
+                      <option key={j} value={j}>{j}</option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </label>
+          </div>
+          <p className="mt-3 text-xs text-dim">
+            <Link href="/me" className="text-maple hover:underline">마이페이지</Link>에 캐릭터 프로필(레벨·직업)을
+            저장해두면 다음부터 자동으로 불러옵니다.
+          </p>
+        </section>
+      )}
+
+      {level !== "" && (
+        <>
       <section className="pixel-panel p-4">
         <div className="flex flex-wrap items-end gap-4">
           <label className="block">
@@ -411,7 +469,7 @@ export default function HpExpPage() {
               min={1}
               max={200}
               value={level}
-              placeholder="전체"
+              placeholder="레벨"
               onChange={(e) => {
                 const v = e.target.value;
                 setLevel(v === "" ? "" : Math.max(1, Math.min(200, Number(v))));
@@ -428,7 +486,6 @@ export default function HpExpPage() {
               value={range}
               onChange={(e) => setRange(Number(e.target.value))}
               className="w-40 accent-[var(--maple,#f97316)]"
-              disabled={level === ""}
             />
           </label>
           <label className="block">
@@ -486,9 +543,6 @@ export default function HpExpPage() {
           >
             {char.enabled ? "켜짐" : "꺼짐"}
           </button>
-          {char.enabled && level === "" && (
-            <span className="text-xs text-amber-600 dark:text-amber-400">위의 &quot;내 레벨&quot;을 입력하면 계산이 시작됩니다.</span>
-          )}
           <span className="ml-auto text-[11px] text-dim">
             정밀 계산·원킬컷 역산은 <Link href="/nhit" className="text-maple hover:underline">엔방컷 계산기</Link>
           </span>
@@ -596,14 +650,6 @@ export default function HpExpPage() {
           </span>
         )}
       </nav>
-
-      {level === "" && !loading && !error && (
-        <div className="rounded-lg border border-maple/50 bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] px-4 py-3 text-xs leading-relaxed text-ink">
-          지금은 <span className="font-semibold">내 레벨 미입력 상태</span>라 전 레벨(Lv.1~200) 몹을 체경비 순수 수치로만 보여주고
-          있어요 — 그래서 저레벨 몹·맵이 상위에 옵니다. 위에서 <span className="font-semibold text-maple">내 레벨</span>을 입력하면
-          내 레벨 ±{range} 몹 기준 맞춤 추천으로 바뀝니다.
-        </div>
-      )}
 
       {loading && <div className="pixel-panel p-8 text-center text-sm text-dim">불러오는 중...</div>}
       {error && <div className="pixel-panel p-8 text-center text-sm text-red-500">데이터를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</div>}
@@ -766,6 +812,8 @@ export default function HpExpPage() {
           한타임 계산은 <Link href="/exp" className="text-maple hover:underline">경험치 계산기</Link>를 참고.
         </p>
       </section>
+        </>
+      )}
     </div>
   );
 }
