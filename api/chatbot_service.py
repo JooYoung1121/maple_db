@@ -701,8 +701,7 @@ def _find_item(conn, name: str):
     cleaned = _clean_spaces(name).strip("?!.,~ ")
     if not cleaned:
         return None
-    return conn.execute(
-        f"""
+    query = f"""
         SELECT i.id, e.name_en AS name_kr
         FROM entity_names_en e
         JOIN items i ON i.id=e.entity_id
@@ -714,9 +713,34 @@ def _find_item(conn, name: str):
           ABS(LENGTH(e.name_en)-LENGTH(?)),
           i.id
         LIMIT 1
-        """,
-        (f"%{cleaned}%", cleaned, cleaned),
-    ).fetchone()
+        """
+    row = conn.execute(query, (f"%{cleaned}%", cleaned, cleaned)).fetchone()
+    if row is not None or len(cleaned.replace(" ", "")) < 3:
+        return row
+    # 축약 표기 보완 — "시간조각" ↔ "시간의 조각"처럼 조사·공백이 빠진 이름을
+    # 글자 사이 와일드카드로 잡는다 (길이 차 최소 정렬이라 과매칭 억제)
+    loose = "%" + "%".join(cleaned.replace(" ", "")) + "%"
+    row = conn.execute(query, (loose, cleaned, cleaned)).fetchone()
+    if row is not None:
+        return row
+    # 반대 방향 — 질문엔 '의'가 있는데 정식 명칭엔 없는 경우 ("시간의 조각" → "시간 조각")
+    compact = cleaned.replace(" ", "").replace("의", "")
+    if len(compact) < 3 or compact == cleaned.replace(" ", ""):
+        return None
+    loose2 = "%" + "%".join(compact) + "%"
+    return conn.execute(query, (loose2, cleaned, cleaned)).fetchone()
+
+
+def _drop_not_found_reply(name: str) -> str:
+    """몬스터도 아이템도 못 찾았을 때 — 검색 링크와 질문 예시를 함께 안내한다."""
+    q = quote(name)
+    return (
+        f"`{name}`에 해당하는 몬스터/아이템을 사이트 DB에서 찾지 못했어요.\n"
+        "이렇게 물어보면 더 잘 찾아요 — 몬스터 드랍: `주황버섯 드랍` · "
+        "아이템 획득처: `노가다 목장갑 어디서 드랍해`\n"
+        f"몬스터 검색: {_site()}/mobs?q={q}\n"
+        f"아이템 검색: {_site()}/items?q={q}"
+    )
 
 
 # ─── 엔티티 상세 페이지 링크 (FTS 통합검색 재사용) ───
@@ -814,7 +838,7 @@ def _entity_detail_reply(question: str) -> Optional[str]:
 
 
 def _extract_drop_mob_name(text: str) -> str:
-    value = re.sub(r"(드랍|드롭)\s*(템|아이템|목록|정보)?", " ", text, flags=re.I)
+    value = re.sub(r"(드랍|드롭)\s*(템|아이템|목록|정보|테이블|표|리스트)?", " ", text, flags=re.I)
     value = re.sub(
         r"(뭐야|뭐임|뭐니|뭐가|어떤|무슨|알려\s*줘|보여\s*줘|나와|나오니|주는|주나요|해줘)",
         " ",
@@ -826,7 +850,7 @@ def _extract_drop_mob_name(text: str) -> str:
 
 def _extract_reverse_drop_item_name(text: str) -> str:
     value = re.sub(r"(어디서|누가|어느\s*몹이|어떤\s*몹이)", " ", text)
-    value = re.sub(r"(드랍|드롭)(해|함|하니|하나요|돼|되니|되나요)?", " ", value)
+    value = re.sub(r"(드랍|드롭)\s*(테이블|표|리스트)?(해|함|하니|하나요|돼|되니|되나요)?", " ", value)
     value = re.sub(r"(알려\s*줘|보여\s*줘|나와|나오니)", " ", value)
     return _clean_spaces(value).strip("?!.,~ ")
 
@@ -1601,10 +1625,7 @@ async def handle_chat_message(
             reply = (
                 _item_drop_sources_reply(conn, item)
                 if item
-                else (
-                    f"`{item_name or question}` 아이템을 사이트 DB에서 찾지 못했어요.\n"
-                    f"{_site()}/items?q={quote(item_name or question)}"
-                )
+                else _drop_not_found_reply(item_name or question)
             )
         finally:
             conn.close()
@@ -1612,18 +1633,21 @@ async def handle_chat_message(
         return reply
 
     if "드랍" in question or "드롭" in question:
-        mob_name = _extract_drop_mob_name(question)
+        target = _extract_drop_mob_name(question)
         conn = get_connection()
         try:
-            mob = _find_mob(conn, mob_name)
-            reply = (
-                _mob_drops_reply(conn, session, mob)
-                if mob
-                else (
-                    f"`{mob_name or question}` 몬스터를 사이트 DB에서 찾지 못했어요.\n"
-                    f"{_site()}/mobs?q={quote(mob_name or question)}"
+            mob = _find_mob(conn, target)
+            if mob:
+                reply = _mob_drops_reply(conn, session, mob)
+            else:
+                # 몬스터가 아니면 아이템일 수 있다 — "시간조각 드랍 테이블 알려줘" 류는
+                # 역방향(어떤 몹이 드랍하는지) 답이 정답
+                item = _find_item(conn, target)
+                reply = (
+                    _item_drop_sources_reply(conn, item)
+                    if item
+                    else _drop_not_found_reply(target or question)
                 )
-            )
         finally:
             conn.close()
         _remember(session, question, reply)

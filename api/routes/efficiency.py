@@ -6,6 +6,10 @@
 - 유저 대면 규칙: 메랜 레퍼런스 화이트리스트 + is_hidden/보스 제외.
   900만번대 일괄 제외는 하지 않는다 — 닌자성·지하 감옥 등 노출 몹의 45%가 9M 대역이며,
   게이트는 레퍼런스 화이트리스트다 (2026-09-29 감사).
+- 파퀘/전직시험 인스턴스는 제외한다 (2026-09-30 피드백): ① 108 대역 직업 훈련장 맵,
+  ② 9억대 맵 중 서식 몹이 전부 9M 변종인 맵(독의 숲 등 파퀘 71곳 — 돼지농장처럼
+  정상 몹이 사는 9억대 입장권 사냥터는 유지), ③ 9M 몹은 정상 맵 서식지가 확인될
+  때만 랭킹에 포함(선물상자 등 이벤트 변종 정리).
 - 캐릭터 계산(N방컷·명중률)용으로 몹 전투 스탯(wdef/mdef/avoid)을 함께 반환한다.
 """
 from __future__ import annotations
@@ -22,6 +26,21 @@ router = APIRouter()
 
 # 스폰 y좌표를 40px 단위로 묶어 층수를 추정한다 (발판 높이 대략치)
 FLOOR_BUCKET = 40
+
+# 전직 시험/직업 훈련장 대역 (궁수의개미굴·전사의바위산 등 26맵)
+TRAINING_MAP_RANGE = (108_000_000, 109_000_000)
+# 파퀘·이벤트 인스턴스 대역 — 서식 몹이 전부 9M 변종일 때만 제외
+INSTANCE_MAP_MIN = 900_000_000
+
+
+def _is_instance_map(map_id: int, resident_ids: set[int]) -> bool:
+    if TRAINING_MAP_RANGE[0] <= map_id < TRAINING_MAP_RANGE[1]:
+        return True
+    return (
+        map_id >= INSTANCE_MAP_MIN
+        and bool(resident_ids)
+        and all(mid >= 9_000_000 for mid in resident_ids)
+    )
 
 
 @lru_cache(maxsize=1)
@@ -59,9 +78,11 @@ def _snapshot() -> dict:
                 "undead": 1 if r["is_undead"] else 0,
             }
 
-        maps: list[dict] = []
-        geo: dict[int, tuple[int, int]] = {}  # map_id → (층수, 폭) — 미상 행 지형 폴백용
-        mob_presence: dict[int, dict[str, int]] = {}  # mob_id → {map_count, total_spawns}
+        towns = {r["id"] for r in conn.execute("SELECT id FROM maps WHERE is_town=1")}
+
+        # 1차 스캔: 맵별 스폰 파싱 + 서식 몹 구성(파퀘 인스턴스 판정용) 수집
+        parsed: list[tuple[int, list]] = []
+        map_mob_ids: dict[int, set[int]] = {}
         for r in conn.execute(
             "SELECT map_id, spawns_json FROM map_details WHERE spawns_json IS NOT NULL AND spawns_json != '[]'"
         ):
@@ -71,6 +92,33 @@ def _snapshot() -> dict:
             try:
                 spawns = json.loads(r["spawns_json"])
             except Exception:
+                continue
+            parsed.append((map_id, spawns))
+            ids = map_mob_ids.setdefault(map_id, set())
+            for s in spawns:
+                if isinstance(s, list) and len(s) >= 3 and (
+                    not mob_whitelist or s[0] in mob_whitelist
+                ):
+                    ids.add(s[0])
+
+        spawn_rows = [
+            dict(r)
+            for r in conn.execute("SELECT mob_id, map_id, spawn_count FROM mob_spawns")
+        ]
+        for r in spawn_rows:
+            if r["mob_id"] in mobs and (not map_whitelist or r["map_id"] in map_whitelist):
+                map_mob_ids.setdefault(r["map_id"], set()).add(r["mob_id"])
+
+        excluded_maps = {
+            map_id for map_id, ids in map_mob_ids.items() if _is_instance_map(map_id, ids)
+        }
+
+        # 2차: 맵 집계 (파퀘/훈련장 제외)
+        maps: list[dict] = []
+        geo: dict[int, tuple[int, int]] = {}  # map_id → (층수, 폭) — 미상 행 지형 폴백용
+        mob_presence: dict[int, dict[str, int]] = {}  # mob_id → {map_count, total_spawns}
+        for map_id, spawns in parsed:
+            if map_id in excluded_maps:
                 continue
             counts: dict[int, int] = {}
             xs: list[int] = []
@@ -101,7 +149,6 @@ def _snapshot() -> dict:
             r["id"]: r["street_name"]
             for r in conn.execute("SELECT id, street_name FROM maps WHERE street_name IS NOT NULL")
         }
-        towns = {r["id"] for r in conn.execute("SELECT id FROM maps WHERE is_town=1")}
         mob_rate = {
             r["id"]: round(r["mob_rate"], 1)
             for r in conn.execute("SELECT id, mob_rate FROM maps WHERE mob_rate IS NOT NULL AND mob_rate > 0")
@@ -109,10 +156,10 @@ def _snapshot() -> dict:
 
         # 스폰 포인트가 아닌 구조물(망둥이집 등)에서 젠되는 몹은 map_details에 안 잡힌다 —
         # mob_spawns(맵↔몹 매핑, spawn_count 82% 보유)를 폴백으로 들고 있다가
-        # 마릿수 추정치와 함께 노출한다.
+        # 마릿수 추정치와 함께 노출한다. (파퀘/훈련장 맵은 여기서도 제외)
         fallback_spawns: dict[int, dict[int, int | None]] = {}
-        for r in conn.execute("SELECT mob_id, map_id, spawn_count FROM mob_spawns"):
-            if r["map_id"] in towns:
+        for r in spawn_rows:
+            if r["map_id"] in towns or r["map_id"] in excluded_maps:
                 continue
             if r["mob_id"] in mobs and (not map_whitelist or r["map_id"] in map_whitelist):
                 fallback_spawns.setdefault(r["mob_id"], {})[r["map_id"]] = r["spawn_count"]
@@ -149,10 +196,14 @@ def efficiency(
     mob_rows = []
     for mid, m in in_range.items():
         p = snap["presence"].get(mid)
+        fb = snap["fallback"].get(mid, {})
+        # 9M 변종 몹은 정상 맵 서식지가 확인될 때만 랭킹 포함
+        # (파퀘·이벤트 전용 몹 정리 — 선물상자·초강화형 등)
+        if mid >= 9_000_000 and p is None and not fb:
+            continue
         estimated = False
         if p is None:
             # 스폰 포인트 데이터가 없는 몹 — mob_spawns 매핑에서 맵 수·젠 수 추정치 제공
-            fb = snap["fallback"].get(mid, {})
             known = [c for c in fb.values() if c]
             p = {
                 "map_count": len(fb),
@@ -245,6 +296,22 @@ def efficiency(
             "width": g[1] if g else None,
             "estimated": True,
         })
+
+    # 동일 이름·동일 몹 구성의 변형 맵(전직시험 3구역, 차원의세계 5구역 등)은 한 장으로 합친다
+    deduped: dict[tuple, dict] = {}
+    for row in map_rows:
+        sig = (
+            row["name_kr"] or f"#{row['map_id']}",
+            row["street_name"],
+            tuple(sorted((m["id"], m.get("count")) for m in row["mobs"])),
+        )
+        if sig in deduped:
+            deduped[sig]["variant_count"] += 1
+        else:
+            row["variant_count"] = 1
+            deduped[sig] = row
+    map_rows = list(deduped.values())
+
     if sort == "exp":
         # 한 젠 경험치 총량 내림차순 — 젠 배율(mob_rate) 보정, 마릿수 미상 행은 뒤로
         map_rows.sort(key=lambda x: (

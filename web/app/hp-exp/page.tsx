@@ -44,6 +44,7 @@ interface EffMap {
   floors: number | null;
   width: number | null;
   estimated: boolean;
+  variant_count?: number;
 }
 
 interface EffResponse {
@@ -175,6 +176,14 @@ function terrainSummary(floors: number | null, width: number | null): string | n
   if (floors <= 2 && width >= 900) return "일자형";
   if (floors >= 8) return "복층";
   return `${floors}층`;
+}
+
+// 지형 기반 직업 적합 힌트 — 스킬 범위·이동기까지 계산하진 못하므로 참고 배지만 제공
+function terrainHint(floors: number | null, width: number | null): string | null {
+  if (floors === null || width === null) return null;
+  if (floors <= 2 && width >= 900) return "근접 동선 편함";
+  if (floors >= 5) return "원거리·텔레포트 유리";
+  return null;
 }
 
 function NumField({
@@ -502,6 +511,14 @@ export default function HpExpPage() {
         )}
       </nav>
 
+      {level === "" && !loading && !error && (
+        <div className="rounded-lg border border-maple/50 bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] px-4 py-3 text-xs leading-relaxed text-ink">
+          지금은 <span className="font-semibold">내 레벨 미입력 상태</span>라 전 레벨(Lv.1~200) 몹을 체경비 순수 수치로만 보여주고
+          있어요 — 그래서 저레벨 몹·맵이 상위에 옵니다. 위에서 <span className="font-semibold text-maple">내 레벨</span>을 입력하면
+          내 레벨 ±{range} 몹 기준 맞춤 추천으로 바뀝니다.
+        </div>
+      )}
+
       {loading && <div className="pixel-panel p-8 text-center text-sm text-dim">불러오는 중...</div>}
       {error && <div className="pixel-panel p-8 text-center text-sm text-red-500">데이터를 불러오지 못했습니다. 잠시 후 다시 시도해주세요.</div>}
 
@@ -538,7 +555,13 @@ export default function HpExpPage() {
                     <span className={m.mob_rate > 1 ? "text-emerald-600 dark:text-emerald-400" : ""}>젠 배율 ×{m.mob_rate}</span>
                   )}
                   {terrainSummary(m.floors, m.width) && <span>지형 {terrainSummary(m.floors, m.width)}</span>}
+                  {terrainHint(m.floors, m.width) && (
+                    <span className="text-skill" title="스폰 좌표 분포로 추정한 참고 배지 — 스킬 범위·이동기는 계산에 미반영">
+                      {terrainHint(m.floors, m.width)}
+                    </span>
+                  )}
                   {m.width !== null && m.width > 0 && <span>폭 {formatNumber(m.width)}px</span>}
+                  {(m.variant_count ?? 1) > 1 && <span>동일 구성 {m.variant_count}개 구역</span>}
                   {m.out_of_range_count > 0 && <span className="text-amber-600 dark:text-amber-400">범위 밖 몹 +{m.out_of_range_count}마리 주의</span>}
                   {charActive && score !== undefined && (
                     <span className="font-semibold text-maple">내 타수당 EXP {score.toFixed(1)}</span>
@@ -641,6 +664,14 @@ export default function HpExpPage() {
           · 마릿수·배치는 원작(GMS) 스폰 데이터 기준이며, 메이플랜드의 실제 젠 수·리젠 속도와 다를 수 있습니다.
           젠 배율(×)은 맵의 리젠 속도 계수로, &quot;한 젠 경험치순&quot; 정렬에 보정 반영됩니다.
           에델슈타인 몹의 경험치는 9/7 커뮤니티 실측(본섭 환산)이 반영돼 있습니다.
+        </p>
+        <p className="mt-1">
+          · 파티퀘스트·전직 시험·이벤트 인스턴스의 맵과 전용 몹은 일반 사냥터가 아니라서 추천에서 제외했습니다.
+        </p>
+        <p className="mt-1">
+          · <span className="font-semibold text-ink">계산에 반영되는 것</span>: 레벨 차 페널티, 몹 방어(물/마), 명중률(미스 확률), 데미지 편차.{" "}
+          <span className="font-semibold text-ink">반영되지 않는 것</span>: 스킬 범위(다수기 동시 타격), 이동기·점프 동선, 몹 공격에 따른 생존/포션 비용 —
+          지형 배지(일자형/복층)는 이를 가늠하는 참고 정보입니다.
         </p>
         <p className="mt-1">
           · N방컷·명중률은 빅뱅 전 커뮤니티 역산 공식 기반 참고치입니다 — 원킬컷 역산·타수 분포 시뮬레이션은{" "}
