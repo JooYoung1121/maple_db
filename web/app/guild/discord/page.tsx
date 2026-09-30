@@ -294,7 +294,8 @@ export default function DiscordBotPage() {
           <div className="rounded-lg bg-surface2 p-3">
             <p className="text-xs font-semibold text-ink">사이트·실시간 정보</p>
             <p className="mt-1 text-[11px] leading-5 text-dim">
-              스켈로스 드랍템 · 오늘 패치내용 · 공홈소식 링크 · 서울 날씨 · 최신 소식 검색
+              스켈로스 드랍템 · 슬리피우드 맵 · 헤이스트 스킬 · 발록 어디서 나와 ·
+              오늘 패치내용 · 서울 날씨 · 사이트 전 기능 링크(체경비·놀이터 포함)
             </p>
           </div>
           <div className="rounded-lg bg-surface2 p-3">
