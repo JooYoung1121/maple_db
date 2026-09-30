@@ -46,8 +46,8 @@ def main() -> int:
         gms = Counter(s[0] for s in json.loads(sj))
         existing = {r[0] for r in conn.execute("SELECT mob_id FROM mob_spawns WHERE map_id=?", (map_id,))}
         for mob_id, cnt in gms.items():
-            if mob_id >= 9000000:
-                continue  # 퀘스트/이벤트 변종몹 — 유저 대면 데이터에서 제외 규칙
+            # 900만번대 일괄 제외 금지 — 레퍼런스 노출 몹의 45%(닌자성·지하 감옥 등)가
+            # 9M 대역이다. 카탈로그 데이터의 게이트는 레퍼런스 화이트리스트(ref_mob_ids).
             if mob_id in ref_mob_ids and mob_id not in existing:
                 added.append((mob_id, map_id, kr_map_names.get(map_id), cnt))
             elif mob_id in existing:
