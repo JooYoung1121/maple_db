@@ -129,14 +129,14 @@ function calcMobCombat(mob: EffMob, char: CharState, charLevel: number): MobComb
   }
   if (dmg.avgDmg <= 0) return null;
   const nHitAvg = Math.ceil(mob.hp / dmg.avgDmg);
-  const safeHit = Math.max(hit, 0.01);
-  const expectedAttacks = nHitAvg / safeHit;
+  // 명중률 0 = 필요명중의 절반 이하 → 전부 미스, 사냥 불가
+  const expectedAttacks = hit > 0 ? nHitAvg / hit : Infinity;
   return {
     avgDmg: dmg.avgDmg,
     nHitAvg,
     hitChance: hit,
     expectedAttacks,
-    expPerAttack: mob.exp / expectedAttacks,
+    expPerAttack: hit > 0 ? mob.exp / expectedAttacks : 0,
   };
 }
 
@@ -294,7 +294,8 @@ export default function HpExpPage() {
       for (const mob of m.mobs) {
         const c = combatByMob.get(mob.id);
         const cnt = mob.count ?? 0;
-        if (!c || !cnt) continue;
+        // 명중 불가 몹은 사냥 대상에서 제외하고 나머지로 효율을 낸다
+        if (!c || !cnt || c.hitChance <= 0) continue;
         covered = true;
         totalExp += mob.exp * cnt;
         totalAttacks += c.expectedAttacks * cnt;
@@ -617,7 +618,7 @@ export default function HpExpPage() {
                           {c ? `${Math.round(c.hitChance * 100)}%` : "-"}
                         </td>
                         <td className="px-4 py-2 font-semibold text-maple">
-                          {c ? c.expPerAttack.toFixed(1) : "-"}
+                          {c ? (c.hitChance > 0 ? c.expPerAttack.toFixed(1) : "사냥 불가") : "-"}
                         </td>
                       </>
                     )}
