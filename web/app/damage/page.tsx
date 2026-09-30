@@ -1,5 +1,7 @@
 "use client";
 
+import PageGuide from "@/components/PageGuide";
+import { DAMAGE_GUIDE } from "@/lib/pageGuides";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -240,7 +242,10 @@ export default function DamageCalculatorPage() {
         </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="font-pixel text-2xl font-bold text-ink sm:text-3xl">🧮 스공 계산기</h1>
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="font-pixel text-2xl font-bold text-ink sm:text-3xl">🧮 스공 계산기</h1>
+              <PageGuide guide={DAMAGE_GUIDE} />
+            </div>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-dim">
               순수 스탯과 장비 옵션만 입력하면 메이플 용사·도핑·버프를 반영한 상태창 공격 범위를 바로 계산합니다.
             </p>
