@@ -12,6 +12,8 @@ import {
 } from "@/lib/damageFormula";
 import { JOB_SKILL_DATA, JOB_GROUPS } from "@/lib/jobSkillData";
 import { readMyMapleProfile } from "@/lib/myMaple";
+import PageGuide from "@/components/PageGuide";
+import { HP_EXP_GUIDE } from "@/lib/pageGuides";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -401,7 +403,10 @@ export default function HpExpPage() {
   return (
     <div className="mx-auto max-w-5xl space-y-6">
       <header>
-        <h1 className="font-pixel text-2xl font-bold text-ink">체경비 사냥터</h1>
+        <div className="flex flex-wrap items-center gap-3">
+          <h1 className="font-pixel text-2xl font-bold text-ink">체경비 사냥터</h1>
+          <PageGuide guide={HP_EXP_GUIDE} autoOpenKey="hp-exp" />
+        </div>
         <p className="mt-2 max-w-3xl text-sm leading-relaxed text-dim">
           체경비 = 몹 체력 ÷ 경험치. <span className="font-semibold text-ink">경험치 1을 얻기 위해 깎아야 하는 체력</span>이라
           낮을수록 꿀입니다. 맵별 몹 마릿수·배치(스폰 데이터)와 조합해 어디로 가면 좋을지 추천하고,

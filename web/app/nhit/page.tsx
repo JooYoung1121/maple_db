@@ -24,6 +24,8 @@ import {
   type BuffSkill,
   type JobSkillData,
 } from "@/lib/jobSkillData";
+import PageGuide from "@/components/PageGuide";
+import { NHIT_GUIDE } from "@/lib/pageGuides";
 
 // 직업/스킬 데이터는 web/lib/jobSkillData.ts 공유 정본 사용 (/hp-exp와 공용)
 
@@ -850,7 +852,10 @@ export default function NHitPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="font-pixel text-2xl font-bold mb-1">엔방컷 계산기</h1>
+      <div className="flex flex-wrap items-center gap-3 mb-1">
+        <h1 className="font-pixel text-2xl font-bold">엔방컷 계산기</h1>
+        <PageGuide guide={NHIT_GUIDE} />
+      </div>
       <p className="text-sm text-dim mb-6">
         데미지를 계산하고 몬스터 N방컷을 확인하세요
       </p>
