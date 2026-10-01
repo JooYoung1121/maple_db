@@ -200,6 +200,19 @@ class ChatbotServiceTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("블루 네오스", followup)
         self.assertNotIn("오래된 뼈", followup)
 
+    async def test_howto_question_returns_page_guide_summary(self):
+        # "○○ 어떻게 써?" — web/data/pageGuides.json 요약으로 응답
+        reply = await chatbot_service.handle_chat_message(
+            "discord:howto:1", "체경비 어떻게 써?"
+        )
+        self.assertIn("체경비 사냥터 사용 가이드", reply)
+        self.assertIn("/hp-exp", reply)
+        # 가이드 미보유 페이지는 일반 링크로 폴백
+        reply = await chatbot_service.handle_chat_message(
+            "discord:howto:2", "혼테일 가이드"
+        )
+        self.assertIn("/horntail", reply)
+
     async def test_navigation_questions_bypass_mob_and_drop_branches(self):
         # 몹/드랍 분기가 먼저 실행돼 절대 도달하지 못하던 규칙 4건 (2026-09-29 감사)
         cases = {

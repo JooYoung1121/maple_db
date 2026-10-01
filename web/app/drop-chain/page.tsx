@@ -1,5 +1,7 @@
 "use client";
 
+import PageGuide from "@/components/PageGuide";
+import { PAGE_GUIDES } from "@/lib/pageGuides";
 import { useCallback, useEffect, useState } from "react";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
@@ -26,7 +28,7 @@ export default function DropChainPage() {
 
   return (
     <div className="max-w-5xl mx-auto">
-      <div className="flex items-end gap-3 mb-5"><div><h1 className="font-pixel text-2xl">🔗 드랍 연결 퍼즐</h1><p className="text-sm text-dim mt-1">몬스터가 주는 아이템과 만날 수 있는 사냥터를 차례로 연결하세요.</p></div><span className="ml-auto pixel-card px-3 py-2 text-xs">{roundNo}라운드 · <b className="text-maple">{score}점</b></span></div>
+      <div className="flex items-end gap-3 mb-5"><div><div className="flex flex-wrap items-center gap-2"><h1 className="font-pixel text-2xl">🔗 드랍 연결 퍼즐</h1><PageGuide guide={PAGE_GUIDES["/drop-chain"]} /></div><p className="text-sm text-dim mt-1">몬스터가 주는 아이템과 만날 수 있는 사냥터를 차례로 연결하세요.</p></div><span className="ml-auto pixel-card px-3 py-2 text-xs">{roundNo}라운드 · <b className="text-maple">{score}점</b></span></div>
       {loading || !round ? <div className="pixel-panel p-12 text-center text-dim">드랍 테이블 섞는 중…</div> : (
         <div className="pixel-panel p-4 sm:p-6">
           <div className="grid lg:grid-cols-[220px_1fr_1fr] gap-4 items-stretch">

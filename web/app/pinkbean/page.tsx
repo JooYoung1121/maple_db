@@ -1,3 +1,5 @@
+import PageGuide from "@/components/PageGuide";
+import { PAGE_GUIDES } from "@/lib/pageGuides";
 import Link from "next/link";
 
 /**
@@ -78,7 +80,10 @@ export default function PinkBeanPage() {
           <Badge>원정대 보스</Badge>
           <Badge>2026-09-18 등장</Badge>
         </div>
-        <h1 className="text-2xl font-bold text-ink md:text-3xl font-pixel">핑크빈 공략</h1>
+        <div className="flex flex-wrap items-center gap-3">
+          <h1 className="text-2xl font-bold text-ink md:text-3xl font-pixel">핑크빈 공략</h1>
+          <PageGuide guide={PAGE_GUIDES["/pinkbean"]} />
+        </div>
         <p className="max-w-3xl text-sm leading-6 text-dim">
           시간의 신전 최심부 「신들의 황혼」의 원정대 보스. 메이플랜드는 빅뱅 전 KMST 기준이라,
           이 문서는 KMS 2008~2009 출시 시점의 <strong className="text-ink">일반 핑크빈(Lv.180 본체 2.1B)</strong>을 기준으로 합니다.

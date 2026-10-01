@@ -1,5 +1,7 @@
 "use client";
 
+import PageGuide from "@/components/PageGuide";
+import { PAGE_GUIDES } from "@/lib/pageGuides";
 import { useState, useCallback } from "react";
 
 function getBallColor(n: number): string {
@@ -71,7 +73,10 @@ export default function LottoPage() {
 
   return (
     <div className="max-w-xl mx-auto">
-      <h1 className="font-pixel text-2xl font-bold mb-1 text-ink">로또 번호 생성기</h1>
+      <div className="flex flex-wrap items-center gap-3 mb-1">
+        <h1 className="font-pixel text-2xl font-bold text-ink">로또 번호 생성기</h1>
+        <PageGuide guide={PAGE_GUIDES["/lotto"]} />
+      </div>
       <p className="text-sm text-dim mb-6">1~45 중 무작위로 6개 + 보너스 번호를 추첨합니다.</p>
 
       {/* Controls */}

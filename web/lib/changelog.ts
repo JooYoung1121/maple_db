@@ -15,6 +15,36 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.8.0",
+    date: "2026-10-01",
+    type: "minor",
+    title: "체경비 스킬 레벨·다수기 반영 · 사용 가이드 전 기능 확산 · 챗봇 사용법 응답",
+    pages: ["/hp-exp", "/quest-roadmap", "/dojo", "/pinkbean", "/recruit-card", "/playground", "/mapletle", "/quiz", "/versus", "/guild/discord"],
+    features: [
+      {
+        category: "체경비 사냥터 v2",
+        items: [
+          "스킬 레벨(1~만렙) 입력 — 스킬 시뮬 DB(KMST) 레벨별 실수치 35종으로 계산 (DB 미보유 스킬은 만렙값 보간)",
+          "다수기 '동시 타격' 마릿수 입력 — 슬래시블래스트·체인 라이트닝 등 범위기가 맵 효율(타수당 EXP)에 배수 반영",
+          "일부 스킬 수치를 KMST 정본으로 정정 (차지 블로우 250%·블래스트 580%·메테오 620% 등)",
+        ],
+      },
+      {
+        category: "사용 가이드 2단계",
+        items: [
+          "퀘스트 로드맵·무릉도장·핑크빈·구인구직 카드·놀이터 전 게임(추억틀·퀴즈·대전 게임 등) 14개 페이지에 가이드 패널 추가 — 총 22개 페이지",
+          "게임 가이드는 실제 점수·판정 로직 기준으로 작성 (미니맵 어디게 힌트 감점, 드랍 연결 2단계 등)",
+        ],
+      },
+      {
+        category: "디스코드 챗봇",
+        items: [
+          "'체경비 어떻게 써?' 류 사용법 질문에 페이지 가이드 요약으로 응답 — 사이트 가이드와 같은 데이터를 공유",
+        ],
+      },
+    ],
+  },
+  {
     version: "4.7.0",
     date: "2026-09-30",
     type: "minor",

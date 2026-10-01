@@ -1,5 +1,7 @@
 "use client";
 
+import PageGuide from "@/components/PageGuide";
+import { PAGE_GUIDES } from "@/lib/pageGuides";
 import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
@@ -290,7 +292,10 @@ function VersusContent() {
   if (!code || !state) {
     return (
       <div className="max-w-xl mx-auto">
-        <h1 className="font-pixel text-2xl font-bold mb-1">⚔️ 대전 게임</h1>
+        <div className="flex flex-wrap items-center gap-3 mb-1">
+          <h1 className="font-pixel text-2xl font-bold">⚔️ 대전 게임</h1>
+          <PageGuide guide={PAGE_GUIDES["/versus"]} />
+        </div>
         <p className="text-sm text-dim mb-6">방을 만들어 코드를 공유하면 1:1 대전, 나머지는 자유 관전.</p>
         <div className="pixel-panel p-5 space-y-3">
           <input

@@ -11,6 +11,7 @@ import {
   type DamageResult,
 } from "@/lib/damageFormula";
 import { JOB_SKILL_DATA, JOB_GROUPS } from "@/lib/jobSkillData";
+import { skillAtLevel, skillMaxLevel, hasLevelCurve } from "@/lib/skillLevels";
 import { readMyMapleProfile } from "@/lib/myMaple";
 import PageGuide from "@/components/PageGuide";
 import { HP_EXP_GUIDE } from "@/lib/pageGuides";
@@ -68,6 +69,8 @@ interface CharState {
   job: string; // JOB_SKILL_DATA 키 (히어로, 비숍 등 12직업)
   weapon: string; // 직업 무기 중 선택
   skill: string; // BASIC_ATTACK 또는 직업 액티브 스킬명
+  skillLevel: number; // 스킬 레벨 (스킬 선택 시 만렙으로 초기화)
+  multiTarget: number; // 다수기 평균 동시 타격 수 — 맵 효율에만 반영
   mainStat: number;
   subStat: number;
   atk: number;
@@ -85,6 +88,8 @@ const DEFAULT_CHAR: CharState = {
   job: "히어로",
   weapon: "두손검",
   skill: BASIC_ATTACK,
+  skillLevel: 1,
+  multiTarget: 1,
   mainStat: 100,
   subStat: 25,
   atk: 60,
@@ -137,8 +142,9 @@ function calcMobCombat(mob: EffMob, char: CharState, charLevel: number): MobComb
   const jobData = JOB_SKILL_DATA[char.job];
   if (!jobData) return null;
   const active = jobData.actives.find((s) => s.name === char.skill);
-  const skillPct = active ? active.damage : 100;
-  const hits = active ? active.hits : 1;
+  const leveled = active ? skillAtLevel(active, char.skillLevel) : null;
+  const skillPct = leveled ? leveled.damage : 100;
+  const hits = leveled ? leveled.hits : 1;
 
   let dmg: DamageResult;
   let hit: number;
@@ -291,8 +297,24 @@ export default function HpExpPage() {
       job,
       weapon: data.weapons.includes(c.weapon) ? c.weapon : data.weapons[0],
       skill: BASIC_ATTACK,
+      skillLevel: 1,
+      multiTarget: 1,
       mastery: jobMastery(job),
     }));
+  };
+
+  // 스킬 변경 시 레벨을 그 스킬 만렙으로 초기화
+  const changeSkill = (skillName: string) => {
+    setChar((c) => {
+      const data = JOB_SKILL_DATA[c.job];
+      const active = data?.actives.find((s) => s.name === skillName);
+      return {
+        ...c,
+        skill: skillName,
+        skillLevel: active ? skillMaxLevel(active) : 1,
+        multiTarget: 1,
+      };
+    });
   };
 
   const [minLv, maxLv] = useMemo(() => {
@@ -373,8 +395,15 @@ export default function HpExpPage() {
       }
       if (covered && totalAttacks > 0) out.set(m.map_id, totalExp / totalAttacks);
     }
+    // 다수기 평균 동시 타격 보정 — 한 번의 공격이 M마리를 때리면 타수당 EXP도 M배
+    const act = JOB_SKILL_DATA[char.job]?.actives.find((s) => s.name === char.skill);
+    const lv = act ? skillAtLevel(act, char.skillLevel) : null;
+    const multi = lv && lv.mobs > 1 ? Math.min(Math.max(1, char.multiTarget), lv.mobs) : 1;
+    if (multi > 1) {
+      for (const [k, v] of out) out.set(k, v * multi);
+    }
     return out;
-  }, [charActive, data, combatByMob]);
+  }, [charActive, data, combatByMob, char]);
 
   const sortedMobs = useMemo(() => {
     if (!data) return [];
@@ -399,6 +428,7 @@ export default function HpExpPage() {
   const jobData = JOB_SKILL_DATA[char.job];
   const weaponMult = jobData && !jobData.isMagic ? WEAPON_MULTIPLIERS[char.weapon] : null;
   const activeSkill = jobData?.actives.find((s) => s.name === char.skill);
+  const leveledSkill = activeSkill ? skillAtLevel(activeSkill, char.skillLevel) : null;
 
   return (
     <div className="mx-auto max-w-5xl space-y-6">
@@ -576,17 +606,42 @@ export default function HpExpPage() {
                 <span className="mb-1 block text-[11px] text-dim">스킬</span>
                 <select
                   value={char.skill}
-                  onChange={(e) => patchChar({ skill: e.target.value })}
+                  onChange={(e) => changeSkill(e.target.value)}
                   className="rounded border border-edge bg-surface px-2 py-1.5 text-sm text-ink"
                 >
                   <option value={BASIC_ATTACK}>평타 (100%)</option>
-                  {jobData?.actives.map((s) => (
-                    <option key={s.name} value={s.name}>
-                      {s.name} ({s.damage}%{s.hits > 1 ? ` ×${s.hits}타` : ""})
-                    </option>
-                  ))}
+                  {jobData?.actives.map((s) => {
+                    const max = skillAtLevel(s, skillMaxLevel(s));
+                    return (
+                      <option key={s.name} value={s.name}>
+                        {s.name} (만렙 {max.damage.toFixed(0)}%{max.hits > 1 ? ` ×${max.hits}타` : ""})
+                      </option>
+                    );
+                  })}
                 </select>
               </label>
+              {activeSkill && (
+                <NumField
+                  label={`스킬 Lv (1~${skillMaxLevel(activeSkill)})`}
+                  value={char.skillLevel}
+                  onChange={(v) =>
+                    patchChar({
+                      skillLevel: Math.min(Math.max(1, v), skillMaxLevel(activeSkill)),
+                    })
+                  }
+                  width="w-16"
+                />
+              )}
+              {leveledSkill && leveledSkill.mobs > 1 && (
+                <NumField
+                  label={`동시 타격 (1~${leveledSkill.mobs}마리)`}
+                  value={char.multiTarget}
+                  onChange={(v) =>
+                    patchChar({ multiTarget: Math.min(Math.max(1, v), leveledSkill.mobs) })
+                  }
+                  width="w-16"
+                />
+              )}
               {jobData && !jobData.isMagic ? (
                 <>
                   {(jobData.weapons.length > 1) && (
@@ -626,11 +681,11 @@ export default function HpExpPage() {
               )}
             </div>
             <p className="text-[11px] leading-4 text-dim">
-              {activeSkill
-                ? `${activeSkill.name}: 데미지 ${activeSkill.damage}%${activeSkill.hits > 1 ? ` × ${activeSkill.hits}타` : ""}${(activeSkill.mobs ?? 1) > 1 ? ` · 최대 ${activeSkill.mobs}마리 (계산은 단일 대상 기준)` : ""} · 숙련도 ${jobData?.isMagic ? "60% 고정" : `${char.mastery}%`}`
+              {activeSkill && leveledSkill
+                ? `${activeSkill.name} Lv.${char.skillLevel}: ${jobData?.isMagic ? "기본 공격력" : "데미지"} ${leveledSkill.damage.toFixed(0)}${jobData?.isMagic ? "" : "%"}${leveledSkill.hits > 1 ? ` × ${leveledSkill.hits}타` : ""}${leveledSkill.mobs > 1 ? ` · 최대 ${leveledSkill.mobs}마리 (동시 타격 수는 맵 효율에만 반영)` : ""} ${hasLevelCurve(activeSkill.name) ? "· 레벨별 수치는 스킬 시뮬 DB(KMST) 기준" : "· 레벨별 수치는 만렙값 보간(근사)"} · 숙련도 ${jobData?.isMagic ? "60% 고정" : `${char.mastery}%`}`
                 : `평타 100% · 숙련도 ${jobData?.isMagic ? "60% 고정" : `${char.mastery}% (직업 마스터리 자동 반영)`}`}
               {" — "}명중률·데미지 공식은 빅뱅 전 커뮤니티 역산 공식 기반 참고치입니다
-              (속성·크리티컬 미반영, 스킬은 만렙 수치 — 상세 시뮬레이션은 엔방컷 계산기).
+              (속성·크리티컬 미반영 — 상세 시뮬레이션은 엔방컷 계산기).
             </p>
           </div>
         )}
@@ -701,7 +756,19 @@ export default function HpExpPage() {
                   {(m.variant_count ?? 1) > 1 && <span>동일 구성 {m.variant_count}개 구역</span>}
                   {m.out_of_range_count > 0 && <span className="text-amber-600 dark:text-amber-400">범위 밖 몹 +{m.out_of_range_count}마리 주의</span>}
                   {charActive && score !== undefined && (
-                    <span className="font-semibold text-maple">내 타수당 EXP {score.toFixed(1)}</span>
+                    <span
+                      className="font-semibold text-maple"
+                      title={
+                        leveledSkill && leveledSkill.mobs > 1 && char.multiTarget > 1
+                          ? `동시 타격 ${Math.min(char.multiTarget, leveledSkill.mobs)}마리 가정이 반영된 값`
+                          : "미스 확률 포함 기대 타수 1번당 경험치"
+                      }
+                    >
+                      내 타수당 EXP {score.toFixed(1)}
+                      {leveledSkill && leveledSkill.mobs > 1 && char.multiTarget > 1
+                        ? ` (${Math.min(char.multiTarget, leveledSkill.mobs)}마리 타격)`
+                        : ""}
+                    </span>
                   )}
                 </div>
                 <div className="mt-3 flex flex-wrap gap-2">
