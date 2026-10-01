@@ -200,6 +200,23 @@ class ChatbotServiceTests(unittest.IsolatedAsyncioTestCase):
         self.assertIn("블루 네오스", followup)
         self.assertNotIn("오래된 뼈", followup)
 
+    async def test_failed_gemini_call_refunds_usage(self):
+        # 2026-10-01 장애 대응 — 모델이 전부 죽어 응답이 없으면 차감한 사용량을 되돌린다
+        with patch(
+            "api.chatbot_service._ask_gemini", new=AsyncMock(return_value=None)
+        ), patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
+            reply = await chatbot_service.handle_chat_message(
+                "discord:refund:1", "아무 자유 대화 질문", actor=self._actor()
+            )
+        self.assertIn("차감되지 않았어요", reply)
+        self.assertNotIn("📊", reply)  # 실패 응답엔 사용량 푸터 없음
+        conn = self._connection()
+        row = conn.execute(
+            "SELECT request_count FROM discord_ai_usage WHERE guild_id='guild-1' AND user_id='user-1'"
+        ).fetchone()
+        conn.close()
+        self.assertEqual(row["request_count"] if row else 0, 0)
+
     async def test_howto_question_returns_page_guide_summary(self):
         # "○○ 어떻게 써?" — web/data/pageGuides.json 요약으로 응답
         reply = await chatbot_service.handle_chat_message(

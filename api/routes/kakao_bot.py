@@ -9,7 +9,7 @@
 환경변수:
 - KAKAO_BOT_TOKEN  : 기기↔서버 인증 토큰 (미설정 시 봇 API 전체 비활성 — 안전 기본값)
 - GEMINI_API_KEY   : !질문 자유 대화용 무료 LLM (미설정 시 질문 기능만 비활성)
-- GEMINI_MODEL     : 기본 gemini-2.5-flash (404 시 gemini-2.0-flash 폴백)
+- GEMINI_MODEL     : 기본 gemini-3.5-flash-lite (404 시 3.8-flash 폴백)
 - PUBLIC_SITE_URL  : 링크 생성 기준 (기본 memorymapledb.up.railway.app)
 """
 import os
@@ -152,7 +152,12 @@ async def _ask_gemini(question: str) -> Optional[str]:
     key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY", "")
     if not key:
         return None
-    models = [os.environ.get("GEMINI_MODEL", "gemini-2.5-flash"), "gemini-2.0-flash"]
+    # 2026-10-01: 2.0은 셧다운·2.5는 접근 제한 — 현행 모델 폴백 체인 (chatbot_service와 동일)
+    models = [
+        os.environ.get("GEMINI_MODEL", "gemini-3.5-flash-lite"),
+        "gemini-3.5-flash-lite",
+        "gemini-3.8-flash",
+    ]
     async with httpx.AsyncClient(timeout=20) as client:
         for model in dict.fromkeys(models):
             body = {

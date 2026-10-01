@@ -15,6 +15,30 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.8.1",
+    date: "2026-10-01",
+    type: "patch",
+    title: "디스코드 봇 AI 복구(모델 교체) · 체경비 온보딩 확인 버튼",
+    pages: ["/hp-exp", "/guild/discord", "/fortune"],
+    features: [
+      {
+        category: "디스코드·카카오 봇",
+        items: [
+          "자유 대화 AI 복구 — 구글이 gemini-2.0(6/1 셧다운)·2.5(9/18 접근 제한) 모델을 내리면서 응답이 전부 실패하던 문제. 현행 모델(3.5-flash-lite → 3.8-flash) 폴백 체인으로 교체",
+          "AI 호출이 실패하면 차감했던 사용량을 자동 환불 — 장애가 일일 한도를 소진하지 않음",
+          "내부 프롬프트 재구성 요청(첫 단어·단어 수 등 간접 추출) 거절 지침 강화, 모델 404가 로그 없이 삼켜지던 문제 수정, 관리자 AI 연결 진단(/api/admin/ai-status) 추가",
+        ],
+      },
+      {
+        category: "체경비 사냥터",
+        items: [
+          "온보딩에서 레벨 타이핑 중('4'만 쳐도) 화면이 바로 전환되던 문제 — 레벨·직업·스펙 입력 후 '추천 보기' 버튼을 눌러야 결과가 열리도록 변경",
+          "필터의 내 레벨 입력도 Enter/포커스 아웃 시에만 적용 (타이핑 중 재검색 방지)",
+        ],
+      },
+    ],
+  },
+  {
     version: "4.8.0",
     date: "2026-10-01",
     type: "minor",

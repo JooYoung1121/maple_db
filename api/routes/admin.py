@@ -246,6 +246,49 @@ def admin_delete_mob(mob_id: int, request: Request):
     return {"ok": True}
 
 
+@router.get("/admin/ai-status")
+async def admin_ai_status(request: Request):
+    """Gemini 연결 진단 — 폴백 체인의 각 모델에 1토큰 핑을 보내 상태를 반환한다.
+
+    2026-10-01 장애(모델 은퇴 404가 로그 없이 삼켜짐) 대응: Railway 로그 없이도
+    운영 키 기준으로 어떤 모델이 살아 있는지 원격 확인할 수 있게 한다.
+    """
+    _require_admin(request)
+    import httpx
+
+    key = os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY", "")
+    if not key:
+        return {"key_set": False, "models": []}
+    models = list(dict.fromkeys([
+        os.environ.get("GEMINI_CHAT_MODEL", "gemini-3.5-flash-lite"),
+        "gemini-3.5-flash-lite",
+        "gemini-3.8-flash",
+    ]))
+    results = []
+    async with httpx.AsyncClient(timeout=15) as client:
+        for model in models:
+            try:
+                res = await client.post(
+                    f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
+                    params={"key": key},
+                    json={
+                        "contents": [{"role": "user", "parts": [{"text": "ping"}]}],
+                        "generationConfig": {"maxOutputTokens": 1},
+                    },
+                )
+                results.append({
+                    "model": model,
+                    "status": res.status_code,
+                    "ok": res.status_code == 200,
+                    "detail": None if res.status_code == 200 else res.text[:300],
+                })
+            except Exception as exc:
+                results.append({
+                    "model": model, "status": None, "ok": False, "detail": repr(exc)[:300],
+                })
+    return {"key_set": True, "models": results}
+
+
 @router.get("/admin/db-status")
 def admin_db_status(request: Request):
     """시드 동기화 진단 — 주요 테이블 존재·행수 + DB 파일/디스크 상태."""
