@@ -283,7 +283,8 @@ def _generate_fortune_local(
     }
 
 
-GEMINI_FORTUNE_MODEL = os.environ.get("GEMINI_FORTUNE_MODEL", "gemini-2.5-flash")
+# 2026-10-01: gemini-2.5-flash 접근 제한 — 현행 경량 모델로 기본값 교체
+GEMINI_FORTUNE_MODEL = os.environ.get("GEMINI_FORTUNE_MODEL", "gemini-3.5-flash-lite")
 GEMINI_FORTUNE_URL = (
     "https://generativelanguage.googleapis.com/v1beta/models/"
     f"{GEMINI_FORTUNE_MODEL}:generateContent"

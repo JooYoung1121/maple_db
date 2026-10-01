@@ -246,6 +246,20 @@ function NumField({
 
 export default function HpExpPage() {
   const [level, setLevel] = useState<number | "">("");
+  // 레벨 입력 초안 — 타이핑 중("4"→"42") 화면이 전환되지 않도록 확인/blur 시에만 반영
+  const [levelInput, setLevelInput] = useState("");
+  useEffect(() => {
+    setLevelInput(level === "" ? "" : String(level));
+  }, [level]);
+  const parseLevelInput = (): number | null => {
+    const n = Number(levelInput);
+    if (levelInput === "" || !Number.isFinite(n)) return null;
+    return Math.max(1, Math.min(200, Math.round(n)));
+  };
+  const commitLevelInput = () => {
+    const n = parseLevelInput();
+    setLevel(n === null ? "" : n);
+  };
   const [range, setRange] = useState(10);
   const [sort, setSort] = useState<"ratio" | "exp">("ratio");
   const [minCount, setMinCount] = useState(3);
@@ -449,8 +463,8 @@ export default function HpExpPage() {
           <h2 className="font-pixel text-lg font-bold text-ink">🍄 내 캐릭터부터 알려주세요</h2>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-dim">
             체경비 사냥터는 <span className="font-semibold text-ink">캐릭터 레벨·직업 기준 맞춤 추천</span> 페이지예요.
-            레벨을 입력하면 그 레벨대 사냥터·몬스터가 나오고, 스펙까지 입력하면 N방컷·명중률·타수당
-            경험치로 &quot;내 효율순&quot; 추천까지 계산합니다.
+            아래를 입력하고 <span className="font-semibold text-maple">추천 보기</span>를 누르면 그 레벨대
+            사냥터·몬스터가 나오고, 스펙까지 넣으면 N방컷·명중률·타수당 경험치로 &quot;내 효율순&quot; 추천까지 계산합니다.
           </p>
           <div className="mt-4 flex flex-wrap items-end gap-3">
             <label className="block">
@@ -459,12 +473,12 @@ export default function HpExpPage() {
                 type="number"
                 min={1}
                 max={200}
-                value={level}
+                value={levelInput}
                 placeholder="예: 45"
                 autoFocus
-                onChange={(e) => {
-                  const v = e.target.value;
-                  setLevel(v === "" ? "" : Math.max(1, Math.min(200, Number(v))));
+                onChange={(e) => setLevelInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.nativeEvent.isComposing) commitLevelInput();
                 }}
                 className="w-28 rounded border border-edge bg-surface px-3 py-2 text-sm text-ink"
               />
@@ -486,9 +500,56 @@ export default function HpExpPage() {
               </select>
             </label>
           </div>
+          <label className="mt-4 flex items-center gap-2 text-sm text-ink">
+            <input
+              type="checkbox"
+              checked={char.enabled}
+              onChange={(e) => patchChar({ enabled: e.target.checked })}
+              className="h-4 w-4 accent-[var(--maple,#f97316)]"
+            />
+            스펙(스공·명중 등)까지 입력해서 N방컷·명중률·내 효율순 계산
+          </label>
+          {char.enabled && (
+            <div className="mt-3 flex flex-wrap items-end gap-3">
+              {jobData && !jobData.isMagic ? (
+                <>
+                  <NumField
+                    label={`주스탯 ${weaponMult ? `(${weaponMult.mainStat} 총합)` : "(총합)"}`}
+                    value={char.mainStat}
+                    onChange={(v) => patchChar({ mainStat: v })}
+                  />
+                  <NumField
+                    label={`부스탯 ${weaponMult ? `(${weaponMult.subStat} 총합)` : "(총합)"}`}
+                    value={char.subStat}
+                    onChange={(v) => patchChar({ subStat: v })}
+                  />
+                  <NumField label="공격력" value={char.atk} onChange={(v) => patchChar({ atk: v })} />
+                  <NumField label="명중률" value={char.acc} onChange={(v) => patchChar({ acc: v })} width="w-16" />
+                </>
+              ) : (
+                <>
+                  <NumField label="INT (총합)" value={char.int} onChange={(v) => patchChar({ int: v })} />
+                  <NumField label="LUK (총합)" value={char.luk} onChange={(v) => patchChar({ luk: v })} />
+                  <NumField label="마력" value={char.ma} onChange={(v) => patchChar({ ma: v })} />
+                </>
+              )}
+            </div>
+          )}
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <button
+              onClick={commitLevelInput}
+              disabled={parseLevelInput() === null}
+              className="pixel-btn bg-maple px-5 py-2.5 text-sm font-bold text-white disabled:opacity-40"
+            >
+              🔎 추천 보기
+            </button>
+            {parseLevelInput() === null && (
+              <span className="text-xs text-dim">레벨을 입력하면 버튼이 활성화됩니다</span>
+            )}
+          </div>
           <p className="mt-3 text-xs text-dim">
             <Link href="/me" className="text-maple hover:underline">마이페이지</Link>에 캐릭터 프로필(레벨·직업)을
-            저장해두면 다음부터 자동으로 불러옵니다.
+            저장해두면 다음부터 자동으로 불러옵니다. 무기·스킬·스킬 레벨은 들어간 뒤 &quot;내 캐릭터로 계산&quot;에서 조정할 수 있어요.
           </p>
         </section>
       )}
@@ -498,16 +559,17 @@ export default function HpExpPage() {
       <section className="pixel-panel p-4">
         <div className="flex flex-wrap items-end gap-4">
           <label className="block">
-            <span className="mb-1 block text-xs text-dim">내 레벨</span>
+            <span className="mb-1 block text-xs text-dim">내 레벨 (Enter로 적용)</span>
             <input
               type="number"
               min={1}
               max={200}
-              value={level}
+              value={levelInput}
               placeholder="레벨"
-              onChange={(e) => {
-                const v = e.target.value;
-                setLevel(v === "" ? "" : Math.max(1, Math.min(200, Number(v))));
+              onChange={(e) => setLevelInput(e.target.value)}
+              onBlur={commitLevelInput}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.nativeEvent.isComposing) commitLevelInput();
               }}
               className="w-24 rounded border border-edge bg-surface px-3 py-2 text-sm text-ink"
             />
