@@ -1,5 +1,7 @@
 "use client";
 
+import PageGuide from "@/components/PageGuide";
+import { PAGE_GUIDES } from "@/lib/pageGuides";
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { EDELSTEIN_MOB_IDS } from "@/data/edelstein";
 import { getQuizPool, getQuizScores, submitQuizScore, type QuizPoolEntry, type QuizScore } from "@/lib/api";
@@ -300,7 +302,10 @@ export default function QuizPage() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-2 font-pixel">메이플 퀴즈</h1>
+      <div className="flex flex-wrap items-center gap-3 mb-2">
+        <h1 className="text-2xl font-bold font-pixel">메이플 퀴즈</h1>
+        <PageGuide guide={PAGE_GUIDES["/quiz"]} />
+      </div>
       <p className="text-dim mb-6">
         스피드퀴즈 연습 & NPC/몬스터 족보
       </p>

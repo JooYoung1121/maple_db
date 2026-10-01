@@ -1,5 +1,7 @@
 "use client";
 
+import PageGuide from "@/components/PageGuide";
+import { PAGE_GUIDES } from "@/lib/pageGuides";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { getQuestRoadmap, type RoadmapQuest } from "@/lib/api";
@@ -160,7 +162,10 @@ export default function QuestRoadmapPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="font-pixel text-2xl font-bold mb-1">🧭 퀘스트 로드맵</h1>
+      <div className="flex flex-wrap items-center gap-3 mb-1">
+        <h1 className="font-pixel text-2xl font-bold">🧭 퀘스트 로드맵</h1>
+        <PageGuide guide={PAGE_GUIDES["/quest-roadmap"]} />
+      </div>
       <p className="text-sm text-dim mb-4">
         메이플랜드 2.0 퀘스트 {quests.length.toLocaleString()}종 — 내 레벨에 맞는 퀘스트와 레벨 구간별 로드맵.
         카드를 누르면 선행 체인·완료 조건·보상이 펼쳐집니다.

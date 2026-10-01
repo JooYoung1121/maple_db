@@ -1,5 +1,7 @@
 "use client";
 
+import PageGuide from "@/components/PageGuide";
+import { PAGE_GUIDES } from "@/lib/pageGuides";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   getMapletle, guessMapletle, solveMapletle, newMapletleRound,
@@ -156,7 +158,10 @@ export default function MapletlePage() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="flex items-start justify-between mb-2">
-        <h1 className="text-2xl font-bold font-pixel">🌡️ 추억틀 <span className="text-maple">{meta.label}</span></h1>
+        <div className="flex flex-wrap items-center gap-2">
+          <h1 className="text-2xl font-bold font-pixel">🌡️ 추억틀 <span className="text-maple">{meta.label}</span></h1>
+          <PageGuide guide={PAGE_GUIDES["/mapletle"]} />
+        </div>
         <button
           onClick={async () => {
             const pw = prompt("새 라운드를 출시합니다 (관리자 비밀번호):");

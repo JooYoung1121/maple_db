@@ -1,5 +1,7 @@
 "use client";
 
+import PageGuide from "@/components/PageGuide";
+import { PAGE_GUIDES } from "@/lib/pageGuides";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ALL_SITE_FEATURES } from "@/lib/siteFeatures";
@@ -38,7 +40,7 @@ export default function PlaygroundPage() {
     return () => { clearInterval(timer); window.removeEventListener('storage', sync); window.removeEventListener(MY_MAPLE_UPDATED_EVENT, sync); };
   }, []);
   return <div className="mx-auto max-w-4xl space-y-6">
-    <header><h1 className="font-pixel text-2xl">놀이터 모아보기</h1><p className="mt-2 text-sm text-dim">오늘 한 판, 파티 도구, 도감을 목적별로 찾아보세요. 완료 표시는 이 브라우저의 한국 날짜 기준 기록입니다.</p></header>
+    <header><div className="flex flex-wrap items-center gap-3"><h1 className="font-pixel text-2xl">놀이터 모아보기</h1><PageGuide guide={PAGE_GUIDES["/playground"]} /></div><p className="mt-2 text-sm text-dim">오늘 한 판, 파티 도구, 도감을 목적별로 찾아보세요. 완료 표시는 이 브라우저의 한국 날짜 기준 기록입니다.</p></header>
     {!!recent.length && <section><h2 className="font-semibold mb-2">최근 플레이</h2><div className="flex flex-wrap gap-2">{recent.map(r => <Link key={r.href} className="pixel-btn min-h-11 px-3 py-3 text-sm" href={r.href}>{ALL_SITE_FEATURES.find(f => f.href === r.href)?.label}</Link>)}</div></section>}
     <Link href="/quiz?theme=edelstein" className="pixel-panel block p-4"><strong>신규 테마 · 에델슈타인 이름 퀴즈 →</strong><p className="mt-1 text-sm text-dim">DB의 몬스터 이름으로 출제합니다. 미확인 HP·EXP는 정답으로 쓰지 않습니다.</p></Link>
     {GROUPS.map(g => <section key={g.label}><h2 className="font-semibold mb-3">{g.label}</h2><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

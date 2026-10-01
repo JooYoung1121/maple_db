@@ -1,3 +1,5 @@
+import PageGuide from "@/components/PageGuide";
+import { PAGE_GUIDES } from "@/lib/pageGuides";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import CanonDiffInfo from "@/components/CanonDiffInfo";
@@ -153,6 +155,7 @@ export default function DojoPage() {
       <header>
         <div className="flex flex-wrap items-center gap-2 mb-1">
           <h1 className="font-pixel text-2xl font-bold">🥋 무릉도장 공략</h1>
+          <PageGuide guide={PAGE_GUIDES["/dojo"]} />
           <span className="font-pixel text-[10px] px-2 py-1 border border-emerald-400 bg-emerald-50 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-300">
             8/7 공식 패치·첫날 실측 반영
           </span>

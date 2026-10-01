@@ -1,5 +1,7 @@
 "use client";
 
+import PageGuide from "@/components/PageGuide";
+import { PAGE_GUIDES } from "@/lib/pageGuides";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { searchChosung } from "@/lib/api";
@@ -48,7 +50,10 @@ export default function ChosungPage() {
 
   return (
     <div className="max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-1 font-pixel">🔤 초성퀴즈 검색기</h1>
+      <div className="flex flex-wrap items-center gap-3 mb-1">
+        <h1 className="text-2xl font-bold font-pixel">🔤 초성퀴즈 검색기</h1>
+        <PageGuide guide={PAGE_GUIDES["/chosung"]} />
+      </div>
       <p className="text-sm text-dim mb-6">
         인게임 초성퀴즈용 — 초성을 입력하면 메랜DB에 등재된 몬스터·아이템·맵·NPC 이름에서 찾아드립니다.
         결과를 누르면 이름이 복사됩니다.

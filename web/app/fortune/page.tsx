@@ -1,5 +1,7 @@
 "use client";
 
+import PageGuide from "@/components/PageGuide";
+import { PAGE_GUIDES } from "@/lib/pageGuides";
 import { useState, useEffect, useCallback } from "react";
 
 /* ── 타입 ─────────────────────────────────────────────── */
@@ -134,9 +136,10 @@ export default function FortunePage() {
 
   return (
     <div className="max-w-xl mx-auto">
-      <h1 className="text-2xl font-bold mb-1 text-ink font-pixel">
-        오늘의 운세
-      </h1>
+      <div className="flex flex-wrap items-center gap-3 mb-1">
+        <h1 className="text-2xl font-bold text-ink font-pixel">오늘의 운세</h1>
+        <PageGuide guide={PAGE_GUIDES["/fortune"]} />
+      </div>
       <p className="text-sm text-dim mb-6">
         생년월일과 직업을 선택하면 메이플랜드 운세와 현실 운세를 알려드려요.
       </p>

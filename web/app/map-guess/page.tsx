@@ -1,5 +1,7 @@
 "use client";
 
+import PageGuide from "@/components/PageGuide";
+import { PAGE_GUIDES } from "@/lib/pageGuides";
 import { useCallback, useEffect, useState } from "react";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
@@ -28,7 +30,7 @@ export default function MapGuessPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="flex items-end gap-3 mb-5"><div><h1 className="font-pixel text-2xl">🗺️ 미니맵 어디게?</h1><p className="text-sm text-dim mt-1">미니맵의 생김새와 힌트로 장소를 맞혀보세요.</p></div><span className="ml-auto pixel-card px-3 py-2 text-xs">{roundNo}라운드 · <b className="text-maple">{score}점</b></span></div>
+      <div className="flex items-end gap-3 mb-5"><div><div className="flex flex-wrap items-center gap-2"><h1 className="font-pixel text-2xl">🗺️ 미니맵 어디게?</h1><PageGuide guide={PAGE_GUIDES["/map-guess"]} /></div><p className="text-sm text-dim mt-1">미니맵의 생김새와 힌트로 장소를 맞혀보세요.</p></div><span className="ml-auto pixel-card px-3 py-2 text-xs">{roundNo}라운드 · <b className="text-maple">{score}점</b></span></div>
       {loading || !round ? <div className="pixel-panel p-12 text-center text-dim">미니맵 펼치는 중…</div> : (
         <div className="pixel-panel p-5">
           <div className="min-h-56 bg-[#20283b] border-2 border-edge flex items-center justify-center p-6 mb-4 overflow-hidden">

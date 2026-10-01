@@ -11,6 +11,8 @@
  * 있으면 선택지에 자동 노출되므로 아트 추가가 코드 배포와 분리된다.
  */
 
+import PageGuide from "@/components/PageGuide";
+import { PAGE_GUIDES } from "@/lib/pageGuides";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const SIZE = 1080;
@@ -740,7 +742,10 @@ export default function RecruitCardPage() {
   return (
     <div className="mx-auto max-w-6xl space-y-6">
       <section className="space-y-2">
-        <h1 className="text-2xl font-bold text-ink md:text-3xl font-pixel">구인구직 카드 메이커</h1>
+        <div className="flex flex-wrap items-center gap-3">
+          <h1 className="text-2xl font-bold text-ink md:text-3xl font-pixel">구인구직 카드 메이커</h1>
+          <PageGuide guide={PAGE_GUIDES["/recruit-card"]} />
+        </div>
         <p className="max-w-3xl text-sm leading-6 text-dim">
           스탯·캐릭터와 몇 가지 정보만 넣으면 공대 구인·구직 홍보 카드를 만들어 드립니다.
           <strong className="text-ink"> 이미지 합성은 전부 브라우저 안에서 처리되며 서버로 전송되지 않습니다</strong>

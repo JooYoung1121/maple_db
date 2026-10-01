@@ -1,5 +1,7 @@
 "use client";
 
+import PageGuide from "@/components/PageGuide";
+import { PAGE_GUIDES } from "@/lib/pageGuides";
 import { useCallback, useEffect, useState } from "react";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
@@ -43,7 +45,7 @@ export default function HighLowPage() {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="flex flex-wrap items-end gap-3 mb-5">
-        <div><h1 className="font-pixel text-2xl">📈 메랜 하이로우</h1><p className="text-sm text-dim mt-1">둘 중 수치가 더 높은 몬스터를 고르세요.</p></div>
+        <div><div className="flex flex-wrap items-center gap-2"><h1 className="font-pixel text-2xl">📈 메랜 하이로우</h1><PageGuide guide={PAGE_GUIDES["/highlow"]} /></div><p className="text-sm text-dim mt-1">둘 중 수치가 더 높은 몬스터를 고르세요.</p></div>
         <div className="ml-auto flex gap-2 text-xs"><span className="pixel-card px-3 py-2">🔥 연속 {streak}</span><span className="pixel-card px-3 py-2 text-maple">🏆 최고 {best}</span></div>
       </div>
       {error && <div className="pixel-panel p-4 text-red-500 text-sm">{error}</div>}
