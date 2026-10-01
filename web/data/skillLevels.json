@@ -1,0 +1,5262 @@
+{
+ "파워스트라이크": {
+  "sourceId": 1001004,
+  "maxLevel": 20,
+  "levels": [
+   {
+    "damage": 114.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 120.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 126.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 132.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 142.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 148.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 154.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 164.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 170.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 180.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 186.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 196.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 202.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 212.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 218.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 228.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 234.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 244.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 250.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 260.0,
+    "hits": 1,
+    "mobs": 1
+   }
+  ]
+ },
+ "슬래시블래스트": {
+  "sourceId": 1001005,
+  "maxLevel": 20,
+  "levels": [
+   {
+    "damage": 57.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 60.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 63.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 66.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 71.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 74.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 77.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 82.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 85.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 90.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 93.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 98.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 101.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 106.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 109.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 114.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 117.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 122.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 125.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 130.0,
+    "hits": 1,
+    "mobs": 6
+   }
+  ]
+ },
+ "브랜디쉬": {
+  "sourceId": 1121008,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 135.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 140.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 145.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 150.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 155.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 160.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 165.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 170.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 175.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 180.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 184.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 188.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 192.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 196.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 200.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 204.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 208.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 212.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 216.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 220.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 224.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 228.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 232.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 236.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 240.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 244.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 248.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 252.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 256.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 260.0,
+    "hits": 2,
+    "mobs": 3
+   }
+  ]
+ },
+ "차지블로우 (파이어)": {
+  "sourceId": 1211002,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 162.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 164.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 166.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 168.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 170.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 172.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 174.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 176.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 178.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 180.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 183.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 186.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 189.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 192.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 195.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 198.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 201.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 204.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 207.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 210.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 214.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 218.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 222.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 226.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 230.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 234.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 238.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 242.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 246.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 250.0,
+    "hits": 1,
+    "mobs": 6
+   }
+  ]
+ },
+ "차지블로우 (아이스)": {
+  "sourceId": 1211002,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 162.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 164.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 166.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 168.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 170.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 172.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 174.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 176.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 178.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 180.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 183.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 186.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 189.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 192.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 195.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 198.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 201.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 204.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 207.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 210.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 214.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 218.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 222.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 226.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 230.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 234.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 238.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 242.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 246.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 250.0,
+    "hits": 1,
+    "mobs": 6
+   }
+  ]
+ },
+ "차지블로우 (썬더)": {
+  "sourceId": 1211002,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 162.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 164.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 166.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 168.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 170.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 172.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 174.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 176.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 178.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 180.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 183.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 186.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 189.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 192.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 195.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 198.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 201.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 204.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 207.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 210.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 214.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 218.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 222.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 226.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 230.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 234.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 238.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 242.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 246.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 250.0,
+    "hits": 1,
+    "mobs": 6
+   }
+  ]
+ },
+ "차지블로우 (홀리)": {
+  "sourceId": 1211002,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 162.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 164.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 166.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 168.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 170.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 172.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 174.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 176.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 178.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 180.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 183.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 186.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 189.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 192.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 195.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 198.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 201.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 204.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 207.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 210.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 214.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 218.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 222.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 226.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 230.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 234.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 238.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 242.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 246.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 250.0,
+    "hits": 1,
+    "mobs": 6
+   }
+  ]
+ },
+ "블래스트": {
+  "sourceId": 1221009,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 200.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 220.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 240.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 260.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 280.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 300.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 320.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 340.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 360.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 380.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 390.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 400.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 410.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 420.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 430.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 440.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 450.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 460.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 470.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 480.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 490.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 500.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 510.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 520.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 530.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 540.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 550.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 560.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 570.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 580.0,
+    "hits": 1,
+    "mobs": 1
+   }
+  ]
+ },
+ "드래곤로어": {
+  "sourceId": 1311006,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 96.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 102.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 108.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 114.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 120.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 126.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 132.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 138.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 144.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 150.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 155.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 160.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 165.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 170.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 175.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 180.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 185.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 190.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 195.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 200.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 204.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 208.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 212.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 216.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 220.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 224.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 228.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 232.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 236.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 240.0,
+    "hits": 1,
+    "mobs": 15
+   }
+  ]
+ },
+ "파이어 에로우": {
+  "sourceId": 2101004,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 33.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 36.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 39.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 42.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 45.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 48.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 51.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 54.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 57.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 60.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 63.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 66.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 69.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 72.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 75.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 78.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 81.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 84.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 87.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 90.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 93.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 96.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 99.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 102.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 105.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 108.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 111.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 114.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 117.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 120.0,
+    "hits": 1,
+    "mobs": 1
+   }
+  ]
+ },
+ "익스플로전": {
+  "sourceId": 2111002,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 60.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 64.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 68.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 71.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 74.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 77.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 79.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 81.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 83.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 86.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 88.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 90.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 92.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 94.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 97.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 99.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 101.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 103.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 105.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 108.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 110.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 112.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 114.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 116.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 119.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 121.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 123.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 125.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 127.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 130.0,
+    "hits": 1,
+    "mobs": 6
+   }
+  ]
+ },
+ "페럴라이즈": {
+  "sourceId": 2121006,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 163.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 166.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 169.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 172.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 175.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 178.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 181.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 184.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 187.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 190.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 193.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 196.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 199.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 202.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 205.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 208.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 211.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 214.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 217.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 220.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 222.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 224.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 226.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 228.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 230.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 232.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 234.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 236.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 238.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 240.0,
+    "hits": 1,
+    "mobs": 1
+   }
+  ]
+ },
+ "메테오": {
+  "sourceId": 2121007,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 330.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 340.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 350.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 360.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 370.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 380.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 390.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 400.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 410.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 420.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 430.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 440.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 450.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 460.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 470.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 480.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 490.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 500.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 510.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 520.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 530.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 540.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 550.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 560.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 570.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 580.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 590.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 600.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 610.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 620.0,
+    "hits": 1,
+    "mobs": 15
+   }
+  ]
+ },
+ "콜드 빔": {
+  "sourceId": 2201004,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 13.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 16.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 19.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 22.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 25.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 28.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 31.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 34.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 37.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 40.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 43.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 46.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 49.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 52.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 55.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 58.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 61.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 64.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 67.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 70.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 73.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 76.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 79.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 82.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 85.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 88.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 91.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 94.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 97.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 100.0,
+    "hits": 1,
+    "mobs": 1
+   }
+  ]
+ },
+ "썬더 볼트": {
+  "sourceId": 2201005,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 2.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 4.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 6.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 8.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 10.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 12.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 14.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 16.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 18.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 20.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 22.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 24.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 26.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 28.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 30.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 32.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 34.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 36.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 38.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 40.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 42.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 44.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 46.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 48.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 50.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 52.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 54.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 56.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 58.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 60.0,
+    "hits": 1,
+    "mobs": 6
+   }
+  ]
+ },
+ "아이스 스트라이크": {
+  "sourceId": 2211002,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 32.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 34.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 36.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 38.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 40.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 42.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 44.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 46.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 48.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 50.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 52.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 54.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 56.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 58.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 60.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 62.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 64.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 66.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 68.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 70.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 72.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 74.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 76.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 78.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 80.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 82.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 84.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 86.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 88.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 90.0,
+    "hits": 1,
+    "mobs": 6
+   }
+  ]
+ },
+ "체인 라이트닝": {
+  "sourceId": 2221006,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 104.0,
+    "hits": 1,
+    "mobs": 2
+   },
+   {
+    "damage": 108.0,
+    "hits": 1,
+    "mobs": 2
+   },
+   {
+    "damage": 112.0,
+    "hits": 1,
+    "mobs": 2
+   },
+   {
+    "damage": 116.0,
+    "hits": 1,
+    "mobs": 2
+   },
+   {
+    "damage": 120.0,
+    "hits": 1,
+    "mobs": 2
+   },
+   {
+    "damage": 124.0,
+    "hits": 1,
+    "mobs": 2
+   },
+   {
+    "damage": 128.0,
+    "hits": 1,
+    "mobs": 3
+   },
+   {
+    "damage": 132.0,
+    "hits": 1,
+    "mobs": 3
+   },
+   {
+    "damage": 136.0,
+    "hits": 1,
+    "mobs": 3
+   },
+   {
+    "damage": 140.0,
+    "hits": 1,
+    "mobs": 3
+   },
+   {
+    "damage": 144.0,
+    "hits": 1,
+    "mobs": 3
+   },
+   {
+    "damage": 148.0,
+    "hits": 1,
+    "mobs": 3
+   },
+   {
+    "damage": 152.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 156.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 160.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 164.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 168.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 172.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 176.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 180.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 183.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 186.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 189.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 192.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 195.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 198.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 201.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 204.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 207.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 210.0,
+    "hits": 1,
+    "mobs": 6
+   }
+  ]
+ },
+ "블리자드": {
+  "sourceId": 2221007,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 330.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 340.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 350.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 360.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 370.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 380.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 390.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 400.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 410.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 420.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 430.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 440.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 450.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 460.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 470.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 480.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 490.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 500.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 510.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 520.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 530.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 540.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 550.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 560.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 570.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 580.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 585.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 590.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 595.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 600.0,
+    "hits": 1,
+    "mobs": 15
+   }
+  ]
+ },
+ "홀리 에로우": {
+  "sourceId": 2301005,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 22.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 24.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 26.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 28.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 30.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 32.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 34.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 36.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 38.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 40.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 42.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 44.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 46.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 48.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 50.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 52.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 54.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 56.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 58.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 60.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 62.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 64.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 66.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 68.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 70.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 72.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 74.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 76.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 78.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 80.0,
+    "hits": 1,
+    "mobs": 1
+   }
+  ]
+ },
+ "샤이닝 레이": {
+  "sourceId": 2311004,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 60.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 62.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 64.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 66.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 68.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 70.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 72.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 74.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 76.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 78.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 80.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 82.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 84.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 86.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 88.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 90.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 92.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 93.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 94.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 95.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 96.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 97.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 98.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 99.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 100.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 101.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 102.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 103.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 104.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 105.0,
+    "hits": 1,
+    "mobs": 6
+   }
+  ]
+ },
+ "엔젤레이": {
+  "sourceId": 2321007,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 133.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 136.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 139.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 142.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 145.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 148.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 151.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 154.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 157.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 160.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 164.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 168.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 172.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 176.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 180.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 184.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 188.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 192.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 196.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 200.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 205.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 210.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 215.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 220.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 225.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 230.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 235.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 240.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 245.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 250.0,
+    "hits": 1,
+    "mobs": 6
+   }
+  ]
+ },
+ "제네시스": {
+  "sourceId": 2321008,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 410.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 420.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 430.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 440.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 450.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 460.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 470.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 480.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 490.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 500.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 510.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 520.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 530.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 540.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 550.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 560.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 570.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 580.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 590.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 600.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 605.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 610.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 615.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 620.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 625.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 630.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 635.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 640.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 645.0,
+    "hits": 1,
+    "mobs": 15
+   },
+   {
+    "damage": 650.0,
+    "hits": 1,
+    "mobs": 15
+   }
+  ]
+ },
+ "더블샷": {
+  "sourceId": 3001005,
+  "maxLevel": 20,
+  "levels": [
+   {
+    "damage": 92.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 94.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 96.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 98.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 100.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 102.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 104.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 106.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 108.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 110.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 112.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 114.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 116.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 118.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 120.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 122.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 124.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 126.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 128.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 130.0,
+    "hits": 2,
+    "mobs": 1
+   }
+  ]
+ },
+ "애로우 봄": {
+  "sourceId": 3101005,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 52.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 55.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 58.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 61.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 64.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 67.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 70.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 73.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 76.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 76.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 82.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 85.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 88.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 90.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 93.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 95.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 98.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 100.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 103.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 105.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 108.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 110.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 113.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 115.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 118.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 120.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 123.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 125.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 128.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 130.0,
+    "hits": 1,
+    "mobs": 6
+   }
+  ]
+ },
+ "스트레이프": {
+  "sourceId": 3111006,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 52.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 54.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 56.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 58.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 60.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 62.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 64.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 66.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 68.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 70.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 72.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 74.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 76.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 78.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 80.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 82.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 84.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 86.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 88.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 90.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 91.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 92.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 93.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 94.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 95.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 96.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 97.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 98.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 99.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 100.0,
+    "hits": 4,
+    "mobs": 1
+   }
+  ]
+ },
+ "피어싱 애로우": {
+  "sourceId": 3221001,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 320.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 340.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 360.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 380.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 400.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 420.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 440.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 460.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 480.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 500.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 520.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 540.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 560.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 580.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 600.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 620.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 640.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 660.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 680.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 700.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 715.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 730.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 745.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 760.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 775.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 790.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 805.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 820.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 835.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 850.0,
+    "hits": 1,
+    "mobs": 6
+   }
+  ]
+ },
+ "럭키세븐": {
+  "sourceId": 4001344,
+  "maxLevel": 20,
+  "levels": [
+   {
+    "damage": 58.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 62.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 66.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 70.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 76.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 80.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 84.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 90.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 94.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 100.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 104.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 110.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 114.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 120.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 124.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 130.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 134.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 140.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 144.0,
+    "hits": 2,
+    "mobs": 1
+   },
+   {
+    "damage": 150.0,
+    "hits": 2,
+    "mobs": 1
+   }
+  ]
+ },
+ "어벤져": {
+  "sourceId": 4111005,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 65.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 70.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 75.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 80.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 85.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 90.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 90.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 100.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 105.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 110.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 114.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 118.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 122.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 126.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 130.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 134.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 138.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 142.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 146.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 150.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 153.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 156.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 159.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 162.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 165.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 168.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 171.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 174.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 177.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 180.0,
+    "hits": 1,
+    "mobs": 6
+   }
+  ]
+ },
+ "트리플 스로우": {
+  "sourceId": 4121007,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 102.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 104.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 106.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 108.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 110.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 112.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 114.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 116.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 118.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 120.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 122.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 124.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 126.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 128.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 130.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 132.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 134.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 136.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 138.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 140.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 141.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 142.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 143.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 144.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 145.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 146.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 147.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 148.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 149.0,
+    "hits": 3,
+    "mobs": 1
+   },
+   {
+    "damage": 150.0,
+    "hits": 3,
+    "mobs": 1
+   }
+  ]
+ },
+ "새비지블로우": {
+  "sourceId": 4201005,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 40.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 44.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 48.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 52.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 56.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 60.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 64.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 68.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 72.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 74.0,
+    "hits": 4,
+    "mobs": 1
+   },
+   {
+    "damage": 60.0,
+    "hits": 5,
+    "mobs": 1
+   },
+   {
+    "damage": 62.0,
+    "hits": 5,
+    "mobs": 1
+   },
+   {
+    "damage": 64.0,
+    "hits": 5,
+    "mobs": 1
+   },
+   {
+    "damage": 66.0,
+    "hits": 5,
+    "mobs": 1
+   },
+   {
+    "damage": 68.0,
+    "hits": 5,
+    "mobs": 1
+   },
+   {
+    "damage": 70.0,
+    "hits": 5,
+    "mobs": 1
+   },
+   {
+    "damage": 72.0,
+    "hits": 5,
+    "mobs": 1
+   },
+   {
+    "damage": 74.0,
+    "hits": 5,
+    "mobs": 1
+   },
+   {
+    "damage": 76.0,
+    "hits": 5,
+    "mobs": 1
+   },
+   {
+    "damage": 78.0,
+    "hits": 5,
+    "mobs": 1
+   },
+   {
+    "damage": 71.0,
+    "hits": 6,
+    "mobs": 1
+   },
+   {
+    "damage": 72.0,
+    "hits": 6,
+    "mobs": 1
+   },
+   {
+    "damage": 73.0,
+    "hits": 6,
+    "mobs": 1
+   },
+   {
+    "damage": 74.0,
+    "hits": 6,
+    "mobs": 1
+   },
+   {
+    "damage": 75.0,
+    "hits": 6,
+    "mobs": 1
+   },
+   {
+    "damage": 76.0,
+    "hits": 6,
+    "mobs": 1
+   },
+   {
+    "damage": 77.0,
+    "hits": 6,
+    "mobs": 1
+   },
+   {
+    "damage": 78.0,
+    "hits": 6,
+    "mobs": 1
+   },
+   {
+    "damage": 79.0,
+    "hits": 6,
+    "mobs": 1
+   },
+   {
+    "damage": 80.0,
+    "hits": 6,
+    "mobs": 1
+   }
+  ]
+ },
+ "부메랑스텝": {
+  "sourceId": 4221007,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 260.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 270.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 280.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 290.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 300.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 310.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 320.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 330.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 340.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 350.0,
+    "hits": 2,
+    "mobs": 2
+   },
+   {
+    "damage": 360.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 370.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 380.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 390.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 400.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 410.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 420.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 430.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 440.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 450.0,
+    "hits": 2,
+    "mobs": 3
+   },
+   {
+    "damage": 455.0,
+    "hits": 2,
+    "mobs": 4
+   },
+   {
+    "damage": 460.0,
+    "hits": 2,
+    "mobs": 4
+   },
+   {
+    "damage": 465.0,
+    "hits": 2,
+    "mobs": 4
+   },
+   {
+    "damage": 470.0,
+    "hits": 2,
+    "mobs": 4
+   },
+   {
+    "damage": 475.0,
+    "hits": 2,
+    "mobs": 4
+   },
+   {
+    "damage": 480.0,
+    "hits": 2,
+    "mobs": 4
+   },
+   {
+    "damage": 485.0,
+    "hits": 2,
+    "mobs": 4
+   },
+   {
+    "damage": 490.0,
+    "hits": 2,
+    "mobs": 4
+   },
+   {
+    "damage": 495.0,
+    "hits": 2,
+    "mobs": 4
+   },
+   {
+    "damage": 500.0,
+    "hits": 2,
+    "mobs": 4
+   }
+  ]
+ },
+ "쇼크웨이브": {
+  "sourceId": 5111006,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 265.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 280.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 295.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 310.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 325.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 340.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 355.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 370.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 385.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 400.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 415.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 430.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 445.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 460.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 475.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 490.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 505.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 520.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 535.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 550.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 565.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 580.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 595.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 610.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 625.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 640.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 655.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 670.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 685.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 700.0,
+    "hits": 1,
+    "mobs": 6
+   }
+  ]
+ },
+ "드래곤 스트라이크": {
+  "sourceId": 5121001,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 275.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 290.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 305.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 320.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 335.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 350.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 365.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 380.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 395.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 410.0,
+    "hits": 1,
+    "mobs": 4
+   },
+   {
+    "damage": 475.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 490.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 505.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 520.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 535.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 550.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 565.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 580.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 595.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 610.0,
+    "hits": 1,
+    "mobs": 5
+   },
+   {
+    "damage": 675.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 690.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 705.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 720.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 735.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 750.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 765.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 780.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 795.0,
+    "hits": 1,
+    "mobs": 6
+   },
+   {
+    "damage": 810.0,
+    "hits": 1,
+    "mobs": 6
+   }
+  ]
+ },
+ "래피드파이어": {
+  "sourceId": 5221004,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 102.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 104.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 106.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 108.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 110.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 112.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 114.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 116.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 118.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 120.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 122.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 124.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 126.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 128.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 130.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 132.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 134.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 136.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 138.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 140.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 142.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 144.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 146.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 148.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 150.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 152.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 154.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 156.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 158.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 160.0,
+    "hits": 1,
+    "mobs": 1
+   }
+  ]
+ },
+ "배틀쉽 캐논": {
+  "sourceId": 5221007,
+  "maxLevel": 30,
+  "levels": [
+   {
+    "damage": 205.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 210.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 215.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 220.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 225.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 230.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 235.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 240.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 245.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 250.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 265.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 270.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 275.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 280.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 285.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 290.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 295.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 300.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 305.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 310.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 335.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 340.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 345.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 350.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 355.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 360.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 365.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 370.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 375.0,
+    "hits": 1,
+    "mobs": 1
+   },
+   {
+    "damage": 380.0,
+    "hits": 1,
+    "mobs": 1
+   }
+  ]
+ }
+}

@@ -128,6 +128,21 @@ _NAV_FILLER_RE = re.compile(
     r"(페이지|링크|주소|바로가기|알려\s*줘|보여\s*줘|가르쳐\s*줘|어디(야|에|서)?|있(어|나)요?|해줘|좀|요)"
 )
 
+# 페이지 사용 가이드 정본 — 프론트(PageGuide 패널)와 같은 파일을 읽는다
+PAGE_GUIDES_PATH = Path(__file__).resolve().parents[1] / "web" / "data" / "pageGuides.json"
+
+_HOWTO_RE = re.compile(
+    r"(어떻게\s*(써|쓰는|쓰나|사용|하는|이용)|사용\s*법|사용\s*방법|쓰는\s*법|이용\s*방법|이용법|가이드)"
+)
+
+
+@lru_cache(maxsize=1)
+def _page_guides() -> dict:
+    try:
+        return json.loads(PAGE_GUIDES_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        return {}
+
 PATCH_NEWS_PHRASES = (
     "패치노트",
     "패치 노트",
@@ -1328,6 +1343,35 @@ def _site_link_reply(text: str, *, navigation_only: bool = False) -> Optional[st
     return f"🔎 **{label}**는 여기에서 확인할 수 있어요.\n{_site()}{path}"
 
 
+def _guide_reply(question: str) -> Optional[str]:
+    """'체경비 어떻게 써?' 류 사용법 질문 — 페이지 가이드 요약으로 답한다."""
+    if not _HOWTO_RE.search(question):
+        return None
+    stripped = _HOWTO_RE.sub(" ", question)
+    matched = _match_site_rule(stripped)
+    if not matched:
+        return None
+    _label, path = matched
+    guide = _page_guides().get(path.split("?")[0])
+    if not guide:
+        return None  # 가이드 미보유 페이지 — 일반 링크 분기로 폴백
+    lines = [f"📖 **{guide['title']}**", guide.get("intro", ""), ""]
+    count = 0
+    for section in guide.get("sections", []):
+        for item in section.get("items", []):
+            if count >= 5:
+                break
+            prefix = f"**{item['label']}** — " if item.get("label") else ""
+            lines.append(f"• {prefix}{item['text']}")
+            count += 1
+        if count >= 5:
+            break
+    if guide.get("tip"):
+        lines.append(f"\n💡 {guide['tip']}")
+    lines.append(f"\n바로가기: {_site()}{path} — 페이지의 '❔ 사용 가이드' 버튼에서 전체 보기")
+    return "\n".join(lines)
+
+
 def _should_web_search(text: str) -> bool:
     """Use paid/limited grounding only when the user asks for fresh web facts."""
     normalized = _clean_spaces(text).lower()
@@ -1604,6 +1648,12 @@ async def handle_chat_message(
             reply = _notice_list_reply(rows[:3], session, kind=news_intent)
         _remember(session, question, reply)
         return reply
+
+    # "○○ 어떻게 써?" — 사용법 질문은 페이지 가이드 요약으로 (링크 분기보다 먼저)
+    guide_reply = _guide_reply(question)
+    if guide_reply:
+        _remember(session, question, guide_reply)
+        return guide_reply
 
     # 내비게이션 확신 질문("몬스터 검색 페이지", "드랍검색", "오늘의 몬스터")은
     # 몹/드랍 분기가 가로채기 전에 사이트 링크로 응답한다 — 분기 순서 때문에
