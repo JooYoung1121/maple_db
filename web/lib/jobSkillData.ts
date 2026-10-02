@@ -1,5 +1,6 @@
 /**
- * 직업별 무기·마스터리·스킬 데이터 (빅뱅 전 12직업) — /nhit에서 추출한 공유 정본.
+ * 직업별 무기·마스터리·스킬 데이터 (모험가 12 + 배틀메이지 + 시그너스 5 = 18직업) —
+ * /nhit에서 추출해 /hp-exp와 공유하는 정본.
  * /nhit(엔방컷 계산기)와 /hp-exp(체경비 내 캐릭터 계산)가 함께 사용한다.
  * 스킬 수치는 만렙 기준 단일값 — 레벨별 수치(sim_skills.level_properties) 파싱은 v2 백로그.
  */
@@ -341,6 +342,109 @@ export const JOB_SKILL_DATA: Record<string, JobSkillData> = {
       },
     ],
   },
+  // ─── 배틀메이지 (메랜 2.0 특별 추가 직업) ───
+  // 수치 출처: web/data/battleMage.ts — 메이플랜드 1.2.105 공지 기준 마스터 '기본 공격력'
+  // (마법 공식의 skillPct 자리). 스킬 시뮬 DB에 없어 레벨별 수치는 만렙값 보간(근사),
+  // minDamage(레벨 1)는 마스터 수치의 절반 근사치다.
+  "배틀메이지": {
+    label: "배틀메이지",
+    weapons: [],
+    isMagic: true,
+    passives: [],
+    actives: [
+      { name: "트리플 블로우", damage: 20, hits: 3, mobs: 6, type: "active", minDamage: 10, maxLevel: 20 },
+      { name: "쿼드 블로우", damage: 28, hits: 4, mobs: 6, type: "active", minDamage: 14, maxLevel: 20 },
+      { name: "데스 블로우", damage: 42, hits: 5, mobs: 6, type: "active", minDamage: 22, maxLevel: 20 },
+      { name: "다크 체인", damage: 80, hits: 1, mobs: 6, type: "active", minDamage: 40, maxLevel: 20 },
+      { name: "다크 라이트닝", damage: 300, hits: 1, mobs: 6, type: "active", minDamage: 150, maxLevel: 20 },
+    ],
+    buffs: [],
+  },
+  // ─── 시그너스 기사단 (프리BB Lv.120 캡 · 3차까지) ───
+  // 수치 출처: sim_skills(KMST 크롤) — export_skill_levels.py 가 레벨별 곡선을 입힌다.
+  // 모험가와 이름이 같은데 수치가 다른 스킬(브랜디쉬 230 vs 260 등)은 "(시그너스)" 접미 +
+  // export PINNED 로 시그너스 원본 행에 고정한다. 마스터리 60%는 모험가와 동일 스케일(추론).
+  "소울마스터": {
+    label: "소울마스터",
+    weapons: ["한손검", "두손검"],
+    isMagic: false,
+    passives: [
+      { name: "소드 마스터리", type: "passive", mastery: 60, description: "검 최소 데미지 보장 (60%)" },
+    ],
+    actives: [
+      { name: "파워스트라이크", damage: 260, hits: 1, mobs: 1, type: "active", minDamage: 165, maxLevel: 20 },
+      { name: "슬래시블래스트", damage: 130, hits: 1, mobs: 6, type: "active", minDamage: 72, maxLevel: 20 },
+      { name: "소울 블레이드", damage: 180, hits: 1, mobs: 5, type: "active", minDamage: 95, maxLevel: 30 },
+      { name: "브랜디쉬 (시그너스)", damage: 230, hits: 2, mobs: 3, type: "active", minDamage: 115, maxLevel: 30 },
+      { name: "소울 드라이버", damage: 75, hits: 4, mobs: 8, type: "active", minDamage: 46, maxLevel: 30 },
+    ],
+    buffs: [],
+  },
+  "플레임위자드": {
+    label: "플레임위자드",
+    weapons: [],
+    isMagic: true,
+    passives: [],
+    actives: [
+      { name: "매직 클로", damage: 40, hits: 2, mobs: 1, type: "active", minDamage: 11, maxLevel: 20 },
+      { name: "파이어 에로우 (시그너스)", damage: 110, hits: 1, mobs: 1, type: "active", element: "fire", minDamage: 53, maxLevel: 20 },
+      { name: "파이어 필라", damage: 80, hits: 1, mobs: 6, type: "active", element: "fire", minDamage: 42, maxLevel: 20 },
+      { name: "파이어 스트라이크", damage: 140, hits: 1, mobs: 6, type: "active", element: "fire", minDamage: 73, maxLevel: 30 },
+      { name: "메테오 (시그너스)", damage: 500, hits: 1, mobs: 15, type: "active", element: "fire", minDamage: 310, maxLevel: 20 },
+    ],
+    buffs: [],
+  },
+  "윈드브레이커": {
+    label: "윈드브레이커",
+    weapons: ["활"],
+    isMagic: false,
+    passives: [
+      { name: "보우 마스터리", type: "passive", mastery: 60, description: "활 최소 데미지 보장 (60%)" },
+    ],
+    actives: [
+      { name: "더블샷", damage: 130, hits: 2, mobs: 1, type: "active", minDamage: 92, maxLevel: 20 },
+      { name: "스톰 브레이크", damage: 160, hits: 1, mobs: 6, type: "active", minDamage: 65, maxLevel: 20 },
+      { name: "에로우 레인 (시그너스)", damage: 160, hits: 1, mobs: 6, type: "active", minDamage: 65, maxLevel: 20 },
+      { name: "스트레이프", damage: 100, hits: 4, mobs: 1, type: "active", minDamage: 50, maxLevel: 30 },
+      { name: "윈드 샷", damage: 350, hits: 3, mobs: 1, type: "active", minDamage: 160, maxLevel: 20 },
+      { name: "윈드 피어싱", damage: 550, hits: 1, mobs: 6, type: "active", minDamage: 170, maxLevel: 20 },
+    ],
+    buffs: [],
+  },
+  "나이트워커": {
+    label: "나이트워커",
+    weapons: ["아대/클로"],
+    isMagic: false,
+    passives: [
+      { name: "자벨린 마스터리", type: "passive", mastery: 60, description: "아대 최소 데미지 보장 (60%)" },
+    ],
+    actives: [
+      { name: "럭키세븐", damage: 150, hits: 2, mobs: 1, type: "active", minDamage: 58, maxLevel: 20 },
+      { name: "트리플 스로우 (시그너스)", damage: 140, hits: 3, mobs: 1, type: "active", minDamage: 102, maxLevel: 20 },
+      { name: "어벤져", damage: 180, hits: 1, mobs: 6, type: "active", minDamage: 65, maxLevel: 30 },
+      { name: "포이즌 봄", damage: 220, hits: 1, mobs: 6, type: "active", element: "poison", minDamage: 104, maxLevel: 30 },
+      { name: "뱀파이어", damage: 30, hits: 4, mobs: 6, type: "active", minDamage: 11, maxLevel: 20 },
+    ],
+    buffs: [],
+  },
+  "스트라이커": {
+    label: "스트라이커",
+    weapons: ["너클"],
+    isMagic: false,
+    passives: [
+      { name: "너클 마스터리", type: "passive", mastery: 60, description: "너클 최소 데미지 보장 (60%)" },
+    ],
+    actives: [
+      { name: "스트레이트", damage: 270, hits: 1, mobs: 1, type: "active", minDamage: 156, maxLevel: 20 },
+      { name: "써머솔트 킥", damage: 190, hits: 1, mobs: 6, type: "active", minDamage: 114, maxLevel: 20 },
+      { name: "스크류 펀치", damage: 420, hits: 1, mobs: 3, type: "active", minDamage: 135, maxLevel: 20 },
+      { name: "에너지 버스터 (시그너스)", damage: 360, hits: 1, mobs: 3, type: "active", minDamage: 246, maxLevel: 20 },
+      { name: "샤크 웨이브", damage: 270, hits: 1, mobs: 6, type: "active", minDamage: 125, maxLevel: 30 },
+      { name: "쇼크웨이브 (시그너스)", damage: 650, hits: 1, mobs: 6, type: "active", minDamage: 270, maxLevel: 20 },
+      { name: "피스트 (시그너스)", damage: 170, hits: 6, mobs: 1, type: "active", minDamage: 94, maxLevel: 20 },
+    ],
+    buffs: [],
+  },
 };
 
 // 직업 그룹
@@ -350,6 +454,8 @@ export const JOB_GROUPS: Record<string, string[]> = {
   "궁수": ["보우마스터", "신궁"],
   "도적": ["나이트로드", "섀도어"],
   "해적": ["바이퍼", "캡틴"],
+  "레지스탕스": ["배틀메이지"],
+  "시그너스": ["소울마스터", "플레임위자드", "윈드브레이커", "나이트워커", "스트라이커"],
 };
 
 export const JOB_GROUP_KEYS = Object.keys(JOB_GROUPS);
@@ -369,4 +475,10 @@ export const JOB_STAT_DEFAULTS: Record<string, { subStatDefault: number }> = {
   "섀도어":     { subStatDefault: 29 },  // STR+DEX 29 고정
   "바이퍼":     { subStatDefault: 25 },  // DEX 25 고정
   "캡틴":       { subStatDefault: 25 },  // STR 25 고정
+  "배틀메이지": { subStatDefault: 20 },  // LUK 20 고정
+  "소울마스터": { subStatDefault: 25 },  // DEX 25 고정
+  "플레임위자드": { subStatDefault: 20 },  // LUK 20 고정
+  "윈드브레이커": { subStatDefault: 25 },  // STR 25 고정
+  "나이트워커": { subStatDefault: 29 },  // STR+DEX 29 고정
+  "스트라이커": { subStatDefault: 25 },  // DEX 25 고정
 };

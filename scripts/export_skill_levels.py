@@ -44,6 +44,19 @@ ALIASES = {
 # (신궁 '블리자드(석궁)'는 sim_skills에 없고, 괄호를 떼면 아크메이지 블리자드(600%)에 오매칭)
 EXCLUDE = {"블리자드(석궁)"}
 
+# 모험가와 동명이지만 수치가 다른 시그너스 스킬 — sim_skills 행 ID로 직접 고정
+# (이름 매칭은 모험가 우선이라, 괄호를 떼면 모험가 곡선(브랜디쉬 260% 등)을 잘못 집는다)
+PINNED = {
+    "브랜디쉬 (시그너스)": 11111004,     # 소울마스터 230%×2
+    "메테오 (시그너스)": 12111003,       # 플레임위자드 500
+    "파이어 에로우 (시그너스)": 12101002,  # 플레임위자드 110
+    "에로우 레인 (시그너스)": 13111000,     # 윈드브레이커 160 (M20 — 보마 M30과 곡선 상이)
+    "트리플 스로우 (시그너스)": 14111005,   # 나이트워커 140
+    "에너지 버스터 (시그너스)": 15101005,   # 스트라이커 360
+    "쇼크웨이브 (시그너스)": 15111003,      # 스트라이커 650
+    "피스트 (시그너스)": 15111004,          # 스트라이커 170×6
+}
+
 ACTIVE_RE = re.compile(
     r'\{ name: "(?P<name>[^"]+)", damage: (?P<damage>\d+), hits: (?P<hits>\d+)'
     r"(?:, mobs: (?P<mobs>\d+))?"
@@ -88,11 +101,13 @@ def parse_levels(row, hard_hits: int, hard_mobs: int) -> list[dict] | None:
     return levels
 
 
-def main() -> int:
-    ts = TS_PATH.read_text(encoding="utf-8")
-    conn = sqlite3.connect(f"file:{DB_PATH}?mode=ro", uri=True)
-    conn.row_factory = sqlite3.Row
+def build_output(ts: str, conn) -> tuple[dict[str, dict], list[str], list[str]]:
+    """매칭 결과 (JSON 내용, 폴백 스킬 목록, 만렙값 상이 목록) — 동기화 테스트와 공유."""
     index = build_index(conn)
+    by_id = {}
+    for rows in index.values():
+        for r in rows:
+            by_id[r["id"]] = r
 
     out: dict[str, dict] = {}
     fallback: list[str] = []
@@ -110,13 +125,20 @@ def main() -> int:
         hard_hits = int(m.group("hits"))
         hard_mobs = int(m.group("mobs") or 1)
 
-        base = re.sub(r"\s*\(.*\)$", "", name)
-        key = norm(ALIASES.get(base, ALIASES.get(name, base)))
-        cands = index.get(key)
-        if not cands:
+        if name in PINNED:
+            row = by_id.get(PINNED[name])
+        else:
+            base = re.sub(r"\s*\(.*\)$", "", name)
+            key = norm(ALIASES.get(base, ALIASES.get(name, base)))
+            cands = index.get(key)
+            row = (
+                sorted(cands, key=lambda r: (r["id"] >= 10_000_000, r["id"]))[0]
+                if cands
+                else None
+            )
+        if row is None:
             fallback.append(name)
             continue
-        row = sorted(cands, key=lambda r: (r["id"] >= 10_000_000, r["id"]))[0]
         levels = parse_levels(row, hard_hits, hard_mobs)
         if not levels:
             fallback.append(name)
@@ -124,6 +146,14 @@ def main() -> int:
         out[name] = {"sourceId": row["id"], "maxLevel": len(levels), "levels": levels}
         if abs(levels[-1]["damage"] - hard_damage) > 0.5:
             diffs.append(f"{name}: 하드코딩 {hard_damage}% → DB {levels[-1]['damage']:g}%")
+    return out, fallback, diffs
+
+
+def main() -> int:
+    ts = TS_PATH.read_text(encoding="utf-8")
+    conn = sqlite3.connect(f"file:{DB_PATH}?mode=ro", uri=True)
+    conn.row_factory = sqlite3.Row
+    out, fallback, diffs = build_output(ts, conn)
 
     OUT_PATH.write_text(json.dumps(out, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"{OUT_PATH.name}: {len(out)}개 스킬 레벨 곡선 내보냄 / 폴백 {len(fallback)}개")
