@@ -24,6 +24,7 @@ export interface CanonDiffEntry {
 const OFFICIAL_DOJO_PATCH = "https://maple.land/board/notices/ze975xgn5g5p18nra6i1a6wf";
 const OFFICIAL_2_0_PATCH = "https://maple.land/board/notices/k2u06u7rr9x8vdzw7x1vse84";
 const OFFICIAL_ELLIN_PATCH = "https://maple.land/board/notices/s2hj2iam2upl57lbjayyxtt4";
+const OFFICIAL_1008_PATCH = "https://maple.land/board/notices/h0ifyesthgb4e79hecngkcgh";
 
 /**
  * 메이플랜드와 빅뱅 전 원작의 차이를 검증된 항목부터 쌓는 중앙 레지스트리.
@@ -230,6 +231,66 @@ export const CANON_DIFFS: Record<string, CanonDiffEntry> = {
     sourceUrl: OFFICIAL_ELLIN_PATCH,
     verifiedAt: "2026-08-07",
     entityType: "quest",
+  },
+  "region.malaysia": {
+    id: "region.malaysia",
+    path: "/maps",
+    subject: "말레이시아 지역",
+    status: "added",
+    mapleland:
+      "2026-10-08 추가. 각 마을의 스피넬로 이동하며, 스푸키 월드에서 보스 타르가 & 스칼리온에 도전할 수 있습니다(선행 퀘스트 + Lv.90 + '판타지 테마파크의 영혼' 소지, 7일 1회).",
+    original:
+      "빅뱅 전 KMS에는 없던 MSEA(동남아 서버) 전용 지역입니다. 몹 레벨은 공지 확정값이고 HP·EXP는 GMS v92 원본 참고값이라 실측과 다를 수 있습니다.",
+    note: "공지의 '히비스커스 길목 3'은 원본 데이터에 없는 메이플랜드 커스텀 맵이라 ID 확인 전까지 맵 목록에서 보류했습니다.",
+    sourceLabel: "메이플랜드 10/8 공식 패치노트",
+    sourceUrl: OFFICIAL_1008_PATCH,
+    originalSourceLabel: "GMS v92 원본 API",
+    originalSourceUrl: "https://maplestory.io/api/gms/92/map/551010000",
+    verifiedAt: "2026-10-08",
+    entityType: "map",
+  },
+  "item.chaos-scroll": {
+    id: "item.chaos-scroll",
+    path: "/items/2049100",
+    subject: "혼돈의 주문서 획득처",
+    status: "changed",
+    mapleland:
+      "인게임 콘텐츠로만 무료 획득. 원작 필드 드랍 몹에 더해 보스(발록·그리프·피아누스·파풀라투스·자쿰·스칼리온·타르가·카오스 자쿰·라이카·혼테일·대보스·영주 두꺼비·핑크빈)와 파티퀘스트 <크림슨우드 성채 공략> 보상 스테이지에서도 나옵니다.",
+    original: "원작(빅뱅 전)은 필드 몬스터 드랍 위주였고 보스 드랍 라인업이 이렇게 넓지 않았습니다.",
+    note: "드랍 확률은 공지에 공개되지 않아 전부 미공개입니다. 기존 참고값(옛메 블로그)은 '참고' 배지로 구분됩니다.",
+    sourceLabel: "메이플랜드 10/8 공식 패치노트",
+    sourceUrl: OFFICIAL_1008_PATCH,
+    verifiedAt: "2026-10-08",
+    entityType: "item",
+    entityId: 2049100,
+  },
+  "skill.viper-1008": {
+    id: "skill.viper-1008",
+    path: "/skills",
+    subject: "바이퍼 4차 스킬 상향",
+    status: "changed",
+    mapleland:
+      "마스터 기준 드래곤 스트라이크 850% · 피스트 250% · 데몰리션 435%.",
+    original: "원작(KMST)은 드래곤 스트라이크 810% · 피스트 230% · 데몰리션 400%.",
+    note: "공지는 마스터 수치만 공개해 저레벨 구간 곡선은 원작값을 유지하고 마스터 수치만 교정했습니다.",
+    sourceLabel: "메이플랜드 10/8 공식 패치노트",
+    sourceUrl: OFFICIAL_1008_PATCH,
+    verifiedAt: "2026-10-08",
+    entityType: "skill",
+    entityNames: ["드래곤 스트라이크", "피스트", "데몰리션"],
+  },
+  "skill.hero-enrage-1008": {
+    id: "skill.hero-enrage-1008",
+    path: "/skills",
+    subject: "히어로 인레이지 유지력",
+    status: "changed",
+    mapleland: "몬스터의 버프 해제 스킬에도 인레이지가 해제되지 않습니다.",
+    original: "원작에서는 몬스터 버프 해제(디스펠)에 인레이지도 지워졌습니다.",
+    sourceLabel: "메이플랜드 10/8 공식 패치노트",
+    sourceUrl: OFFICIAL_1008_PATCH,
+    verifiedAt: "2026-10-08",
+    entityType: "skill",
+    entityNames: ["인레이지"],
   },
 };
 

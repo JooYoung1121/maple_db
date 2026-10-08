@@ -142,11 +142,12 @@ const MILESTONES = [
 ];
 
 const BELTS = [
-  { itemId: 1132000, name: "흰색 허리띠", level: 25, points: 200, stat: "올스탯 +1", extra: "", defense: "물/마방 +10", avoid: 3 },
-  { itemId: 1132001, name: "노란색 허리띠", level: 35, points: 1800, stat: "올스탯 +2", extra: "", defense: "물/마방 +20", avoid: 6 },
-  { itemId: 1132002, name: "파란색 허리띠", level: 45, points: 4000, stat: "올스탯 +3", extra: "", defense: "물/마방 +30", avoid: 9 },
-  { itemId: 1132003, name: "빨간색 허리띠", level: 60, points: 9200, stat: "올스탯 +4", extra: "", defense: "물/마방 +40", avoid: 12 },
-  { itemId: 1132004, name: "검은색 허리띠", level: 75, points: 17000, stat: "올스탯 +3", extra: "공격력 +1 · 마력 +4", defense: "물/마방 +50", avoid: 15 },
+  // 2026-10-08 패치로 필요 점수 하향 (200/1800/4000/9200/17000 → 140/1300/2800/6400/12000)
+  { itemId: 1132000, name: "흰색 허리띠", level: 25, points: 140, stat: "올스탯 +1", extra: "", defense: "물/마방 +10", avoid: 3 },
+  { itemId: 1132001, name: "노란색 허리띠", level: 35, points: 1300, stat: "올스탯 +2", extra: "", defense: "물/마방 +20", avoid: 6 },
+  { itemId: 1132002, name: "파란색 허리띠", level: 45, points: 2800, stat: "올스탯 +3", extra: "", defense: "물/마방 +30", avoid: 9 },
+  { itemId: 1132003, name: "빨간색 허리띠", level: 60, points: 6400, stat: "올스탯 +4", extra: "", defense: "물/마방 +40", avoid: 12 },
+  { itemId: 1132004, name: "검은색 허리띠", level: 75, points: 12000, stat: "올스탯 +3", extra: "공격력 +1 · 마력 +4", defense: "물/마방 +50", avoid: 15 },
 ];
 
 export default function DojoPage() {

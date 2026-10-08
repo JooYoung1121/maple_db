@@ -24,13 +24,15 @@ const TARGETS: Target[] = [
   { stage: 32, floor: 38, boss: "무공", solo: 151, party: 119, note: "최상층 완주" },
 ];
 
+// 2026-10-08 패치로 필요 점수 하향 (140/1300/2800/6400/12000)
 const BELTS = [
-  { name: "흰색 허리띠", points: 200 },
-  { name: "노란색 허리띠", points: 1800 },
-  { name: "파란색 허리띠", points: 4000 },
-  { name: "빨간색 허리띠", points: 9200 },
-  { name: "검은색 허리띠", points: 17000 },
+  { name: "흰색 허리띠", points: 140 },
+  { name: "노란색 허리띠", points: 1300 },
+  { name: "파란색 허리띠", points: 2800 },
+  { name: "빨간색 허리띠", points: 6400 },
+  { name: "검은색 허리띠", points: 12000 },
 ];
+const MAX_POINTS = BELTS[BELTS.length - 1].points;
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, Number.isFinite(value) ? value : min));
@@ -47,9 +49,9 @@ export default function DojoCalculator() {
     const target = TARGETS[targetIndex];
     const score = mode === "solo" ? target.solo : target.party;
     const safeMinutes = clamp(minutes, 0.5, 180);
-    const safeCurrent = clamp(currentPoints, 0, 17000);
+    const safeCurrent = clamp(currentPoints, 0, MAX_POINTS);
     const safeRuns = Math.round(clamp(runsPerDay, 1, 1000));
-    const remaining = Math.max(0, 17000 - safeCurrent);
+    const remaining = Math.max(0, MAX_POINTS - safeCurrent);
     const runs = score > 0 ? Math.ceil(remaining / score) : 0;
     const hours = runs * safeMinutes / 60;
     const days = safeRuns > 0 ? Math.ceil(runs / safeRuns) : 0;
@@ -109,7 +111,7 @@ export default function DojoCalculator() {
 
           <div className="grid sm:grid-cols-3 gap-2">
             <NumberField label="한 판 실측 시간(분)" value={minutes} min={0.5} max={180} step={0.5} onChange={setMinutes} />
-            <NumberField label="현재 누적 점수" value={currentPoints} min={0} max={17000} step={1} onChange={setCurrentPoints} />
+            <NumberField label="현재 누적 점수" value={currentPoints} min={0} max={MAX_POINTS} step={1} onChange={setCurrentPoints} />
             <NumberField label="하루 목표 판수" value={runsPerDay} min={1} max={1000} step={1} onChange={setRunsPerDay} />
           </div>
         </div>
