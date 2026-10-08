@@ -15,6 +15,22 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.10.1",
+    date: "2026-10-08",
+    type: "patch",
+    title: "'공식' 드랍 배지 노출 수정 · 푸터 버전 갱신",
+    pages: ["/items", "/mobs", "/drop-search"],
+    features: [
+      {
+        category: "버그 수정",
+        items: [
+          "확률 미공개 드랍(공식 패치노트 명시)에서 '공식' 배지가 표시되지 않던 문제 수정 — 배지가 드랍률이 있을 때만 렌더되던 조건 제거 (아이템·몬스터 상세, 드랍 검색)",
+          "푸터·버전 페이지의 앱 버전이 4.9.0으로 남아 있던 누락 수정",
+        ],
+      },
+    ],
+  },
+  {
     version: "4.10.0",
     date: "2026-10-08",
     type: "minor",

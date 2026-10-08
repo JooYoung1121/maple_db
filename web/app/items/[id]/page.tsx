@@ -164,9 +164,9 @@ export default function ItemDetailPage() {
                 className="flex items-center justify-between px-4 py-3 hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]"
               >
                 <span className="font-medium">{m.mob_name_kr || m.mob_name}</span>
-                {m.drop_rate != null && (
+                {(m.drop_rate != null || m.drop_rate_source) && (
                   <span className="text-sm text-dim">
-                    {(m.drop_rate * 100).toFixed(2)}%
+                    {m.drop_rate != null && `${(m.drop_rate * 100).toFixed(2)}%`}
                     <DropRateBadge source={m.drop_rate_source} />
                   </span>
                 )}

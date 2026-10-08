@@ -199,7 +199,7 @@ export default function DropSearchPage() {
                         {(mob.drop_rate * 100).toFixed(2)}%
                       </span>
                     )}
-                    {mob.drop_rate !== null && <DropRateBadge source={mob.drop_rate_source} />}
+                    <DropRateBadge source={mob.drop_rate_source} />
                   </div>
                   {(mob.spawn_maps || []).length > 0 ? (
                     <div className="mt-3 pt-3 border-t border-edge/60">
