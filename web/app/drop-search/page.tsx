@@ -12,6 +12,7 @@ interface DropSource {
   mob_id: number;
   mob_name: string;
   mob_name_kr?: string | null;
+  icon_url?: string | null;
   drop_rate: number | null;
   drop_rate_source?: string | null;
   spawn_maps?: {
@@ -182,7 +183,11 @@ export default function DropSearchPage() {
                 <article key={mob.mob_id} className="pixel-card px-4 py-3">
                   <div className="flex items-center justify-between gap-3">
                     <Link href={`/mobs/${mob.mob_id}`} className="flex items-center gap-3 hover:text-maple">
-                      <span className="text-2xl" aria-hidden>👾</span>
+                      {mob.icon_url ? (
+                        <img src={mob.icon_url} alt="" className="w-8 h-8 object-contain" loading="lazy" />
+                      ) : (
+                        <span className="text-2xl" aria-hidden>👾</span>
+                      )}
                       <span>
                         <span className="font-medium block">{mob.mob_name_kr || mob.mob_name}</span>
                         <span className="text-[10px] text-dim">몬스터 ID {mob.mob_id}</span>
