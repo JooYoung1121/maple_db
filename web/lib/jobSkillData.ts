@@ -309,7 +309,8 @@ export const JOB_SKILL_DATA: Record<string, JobSkillData> = {
     actives: [
       { name: "코크스크류 블로우", damage: 420, hits: 1, mobs: 3, type: "active", minDamage: 135, maxLevel: 20 },
       { name: "쇼크웨이브", damage: 700, hits: 1, mobs: 6, type: "active", minDamage: 265, maxLevel: 30 },
-      { name: "드래곤 스트라이크", damage: 810, hits: 1, mobs: 6, type: "active", minDamage: 275, maxLevel: 30 },
+      // 2026-10-08 패치: 마스터 810% → 850% (레벨 곡선은 skillLevels.json 이 우선)
+      { name: "드래곤 스트라이크", damage: 850, hits: 1, mobs: 6, type: "active", minDamage: 275, maxLevel: 30 },
     ],
     buffs: [
       {

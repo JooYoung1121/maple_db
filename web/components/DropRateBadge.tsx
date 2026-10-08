@@ -1,10 +1,16 @@
 /**
  * 드랍률 출처 배지 — 수치 옆에 출처 신뢰도를 표기한다.
+ * - official:  공식 패치노트에 드랍 몹으로 명시 (확률은 미공개)
  * - community: 커뮤니티 실측 검증 (몬스터북·툴팁 스크린샷)
  * - mapledb:   메랜DB(mapledb.kr) 동기화 값
  * - maplekibun: 옛메 블로그 참고값 (메랜 실측 아님 — 상이할 수 있음)
  */
 const SOURCE_META: Record<string, { label: string; title: string; className: string }> = {
+  official: {
+    label: "공식",
+    title: "공식 패치노트에 드랍 몬스터로 명시됨 — 드랍 확률은 미공개",
+    className: "border-sky-600/60 text-sky-700 dark:text-sky-300",
+  },
   community: {
     label: "실측",
     title: "커뮤니티 실측 검증 (몬스터북·툴팁 스크린샷)",

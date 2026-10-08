@@ -1,0 +1,151 @@
+{
+  "550000000": {
+    "name": "Trend Zone Metropolis",
+    "street": "Malaysia",
+    "isTown": true,
+    "spawn_points": {},
+    "npcs": [
+      1022101,
+      2041017,
+      9000017,
+      9000021,
+      9010000,
+      9010009,
+      9010010,
+      9201135,
+      9270054,
+      9270055,
+      9270056,
+      9270057,
+      9270066
+    ]
+  },
+  "550000100": {
+    "name": "Outskirts of Muddy Banks",
+    "street": "Malaysia",
+    "isTown": false,
+    "spawn_points": {
+      "9420527": 15,
+      "9420528": 14
+    },
+    "npcs": [
+      9270058
+    ]
+  },
+  "550000200": {
+    "name": "Muddy Banks 1",
+    "street": "Malaysia",
+    "isTown": false,
+    "spawn_points": {
+      "9420530": 13,
+      "9420529": 15
+    },
+    "npcs": [
+      9270060
+    ]
+  },
+  "550000300": {
+    "name": "Muddy Banks 2",
+    "street": "Malaysia",
+    "isTown": false,
+    "spawn_points": {
+      "9420533": 17
+    },
+    "npcs": [
+      9270061
+    ]
+  },
+  "550000400": {
+    "name": "Muddy Banks 3",
+    "street": "Malaysia",
+    "isTown": false,
+    "spawn_points": {
+      "9420534": 16
+    },
+    "npcs": []
+  },
+  "551000000": {
+    "name": "Kampung Village",
+    "street": "Malaysia",
+    "isTown": true,
+    "spawn_points": {},
+    "npcs": [
+      9000001,
+      9000021,
+      9201135,
+      9270062,
+      9270065
+    ]
+  },
+  "551000100": {
+    "name": "Hibiscus Road 1",
+    "street": "Malaysia",
+    "isTown": false,
+    "spawn_points": {
+      "9420533": 9,
+      "9420534": 6
+    },
+    "npcs": []
+  },
+  "551000200": {
+    "name": "Hibiscus Road 2",
+    "street": "Malaysia",
+    "isTown": false,
+    "spawn_points": {
+      "9420532": 19,
+      "9420531": 18
+    },
+    "npcs": [
+      9270059
+    ]
+  },
+  "551010000": {
+    "name": "Fantasy Theme Park 1",
+    "street": "Malaysia",
+    "isTown": false,
+    "spawn_points": {
+      "9420535": 13,
+      "9420536": 16
+    },
+    "npcs": []
+  },
+  "551020000": {
+    "name": "Fantasy Theme Park 2",
+    "street": "Malaysia",
+    "isTown": false,
+    "spawn_points": {
+      "9420537": 7,
+      "9420538": 10
+    },
+    "npcs": []
+  },
+  "551030000": {
+    "name": "Fantasy Theme Park 3",
+    "street": "Malaysia",
+    "isTown": false,
+    "spawn_points": {
+      "9420539": 26
+    },
+    "npcs": []
+  },
+  "551030100": {
+    "name": "Entrance to the Spooky World",
+    "street": "Malaysia",
+    "isTown": false,
+    "spawn_points": {
+      "9420540": 17
+    },
+    "npcs": [
+      9270047
+    ]
+  },
+  "551030200": {
+    "name": "Spooky World",
+    "street": "Malaysia",
+    "isTown": false,
+    "spawn_points": {},
+    "npcs": [
+      9201134
+    ]
+  }
+}
