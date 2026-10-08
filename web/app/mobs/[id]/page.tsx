@@ -91,9 +91,9 @@ export default function MobDetailPage() {
                   <span className="font-medium">{d.name_kr || d.name}</span>
                   {d.category && <span className="text-xs text-dim bg-surface2 px-1.5 py-0.5 rounded">{d.category}</span>}
                 </div>
-                {d.drop_rate != null && (
+                {(d.drop_rate != null || d.drop_rate_source) && (
                   <span className="text-sm text-dim">
-                    {(d.drop_rate * 100).toFixed(2)}%
+                    {d.drop_rate != null && `${(d.drop_rate * 100).toFixed(2)}%`}
                     <DropRateBadge source={d.drop_rate_source} />
                   </span>
                 )}

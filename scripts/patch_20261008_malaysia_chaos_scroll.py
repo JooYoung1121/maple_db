@@ -132,7 +132,9 @@ SPAWNS: dict[int, list[tuple[int, int]]] = {
 
 # 혼돈의 주문서 드랍 — 공지 33종 중 기존 maplekibun 참고 행(24종)에 없는 몹만 추가.
 # (mob_id, 공지 표기) — 확률 미공개라 drop_rate 는 NULL, list_source='official'.
+# 기존 행이라도 확률·출처가 전혀 없으면(과거 수집 잔재) list_source='official' 스탬프만 찍는다.
 CHAOS_NEW_DROPS = [
+    (6110300, "호문"),          # 기존 무출처 빈 행 → official 스탬프 대상
     (2230131, "짜증내는 좀비버섯"),
     (8830000, "발록"),          # 마왕 발록 — 발록의 무덤 원정대 보스
     (8510000, "피아누스"),      # 우측
@@ -304,11 +306,19 @@ def main() -> int:
     drop_count = 0
     for mob_id, label in CHAOS_NEW_DROPS:
         exists = conn.execute(
-            "SELECT list_source FROM mob_drops WHERE mob_id=? AND item_id=?",
+            "SELECT drop_rate_source, list_source FROM mob_drops WHERE mob_id=? AND item_id=?",
             (mob_id, CHAOS_SCROLL_ID),
         ).fetchone()
         if exists:
-            print(f"drop SKIP(존재): {label}({mob_id})")
+            if exists[0] or exists[1]:
+                print(f"drop SKIP(존재): {label}({mob_id})")
+            else:
+                print(f"drop 스탬프: {label}({mob_id}) 무출처 행 → [official]")
+                if args.apply:
+                    conn.execute(
+                        "UPDATE mob_drops SET list_source='official' WHERE mob_id=? AND item_id=?",
+                        (mob_id, CHAOS_SCROLL_ID),
+                    )
             continue
         drop_count += 1
         print(f"drop: {label}({mob_id}) → 혼돈의 주문서 60% [official]")
