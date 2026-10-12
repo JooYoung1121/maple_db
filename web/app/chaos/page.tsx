@@ -192,7 +192,13 @@ export default function ChaosSimPage() {
     ])
       .then(([a, b]) => {
         const all = [...a.items, ...(b?.items ?? [])];
-        const usable = all.filter((it) => (it.upgrade_slots ?? 0) > 0 && Object.keys(linesFromStats(it.stats)).length > 0);
+        // 귀고리는 메랜에서 혼줌 사용 불가(인게임 실측) → 대상에서 제외
+        const usable = all.filter(
+          (it) =>
+            it.subcategory !== "Earrings" &&
+            (it.upgrade_slots ?? 0) > 0 &&
+            Object.keys(linesFromStats(it.stats)).length > 0,
+        );
         usable.sort((x, y) => (x.subcategory ?? "").localeCompare(y.subcategory ?? "") || (x.level_req - y.level_req) || x.id - y.id);
         setAccessories(usable);
       })
@@ -450,6 +456,7 @@ export default function ChaosSimPage() {
             )}
             <p className="text-[10px] text-dim">
               메랜에 노출되는 악세서리 중 업그레이드 횟수가 있고 옵션이 등록된 {accessories.length}개를 보여줍니다.
+              귀고리는 메랜에서 혼줌을 사용할 수 없어 제외했습니다.
               메랜 커스텀 옵션이 아직 DB에 없는 아이템(예: 금이 간 안경)은 &lsquo;직접 입력&rsquo;으로 수치를 넣어 시뮬할 수 있습니다.
             </p>
           </div>
