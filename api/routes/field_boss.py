@@ -13,7 +13,8 @@ from crawler.db import get_connection
 
 router = APIRouter()
 
-MAX_CHANNEL = 50
+# 메랜 2.0은 혼잡도에 따라 채널이 241+까지 열림(2026-10 실측) — 상한은 검증용 여유값
+MAX_CHANNEL = 999
 REPORT_WINDOW_HOURS = 24
 
 # 채널 로테이션으로 잡는 필드보스 큐레이션 (레벨 순).
