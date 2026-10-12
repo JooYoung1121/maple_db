@@ -658,7 +658,105 @@ export const HUNTING_SPOTS: HuntingSpot[] = [
     tips: "메이플랜드 최종 사냥터. 3:1 파티 구성으로 피로도 0. 비숍 제네시스 30 기준 1확컷: 마력 1,320+ (안정권). 2확컷: 마력 885~910. 히어로 남둥 젠컷 스공 6,500+. 다크나이트 버서크 30 스공 3,500~4,000. 성속성 약점이라 제네시스/홀리 계열이 강력.",
     source: "Gemini 분석 문서 + 나무위키 메이플랜드/사냥터 + 커뮤니티 공통 합의",
   },
+  // ─── 말레이시아 (10/8 패치 — 레벨은 공지 확정, HP/EXP/젠 수는 GMS v92 참고값) ───
+  {
+    id: "malaysia-mud-slope",
+    levelMin: 45,
+    levelMax: 57,
+    mapName: "진흙 사면 변두리 · 1 (말레이시아)",
+    mapNameEn: "Fringe of Muddy Banks",
+    region: "말레이시아",
+    monsters: [
+      { name: "클로로트랩", nameEn: "Chlorotrap", level: 45, hp: 2600, exp: 132 },
+      { name: "이모 슬라임", nameEn: "Emo Slime", level: 47, hp: 2850, exp: 135 },
+      { name: "다크 피션", nameEn: "Dark Fission", level: 52, hp: 3700, exp: 172 },
+      { name: "올리 올리", nameEn: "Oly Oly", level: 56, hp: 4600, exp: 185 },
+    ],
+    expPerHour: 45000,
+    jobs: ["전체"],
+    tips: "40대 중반 물몸 몹이 평지형 맵에 밀집 (변두리 29젠·사면1 28젠). 같은 레벨대 빛을잃은동굴1(혼줌 드랍)과 달리 혼줌은 안 나오지만, 신규 몬스터북 수집과 쾌적한 단독 사냥엔 이쪽. 각 마을 스피넬로 이동. ※ HP/EXP는 원본 참고값.",
+    source: "메랜 10/8 공식 패치노트 + GMS v92 (DB mobs)",
+  },
+  {
+    id: "malaysia-hibiscus-2",
+    levelMin: 57,
+    levelMax: 67,
+    mapName: "히비스커스 길목 2 (말레이시아)",
+    mapNameEn: "Hibiscus Road 2",
+    region: "말레이시아",
+    monsters: [
+      { name: "겁쟁이 스칼리온", nameEn: "Scaredy Scarlion", level: 59, hp: 5800, exp: 220 },
+      { name: "라타툴라", nameEn: "Ratatula", level: 59, hp: 6200, exp: 210 },
+    ],
+    expPerHour: 55000,
+    jobs: ["전체"],
+    tips: "말레이시아 저구간 밀도 최고(합계 37젠). 50대 후반에 죽숲·차벌 자리 경쟁 없이 사냥할 대안. 진흙 사면 2·3의 로데오(Lv61)·챠머(Lv65)로 이어진다. ※ HP/EXP는 원본 참고값.",
+    source: "메랜 10/8 공식 패치노트 + GMS v92 (DB mobs)",
+  },
+  {
+    id: "malaysia-theme-park-1",
+    levelMin: 66,
+    levelMax: 77,
+    mapName: "판타지 테마 파크 1 (말레이시아)",
+    mapNameEn: "Fantasy Theme Park 1",
+    region: "말레이시아",
+    monsters: [
+      { name: "제스터 스칼리온", nameEn: "Jester Scarlion", level: 68, hp: 12000, exp: 270 },
+      { name: "프로스콜라", nameEn: "Froscola", level: 72, hp: 15200, exp: 300 },
+    ],
+    expPerHour: 65000,
+    jobs: ["전체"],
+    tips: "두 몹 합계 29젠. 테마 파크 2의 야바 두(Lv75, 7젠)로 이어진다. 60대 후반 몬스터북 수집 겸 사냥 구간. ※ HP/EXP는 원본 참고값.",
+    source: "메랜 10/8 공식 패치노트 + GMS v92 (DB mobs)",
+  },
+  {
+    id: "malaysia-theme-park-3",
+    levelMin: 82,
+    levelMax: 95,
+    mapName: "판타지 테마 파크 2 · 3 (말레이시아) ★",
+    mapNameEn: "Fantasy Theme Park 2-3",
+    region: "말레이시아",
+    monsters: [
+      { name: "부퍼 스칼리온", nameEn: "Booper Scarlion", level: 82, hp: 28000, exp: 1250 },
+      { name: "바이크롤라", nameEn: "Vikerola", level: 87, hp: 36000, exp: 2000 },
+    ],
+    expPerHour: 110000,
+    jobs: ["전체"],
+    tips: "★주목 — 바이크롤라는 판타지 테마 파크 3 단일몹 26젠. 참고값 기준 EXP/HP 0.056으로 와일드카고(0.044)·다크 코니언(0.055)급 이상이라 광역 직업의 80대 후반~90대 신규 명당 후보. 실측 경험치가 참고값대로인지가 관건. ※ HP/EXP는 원본 참고값.",
+    source: "메랜 10/8 공식 패치노트 + GMS v92 (DB mobs)",
+  },
+  {
+    id: "malaysia-spooky-entrance",
+    levelMin: 90,
+    levelMax: 102,
+    mapName: "스푸키 월드 입구 (말레이시아)",
+    mapNameEn: "Entrance to Spooky World",
+    region: "말레이시아",
+    monsters: [
+      { name: "갤러페라", nameEn: "Gallopera", level: 94, hp: 43000, exp: 2500 },
+    ],
+    expPerHour: 100000,
+    jobs: ["전체"],
+    tips: "갤러페라 단일 17젠, 참고값 EXP/HP 0.058. 보스 타르가 & 스칼리온(스푸키 월드) 가는 길목이라 원정 전 몸풀기 겸 사냥 가능. ※ HP/EXP는 원본 참고값.",
+    source: "메랜 10/8 공식 패치노트 + GMS v92 (DB mobs)",
+  },
   // ─── 보스 ───
+  {
+    id: "boss-targa-scarlion",
+    levelMin: 90,
+    levelMax: 200,
+    mapName: "타르가 & 스칼리온 (보스)",
+    mapNameEn: "Targa & Scarlion (Boss)",
+    region: "말레이시아 스푸키 월드",
+    monsters: [
+      { name: "타르가", nameEn: "Furious Targa", level: 140, hp: 150000000, exp: 1344000 },
+      { name: "스칼리온", nameEn: "Furious Scarlion", level: 140, hp: 150000000, exp: 1344000 },
+    ],
+    expPerHour: 0,
+    jobs: ["전체"],
+    tips: "10/8 추가 신규 보스. 도전 조건(공지 확정): 선행 퀘스트 + Lv90 이상 + '판타지 테마파크의 영혼' 소지, 7일에 1회. 혼돈의 주문서 드랍 확정. 원본 기준 각각 3페이즈(HP 6천만→9천만→1억 5천만) — 메랜 패턴·스펙컷은 실측 수집 중.",
+    source: "메랜 10/8 공식 패치노트 + GMS v92 참고",
+  },
   {
     id: "boss-zakum",
     levelMin: 50,
@@ -857,6 +955,14 @@ export const LEVELING_SPOTS: LevelingSpot[] = [
   { levelMin: 30, levelMax: 40, map: "광산 입구 · 바위길 · 광석길", region: "레벤 광산 입구", monsters: ["안전제일", "아기 바위베어먹기", "큰 바위베어먹기"], tip: "안전제일 Lv31~큰 바위베어먹기 Lv35. 이후 40~65는 기존 공용 루트(와일드보어·쿨리좀비·차벌 등) 합류가 무난.", source: "https://archive.maplestory.nexon.com/News/Update/147", jobs: ["배틀메이지"] },
   { levelMin: 67, levelMax: 80, map: "갱도 1~4 · 너구리 소굴", region: "레벤 광산", monsters: ["경비로봇", "라키", "빅 스파이더", "카트베어", "라쿤", "경비로봇L"], tip: "경비로봇 Lv67~경비로봇L Lv79. 3차 데스 블로우 광역 구간 — 너구리 소굴(라쿤 밀집)이 핵심 자리 후보.", source: "https://archive.maplestory.nexon.com/News/Update/147", jobs: ["배틀메이지"] },
   { levelMin: 83, levelMax: 105, map: "겔리메르 연구소 (제 2 광장~)", region: "레벤 광산 심부", monsters: ["라칸", "방어 시스템", "강화된 방어 시스템", "AF형 안드로이드", "고장난 DF형 안드로이드", "광석 이터"], tip: "라칸 Lv83 → 광석 이터 Lv101 (레벨은 9/7 공지 확정값). 연구소 퀘스트 라인(겔리메르·실험에 필요한 것 1~3 등)과 병행.", source: "https://maple.land/board/notices/nbudy1h3t2wjeqrx8i94yupm", jobs: ["배틀메이지"] },
+
+  // ── 🇲🇾 말레이시아 (10/8 추가 — 몹 레벨은 공지 확정, 젠 수·HP/EXP는 GMS v92 참고값) ──
+  { levelMin: 45, levelMax: 57, map: "진흙 사면 변두리 · 1", region: "말레이시아", monsters: ["클로로트랩", "이모 슬라임", "다크 피션", "올리 올리"], tip: "각 마을 스피넬로 이동. 물몸 몹 평지 밀집(변두리 29젠·사면1 28젠) — 신규 몬스터북 수집 겸 쾌적한 단독 사냥. 혼줌 파밍이 목적이면 같은 레벨대 빛을잃은동굴1이 별도.", source: "https://maple.land/board/notices/h0ifyesthgb4e79hecngkcgh", common: true },
+  { levelMin: 57, levelMax: 67, map: "히비스커스 길목 2", region: "말레이시아", monsters: ["겁쟁이 스칼리온", "라타툴라"], tip: "말레이 저구간 밀도 최고(합계 37젠). 죽숲·차벌 자리 경쟁 없이 사냥할 50대 후반 대안. 진흙 사면 2·3 로데오·챠머로 연계.", source: "https://maple.land/board/notices/h0ifyesthgb4e79hecngkcgh", common: true },
+  { levelMin: 66, levelMax: 77, map: "판타지 테마 파크 1", region: "말레이시아", monsters: ["제스터 스칼리온", "프로스콜라"], tip: "합계 29젠. 야바 두(테마 파크 2, Lv75)로 이어지는 60대 후반 몬스터북 수집 겸 사냥 구간.", source: "https://maple.land/board/notices/h0ifyesthgb4e79hecngkcgh", common: true },
+  { levelMin: 82, levelMax: 95, map: "판타지 테마 파크 2 · 3 (바이크롤라)", region: "말레이시아", monsters: ["부퍼 스칼리온", "바이크롤라"], tip: "★바이크롤라 단일몹 26젠 — 참고값 EXP/HP 0.056으로 와일드카고급 이상. 광역 직업의 80대 후반~90대 신규 명당 후보 (실측 경험치 확인 전).", source: "https://maple.land/board/notices/h0ifyesthgb4e79hecngkcgh", common: true },
+  { levelMin: 90, levelMax: 102, map: "스푸키 월드 입구 (갤러페라)", region: "말레이시아", monsters: ["갤러페라"], tip: "갤러페라 단일 17젠, 참고값 EXP/HP 0.058. 타르가 & 스칼리온 원정(7일 1회, Lv90+) 가는 길목.", source: "https://maple.land/board/notices/h0ifyesthgb4e79hecngkcgh", common: true },
+  { levelMin: 90, levelMax: 200, map: "타르가 & 스칼리온 (스푸키 월드)", region: "말레이시아", monsters: ["타르가", "스칼리온"], tip: "10/8 신규 보스 — 선행퀘 + Lv90 + '판타지 테마파크의 영혼', 7일 1회. 혼돈의 주문서 드랍 확정. 원본 기준 3페이즈(최종 HP 1억 5천만).", source: "https://maple.land/board/notices/h0ifyesthgb4e79hecngkcgh", common: true, kind: "boss" },
 ];
 
 // ─── 직업별 특성 메모 ───
@@ -909,6 +1015,12 @@ export const MOB_LV: Record<string, number> = {
   "기억의 수도승": 91, "기억의 수도승 견습생": 94,
   "후회의 수도승 견습생": 109, "후회의 파수꾼": 113, "후회의 대파수꾼": 116,
   "망각의 수도승": 121, "망각의 수도승 견습생": 124, "망각의 파수꾼": 128,
+  // 말레이시아 (10/8 공지 확정 레벨)
+  "클로로트랩": 45, "이모 슬라임": 47, "다크 피션": 52, "올리 올리": 56,
+  "겁쟁이 스칼리온": 59, "라타툴라": 59, "로데오": 61, "챠머": 65,
+  "제스터 스칼리온": 68, "프로스콜라": 72, "야바 두": 75,
+  "부퍼 스칼리온": 82, "바이크롤라": 87, "갤러페라": 94,
+  "타르가": 140, "스칼리온": 140,
 };
 
 // 맵명 정확 일치 사냥터의 총 젠 수 (maplestory.io GMS/62 맵 데이터 기준, 정확 매칭만)
@@ -924,4 +1036,10 @@ export const SPOT_SPAWN: Record<string, number> = {
   "블루 와이번의 둥지 (심알바)": 12,
   "레드 와이번의 둥지 (얼음 약점)": 9,
   "큰 둥지 봉우리 (큰둥)": 6,
+  // 말레이시아 — GMS v92 스폰 (data/research/malaysia/gms92_map_spawns.json)
+  "진흙 사면 변두리 · 1": 57,
+  "히비스커스 길목 2": 37,
+  "판타지 테마 파크 1": 29,
+  "판타지 테마 파크 2 · 3 (바이크롤라)": 36,
+  "스푸키 월드 입구 (갤러페라)": 17,
 };

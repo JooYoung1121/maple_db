@@ -144,6 +144,20 @@
   "keywords": []
  },
  {
+  "href": "/chaos",
+  "label": "혼줌 시뮬레이터",
+  "homeLabel": null,
+  "description": "혼돈의 주문서 작 기대값 · 분포 · 직접 발라보기",
+  "keywords": [
+   "혼줌",
+   "혼돈의 주문서",
+   "검은색 허리띠",
+   "허리띠작",
+   "혼줌작",
+   "무릉 허리띠"
+  ]
+ },
+ {
   "href": "/skill-sim",
   "label": "스킬 시뮬레이터",
   "homeLabel": null,
@@ -301,6 +315,21 @@
   "keywords": []
  },
  {
+  "href": "/boss-timer?boss=hunt",
+  "label": "사냥 타이머",
+  "homeLabel": null,
+  "description": "파티 버프(심볼·샤프·메용) 리버프 · 파티원 입장 공유 타이머",
+  "keywords": [
+   "사냥 타이머",
+   "홀리심볼",
+   "심볼",
+   "샤프",
+   "메용",
+   "버프 타이머",
+   "리버프"
+  ]
+ },
+ {
   "href": "/wedding",
   "label": "결혼 시스템",
   "homeLabel": null,
@@ -345,12 +374,14 @@
   "href": "/boss-timer",
   "label": "보스 타이머",
   "homeLabel": null,
-  "description": "혼테일 · 카쿰 — 리저 · 유혹 · 벞해 쿨타임 공유",
+  "description": "혼테일 · 카쿰 · 사냥 — 원정대 관리 · 리저 · 유혹 · 벞해 쿨타임 공유",
   "keywords": [
    "카쿰 타이머",
    "혼테일 타이머",
    "리저 타이머",
-   "쿨타임"
+   "쿨타임",
+   "원정대 관리",
+   "공대 편성"
   ]
  },
  {

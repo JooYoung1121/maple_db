@@ -948,12 +948,14 @@ export async function resolveWeeklySprites(refs: import("./types").SpriteRef[]) 
   );
 }
 
-/* ── 공유 보스 타이머 (혼테일 · 카오스 자쿰) ────────────────────── */
+/* ── 공유 보스 타이머 (혼테일 · 카오스 자쿰 · 사냥) ────────────────────── */
 export interface BossTimerRoomResponse {
   changed: boolean;
   version: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state?: any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  expedition?: any; // 원정대 관리 보드 (구 방은 null)
   log?: { at: number; text: string }[];
   server_now: number;
   members: number;
@@ -961,11 +963,11 @@ export interface BossTimerRoomResponse {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function createBossTimerRoom(state: any[], nickname: string, clientId: string) {
+export async function createBossTimerRoom(state: any[], nickname: string, clientId: string, expedition?: any) {
   const res = await fetch(`${API_BASE}/api/boss-timer/rooms`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ state, nickname, client_id: clientId }),
+    body: JSON.stringify({ state, expedition: expedition ?? null, nickname, client_id: clientId }),
   });
   if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
   return res.json() as Promise<BossTimerRoomResponse>;
@@ -981,7 +983,19 @@ export async function pollBossTimerRoom(code: string, since: number, clientId: s
 
 export async function bossTimerAction(
   code: string,
-  action: { type: string; section_id: string; timer_id?: string; label?: string; duration?: number },
+  action: {
+    type: string;
+    section_id?: string;
+    timer_id?: string;
+    label?: string;
+    duration?: number;
+    // 원정대 관리(exp_*) 액션용
+    party_id?: string;
+    member_id?: string;
+    job?: string;
+    kind?: string;
+    op?: string;
+  },
   clientId: string,
   nickname: string
 ) {

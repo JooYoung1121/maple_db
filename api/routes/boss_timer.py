@@ -47,6 +47,10 @@ def _ensure_tables() -> None:
             updated_at REAL NOT NULL
         )"""
     )
+    # 원정대 관리 보드(v4.11) — 기존 섹션 state와 분리된 컬럼이라 구버전 클라이언트와 호환
+    cols = [row[1] for row in conn.execute("PRAGMA table_info(boss_timer_rooms)")]
+    if "expedition" not in cols:
+        conn.execute("ALTER TABLE boss_timer_rooms ADD COLUMN expedition TEXT NOT NULL DEFAULT 'null'")
     conn.commit()
     conn.close()
 
@@ -78,15 +82,56 @@ def _touch_presence(code: str, client_id: Optional[str], nickname: str) -> int:
 
 def _load_room(conn, code: str):
     row = conn.execute(
-        "SELECT state, log, version FROM boss_timer_rooms WHERE code = ?", (code.upper(),)
+        "SELECT state, log, version, expedition FROM boss_timer_rooms WHERE code = ?", (code.upper(),)
     ).fetchone()
     if row is None:
         raise HTTPException(status_code=404, detail="방을 찾을 수 없습니다 (만료되었거나 잘못된 코드)")
-    return json.loads(row[0]), json.loads(row[1]), row[2]
+    try:
+        expedition = json.loads(row[3]) if row[3] else None
+    except (TypeError, ValueError):
+        expedition = None
+    return json.loads(row[0]), json.loads(row[1]), row[2], expedition
+
+
+def _default_expedition() -> dict:
+    return {"startedAt": None, "parties": []}
+
+
+def _normalize_expedition(raw: Any) -> dict:
+    """클라이언트가 보낸 원정대 상태 방어적 정규화 — 멤버 타이머는 시계 기준이 달라 리셋."""
+    exp = _default_expedition()
+    if not isinstance(raw, dict):
+        return exp
+    parties = raw.get("parties")
+    if not isinstance(parties, list):
+        return exp
+    for i, party in enumerate(parties[:EXP_MAX_PARTIES]):
+        if not isinstance(party, dict):
+            continue
+        members = []
+        for j, member in enumerate((party.get("members") or [])[:EXP_MAX_MEMBERS]):
+            if not isinstance(member, dict):
+                continue
+            members.append({
+                "id": str(member.get("id") or f"m{secrets.token_hex(3)}"),
+                "name": str(member.get("name") or f"파티원 {j + 1}")[:12],
+                "job": str(member.get("job") or "비숍")[:10],
+                "deathEndAt": None,
+                "skillEndAt": None,
+            })
+        exp["parties"].append({"id": str(party.get("id") or f"p{secrets.token_hex(3)}"), "members": members})
+    return exp
+
+
+EXP_MAX_PARTIES = 6
+EXP_MAX_MEMBERS = 6
+EXP_TIMER_MIN = 10          # 초 — 멤버 타이머 최소/최대 (클라이언트 값 방어)
+EXP_TIMER_MAX = 2 * 3600
 
 
 class CreateRoomPayload(BaseModel):
     state: Any  # 프론트 섹션 구조 그대로 보관
+    expedition: Any = None  # 원정대 관리 보드 (없으면 null)
     nickname: str = "익명"
     client_id: Optional[str] = None
 
@@ -94,11 +139,17 @@ class CreateRoomPayload(BaseModel):
 class ActionPayload(BaseModel):
     client_id: Optional[str] = None
     nickname: str = "익명"
-    type: str  # start | stop | edit | add | remove | repeat
-    section_id: str
+    type: str  # start | stop | edit | add | remove | repeat | exp_*
+    section_id: Optional[str] = None  # 타이머 액션용 (exp_* 액션에선 생략)
     timer_id: Optional[str] = None
     label: Optional[str] = None
     duration: Optional[int] = None  # 초
+    # 원정대 관리(exp_*) 액션용
+    party_id: Optional[str] = None
+    member_id: Optional[str] = None
+    job: Optional[str] = None
+    kind: Optional[str] = None  # death | skill
+    op: Optional[str] = None  # start | stop
 
 
 @router.post("/boss-timer/rooms")
@@ -121,14 +172,16 @@ def create_room(payload: CreateRoomPayload):
         else:
             raise HTTPException(status_code=500, detail="방 코드 생성 실패")
         now = time.time()
+        expedition = _normalize_expedition(payload.expedition)
         log = [{"at": _now_ms(), "text": f"{payload.nickname}님이 방을 만들었습니다"}]
         conn.execute(
-            "INSERT INTO boss_timer_rooms (code, state, log, version, created_at, updated_at) VALUES (?,?,?,1,?,?)",
-            (code, json.dumps(state, ensure_ascii=False), json.dumps(log, ensure_ascii=False), now, now),
+            "INSERT INTO boss_timer_rooms (code, state, log, version, created_at, updated_at, expedition) VALUES (?,?,?,1,?,?,?)",
+            (code, json.dumps(state, ensure_ascii=False), json.dumps(log, ensure_ascii=False), now, now,
+             json.dumps(expedition, ensure_ascii=False)),
         )
         conn.commit()
         members = _touch_presence(code, payload.client_id, payload.nickname)
-        return {"code": code, "version": 1, "state": state, "log": log, "server_now": _now_ms(), "members": members}
+        return {"code": code, "version": 1, "state": state, "expedition": expedition, "log": log, "server_now": _now_ms(), "members": members}
     finally:
         conn.close()
 
@@ -137,7 +190,7 @@ def create_room(payload: CreateRoomPayload):
 def poll_room(code: str, since: int = 0, client_id: Optional[str] = None, nickname: str = "익명"):
     conn = _conn()
     try:
-        state, log, version = _load_room(conn, code)
+        state, log, version, expedition = _load_room(conn, code)
         # TTL 갱신 쓰기는 방당 10분에 1회로 제한 (폴링은 기본 읽기 전용)
         now = time.time()
         if now - _last_touch.get(code.upper(), 0.0) > TOUCH_INTERVAL:
@@ -153,6 +206,7 @@ def poll_room(code: str, since: int = 0, client_id: Optional[str] = None, nickna
         "changed": True,
         "version": version,
         "state": state,
+        "expedition": expedition,
         "log": log,
         "server_now": _now_ms(),
         "members": members,
@@ -166,16 +220,31 @@ def room_action(code: str, payload: ActionPayload):
     try:
         # 동시 액션의 version read-modify-write 유실 방지 — 쓰기 락을 먼저 잡고 읽는다
         conn.execute("BEGIN IMMEDIATE")
-        state, log, version = _load_room(conn, code)
+        state, log, version, expedition = _load_room(conn, code)
+
+        nick = (payload.nickname or "익명").strip()[:12] or "익명"
+        log_text: Optional[str] = None
+
+        if payload.type.startswith("exp_"):
+            expedition, log_text = _apply_expedition_action(expedition, payload, nick)
+            if log_text:
+                log.append({"at": _now_ms(), "text": log_text})
+                log = log[-LOG_LIMIT:]
+            version += 1
+            conn.execute(
+                "UPDATE boss_timer_rooms SET expedition = ?, log = ?, version = ?, updated_at = ? WHERE code = ?",
+                (json.dumps(expedition, ensure_ascii=False), json.dumps(log, ensure_ascii=False), version, time.time(), code),
+            )
+            conn.commit()
+            members = _touch_presence(code, payload.client_id, nick)
+            return {"changed": True, "version": version, "state": state, "expedition": expedition,
+                    "log": log, "server_now": _now_ms(), "members": members}
 
         section = next((s for s in state if s.get("id") == payload.section_id), None)
         if section is None:
             raise HTTPException(status_code=400, detail="알 수 없는 섹션")
         timers = section.setdefault("timers", [])
         timer = next((t for t in timers if t.get("id") == payload.timer_id), None)
-
-        nick = (payload.nickname or "익명").strip()[:12] or "익명"
-        log_text: Optional[str] = None
 
         if payload.type == "start":
             if timer is None:
@@ -234,4 +303,89 @@ def room_action(code: str, payload: ActionPayload):
     finally:
         conn.close()
     members = _touch_presence(code, payload.client_id, nick)
-    return {"changed": True, "version": version, "state": state, "log": log, "server_now": _now_ms(), "members": members}
+    return {"changed": True, "version": version, "state": state, "expedition": expedition,
+            "log": log, "server_now": _now_ms(), "members": members}
+
+
+def _apply_expedition_action(expedition: Any, payload: ActionPayload, nick: str) -> tuple[dict, Optional[str]]:
+    """원정대 관리 액션 처리 — 구 방(expedition=null)에서도 첫 액션에서 기본 구조를 만든다."""
+    exp = expedition if isinstance(expedition, dict) else _default_expedition()
+    exp.setdefault("startedAt", None)
+    parties = exp.setdefault("parties", [])
+
+    def find_party():
+        party = next((p for p in parties if p.get("id") == payload.party_id), None)
+        if party is None:
+            raise HTTPException(status_code=400, detail="알 수 없는 파티")
+        return party
+
+    def find_member(party):
+        member = next((m for m in party.get("members", []) if m.get("id") == payload.member_id), None)
+        if member is None:
+            raise HTTPException(status_code=400, detail="알 수 없는 파티원")
+        return member
+
+    if payload.type == "exp_raid":
+        if payload.op == "start":
+            exp["startedAt"] = _now_ms()
+            return exp, f"{nick}: 레이드 입장 — 경과 기록 시작"
+        exp["startedAt"] = None
+        return exp, f"{nick}: 레이드 경과 초기화"
+
+    if payload.type == "exp_party_add":
+        if len(parties) >= EXP_MAX_PARTIES:
+            raise HTTPException(status_code=400, detail=f"파티는 최대 {EXP_MAX_PARTIES}개입니다")
+        parties.append({"id": f"p{secrets.token_hex(3)}", "members": []})
+        return exp, f"{nick}: {len(parties)}파티 추가"
+
+    if payload.type == "exp_party_remove":
+        before = len(parties)
+        exp["parties"] = [p for p in parties if p.get("id") != payload.party_id]
+        if len(exp["parties"]) == before:
+            raise HTTPException(status_code=400, detail="알 수 없는 파티")
+        return exp, f"{nick}: 파티 삭제"
+
+    if payload.type == "exp_member_add":
+        party = find_party()
+        members = party.setdefault("members", [])
+        if len(members) >= EXP_MAX_MEMBERS:
+            raise HTTPException(status_code=400, detail=f"파티원은 최대 {EXP_MAX_MEMBERS}명입니다")
+        name = (payload.label or f"파티원 {len(members) + 1}").strip()[:12]
+        members.append({
+            "id": f"m{secrets.token_hex(3)}",
+            "name": name,
+            "job": (payload.job or "비숍").strip()[:10],
+            "deathEndAt": None,
+            "skillEndAt": None,
+        })
+        return exp, f"{nick}: {name} 합류"
+
+    if payload.type == "exp_member_edit":
+        member = find_member(find_party())
+        if payload.label is not None and payload.label.strip():
+            member["name"] = payload.label.strip()[:12]
+        if payload.job is not None and payload.job.strip():
+            member["job"] = payload.job.strip()[:10]
+            member["skillEndAt"] = None  # 직업 변경 시 이전 스킬 쿨 리셋
+        return exp, f"{nick}: {member['name']} 정보 수정"
+
+    if payload.type == "exp_member_remove":
+        party = find_party()
+        member = find_member(party)
+        party["members"] = [m for m in party.get("members", []) if m.get("id") != payload.member_id]
+        return exp, f"{nick}: {member.get('name', '파티원')} 제외"
+
+    if payload.type == "exp_member_timer":
+        member = find_member(find_party())
+        key = "deathEndAt" if payload.kind == "death" else "skillEndAt" if payload.kind == "skill" else None
+        if key is None:
+            raise HTTPException(status_code=400, detail="알 수 없는 타이머 종류")
+        if payload.op == "start":
+            duration = min(EXP_TIMER_MAX, max(EXP_TIMER_MIN, int(payload.duration or 0)))
+            member[key] = _now_ms() + duration * 1000
+            what = "사망" if payload.kind == "death" else "스킬 쿨"
+            return exp, f"{nick}: {member.get('name', '파티원')} {what} 시작"
+        member[key] = None
+        return exp, f"{nick}: {member.get('name', '파티원')} 타이머 리셋"
+
+    raise HTTPException(status_code=400, detail="알 수 없는 동작")
