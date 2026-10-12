@@ -15,6 +15,22 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.11.1",
+    date: "2026-10-12",
+    type: "patch",
+    title: "필드보스 채널 직접 등록 — 메랜 2.0 채널 241+ 대응",
+    pages: ["/field-boss"],
+    features: [
+      {
+        category: "버그 수정 · 개선",
+        items: [
+          "채널 상한 50 → 999로 확대 — 메랜 2.0 혼잡 시간대 채널(241+)이 서버 검증에 걸려 등록되지 않던 문제 수정",
+          "고정 채널 그리드 → 직접 등록 방식으로 교체: 번호를 입력해 채널을 선택하고, 기록이 있는 채널만 보드에 표시 (같은 번호 입력 시 기존 카드 선택 — 중복 생성 없음)",
+        ],
+      },
+    ],
+  },
+  {
     version: "4.11.0",
     date: "2026-10-12",
     type: "minor",

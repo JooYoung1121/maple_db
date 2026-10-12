@@ -27,8 +27,8 @@ interface ReportsData {
   server_now: string;
 }
 
-const CHANNEL_COUNT_KEY = "field_boss_channels";
 const RESPAWN_OVERRIDE_KEY = "field_boss_respawn_override";
+const MAX_CHANNEL = 999; // 서버 검증값과 동일 — 메랜 2.0 채널 수(241+)가 늘어도 수용
 
 function fmtClock(iso: string): string {
   const d = new Date(iso);
@@ -51,9 +51,9 @@ export default function FieldBossPage() {
   const [bosses, setBosses] = useState<BossInfo[]>([]);
   const [selected, setSelected] = useState<number | null>(null);
   const [data, setData] = useState<ReportsData | null>(null);
-  const [channelCount, setChannelCount] = useState(20);
   const [respawnOverride, setRespawnOverride] = useState<Record<number, number>>({});
   const [reportTarget, setReportTarget] = useState<number | null>(null); // 채널 번호
+  const [channelInput, setChannelInput] = useState("");
   const [minutesAgo, setMinutesAgo] = useState(0);
   const [msg, setMsg] = useState<string | null>(null);
   const [now, setNow] = useState(() => Date.now());
@@ -62,8 +62,6 @@ export default function FieldBossPage() {
   // 설정 로드
   useEffect(() => {
     try {
-      const c = Number(localStorage.getItem(CHANNEL_COUNT_KEY));
-      if (c >= 5 && c <= 50) setChannelCount(c);
       const o = JSON.parse(localStorage.getItem(RESPAWN_OVERRIDE_KEY) || "{}");
       if (o && typeof o === "object") setRespawnOverride(o);
     } catch { /* ignore */ }
@@ -117,9 +115,17 @@ export default function FieldBossPage() {
     try { localStorage.setItem("field_boss_selected", String(id)); } catch { /* ignore */ }
   };
 
-  const saveChannelCount = (n: number) => {
-    setChannelCount(n);
-    try { localStorage.setItem(CHANNEL_COUNT_KEY, String(n)); } catch { /* ignore */ }
+  /* 채널 직접 선택 — 이미 기록이 있는 채널이면 그 카드를 선택(중복 생성 없음), 없으면 새로 선택해 제보 */
+  const pickChannel = () => {
+    const ch = Math.floor(Number(channelInput));
+    if (!Number.isFinite(ch) || ch < 1 || ch > MAX_CHANNEL) {
+      setMsg(`채널 번호는 1~${MAX_CHANNEL} 사이로 입력하세요.`);
+      return;
+    }
+    setMsg(null);
+    setReportTarget(ch);
+    setMinutesAgo(0);
+    setChannelInput("");
   };
 
   const saveRespawnOverride = (min: number | null) => {
@@ -166,6 +172,15 @@ export default function FieldBossPage() {
     if (remain > 0) return { kind: "soon" as const, r, elapsed, remain };
     return { kind: "spawned" as const, r, elapsed };
   };
+
+  /* 보드에 표시할 채널 — 기록이 있는 채널 + 지금 선택한 채널만 (채널 수가 241+로 가변이라 고정 그리드 대신 직접 등록) */
+  const boardChannels = useMemo(() => {
+    const chans = Object.keys(data?.channels ?? {})
+      .map(Number)
+      .filter((n) => Number.isFinite(n) && n >= 1);
+    if (reportTarget != null && !chans.includes(reportTarget)) chans.push(reportTarget);
+    return chans.sort((a, b) => a - b);
+  }, [data, reportTarget]);
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -222,15 +237,6 @@ export default function FieldBossPage() {
               <button onClick={() => saveRespawnOverride(null)} className="text-maple hover:underline">기본값</button>
             )}
           </label>
-          <label className="flex items-center gap-2 text-xs text-dim">
-            채널 수
-            <input
-              type="number" min={1} max={100} value={channelCount}
-              onChange={(e) => saveChannelCount(Math.max(1, Math.min(100, Number(e.target.value) || 1)))}
-              className="pixel-input w-16 px-2 py-1 text-center"
-            />
-            <span className="hidden sm:inline">개 — 메랜은 혼잡도에 따라 채널 수가 변해요. 현재 개수에 맞게 조절</span>
-          </label>
           <span className="text-[11px] text-dim">
             {boss.respawn_min == null && respawnMin == null
               ? "젠 주기 미확정 — 경과 시간만 표시합니다. 아는 주기가 있다면 직접 입력하세요 (이 브라우저에만 저장)"
@@ -241,10 +247,31 @@ export default function FieldBossPage() {
         </div>
       )}
 
-      {/* 채널 그리드 — 메이플랜드 채널 선택창 배치(한 줄 6개). 원작(v62)은 5개×4줄이지만 메랜은 별도 UI */}
+      {/* 채널 보드 — 메랜 2.0 채널이 241+로 가변이라 고정 그리드 대신 '기록 있는 채널만' 표시.
+          새 채널은 번호 직접 입력으로 선택 (같은 번호는 기존 카드 선택 — 중복 생성 없음) */}
       <div className="pixel-panel p-3 mb-2 max-w-xl">
+        <div className="flex flex-wrap items-center gap-2 mb-2 pb-2 border-b-2 border-edge">
+          <span className="font-pixel text-xs text-ink">CH</span>
+          <input
+            type="number"
+            min={1}
+            max={MAX_CHANNEL}
+            value={channelInput}
+            onChange={(e) => setChannelInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && pickChannel()}
+            placeholder="채널 번호"
+            className="pixel-input w-24 px-2 py-1.5 text-sm text-center"
+          />
+          <button onClick={pickChannel} className="pixel-btn text-xs px-3 py-1.5">채널 선택</button>
+          <span className="text-[11px] text-dim">번호를 입력해 바로 기록 — 이미 등록된 채널은 기존 카드가 선택됩니다 (CH 1~{MAX_CHANNEL})</span>
+        </div>
+        {boardChannels.length === 0 ? (
+          <p className="text-xs text-dim py-3 text-center">
+            아직 기록된 채널이 없어요 — 위에 채널 번호를 입력해 첫 처치 기록을 남겨보세요.
+          </p>
+        ) : (
         <div className="grid grid-cols-6 gap-1.5">
-          {Array.from({ length: channelCount }, (_, i) => i + 1).map((ch) => {
+          {boardChannels.map((ch) => {
             const st = cellState(data?.channels?.[String(ch)]);
             const isSel = reportTarget === ch;
             const style =
@@ -272,6 +299,7 @@ export default function FieldBossPage() {
             );
           })}
         </div>
+        )}
 
         {/* 선택한 채널 액션 바 */}
         {reportTarget != null && (() => {
@@ -303,9 +331,9 @@ export default function FieldBossPage() {
       </div>
       {msg && <p className="text-xs text-red-500 mb-2">{msg}</p>}
       <p className="text-[11px] text-dim mb-6">
-        🔴 리젠 대기 · 🟡 곧 젠 · 🟢 젠 추정 · 🔵 경과 시간(주기 미확정) — 채널을 누르면 처치 기록을 남길 수 있어요.
-        잘못 기록했다면 같은 채널에 다시 기록하면 최신 기록이 우선됩니다.
-        <span className="block mt-0.5">배치는 메이플랜드 채널 선택창(한 줄 6개) 기준 · 채널 수는 혼잡도에 따라 변하니 위에서 개수를 조절하세요.</span>
+        🔴 리젠 대기 · 🟡 곧 젠 · 🟢 젠 추정 · 🔵 경과 시간(주기 미확정) — 카드를 누르면 처치 기록을 남길 수 있어요.
+        같은 채널에 다시 기록하면 최신 기록이 우선됩니다 (중복 카드가 생기지 않아요).
+        <span className="block mt-0.5">기록이 있는 채널만 표시됩니다 · 새 채널은 위 입력창에 번호를 넣어 등록하세요 (메랜 2.0 채널 수 가변 대응, 기록은 24시간 뒤 자동 정리)</span>
       </p>
 
       {/* 최근 제보 */}
