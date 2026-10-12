@@ -62,6 +62,7 @@ export const SITE_SECTIONS: SiteSection[] = [
     label: "시뮬레이터",
     icon: "🧪",
     items: [
+      { href: "/chaos", label: "혼줌 시뮬레이터", icon: "🌀", description: "혼돈의 주문서 작 기대값 · 분포 · 직접 발라보기", keywords: ["혼줌", "혼돈의 주문서", "검은색 허리띠", "허리띠작", "혼줌작", "무릉 허리띠"] },
       { href: "/skill-sim", label: "스킬 시뮬레이터", icon: "✨", description: "직업별 스킬 빌드 설계" },
       { href: "/gear-sim", label: "장비 세팅", icon: "🧰", description: "장비 조합 스탯 · 데미지 시뮬" },
       { href: "/codi", label: "코디 시뮬레이터", icon: "🎨", description: "헤어 · 성형 · 장비 입혀보기" },
@@ -84,6 +85,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/quest-specialist", label: "퀘스트 스페셜리스트", icon: "🏅", description: "퀘스트 800개 훈장 — 레벨 제한 퀘 · 전달형 즉시 완료 · 연계 준비물 총량", keywords: ["퀘스페", "훈장", "800", "퀘스트 훈장", "달리어", "칭호"] },
       { href: "/ship", label: "배 시간표", icon: "🚢", description: "정기선 운항 시간", keywords: ["페리"] },
       { href: "/trap", label: "함정 타이머", homeLabel: "트랩 타이머", icon: "⏱️", description: "트랩 주기 타이머" },
+      { href: "/boss-timer?boss=hunt", label: "사냥 타이머", icon: "⏲️", description: "파티 버프(심볼·샤프·메용) 리버프 · 파티원 입장 공유 타이머", keywords: ["사냥 타이머", "홀리심볼", "심볼", "샤프", "메용", "버프 타이머", "리버프"] },
       { href: "/wedding", label: "결혼 시스템", icon: "💍", description: "준비물 · 절차 · 채플 vs 대성당 · 하객 보상", keywords: ["웨딩"] },
       { href: "/charlie", label: "찰리중사 교환", icon: "🪖", description: "물물교환 보상표 · 확률 · 시세 효율 계산" },
     ],
@@ -94,7 +96,7 @@ export const SITE_SECTIONS: SiteSection[] = [
     items: [
       { href: "/horntail", label: "혼테일 공략", icon: "🐲", description: "패턴 · 직업별 준비물 · 파츠별 딜 위치", keywords: ["혼텔", "보스 공략"] },
       { href: "/pinkbean", label: "핑크빈 공략", icon: "🫘", description: "시간의 신전 원정대 보스 — 입장 경로 · 석상 6단계 · 클리어 가능성 분석", keywords: ["핑크빈", "시간의 신전", "신들의 황혼", "원정대", "시조", "타임리스", "리버스"] },
-      { href: "/boss-timer", label: "보스 타이머", icon: "🐉", description: "혼테일 · 카쿰 — 리저 · 유혹 · 벞해 쿨타임 공유", keywords: ["카쿰 타이머", "혼테일 타이머", "리저 타이머", "쿨타임"] },
+      { href: "/boss-timer", label: "보스 타이머", icon: "🐉", description: "혼테일 · 카쿰 · 사냥 — 원정대 관리 · 리저 · 유혹 · 벞해 쿨타임 공유", keywords: ["카쿰 타이머", "혼테일 타이머", "리저 타이머", "쿨타임", "원정대 관리", "공대 편성"] },
       { href: "/field-boss", label: "필드보스 채널", icon: "👑", description: "처치 채널 · 시각 공유로 젠 로테이션", keywords: ["필보"] },
       { href: "/dojo", label: "무릉도장 공략", icon: "🥋", description: "38층 · 점수 효율 계산기 · 파티 조합" },
       { href: "/guild-war", label: "길드대항전", icon: "⚔️", description: "샤레니안 공략 · 상자 배분 · 제물 솔버 · 분배 정산", keywords: ["길드전"] },

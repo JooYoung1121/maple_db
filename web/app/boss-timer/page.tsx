@@ -30,7 +30,7 @@ interface RoomInfo {
   log: { at: number; text: string }[];
 }
 
-type BossId = "horntail" | "chaos-zakum";
+type BossId = "horntail" | "chaos-zakum" | "hunt";
 
 interface BossPreset {
   id: BossId;
@@ -185,6 +185,51 @@ const CHAOS_ZAKUM_SECTIONS: TimerSection[] = [
   },
 ];
 
+/* ── 사냥 타이머 프리셋 ──
+ * 버프 지속시간 근거: KMST 원본 skills 테이블 마스터 수치 (data/maple.db)
+ * — 홀리 심볼 120초 · 샤프 아이즈 300초 · 메이플 용사 900초 · 하이퍼 바디 155초 · 메소 업 120초
+ * 메랜은 스킬 레벨에 따라 지속이 짧을 수 있으니 카드에서 수정해 쓰세요.
+ */
+const HUNT_SECTIONS: TimerSection[] = [
+  {
+    id: "hunt-buffs",
+    title: "파티 버프",
+    icon: "✨",
+    desc: "버프를 시전한 순간 시작 — 만료 = 리버프 타이밍. 🔁 반복을 켜두면 매 주기 알림. 기본값은 마스터 기준(KMST 원본)이라 스킬 레벨에 맞게 수정하세요",
+    timers: [
+      { id: "hunt-hs", label: "홀리 심볼 (심볼)", duration: 120, endAt: null, removable: false, repeat: true },
+      { id: "hunt-se", label: "샤프 아이즈 (샤프)", duration: 300, endAt: null, removable: false, repeat: true },
+      { id: "hunt-mw", label: "메이플 용사 (메용)", duration: 900, endAt: null, removable: false, repeat: true },
+      { id: "hunt-hb", label: "하이퍼 바디", duration: 155, endAt: null, removable: true, repeat: true },
+      { id: "hunt-mu", label: "메소 업", duration: 120, endAt: null, removable: true, repeat: true },
+    ],
+  },
+  {
+    id: "hunt-entry",
+    title: "파티원 입장",
+    icon: "🚪",
+    desc: "파티원이 사냥터에 입장한 순간 시작 — 이름을 닉네임으로 바꿔 두면 사냥·교대 시간을 전원이 공유합니다 (기본 1시간, 수정 가능)",
+    timers: [
+      { id: "hunt-p1", label: "파티원 1", duration: 3600, endAt: null, removable: true },
+      { id: "hunt-p2", label: "파티원 2", duration: 3600, endAt: null, removable: true },
+      { id: "hunt-p3", label: "파티원 3", duration: 3600, endAt: null, removable: true },
+      { id: "hunt-p4", label: "파티원 4", duration: 3600, endAt: null, removable: true },
+      { id: "hunt-p5", label: "파티원 5", duration: 3600, endAt: null, removable: true },
+      { id: "hunt-p6", label: "파티원 6", duration: 3600, endAt: null, removable: true },
+    ],
+  },
+  {
+    id: "hunt-custom",
+    title: "측정 · 커스텀",
+    icon: "🧪",
+    desc: "경험치 측정, 자리비움 체크 등 자유 타이머 — + 타이머 추가로 얼마든지 늘릴 수 있습니다",
+    timers: [
+      { id: "hunt-measure", label: "경험치 측정 (30분)", duration: 1800, endAt: null, removable: true },
+      { id: "hunt-afk", label: "자리비움 체크", duration: 300, endAt: null, removable: true },
+    ],
+  },
+];
+
 const BOSSES: Record<BossId, BossPreset> = {
   horntail: {
     id: "horntail",
@@ -222,14 +267,86 @@ const BOSSES: Record<BossId, BossPreset> = {
       "cz-death": ["U", "I", "O", "P"],
     },
   },
+  hunt: {
+    id: "hunt",
+    name: "사냥",
+    icon: "⏱️",
+    tagline:
+      "파티 사냥용 공유 타이머 — 파티원 입장 시간과 홀리 심볼·샤프 아이즈·메이플 용사 리버프 타이밍을 함께 잽니다. 버프는 시전 순간 시작하고 🔁 반복을 켜두세요.",
+    guideHref: "/hunt",
+    guideLabel: "🎯 사냥터 추천",
+    storageKey: "boss_timer_hunt_v1",
+    sections: HUNT_SECTIONS,
+    hotkeys: {
+      "hunt-buffs": ["1", "2", "3", "4", "5", "6", "7"],
+      "hunt-entry": ["Q", "W", "E", "R", "T", "Y", "U", "I"],
+      "hunt-custom": ["A", "S", "D", "F", "G", "H"],
+    },
+  },
 };
 
 const DEFAULT_BOSS: BossId = "horntail";
 const POLL_INTERVAL = 2000;
 
-/* 방 상태(섹션 배열)에서 보스 종류 판별 — 카쿰 섹션 id는 cz- 접두 */
+/* 방 상태(섹션 배열)에서 보스 종류 판별 — 카쿰 섹션 id는 cz-, 사냥은 hunt- 접두 */
 function bossOfSections(state: TimerSection[]): BossId {
+  if (state.some((s) => String(s.id).startsWith("hunt-"))) return "hunt";
   return state.some((s) => String(s.id).startsWith("cz-")) ? "chaos-zakum" : "horntail";
+}
+
+/* ── 원정대 관리 (혼테일·카쿰 공대 편성 보드) ── */
+interface ExpMember {
+  id: string;
+  name: string;
+  job: string;
+  deathEndAt: number | null; // 사망 복귀 타이머 종료 시각(ms) — 방 모드에선 서버 시계 기준
+  skillEndAt: number | null; // 직업 스킬 쿨 종료 시각(ms)
+}
+interface ExpParty {
+  id: string;
+  members: ExpMember[];
+}
+interface Expedition {
+  startedAt: number | null; // 레이드 입장 시각(ms)
+  parties: ExpParty[];
+}
+
+const EMPTY_EXPEDITION: Expedition = { startedAt: null, parties: [] };
+const DEATH_RETURN_SECONDS = 840; // 사망 후 마을 복귀 실측 14분 (혼테일 프리셋과 동일 근거)
+const MAX_PARTIES = 6;
+const MAX_MEMBERS = 6;
+const EXP_JOBS = [
+  "비숍", "히어로", "팔라딘", "다크나이트", "불독", "썬콜",
+  "보우마스터", "신궁", "나이트로드", "섀도어", "바이퍼", "캡틴", "배틀메이지", "기타",
+];
+/* 멤버별 쿨타임 버튼이 붙는 직업 스킬 — 쿨 근거는 보스 프리셋과 동일 (리저 30분 · 인레이지 8분 · 타임리프 20분 · 연막탄 10분)
+ * 아이콘: web/public/skill-icons (sim_skills.icon_path와 동일 에셋, 원본 스킬 ID) */
+const EXP_JOB_SKILLS: Record<string, { label: string; duration: number; icon: string }> = {
+  비숍: { label: "리저렉션", duration: 1800, icon: "/skill-icons/2321006.png" },
+  히어로: { label: "인레이지", duration: 480, icon: "/skill-icons/1121010.png" },
+  바이퍼: { label: "타임리프", duration: 1200, icon: "/skill-icons/5121010.png" },
+  섀도어: { label: "연막탄", duration: 600, icon: "/skill-icons/4221006.png" },
+};
+
+/* 기본 3파티 편성 — 통상 구성: 파티마다 닼나(하이퍼바디) + 비숍 + 격수 4인 (유혹팟·근격 등은 직업만 바꿔 쓰세요) */
+function defaultExpParties(): ExpParty[] {
+  const rid = () => Math.random().toString(36).slice(2, 8);
+  return [1, 2, 3].map(() => ({
+    id: `p${rid()}`,
+    members: [
+      { id: `m${rid()}`, name: "닼나", job: "다크나이트", deathEndAt: null, skillEndAt: null },
+      { id: `m${rid()}`, name: "비숍", job: "비숍", deathEndAt: null, skillEndAt: null },
+      ...[1, 2, 3, 4].map((n) => ({ id: `m${rid()}`, name: `격수 ${n}`, job: "기타", deathEndAt: null, skillEndAt: null })),
+    ],
+  }));
+}
+
+function fmtHMS(sec: number): string {
+  const s = Math.max(0, Math.floor(sec));
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const r = s % 60;
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(r).padStart(2, "0")}`;
 }
 
 /* ── 유틸 ── */
@@ -319,14 +436,33 @@ function TtsOnce({ speakKey, text }: { speakKey: string; text: string }) {
   return null;
 }
 
+/* 시스템(브라우저) 알림 1회 — 다른 창에서 게임 중일 때도 OS 알림으로 만료를 알린다 */
+const notifiedKeys = new Set<string>();
+function SysNotifyOnce({ notifyKey, title, body }: { notifyKey: string; title: string; body: string }) {
+  useEffect(() => {
+    if (notifiedKeys.has(notifyKey)) return;
+    notifiedKeys.add(notifyKey);
+    try {
+      if (typeof Notification !== "undefined" && Notification.permission === "granted") {
+        const n = new Notification(title, { body, tag: notifyKey });
+        setTimeout(() => { try { n.close(); } catch { /* ignore */ } }, 8000);
+      }
+    } catch {
+      // notification not supported
+    }
+  }, [notifyKey, title, body]);
+  return null;
+}
+
 /* ── 타이머 카드 ── */
 function TimerCard({
-  timer, now, muted, tts, hotkey, onStart, onStop, onToggleRepeat, onEdit, onRemove,
+  timer, now, muted, tts, sysNotify, hotkey, onStart, onStop, onToggleRepeat, onEdit, onRemove,
 }: {
   timer: RaidTimer;
   now: number; // 보정된 현재 시각(ms)
   muted: boolean;
   tts: boolean;
+  sysNotify: boolean;
   hotkey?: string;
   onStart: () => void;
   onStop: () => void;
@@ -443,6 +579,8 @@ function TimerCard({
             </div>
             {expired && !muted && <ExpireBeeper beepKey={`${timer.id}-${timer.endAt}`} />}
             {justCycled && !muted && <ExpireBeeper beepKey={`${timer.id}-${timer.endAt}-c${cycle}`} />}
+            {expired && sysNotify && <SysNotifyOnce notifyKey={`n-${timer.id}-${timer.endAt}`} title="⏰ 타이머 종료" body={timer.label} />}
+            {justCycled && sysNotify && <SysNotifyOnce notifyKey={`n-${timer.id}-${timer.endAt}-c${cycle}`} title="🔁 주기 알림" body={timer.label} />}
             {tts && running && !expired && timer.duration >= 30 && remaining <= 10 && remaining > 2 && (
               <TtsOnce speakKey={`${timer.id}-${timer.endAt}-c${cycle}`} text={ttsText(timer.label)} />
             )}
@@ -545,7 +683,12 @@ export default function BossTimerPage() {
   const [now, setNow] = useState(0);
   const [muted, setMuted] = useState(false);
   const [tts, setTts] = useState(true);
+  const [sysNotify, setSysNotify] = useState(false);
   const [loaded, setLoaded] = useState(false);
+
+  // 원정대 관리 (혼테일·카쿰)
+  const [expedition, setExpedition] = useState<Expedition>(EMPTY_EXPEDITION);
+  const [expOpen, setExpOpen] = useState(false);
 
   // 공유 방
   const [room, setRoom] = useState<RoomInfo | null>(null);
@@ -588,15 +731,31 @@ export default function BossTimerPage() {
     return BOSSES[id].sections;
   }, []);
 
+  const loadLocalExpedition = useCallback((id: BossId): Expedition => {
+    try {
+      const raw = localStorage.getItem(`${BOSSES[id].storageKey}_exp`);
+      if (raw) {
+        const saved = JSON.parse(raw) as Expedition;
+        if (saved && Array.isArray(saved.parties)) return { startedAt: saved.startedAt ?? null, parties: saved.parties };
+      }
+    } catch {
+      // ignore
+    }
+    return EMPTY_EXPEDITION;
+  }, []);
+
   /* 응답 공통 반영 — 방 상태의 섹션으로 보스 종류도 맞춘다 */
   const applyResponse = useCallback((code: string, res: {
     version: number; state?: TimerSection[]; log?: { at: number; text: string }[];
+    expedition?: Expedition | null;
     server_now: number; members: number; changed: boolean;
   }) => {
     serverOffsetRef.current = res.server_now - Date.now();
     if (res.changed && res.state) {
       setSections(res.state);
       setBossId(bossOfSections(res.state));
+      const exp = res.expedition;
+      setExpedition(exp && Array.isArray(exp.parties) ? exp : EMPTY_EXPEDITION);
     }
     setRoom((prev) => ({
       code,
@@ -620,15 +779,25 @@ export default function BossTimerPage() {
       const params = new URLSearchParams(window.location.search);
       const urlBoss = params.get("boss");
       const savedBoss = localStorage.getItem("boss_timer_boss");
-      const initialBoss: BossId =
-        urlBoss === "chaos-zakum" || (!urlBoss && savedBoss === "chaos-zakum") ? "chaos-zakum" : "horntail";
+      const isBossId = (v: string | null): v is BossId => v === "horntail" || v === "chaos-zakum" || v === "hunt";
+      const initialBoss: BossId = isBossId(urlBoss) ? urlBoss : isBossId(savedBoss) ? savedBoss : DEFAULT_BOSS;
       setBossId(initialBoss);
       setSections(loadLocalSections(initialBoss));
+      const exp = loadLocalExpedition(initialBoss);
+      setExpedition(exp);
+      if (exp.parties.length > 0) setExpOpen(true);
 
       const m = localStorage.getItem("boss_timer_muted");
       if (m) setMuted(m === "true");
       const t = localStorage.getItem("boss_timer_tts");
       if (t) setTts(t === "true");
+      // 시스템 알림은 브라우저 권한이 살아있을 때만 복원
+      try {
+        if (localStorage.getItem("boss_timer_sysnotify") === "true" &&
+            typeof Notification !== "undefined" && Notification.permission === "granted") {
+          setSysNotify(true);
+        }
+      } catch { /* ignore */ }
 
       // URL ?room=CODE 또는 이전 세션의 방으로 재참여
       const urlCode = params.get("room");
@@ -645,7 +814,7 @@ export default function BossTimerPage() {
     }
     setNow(Date.now());
     setLoaded(true);
-  }, [applyResponse, loadLocalSections]);
+  }, [applyResponse, loadLocalSections, loadLocalExpedition]);
 
   /* 로컬 모드에서만 로컬 저장 */
   useEffect(() => {
@@ -654,12 +823,21 @@ export default function BossTimerPage() {
   }, [sections, loaded, inRoom, bossId]);
 
   useEffect(() => {
+    if (!loaded || inRoom) return;
+    try { localStorage.setItem(`${BOSSES[bossId].storageKey}_exp`, JSON.stringify(expedition)); } catch { /* ignore */ }
+  }, [expedition, loaded, inRoom, bossId]);
+
+  useEffect(() => {
     localStorage.setItem("boss_timer_muted", String(muted));
   }, [muted]);
 
   useEffect(() => {
     localStorage.setItem("boss_timer_tts", String(tts));
   }, [tts]);
+
+  useEffect(() => {
+    try { localStorage.setItem("boss_timer_sysnotify", String(sysNotify)); } catch { /* ignore */ }
+  }, [sysNotify]);
 
   useEffect(() => {
     if (nickname) localStorage.setItem("boss_timer_nickname", nickname);
@@ -685,12 +863,49 @@ export default function BossTimerPage() {
   }, [inRoom, applyResponse]);
 
   /* 틱 — 실행 중 타이머가 있을 때만 (방 모드에선 서버 시계 오프셋 보정) */
-  const anyRunning = sections.some((s) => s.timers.some((t) => t.endAt !== null));
+  const anyRunning =
+    sections.some((s) => s.timers.some((t) => t.endAt !== null)) ||
+    expedition.startedAt !== null ||
+    expedition.parties.some((p) => p.members.some((m) => m.deathEndAt !== null || m.skillEndAt !== null));
   useEffect(() => {
     if (!anyRunning) return;
     const id = setInterval(() => setNow(Date.now()), 200);
     return () => clearInterval(id);
   }, [anyRunning]);
+
+  /* 백그라운드 틱 보강 — 숨긴 탭에선 window 타이머가 최대 1분까지 지연(크롬 intensive throttling)되므로
+   * 스로틀이 없는 워커 타이머로 1초 틱을 유지해 알림음·TTS·시스템 알림이 제때 울리게 한다 */
+  useEffect(() => {
+    if (!anyRunning) return;
+    let worker: Worker | null = null;
+    let url = "";
+    try {
+      const blob = new Blob(["setInterval(function(){postMessage(0)},1000)"], { type: "text/javascript" });
+      url = URL.createObjectURL(blob);
+      worker = new Worker(url);
+      worker.onmessage = () => setNow(Date.now());
+    } catch {
+      // 워커 생성 실패(CSP 등) 시 기존 틱만 사용
+    }
+    return () => {
+      worker?.terminate();
+      if (url) URL.revokeObjectURL(url);
+    };
+  }, [anyRunning]);
+
+  /* 시스템 알림 토글 — 켤 때 브라우저 권한을 요청한다 */
+  const toggleSysNotify = useCallback(async () => {
+    if (sysNotify) { setSysNotify(false); return; }
+    try {
+      if (typeof Notification === "undefined") {
+        alert("이 브라우저는 시스템 알림을 지원하지 않습니다.");
+        return;
+      }
+      const perm = Notification.permission === "granted" ? "granted" : await Notification.requestPermission();
+      if (perm === "granted") setSysNotify(true);
+      else alert("알림 권한이 거부되어 있습니다. 주소창 옆 사이트 설정에서 알림을 허용해 주세요.");
+    } catch { /* ignore */ }
+  }, [sysNotify]);
 
   const correctedNow = inRoom ? now + serverOffsetRef.current : now;
 
@@ -816,6 +1031,103 @@ export default function BossTimerPage() {
     });
   }, [dispatch]);
 
+  /* ── 원정대 관리 디스패치: 로컬이면 즉시, 방이면 서버 액션 (타이머 디스패치와 동일 패턴) ── */
+  const expDispatch = useCallback((
+    action: { type: string; party_id?: string; member_id?: string; label?: string; job?: string; kind?: string; op?: string; duration?: number },
+    localApply: (prev: Expedition) => Expedition,
+  ) => {
+    const r = roomRef.current;
+    if (!r) { setExpedition(localApply); return; }
+    bossTimerAction(r.code, action, clientIdRef.current, nicknameRef.current || "익명")
+      .then((res) => applyResponse(r.code, res))
+      .catch((e) => setShareError(String(e.message)));
+  }, [applyResponse]);
+
+  const expRaid = useCallback((op: "start" | "stop") => {
+    expDispatch({ type: "exp_raid", op }, (prev) => ({ ...prev, startedAt: op === "start" ? Date.now() : null }));
+  }, [expDispatch]);
+
+  const expPreset = useCallback(() => {
+    const hasMembers = expedition.parties.some((p) => p.members.length > 0);
+    if (hasMembers && !confirm("현재 편성을 지우고 기본 3파티(닼나+비숍+격수 4)로 바꿀까요?")) return;
+    expDispatch({ type: "exp_preset" }, (prev) => ({ ...prev, parties: defaultExpParties() }));
+  }, [expDispatch, expedition.parties]);
+
+  const expPartyAdd = useCallback(() => {
+    expDispatch({ type: "exp_party_add" }, (prev) =>
+      prev.parties.length >= MAX_PARTIES
+        ? prev
+        : { ...prev, parties: [...prev.parties, { id: `p${Math.random().toString(36).slice(2, 8)}`, members: [] }] });
+  }, [expDispatch]);
+
+  const expPartyRemove = useCallback((partyId: string) => {
+    expDispatch({ type: "exp_party_remove", party_id: partyId }, (prev) => ({
+      ...prev,
+      parties: prev.parties.filter((p) => p.id !== partyId),
+    }));
+  }, [expDispatch]);
+
+  const expMemberAdd = useCallback((partyId: string) => {
+    expDispatch({ type: "exp_member_add", party_id: partyId }, (prev) => ({
+      ...prev,
+      parties: prev.parties.map((p) =>
+        p.id !== partyId || p.members.length >= MAX_MEMBERS
+          ? p
+          : {
+              ...p,
+              members: [
+                ...p.members,
+                { id: `m${Math.random().toString(36).slice(2, 8)}`, name: `파티원 ${p.members.length + 1}`, job: "비숍", deathEndAt: null, skillEndAt: null },
+              ],
+            }),
+    }));
+  }, [expDispatch]);
+
+  const expMemberEdit = useCallback((partyId: string, memberId: string, patch: { name?: string; job?: string }) => {
+    expDispatch({ type: "exp_member_edit", party_id: partyId, member_id: memberId, label: patch.name, job: patch.job }, (prev) => ({
+      ...prev,
+      parties: prev.parties.map((p) =>
+        p.id !== partyId
+          ? p
+          : {
+              ...p,
+              members: p.members.map((m) =>
+                m.id !== memberId
+                  ? m
+                  : {
+                      ...m,
+                      ...(patch.name !== undefined ? { name: patch.name } : {}),
+                      // 직업이 바뀌면 이전 직업의 스킬 쿨은 의미가 없어 리셋
+                      ...(patch.job !== undefined ? { job: patch.job, skillEndAt: null } : {}),
+                    }),
+            }),
+    }));
+  }, [expDispatch]);
+
+  const expMemberRemove = useCallback((partyId: string, memberId: string) => {
+    expDispatch({ type: "exp_member_remove", party_id: partyId, member_id: memberId }, (prev) => ({
+      ...prev,
+      parties: prev.parties.map((p) => (p.id !== partyId ? p : { ...p, members: p.members.filter((m) => m.id !== memberId) })),
+    }));
+  }, [expDispatch]);
+
+  const expMemberTimer = useCallback((partyId: string, memberId: string, kind: "death" | "skill", op: "start" | "stop", duration: number) => {
+    expDispatch({ type: "exp_member_timer", party_id: partyId, member_id: memberId, kind, op, duration }, (prev) => ({
+      ...prev,
+      parties: prev.parties.map((p) =>
+        p.id !== partyId
+          ? p
+          : {
+              ...p,
+              members: p.members.map((m) => {
+                if (m.id !== memberId) return m;
+                const endAt = op === "start" ? Date.now() + duration * 1000 : null;
+                return kind === "death" ? { ...m, deathEndAt: endAt } : { ...m, skillEndAt: endAt };
+              }),
+            }),
+    }));
+  }, [expDispatch]);
+
   const resetAll = useCallback(() => {
     if (roomRef.current) {
       alert("공유 방에서는 전체 리셋 대신 각 타이머를 개별 리셋(우클릭)해 주세요.");
@@ -832,6 +1144,7 @@ export default function BossTimerPage() {
     if (roomRef.current || id === bossId) return;
     setBossId(id);
     setSections(loadLocalSections(id));
+    setExpedition(loadLocalExpedition(id));
     setNow(Date.now());
     try {
       localStorage.setItem("boss_timer_boss", id);
@@ -842,7 +1155,7 @@ export default function BossTimerPage() {
     } catch {
       // ignore
     }
-  }, [bossId, loadLocalSections]);
+  }, [bossId, loadLocalSections, loadLocalExpedition]);
 
   /* ── PIP ── */
   const openPip = useCallback(async () => {
@@ -881,14 +1194,14 @@ export default function BossTimerPage() {
   const createRoom = useCallback(() => {
     setShareBusy(true);
     setShareError("");
-    createBossTimerRoom(sections, nickname || "익명", clientIdRef.current)
+    createBossTimerRoom(sections, nickname || "익명", clientIdRef.current, expedition)
       .then((res) => {
         applyResponse(res.code!, { ...res, changed: true });
         localStorage.setItem("boss_timer_room", res.code!);
       })
       .catch((e) => setShareError(String(e.message)))
       .finally(() => setShareBusy(false));
-  }, [sections, nickname, applyResponse]);
+  }, [sections, expedition, nickname, applyResponse]);
 
   const joinRoom = useCallback(() => {
     const code = joinCode.trim().toUpperCase();
@@ -968,6 +1281,15 @@ export default function BossTimerPage() {
             title="종료 10초 전 음성 안내 (30초 이상 타이머만)"
           >
             {tts ? "🗣️ 음성 켜짐" : "🗣️ 음성 꺼짐"}
+          </button>
+          <button
+            onClick={toggleSysNotify}
+            className={`px-3 py-1.5 text-xs font-pixel border-2 transition-colors ${
+              sysNotify ? "border-maple text-maple" : "border-edge text-dim hover:text-maple"
+            }`}
+            title="타이머 종료 시 OS 알림(브라우저 알림)을 띄웁니다 — 게임 창에 가려져 있어도 보입니다. 켜면 브라우저 권한을 요청합니다"
+          >
+            {sysNotify ? "🖥️ 시스템 알림 켜짐" : "🖥️ 시스템 알림"}
           </button>
           <button
             onClick={() => setMuted(!muted)}
@@ -1061,6 +1383,26 @@ export default function BossTimerPage() {
         {shareError && <p className="text-xs text-red-500 mt-2">{shareError}</p>}
       </div>
 
+      {/* ── 원정대 관리 — 보스 프리셋에서만 (사냥 탭엔 파티원 입장 섹션이 따로 있음) ── */}
+      {bossId !== "hunt" && (
+        <ExpeditionPanel
+          exp={expedition}
+          now={correctedNow}
+          open={expOpen}
+          muted={muted}
+          sysNotify={sysNotify}
+          onToggleOpen={() => setExpOpen((v) => !v)}
+          onRaid={expRaid}
+          onPreset={expPreset}
+          onPartyAdd={expPartyAdd}
+          onPartyRemove={expPartyRemove}
+          onMemberAdd={expMemberAdd}
+          onMemberEdit={expMemberEdit}
+          onMemberRemove={expMemberRemove}
+          onMemberTimer={expMemberTimer}
+        />
+      )}
+
       <div className="space-y-8">
         {sections.map((section) => (
           <section key={section.id}>
@@ -1076,6 +1418,7 @@ export default function BossTimerPage() {
                   now={correctedNow}
                   muted={muted}
                   tts={tts}
+                  sysNotify={sysNotify}
                   hotkey={hotkeyOf.get(timer.id)}
                   onStart={() => startTimer(section.id, timer)}
                   onStop={() => stopTimer(section.id, timer.id)}
@@ -1105,7 +1448,19 @@ export default function BossTimerPage() {
           </li>
           <li className="text-sm text-dim flex gap-2">
             <span className="text-maple flex-shrink-0">-</span>
-            <span><strong>보스 탭</strong>: 상단에서 혼테일/카오스 자쿰을 전환합니다. 보스별 타이머 구성과 설정이 따로 저장됩니다. (방 참여 중엔 방의 보스로 고정)</span>
+            <span><strong>탭</strong>: 상단에서 혼테일/카오스 자쿰/사냥을 전환합니다. 탭별 타이머 구성과 설정이 따로 저장됩니다. (방 참여 중엔 방의 구성으로 고정)</span>
+          </li>
+          <li className="text-sm text-dim flex gap-2">
+            <span className="text-maple flex-shrink-0">-</span>
+            <span><strong>원정대 관리</strong> (혼테일·카쿰): 파티별로 공대원을 등록하면 멤버마다 <strong>사망</strong>(복귀 14분)과 직업 스킬 쿨(비숍 리저렉션 · 히어로 인레이지 · 바이퍼 타임리프 · 섀도어 연막탄) 버튼이 생깁니다. 입장 버튼으로 레이드 경과 시간을 재고, 방 공유 중이면 편성·사망 현황이 전원에게 동기화됩니다.</span>
+          </li>
+          <li className="text-sm text-dim flex gap-2">
+            <span className="text-maple flex-shrink-0">-</span>
+            <span><strong>사냥 탭</strong>: 파티원 입장 시간과 홀리 심볼·샤프 아이즈·메이플 용사 등 파티 버프 리버프 타이밍을 잽니다. 버프 지속 기본값은 원본 마스터 수치라 스킬 레벨에 맞게 수정하세요.</span>
+          </li>
+          <li className="text-sm text-dim flex gap-2">
+            <span className="text-maple flex-shrink-0">-</span>
+            <span><strong>시스템 알림(🖥️)</strong>: 켜면 타이머 종료 시 브라우저(OS) 알림이 떠서 게임 창에 가려져 있어도 보입니다. 탭을 백그라운드에 둬도 워커 틱으로 제때 울립니다. (최초 1회 브라우저 권한 허용 필요)</span>
           </li>
           <li className="text-sm text-dim flex gap-2">
             <span className="text-maple flex-shrink-0">-</span>
@@ -1149,6 +1504,251 @@ export default function BossTimerPage() {
             pipRootRef.current
           )
         : null}
+    </div>
+  );
+}
+
+/* ── 원정대 관리 보드 ── */
+function MemberNameInput({ value, onCommit }: { value: string; onCommit: (name: string) => void }) {
+  const [draft, setDraft] = useState(value);
+  useEffect(() => setDraft(value), [value]);
+  const commit = () => {
+    const name = draft.trim().slice(0, 12);
+    if (!name || name === value) { setDraft(value); return; }
+    onCommit(name);
+  };
+  return (
+    <input
+      type="text"
+      value={draft}
+      onChange={(e) => setDraft(e.target.value)}
+      onBlur={commit}
+      onKeyDown={(e) => { if (e.key === "Enter" && !e.nativeEvent.isComposing) (e.target as HTMLInputElement).blur(); }}
+      className="pixel-input px-2 py-1 text-xs font-bold flex-1 min-w-0"
+      maxLength={12}
+      title="클릭해서 닉네임으로 변경"
+    />
+  );
+}
+
+/* 멤버의 사망/스킬 쿨 버튼 — 대기 → 카운트다운 → 만료(준비됨) 3단계 */
+function MemberTimerButton({
+  endAt, now, icon, idleLabel, runningLabel, readyLabel, muted, sysNotify, notifyBody, keyBase, onStart, onStop,
+}: {
+  endAt: number | null;
+  now: number;
+  icon?: string; // 스킬 아이콘 이미지 경로 (없으면 라벨의 이모지 사용)
+  idleLabel: string;
+  runningLabel: string;
+  readyLabel: string;
+  muted: boolean;
+  sysNotify: boolean;
+  notifyBody: string;
+  keyBase: string;
+  onStart: () => void;
+  onStop: () => void;
+}) {
+  const running = endAt !== null && now < endAt;
+  const ready = endAt !== null && now >= endAt;
+  return (
+    <>
+      <button
+        type="button"
+        onClick={ready || running ? onStop : onStart}
+        onContextMenu={(e) => { e.preventDefault(); onStop(); }}
+        className={`flex items-center gap-1.5 px-2.5 py-1.5 border-2 transition-colors ${
+          ready
+            ? "border-green-600 text-green-500 animate-pulse"
+            : running
+            ? "border-red-400 text-red-500"
+            : "border-edge text-dim hover:text-maple hover:border-maple"
+        }`}
+        title={running ? "클릭하면 리셋합니다" : ready ? "클릭하면 초기 상태로 돌아갑니다" : "클릭하면 카운트다운을 시작합니다"}
+      >
+        {icon && (
+          <img src={icon} alt="" className="w-5 h-5 object-contain [image-rendering:pixelated] shrink-0"
+            onError={(e) => { e.currentTarget.style.display = "none"; }} />
+        )}
+        <span className="text-xs font-pixel leading-none">
+          {ready ? readyLabel : running ? runningLabel : idleLabel}
+        </span>
+        {running && (
+          <span className="font-mono font-bold tabular-nums text-sm leading-none">{fmt((endAt! - now) / 1000)}</span>
+        )}
+      </button>
+      {ready && !muted && <ExpireBeeper beepKey={`exp-${keyBase}-${endAt}`} />}
+      {ready && sysNotify && <SysNotifyOnce notifyKey={`exp-n-${keyBase}-${endAt}`} title="⏰ 원정대 알림" body={notifyBody} />}
+    </>
+  );
+}
+
+function ExpeditionPanel({
+  exp, now, open, muted, sysNotify, onToggleOpen, onRaid, onPreset, onPartyAdd, onPartyRemove, onMemberAdd, onMemberEdit, onMemberRemove, onMemberTimer,
+}: {
+  exp: Expedition;
+  now: number;
+  open: boolean;
+  muted: boolean;
+  sysNotify: boolean;
+  onToggleOpen: () => void;
+  onRaid: (op: "start" | "stop") => void;
+  onPreset: () => void;
+  onPartyAdd: () => void;
+  onPartyRemove: (partyId: string) => void;
+  onMemberAdd: (partyId: string) => void;
+  onMemberEdit: (partyId: string, memberId: string, patch: { name?: string; job?: string }) => void;
+  onMemberRemove: (partyId: string, memberId: string) => void;
+  onMemberTimer: (partyId: string, memberId: string, kind: "death" | "skill", op: "start" | "stop", duration: number) => void;
+}) {
+  const total = exp.parties.reduce((sum, p) => sum + p.members.length, 0);
+  const raidRunning = exp.startedAt !== null;
+
+  return (
+    <div className="pixel-panel p-4 mb-6">
+      <div className="flex flex-wrap items-center gap-3">
+        <button type="button" onClick={onToggleOpen} className="font-pixel text-sm text-ink hover:text-maple transition-colors">
+          {open ? "▼" : "▶"} ⚔️ 원정대 관리 {total > 0 && <span className="text-dim">총 {total}명</span>}
+        </button>
+        <div className="flex items-center gap-2 ml-auto">
+          {raidRunning ? (
+            <>
+              <span className="text-[11px] text-dim">
+                입장{" "}
+                {new Date(exp.startedAt!).toLocaleTimeString("ko-KR", { hour12: false, hour: "2-digit", minute: "2-digit", second: "2-digit" })}
+              </span>
+              <span className="font-mono font-bold tabular-nums text-xl text-green-500">{fmtHMS((now - exp.startedAt!) / 1000)}</span>
+              <button
+                type="button"
+                onClick={() => { if (confirm("레이드 경과 시간을 초기화할까요?")) onRaid("stop"); }}
+                className="px-2.5 py-1 text-[11px] font-pixel border-2 border-edge text-dim hover:text-red-500 hover:border-red-400 transition-colors"
+              >
+                초기화
+              </button>
+            </>
+          ) : (
+            <button type="button" onClick={() => onRaid("start")} className="pixel-btn px-3 py-1.5 text-xs">
+              ▶ 입장 (경과 기록)
+            </button>
+          )}
+        </div>
+      </div>
+
+      {open && (
+        <div className="mt-3 pt-3 border-t border-edge/60">
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            <p className="text-[11px] text-dim flex-1 min-w-48">
+              파티별로 공대원을 등록하고 직업을 고르면 멤버마다 <b className="text-ink">사망</b>(복귀 {Math.round(DEATH_RETURN_SECONDS / 60)}분)과
+              직업 스킬 쿨(리저렉션 30분 · 인레이지 8분 · 타임리프 20분 · 연막탄 10분) 버튼이 생깁니다. 방 공유 중이면 전원에게 동기화됩니다.
+            </p>
+            <button
+              type="button"
+              onClick={onPreset}
+              className="pixel-btn px-3 py-1.5 text-xs shrink-0"
+              title="통상 구성(파티마다 닼나+비숍+격수 4인) 3파티를 한 번에 만듭니다 — 이름·직업은 만들고 나서 바꿔 쓰세요"
+            >
+              ⚡ 기본 3파티 편성
+            </button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            {exp.parties.map((party, pi) => (
+              <div key={party.id} className="pixel-card p-2.5">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-pixel text-xs text-ink">{pi + 1}파티 <span className="text-dim">{party.members.length}/{MAX_MEMBERS}</span></span>
+                  <button
+                    type="button"
+                    onClick={() => { if (party.members.length === 0 || confirm(`${pi + 1}파티를 삭제할까요?`)) onPartyRemove(party.id); }}
+                    className="text-dim hover:text-red-500 transition-colors"
+                    title="파티 삭제"
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+                <div className="space-y-2">
+                  {party.members.map((member) => {
+                    const skill = EXP_JOB_SKILLS[member.job];
+                    return (
+                      <div key={member.id} className="border border-edge/70 p-1.5 space-y-1.5 bg-surface2/50">
+                        <div className="flex items-center gap-1.5">
+                          <select
+                            value={member.job}
+                            onChange={(e) => onMemberEdit(party.id, member.id, { job: e.target.value })}
+                            className="pixel-input px-1 py-1 text-[11px] w-[88px] shrink-0"
+                            title="직업"
+                          >
+                            {EXP_JOBS.map((j) => <option key={j} value={j}>{j}</option>)}
+                          </select>
+                          <MemberNameInput value={member.name} onCommit={(name) => onMemberEdit(party.id, member.id, { name })} />
+                          <button
+                            type="button"
+                            onClick={() => onMemberRemove(party.id, member.id)}
+                            className="text-dim hover:text-red-500 transition-colors shrink-0"
+                            title="파티원 제외"
+                          >
+                            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </div>
+                        <div className="flex flex-wrap gap-1.5">
+                          <MemberTimerButton
+                            endAt={member.deathEndAt}
+                            now={now}
+                            idleLabel="🪦 사망"
+                            runningLabel="⚰️ 복귀"
+                            readyLabel="✅ 복귀 가능"
+                            muted={muted}
+                            sysNotify={sysNotify}
+                            notifyBody={`${member.name} 복귀 가능 (사망 ${Math.round(DEATH_RETURN_SECONDS / 60)}분 경과)`}
+                            keyBase={`${member.id}-death`}
+                            onStart={() => onMemberTimer(party.id, member.id, "death", "start", DEATH_RETURN_SECONDS)}
+                            onStop={() => onMemberTimer(party.id, member.id, "death", "stop", 0)}
+                          />
+                          {skill && (
+                            <MemberTimerButton
+                              endAt={member.skillEndAt}
+                              now={now}
+                              icon={skill.icon}
+                              idleLabel={skill.label}
+                              runningLabel={skill.label}
+                              readyLabel={`${skill.label} 준비됨`}
+                              muted={muted}
+                              sysNotify={sysNotify}
+                              notifyBody={`${member.name} ${skill.label} 쿨타임 완료`}
+                              keyBase={`${member.id}-skill`}
+                              onStart={() => onMemberTimer(party.id, member.id, "skill", "start", skill.duration)}
+                              onStop={() => onMemberTimer(party.id, member.id, "skill", "stop", 0)}
+                            />
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                  {party.members.length < MAX_MEMBERS && (
+                    <button
+                      type="button"
+                      onClick={() => onMemberAdd(party.id)}
+                      className="w-full py-1.5 border border-dashed border-edge text-[11px] text-dim hover:border-maple hover:text-maple transition-colors"
+                    >
+                      + 파티원
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+            {exp.parties.length < MAX_PARTIES && (
+              <button
+                type="button"
+                onClick={onPartyAdd}
+                className="min-h-[88px] border-2 border-dashed border-edge text-sm text-dim hover:border-maple hover:text-maple transition-colors"
+              >
+                + 파티 추가
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
