@@ -319,13 +319,27 @@ const EXP_JOBS = [
   "비숍", "히어로", "팔라딘", "다크나이트", "불독", "썬콜",
   "보우마스터", "신궁", "나이트로드", "섀도어", "바이퍼", "캡틴", "배틀메이지", "기타",
 ];
-/* 멤버별 쿨타임 버튼이 붙는 직업 스킬 — 쿨 근거는 보스 프리셋과 동일 (리저 30분 · 인레이지 8분 · 타임리프 20분 · 연막탄 10분) */
-const EXP_JOB_SKILLS: Record<string, { label: string; duration: number }> = {
-  비숍: { label: "리저렉션", duration: 1800 },
-  히어로: { label: "인레이지", duration: 480 },
-  바이퍼: { label: "타임리프", duration: 1200 },
-  섀도어: { label: "연막탄", duration: 600 },
+/* 멤버별 쿨타임 버튼이 붙는 직업 스킬 — 쿨 근거는 보스 프리셋과 동일 (리저 30분 · 인레이지 8분 · 타임리프 20분 · 연막탄 10분)
+ * 아이콘: web/public/skill-icons (sim_skills.icon_path와 동일 에셋, 원본 스킬 ID) */
+const EXP_JOB_SKILLS: Record<string, { label: string; duration: number; icon: string }> = {
+  비숍: { label: "리저렉션", duration: 1800, icon: "/skill-icons/2321006.png" },
+  히어로: { label: "인레이지", duration: 480, icon: "/skill-icons/1121010.png" },
+  바이퍼: { label: "타임리프", duration: 1200, icon: "/skill-icons/5121010.png" },
+  섀도어: { label: "연막탄", duration: 600, icon: "/skill-icons/4221006.png" },
 };
+
+/* 기본 3파티 편성 — 통상 구성: 파티마다 닼나(하이퍼바디) + 비숍 + 격수 4인 (유혹팟·근격 등은 직업만 바꿔 쓰세요) */
+function defaultExpParties(): ExpParty[] {
+  const rid = () => Math.random().toString(36).slice(2, 8);
+  return [1, 2, 3].map(() => ({
+    id: `p${rid()}`,
+    members: [
+      { id: `m${rid()}`, name: "닼나", job: "다크나이트", deathEndAt: null, skillEndAt: null },
+      { id: `m${rid()}`, name: "비숍", job: "비숍", deathEndAt: null, skillEndAt: null },
+      ...[1, 2, 3, 4].map((n) => ({ id: `m${rid()}`, name: `격수 ${n}`, job: "기타", deathEndAt: null, skillEndAt: null })),
+    ],
+  }));
+}
 
 function fmtHMS(sec: number): string {
   const s = Math.max(0, Math.floor(sec));
@@ -1033,6 +1047,12 @@ export default function BossTimerPage() {
     expDispatch({ type: "exp_raid", op }, (prev) => ({ ...prev, startedAt: op === "start" ? Date.now() : null }));
   }, [expDispatch]);
 
+  const expPreset = useCallback(() => {
+    const hasMembers = expedition.parties.some((p) => p.members.length > 0);
+    if (hasMembers && !confirm("현재 편성을 지우고 기본 3파티(닼나+비숍+격수 4)로 바꿀까요?")) return;
+    expDispatch({ type: "exp_preset" }, (prev) => ({ ...prev, parties: defaultExpParties() }));
+  }, [expDispatch, expedition.parties]);
+
   const expPartyAdd = useCallback(() => {
     expDispatch({ type: "exp_party_add" }, (prev) =>
       prev.parties.length >= MAX_PARTIES
@@ -1373,6 +1393,7 @@ export default function BossTimerPage() {
           sysNotify={sysNotify}
           onToggleOpen={() => setExpOpen((v) => !v)}
           onRaid={expRaid}
+          onPreset={expPreset}
           onPartyAdd={expPartyAdd}
           onPartyRemove={expPartyRemove}
           onMemberAdd={expMemberAdd}
@@ -1512,12 +1533,13 @@ function MemberNameInput({ value, onCommit }: { value: string; onCommit: (name: 
 
 /* 멤버의 사망/스킬 쿨 버튼 — 대기 → 카운트다운 → 만료(준비됨) 3단계 */
 function MemberTimerButton({
-  endAt, now, idleLabel, runningPrefix, readyLabel, muted, sysNotify, notifyBody, keyBase, onStart, onStop,
+  endAt, now, icon, idleLabel, runningLabel, readyLabel, muted, sysNotify, notifyBody, keyBase, onStart, onStop,
 }: {
   endAt: number | null;
   now: number;
+  icon?: string; // 스킬 아이콘 이미지 경로 (없으면 라벨의 이모지 사용)
   idleLabel: string;
-  runningPrefix: string;
+  runningLabel: string;
   readyLabel: string;
   muted: boolean;
   sysNotify: boolean;
@@ -1534,7 +1556,7 @@ function MemberTimerButton({
         type="button"
         onClick={ready || running ? onStop : onStart}
         onContextMenu={(e) => { e.preventDefault(); onStop(); }}
-        className={`px-2 py-1 text-[11px] font-mono border transition-colors ${
+        className={`flex items-center gap-1.5 px-2.5 py-1.5 border-2 transition-colors ${
           ready
             ? "border-green-600 text-green-500 animate-pulse"
             : running
@@ -1543,7 +1565,16 @@ function MemberTimerButton({
         }`}
         title={running ? "클릭하면 리셋합니다" : ready ? "클릭하면 초기 상태로 돌아갑니다" : "클릭하면 카운트다운을 시작합니다"}
       >
-        {ready ? readyLabel : running ? `${runningPrefix} ${fmt((endAt! - now) / 1000)}` : idleLabel}
+        {icon && (
+          <img src={icon} alt="" className="w-5 h-5 object-contain [image-rendering:pixelated] shrink-0"
+            onError={(e) => { e.currentTarget.style.display = "none"; }} />
+        )}
+        <span className="text-xs font-pixel leading-none">
+          {ready ? readyLabel : running ? runningLabel : idleLabel}
+        </span>
+        {running && (
+          <span className="font-mono font-bold tabular-nums text-sm leading-none">{fmt((endAt! - now) / 1000)}</span>
+        )}
       </button>
       {ready && !muted && <ExpireBeeper beepKey={`exp-${keyBase}-${endAt}`} />}
       {ready && sysNotify && <SysNotifyOnce notifyKey={`exp-n-${keyBase}-${endAt}`} title="⏰ 원정대 알림" body={notifyBody} />}
@@ -1552,7 +1583,7 @@ function MemberTimerButton({
 }
 
 function ExpeditionPanel({
-  exp, now, open, muted, sysNotify, onToggleOpen, onRaid, onPartyAdd, onPartyRemove, onMemberAdd, onMemberEdit, onMemberRemove, onMemberTimer,
+  exp, now, open, muted, sysNotify, onToggleOpen, onRaid, onPreset, onPartyAdd, onPartyRemove, onMemberAdd, onMemberEdit, onMemberRemove, onMemberTimer,
 }: {
   exp: Expedition;
   now: number;
@@ -1561,6 +1592,7 @@ function ExpeditionPanel({
   sysNotify: boolean;
   onToggleOpen: () => void;
   onRaid: (op: "start" | "stop") => void;
+  onPreset: () => void;
   onPartyAdd: () => void;
   onPartyRemove: (partyId: string) => void;
   onMemberAdd: (partyId: string) => void;
@@ -1603,10 +1635,20 @@ function ExpeditionPanel({
 
       {open && (
         <div className="mt-3 pt-3 border-t border-edge/60">
-          <p className="text-[11px] text-dim mb-3">
-            파티별로 공대원을 등록하고 직업을 고르면 멤버마다 <b className="text-ink">사망</b>(복귀 {Math.round(DEATH_RETURN_SECONDS / 60)}분)과
-            직업 스킬 쿨(리저렉션 30분 · 인레이지 8분 · 타임리프 20분 · 연막탄 10분) 버튼이 생깁니다. 방 공유 중이면 전원에게 동기화됩니다.
-          </p>
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            <p className="text-[11px] text-dim flex-1 min-w-48">
+              파티별로 공대원을 등록하고 직업을 고르면 멤버마다 <b className="text-ink">사망</b>(복귀 {Math.round(DEATH_RETURN_SECONDS / 60)}분)과
+              직업 스킬 쿨(리저렉션 30분 · 인레이지 8분 · 타임리프 20분 · 연막탄 10분) 버튼이 생깁니다. 방 공유 중이면 전원에게 동기화됩니다.
+            </p>
+            <button
+              type="button"
+              onClick={onPreset}
+              className="pixel-btn px-3 py-1.5 text-xs shrink-0"
+              title="통상 구성(파티마다 닼나+비숍+격수 4인) 3파티를 한 번에 만듭니다 — 이름·직업은 만들고 나서 바꿔 쓰세요"
+            >
+              ⚡ 기본 3파티 편성
+            </button>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {exp.parties.map((party, pi) => (
               <div key={party.id} className="pixel-card p-2.5">
@@ -1654,7 +1696,7 @@ function ExpeditionPanel({
                             endAt={member.deathEndAt}
                             now={now}
                             idleLabel="🪦 사망"
-                            runningPrefix="⚰️"
+                            runningLabel="⚰️ 복귀"
                             readyLabel="✅ 복귀 가능"
                             muted={muted}
                             sysNotify={sysNotify}
@@ -1667,9 +1709,10 @@ function ExpeditionPanel({
                             <MemberTimerButton
                               endAt={member.skillEndAt}
                               now={now}
-                              idleLabel={`✨ ${skill.label}`}
-                              runningPrefix="✨"
-                              readyLabel={`✨ ${skill.label} 준비됨`}
+                              icon={skill.icon}
+                              idleLabel={skill.label}
+                              runningLabel={skill.label}
+                              readyLabel={`${skill.label} 준비됨`}
                               muted={muted}
                               sysNotify={sysNotify}
                               notifyBody={`${member.name} ${skill.label} 쿨타임 완료`}

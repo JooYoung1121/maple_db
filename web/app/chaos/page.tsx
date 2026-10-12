@@ -11,17 +11,46 @@
  *   기본 균등 가정이며 화면에서 조정 가능 (리버스 기대값 시뮬과 같은 방침)
  */
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { getItems } from "@/lib/api";
+import type { Item } from "@/lib/types";
 
 type LineKey =
   | "STR" | "DEX" | "INT" | "LUK"
   | "HP" | "MP" | "공격력" | "마력"
-  | "물리방어" | "마법방어" | "명중" | "회피";
+  | "물리방어" | "마법방어" | "명중" | "회피"
+  | "이동속도" | "점프";
 
 const LINE_KEYS: LineKey[] = [
-  "STR", "DEX", "INT", "LUK", "HP", "MP", "공격력", "마력", "물리방어", "마법방어", "명중", "회피",
+  "STR", "DEX", "INT", "LUK", "HP", "MP", "공격력", "마력", "물리방어", "마법방어", "명중", "회피", "이동속도", "점프",
 ];
 const MAIN_STATS: LineKey[] = ["STR", "DEX", "INT", "LUK"];
+
+/* DB items.stats(JSON 키) → 시뮬 옵션 줄 매핑 */
+const STAT_TO_LINE: Record<string, LineKey> = {
+  incSTR: "STR", incDEX: "DEX", incINT: "INT", incLUK: "LUK",
+  incMHP: "HP", incMMP: "MP", incPAD: "공격력", incMAD: "마력",
+  incPDD: "물리방어", incMDD: "마법방어", incACC: "명중", incEVA: "회피",
+  incSpeed: "이동속도", incJump: "점프",
+};
+
+const SUBCAT_KR: Record<string, string> = {
+  Belt: "허리띠", "Face Accessory": "얼굴장식", "Eye Decoration": "눈장식",
+  Earrings: "귀고리", Pendant: "펜던트", Ring: "반지", Medal: "훈장", "Shoulder Accessory": "어깨장식",
+};
+
+function linesFromStats(statsJson: string | null | undefined): Lines {
+  const lines: Lines = {};
+  if (!statsJson) return lines;
+  try {
+    const stats = JSON.parse(statsJson) as Record<string, number>;
+    for (const [key, value] of Object.entries(stats)) {
+      const line = STAT_TO_LINE[key];
+      if (line && typeof value === "number" && value > 0) lines[line] = (lines[line] ?? 0) + value;
+    }
+  } catch { /* 손상된 stats JSON은 빈 줄로 */ }
+  return lines;
+}
 
 type Lines = Partial<Record<LineKey, number>>;
 
@@ -145,11 +174,39 @@ export default function ChaosSimPage() {
   const [itemId, setItemId] = useState("black");
   const [customLines, setCustomLines] = useState<Lines>({ STR: 0, DEX: 0, INT: 0, LUK: 0 });
   const [customSlots, setCustomSlots] = useState(3);
+  const [dbItem, setDbItem] = useState<TargetItem | null>(null); // 전체 악세서리에서 고른 아이템
+
+  // 전체 악세서리 목록 (메랜 노출 아이템, DB items) — 업횟 있고 혼줌이 굴릴 옵션이 있는 것만
+  const [accessories, setAccessories] = useState<Item[]>([]);
+  const [accLoading, setAccLoading] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [pickerSubcat, setPickerSubcat] = useState<string>("전체");
+  const [pickerQuery, setPickerQuery] = useState("");
+
+  useEffect(() => {
+    if (!pickerOpen || accessories.length > 0 || accLoading) return;
+    setAccLoading(true);
+    Promise.all([
+      getItems({ category: "Accessory", per_page: 100, page: 1 }),
+      getItems({ category: "Accessory", per_page: 100, page: 2 }),
+    ])
+      .then(([a, b]) => {
+        const all = [...a.items, ...(b?.items ?? [])];
+        const usable = all.filter((it) => (it.upgrade_slots ?? 0) > 0 && Object.keys(linesFromStats(it.stats)).length > 0);
+        usable.sort((x, y) => (x.subcategory ?? "").localeCompare(y.subcategory ?? "") || (x.level_req - y.level_req) || x.id - y.id);
+        setAccessories(usable);
+      })
+      .catch(() => setAccessories([]))
+      .finally(() => setAccLoading(false));
+  }, [pickerOpen, accessories.length, accLoading]);
 
   const item: TargetItem = useMemo(() => {
-    if (itemId !== "custom") return BELTS.find((b) => b.id === itemId) ?? BELTS[4];
-    return { id: "custom", name: "커스텀 악세서리", itemId: null, lines: customLines, slots: customSlots, note: "직접 입력" };
-  }, [itemId, customLines, customSlots]);
+    if (itemId === "custom") {
+      return { id: "custom", name: "커스텀 악세서리", itemId: null, lines: customLines, slots: customSlots, note: "직접 입력" };
+    }
+    if (itemId === "db" && dbItem) return dbItem;
+    return BELTS.find((b) => b.id === itemId) ?? BELTS[4];
+  }, [itemId, customLines, customSlots, dbItem]);
 
   const [focusStat, setFocusStat] = useState<LineKey>("STR");
   const [target, setTarget] = useState(10);
@@ -222,6 +279,41 @@ export default function ChaosSimPage() {
       if (belt && (belt.lines[focusStat] ?? 0) === 0) setFocusStat("STR");
     }
   };
+
+  const pickDbItem = (it: Item) => {
+    const lines = linesFromStats(it.stats);
+    const next: TargetItem = {
+      id: "db",
+      name: it.name_kr || it.name,
+      itemId: it.id,
+      lines,
+      slots: Math.max(1, it.upgrade_slots ?? 1),
+      note: `${SUBCAT_KR[it.subcategory ?? ""] ?? it.subcategory ?? "악세서리"} · 업횟 ${it.upgrade_slots}`,
+    };
+    setDbItem(next);
+    setItemId("db");
+    setManual(null);
+    setBatch(EMPTY_BATCH);
+    if ((lines[focusStat] ?? 0) === 0) {
+      const first = LINE_KEYS.find((k) => (lines[k] ?? 0) > 0);
+      if (first) setFocusStat(first);
+    }
+  };
+
+  const pickerItems = useMemo(() => {
+    const q = pickerQuery.trim().toLowerCase().replace(/\s+/g, "");
+    return accessories.filter((it) => {
+      if (pickerSubcat !== "전체" && it.subcategory !== pickerSubcat) return false;
+      if (!q) return true;
+      const hay = `${it.name_kr ?? ""}${it.name}`.toLowerCase().replace(/\s+/g, "");
+      return hay.includes(q);
+    });
+  }, [accessories, pickerSubcat, pickerQuery]);
+
+  const pickerSubcats = useMemo(
+    () => ["전체", ...Array.from(new Set(accessories.map((it) => it.subcategory ?? ""))).filter(Boolean)],
+    [accessories],
+  );
 
   /* ── 직접 발라보기 ── */
   const manualLines = manual?.lines ?? item.lines;
@@ -297,7 +389,71 @@ export default function ChaosSimPage() {
               </button>
             );
           })}
+          <button type="button" onClick={() => setPickerOpen((v) => !v)}
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 border-2 text-xs transition-colors ${itemId === "db" ? "border-maple bg-[color-mix(in_srgb,var(--c-maple)_12%,transparent)] text-maple font-pixel" : "bg-surface2 border-edge text-dim hover:border-maple/60"}`}>
+            {itemId === "db" && dbItem?.itemId ? (
+              <>
+                <img src={iconUrl(dbItem.itemId)} alt="" onError={(e) => { e.currentTarget.style.display = "none"; }}
+                  className="w-6 h-6 object-contain [image-rendering:pixelated]" />
+                <span>{dbItem.name} <span className="opacity-60">{pickerOpen ? "목록 닫기" : "변경"}</span></span>
+              </>
+            ) : (
+              <span>🔎 전체 악세서리 {pickerOpen ? "닫기" : "찾기"}</span>
+            )}
+          </button>
         </div>
+
+        {pickerOpen && (
+          <div className="border-t-2 border-edge pt-3 space-y-2">
+            <div className="flex flex-wrap items-center gap-1.5">
+              {pickerSubcats.map((sc) => (
+                <button key={sc} type="button" onClick={() => setPickerSubcat(sc)}
+                  className={`px-2 py-1 text-[11px] border transition-colors ${pickerSubcat === sc ? "border-maple text-maple" : "border-edge text-dim hover:text-maple hover:border-maple"}`}>
+                  {sc === "전체" ? "전체" : SUBCAT_KR[sc] ?? sc}
+                </button>
+              ))}
+              <input
+                type="text"
+                value={pickerQuery}
+                onChange={(e) => setPickerQuery(e.target.value)}
+                placeholder="이름 검색 (예: 단풍잎)"
+                className="pixel-input px-2 py-1 text-xs w-40 ml-auto"
+              />
+            </div>
+            {accLoading ? (
+              <p className="text-xs text-dim py-3">악세서리 목록 불러오는 중…</p>
+            ) : pickerItems.length === 0 ? (
+              <p className="text-xs text-dim py-3">조건에 맞는 악세서리가 없습니다. (업그레이드 횟수가 있고 옵션이 등록된 메랜 아이템만 노출 — 없으면 &lsquo;직접 입력&rsquo;을 쓰세요)</p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5 max-h-72 overflow-y-auto pr-1">
+                {pickerItems.map((it) => {
+                  const lines = linesFromStats(it.stats);
+                  const summary = LINE_KEYS.filter((k) => (lines[k] ?? 0) > 0)
+                    .map((k) => `${k}+${lines[k]}`)
+                    .join(" ");
+                  const active = itemId === "db" && dbItem?.itemId === it.id;
+                  return (
+                    <button key={it.id} type="button" onClick={() => pickDbItem(it)}
+                      className={`flex items-center gap-2 px-2 py-1.5 border text-left transition-colors ${active ? "border-maple text-maple" : "border-edge bg-surface2 hover:border-maple/60"}`}>
+                      <img src={iconUrl(it.id)} alt="" loading="lazy" onError={(e) => { e.currentTarget.style.display = "none"; }}
+                        className="w-7 h-7 object-contain [image-rendering:pixelated] shrink-0" />
+                      <span className="min-w-0">
+                        <span className="block text-xs font-bold truncate">{it.name_kr || it.name}</span>
+                        <span className="block text-[10px] text-dim truncate">
+                          {SUBCAT_KR[it.subcategory ?? ""] ?? it.subcategory} · 업횟 {it.upgrade_slots} · {summary}
+                        </span>
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+            <p className="text-[10px] text-dim">
+              메랜에 노출되는 악세서리 중 업그레이드 횟수가 있고 옵션이 등록된 {accessories.length}개를 보여줍니다.
+              메랜 커스텀 옵션이 아직 DB에 없는 아이템(예: 금이 간 안경)은 &lsquo;직접 입력&rsquo;으로 수치를 넣어 시뮬할 수 있습니다.
+            </p>
+          </div>
+        )}
 
         {itemId === "custom" && (
           <div className="border-t-2 border-edge pt-3">

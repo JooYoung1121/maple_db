@@ -332,6 +332,26 @@ def _apply_expedition_action(expedition: Any, payload: ActionPayload, nick: str)
         exp["startedAt"] = None
         return exp, f"{nick}: 레이드 경과 초기화"
 
+    if payload.type == "exp_preset":
+        # 기본 3파티 편성 — 파티마다 닼나(다크나이트)+비숍+격수 4인 (프론트 defaultExpParties와 동일 구성)
+        exp["parties"] = [
+            {
+                "id": f"p{secrets.token_hex(3)}",
+                "members": (
+                    [
+                        {"id": f"m{secrets.token_hex(3)}", "name": "닼나", "job": "다크나이트", "deathEndAt": None, "skillEndAt": None},
+                        {"id": f"m{secrets.token_hex(3)}", "name": "비숍", "job": "비숍", "deathEndAt": None, "skillEndAt": None},
+                    ]
+                    + [
+                        {"id": f"m{secrets.token_hex(3)}", "name": f"격수 {n}", "job": "기타", "deathEndAt": None, "skillEndAt": None}
+                        for n in range(1, 5)
+                    ]
+                ),
+            }
+            for _ in range(3)
+        ]
+        return exp, f"{nick}: 기본 3파티 편성 생성"
+
     if payload.type == "exp_party_add":
         if len(parties) >= EXP_MAX_PARTIES:
             raise HTTPException(status_code=400, detail=f"파티는 최대 {EXP_MAX_PARTIES}개입니다")
