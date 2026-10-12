@@ -14,6 +14,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { getItems } from "@/lib/api";
 import type { Item } from "@/lib/types";
+import ChaosStage, { type StageRoll } from "./ChaosStage";
 
 type LineKey =
   | "STR" | "DEX" | "INT" | "LUK"
@@ -25,6 +26,7 @@ const LINE_KEYS: LineKey[] = [
   "STR", "DEX", "INT", "LUK", "HP", "MP", "공격력", "마력", "물리방어", "마법방어", "명중", "회피", "이동속도", "점프",
 ];
 const MAIN_STATS: LineKey[] = ["STR", "DEX", "INT", "LUK"];
+const GAIN_KEYS: LineKey[] = [...MAIN_STATS, "공격력", "마력"]; // 연출 이름 색 단계 기준
 
 /* DB items.stats(JSON 키) → 시뮬 옵션 줄 매핑 */
 const STAT_TO_LINE: Record<string, LineKey> = {
@@ -158,6 +160,7 @@ function number(value: number, digits = 2): string {
 interface ManualState {
   lines: Lines;
   used: number;
+  history: boolean[]; // 장별 성공 여부 (업횟 게이지 표시)
   log: string[];
 }
 
@@ -326,9 +329,9 @@ export default function ChaosSimPage() {
   const manualUsed = manual?.used ?? 0;
   const manualDone = manualUsed >= item.slots;
 
-  const applyManual = () => {
-    if (manualDone) return;
-    const current = manual ?? { lines: { ...item.lines }, used: 0, log: [] };
+  const applyManual = (): StageRoll | null => {
+    if (manualDone) return null;
+    const current = manual ?? { lines: { ...item.lines }, used: 0, history: [], log: [] };
     const { lines, success, deltas } = applyChaos(current.lines, successRate, deltaWeights, lineVanish, item.lines);
     const used = current.used + 1;
     const text = success
@@ -336,7 +339,8 @@ export default function ChaosSimPage() {
           .map((k) => `${k} ${deltas[k]! >= 0 ? "+" : ""}${deltas[k]}`)
           .join(", ")}`
       : `${used}장째 실패 — 변동 없이 업그레이드 횟수만 소모`;
-    setManual({ lines, used, log: [text, ...current.log].slice(0, 8) });
+    setManual({ lines, used, history: [...current.history, success], log: [text, ...current.log].slice(0, 8) });
+    return { success, deltas };
   };
 
   const runBatch = (count: number) => {
@@ -582,90 +586,65 @@ export default function ChaosSimPage() {
         <p className="text-[11px] text-dim mt-2">주황 막대가 목표({target}) 이상 구간입니다. 실패한 장은 수치 변동 없이 업그레이드 횟수만 소모한 것으로 계산합니다.</p>
       </div>
 
-      {/* ── 체험 ── */}
-      <div className="grid lg:grid-cols-2 gap-4">
-        <div className="pixel-panel p-4 space-y-3">
-          <div>
-            <h2 className="font-pixel text-sm text-ink">일괄 작 체험</h2>
-            <p className="text-xs text-dim mt-1">깨끗한 {item.name} 1개마다 혼줌 {item.slots}장을 전부 바릅니다.</p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {[1, 10, 100, 1000].map((count) => (
-              <button key={count} type="button" onClick={() => runBatch(count)} className="pixel-btn px-3 py-2 font-pixel text-xs">{count.toLocaleString()}개</button>
+      {/* ── 직접 발라보기 (연출) ── */}
+      <div className="pixel-panel p-4 space-y-3">
+        <div>
+          <h2 className="font-pixel text-sm text-ink">직접 발라보기</h2>
+          <p className="text-xs text-dim mt-1">한 장씩 바르며 성공·실패 연출과 옵션 변동을 확인합니다.</p>
+        </div>
+        <ChaosStage
+          name={item.name}
+          itemId={item.itemId}
+          slots={item.slots}
+          used={manualUsed}
+          slotHistory={manual?.history ?? []}
+          baseLines={item.lines}
+          lines={manualLines}
+          activeLines={activeLines}
+          gainKeys={GAIN_KEYS}
+          successPct={successPct}
+          focusStat={focusStat}
+          target={target}
+          onApply={applyManual}
+          onReset={() => setManual(null)}
+        />
+        {manual && manual.log.length > 0 && (
+          <div className="border-t border-edge pt-2 space-y-0.5">
+            {manual.log.map((text, i) => (
+              <p key={`${manual.used}-${i}`} className={`text-[11px] ${i === 0 ? "text-ink" : "text-dim"}`}>{text}</p>
             ))}
-            <button type="button" onClick={() => setBatch(EMPTY_BATCH)} className="pixel-card px-3 py-2 font-pixel text-xs text-dim">초기화</button>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            <SmallStat label="완작 개수" value={`${batch.attempts.toLocaleString()}개`} />
-            <SmallStat label={`${focusStat} ${target}+ 달성`} value={`${batch.reached.toLocaleString()}개`} />
-            <SmallStat label={`최고 ${focusStat}`} value={batch.bestFocus === null ? "-" : String(batch.bestFocus)} />
-            <SmallStat label="누적 비용" value={`${number(batch.attempts * metrics.attemptCost)}만`} />
-          </div>
-          {batch.recent.length > 0 && (
-            <div className="flex flex-wrap gap-1 border-t border-edge pt-2">
-              {batch.recent.map((r, i) => (
-                <span key={`${batch.attempts}-${i}`} className={`px-1.5 py-0.5 text-[10px] border ${r.focus >= target ? "border-maple text-maple" : "border-edge text-dim"}`}>
-                  {focusStat} {r.focus}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div className="pixel-panel p-4 space-y-3">
-          <div className="flex items-start justify-between gap-2">
-            <div>
-              <h2 className="font-pixel text-sm text-ink">직접 발라보기</h2>
-              <p className="text-xs text-dim mt-1">한 장씩 바르며 전 옵션 변동을 확인합니다.</p>
-            </div>
-            <button type="button" onClick={() => setManual(null)} className="text-[11px] text-dim underline">리셋</button>
-          </div>
-          <div className="pixel-card p-3 flex items-start gap-3">
-            <div className="w-12 h-12 flex items-center justify-center border-2 border-edge bg-surface2 shrink-0">
-              {item.itemId ? (
-                <img src={iconUrl(item.itemId)} alt="" onError={(e) => { e.currentTarget.style.display = "none"; }}
-                  className="w-9 h-9 object-contain [image-rendering:pixelated]" />
-              ) : (
-                <span className="text-dim text-xl leading-none">🎀</span>
-              )}
-            </div>
-            <div className="min-w-0 flex-1">
-              <div className="font-bold text-sm">{item.name} <span className="text-dim font-normal text-xs">업횟 {item.slots - manualUsed}/{item.slots}</span></div>
-              <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-xs mt-1">
-                {activeLines.map((k) => {
-                  const base = item.lines[k] ?? 0;
-                  const v = manualLines[k] ?? 0;
-                  return (
-                    <span key={k} className={v > base ? "text-maple font-bold" : v < base ? "text-red-500" : ""}>
-                      {k} {v}
-                      {v !== base && <span className="opacity-70"> ({v > base ? "+" : ""}{v - base})</span>}
-                    </span>
-                  );
-                })}
-              </div>
-              {manualDone && (
-                <p className="text-[11px] text-maple mt-1.5 font-pixel">완작! {focusStat} {manualLines[focusStat] ?? 0} {(manualLines[focusStat] ?? 0) >= target ? "— 목표 달성 🎉" : "— 목표 미달"}</p>
-              )}
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <button type="button" onClick={applyManual} disabled={manualDone}
-              className="pixel-btn px-4 py-2 font-pixel text-xs disabled:opacity-50">
-              🌀 혼돈의 주문서 사용 ({successPct}%)
-            </button>
-            {manualDone && (
-              <button type="button" onClick={() => setManual(null)} className="pixel-card px-4 py-2 font-pixel text-xs text-maple">새 악세서리</button>
-            )}
-          </div>
-          {manual && manual.log.length > 0 && (
-            <div className="border-t border-edge pt-2 space-y-0.5">
-              {manual.log.map((text, i) => (
-                <p key={`${manual.used}-${i}`} className={`text-[11px] ${i === 0 ? "text-ink" : "text-dim"}`}>{text}</p>
-              ))}
-            </div>
-          )}
-        </div>
+        )}
       </div>
+
+      {/* ── 일괄 작 ── */}
+      <div className="pixel-panel p-4 space-y-3">
+        <div>
+          <h2 className="font-pixel text-sm text-ink">일괄 작 체험</h2>
+          <p className="text-xs text-dim mt-1">깨끗한 {item.name} 1개마다 혼줌 {item.slots}장을 전부 바릅니다.</p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {[1, 10, 100, 1000].map((count) => (
+            <button key={count} type="button" onClick={() => runBatch(count)} className="pixel-btn px-3 py-2 font-pixel text-xs">{count.toLocaleString()}개</button>
+          ))}
+          <button type="button" onClick={() => setBatch(EMPTY_BATCH)} className="pixel-card px-3 py-2 font-pixel text-xs text-dim">초기화</button>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <SmallStat label="완작 개수" value={`${batch.attempts.toLocaleString()}개`} />
+          <SmallStat label={`${focusStat} ${target}+ 달성`} value={`${batch.reached.toLocaleString()}개`} />
+          <SmallStat label={`최고 ${focusStat}`} value={batch.bestFocus === null ? "-" : String(batch.bestFocus)} />
+          <SmallStat label="누적 비용" value={`${number(batch.attempts * metrics.attemptCost)}만`} />
+        </div>
+        {batch.recent.length > 0 && (
+          <div className="flex flex-wrap gap-1 border-t border-edge pt-2">
+            {batch.recent.map((r, i) => (
+              <span key={`${batch.attempts}-${i}`} className={`px-1.5 py-0.5 text-[10px] border ${r.focus >= target ? "border-maple text-maple" : "border-edge text-dim"}`}>
+                {focusStat} {r.focus}
+              </span>
+            ))}
+          </div>
+        )}
+    </div>
 
       {/* ── 안내 ── */}
       <div className="pixel-panel p-5">
