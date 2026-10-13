@@ -171,6 +171,13 @@ interface ManualState {
   log: string[];
 }
 
+/* 트(완작 1회) 기록 — 직접 발라보기에서 업횟을 다 쓸 때마다 쌓인다 */
+interface AttemptRecord {
+  n: number;
+  lines: Lines;
+  successes: number;
+}
+
 interface BatchState {
   attempts: number;
   reached: number;
@@ -234,6 +241,7 @@ export default function ChaosSimPage() {
   const [showAssumptions, setShowAssumptions] = useState(false);
 
   const [manual, setManual] = useState<ManualState | null>(null);
+  const [attempts, setAttempts] = useState<AttemptRecord[]>([]);
   const [batch, setBatch] = useState<BatchState>(EMPTY_BATCH);
 
   const successRate = Math.min(100, Math.max(0, successPct)) / 100;
@@ -289,6 +297,7 @@ export default function ChaosSimPage() {
   const switchItem = (id: string) => {
     setItemId(id);
     setManual(null);
+    setAttempts([]);
     setBatch(EMPTY_BATCH);
     if (id !== "custom") {
       const belt = BELTS.find((b) => b.id === id);
@@ -309,6 +318,7 @@ export default function ChaosSimPage() {
     setDbItem(next);
     setItemId("db");
     setManual(null);
+    setAttempts([]);
     setBatch(EMPTY_BATCH);
     if ((lines[focusStat] ?? 0) === 0) {
       const first = LINE_KEYS.find((k) => (lines[k] ?? 0) > 0);
@@ -346,7 +356,11 @@ export default function ChaosSimPage() {
           .map((k) => `${k} ${deltas[k]! >= 0 ? "+" : ""}${deltas[k]}`)
           .join(", ")}`
       : `${used}장째 실패 — 변동 없이 업그레이드 횟수만 소모`;
-    setManual({ lines, used, history: [...current.history, success], log: [text, ...current.log].slice(0, 8) });
+    const history = [...current.history, success];
+    setManual({ lines, used, history, log: [text, ...current.log].slice(0, 8) });
+    if (used >= item.slots) {
+      setAttempts((prev) => [...prev, { n: prev.length + 1, lines, successes: history.filter(Boolean).length }]);
+    }
     return { success, deltas };
   };
 
@@ -369,6 +383,19 @@ export default function ChaosSimPage() {
       recent: [...prev.recent, ...recent].slice(-30),
     }));
   };
+
+  /* 트 기록 요약 — 최고는 선택 스탯 값, 같으면 주스탯·공/마 합 변화량 */
+  const attemptSummary = useMemo(() => {
+    if (attempts.length === 0) return null;
+    const gainOf = (a: AttemptRecord) => GAIN_KEYS.reduce((sum, k) => sum + ((a.lines[k] ?? 0) - (item.lines[k] ?? 0)), 0);
+    const best = attempts.reduce((b, a) => {
+      const av = a.lines[focusStat] ?? 0;
+      const bv = b.lines[focusStat] ?? 0;
+      return av > bv || (av === bv && gainOf(a) > gainOf(b)) ? a : b;
+    }, attempts[0]);
+    const hits = attempts.filter((a) => (a.lines[focusStat] ?? 0) >= target).length;
+    return { total: attempts.length, hits, best };
+  }, [attempts, focusStat, target, item]);
 
   const maxProbability = Math.max(...distribution.map(([, p]) => p), 1e-9);
   const normalizedWeights = normalized(deltaWeights);
@@ -481,14 +508,14 @@ export default function ChaosSimPage() {
                 <label key={k} className="text-[11px] text-dim text-center">
                   {k}
                   <input type="number" min="0" value={customLines[k] ?? 0}
-                    onChange={(e) => { setCustomLines((prev) => ({ ...prev, [k]: Math.max(0, Number(e.target.value) || 0) })); setManual(null); setBatch(EMPTY_BATCH); }}
+                    onChange={(e) => { setCustomLines((prev) => ({ ...prev, [k]: Math.max(0, Number(e.target.value) || 0) })); setManual(null); setAttempts([]); setBatch(EMPTY_BATCH); }}
                     className="pixel-input w-full px-1.5 py-1.5 mt-1 text-center text-ink" />
                 </label>
               ))}
               <label className="text-[11px] text-maple text-center">
                 업그레이드 횟수
                 <input type="number" min="1" max="10" value={customSlots}
-                  onChange={(e) => { setCustomSlots(Math.min(10, Math.max(1, Math.floor(Number(e.target.value) || 1)))); setManual(null); setBatch(EMPTY_BATCH); }}
+                  onChange={(e) => { setCustomSlots(Math.min(10, Math.max(1, Math.floor(Number(e.target.value) || 1)))); setManual(null); setAttempts([]); setBatch(EMPTY_BATCH); }}
                   className="pixel-input w-full px-1.5 py-1.5 mt-1 text-center text-ink" />
               </label>
             </div>
@@ -596,8 +623,8 @@ export default function ChaosSimPage() {
       {/* ── 직접 발라보기 (연출) ── */}
       <div className="pixel-panel p-4 space-y-3">
         <div>
-          <h2 className="font-pixel text-sm text-ink">직접 발라보기</h2>
-          <p className="text-xs text-dim mt-1">한 장씩 바르며 성공·실패 연출과 옵션 변동을 확인합니다.</p>
+          <h2 className="font-pixel text-sm text-ink">직접 발라보기 — {attempts.length + (manualDone ? 0 : 1)}트</h2>
+          <p className="text-xs text-dim mt-1">한 장씩 바르며 성공·실패 연출과 옵션 변동을 확인합니다. 업횟을 다 쓰면 1트로 기록되고 &lsquo;새 악세서리&rsquo;로 다음 트를 시작합니다.</p>
         </div>
         <ChaosStage
           name={item.name}
@@ -622,6 +649,70 @@ export default function ChaosSimPage() {
             ))}
           </div>
         )}
+
+        {/* ── 트 기록 ── */}
+        <div className="border-t border-edge pt-3 space-y-2">
+          <div className="flex items-center justify-between gap-2">
+            <h3 className="font-pixel text-xs text-ink">시도 기록</h3>
+            {attempts.length > 0 && (
+              <button type="button" onClick={() => setAttempts([])} className="text-[11px] text-dim hover:text-maple">기록 초기화</button>
+            )}
+          </div>
+          {attemptSummary ? (
+            <>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <SmallStat label="총 트" value={`${attemptSummary.total}트`} />
+                <SmallStat label={`${focusStat} ${target}+ 달성`} value={`${attemptSummary.hits}트`} />
+                <SmallStat label={`최고 ${focusStat}`} value={`${attemptSummary.best.n}트 · ${attemptSummary.best.lines[focusStat] ?? 0}`} />
+                <SmallStat label="누적 비용" value={`${number(attemptSummary.total * metrics.attemptCost)}만`} />
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs">
+                  <thead>
+                    <tr className="bg-surface2 text-dim">
+                      <th className="text-left px-2 py-1.5 font-medium w-12">트</th>
+                      <th className="text-center px-2 py-1.5 font-medium w-16">성공</th>
+                      <th className="text-left px-2 py-1.5 font-medium">최종 옵션 (기본 대비)</th>
+                      <th className="text-center px-2 py-1.5 font-medium w-20">{focusStat}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[...attempts].reverse().map((a) => {
+                      const focus = a.lines[focusStat] ?? 0;
+                      const isBest = a.n === attemptSummary.best.n;
+                      return (
+                        <tr key={a.n} className={`border-t border-edge/40 ${isBest ? "bg-[color-mix(in_srgb,var(--c-maple)_8%,transparent)]" : ""}`}>
+                          <td className="px-2 py-1.5 font-pixel">{a.n}트{isBest && <span className="text-maple ml-1">★</span>}</td>
+                          <td className="px-2 py-1.5 text-center">{a.successes}/{item.slots}</td>
+                          <td className="px-2 py-1.5">
+                            <span className="inline-flex flex-wrap gap-x-2 gap-y-0.5">
+                              {activeLines.map((k) => {
+                                const base = item.lines[k] ?? 0;
+                                const v = a.lines[k] ?? 0;
+                                const d = v - base;
+                                return (
+                                  <span key={k} className={d > 0 ? "text-green-600" : d < 0 ? "text-red-500" : "text-dim"}>
+                                    {k} {v}{d !== 0 && <span className="opacity-80">({d > 0 ? "+" : ""}{d})</span>}
+                                  </span>
+                                );
+                              })}
+                            </span>
+                          </td>
+                          <td className="px-2 py-1.5 text-center">
+                            <span className={`inline-block px-1.5 py-0.5 font-bold ${focus >= target ? "bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] text-maple" : "text-ink"}`}>{focus}</span>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+              <p className="text-[11px] text-dim">★ 표시가 {focusStat} 기준 가장 잘 나온 트입니다. 비용은 위 가격 입력(악세서리 + 혼줌 {item.slots}장)으로 계산합니다.</p>
+            </>
+          ) : (
+            <p className="text-[11px] text-dim">아직 완작한 악세서리가 없습니다. 혼줌 {item.slots}장을 다 바르면 1트로 기록됩니다.</p>
+          )}
+        </div>
       </div>
 
       {/* ── 일괄 작 ── */}

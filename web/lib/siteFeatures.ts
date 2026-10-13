@@ -51,11 +51,11 @@ export const SITE_SECTIONS: SiteSection[] = [
     icon: "🧮",
     items: [
       { href: "/damage", label: "스공 계산기", homeLabel: "스공 계산기", icon: "🧮", description: "스탯·메용·도핑 반영" },
-      { href: "/scroll", label: "주문서 계산기", homeLabel: "주문서", icon: "📖", description: "강화 시뮬레이터" },
+      { href: "/scroll", label: "주문서 계산기", homeLabel: "주문서", icon: "📖", description: "성공 확률 · 기대값 · 주문서 스탯표", keywords: ["주문서 확률", "작 확률", "올작 확률"] },
       { href: "/exp", label: "경험치 계산기", homeLabel: "경험치", icon: "📈", description: "레벨업 계산" },
       { href: "/nhit", label: "엔방컷 계산기", homeLabel: "엔방컷", icon: "⚔️", description: "젠컷 계산" },
-      { href: "/fee", label: "공대 분배 계산기", homeLabel: "공대 분배", icon: "🪙", description: "보스 드랍 아이템 N빵 정산" },
-      { href: "/maker", label: "메이커", icon: "⚒️", description: "제작 정보와 리버스 무기 기대값" },
+      { href: "/fee", label: "공대 분배 계산기", homeLabel: "공대 분배", icon: "🪙", description: "보스 드랍 N빵 정산 · 사망 패널티 · 인센티브", keywords: ["분배금", "N빵", "정산", "패널티", "인센티브", "사망 차감"] },
+      { href: "/maker", label: "메이커", icon: "⚒️", description: "제작 정보 · 강화 시뮬 · 재료 획득" },
     ],
   },
   {
@@ -63,6 +63,8 @@ export const SITE_SECTIONS: SiteSection[] = [
     icon: "🧪",
     items: [
       { href: "/chaos", label: "혼줌 시뮬레이터", icon: "🌀", description: "혼돈의 주문서 작 기대값 · 분포 · 직접 발라보기", keywords: ["혼줌", "혼돈의 주문서", "검은색 허리띠", "허리띠작", "혼줌작", "무릉 허리띠"] },
+      { href: "/scroll-sim", label: "주문서 시뮬레이터", icon: "🎲", description: "주문서 작 연출 무대 · 트별 기록 · 랭킹", keywords: ["주문서작", "작 시뮬", "올작", "주문서 시뮬", "주문서 바르기"] },
+      { href: "/reverse-sim", label: "리버스 시뮬레이터", icon: "🔁", description: "리버스 무기 기대값 · 보석 가공 시뮬", keywords: ["리버스", "촉매", "보석 가공", "메이커 시뮬", "리버스 기대값"] },
       { href: "/skill-sim", label: "스킬 시뮬레이터", icon: "✨", description: "직업별 스킬 빌드 설계" },
       { href: "/gear-sim", label: "장비 세팅", icon: "🧰", description: "장비 조합 스탯 · 데미지 시뮬" },
       { href: "/codi", label: "코디 시뮬레이터", icon: "🎨", description: "헤어 · 성형 · 장비 입혀보기" },

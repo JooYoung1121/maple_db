@@ -148,7 +148,7 @@ export default function FeePage() {
     <div className="max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold mb-1 font-pixel">🪙 공대 분배 계산기</h1>
       <p className="text-sm text-dim mb-4">
-        보스 드랍 아이템의 판매 수수료를 빼고 파티원별 정산금을 계산하세요.
+        보스 드랍 아이템의 판매 수수료를 빼고 파티원별 정산금을 계산하세요. 사망 패널티(누가 언제 몇 % 차감)와 공대장·힐러 인센티브까지 반영한 인원별 정산표를 만들 수 있습니다.
       </p>
 
       <div className="flex gap-1 mb-6 bg-surface2 p-1 w-fit">
@@ -495,12 +495,112 @@ interface ExtraCost {
   amount: string;
 }
 
+// ─── 공대원 · 패널티 · 인센티브 ───
+interface Member {
+  id: string;
+  name: string;
+}
+
+// 사망 등 차감 기록 — "누가 언제 왜 몇 % 차감"
+interface Penalty {
+  id: string;
+  memberId: string;
+  when: string; // 예: "2페 3:20", "20:14"
+  reason: string; // 예: 사망, 지각
+  pct: number; // 기본 분배금 대비 차감 %
+}
+
+// 추가 인센티브 — 기본 분배금 대비 % 또는 고정 메소
+interface Incentive {
+  id: string;
+  memberId: string;
+  reason: string; // 예: 공대장, 힐러, 빛 제공
+  mode: "pct" | "meso";
+  value: number;
+}
+
+// 차감분 처리: 패널티 없는 인원 균등 / 전원 균등 / 분배 안 함(공대 운영비)
+type SurplusMode = "others" | "all" | "keep";
+
+const PENALTY_REASONS = ["사망", "지각", "중도 이탈", "기타"];
+const INCENTIVE_REASONS = ["공대장", "힐러", "빛/아이템 제공", "탱커", "기타"];
+
+interface MemberResult {
+  member: Member;
+  base: number;
+  penaltyPct: number;
+  penalty: number;
+  incentive: number;
+  adjust: number; // 재분배로 받은(+) / 분담한(−) 금액
+  final: number;
+}
+
+let idSeq = 0;
+function nextId(prefix: string): string {
+  idSeq += 1;
+  return `${prefix}-${Date.now().toString(36)}-${idSeq}`;
+}
+
+function defaultMembers(n: number): Member[] {
+  return Array.from({ length: n }, (_, i) => ({ id: nextId("m"), name: `공대원 ${i + 1}` }));
+}
+
+/* 분배 계산 — 기본 N빵 → 패널티 차감·인센 가산 → 차액 재분배 → 1메소 단위 내림, 잔액은 운영비 */
+function calcDistribution(
+  pool: number, members: Member[], penalties: Penalty[], incentives: Incentive[], surplusMode: SurplusMode,
+): { rows: MemberResult[]; totalPenalty: number; totalIncentive: number; balance: number; reserve: number; remainder: number } {
+  const n = members.length;
+  if (n === 0 || pool <= 0) {
+    return { rows: [], totalPenalty: 0, totalIncentive: 0, balance: 0, reserve: 0, remainder: Math.max(0, pool) };
+  }
+  const base = pool / n;
+  const rows: MemberResult[] = members.map((m) => {
+    const penaltyPct = Math.min(100, penalties.filter((p) => p.memberId === m.id).reduce((sum, p) => sum + Math.max(0, p.pct), 0));
+    const penalty = (base * penaltyPct) / 100;
+    const incentive = incentives
+      .filter((i) => i.memberId === m.id)
+      .reduce((sum, i) => sum + (i.mode === "pct" ? (base * Math.max(0, i.value)) / 100 : Math.max(0, i.value)), 0);
+    return { member: m, base, penaltyPct, penalty, incentive, adjust: 0, final: 0 };
+  });
+  const totalPenalty = rows.reduce((sum, r) => sum + r.penalty, 0);
+  const totalIncentive = rows.reduce((sum, r) => sum + r.incentive, 0);
+  const balance = totalPenalty - totalIncentive; // +: 남는 돈(재분배), −: 모자란 돈(분담)
+
+  let reserve = 0;
+  if (balance > 0 && surplusMode === "keep") {
+    reserve = balance;
+  } else if (balance !== 0) {
+    let recipients: MemberResult[];
+    if (balance > 0) {
+      recipients = surplusMode === "all" ? rows : rows.filter((r) => r.penaltyPct === 0);
+    } else {
+      recipients = rows.filter((r) => r.incentive === 0);
+    }
+    if (recipients.length === 0) recipients = rows;
+    const share = balance / recipients.length;
+    for (const r of recipients) r.adjust += share;
+  }
+
+  let distributed = 0;
+  for (const r of rows) {
+    r.final = Math.max(0, Math.floor(r.base - r.penalty + r.incentive + r.adjust));
+    distributed += r.final;
+  }
+  const remainder = Math.max(0, Math.floor(pool - reserve - distributed));
+  return { rows, totalPenalty, totalIncentive, balance, reserve, remainder };
+}
+
 function RaidTab({ onSaved }: { onSaved: () => void }) {
   const [items, setItems] = useState<RaidItem[]>([]);
-  const [members, setMembers] = useState(6);
+  const [members, setMembers] = useState<Member[]>(() => defaultMembers(6));
   const [extraCosts, setExtraCosts] = useState<ExtraCost[]>([
     { id: "default", label: "숍지원비", amount: "" },
   ]);
+  const [penalties, setPenalties] = useState<Penalty[]>([]);
+  const [incentives, setIncentives] = useState<Incentive[]>([]);
+  const [surplusMode, setSurplusMode] = useState<SurplusMode>("others");
+  const [defaultDeathPct, setDefaultDeathPct] = useState(10);
+  const [showRoster, setShowRoster] = useState(false);
 
   // 새 아이템 입력
   const [newName, setNewName] = useState("");
@@ -508,6 +608,18 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
   const [newType, setNewType] = useState<TradeType>("delivery");
   const [newFeeMode, setNewFeeMode] = useState<FeeMode>("split");
   const [newSplitChunk, setNewSplitChunk] = useState(4_999_999);
+
+  // 새 패널티 입력
+  const [penMember, setPenMember] = useState("");
+  const [penWhen, setPenWhen] = useState("");
+  const [penReason, setPenReason] = useState("사망");
+  const [penPct, setPenPct] = useState("");
+
+  // 새 인센 입력
+  const [incMember, setIncMember] = useState("");
+  const [incReason, setIncReason] = useState("공대장");
+  const [incMode, setIncMode] = useState<"pct" | "meso">("pct");
+  const [incValue, setIncValue] = useState("");
 
   const addItem = useCallback(() => {
     const price = parseMeso(newPrice);
@@ -549,6 +661,45 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
     );
   };
 
+  // 인원 수 변경 — 뒤에서 추가/삭제, 빠진 인원의 패널티·인센은 함께 제거
+  const setMemberCount = (count: number) => {
+    const n = Math.min(30, Math.max(1, Math.floor(count) || 1));
+    setMembers((prev) => {
+      if (n === prev.length) return prev;
+      if (n > prev.length) {
+        return [...prev, ...Array.from({ length: n - prev.length }, (_, i) => ({ id: nextId("m"), name: `공대원 ${prev.length + i + 1}` }))];
+      }
+      const kept = prev.slice(0, n);
+      const keptIds = new Set(kept.map((m) => m.id));
+      setPenalties((ps) => ps.filter((p) => keptIds.has(p.memberId)));
+      setIncentives((is) => is.filter((i) => keptIds.has(i.memberId)));
+      return kept;
+    });
+  };
+
+  const renameMember = (id: string, name: string) => {
+    setMembers((prev) => prev.map((m) => (m.id === id ? { ...m, name } : m)));
+  };
+
+  const memberName = (id: string) => members.find((m) => m.id === id)?.name ?? "(삭제된 인원)";
+
+  const addPenalty = () => {
+    const memberId = penMember || members[0]?.id;
+    if (!memberId) return;
+    const pct = penPct === "" ? defaultDeathPct : Math.min(100, Math.max(0, Number(penPct) || 0));
+    setPenalties((prev) => [...prev, { id: nextId("p"), memberId, when: penWhen.trim(), reason: penReason, pct }]);
+    setPenWhen("");
+    setPenPct("");
+  };
+
+  const addIncentive = () => {
+    const memberId = incMember || members[0]?.id;
+    const value = incMode === "pct" ? Math.max(0, Number(incValue) || 0) : parseMeso(incValue);
+    if (!memberId || value <= 0) return;
+    setIncentives((prev) => [...prev, { id: nextId("i"), memberId, reason: incReason, mode: incMode, value }]);
+    setIncValue("");
+  };
+
   const totalExtra = extraCosts.reduce((sum, c) => sum + parseMeso(c.amount), 0);
 
   const totals = useMemo(() => {
@@ -563,26 +714,54 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
     });
     const totalNet = totalGross - totalFee;
     const afterExtra = totalNet - totalExtra;
-    const perPerson = members > 0 ? Math.floor(afterExtra / members) : 0;
-    return { rows, totalGross, totalFee, totalNet, afterExtra, perPerson };
-  }, [items, totalExtra, members]);
+    const perPerson = members.length > 0 ? Math.floor(afterExtra / members.length) : 0;
+    const dist = calcDistribution(afterExtra, members, penalties, incentives, surplusMode);
+    return { rows, totalGross, totalFee, totalNet, afterExtra, perPerson, dist };
+  }, [items, totalExtra, members, penalties, incentives, surplusMode]);
+
+  const hasAdjustments = penalties.length > 0 || incentives.length > 0;
+  const memberSelectClass = "pixel-input min-w-0 px-2 py-2 text-sm";
 
   return (
     <div className="space-y-6">
       {/* 설정 */}
       <div className="pixel-panel p-5">
         <h2 className="font-bold text-lg mb-4 font-pixel">공대 설정</h2>
-        <div className="mb-4">
-          <label className="block text-xs font-medium text-dim mb-1">트라이 인원</label>
-          <input
-            type="number"
-            min={1}
-            max={30}
-            value={members}
-            onChange={(e) => setMembers(Math.max(1, Number(e.target.value)))}
-            className="pixel-input w-32 px-3 py-2 text-sm"
-          />
+        <div className="flex flex-wrap items-end gap-3 mb-3">
+          <div>
+            <label className="block text-xs font-medium text-dim mb-1">트라이 인원</label>
+            <input
+              type="number"
+              min={1}
+              max={30}
+              value={members.length}
+              onChange={(e) => setMemberCount(Number(e.target.value))}
+              className="pixel-input w-32 px-3 py-2 text-sm"
+            />
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowRoster((v) => !v)}
+            className="text-xs px-2 py-2 text-maple hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] transition-colors font-pixel"
+          >
+            {showRoster ? "이름 접기" : "공대원 이름 입력"} ({members.length}명)
+          </button>
+          <span className="text-[11px] text-dim">이름을 넣어두면 아래 패널티·인센티브 기록과 정산표에 그대로 표시됩니다.</span>
         </div>
+        {showRoster && (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 mb-4">
+            {members.map((m, i) => (
+              <input
+                key={m.id}
+                type="text"
+                value={m.name}
+                onChange={(e) => renameMember(m.id, e.target.value)}
+                placeholder={`공대원 ${i + 1}`}
+                className="pixel-input min-w-0 px-2 py-1.5 text-sm"
+              />
+            ))}
+          </div>
+        )}
 
         <div className="flex items-center justify-between mb-2">
           <label className="text-xs font-medium text-dim">공제 항목</label>
@@ -823,15 +1002,219 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
             </div>
             <div className="flex justify-between text-sm">
               <span className="text-dim">트라이 인원</span>
-              <span className="font-mono">{members}명</span>
+              <span className="font-mono">{members.length}명</span>
             </div>
             <div className="flex justify-between text-base border-t-2 border-edge pt-2 mt-2">
-              <span className="font-bold text-maple font-pixel">1인당 분배금</span>
+              <span className="font-bold text-maple font-pixel">{hasAdjustments ? "기본 1인당 분배금" : "1인당 분배금"}</span>
               <span className="font-mono font-bold text-maple text-lg">
                 {formatMeso(totals.perPerson)} 메소
               </span>
             </div>
+            {hasAdjustments && (
+              <p className="text-[11px] text-dim">패널티·인센티브가 적용된 인원별 최종 금액은 아래 정산표를 보세요.</p>
+            )}
           </div>
+        </div>
+      )}
+
+      {/* 패널티 · 인센티브 */}
+      <div className="pixel-panel p-5 space-y-5">
+        <div>
+          <h2 className="font-bold text-lg font-pixel">패널티 · 인센티브</h2>
+          <p className="text-xs text-dim mt-1">
+            기본 N빵 금액을 기준으로, 사망 등은 %만큼 차감하고 공대장·힐러 등에는 추가 지급합니다. 차감으로 남은 금액은 아래 설정대로 재분배됩니다.
+          </p>
+        </div>
+
+        {/* 패널티 */}
+        <div className="space-y-2">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <h3 className="font-pixel text-sm text-ink">사망 · 차감 기록</h3>
+            <label className="flex items-center gap-1.5 text-[11px] text-dim">
+              사망 1회 기본 차감
+              <input
+                type="number" min={0} max={100} value={defaultDeathPct}
+                onChange={(e) => setDefaultDeathPct(Math.min(100, Math.max(0, Number(e.target.value) || 0)))}
+                className="pixel-input w-14 px-1.5 py-0.5 text-xs text-right"
+              />%
+            </label>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-[1.2fr_1fr_1fr_0.7fr_auto] gap-2 items-end">
+            <div className="min-w-0">
+              <label className="block text-[11px] text-dim mb-1">누가</label>
+              <select value={penMember || members[0]?.id || ""} onChange={(e) => setPenMember(e.target.value)} className={`${memberSelectClass} w-full`}>
+                {members.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}
+              </select>
+            </div>
+            <div className="min-w-0">
+              <label className="block text-[11px] text-dim mb-1">언제</label>
+              <input type="text" value={penWhen} onChange={(e) => setPenWhen(e.target.value)} placeholder="예: 2페 3:20"
+                onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && addPenalty()}
+                className="pixel-input w-full min-w-0 px-2 py-2 text-sm" />
+            </div>
+            <div className="min-w-0">
+              <label className="block text-[11px] text-dim mb-1">사유</label>
+              <select value={penReason} onChange={(e) => setPenReason(e.target.value)} className={`${memberSelectClass} w-full`}>
+                {PENALTY_REASONS.map((r) => <option key={r} value={r}>{r}</option>)}
+              </select>
+            </div>
+            <div className="min-w-0">
+              <label className="block text-[11px] text-dim mb-1">차감 %</label>
+              <input type="number" min={0} max={100} value={penPct} onChange={(e) => setPenPct(e.target.value)} placeholder={String(defaultDeathPct)}
+                onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && addPenalty()}
+                className="pixel-input w-full min-w-0 px-2 py-2 text-sm text-right" />
+            </div>
+            <button type="button" onClick={addPenalty} disabled={members.length === 0} className="pixel-btn px-3 py-2 text-sm font-pixel disabled:opacity-50 col-span-2 sm:col-span-1">
+              + 차감
+            </button>
+          </div>
+          {penalties.length > 0 ? (
+            <ul className="space-y-1">
+              {penalties.map((p) => (
+                <li key={p.id} className="flex items-center gap-2 text-sm border border-edge/60 px-2 py-1.5">
+                  <span className="text-red-500 font-mono font-bold w-14 shrink-0">-{p.pct}%</span>
+                  <span className="text-ink font-medium truncate">{memberName(p.memberId)}</span>
+                  <span className="text-dim text-xs truncate">{p.reason}{p.when && ` · ${p.when}`}</span>
+                  <button type="button" onClick={() => setPenalties((prev) => prev.filter((x) => x.id !== p.id))} className="ml-auto text-dim hover:text-red-500 shrink-0" aria-label="삭제">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-xs text-dim">차감 기록이 없습니다. 예: &ldquo;홍길동 · 2페 3:20 · 사망 · -10%&rdquo;</p>
+          )}
+        </div>
+
+        {/* 인센티브 */}
+        <div className="space-y-2">
+          <h3 className="font-pixel text-sm text-ink">추가 인센티브</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-[1.2fr_1fr_0.8fr_0.9fr_auto] gap-2 items-end">
+            <div className="min-w-0">
+              <label className="block text-[11px] text-dim mb-1">누구에게</label>
+              <select value={incMember || members[0]?.id || ""} onChange={(e) => setIncMember(e.target.value)} className={`${memberSelectClass} w-full`}>
+                {members.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}
+              </select>
+            </div>
+            <div className="min-w-0">
+              <label className="block text-[11px] text-dim mb-1">사유</label>
+              <select value={incReason} onChange={(e) => setIncReason(e.target.value)} className={`${memberSelectClass} w-full`}>
+                {INCENTIVE_REASONS.map((r) => <option key={r} value={r}>{r}</option>)}
+              </select>
+            </div>
+            <div className="min-w-0">
+              <label className="block text-[11px] text-dim mb-1">방식</label>
+              <select value={incMode} onChange={(e) => { setIncMode(e.target.value as "pct" | "meso"); setIncValue(""); }} className={`${memberSelectClass} w-full`}>
+                <option value="pct">기본 분배금의 %</option>
+                <option value="meso">고정 메소</option>
+              </select>
+            </div>
+            <div className="min-w-0">
+              <label className="block text-[11px] text-dim mb-1">{incMode === "pct" ? "추가 %" : "금액"}</label>
+              <input type="text" inputMode="numeric" value={incValue}
+                onChange={(e) => setIncValue(e.target.value.replace(/[^0-9]/g, ""))}
+                placeholder={incMode === "pct" ? "예: 20" : "예: 500000"}
+                onKeyDown={(e) => e.key === "Enter" && !e.nativeEvent.isComposing && addIncentive()}
+                className="pixel-input w-full min-w-0 px-2 py-2 text-sm text-right" />
+            </div>
+            <button type="button" onClick={addIncentive} disabled={members.length === 0 || !incValue} className="pixel-btn px-3 py-2 text-sm font-pixel disabled:opacity-50 col-span-2 sm:col-span-1">
+              + 인센
+            </button>
+          </div>
+          {incentives.length > 0 ? (
+            <ul className="space-y-1">
+              {incentives.map((i) => (
+                <li key={i.id} className="flex items-center gap-2 text-sm border border-edge/60 px-2 py-1.5">
+                  <span className="text-green-600 font-mono font-bold w-24 shrink-0">+{i.mode === "pct" ? `${i.value}%` : formatMeso(i.value)}</span>
+                  <span className="text-ink font-medium truncate">{memberName(i.memberId)}</span>
+                  <span className="text-dim text-xs truncate">{i.reason}</span>
+                  <button type="button" onClick={() => setIncentives((prev) => prev.filter((x) => x.id !== i.id))} className="ml-auto text-dim hover:text-red-500 shrink-0" aria-label="삭제">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-xs text-dim">인센티브가 없습니다. 예: &ldquo;공대장 +20%&rdquo;, &ldquo;힐러 +500,000&rdquo;</p>
+          )}
+        </div>
+
+        {/* 차감분 처리 */}
+        <div className="flex flex-wrap items-center gap-2 text-xs border-t border-edge/60 pt-3">
+          <span className="text-dim">차감으로 남은 금액은</span>
+          <select value={surplusMode} onChange={(e) => setSurplusMode(e.target.value as SurplusMode)} className="pixel-input px-2 py-1.5 text-xs">
+            <option value="others">패널티 없는 인원에게 균등 재분배</option>
+            <option value="all">전원에게 균등 재분배 (차감자 포함)</option>
+            <option value="keep">재분배 안 함 (공대 운영비로 보관)</option>
+          </select>
+          <span className="text-dim">인센티브가 차감분보다 크면 부족분은 인센티브 없는 인원이 균등 분담합니다.</span>
+        </div>
+      </div>
+
+      {/* 인원별 정산표 */}
+      {items.length > 0 && totals.afterExtra > 0 && (
+        <div className="pixel-panel overflow-hidden">
+          <div className="px-5 py-3 border-b-2 border-edge flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className="font-bold font-pixel">인원별 정산표</h2>
+            <span className="text-xs text-dim">
+              기본 {formatMeso(totals.perPerson)} × {members.length}명
+              {hasAdjustments && <> · 차감 {formatMeso(totals.dist.totalPenalty)} · 인센 {formatMeso(totals.dist.totalIncentive)}</>}
+            </span>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-surface2 text-dim">
+                  <th className="text-left px-3 py-2.5 font-medium">이름</th>
+                  <th className="text-right px-3 py-2.5 font-medium">기본</th>
+                  {hasAdjustments && (
+                    <>
+                      <th className="text-right px-3 py-2.5 font-medium">차감</th>
+                      <th className="text-right px-3 py-2.5 font-medium">인센</th>
+                      <th className="text-right px-3 py-2.5 font-medium">재분배</th>
+                    </>
+                  )}
+                  <th className="text-right px-3 py-2.5 font-medium">최종</th>
+                </tr>
+              </thead>
+              <tbody>
+                {totals.dist.rows.map((r) => {
+                  const diff = r.final - Math.floor(r.base);
+                  return (
+                    <tr key={r.member.id} className="border-t border-edge/40">
+                      <td className="px-3 py-1.5">
+                        <span className="text-ink font-medium">{r.member.name}</span>
+                        {r.penaltyPct > 0 && <span className="ml-1.5 text-[10px] px-1 border border-red-300 text-red-500">-{r.penaltyPct}%</span>}
+                        {r.incentive > 0 && <span className="ml-1.5 text-[10px] px-1 border border-green-400 text-green-600">인센</span>}
+                      </td>
+                      <td className="px-3 py-1.5 text-right font-mono text-dim">{formatMeso(r.base)}</td>
+                      {hasAdjustments && (
+                        <>
+                          <td className="px-3 py-1.5 text-right font-mono text-red-500">{r.penalty > 0 ? `-${formatMeso(r.penalty)}` : "-"}</td>
+                          <td className="px-3 py-1.5 text-right font-mono text-green-600">{r.incentive > 0 ? `+${formatMeso(r.incentive)}` : "-"}</td>
+                          <td className={`px-3 py-1.5 text-right font-mono ${r.adjust > 0 ? "text-green-600" : r.adjust < 0 ? "text-red-500" : "text-dim"}`}>
+                            {r.adjust > 0 ? `+${formatMeso(r.adjust)}` : r.adjust < 0 ? `-${formatMeso(-r.adjust)}` : "-"}
+                          </td>
+                        </>
+                      )}
+                      <td className="px-3 py-1.5 text-right font-mono font-bold text-maple">
+                        {formatMeso(r.final)}
+                        {hasAdjustments && diff !== 0 && (
+                          <span className={`block text-[10px] font-normal ${diff > 0 ? "text-green-600" : "text-red-500"}`}>({diff > 0 ? "+" : "-"}{formatMeso(Math.abs(diff))})</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          {(totals.dist.reserve > 0 || totals.dist.remainder > 0) && (
+            <div className="border-t-2 border-edge bg-surface2 px-4 py-2 text-xs text-dim flex flex-wrap justify-between gap-2">
+              <span>공대 운영비(미분배){totals.dist.reserve > 0 && " — 차감분 보관"}{totals.dist.remainder > 0 && " · 1메소 단위 내림 잔액"}</span>
+              <span className="font-mono">{formatMeso(totals.dist.reserve + totals.dist.remainder)} 메소</span>
+            </div>
+          )}
         </div>
       )}
 
@@ -841,8 +1224,21 @@ function RaidTab({ onSaved }: { onSaved: () => void }) {
             try {
               await createFeeRecord({
                 calc_type: "공대",
-                input_json: JSON.stringify({ members, items: items.map((i) => ({ name: i.name, price: i.price, tradeType: i.tradeType })), extraCosts: extraCosts.filter((c) => parseMeso(c.amount) > 0).map((c) => ({ label: c.label, amount: parseMeso(c.amount) })) }),
-                result_json: JSON.stringify({ totalGross: totals.totalGross, totalFee: totals.totalFee, totalNet: totals.totalNet, afterExtra: totals.afterExtra, perPerson: totals.perPerson }),
+                input_json: JSON.stringify({
+                  members: members.length,
+                  memberNames: members.map((m) => m.name),
+                  items: items.map((i) => ({ name: i.name, price: i.price, tradeType: i.tradeType })),
+                  extraCosts: extraCosts.filter((c) => parseMeso(c.amount) > 0).map((c) => ({ label: c.label, amount: parseMeso(c.amount) })),
+                  penalties: penalties.map((p) => ({ member: memberName(p.memberId), when: p.when, reason: p.reason, pct: p.pct })),
+                  incentives: incentives.map((i) => ({ member: memberName(i.memberId), reason: i.reason, mode: i.mode, value: i.value })),
+                  surplusMode,
+                }),
+                result_json: JSON.stringify({
+                  totalGross: totals.totalGross, totalFee: totals.totalFee, totalNet: totals.totalNet, afterExtra: totals.afterExtra, perPerson: totals.perPerson,
+                  totalPenalty: Math.floor(totals.dist.totalPenalty), totalIncentive: Math.floor(totals.dist.totalIncentive),
+                  reserve: totals.dist.reserve + totals.dist.remainder,
+                  memberResults: totals.dist.rows.map((r) => ({ name: r.member.name, final: r.final, penaltyPct: r.penaltyPct, incentive: Math.floor(r.incentive) })),
+                }),
               });
               onSaved();
               alert("기록 저장 완료");
@@ -929,7 +1325,12 @@ function FeeRecordsSection({ refreshKey }: { refreshKey: number }) {
                       <>원래 수수료: -{formatMeso(result.noSplitFee)} · 분할 수수료: -{formatMeso(result.splitFee)} · 절약: {formatMeso(result.savings)}</>
                     )}
                     {r.calc_type === "공대" && (
-                      <>총판매: {formatMeso(result.totalNet)} · 1인당: {formatMeso(result.perPerson)}</>
+                      <>
+                        총판매: {formatMeso(result.totalNet)} · 기본 1인당: {formatMeso(result.perPerson)}
+                        {Array.isArray(result.memberResults) && (result.totalPenalty > 0 || result.totalIncentive > 0) && (
+                          <> · 차감 {formatMeso(result.totalPenalty ?? 0)} / 인센 {formatMeso(result.totalIncentive ?? 0)} 적용 ({result.memberResults.length}명)</>
+                        )}
+                      </>
                     )}
                   </div>
                 </div>

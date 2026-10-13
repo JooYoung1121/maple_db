@@ -112,8 +112,12 @@
   "href": "/scroll",
   "label": "주문서 계산기",
   "homeLabel": "주문서",
-  "description": "강화 시뮬레이터",
-  "keywords": []
+  "description": "성공 확률 · 기대값 · 주문서 스탯표",
+  "keywords": [
+   "주문서 확률",
+   "작 확률",
+   "올작 확률"
+  ]
  },
  {
   "href": "/exp",
@@ -133,14 +137,21 @@
   "href": "/fee",
   "label": "공대 분배 계산기",
   "homeLabel": "공대 분배",
-  "description": "보스 드랍 아이템 N빵 정산",
-  "keywords": []
+  "description": "보스 드랍 N빵 정산 · 사망 패널티 · 인센티브",
+  "keywords": [
+   "분배금",
+   "N빵",
+   "정산",
+   "패널티",
+   "인센티브",
+   "사망 차감"
+  ]
  },
  {
   "href": "/maker",
   "label": "메이커",
   "homeLabel": null,
-  "description": "제작 정보와 리버스 무기 기대값",
+  "description": "제작 정보 · 강화 시뮬 · 재료 획득",
   "keywords": []
  },
  {
@@ -155,6 +166,32 @@
    "허리띠작",
    "혼줌작",
    "무릉 허리띠"
+  ]
+ },
+ {
+  "href": "/scroll-sim",
+  "label": "주문서 시뮬레이터",
+  "homeLabel": null,
+  "description": "주문서 작 연출 무대 · 트별 기록 · 랭킹",
+  "keywords": [
+   "주문서작",
+   "작 시뮬",
+   "올작",
+   "주문서 시뮬",
+   "주문서 바르기"
+  ]
+ },
+ {
+  "href": "/reverse-sim",
+  "label": "리버스 시뮬레이터",
+  "homeLabel": null,
+  "description": "리버스 무기 기대값 · 보석 가공 시뮬",
+  "keywords": [
+   "리버스",
+   "촉매",
+   "보석 가공",
+   "메이커 시뮬",
+   "리버스 기대값"
   ]
  },
  {
