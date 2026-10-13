@@ -15,6 +15,20 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.12.2",
+    date: "2026-10-13",
+    type: "patch",
+    title: "전역 검색에 말레이시아 몹·맵 미노출 수정",
+    features: [
+      {
+        category: "버그 수정",
+        items: [
+          "⌘K 전역 검색에서 10/8 패치로 추가된 한글명(캄퐁 마을·트렌드 존 메트로폴리스·바이크롤라 등)이 검색되지 않던 문제 수정 — 배포 시 검색 인덱스가 재생성되지 않아 옛 인덱스가 남아 있던 원인, 서버 기동 때마다 재구축하도록 변경",
+        ],
+      },
+    ],
+  },
+  {
     version: "4.12.1",
     date: "2026-10-13",
     type: "patch",

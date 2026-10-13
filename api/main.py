@@ -291,11 +291,15 @@ async def lifespan(app: FastAPI):
         from crawler.audit_repairs import repair_skill_classes, repair_quest_conditions
         repair_conn = get_connection()
         try:
-            repaired_skills = repair_skill_classes(repair_conn)
-            repaired_quests = repair_quest_conditions(repair_conn)
-            if repaired_skills or repaired_quests:
-                from crawler.db import rebuild_search_index
-                rebuild_search_index(repair_conn)
+            repair_skill_classes(repair_conn)
+            repair_quest_conditions(repair_conn)
+            # 검색 인덱스는 매 기동마다 재구축한다 (0.3초 내외).
+            # start.sh 시드 동기화는 mobs/maps/entity_names_en 행만 추가·갱신하고
+            # search_index(FTS)는 건드리지 않아, 패치로 추가된 한글명(예: 10/8 말레이시아
+            # '캄퐁 마을'·'바이크롤라')이 라이브 전역 검색에 잡히지 않던 문제의 원인이었다.
+            # ensure_search_index 는 행 수·ID만 비교해 content 변경은 감지하지 못한다.
+            from crawler.db import rebuild_search_index
+            rebuild_search_index(repair_conn)
         finally:
             repair_conn.close()
     except Exception as e:
