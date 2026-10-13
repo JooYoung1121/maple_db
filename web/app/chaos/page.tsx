@@ -5,7 +5,9 @@
  * 수치 근거:
  * - 혼돈의 주문서(2049100): 10/8 공식 패치노트로 등장 확정 (maple.land/board/notices/h0ifyesthgb4e79hecngkcgh)
  *   메랜은 악세서리에만 사용 가능 — 커뮤니티 확인 기준 (원작 GMS는 전 장비)
- * - 허리띠 기본 스탯: DB items 1132000~1132004 (maplestory.io GMS v92 원본)
+ * - 허리띠 기본 스탯: 흰~빨간색은 DB items 1132000~1132003 (maplestory.io GMS v92 원본)과 동일,
+ *   검은색 허리띠(1132004)는 메랜 전용 수치 — 올스탯 +3 · 공격력 +1 · 마력 +4 · 물/마방 +50 · 회피 +15
+ *   (원작은 올스탯 +5, 공/마 없음. canonDiffs "dojo.black-belt" 참조)
  *   무릉도장 필요 점수(140/1,300/2,800/6,400/12,000)는 10/8 공지 확정값
  * - 성공률 60%·변동폭 ±5는 원작 통용값, 변동폭 내 가중치는 공식 미공개 —
  *   기본 균등 가정이며 화면에서 조정 가능 (리버스 기대값 시뮬과 같은 방침)
@@ -65,14 +67,19 @@ interface TargetItem {
   note: string;
 }
 
-/* 무릉도장 허리띠 5종 — 스탯: DB items(GMS v92) · 필요 점수: 10/8 공지 */
+/* 무릉도장 허리띠 5종 — 스탯: 흰~빨강 DB items(GMS v92), 검은띠 메랜 실측 · 필요 점수: 10/8 공지 */
 const BELTS: TargetItem[] = [
   { id: "white", name: "흰색 허리띠", itemId: 1132000, lines: { STR: 1, DEX: 1, INT: 1, LUK: 1, 물리방어: 10, 마법방어: 10, 회피: 3 }, slots: 3, note: "무릉 140점" },
   { id: "yellow", name: "노란색 허리띠", itemId: 1132001, lines: { STR: 2, DEX: 2, INT: 2, LUK: 2, 물리방어: 20, 마법방어: 20, 회피: 6 }, slots: 3, note: "무릉 1,300점" },
   { id: "blue", name: "파란색 허리띠", itemId: 1132002, lines: { STR: 3, DEX: 3, INT: 3, LUK: 3, 물리방어: 30, 마법방어: 30, 회피: 9 }, slots: 3, note: "무릉 2,800점" },
   { id: "red", name: "빨간색 허리띠", itemId: 1132003, lines: { STR: 4, DEX: 4, INT: 4, LUK: 4, 물리방어: 40, 마법방어: 40, 회피: 12 }, slots: 3, note: "무릉 6,400점" },
-  { id: "black", name: "검은색 허리띠", itemId: 1132004, lines: { STR: 5, DEX: 5, INT: 5, LUK: 5, 물리방어: 50, 마법방어: 50, 회피: 15 }, slots: 3, note: "무릉 12,000점 ★기대값 최고" },
+  { id: "black", name: "검은색 허리띠", itemId: 1132004, lines: { STR: 3, DEX: 3, INT: 3, LUK: 3, 공격력: 1, 마력: 4, 물리방어: 50, 마법방어: 50, 회피: 15 }, slots: 3, note: "무릉 12,000점 ★기대값 최고" },
 ];
+
+/* DB(GMS 원본) 수치가 메랜과 다른 아이템 — 전체 선택기에서 골라도 메랜 수치로 덮어쓴다 */
+const MAPLELAND_LINE_OVERRIDES: Record<number, Lines> = Object.fromEntries(
+  BELTS.filter((b) => b.id === "black" && b.itemId !== null).map((b) => [b.itemId as number, b.lines]),
+);
 
 const DEFAULT_SUCCESS = 60; // %
 const DEFAULT_DELTA_WEIGHTS = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; // -5 ~ +5 균등 가정
@@ -290,7 +297,7 @@ export default function ChaosSimPage() {
   };
 
   const pickDbItem = (it: Item) => {
-    const lines = linesFromStats(it.stats);
+    const lines = MAPLELAND_LINE_OVERRIDES[it.id] ?? linesFromStats(it.stats);
     const next: TargetItem = {
       id: "db",
       name: it.name_kr || it.name,
@@ -372,7 +379,7 @@ export default function ChaosSimPage() {
         <h1 className="text-2xl font-bold font-pixel">🌀 혼줌 시뮬레이터</h1>
         <p className="text-sm text-dim mt-1">
           10/8 패치로 추가된 <b className="text-ink">혼돈의 주문서 60%</b>는 성공 시 장비에 <b className="text-ink">이미 붙어 있는 모든 옵션을 각각 -5 ~ +5</b> 범위로
-          다시 굴립니다. 메이플랜드에서는 <b className="text-maple">악세서리에만</b> 사용할 수 있어, 올스탯 5로 시작하고 굴릴 줄이 7개인{" "}
+          다시 굴립니다. 메이플랜드에서는 <b className="text-maple">악세서리에만</b> 사용할 수 있어, 올스탯 3 + 공격력 1·마력 4로 시작하고 굴릴 줄이 9개인{" "}
           <b className="text-maple">검은색 허리띠</b>(무릉도장 12,000점)가 기대값이 가장 좋은 대상으로 꼽힙니다.
         </p>
       </div>
@@ -653,7 +660,7 @@ export default function ChaosSimPage() {
           <li className="text-sm text-dim flex gap-2"><span className="text-maple flex-shrink-0">-</span>
             <span><b className="text-ink">기존 옵션만 다시 굴립니다</b> — 성공하면 장비에 붙어 있는 모든 옵션이 각각 -5~+5 범위로 변동합니다. 0인 옵션에는 새로 붙지 않습니다.</span></li>
           <li className="text-sm text-dim flex gap-2"><span className="text-maple flex-shrink-0">-</span>
-            <span><b className="text-ink">메이플랜드는 악세서리 한정</b> — 원작(GMS)과 달리 무기·방어구에는 사용할 수 없습니다. 올스탯 5 + 방어·회피까지 굴릴 줄이 7개인 검은색 허리띠(무릉도장 12,000점)가 기대값이 가장 좋고, 같은 이유로 빨간색 이하 허리띠는 시작점이 낮아 효율이 떨어집니다.</span></li>
+            <span><b className="text-ink">메이플랜드는 악세서리 한정</b> — 원작(GMS)과 달리 무기·방어구에는 사용할 수 없습니다. 올스탯 3 + 공격력 1·마력 4 + 방어·회피까지 굴릴 줄이 9개인 검은색 허리띠(무릉도장 12,000점)가 기대값이 가장 좋고, 같은 이유로 빨간색 이하 허리띠는 시작점이 낮아 효율이 떨어집니다.</span></li>
           <li className="text-sm text-dim flex gap-2"><span className="text-maple flex-shrink-0">-</span>
             <span><b className="text-ink">획득처</b> — 인게임 드랍 전용(공지 확정 33종). <a href="/drop-search" className="text-maple underline">획득 경로</a>에서 &ldquo;혼돈의 주문서&rdquo;를 검색하면 드랍 몬스터를 볼 수 있습니다.</span></li>
           <li className="text-sm text-dim flex gap-2"><span className="text-maple flex-shrink-0">-</span>
@@ -662,7 +669,8 @@ export default function ChaosSimPage() {
       </div>
 
       <div className="text-[11px] text-dim bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900 rounded-lg px-3 py-2 leading-relaxed">
-        ⚠️ 허리띠 기본 수치는 원본(GMS v92) 데이터, 무릉도장 필요 점수와 혼줌 등장·드랍 몹은 메랜 10/8 공식 패치노트 기준입니다.
+        ⚠️ 흰~빨간색 허리띠 기본 수치는 원본(GMS v92) 데이터이며, 검은색 허리띠는 메이플랜드 전용 수치(올스탯 +3 · 공격력 +1 · 마력 +4, 원작은 올스탯 +5)를 적용했습니다.
+        무릉도장 필요 점수와 혼줌 등장·드랍 몹은 메랜 10/8 공식 패치노트 기준입니다.
         변동폭 가중치·악세서리 사용 제한의 세부 규칙은 인게임 실측 제보에 따라 갱신됩니다.
       </div>
     </div>

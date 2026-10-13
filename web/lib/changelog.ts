@@ -15,6 +15,22 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.12.1",
+    date: "2026-10-13",
+    type: "patch",
+    title: "혼줌 시뮬레이터 검은색 허리띠 메랜 수치 반영",
+    pages: ["/chaos"],
+    features: [
+      {
+        category: "버그 수정",
+        items: [
+          "검은색 허리띠 기본 옵션을 원작(올스탯 +5) 대신 메이플랜드 실제 수치(올스탯 +3 · 공격력 +1 · 마력 +4 · 물/마방 +50 · 회피 +15)로 교체 — 굴릴 줄이 7개 → 9개로 늘어 분포·목표 확률·기대 비용이 모두 재계산됨",
+          "전체 악세서리 선택기에서 DB의 검은색 허리띠를 골라도 같은 메랜 수치를 적용 (흰~빨간색 허리띠는 원작과 동일해 변경 없음)",
+        ],
+      },
+    ],
+  },
+  {
     version: "4.12.0",
     date: "2026-10-12",
     type: "minor",
