@@ -553,6 +553,25 @@ CREATE TABLE IF NOT EXISTS user_settings (
     PRIMARY KEY (user_id, key),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+-- 메이플랜드 현행 아이템 수치 (mapledb.kr 전수 수집, scripts/import_mapledb_item_stats.py)
+-- items 테이블(GMS v92 원작)과 별도로 두어 상세 페이지가 "메랜 수치 + 원작 대조"를 함께 보여준다.
+CREATE TABLE IF NOT EXISTS item_mapleland_stats (
+    item_id INTEGER PRIMARY KEY,
+    name_kr TEXT,
+    level INTEGER,
+    jobs TEXT,            -- "공용" | "전사" | "전사,도적" … | "not"(직업 개념 없음: 소비·기타)
+    gender TEXT,          -- "공용" | "남" | "여" | NULL
+    category TEXT,        -- 주 카테고리 (방어구 · 한손 무기 · …)
+    subcategory TEXT,     -- 부 카테고리 = 인게임 장비분류 (모자 · 한손 검 · …)
+    req_json TEXT,        -- {"STR":140,"LUK":260,"POP":0}
+    stats_json TEXT,      -- {"물리방어력":{"base":105,"min":100,"max":110}, ...}
+    price INTEGER,        -- 상점 판매가
+    attack_speed TEXT,    -- 무기 공격속도 숫자(2~9)
+    description TEXT,
+    source_url TEXT,
+    fetched_at TEXT
+);
 """
 
 FTS_SCHEMA = """

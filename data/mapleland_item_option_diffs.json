@@ -1,0 +1,553 @@
+{
+ "_doc": "메이플랜드 현행 옵션(mapledb.kr, item_mapleland_stats)과 원작(GMS v92, items.stats)이 다른 장비 — scripts/import_mapledb_item_stats.py 수집 후 api.routes.items._mapleland_block 의 diff 로 산출 (2026-10-14). 상세 페이지 '원작과 다른 옵션' 박스와 동일.",
+ "generated_at": "2026-10-14",
+ "count": 41,
+ "items": [
+  {
+   "id": 1002036,
+   "name_kr": "그린 핀터",
+   "diffs": [
+    {
+     "stat": "마법방어력",
+     "original_gms92": 40,
+     "mapleland": 0
+    }
+   ]
+  },
+  {
+   "id": 1002378,
+   "name_kr": "블루 니르첸 투구",
+   "diffs": [
+    {
+     "stat": "DEX",
+     "original_gms92": 0,
+     "mapleland": 3
+    },
+    {
+     "stat": "STR",
+     "original_gms92": 3,
+     "mapleland": 0
+    }
+   ]
+  },
+  {
+   "id": 1002379,
+   "name_kr": "다크 니르첸 투구",
+   "diffs": [
+    {
+     "stat": "DEX",
+     "original_gms92": 1,
+     "mapleland": 0
+    },
+    {
+     "stat": "STR",
+     "original_gms92": 4,
+     "mapleland": 3
+    }
+   ]
+  },
+  {
+   "id": 1002382,
+   "name_kr": "레드 카날 후드",
+   "diffs": [
+    {
+     "stat": "LUK",
+     "original_gms92": 4,
+     "mapleland": 3
+    },
+    {
+     "stat": "최대 HP",
+     "original_gms92": 15,
+     "mapleland": 0
+    },
+    {
+     "stat": "최대 MP",
+     "original_gms92": 0,
+     "mapleland": 15
+    }
+   ]
+  },
+  {
+   "id": 1002383,
+   "name_kr": "다크 카날 후드",
+   "diffs": [
+    {
+     "stat": "LUK",
+     "original_gms92": 4,
+     "mapleland": 3
+    },
+    {
+     "stat": "최대 HP",
+     "original_gms92": 15,
+     "mapleland": 0
+    },
+    {
+     "stat": "최대 MP",
+     "original_gms92": 0,
+     "mapleland": 15
+    }
+   ]
+  },
+  {
+   "id": 1002407,
+   "name_kr": "블루 아르나햇",
+   "diffs": [
+    {
+     "stat": "최대 HP",
+     "original_gms92": 20,
+     "mapleland": 0
+    },
+    {
+     "stat": "최대 MP",
+     "original_gms92": 0,
+     "mapleland": 20
+    }
+   ]
+  },
+  {
+   "id": 1002408,
+   "name_kr": "그린 아르나햇",
+   "diffs": [
+    {
+     "stat": "최대 HP",
+     "original_gms92": 20,
+     "mapleland": 0
+    },
+    {
+     "stat": "최대 MP",
+     "original_gms92": 0,
+     "mapleland": 20
+    }
+   ]
+  },
+  {
+   "id": 1002517,
+   "name_kr": "메이플 2000일 두건",
+   "diffs": [
+    {
+     "stat": "마법방어력",
+     "original_gms92": 40,
+     "mapleland": 0
+    },
+    {
+     "stat": "물리방어력",
+     "original_gms92": 21,
+     "mapleland": 0
+    }
+   ]
+  },
+  {
+   "id": 1002547,
+   "name_kr": "레드 헌터",
+   "diffs": [
+    {
+     "stat": "최대 HP",
+     "original_gms92": 20,
+     "mapleland": 0
+    },
+    {
+     "stat": "최대 MP",
+     "original_gms92": 0,
+     "mapleland": 20
+    }
+   ]
+  },
+  {
+   "id": 1002550,
+   "name_kr": "블랙 가리나 후드",
+   "diffs": [
+    {
+     "stat": "LUK",
+     "original_gms92": 5,
+     "mapleland": 4
+    },
+    {
+     "stat": "최대 HP",
+     "original_gms92": 20,
+     "mapleland": 0
+    },
+    {
+     "stat": "최대 MP",
+     "original_gms92": 0,
+     "mapleland": 20
+    }
+   ]
+  },
+  {
+   "id": 1032031,
+   "name_kr": "타임리스 이어링",
+   "diffs": [
+    {
+     "stat": "명중률",
+     "original_gms92": 3,
+     "mapleland": 1
+    },
+    {
+     "stat": "마법방어력",
+     "original_gms92": 100,
+     "mapleland": 80
+    },
+    {
+     "stat": "최대 MP",
+     "original_gms92": 30,
+     "mapleland": 0
+    }
+   ]
+  },
+  {
+   "id": 1050105,
+   "name_kr": "다크 바루나",
+   "diffs": [
+    {
+     "stat": "INT",
+     "original_gms92": 7,
+     "mapleland": 3
+    },
+    {
+     "stat": "LUK",
+     "original_gms92": 4,
+     "mapleland": 7
+    }
+   ]
+  },
+  {
+   "id": 1050108,
+   "name_kr": "레드 아르주나",
+   "diffs": [
+    {
+     "stat": "DEX",
+     "original_gms92": 7,
+     "mapleland": 5
+    }
+   ]
+  },
+  {
+   "id": 1051104,
+   "name_kr": "다크 바즈라",
+   "diffs": [
+    {
+     "stat": "INT",
+     "original_gms92": 7,
+     "mapleland": 3
+    },
+    {
+     "stat": "LUK",
+     "original_gms92": 4,
+     "mapleland": 7
+    }
+   ]
+  },
+  {
+   "id": 1051107,
+   "name_kr": "레드 아르미스",
+   "diffs": [
+    {
+     "stat": "DEX",
+     "original_gms92": 7,
+     "mapleland": 5
+    }
+   ]
+  },
+  {
+   "id": 1052071,
+   "name_kr": "레드 맨틀",
+   "diffs": [
+    {
+     "stat": "DEX",
+     "original_gms92": 8,
+     "mapleland": 6
+    },
+    {
+     "stat": "STR",
+     "original_gms92": 6,
+     "mapleland": 7
+    }
+   ]
+  },
+  {
+   "id": 1052072,
+   "name_kr": "블랙 가리나",
+   "diffs": [
+    {
+     "stat": "LUK",
+     "original_gms92": 8,
+     "mapleland": 7
+    }
+   ]
+  },
+  {
+   "id": 1052075,
+   "name_kr": "블루 드래곤 아머",
+   "diffs": [
+    {
+     "stat": "STR",
+     "original_gms92": 8,
+     "mapleland": 7
+    }
+   ]
+  },
+  {
+   "id": 1052113,
+   "name_kr": "레드 바르베이",
+   "diffs": [
+    {
+     "stat": "물리방어력",
+     "original_gms92": 45,
+     "mapleland": 40
+    }
+   ]
+  },
+  {
+   "id": 1052134,
+   "name_kr": "카노푸스 슈트",
+   "diffs": [
+    {
+     "stat": "DEX",
+     "original_gms92": 7,
+     "mapleland": 6
+    }
+   ]
+  },
+  {
+   "id": 1072269,
+   "name_kr": "레드 헌터 슈즈",
+   "diffs": [
+    {
+     "stat": "DEX",
+     "original_gms92": 6,
+     "mapleland": 4
+    },
+    {
+     "stat": "STR",
+     "original_gms92": 2,
+     "mapleland": 3
+    }
+   ]
+  },
+  {
+   "id": 1082163,
+   "name_kr": "레드 헌터 글로브",
+   "diffs": [
+    {
+     "stat": "STR",
+     "original_gms92": 4,
+     "mapleland": 2
+    }
+   ]
+  },
+  {
+   "id": 1082168,
+   "name_kr": "블루 드래곤 건틀렛",
+   "diffs": [
+    {
+     "stat": "STR",
+     "original_gms92": 6,
+     "mapleland": 5
+    }
+   ]
+  },
+  {
+   "id": 1302077,
+   "name_kr": "초보 전사의 검",
+   "diffs": [
+    {
+     "stat": "공격력",
+     "original_gms92": 30,
+     "mapleland": 24
+    }
+   ]
+  },
+  {
+   "id": 1302081,
+   "name_kr": "타임리스 엑서큐서너스",
+   "diffs": [
+    {
+     "stat": "공격력",
+     "original_gms92": 110,
+     "mapleland": 108
+    }
+   ]
+  },
+  {
+   "id": 1312037,
+   "name_kr": "타임리스 버디슈",
+   "diffs": [
+    {
+     "stat": "공격력",
+     "original_gms92": 110,
+     "mapleland": 108
+    }
+   ]
+  },
+  {
+   "id": 1322060,
+   "name_kr": "타임리스 알라르간도",
+   "diffs": [
+    {
+     "stat": "공격력",
+     "original_gms92": 110,
+     "mapleland": 108
+    }
+   ]
+  },
+  {
+   "id": 1332063,
+   "name_kr": "초보 도적의 단검",
+   "diffs": [
+    {
+     "stat": "공격력",
+     "original_gms92": 28,
+     "mapleland": 22
+    }
+   ]
+  },
+  {
+   "id": 1372043,
+   "name_kr": "초보 마법사의 완드",
+   "diffs": [
+    {
+     "stat": "마력",
+     "original_gms92": 25,
+     "mapleland": 21
+    },
+    {
+     "stat": "공격력",
+     "original_gms92": 16,
+     "mapleland": 13
+    }
+   ]
+  },
+  {
+   "id": 1402000,
+   "name_kr": "양손검",
+   "diffs": [
+    {
+     "stat": "STR",
+     "original_gms92": 70,
+     "mapleland": 0
+    }
+   ]
+  },
+  {
+   "id": 1402006,
+   "name_kr": "하이랜더",
+   "diffs": [
+    {
+     "stat": "STR",
+     "original_gms92": 115,
+     "mapleland": 0
+    }
+   ]
+  },
+  {
+   "id": 1402007,
+   "name_kr": "쟈드",
+   "diffs": [
+    {
+     "stat": "STR",
+     "original_gms92": 130,
+     "mapleland": 0
+    }
+   ]
+  },
+  {
+   "id": 1402008,
+   "name_kr": "클러디",
+   "diffs": [
+    {
+     "stat": "STR",
+     "original_gms92": 85,
+     "mapleland": 0
+    }
+   ]
+  },
+  {
+   "id": 1402046,
+   "name_kr": "타임리스 니플하임",
+   "diffs": [
+    {
+     "stat": "공격력",
+     "original_gms92": 112,
+     "mapleland": 110
+    }
+   ]
+  },
+  {
+   "id": 1412033,
+   "name_kr": "타임리스 타바르진",
+   "diffs": [
+    {
+     "stat": "공격력",
+     "original_gms92": 114,
+     "mapleland": 112
+    }
+   ]
+  },
+  {
+   "id": 1422037,
+   "name_kr": "타임리스 벨로체",
+   "diffs": [
+    {
+     "stat": "공격력",
+     "original_gms92": 114,
+     "mapleland": 112
+    }
+   ]
+  },
+  {
+   "id": 1452051,
+   "name_kr": "초보 궁수의 활",
+   "diffs": [
+    {
+     "stat": "공격력",
+     "original_gms92": 28,
+     "mapleland": 22
+    }
+   ]
+  },
+  {
+   "id": 1472061,
+   "name_kr": "초보 도적의 아대",
+   "diffs": [
+    {
+     "stat": "공격력",
+     "original_gms92": 11,
+     "mapleland": 9
+    }
+   ]
+  },
+  {
+   "id": 1472069,
+   "name_kr": "클립토",
+   "diffs": [
+    {
+     "stat": "DEX",
+     "original_gms92": 1,
+     "mapleland": 0
+    }
+   ]
+  },
+  {
+   "id": 1482014,
+   "name_kr": "초보 해적의 너클",
+   "diffs": [
+    {
+     "stat": "공격력",
+     "original_gms92": 20,
+     "mapleland": 16
+    }
+   ]
+  },
+  {
+   "id": 1492014,
+   "name_kr": "초보 해적의 건",
+   "diffs": [
+    {
+     "stat": "공격력",
+     "original_gms92": 16,
+     "mapleland": 11
+    }
+   ]
+  }
+ ]
+}

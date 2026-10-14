@@ -1,7 +1,7 @@
 {
   "profile": "mapleland-current",
   "base_version": "wz83",
-  "updated_at": "2026-09-14",
+  "updated_at": "2026-10-14",
   "notes": [
     "MapleLand live/test-server deltas belong here after source verification.",
     "The canonical rebuild uses WZ v83 as the base, then applies these overrides.",
@@ -9,56 +9,285 @@
     "Values below were cross-checked against the current public MapleLand database and pre-BigBang WZ snapshots; internal/sentinel records are excluded."
   ],
   "mobs": {
-    "130100": { "level": 4, "hp": 45 },
-    "2130100": { "level": 10, "hp": 550 },
-    "9400000": { "level": 25, "hp": 400 },
-    "9400001": { "level": 30, "hp": 1200 },
-    "9300172": { "level": 62, "hp": 10500 },
-    "9300173": { "level": 65, "hp": 12500 },
-    "9300174": { "level": 65, "hp": 13000 },
-    "9300175": { "level": 55, "hp": 8500 },
-    "9300176": { "level": 65, "hp": 720000 },
-    "9300177": { "level": 75, "hp": 930000 },
-    "9300178": { "level": 85, "hp": 1350000 },
-    "9300179": { "level": 65, "hp": 3000 },
-    "9300181": { "level": 65, "hp": 12500 },
-    "9300182": { "level": 62, "hp": 10500 }
+    "130100": {
+      "level": 4,
+      "hp": 45
+    },
+    "2130100": {
+      "level": 10,
+      "hp": 550
+    },
+    "9400000": {
+      "level": 25,
+      "hp": 400
+    },
+    "9400001": {
+      "level": 30,
+      "hp": 1200
+    },
+    "9300172": {
+      "level": 62,
+      "hp": 10500
+    },
+    "9300173": {
+      "level": 65,
+      "hp": 12500
+    },
+    "9300174": {
+      "level": 65,
+      "hp": 13000
+    },
+    "9300175": {
+      "level": 55,
+      "hp": 8500
+    },
+    "9300176": {
+      "level": 65,
+      "hp": 720000
+    },
+    "9300177": {
+      "level": 75,
+      "hp": 930000
+    },
+    "9300178": {
+      "level": 85,
+      "hp": 1350000
+    },
+    "9300179": {
+      "level": 65,
+      "hp": 3000
+    },
+    "9300181": {
+      "level": 65,
+      "hp": 12500
+    },
+    "9300182": {
+      "level": 62,
+      "hp": 10500
+    }
   },
   "items": {
     "1122059": {
-      "stats": { "incSTR": 5, "incDEX": 5, "incINT": 5, "incLUK": 5, "incPAD": 4, "incMAD": 8, "incEVA": 15, "incSpeed": 5, "incJump": 5, "incMHP": 150, "incMMP": 150 },
+      "stats": {
+        "incSTR": 5,
+        "incDEX": 5,
+        "incINT": 5,
+        "incLUK": 5,
+        "incPAD": 4,
+        "incMAD": 8,
+        "incEVA": 15,
+        "incSpeed": 5,
+        "incJump": 5,
+        "incMHP": 150,
+        "incMMP": 150
+      },
       "source_note": "2026-01-23 official MapleLand patch: https://maple.land/board/notices/y71qps22nn1ze094s3rpctfh"
     },
-    "1002517": { "level_req": 0 },
-    "1032031": { "level_req": 100 },
-    "1041091": { "job_req": "전사" },
-    "1041092": { "job_req": "전사" },
-    "1041093": { "job_req": "전사" },
-    "1050097": { "job_req": "도적" },
-    "1050098": { "job_req": "도적" },
-    "1051091": { "job_req": "도적" },
-    "1051092": { "job_req": "도적" },
-    "1082008": { "job_req": "전사" },
-    "1082065": { "job_req": "도적" },
-    "1082066": { "job_req": "도적" },
-    "1082067": { "job_req": "도적" },
-    "1372002": { "job_req": "공용" },
-    "1402000": { "job_req": "전사" },
-    "1402001": { "job_req": "전사/궁수/도적" },
-    "1402006": { "job_req": "전사" },
-    "1402007": { "job_req": "전사" },
-    "1402008": { "job_req": "전사" },
-    "1412001": { "job_req": "전사/궁수/도적" },
-    "1422000": { "job_req": "전사/궁수/도적" },
-    "1422004": { "job_req": "전사/궁수/도적" },
-    "1422011": { "job_req": "전사/마법사/궁수/도적" },
-    "1432000": { "job_req": "전사/궁수/도적" },
-    "1432001": { "job_req": "전사/궁수/도적" },
-    "1442000": { "job_req": "전사/궁수/도적" },
-    "1442004": { "job_req": "전사/궁수/도적" },
-    "1442023": { "job_req": "전사/마법사/궁수/도적" },
-    "2331000": { "level_req": 0 },
-    "2332000": { "level_req": 0 }
+    "1002517": {
+      "level_req": 0
+    },
+    "1032031": {
+      "level_req": 100
+    },
+    "1041091": {
+      "stats": {
+        "incPDD": 65,
+        "incDEX": 4,
+        "incSTR": 1
+      },
+      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (그린 트란도트)",
+      "level_req": 60
+    },
+    "1041092": {
+      "stats": {
+        "incPDD": 65,
+        "incDEX": 1,
+        "incSTR": 4
+      },
+      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (레드 트란도트)",
+      "level_req": 60
+    },
+    "1041093": {
+      "stats": {
+        "incPDD": 65,
+        "incDEX": 1,
+        "incSTR": 4
+      },
+      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (블루 트란도트)",
+      "level_req": 60
+    },
+    "1050097": {
+      "stats": {
+        "incPDD": 105,
+        "incLUK": 3,
+        "incDEX": 7,
+        "incEVA": 2
+      },
+      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (블루 카티나스)",
+      "level_req": 100
+    },
+    "1050098": {
+      "stats": {
+        "incPDD": 105,
+        "incLUK": 7,
+        "incDEX": 3,
+        "incEVA": 2
+      },
+      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (레드 카티나스)",
+      "level_req": 100
+    },
+    "1051091": {
+      "stats": {
+        "incPDD": 105,
+        "incLUK": 3,
+        "incDEX": 7,
+        "incEVA": 2
+      },
+      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (블루 카테)",
+      "level_req": 100
+    },
+    "1051092": {
+      "stats": {
+        "incPDD": 105,
+        "incLUK": 7,
+        "incDEX": 3,
+        "incEVA": 2
+      },
+      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (레드 카테)",
+      "level_req": 100
+    },
+    "1082008": {
+      "stats": {
+        "incPDD": 13
+      },
+      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (스틸 브리건)",
+      "level_req": 35
+    },
+    "1082065": {
+      "stats": {
+        "incPDD": 18,
+        "incLUK": 1
+      },
+      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (청월 장갑)",
+      "level_req": 50
+    },
+    "1082066": {
+      "stats": {
+        "incPDD": 20,
+        "incLUK": 3,
+        "incEVA": 1
+      },
+      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (황월 장갑)",
+      "level_req": 50
+    },
+    "1082067": {
+      "stats": {
+        "incPDD": 19,
+        "incLUK": 2,
+        "incDEX": 1
+      },
+      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (적월 장갑)",
+      "level_req": 50
+    },
+    "1372002": {
+      "job_req": "공용"
+    },
+    "1402000": {
+      "stats": {
+        "incSTR": 70,
+        "incPAD": 40
+      },
+      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (양손검)",
+      "level_req": 20
+    },
+    "1402001": {
+      "job_req": "전사/궁수/도적"
+    },
+    "1402006": {
+      "stats": {
+        "incSTR": 115,
+        "incPAD": 55
+      },
+      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (하이랜더)",
+      "level_req": 35
+    },
+    "1402007": {
+      "stats": {
+        "incSTR": 130,
+        "incPAD": 60
+      },
+      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (쟈드)",
+      "level_req": 40
+    },
+    "1402008": {
+      "stats": {
+        "incSTR": 85,
+        "incPAD": 45
+      },
+      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (클러디)",
+      "level_req": 25
+    },
+    "1412001": {
+      "job_req": "전사/궁수/도적"
+    },
+    "1422000": {
+      "job_req": "전사/궁수/도적"
+    },
+    "1422004": {
+      "job_req": "전사/궁수/도적"
+    },
+    "1422011": {
+      "job_req": "전사/마법사/궁수/도적"
+    },
+    "1432000": {
+      "job_req": "전사/궁수/도적"
+    },
+    "1432001": {
+      "job_req": "전사/궁수/도적"
+    },
+    "1442000": {
+      "job_req": "전사/궁수/도적"
+    },
+    "1442004": {
+      "job_req": "전사/궁수/도적"
+    },
+    "1442023": {
+      "job_req": "전사/마법사/궁수/도적"
+    },
+    "2331000": {
+      "level_req": 0
+    },
+    "2332000": {
+      "level_req": 0
+    },
+    "1003112": {
+      "stats": {
+        "incSTR": 21,
+        "incDEX": 21,
+        "incINT": 21,
+        "incLUK": 21,
+        "incPDD": 180,
+        "incMDD": 180,
+        "incACC": 35,
+        "incEVA": 35,
+        "incMHPr": 10,
+        "incMMPr": 10
+      },
+      "source_note": "2026-10-14 메랜 인게임 툴팁 확인(운영자) — 카오스 자쿰의 투구는 올스탯 21·방어 180·명중/회피 35에 더해 최대 HP/MP +10%. GMS v92 원본(maplestory.io)·mapleland.gg·인벤(KMS)에는 HP/MP% 줄이 없음."
+    },
+    "1402009": {
+      "stats": {
+        "incPAD": 20
+      },
+      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (나무 야구 방망이)"
+    },
+    "1402010": {
+      "stats": {
+        "incPAD": 48
+      },
+      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (알루미늄 야구 방망이)",
+      "level_req": 30
+    }
   },
   "quests": {},
   "skills": {}

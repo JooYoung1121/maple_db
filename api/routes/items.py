@@ -1,4 +1,7 @@
 """Item routes"""
+from functools import lru_cache
+from pathlib import Path
+import json
 from fastapi import APIRouter, Query, HTTPException
 from typing import Optional
 
@@ -198,6 +201,80 @@ def list_items(
     return {"items": results, "total": total, "page": page, "per_page": per_page}
 
 
+# ── 메이플랜드 현행 수치 (item_mapleland_stats, mapledb.kr 전수 수집) ─────────────
+# 상세 페이지는 이 블록이 있으면 메랜 수치를 정본으로 그리고, items.stats(GMS v92 원작)와의 차이를 함께 보여준다.
+_ML_LABEL_TO_KEY = {
+    "물리방어력": "incPDD", "마법방어력": "incMDD", "물리공격력": "incPAD", "마법공격력": "incMAD",
+    "STR": "incSTR", "DEX": "incDEX", "INT": "incINT", "LUK": "incLUK",
+    "최대체력": "incMHP", "최대마나": "incMMP", "명중률": "incACC", "회피율": "incEVA",
+    "이동속도": "incSpeed", "점프력": "incJump",
+}
+_OVERRIDES_PATH = Path(__file__).resolve().parents[2] / "data" / "mapleland_overrides.json"
+
+
+@lru_cache(maxsize=1)
+def _override_notes() -> dict[str, str]:
+    try:
+        payload = json.loads(_OVERRIDES_PATH.read_text(encoding="utf-8"))
+        return {k: str(v.get("source_note") or "") for k, v in (payload.get("items") or {}).items() if isinstance(v, dict)}
+    except Exception:
+        return {}
+
+
+def _mapleland_block(conn, item: dict) -> dict | None:
+    try:
+        row = conn.execute("SELECT * FROM item_mapleland_stats WHERE item_id = ?", (item["id"],)).fetchone()
+    except Exception:
+        row = None
+    note = _override_notes().get(str(item["id"]))
+    if row is None and not note:
+        return None
+    block: dict = {"source": None, "override_note": note or None, "diff": []}
+    if row is None:
+        return block
+    r = dict(row)
+    try:
+        stats = json.loads(r.get("stats_json") or "{}")
+    except Exception:
+        stats = {}
+    try:
+        req = json.loads(r.get("req_json") or "{}")
+    except Exception:
+        req = {}
+    try:
+        original = json.loads(item.get("stats") or "{}") if item.get("stats") else {}
+    except Exception:
+        original = {}
+    # 원작(items.stats) 대비 차이 — mapledb 가 다루는 14개 옵션만 비교하고 0 은 없음으로 본다
+    diff = []
+    ml_keyed = {_ML_LABEL_TO_KEY[k]: v.get("base") for k, v in stats.items() if k in _ML_LABEL_TO_KEY}
+    for key in sorted(set(ml_keyed) | {k for k in original if k in _ML_LABEL_TO_KEY.values()}):
+        ml_v = int(ml_keyed.get(key) or 0)
+        og_v = int(original.get(key) or 0)
+        if ml_v != og_v:
+            diff.append({"key": key, "mapleland": ml_v, "original": og_v})
+    if r.get("level") is not None and int(item.get("level_req") or 0) != int(r["level"] or 0) and r.get("jobs") != "not":
+        diff.append({"key": "level_req", "mapleland": int(r["level"] or 0), "original": int(item.get("level_req") or 0)})
+    block.update({
+        "source": "mapledb.kr",
+        "source_url": r.get("source_url"),
+        "fetched_at": r.get("fetched_at"),
+        "name_kr": r.get("name_kr"),
+        "level": r.get("level"),
+        "jobs": r.get("jobs"),
+        "gender": r.get("gender"),
+        "category": r.get("category"),
+        "subcategory": r.get("subcategory"),
+        "req": req,
+        "stats": stats,
+        "price": r.get("price"),
+        "attack_speed": r.get("attack_speed"),
+        "description": r.get("description"),
+        "diff": diff,
+    })
+    return block
+
+
 @router.get("/items/{item_id}")
 def get_item(item_id: int):
     if not require_mapleland_id(item_id, "items"):
@@ -215,6 +292,7 @@ def get_item(item_id: int):
 
         item = dict(row)
         item["catalog_notes"] = equipment_notes().get(str(item_id))
+        item["mapleland"] = _mapleland_block(conn, item)
 
         # 영문명
         en_rows = conn.execute(

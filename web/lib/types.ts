@@ -46,6 +46,29 @@ export interface Item {
   overall_category?: string | null;
   names_en?: NameEn[];
   name_kr?: string | null;
+  /** 메이플랜드 현행 수치(mapledb.kr) + 원작 대비 차이 — 상세 API만 채운다 */
+  mapleland?: MaplelandItemStats | null;
+}
+
+export interface MaplelandStatRange { base: number; min: number | null; max: number | null }
+export interface MaplelandItemDiff { key: string; mapleland: number; original: number }
+export interface MaplelandItemStats {
+  source: "mapledb.kr" | null;      // null 이면 오버라이드 메모만 있는 경우
+  source_url?: string | null;
+  fetched_at?: string | null;
+  override_note?: string | null;    // data/mapleland_overrides.json 의 source_note (인게임 확인 등)
+  name_kr?: string | null;
+  level?: number | null;
+  jobs?: string | null;             // "공용" | "전사" | "전사,도적" | "not"
+  gender?: string | null;
+  category?: string | null;         // 주 카테고리 (방어구·무기·…)
+  subcategory?: string | null;      // 부 카테고리 (모자·전신·한손검·…) — 인게임 '장비분류'
+  req?: Record<string, number>;     // STR/DEX/INT/LUK/POP
+  stats?: Record<string, MaplelandStatRange>; // 한글 라벨 → 기본·범위
+  price?: number | null;
+  attack_speed?: string | null;
+  description?: string | null;
+  diff: MaplelandItemDiff[];
 }
 
 export interface EquipmentCatalogNotes {
