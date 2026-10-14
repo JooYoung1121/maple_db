@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { searchSuggest } from "@/lib/api";
 import type { SearchSuggestion } from "@/lib/types";
 import { SEARCH_TYPE_META, searchFeatures, type SiteFeature } from "@/lib/siteFeatures";
+import { suggestionIconUrl, hideIconOnError } from "@/lib/icons";
 
 interface GroupedSuggestions {
   type: string;
@@ -221,8 +222,8 @@ export default function SearchBar({ large = false }: { large?: boolean }) {
                       onMouseEnter={() => setActiveIndex(currentIdx)}
                       className={`w-full text-left px-4 py-2.5 flex items-center gap-3 border-b border-edge/50 last:border-0 transition-colors ${isActive ? "bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)]" : "hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]"}`}
                     >
-                      {s.icon_url && (
-                        <img src={s.icon_url} alt="" className="w-8 h-8 object-contain flex-shrink-0" />
+                      {suggestionIconUrl(s.entity_type, s.entity_id, s.icon_url) && (
+                        <img src={suggestionIconUrl(s.entity_type, s.entity_id, s.icon_url)!} alt="" className="w-8 h-8 object-contain flex-shrink-0" onError={hideIconOnError} />
                       )}
                       <div className="min-w-0 flex-1">
                         <span className="font-medium text-ink block truncate">

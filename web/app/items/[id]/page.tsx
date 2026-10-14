@@ -13,6 +13,7 @@ import EntityCanonDiffPanel from "@/components/EntityCanonDiffPanel";
 import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
 import { getEntityCanonDiffs } from "@/lib/entityCanonDiffs";
 import DropRateBadge from "@/components/DropRateBadge";
+import { entityIconUrl, hideIconOnError } from "@/lib/icons";
 
 interface DroppedByMob {
   mob_id: number;
@@ -63,7 +64,7 @@ export default function ItemDetailPage() {
       <Link href="/items" className="text-sm text-maple hover:underline">&larr; 아이템 목록</Link>
       <div className="pixel-panel p-6 mt-3">
         <div className="flex items-start gap-4">
-          {item.icon_url && <img src={item.icon_url} alt={item.name} className="w-16 h-16 object-contain" />}
+          <img src={entityIconUrl("item", item.id)} alt={item.name} className="w-16 h-16 object-contain" onError={hideIconOnError} />
           <div>
             <h1 className="text-2xl font-bold">
               {(() => {

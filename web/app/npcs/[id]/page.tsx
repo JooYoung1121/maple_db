@@ -6,6 +6,7 @@ import Link from "next/link";
 import { getNpc } from "@/lib/api";
 import type { Npc } from "@/lib/types";
 import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
+import { entityIconUrl, hideIconOnError } from "@/lib/icons";
 
 export default function NpcDetailPage() {
   const { id } = useParams();
@@ -29,7 +30,7 @@ export default function NpcDetailPage() {
       <Link href="/npcs" className="text-sm text-maple hover:underline">&larr; NPC 목록</Link>
       <div className="pixel-panel p-6 mt-3">
         <div className="flex items-start gap-4">
-          {npc.icon_url && <img src={npc.icon_url} alt={npc.name} className="w-16 h-16 object-contain" />}
+          <img src={entityIconUrl("npc", npc.id)} alt={npc.name} className="w-16 h-16 object-contain" onError={hideIconOnError} />
           <div>
             <h1 className="font-pixel text-2xl font-bold">
               {(() => {

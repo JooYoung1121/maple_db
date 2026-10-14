@@ -243,6 +243,8 @@ export interface Skill {
   level_data: string | null;
   level_data_parsed?: { level: number; effect: string }[] | null;
   source_post_url: string | null;
+  /** 스킬 시뮬 아이콘(/skill-icons/{id}.png) — 이름·직업 매칭 실패 시 null */
+  icon_path?: string | null;
 }
 
 export interface Boss extends Mob {

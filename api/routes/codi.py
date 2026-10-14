@@ -43,7 +43,8 @@ def codi_parts(
         raise HTTPException(status_code=400, detail=f"type은 {', '.join(PART_TYPES)} 중 하나")
     category, subs, use_ref = PART_TYPES[type]
 
-    conditions = ["i.icon_url IS NOT NULL"]
+    # 숨김 아이템 제외 — 아이콘 원본이 404 인 128종(2026-10-14 점검)이 레퍼런스 필터 없는 코디에만 새어 나오던 문제
+    conditions = ["i.icon_url IS NOT NULL", "COALESCE(i.is_hidden, 0) = 0"]
     params: list = []
     if gender:
         # WZ에 성별 컬럼이 없어 ID 규칙으로 판별 (현 DB의 GMS v92+KMS 데이터로 검증)

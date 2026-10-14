@@ -866,7 +866,7 @@ export default function NHitPage() {
           [
             { key: "calc" as Tab, label: "엔방컷 계산기" },
             { key: "taken" as Tab, label: "피격뎀 계산기" },
-            { key: "hunt" as Tab, label: "사냥터 추천" },
+            { key: "hunt" as Tab, label: "사냥터 젠컷" },
           ] as const
         ).map((t) => (
           <button

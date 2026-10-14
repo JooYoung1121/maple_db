@@ -12,6 +12,7 @@ import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
 import { getEntityCanonDiffs } from "@/lib/entityCanonDiffs";
 import EquipmentNotes from "@/components/EquipmentNotes";
 import { toCategoryKr, toSubcategoryKr } from "@/lib/translations";
+import { entityIconUrl, hideIconOnError } from "@/lib/icons";
 
 const WEAPONS = "One-Handed Weapon,Two-Handed Weapon,Weapon";
 const EQUIPMENT = ["Armor", "Accessory", ...WEAPONS.split(",")];
@@ -82,10 +83,11 @@ function EquipmentCard({ item }: { item: Item }) {
         <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-lg bg-surface2">
           {item.icon_url ? (
             <img
-              src={item.icon_url}
+              src={entityIconUrl("item", item.id)}
               loading="lazy"
               alt=""
               className="h-11 w-11 object-contain [image-rendering:pixelated]"
+              onError={hideIconOnError}
             />
           ) : (
             <span className="text-2xl text-dim">◇</span>

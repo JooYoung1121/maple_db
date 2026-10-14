@@ -12,10 +12,14 @@ import { useQueryState } from "@/lib/useQueryState";
 import CanonDiffInfo from "@/components/CanonDiffInfo";
 import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
 import { getEntityCanonDiffs } from "@/lib/entityCanonDiffs";
+import { hideIconOnError } from "@/lib/icons";
 
 const JOB_TABS = ["전체", "전사", "마법사", "궁수", "도적", "해적", "배틀메이지"];
 
 const columns: Column<Skill>[] = [
+  { key: "icon", label: "", render: (r) => r.icon_path
+    ? <img src={r.icon_path} alt="" className="w-8 h-8 object-contain [image-rendering:pixelated]" loading="lazy" onError={hideIconOnError} />
+    : <span className="inline-block w-8 h-8" aria-hidden /> },
   { key: "skill_name", label: "스킬명", render: (r) => {
     const entries = getEntityCanonDiffs("skill", undefined, r.skill_name);
     return (

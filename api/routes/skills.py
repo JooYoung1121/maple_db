@@ -7,6 +7,12 @@ from crawler.db import get_connection
 
 router = APIRouter()
 
+# 스킬 아이콘: skills 테이블에는 아이콘 컬럼이 없어 스킬 시뮬용 sim_skills(icon_path → /skill-icons/{원본ID}.png)를
+# 이름(공백 무시)+직업 계열로 대조해 빌려 쓴다. 287종 중 231종 매칭(2026-10-14), 미매칭은 null.
+ICON_PATH_SUBQUERY = """(SELECT ss.icon_path FROM sim_skills ss JOIN sim_jobs sj ON sj.id = ss.job_id
+     WHERE REPLACE(ss.name, ' ', '') = REPLACE(skills.skill_name, ' ', '')
+       AND sj.job_class = skills.job_class AND ss.icon_path IS NOT NULL LIMIT 1)"""
+
 
 @router.get("/skills/acquisition")
 def skill_acquisition_guides():
@@ -83,7 +89,8 @@ def list_skills(
     try:
         total = conn.execute(f"SELECT COUNT(*) FROM skills {where}", params).fetchone()[0]
         rows = conn.execute(
-            f"SELECT * FROM skills {where} ORDER BY job_class, job_branch, skill_name LIMIT ? OFFSET ?",
+            f"SELECT *, {ICON_PATH_SUBQUERY} AS icon_path FROM skills {where} "
+            "ORDER BY job_class, job_branch, skill_name LIMIT ? OFFSET ?",
             params + [per_page, offset],
         ).fetchall()
         results = [dict(r) for r in rows]
@@ -110,6 +117,12 @@ def get_skill(skill_id: int):
         if row is None:
             raise HTTPException(status_code=404, detail="Skill not found")
         skill = dict(row)
+        try:
+            skill["icon_path"] = conn.execute(
+                f"SELECT {ICON_PATH_SUBQUERY} FROM skills WHERE id = ?", (skill["id"],)
+            ).fetchone()[0]
+        except Exception:
+            skill["icon_path"] = None
         # Parse level_data JSON
         if skill.get("level_data"):
             try:

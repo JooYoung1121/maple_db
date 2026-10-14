@@ -39,3 +39,29 @@ def repair_skill_classes(conn):
             conn.execute("UPDATE skills SET job_class='도적' WHERE id=?", (row['id'],))
     conn.commit()
     return len(rows)
+
+
+def repair_broken_icon_entities(conn):
+    """아이콘 원본이 404 인 엔티티를 숨긴다 (목록은 crawler/broken_icons.py, 2026-10-14 전수 점검).
+
+    mobs 는 start.sh 가 additive 로만 동기화해 시드의 is_hidden 변경이 라이브에 전달되지 않으므로
+    기동 시마다 멱등 적용한다. items 는 시드 전체 교체 대상이지만 같은 경로로 한 번 더 보장한다.
+    """
+    from crawler.broken_icons import BROKEN_ICON_ITEM_IDS, BROKEN_ICON_MOB_IDS
+
+    changed = 0
+    for table, ids in (("mobs", BROKEN_ICON_MOB_IDS), ("items", BROKEN_ICON_ITEM_IDS)):
+        if not ids:
+            continue
+        cols = {r[1] for r in conn.execute(f"PRAGMA table_info({table})")}
+        if "is_hidden" not in cols:
+            continue
+        ph = ",".join("?" for _ in ids)
+        cur = conn.execute(
+            f"UPDATE {table} SET is_hidden=1 WHERE id IN ({ph}) AND COALESCE(is_hidden, 0) = 0",
+            tuple(ids),
+        )
+        changed += cur.rowcount or 0
+    if changed:
+        conn.commit()
+    return changed

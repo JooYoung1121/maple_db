@@ -9,9 +9,11 @@ import Pagination from "@/components/Pagination";
 import FilterPanel, { FilterDef } from "@/components/FilterPanel";
 import { useQueryState } from "@/lib/useQueryState";
 import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
+import { entityIconUrl, hideIconOnError } from "@/lib/icons";
 
 
 const columns: Column<Npc>[] = [
+  { key: "icon", label: "", render: (r) => <img src={entityIconUrl("npc", r.id)} alt="" className="w-10 h-10 object-contain [image-rendering:pixelated]" loading="lazy" onError={hideIconOnError} /> },
   { key: "name", label: "이름", render: (r) => r.name_kr ? <><span>{r.name_kr}</span> <span className="text-dim text-xs">({r.name})</span></> : r.name },
   { key: "map_name", label: "위치" },
   { key: "is_shop", label: "상점", render: (r) => r.is_shop ? "상점" : "일반" },

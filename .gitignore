@@ -37,3 +37,4 @@ data/weekly_news/
 # 렌더러 픽셀 폰트 (최초 실행 시 자동 다운로드)
 data/fonts/
 data/icon_cache/
+data/map_render_opaque_ratios.json

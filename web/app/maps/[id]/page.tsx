@@ -8,6 +8,8 @@ import type { MapData, MapDetailData, MapDrop, MapMobSpawn, Npc, Portal } from "
 import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
 import CanonDiffInfo from "@/components/CanonDiffInfo";
 import { CANON_DIFFS } from "@/lib/canonDiffs";
+import mapRenderStatus from "@/data/mapRenderStatus.json";
+import { entityIconUrl, hideIconOnError } from "@/lib/icons";
 
 /* 몹별 스폰 점 색상 팔레트 (구조도·범례 공용) */
 const MOB_COLORS = ["#f59e0b", "#3b82f6", "#22c55e", "#a855f7", "#ef4444", "#14b8a6", "#eab308", "#ec4899"];
@@ -105,13 +107,67 @@ function MapSchematic({
   );
 }
 
-/* ── 실사 렌더 이미지 ── */
+/* ── 실사 렌더 이미지 ──
+ * maplestory.io 렌더는 세 부류다 (scripts/audit_map_renders.py 전수 점검, web/data/mapRenderStatus.json):
+ *  - missing: gms/92 에 렌더가 없어 404 — 기다리지 않고 바로 안내
+ *  - sparse : 200 이지만 배경·타일 없이 오브젝트(사다리 등)만 그려진 거의 투명한 이미지 — 까만 화면으로 보이던 건.
+ *             미니맵을 대신 보여주고 원본은 링크로만 남긴다
+ *  - 그 외  : 정상 렌더 */
+const MISSING_RENDERS = new Set<number>(mapRenderStatus.missing);
+const SPARSE_RENDERS = new Set<number>(mapRenderStatus.sparse);
+/* partial: 배경(back) 레이어가 빠져 오브젝트·타일만 남은 렌더(리스항구·싱가포르 등) — 렌더는 보여주되 미니맵을 함께 둔다 */
+const PARTIAL_RENDERS = new Set<number>(mapRenderStatus.partial);
+
+function MapMinimap({ mapId }: { mapId: number }) {
+  const [failed, setFailed] = useState(false);
+  if (failed) return null;
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={`${RENDER_BASE}/${mapId}/minimap`}
+      alt="미니맵"
+      className="max-w-full h-auto [image-rendering:pixelated]"
+      style={{ maxHeight: "50vh" }}
+      onError={() => setFailed(true)}
+      loading="lazy"
+    />
+  );
+}
+
 function MapRender({ mapId }: { mapId: number }) {
   const [status, setStatus] = useState<"loading" | "ok" | "error">("loading");
+  if (MISSING_RENDERS.has(mapId) || SPARSE_RENDERS.has(mapId)) {
+    const sparse = SPARSE_RENDERS.has(mapId);
+    return (
+      <div className="bg-[#0d0f14] p-5 flex flex-col items-center gap-4">
+        <div className="pixel-panel px-4 py-3 text-sm text-dim max-w-xl text-center">
+          {sparse ? (
+            <>
+              <p className="text-ink font-semibold mb-1">실사 렌더가 비어 있는 맵입니다</p>
+              <p>렌더 서버(maplestory.io)가 이 맵의 배경·타일을 그리지 못해 사다리 같은 오브젝트만 있는 거의 투명한 이미지를 제공합니다. 대신 미니맵을 표시합니다.</p>
+              <a href={`${RENDER_BASE}/${mapId}/render`} target="_blank" rel="noreferrer" className="inline-block mt-2 text-xs text-maple underline underline-offset-2">빈 렌더 원본 열기 ↗</a>
+            </>
+          ) : (
+            <>
+              <p className="text-ink font-semibold mb-1">실사 렌더가 제공되지 않는 맵입니다</p>
+              <p>원작(GMS v92) 렌더 데이터에 이 맵이 없습니다. 미니맵이 있으면 아래에 표시됩니다.</p>
+            </>
+          )}
+        </div>
+        <MapMinimap mapId={mapId} />
+      </div>
+    );
+  }
+  const partial = PARTIAL_RENDERS.has(mapId);
   return (
-    <div className="relative min-h-[200px] bg-[#0d0f14] flex items-center justify-center">
+    <div className="relative min-h-[200px] bg-[#0d0f14] flex flex-col items-center justify-center">
       {status === "loading" && (
         <p className="absolute text-sm text-dim animate-pulse">맵 이미지를 불러오는 중... (수 초 걸릴 수 있어요)</p>
+      )}
+      {partial && status === "ok" && (
+        <div className="w-full px-4 pt-3 text-xs text-dim">
+          <span className="text-ink font-semibold">배경이 빠진 렌더</span> — 렌더 서버(maplestory.io)가 배경 레이어를 그리지 않아 오브젝트·발판만 보입니다. 아래 미니맵을 함께 참고하세요.
+        </div>
       )}
       {status === "error" ? (
         <p className="text-sm text-dim py-10">이미지를 불러오지 못했습니다 (maplestory.io 응답 없음)</p>
@@ -126,6 +182,11 @@ function MapRender({ mapId }: { mapId: number }) {
           onError={() => setStatus("error")}
           loading="lazy"
         />
+      )}
+      {partial && status === "ok" && (
+        <div className="w-full flex justify-center py-4 border-t border-edge/40">
+          <MapMinimap mapId={mapId} />
+        </div>
       )}
     </div>
   );
@@ -292,10 +353,8 @@ export default function MapDetailPage() {
               const inner = (
                 <>
                   <span className="inline-block w-2 h-2 rounded-full shrink-0" style={{ background: mobColor.get(m.mob_id) }} />
-                  {m.icon_url && (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={m.icon_url} alt="" className="w-9 h-9 object-contain shrink-0" loading="lazy" />
-                  )}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={entityIconUrl("mob", m.mob_id)} alt="" className="w-9 h-9 object-contain shrink-0" loading="lazy" onError={hideIconOnError} />
                   <span className="min-w-0 flex-1">
                     <span className="block text-sm font-medium truncate">{m.mob_name_kr || m.mob_name}</span>
                     <span className="block text-xs text-dim">
@@ -349,10 +408,8 @@ export default function MapDetailPage() {
                       .join(", ")}`}
                     className="pixel-card flex items-center gap-2 px-2.5 py-1.5 hover:border-maple transition-colors"
                   >
-                    {d.icon_url && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={d.icon_url} alt="" className="w-6 h-6 object-contain shrink-0" loading="lazy" />
-                    )}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={entityIconUrl("item", d.item_id)} alt="" className="w-6 h-6 object-contain shrink-0" loading="lazy" onError={hideIconOnError} />
                     <span className="text-xs truncate flex-1">{d.item_name_kr || d.item_name}</span>
                     {d.max_rate != null && (
                       <span className="text-[10px] text-skill shrink-0 font-mono">{(d.max_rate * 100).toFixed(d.max_rate >= 0.1 ? 0 : 2)}%</span>

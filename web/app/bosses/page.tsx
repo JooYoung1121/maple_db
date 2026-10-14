@@ -8,12 +8,14 @@ import DataTable, { Column } from "@/components/DataTable";
 import Pagination from "@/components/Pagination";
 import FilterPanel, { FilterDef } from "@/components/FilterPanel";
 import { useQueryState } from "@/lib/useQueryState";
+import { entityIconUrl, hideIconOnError } from "@/lib/icons";
 
 interface BossRow extends Boss {
   name_kr?: string | null;
 }
 
 const columns: Column<BossRow>[] = [
+  { key: "icon", label: "", render: (r) => <img src={entityIconUrl("mob", r.id)} alt="" className="w-10 h-10 object-contain [image-rendering:pixelated]" loading="lazy" onError={hideIconOnError} /> },
   { key: "name", label: "이름", render: (r) => r.name_kr ? <><span>{r.name_kr}</span> <span className="text-dim text-xs">({r.name})</span></> : r.name },
   { key: "level", label: "레벨" },
   { key: "hp", label: "HP", render: (r) => (r.hp ?? 0).toLocaleString() },

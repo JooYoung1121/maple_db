@@ -83,6 +83,19 @@
   "keywords": []
  },
  {
+  "href": "/maker",
+  "label": "메이커",
+  "homeLabel": null,
+  "description": "제작 정보 · 강화 시뮬 · 재료 획득 · 보석 가성비",
+  "keywords": [
+   "제작",
+   "메이커 스킬",
+   "강화 시뮬",
+   "명예의전당",
+   "보석"
+  ]
+ },
+ {
   "href": "/market",
   "label": "아이템 시세",
   "homeLabel": null,
@@ -146,13 +159,6 @@
    "인센티브",
    "사망 차감"
   ]
- },
- {
-  "href": "/maker",
-  "label": "메이커",
-  "homeLabel": null,
-  "description": "제작 정보 · 강화 시뮬 · 재료 획득",
-  "keywords": []
  },
  {
   "href": "/chaos",
@@ -352,21 +358,6 @@
   "keywords": []
  },
  {
-  "href": "/boss-timer?boss=hunt",
-  "label": "사냥 타이머",
-  "homeLabel": null,
-  "description": "파티 버프(심볼·샤프·메용) 리버프 · 파티원 입장 공유 타이머",
-  "keywords": [
-   "사냥 타이머",
-   "홀리심볼",
-   "심볼",
-   "샤프",
-   "메용",
-   "버프 타이머",
-   "리버프"
-  ]
- },
- {
   "href": "/wedding",
   "label": "결혼 시스템",
   "homeLabel": null,
@@ -419,6 +410,21 @@
    "쿨타임",
    "원정대 관리",
    "공대 편성"
+  ]
+ },
+ {
+  "href": "/boss-timer?boss=hunt",
+  "label": "사냥 타이머",
+  "homeLabel": null,
+  "description": "파티 버프(심볼·샤프·메용) 리버프 · 파티원 입장 공유 타이머",
+  "keywords": [
+   "사냥 타이머",
+   "홀리심볼",
+   "심볼",
+   "샤프",
+   "메용",
+   "버프 타이머",
+   "리버프"
   ]
  },
  {

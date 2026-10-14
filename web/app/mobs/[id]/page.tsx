@@ -10,6 +10,7 @@ import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
 import FieldEvidence from "@/components/FieldEvidence";
 import DropRateBadge from "@/components/DropRateBadge";
 import { getEntityCanonDiffs } from "@/lib/entityCanonDiffs";
+import { entityIconUrl, hideIconOnError } from "@/lib/icons";
 
 export default function MobDetailPage() {
   const { id } = useParams();
@@ -51,7 +52,7 @@ export default function MobDetailPage() {
       <Link href="/mobs" className="text-sm text-maple hover:underline">&larr; 몬스터 목록</Link>
       <div className="pixel-panel p-6 mt-3">
         <div className="flex items-start gap-4">
-          {mob.icon_url && <img src={mob.icon_url} alt={mob.name} className="w-16 h-16 object-contain" />}
+          <img src={entityIconUrl("mob", mob.id)} alt={mob.name} className="w-16 h-16 object-contain" onError={hideIconOnError} />
           <div>
             <h1 className="font-pixel text-2xl font-bold">
               {(() => {

@@ -11,6 +11,7 @@ import { useQueryState } from "@/lib/useQueryState";
 import CanonDiffInfo from "@/components/CanonDiffInfo";
 import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
 import { getEntityCanonDiffs } from "@/lib/entityCanonDiffs";
+import { entityIconUrl, hideIconOnError } from "@/lib/icons";
 
 
 interface MobRow extends Mob {
@@ -18,6 +19,7 @@ interface MobRow extends Mob {
 }
 
 const columns: Column<MobRow>[] = [
+  { key: "icon", label: "", render: (r) => <img src={entityIconUrl("mob", r.id)} alt="" className="w-10 h-10 object-contain [image-rendering:pixelated]" loading="lazy" onError={hideIconOnError} /> },
   { key: "name", label: "이름", render: (r) => {
     const entries = getEntityCanonDiffs("mob", r.id, r.name_kr || r.name);
     return <span className="inline-flex flex-wrap items-center gap-1.5"><span>{r.name_kr || r.name}</span>{r.name_kr && <span className="text-dim text-xs">({r.name})</span>}{entries.map((entry) => <CanonDiffInfo key={entry.id} entry={entry} compact align="left" />)}</span>;

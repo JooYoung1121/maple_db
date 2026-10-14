@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { searchSuggest } from "@/lib/api";
 import type { SearchSuggestion } from "@/lib/types";
+import { suggestionIconUrl, hideIconOnError } from "@/lib/icons";
 
 export interface SortOption {
   value: string;
@@ -192,11 +193,12 @@ function SearchInput({
               onMouseEnter={() => setActive(i)}
               className={`flex w-full items-center gap-3 px-4 py-3 text-left text-sm ${active === i ? "bg-surface2 text-maple" : "text-ink"}`}
             >
-              {s.icon_url && (
+              {suggestionIconUrl(s.entity_type, s.entity_id, s.icon_url) && (
                 <img
-                  src={s.icon_url}
+                  src={suggestionIconUrl(s.entity_type, s.entity_id, s.icon_url)!}
                   alt=""
                   className="h-7 w-7 object-contain"
+                  onError={hideIconOnError}
                 />
               )}
               <span>{s.name_kr || s.name}</span>

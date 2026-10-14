@@ -2,6 +2,7 @@
 
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { hideIconOnError } from "@/lib/icons";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
@@ -516,7 +517,7 @@ function CodiContent() {
                   return item ? (
                     <div key={key} className="flex items-center gap-1.5 text-xs">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={item.icon} alt="" className="w-5 h-5 object-contain" />
+                      <img src={item.icon} alt="" className="w-5 h-5 object-contain" onError={hideIconOnError} />
                       <span className="text-dim shrink-0">{label}</span>
                       <span className="flex-1 truncate">{item.name}</span>
                       <button onClick={() => unequip(key)} className="text-dim hover:text-red-500 shrink-0">✕</button>
@@ -673,7 +674,7 @@ function CodiContent() {
                       title={`${p.name}${p.level > 0 ? ` (Lv.${p.level})` : ""}`}
                       className={`pixel-card p-1.5 flex flex-col items-center gap-1 hover:border-maple transition-colors ${outfit[activeSlot]?.id === p.id ? "border-maple" : ""}`}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={p.icon} alt={p.name} className="w-8 h-8 object-contain" loading="lazy" />
+                      <img src={p.icon} alt={p.name} className="w-8 h-8 object-contain" loading="lazy" onError={hideIconOnError} />
                       <span className="text-[9px] leading-tight text-center text-dim line-clamp-2 w-full">{p.name}</span>
                     </button>
                   ))}
