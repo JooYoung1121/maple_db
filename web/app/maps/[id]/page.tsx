@@ -120,17 +120,39 @@ const PARTIAL_RENDERS = new Set<number>(mapRenderStatus.partial);
 
 function MapMinimap({ mapId }: { mapId: number }) {
   const [failed, setFailed] = useState(false);
-  if (failed) return null;
+  const [natural, setNatural] = useState<number | null>(null);
+  const [zoom, setZoom] = useState(3);
+  if (failed) return <p className="text-xs text-dim">이 맵은 미니맵도 제공되지 않습니다 (실내·소형 맵).</p>;
+  // 미니맵 원본은 200~300px 라 그대로 두면 너무 작다 — 기본 3배(픽셀 유지)로 키우고 배율 버튼을 둔다
+  const width = natural ? natural * zoom : undefined;
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={`${RENDER_BASE}/${mapId}/minimap`}
-      alt="미니맵"
-      className="max-w-full h-auto [image-rendering:pixelated]"
-      style={{ maxHeight: "50vh" }}
-      onError={() => setFailed(true)}
-      loading="lazy"
-    />
+    <div className="flex flex-col items-center gap-2 w-full">
+      <div className="w-full overflow-x-auto flex justify-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`${RENDER_BASE}/${mapId}/minimap`}
+          alt="미니맵"
+          className="h-auto [image-rendering:pixelated] shrink-0"
+          style={width ? { width } : { maxWidth: "100%" }}
+          onLoad={(e) => setNatural(e.currentTarget.naturalWidth || null)}
+          onError={() => setFailed(true)}
+          loading="lazy"
+        />
+      </div>
+      <div className="flex items-center gap-1 text-[11px] text-dim">
+        <span className="mr-1">미니맵 배율</span>
+        {[1, 2, 3, 4].map((z) => (
+          <button
+            key={z}
+            type="button"
+            onClick={() => setZoom(z)}
+            className={`px-2 py-0.5 border ${zoom === z ? "border-maple text-maple" : "border-edge hover:text-ink"}`}
+          >
+            ×{z}
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -216,7 +238,9 @@ export default function MapDetailPage() {
         setNpcs(conflict ? [] : (d.npcs || []));
         setDetail(conflict ? null : (d.detail || null));
         setDrops(conflict ? [] : (d.drops || []));
-        setTab(!conflict && d.detail && d.detail.footholds.length > 0 ? "schematic" : "render");
+        // ?tab=render 로 실사 맵 탭을 바로 열 수 있다 (공유 링크용)
+        const wanted = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("tab") : null;
+        setTab(wanted === "render" ? "render" : (!conflict && d.detail && d.detail.footholds.length > 0 ? "schematic" : "render"));
       })
       .catch(() => setMap(null))
       .finally(() => setLoading(false));

@@ -15,6 +15,16 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.18.2",
+    date: "2026-10-14",
+    type: "patch",
+    title: "맵 미니맵 확대 표시",
+    pages: ["/maps"],
+    features: [
+      { category: "맵 상세", items: ["실사 렌더가 없거나 비어 있는 맵의 미니맵을 기본 3배(픽셀 유지)로 키우고 ×1~×4 배율 버튼 추가 — 원본이 200~300px 라 너무 작게 보이던 문제"] },
+    ],
+  },
+  {
     version: "4.18.1",
     date: "2026-10-14",
     type: "patch",
