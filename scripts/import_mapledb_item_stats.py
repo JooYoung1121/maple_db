@@ -1,4 +1,7 @@
-"""메이플랜드 현행 아이템 수치(mapledb.kr) 전수 수집 → item_mapleland_stats 테이블.
+"""[보존용 · 2024 스냅샷] 메이플랜드 아이템 수치(mapledb.kr) 전수 수집 → item_mapleland_stats 테이블.
+
+⚠ 2026-10-14: mapledb.kr 은 2024년 이후 갱신이 멈춰 재수집하지 않는다. 현행 수치는 scripts/import_item_source_stats.py
+(메팁 · 로그지지)로 가져오고, 이 테이블은 'mapledb' 출처(GMS v64 와 일치하는 클라이언트 스냅샷)로만 병합에 참여한다.
 
 배경(2026-10-14): 아이템 상세의 옵션은 GMS v92 크롤(items.stats)이라 메랜 실서버와 다른 항목이 있었다
 (예: 니르첸 투구 STR↔DEX, 카날 후드 HP↔MP, 타임리스 이어링 마방 100→80). mapledb.kr은 메랜 기준 아이템

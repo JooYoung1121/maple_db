@@ -1,553 +1,5013 @@
 {
- "_doc": "메이플랜드 현행 옵션(mapledb.kr, item_mapleland_stats)과 원작(GMS v92, items.stats)이 다른 장비 — scripts/import_mapledb_item_stats.py 수집 후 api.routes.items._mapleland_block 의 diff 로 산출 (2026-10-14). 상세 페이지 '원작과 다른 옵션' 박스와 동일.",
- "generated_at": "2026-10-14",
- "count": 41,
+ "generated_at": "2026-10-14T06:16:49+00:00",
+ "priority": [
+  "override",
+  "matip",
+  "maplelog",
+  "mapledb"
+ ],
+ "sources": {
+  "override": "운영자 인게임 확인",
+  "matip": "메팁 옛날 메이플 DB",
+  "maplelog": "로그지지 아이템 DB",
+  "mapledb": "mapledb.kr 2024 스냅샷"
+ },
+ "stat_keys": [
+  "incSTR",
+  "incDEX",
+  "incINT",
+  "incLUK",
+  "incMHP",
+  "incMMP",
+  "incMHPr",
+  "incMMPr",
+  "incPAD",
+  "incMAD",
+  "incPDD",
+  "incMDD",
+  "incACC",
+  "incEVA",
+  "incSpeed",
+  "incJump"
+ ],
+ "summary": {
+  "equips_with_source": 2563,
+  "equips_differing_from_gms92": 149,
+  "equips_with_source_conflict": 66
+ },
  "items": [
   {
    "id": 1002036,
    "name_kr": "그린 핀터",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
     {
-     "stat": "마법방어력",
-     "original_gms92": 40,
-     "mapleland": 0
+     "key": "incMDD",
+     "mapleland": 0,
+     "original": 40
     }
-   ]
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1002378,
    "name_kr": "블루 니르첸 투구",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "DEX",
-     "original_gms92": 0,
-     "mapleland": 3
+     "key": "incSTR",
+     "values": {
+      "matip": 3,
+      "maplelog": 0,
+      "mapledb": 0
+     }
     },
     {
-     "stat": "STR",
-     "original_gms92": 3,
-     "mapleland": 0
+     "key": "incDEX",
+     "values": {
+      "matip": 0,
+      "maplelog": 3,
+      "mapledb": 3
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1002379,
    "name_kr": "다크 니르첸 투구",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "DEX",
-     "original_gms92": 1,
-     "mapleland": 0
+     "key": "incSTR",
+     "values": {
+      "matip": 4,
+      "maplelog": 3,
+      "mapledb": 3
+     }
     },
     {
-     "stat": "STR",
-     "original_gms92": 4,
-     "mapleland": 3
+     "key": "incDEX",
+     "values": {
+      "matip": 1,
+      "maplelog": 0,
+      "mapledb": 0
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1002382,
    "name_kr": "레드 카날 후드",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "LUK",
-     "original_gms92": 4,
-     "mapleland": 3
+     "key": "incLUK",
+     "values": {
+      "matip": 4,
+      "maplelog": 3,
+      "mapledb": 3
+     }
     },
     {
-     "stat": "최대 HP",
-     "original_gms92": 15,
-     "mapleland": 0
+     "key": "incMHP",
+     "values": {
+      "matip": 15,
+      "maplelog": 0,
+      "mapledb": 0
+     }
     },
     {
-     "stat": "최대 MP",
-     "original_gms92": 0,
-     "mapleland": 15
+     "key": "incMMP",
+     "values": {
+      "matip": 0,
+      "maplelog": 15,
+      "mapledb": 15
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1002383,
    "name_kr": "다크 카날 후드",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "LUK",
-     "original_gms92": 4,
-     "mapleland": 3
+     "key": "incLUK",
+     "values": {
+      "matip": 4,
+      "maplelog": 4,
+      "mapledb": 3
+     }
     },
     {
-     "stat": "최대 HP",
-     "original_gms92": 15,
-     "mapleland": 0
+     "key": "incMHP",
+     "values": {
+      "matip": 15,
+      "maplelog": 15,
+      "mapledb": 0
+     }
     },
     {
-     "stat": "최대 MP",
-     "original_gms92": 0,
-     "mapleland": 15
+     "key": "incMMP",
+     "values": {
+      "matip": 0,
+      "maplelog": 0,
+      "mapledb": 15
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1002407,
    "name_kr": "블루 아르나햇",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "최대 HP",
-     "original_gms92": 20,
-     "mapleland": 0
+     "key": "incMHP",
+     "values": {
+      "matip": 20,
+      "maplelog": 0,
+      "mapledb": 0
+     }
     },
     {
-     "stat": "최대 MP",
-     "original_gms92": 0,
-     "mapleland": 20
+     "key": "incMMP",
+     "values": {
+      "matip": 0,
+      "maplelog": 20,
+      "mapledb": 20
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1002408,
    "name_kr": "그린 아르나햇",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "최대 HP",
-     "original_gms92": 20,
-     "mapleland": 0
+     "key": "incMHP",
+     "values": {
+      "matip": 20,
+      "maplelog": 20,
+      "mapledb": 0
+     }
     },
     {
-     "stat": "최대 MP",
-     "original_gms92": 0,
-     "mapleland": 20
+     "key": "incMMP",
+     "values": {
+      "matip": 0,
+      "maplelog": 0,
+      "mapledb": 20
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1002517,
    "name_kr": "메이플 2000일 두건",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "마법방어력",
-     "original_gms92": 40,
-     "mapleland": 0
+     "key": "incPDD",
+     "values": {
+      "matip": 21,
+      "maplelog": 21,
+      "mapledb": 0
+     }
     },
     {
-     "stat": "물리방어력",
-     "original_gms92": 21,
-     "mapleland": 0
+     "key": "incMDD",
+     "values": {
+      "matip": 40,
+      "maplelog": 40,
+      "mapledb": 0
+     }
     }
-   ]
+   ],
+   "level_conflict": {
+    "matip": 30,
+    "maplelog": 30,
+    "mapledb": 0
+   },
+   "job_conflict": null
   },
   {
    "id": 1002547,
    "name_kr": "레드 헌터",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "최대 HP",
-     "original_gms92": 20,
-     "mapleland": 0
+     "key": "incMHP",
+     "values": {
+      "matip": 20,
+      "maplelog": 0,
+      "mapledb": 0
+     }
     },
     {
-     "stat": "최대 MP",
-     "original_gms92": 0,
-     "mapleland": 20
+     "key": "incMMP",
+     "values": {
+      "matip": 0,
+      "maplelog": 20,
+      "mapledb": 20
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1002550,
    "name_kr": "블랙 가리나 후드",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "LUK",
-     "original_gms92": 5,
-     "mapleland": 4
+     "key": "incLUK",
+     "values": {
+      "matip": 5,
+      "maplelog": 4,
+      "mapledb": 4
+     }
     },
     {
-     "stat": "최대 HP",
-     "original_gms92": 20,
-     "mapleland": 0
+     "key": "incMHP",
+     "values": {
+      "matip": 20,
+      "maplelog": 0,
+      "mapledb": 0
+     }
     },
     {
-     "stat": "최대 MP",
-     "original_gms92": 0,
-     "mapleland": 20
+     "key": "incMMP",
+     "values": {
+      "matip": 0,
+      "maplelog": 20,
+      "mapledb": 20
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1002631,
+   "name_kr": "브라운레더 오션 햇",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 2,
+     "original": 0
+    },
+    {
+     "key": "incDEX",
+     "mapleland": 1,
+     "original": 0
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 33,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1002728,
+   "name_kr": "루돌프의 뿔",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
+    {
+     "key": "incSTR",
+     "values": {
+      "matip": 4,
+      "maplelog": 10,
+      "mapledb": 4
+     }
+    },
+    {
+     "key": "incDEX",
+     "values": {
+      "matip": 4,
+      "maplelog": 10,
+      "mapledb": 4
+     }
+    },
+    {
+     "key": "incINT",
+     "values": {
+      "matip": 4,
+      "maplelog": 10,
+      "mapledb": 4
+     }
+    },
+    {
+     "key": "incLUK",
+     "values": {
+      "matip": 4,
+      "maplelog": 10,
+      "mapledb": 4
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1002749,
+   "name_kr": "엘프 두건",
+   "primary": "maplelog",
+   "sources": [
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 18,
+     "original": 2
+    },
+    {
+     "key": "incDEX",
+     "mapleland": 18,
+     "original": 5
+    },
+    {
+     "key": "incINT",
+     "mapleland": 18,
+     "original": 0
+    },
+    {
+     "key": "incLUK",
+     "mapleland": 18,
+     "original": 0
+    },
+    {
+     "key": "incMHP",
+     "mapleland": 0,
+     "original": 100
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 180,
+     "original": 60
+    },
+    {
+     "key": "incMDD",
+     "mapleland": 180,
+     "original": 20
+    },
+    {
+     "key": "incACC",
+     "mapleland": 25,
+     "original": 0
+    },
+    {
+     "key": "incEVA",
+     "mapleland": 25,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incSTR",
+     "values": {
+      "maplelog": 18,
+      "mapledb": 2
+     }
+    },
+    {
+     "key": "incDEX",
+     "values": {
+      "maplelog": 18,
+      "mapledb": 5
+     }
+    },
+    {
+     "key": "incINT",
+     "values": {
+      "maplelog": 18,
+      "mapledb": 0
+     }
+    },
+    {
+     "key": "incLUK",
+     "values": {
+      "maplelog": 18,
+      "mapledb": 0
+     }
+    },
+    {
+     "key": "incMHP",
+     "values": {
+      "maplelog": 0,
+      "mapledb": 100
+     }
+    },
+    {
+     "key": "incPDD",
+     "values": {
+      "maplelog": 180,
+      "mapledb": 60
+     }
+    },
+    {
+     "key": "incMDD",
+     "values": {
+      "maplelog": 180,
+      "mapledb": 20
+     }
+    },
+    {
+     "key": "incACC",
+     "values": {
+      "maplelog": 25,
+      "mapledb": 0
+     }
+    },
+    {
+     "key": "incEVA",
+     "values": {
+      "maplelog": 25,
+      "mapledb": 0
+     }
+    }
+   ],
+   "level_conflict": {
+    "maplelog": 70,
+    "mapledb": 50
+   },
+   "job_conflict": {
+    "maplelog": null,
+    "mapledb": [
+     "궁수"
+    ]
+   }
+  },
+  {
+   "id": 1002780,
+   "name_kr": "타임리스 콘라드 헨켈",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 6,
+     "original": 0
+    },
+    {
+     "key": "incDEX",
+     "mapleland": 6,
+     "original": 0
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 75,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incSTR",
+     "values": {
+      "matip": 6,
+      "maplelog": 3
+     }
+    },
+    {
+     "key": "incDEX",
+     "values": {
+      "matip": 6,
+      "maplelog": 7
+     }
+    },
+    {
+     "key": "incMHP",
+     "values": {
+      "matip": 0,
+      "maplelog": 30
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": {
+    "matip": [
+     "해적"
+    ],
+    "maplelog": [
+     "궁수"
+    ]
+   }
+  },
+  {
+   "id": 1002794,
+   "name_kr": "리버스 콘라드 헨켈",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 5,
+     "original": 0
+    },
+    {
+     "key": "incDEX",
+     "mapleland": 5,
+     "original": 0
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 75,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1002798,
+   "name_kr": "머리위에 떡 하나",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [],
+   "level_conflict": {
+    "matip": 15,
+    "maplelog": 10
+   },
+   "job_conflict": null
+  },
+  {
+   "id": 1003023,
+   "name_kr": "타르가 투구",
+   "primary": "maplelog",
+   "sources": [
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incLUK",
+     "mapleland": 17,
+     "original": 15
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1003025,
+   "name_kr": "스칼리온 투구",
+   "primary": "maplelog",
+   "sources": [
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 17,
+     "original": 15
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1003112,
+   "name_kr": "카오스 자쿰의 투구",
+   "primary": "override",
+   "sources": [
+    "override",
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
+    {
+     "key": "incMHPr",
+     "values": {
+      "override": 10,
+      "matip": 10,
+      "maplelog": 0
+     }
+    },
+    {
+     "key": "incMMPr",
+     "values": {
+      "override": 10,
+      "matip": 10,
+      "maplelog": 0
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1012011,
+   "name_kr": "루돌프의 빨간코",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
+    {
+     "key": "incSTR",
+     "values": {
+      "matip": 1,
+      "maplelog": 2,
+      "mapledb": 1
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1012012,
+   "name_kr": "루돌프의 빨간코",
+   "primary": "maplelog",
+   "sources": [
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incDEX",
+     "mapleland": 2,
+     "original": 1
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incDEX",
+     "values": {
+      "maplelog": 2,
+      "mapledb": 1
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1012013,
+   "name_kr": "루돌프의 빨간코",
+   "primary": "maplelog",
+   "sources": [
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incINT",
+     "mapleland": 2,
+     "original": 1
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incINT",
+     "values": {
+      "maplelog": 2,
+      "mapledb": 1
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1012014,
+   "name_kr": "루돌프의 빨간코",
+   "primary": "maplelog",
+   "sources": [
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incLUK",
+     "mapleland": 2,
+     "original": 1
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incLUK",
+     "values": {
+      "maplelog": 2,
+      "mapledb": 1
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1012015,
+   "name_kr": "루돌프의 빨간코",
+   "primary": "maplelog",
+   "sources": [
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 2,
+     "original": 1
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incPAD",
+     "values": {
+      "maplelog": 2,
+      "mapledb": 1
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1012016,
+   "name_kr": "루돌프의 빨간코",
+   "primary": "maplelog",
+   "sources": [
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPDD",
+     "mapleland": 10,
+     "original": 1
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incPDD",
+     "values": {
+      "maplelog": 10,
+      "mapledb": 1
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1012017,
+   "name_kr": "루돌프의 빨간코",
+   "primary": "maplelog",
+   "sources": [
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incMAD",
+     "mapleland": 2,
+     "original": 1
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incMAD",
+     "values": {
+      "maplelog": 2,
+      "mapledb": 1
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1012018,
+   "name_kr": "루돌프의 빨간코",
+   "primary": "maplelog",
+   "sources": [
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incMDD",
+     "mapleland": 10,
+     "original": 1
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incMDD",
+     "values": {
+      "maplelog": 10,
+      "mapledb": 1
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1012019,
+   "name_kr": "루돌프의 빨간코",
+   "primary": "maplelog",
+   "sources": [
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incEVA",
+     "mapleland": 10,
+     "original": 1
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incEVA",
+     "values": {
+      "maplelog": 10,
+      "mapledb": 1
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1012020,
+   "name_kr": "루돌프의 빨간코",
+   "primary": "maplelog",
+   "sources": [
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incACC",
+     "mapleland": 2,
+     "original": 1
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incACC",
+     "values": {
+      "maplelog": 2,
+      "mapledb": 1
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1012056,
+   "name_kr": "개코",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPDD",
+     "mapleland": 1,
+     "original": 0
+    },
+    {
+     "key": "incEVA",
+     "mapleland": 1,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1012161,
+   "name_kr": "루돌프의 빛나는 코",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 2,
+     "original": 0
+    },
+    {
+     "key": "incDEX",
+     "mapleland": 2,
+     "original": 0
+    },
+    {
+     "key": "incINT",
+     "mapleland": 2,
+     "original": 0
+    },
+    {
+     "key": "incLUK",
+     "mapleland": 2,
+     "original": 0
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 50,
+     "original": 5
+    },
+    {
+     "key": "incMDD",
+     "mapleland": 50,
+     "original": 5
+    },
+    {
+     "key": "incACC",
+     "mapleland": 50,
+     "original": 5
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1022073,
+   "name_kr": "금이 간 안경",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
+    {
+     "key": "incMHP",
+     "values": {
+      "matip": 20,
+      "maplelog": 0
+     }
+    },
+    {
+     "key": "incMMP",
+     "values": {
+      "matip": 20,
+      "maplelog": 0
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1032031,
    "name_kr": "타임리스 이어링",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
     {
-     "stat": "명중률",
-     "original_gms92": 3,
-     "mapleland": 1
+     "key": "incMMP",
+     "mapleland": 0,
+     "original": 30
     },
     {
-     "stat": "마법방어력",
-     "original_gms92": 100,
-     "mapleland": 80
+     "key": "incMDD",
+     "mapleland": 80,
+     "original": 100
     },
     {
-     "stat": "최대 MP",
-     "original_gms92": 30,
-     "mapleland": 0
+     "key": "incACC",
+     "mapleland": 1,
+     "original": 3
     }
-   ]
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1032047,
+   "name_kr": "코-크 귀고리",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incMDD",
+     "mapleland": 10,
+     "original": 15
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incMDD",
+     "values": {
+      "matip": 10,
+      "maplelog": 15,
+      "mapledb": 15
+     }
+    }
+   ],
+   "level_conflict": {
+    "matip": 10,
+    "maplelog": 30,
+    "mapledb": 30
+   },
+   "job_conflict": null
+  },
+  {
+   "id": 1032077,
+   "name_kr": "렉스의 그린 이어링",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incMHPr",
+     "mapleland": 10,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incMHPr",
+     "values": {
+      "matip": 10,
+      "maplelog": 0
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1032078,
+   "name_kr": "렉스의 레드 이어링",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incMHPr",
+     "mapleland": 10,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incMHPr",
+     "values": {
+      "matip": 10,
+      "maplelog": 0
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1032079,
+   "name_kr": "렉스의 블루 이어링",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incMHPr",
+     "mapleland": 10,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incMHPr",
+     "values": {
+      "matip": 10,
+      "maplelog": 0
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1042167,
+   "name_kr": "수수한 무사 상의",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
+    {
+     "key": "incPDD",
+     "values": {
+      "matip": 3,
+      "maplelog": 2
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1042180,
+   "name_kr": "평범한 체크셔츠",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
+    {
+     "key": "incPDD",
+     "values": {
+      "matip": 3,
+      "maplelog": 2
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1050096,
+   "name_kr": "그린 카티나스",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 7,
+     "original": 0
+    },
+    {
+     "key": "incLUK",
+     "mapleland": 3,
+     "original": 0
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 105,
+     "original": 0
+    },
+    {
+     "key": "incEVA",
+     "mapleland": 2,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1050099,
+   "name_kr": "다크 카티나스",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 7,
+     "original": 0
+    },
+    {
+     "key": "incDEX",
+     "mapleland": 0,
+     "original": 4
+    },
+    {
+     "key": "incLUK",
+     "mapleland": 3,
+     "original": 7
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incSTR",
+     "values": {
+      "matip": 7,
+      "maplelog": 0
+     }
+    },
+    {
+     "key": "incDEX",
+     "values": {
+      "matip": 0,
+      "maplelog": 4
+     }
+    },
+    {
+     "key": "incLUK",
+     "values": {
+      "matip": 3,
+      "maplelog": 7
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1050100,
+   "name_kr": "남자 목욕 타월",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPDD",
+     "mapleland": 20,
+     "original": 0
+    },
+    {
+     "key": "incSpeed",
+     "mapleland": 10,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1050105,
    "name_kr": "다크 바루나",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
     {
-     "stat": "INT",
-     "original_gms92": 7,
-     "mapleland": 3
+     "key": "incINT",
+     "mapleland": 3,
+     "original": 7
     },
     {
-     "stat": "LUK",
-     "original_gms92": 4,
-     "mapleland": 7
+     "key": "incLUK",
+     "mapleland": 7,
+     "original": 4
     }
-   ]
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1050108,
    "name_kr": "레드 아르주나",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
     {
-     "stat": "DEX",
-     "original_gms92": 7,
-     "mapleland": 5
+     "key": "incDEX",
+     "mapleland": 5,
+     "original": 7
     }
-   ]
+   ],
+   "source_conflicts": [
+    {
+     "key": "incDEX",
+     "values": {
+      "matip": 5,
+      "maplelog": 7,
+      "mapledb": 5
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1051090,
+   "name_kr": "그린 카테",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 7,
+     "original": 0
+    },
+    {
+     "key": "incLUK",
+     "mapleland": 3,
+     "original": 0
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 105,
+     "original": 0
+    },
+    {
+     "key": "incEVA",
+     "mapleland": 2,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1051093,
+   "name_kr": "다크 카테",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incDEX",
+     "mapleland": 3,
+     "original": 4
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 68,
+     "original": 105
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incDEX",
+     "values": {
+      "matip": 3,
+      "maplelog": 4
+     }
+    },
+    {
+     "key": "incPDD",
+     "values": {
+      "matip": 68,
+      "maplelog": 105
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1051098,
+   "name_kr": "목욕 타월",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPDD",
+     "mapleland": 20,
+     "original": 0
+    },
+    {
+     "key": "incSpeed",
+     "mapleland": 10,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1051104,
    "name_kr": "다크 바즈라",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
     {
-     "stat": "INT",
-     "original_gms92": 7,
-     "mapleland": 3
+     "key": "incINT",
+     "mapleland": 3,
+     "original": 7
     },
     {
-     "stat": "LUK",
-     "original_gms92": 4,
-     "mapleland": 7
+     "key": "incLUK",
+     "mapleland": 7,
+     "original": 4
     }
-   ]
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1051107,
    "name_kr": "레드 아르미스",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
     {
-     "stat": "DEX",
-     "original_gms92": 7,
-     "mapleland": 5
+     "key": "incDEX",
+     "mapleland": 5,
+     "original": 7
     }
-   ]
+   ],
+   "source_conflicts": [
+    {
+     "key": "incDEX",
+     "values": {
+      "matip": 5,
+      "maplelog": 7,
+      "mapledb": 5
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1051140,
+   "name_kr": "목욕타월-노랑",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPDD",
+     "mapleland": 20,
+     "original": 0
+    },
+    {
+     "key": "incACC",
+     "mapleland": 3,
+     "original": 0
+    },
+    {
+     "key": "incSpeed",
+     "mapleland": 5,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1052071,
    "name_kr": "레드 맨틀",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
     {
-     "stat": "DEX",
-     "original_gms92": 8,
-     "mapleland": 6
+     "key": "incSTR",
+     "mapleland": 7,
+     "original": 6
     },
     {
-     "stat": "STR",
-     "original_gms92": 6,
-     "mapleland": 7
+     "key": "incDEX",
+     "mapleland": 6,
+     "original": 8
     }
-   ]
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1052072,
    "name_kr": "블랙 가리나",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
     {
-     "stat": "LUK",
-     "original_gms92": 8,
-     "mapleland": 7
+     "key": "incLUK",
+     "mapleland": 7,
+     "original": 8
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 0,
+     "original": 115
     }
-   ]
+   ],
+   "source_conflicts": [
+    {
+     "key": "incPDD",
+     "values": {
+      "matip": 0,
+      "maplelog": 115,
+      "mapledb": 115
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1052075,
    "name_kr": "블루 드래곤 아머",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
     {
-     "stat": "STR",
-     "original_gms92": 8,
-     "mapleland": 7
+     "key": "incSTR",
+     "mapleland": 7,
+     "original": 8
     }
-   ]
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1052076,
+   "name_kr": "블랙 로타네브",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incINT",
+     "mapleland": 7,
+     "original": 0
+    },
+    {
+     "key": "incLUK",
+     "mapleland": 4,
+     "original": 0
+    },
+    {
+     "key": "incMMP",
+     "mapleland": 50,
+     "original": 0
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 92,
+     "original": 0
+    },
+    {
+     "key": "incMDD",
+     "mapleland": 46,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incINT",
+     "values": {
+      "matip": 7,
+      "maplelog": 8
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1052113,
    "name_kr": "레드 바르베이",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "물리방어력",
-     "original_gms92": 45,
-     "mapleland": 40
+     "key": "incPDD",
+     "values": {
+      "matip": 45,
+      "maplelog": 40,
+      "mapledb": 40
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1052134,
    "name_kr": "카노푸스 슈트",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "DEX",
-     "original_gms92": 7,
-     "mapleland": 6
+     "key": "incDEX",
+     "values": {
+      "matip": 7,
+      "maplelog": 6,
+      "mapledb": 6
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1060138,
+   "name_kr": "평범한 청반바지",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
+    {
+     "key": "incPDD",
+     "values": {
+      "matip": 2,
+      "maplelog": 3
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1061160,
+   "name_kr": "평범한 청치마",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
+    {
+     "key": "incPDD",
+     "values": {
+      "matip": 2,
+      "maplelog": 3
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1062115,
+   "name_kr": "수수한 무사 하의",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
+    {
+     "key": "incPDD",
+     "values": {
+      "matip": 2,
+      "maplelog": 3
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1072269,
    "name_kr": "레드 헌터 슈즈",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
     {
-     "stat": "DEX",
-     "original_gms92": 6,
-     "mapleland": 4
+     "key": "incSTR",
+     "mapleland": 3,
+     "original": 2
     },
     {
-     "stat": "STR",
-     "original_gms92": 2,
-     "mapleland": 3
+     "key": "incDEX",
+     "mapleland": 4,
+     "original": 6
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 58,
+     "original": 64
     }
-   ]
+   ],
+   "source_conflicts": [
+    {
+     "key": "incPDD",
+     "values": {
+      "matip": 58,
+      "maplelog": 64,
+      "mapledb": 64
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": {
+    "matip": [
+     "마법사"
+    ],
+    "maplelog": [
+     "궁수"
+    ],
+    "mapledb": [
+     "궁수"
+    ]
+   }
+  },
+  {
+   "id": 1072345,
+   "name_kr": "2012 운동회 우승팀 신발",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incDEX",
+     "mapleland": 2,
+     "original": 5
+    },
+    {
+     "key": "incINT",
+     "mapleland": 2,
+     "original": 0
+    },
+    {
+     "key": "incLUK",
+     "mapleland": 2,
+     "original": 0
+    },
+    {
+     "key": "incMHP",
+     "mapleland": 0,
+     "original": 100
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 40,
+     "original": 45
+    },
+    {
+     "key": "incMDD",
+     "mapleland": 40,
+     "original": 10
+    },
+    {
+     "key": "incSpeed",
+     "mapleland": 5,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incDEX",
+     "values": {
+      "matip": 2,
+      "maplelog": 2,
+      "mapledb": 5
+     }
+    },
+    {
+     "key": "incINT",
+     "values": {
+      "matip": 2,
+      "maplelog": 2,
+      "mapledb": 0
+     }
+    },
+    {
+     "key": "incLUK",
+     "values": {
+      "matip": 2,
+      "maplelog": 2,
+      "mapledb": 0
+     }
+    },
+    {
+     "key": "incMHP",
+     "values": {
+      "matip": 0,
+      "maplelog": 0,
+      "mapledb": 100
+     }
+    },
+    {
+     "key": "incPDD",
+     "values": {
+      "matip": 40,
+      "maplelog": 40,
+      "mapledb": 45
+     }
+    },
+    {
+     "key": "incMDD",
+     "values": {
+      "matip": 40,
+      "maplelog": 40,
+      "mapledb": 10
+     }
+    },
+    {
+     "key": "incSpeed",
+     "values": {
+      "matip": 5,
+      "maplelog": 5,
+      "mapledb": 0
+     }
+    }
+   ],
+   "level_conflict": {
+    "matip": 80,
+    "maplelog": 80,
+    "mapledb": 50
+   },
+   "job_conflict": {
+    "matip": null,
+    "maplelog": null,
+    "mapledb": [
+     "궁수"
+    ]
+   }
+  },
+  {
+   "id": 1072375,
+   "name_kr": "발록의 가죽 신발",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 3,
+     "original": 2
+    },
+    {
+     "key": "incDEX",
+     "mapleland": 3,
+     "original": 2
+    },
+    {
+     "key": "incINT",
+     "mapleland": 3,
+     "original": 2
+    },
+    {
+     "key": "incLUK",
+     "mapleland": 3,
+     "original": 2
+    },
+    {
+     "key": "incPAD",
+     "mapleland": 1,
+     "original": 0
+    },
+    {
+     "key": "incMAD",
+     "mapleland": 1,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1072376,
+   "name_kr": "발록의 털가죽 신발",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 3,
+     "original": 2
+    },
+    {
+     "key": "incDEX",
+     "mapleland": 3,
+     "original": 2
+    },
+    {
+     "key": "incINT",
+     "mapleland": 3,
+     "original": 2
+    },
+    {
+     "key": "incLUK",
+     "mapleland": 3,
+     "original": 2
+    },
+    {
+     "key": "incPAD",
+     "mapleland": 1,
+     "original": 0
+    },
+    {
+     "key": "incMAD",
+     "mapleland": 1,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1082163,
    "name_kr": "레드 헌터 글로브",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
     {
-     "stat": "STR",
-     "original_gms92": 4,
-     "mapleland": 2
+     "key": "incSTR",
+     "mapleland": 2,
+     "original": 4
     }
-   ]
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1082168,
    "name_kr": "블루 드래곤 건틀렛",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
     {
-     "stat": "STR",
-     "original_gms92": 6,
-     "mapleland": 5
+     "key": "incSTR",
+     "mapleland": 5,
+     "original": 6
     }
-   ]
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1082180,
+   "name_kr": "그린 래거 하프글로브",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPDD",
+     "mapleland": 4,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1082186,
+   "name_kr": "하드레더 글로브",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPDD",
+     "mapleland": 8,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1082189,
+   "name_kr": "옐로우 타르티스",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPDD",
+     "mapleland": 10,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1082195,
+   "name_kr": "브라운 바르비",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incDEX",
+     "mapleland": 1,
+     "original": 0
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 14,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1082198,
+   "name_kr": "브라운 로이스",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 1,
+     "original": 0
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 20,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1082201,
+   "name_kr": "블랙 슐트",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 1,
+     "original": 0
+    },
+    {
+     "key": "incDEX",
+     "mapleland": 1,
+     "original": 0
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 24,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1082204,
+   "name_kr": "블랙 비스크",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 1,
+     "original": 0
+    },
+    {
+     "key": "incDEX",
+     "mapleland": 1,
+     "original": 0
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 28,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1082207,
+   "name_kr": "블루얼 하프글로브",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 2,
+     "original": 0
+    },
+    {
+     "key": "incDEX",
+     "mapleland": 1,
+     "original": 0
+    },
+    {
+     "key": "incMHP",
+     "mapleland": 10,
+     "original": 0
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 32,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1082210,
+   "name_kr": "레드 마르티어",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 2,
+     "original": 0
+    },
+    {
+     "key": "incDEX",
+     "mapleland": 4,
+     "original": 0
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 36,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1082235,
+   "name_kr": "타임리스 헤르모사",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incINT",
+     "mapleland": 6,
+     "original": 0
+    },
+    {
+     "key": "incLUK",
+     "mapleland": 6,
+     "original": 0
+    },
+    {
+     "key": "incMMP",
+     "mapleland": 15,
+     "original": 0
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 50,
+     "original": 0
+    },
+    {
+     "key": "incMDD",
+     "mapleland": 17,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1082240,
+   "name_kr": "리버스 헤르모사",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incINT",
+     "mapleland": 5,
+     "original": 0
+    },
+    {
+     "key": "incLUK",
+     "mapleland": 5,
+     "original": 0
+    },
+    {
+     "key": "incMMP",
+     "mapleland": 15,
+     "original": 0
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 50,
+     "original": 0
+    },
+    {
+     "key": "incMDD",
+     "mapleland": 17,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1112311,
+   "name_kr": "실버윙링 3캐럿",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incLUK",
+     "mapleland": 2,
+     "original": 3
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incLUK",
+     "values": {
+      "matip": 2,
+      "maplelog": 3,
+      "mapledb": 3
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1122059,
+   "name_kr": "나리케인의 징표",
+   "primary": "override",
+   "sources": [
+    "override",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
+    {
+     "key": "incMHP",
+     "values": {
+      "override": 150,
+      "maplelog": 300
+     }
+    },
+    {
+     "key": "incMMP",
+     "values": {
+      "override": 150,
+      "maplelog": 300
+     }
+    },
+    {
+     "key": "incPAD",
+     "values": {
+      "override": 4,
+      "maplelog": 10
+     }
+    },
+    {
+     "key": "incMAD",
+     "values": {
+      "override": 8,
+      "maplelog": 10
+     }
+    },
+    {
+     "key": "incACC",
+     "values": {
+      "override": 0,
+      "maplelog": 15
+     }
+    },
+    {
+     "key": "incEVA",
+     "values": {
+      "override": 15,
+      "maplelog": 0
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1122076,
+   "name_kr": "카오스 혼테일의 목걸이",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incMHPr",
+     "mapleland": 10,
+     "original": 0
+    },
+    {
+     "key": "incMMPr",
+     "mapleland": 10,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [
+    {
+     "key": "incMHPr",
+     "values": {
+      "matip": 10,
+      "maplelog": 0
+     }
+    },
+    {
+     "key": "incMMPr",
+     "values": {
+      "matip": 10,
+      "maplelog": 0
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1132004,
+   "name_kr": "검은색 허리띠",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
+    {
+     "key": "incSTR",
+     "values": {
+      "matip": 5,
+      "maplelog": 3
+     }
+    },
+    {
+     "key": "incDEX",
+     "values": {
+      "matip": 5,
+      "maplelog": 3
+     }
+    },
+    {
+     "key": "incINT",
+     "values": {
+      "matip": 5,
+      "maplelog": 3
+     }
+    },
+    {
+     "key": "incLUK",
+     "values": {
+      "matip": 5,
+      "maplelog": 3
+     }
+    },
+    {
+     "key": "incPAD",
+     "values": {
+      "matip": 0,
+      "maplelog": 1
+     }
+    },
+    {
+     "key": "incMAD",
+     "values": {
+      "matip": 0,
+      "maplelog": 4
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142035,
+   "name_kr": "데우 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 1
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142036,
+   "name_kr": "킹슬라임 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 1
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142037,
+   "name_kr": "대왕지네 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 1
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142038,
+   "name_kr": "파우스트 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 2
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142039,
+   "name_kr": "킹크랑 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 2
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142040,
+   "name_kr": "머쉬맘 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 2
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142041,
+   "name_kr": "알리샤르 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 3
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142042,
+   "name_kr": "타이머 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 3
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142043,
+   "name_kr": "다일 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 3
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142044,
+   "name_kr": "파파픽시 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 4
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142045,
+   "name_kr": "좀비머쉬맘 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 4
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142046,
+   "name_kr": "제노 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 4
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142047,
+   "name_kr": "데비존 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 5
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142048,
+   "name_kr": "구미호 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 5
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142049,
+   "name_kr": "태륜 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 5
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142050,
+   "name_kr": "포이즌골렘 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 6
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142051,
+   "name_kr": "요괴선사 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 6
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142052,
+   "name_kr": "주니어발록 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 6
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142053,
+   "name_kr": "엘리쟈 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 7
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142054,
+   "name_kr": "프랑켄로이드 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 7
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142055,
+   "name_kr": "키메라 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 7
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142056,
+   "name_kr": "포장마차 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 7
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142057,
+   "name_kr": "스노우맨 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 7
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142058,
+   "name_kr": "블루머쉬맘 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 7
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142059,
+   "name_kr": "크림슨발록 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 7
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142060,
+   "name_kr": "마뇽 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 7
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142061,
+   "name_kr": "그리프 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 7
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142062,
+   "name_kr": "레비아탄 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 7
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142063,
+   "name_kr": "파풀라투스 수행자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 7
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142064,
+   "name_kr": "무릉도장 정복자의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 7
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142077,
+   "name_kr": "절대승리 카니발리언의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 5
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142078,
+   "name_kr": "천부적인 카니발리언의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 7
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142095,
+   "name_kr": "11일 꿈의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 1
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142096,
+   "name_kr": "12일 꿈의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 1
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142097,
+   "name_kr": "13일 꿈의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 1
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142098,
+   "name_kr": "14일 꿈의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSpeed",
+     "mapleland": 0,
+     "original": 1
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142145,
+   "name_kr": "프리미엄 PC방",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 8,
+     "original": 0
+    },
+    {
+     "key": "incDEX",
+     "mapleland": 8,
+     "original": 0
+    },
+    {
+     "key": "incINT",
+     "mapleland": 8,
+     "original": 0
+    },
+    {
+     "key": "incLUK",
+     "mapleland": 8,
+     "original": 0
+    },
+    {
+     "key": "incMHP",
+     "mapleland": 300,
+     "original": 0
+    },
+    {
+     "key": "incMMP",
+     "mapleland": 300,
+     "original": 0
+    },
+    {
+     "key": "incPAD",
+     "mapleland": 10,
+     "original": 2
+    },
+    {
+     "key": "incMAD",
+     "mapleland": 10,
+     "original": 2
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1142156,
+   "name_kr": "드래곤 마스터",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [],
+   "level_conflict": {
+    "matip": 80,
+    "maplelog": 60
+   },
+   "job_conflict": null
+  },
+  {
+   "id": 1142217,
+   "name_kr": "메이플 가족의 훈장",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 2,
+     "original": 0
+    },
+    {
+     "key": "incDEX",
+     "mapleland": 2,
+     "original": 0
+    },
+    {
+     "key": "incINT",
+     "mapleland": 2,
+     "original": 0
+    },
+    {
+     "key": "incLUK",
+     "mapleland": 2,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1302077,
    "name_kr": "초보 전사의 검",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "공격력",
-     "original_gms92": 30,
-     "mapleland": 24
+     "key": "incPAD",
+     "values": {
+      "matip": 30,
+      "maplelog": 30,
+      "mapledb": 24
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1302081,
    "name_kr": "타임리스 엑서큐서너스",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "공격력",
-     "original_gms92": 110,
-     "mapleland": 108
+     "key": "incPAD",
+     "values": {
+      "matip": 110,
+      "maplelog": 108,
+      "mapledb": 108
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1302112,
+   "name_kr": "발록의 아츠",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 88,
+     "original": 85
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1302113,
+   "name_kr": "발록의 프라우테",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 93,
+     "original": 90
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1312037,
    "name_kr": "타임리스 버디슈",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "공격력",
-     "original_gms92": 110,
-     "mapleland": 108
+     "key": "incPAD",
+     "values": {
+      "matip": 110,
+      "maplelog": 108,
+      "mapledb": 108
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1312042,
+   "name_kr": "발록의 리프 엑스",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 88,
+     "original": 85
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1312043,
+   "name_kr": "발록의 비펜니스",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 93,
+     "original": 90
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1322060,
    "name_kr": "타임리스 알라르간도",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "공격력",
-     "original_gms92": 110,
-     "mapleland": 108
+     "key": "incPAD",
+     "values": {
+      "matip": 110,
+      "maplelog": 108,
+      "mapledb": 108
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1322068,
+   "name_kr": "발록의 골든해머",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 88,
+     "original": 85
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1322069,
+   "name_kr": "발록의 루인해머",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 93,
+     "original": 90
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1332063,
    "name_kr": "초보 도적의 단검",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "공격력",
-     "original_gms92": 28,
-     "mapleland": 22
+     "key": "incPAD",
+     "values": {
+      "matip": 28,
+      "maplelog": 28,
+      "mapledb": 22
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1332084,
+   "name_kr": "발록의 카타르",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 85,
+     "original": 82
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1332085,
+   "name_kr": "발록의 용천권",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 85,
+     "original": 82
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1332086,
+   "name_kr": "발록의 커세어",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 90,
+     "original": 87
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1372043,
    "name_kr": "초보 마법사의 완드",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "마력",
-     "original_gms92": 25,
-     "mapleland": 21
+     "key": "incPAD",
+     "values": {
+      "matip": 16,
+      "maplelog": 16,
+      "mapledb": 13
+     }
     },
     {
-     "stat": "공격력",
-     "original_gms92": 16,
-     "mapleland": 13
+     "key": "incMAD",
+     "values": {
+      "matip": 25,
+      "maplelog": 25,
+      "mapledb": 21
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1372051,
+   "name_kr": "발록의 피닉스 완드",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incMAD",
+     "mapleland": 93,
+     "original": 90
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1382066,
+   "name_kr": "발록의 케이그",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 65,
+     "original": 62
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1382067,
+   "name_kr": "발록의 블루마린",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incMAD",
+     "mapleland": 110,
+     "original": 107
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1402000,
    "name_kr": "양손검",
-   "diffs": [
+   "primary": "override",
+   "sources": [
+    "override",
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "STR",
-     "original_gms92": 70,
-     "mapleland": 0
+     "key": "incSTR",
+     "values": {
+      "override": 70,
+      "matip": 0,
+      "maplelog": 0,
+      "mapledb": 0
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1402006,
    "name_kr": "하이랜더",
-   "diffs": [
+   "primary": "override",
+   "sources": [
+    "override",
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "STR",
-     "original_gms92": 115,
-     "mapleland": 0
+     "key": "incSTR",
+     "values": {
+      "override": 115,
+      "matip": 0,
+      "maplelog": 0,
+      "mapledb": 0
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1402007,
    "name_kr": "쟈드",
-   "diffs": [
+   "primary": "override",
+   "sources": [
+    "override",
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "STR",
-     "original_gms92": 130,
-     "mapleland": 0
+     "key": "incSTR",
+     "values": {
+      "override": 130,
+      "matip": 0,
+      "maplelog": 0,
+      "mapledb": 0
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1402008,
    "name_kr": "클러디",
-   "diffs": [
+   "primary": "override",
+   "sources": [
+    "override",
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "STR",
-     "original_gms92": 85,
-     "mapleland": 0
+     "key": "incSTR",
+     "values": {
+      "override": 85,
+      "matip": 0,
+      "maplelog": 0,
+      "mapledb": 0
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1402013,
+   "name_kr": "일본지도",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 2,
+     "original": 0
+    },
+    {
+     "key": "incDEX",
+     "mapleland": 2,
+     "original": 0
+    },
+    {
+     "key": "incPAD",
+     "mapleland": 68,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1402046,
    "name_kr": "타임리스 니플하임",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "공격력",
-     "original_gms92": 112,
-     "mapleland": 110
+     "key": "incPAD",
+     "values": {
+      "matip": 112,
+      "maplelog": 110,
+      "mapledb": 110
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1402056,
+   "name_kr": "발록의 청운검",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 90,
+     "original": 88
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1402057,
+   "name_kr": "발록의 그레이트 로헨",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 90,
+     "original": 77
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1402058,
+   "name_kr": "발록의 참마도",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 95,
+     "original": 93
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1402059,
+   "name_kr": "발록의 라 투핸더",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 95,
+     "original": 92
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1402076,
+   "name_kr": "검사의 양손검",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 2,
+     "original": 0
+    },
+    {
+     "key": "incPAD",
+     "mapleland": 40,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1402077,
+   "name_kr": "모험가의 쟈드",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incSTR",
+     "mapleland": 5,
+     "original": 0
+    },
+    {
+     "key": "incDEX",
+     "mapleland": 4,
+     "original": 0
+    },
+    {
+     "key": "incPAD",
+     "mapleland": 60,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1412033,
    "name_kr": "타임리스 타바르진",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "공격력",
-     "original_gms92": 114,
-     "mapleland": 112
+     "key": "incPAD",
+     "values": {
+      "matip": 114,
+      "maplelog": 112,
+      "mapledb": 112
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1412038,
+   "name_kr": "발록의 헬리오스",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 92,
+     "original": 89
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1412039,
+   "name_kr": "발록의 클로니안 엑스",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 97,
+     "original": 94
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1422011,
+   "name_kr": "사케(일본주)",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": {
+    "matip": null,
+    "maplelog": null,
+    "mapledb": [
+     "전사",
+     "마법사",
+     "궁수",
+     "도적"
+    ]
+   }
   },
   {
    "id": 1422037,
    "name_kr": "타임리스 벨로체",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "공격력",
-     "original_gms92": 114,
-     "mapleland": 112
+     "key": "incPAD",
+     "values": {
+      "matip": 114,
+      "maplelog": 112,
+      "mapledb": 112
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1422042,
+   "name_kr": "발록의 크롬",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 92,
+     "original": 89
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1422043,
+   "name_kr": "발록의 레오마이트",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 97,
+     "original": 90
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1432054,
+   "name_kr": "발록의 호진공창",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 92,
+     "original": 89
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1442023,
+   "name_kr": "남색 대걸레",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": {
+    "matip": null,
+    "maplelog": null,
+    "mapledb": [
+     "전사",
+     "마법사",
+     "궁수",
+     "도적"
+    ]
+   }
+  },
+  {
+   "id": 1442074,
+   "name_kr": "발록의 월아산",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 92,
+     "original": 89
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1442075,
+   "name_kr": "발록의 핼버드",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 97,
+     "original": 94
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1442079,
+   "name_kr": "기본 폴암",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
+    {
+     "key": "incPAD",
+     "values": {
+      "matip": 22,
+      "maplelog": 15
+     }
+    }
+   ],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1452051,
    "name_kr": "초보 궁수의 활",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "공격력",
-     "original_gms92": 28,
-     "mapleland": 22
+     "key": "incPAD",
+     "values": {
+      "matip": 28,
+      "maplelog": 28,
+      "mapledb": 22
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1452066,
+   "name_kr": "발록의 마린 아룬드",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 85,
+     "original": 82
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1452067,
+   "name_kr": "발록의 파이어 아룬드",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 85,
+     "original": 82
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1452068,
+   "name_kr": "발록의 골든 아룬드",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 85,
+     "original": 82
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1452069,
+   "name_kr": "발록의 다크 아룬드",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 85,
+     "original": 82
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1452070,
+   "name_kr": "발록의 메투스",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 90,
+     "original": 77
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1462059,
+   "name_kr": "발록의 마린 샬리트",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 88,
+     "original": 85
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1462060,
+   "name_kr": "발록의 파이어 샬리트",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 88,
+     "original": 85
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1462061,
+   "name_kr": "발록의 골든 샬리트",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 88,
+     "original": 85
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1462062,
+   "name_kr": "발록의 다크 샬리트",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 88,
+     "original": 85
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1462063,
+   "name_kr": "발록의 카사 크로우",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 93,
+     "original": 90
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1472061,
    "name_kr": "초보 도적의 아대",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "공격력",
-     "original_gms92": 11,
-     "mapleland": 9
+     "key": "incPAD",
+     "values": {
+      "matip": 11,
+      "maplelog": 11,
+      "mapledb": 9
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1472069,
    "name_kr": "클립토",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [
     {
-     "stat": "DEX",
-     "original_gms92": 1,
-     "mapleland": 0
+     "key": "incPAD",
+     "mapleland": 48,
+     "original": 22
+    },
+    {
+     "key": "incPDD",
+     "mapleland": 0,
+     "original": 2
     }
-   ]
+   ],
+   "source_conflicts": [
+    {
+     "key": "incDEX",
+     "values": {
+      "matip": 1,
+      "maplelog": 1,
+      "mapledb": 0
+     }
+    },
+    {
+     "key": "incPAD",
+     "values": {
+      "matip": 48,
+      "maplelog": 48,
+      "mapledb": 22
+     }
+    },
+    {
+     "key": "incPDD",
+     "values": {
+      "matip": 0,
+      "maplelog": 0,
+      "mapledb": 2
+     }
+    }
+   ],
+   "level_conflict": {
+    "matip": 105,
+    "maplelog": 105,
+    "mapledb": 40
+   },
+   "job_conflict": null
+  },
+  {
+   "id": 1472083,
+   "name_kr": "발록의 코브라스티어",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 38,
+     "original": 35
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1472084,
+   "name_kr": "발록의 캐스터스",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 42,
+     "original": 39
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1482014,
    "name_kr": "초보 해적의 너클",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "공격력",
-     "original_gms92": 20,
-     "mapleland": 16
+     "key": "incPAD",
+     "values": {
+      "matip": 20,
+      "maplelog": 20,
+      "mapledb": 16
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1482017,
+   "name_kr": "세라핌즈",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 58,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1482023,
+   "name_kr": "타임리스 에퀴녹스",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 84,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1482024,
+   "name_kr": "리버스 에퀴녹스",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 82,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1482031,
+   "name_kr": "발록의 스틸르노",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 66,
+     "original": 63
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1482032,
+   "name_kr": "발록의 백혈귀",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 70,
+     "original": 67
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   },
   {
    "id": 1492014,
    "name_kr": "초보 해적의 건",
-   "diffs": [
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog",
+    "mapledb"
+   ],
+   "resolved_vs_gms92": [],
+   "source_conflicts": [
     {
-     "stat": "공격력",
-     "original_gms92": 16,
-     "mapleland": 11
+     "key": "incPAD",
+     "values": {
+      "matip": 16,
+      "maplelog": 16,
+      "mapledb": 11
+     }
     }
-   ]
+   ],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1492020,
+   "name_kr": "메이플 건",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 36,
+     "original": 0
+    },
+    {
+     "key": "incEVA",
+     "mapleland": 10,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1492021,
+   "name_kr": "메이플 스톰 피스톨",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incDEX",
+     "mapleland": 3,
+     "original": 0
+    },
+    {
+     "key": "incPAD",
+     "mapleland": 44,
+     "original": 0
+    },
+    {
+     "key": "incEVA",
+     "mapleland": 20,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1492022,
+   "name_kr": "메이플 캐논 슈터",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incDEX",
+     "mapleland": 5,
+     "original": 0
+    },
+    {
+     "key": "incMHP",
+     "mapleland": 100,
+     "original": 0
+    },
+    {
+     "key": "incPAD",
+     "mapleland": 60,
+     "original": 0
+    },
+    {
+     "key": "incEVA",
+     "mapleland": 25,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1492023,
+   "name_kr": "타임리스 블라인드니스",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 84,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1492025,
+   "name_kr": "리버스 블라인드니스",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 82,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1492035,
+   "name_kr": "발록의 인피티니",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 66,
+     "original": 63
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1492036,
+   "name_kr": "발록의 피스메이커",
+   "primary": "matip",
+   "sources": [
+    "matip",
+    "maplelog"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 70,
+     "original": 67
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1492042,
+   "name_kr": "메이플 건",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incPAD",
+     "mapleland": 36,
+     "original": 0
+    },
+    {
+     "key": "incEVA",
+     "mapleland": 10,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1492043,
+   "name_kr": "메이플 스톰 피스톨",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incDEX",
+     "mapleland": 3,
+     "original": 0
+    },
+    {
+     "key": "incPAD",
+     "mapleland": 44,
+     "original": 0
+    },
+    {
+     "key": "incEVA",
+     "mapleland": 20,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
+  },
+  {
+   "id": 1492044,
+   "name_kr": "메이플 캐논 슈터",
+   "primary": "matip",
+   "sources": [
+    "matip"
+   ],
+   "resolved_vs_gms92": [
+    {
+     "key": "incDEX",
+     "mapleland": 5,
+     "original": 0
+    },
+    {
+     "key": "incMHP",
+     "mapleland": 100,
+     "original": 0
+    },
+    {
+     "key": "incPAD",
+     "mapleland": 60,
+     "original": 0
+    },
+    {
+     "key": "incEVA",
+     "mapleland": 25,
+     "original": 0
+    }
+   ],
+   "source_conflicts": [],
+   "level_conflict": null,
+   "job_conflict": null
   }
  ]
 }

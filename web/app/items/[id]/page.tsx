@@ -1,8 +1,8 @@
 "use client";
 
-/* 아이템 상세 — 인게임 툴팁(ItemTooltip)을 중심으로 재구성 (v4.16.0).
- * 수치는 메이플랜드 현행 DB(mapledb.kr 전수 수집, item_mapleland_stats)를 우선 표시하고
- * 원작(GMS v92, items.stats)과 다른 옵션은 툴팁 아래 대조 박스에 적는다. */
+/* 아이템 상세 — 인게임 툴팁(ItemTooltip)을 중심으로 재구성 (v4.16.0 · v4.17.0 다중 출처).
+ * 수치는 상세 API 가 메팁 · 로그지지 · mapledb 2024 스냅샷 · 운영자 인게임 확인을 우선순위로 병합한 값(item.mapleland)을 쓰고,
+ * 출처끼리 다른 옵션과 원작(GMS v92, items.stats)과 다른 옵션은 툴팁 아래 박스에 적는다. */
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";

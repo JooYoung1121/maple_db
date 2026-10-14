@@ -15,6 +15,32 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.17.0",
+    date: "2026-10-14",
+    type: "minor",
+    title: "아이템 수치 다중 출처 — 메팁 DB · 로그지지 직접 수집, 출처별 차이 표시",
+    pages: ["/items"],
+    features: [
+      {
+        category: "아이템 수치 출처 교체 (mapledb.kr → 메팁 · 로그지지)",
+        items: [
+          "mapledb.kr 은 2024년 이후 갱신이 멈춰 재수집을 중단 — 대신 메팁 「옛날 메이플 데이터베이스」 JSON API(장비 9,060종)와 로그지지 아이템 DB 파일(3,794종, 수기 관리 메랜 실측분 포함)을 직접 가져와 출처별로 보관(item_source_stats)",
+          "툴팁 수치는 인게임 확인(운영자 오버라이드) › 메팁 › 로그지지 › mapledb 2024 스냅샷 순으로 병합 — 어떤 출처도 모르는 아이템만 원작(GMS v92) 값으로 표시",
+          "카오스 자쿰의 투구 최대 HP/MP +10% 는 메팁 DB 에도 같은 값이 있어 인게임 확인과 교차 확인됨",
+        ],
+      },
+      {
+        category: "출처별로 다른 옵션 표시",
+        items: [
+          "출처끼리 값이 다른 옵션은 툴팁 줄에 ※ 를 붙이고, 아래 박스에 메팁/로그지지/mapledb 값을 나란히 표시(채택값은 굵게) — 요구 레벨·직업이 다른 경우도 포함",
+          "장비 2,563종 중 출처 충돌 66종(예: 니르첸 투구 STR↔DEX, 초보 무기·타임리스 무기 공격력, 검은색 허리띠 올스탯 5 vs 로그지지 실측 3) — 인게임 확인 후 오버라이드로 확정하는 운영 흐름. 목록: data/mapleland_item_option_diffs.json",
+          "로그지지 수기 파일의 메모(\"메랜 실측값\" 등)와 오버라이드 메모를 박스에 함께 표시",
+          "재수집: scripts/import_item_source_stats.py (출처 단위 전체 교체 · 약 30초 · 시드 동기화로 배포)",
+        ],
+      },
+    ],
+  },
+  {
     version: "4.16.0",
     date: "2026-10-14",
     type: "minor",

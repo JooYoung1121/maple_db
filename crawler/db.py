@@ -572,6 +572,31 @@ CREATE TABLE IF NOT EXISTS item_mapleland_stats (
     source_url TEXT,
     fetched_at TEXT
 );
+
+-- 아이템 수치 출처별 보관 (v4.17.0): matip(메팁 옛날 메이플 DB API) · maplelog(로그지지 item_db*.js) · mapledb(2024 스냅샷)
+-- 상세 API 가 crawler/item_sources.resolve 로 병합한다. 수집: scripts/import_item_source_stats.py
+CREATE TABLE IF NOT EXISTS item_source_stats (
+    item_id INTEGER NOT NULL,
+    source TEXT NOT NULL,           -- matip | maplelog | mapledb
+    name_kr TEXT,
+    level INTEGER,
+    jobs TEXT,                      -- "전사,도적" | "공용" | NULL
+    req_job INTEGER,                -- 비트마스크 (1 전사 2 마법사 4 궁수 8 도적 16 해적, 0 공용)
+    gender TEXT,
+    category TEXT,
+    subcategory TEXT,               -- 인게임 장비분류 (출처가 세분류를 줄 때만)
+    req_json TEXT,                  -- {"STR":140,...,"POP":0}
+    stats_json TEXT,                -- {"incSTR":3,"incPDD":100,"incMHPr":10,...}
+    ranges_json TEXT,               -- {"incPDD":{"min":95,"max":105}} (mapledb 만)
+    price INTEGER,
+    attack_speed TEXT,
+    tuc INTEGER,
+    description TEXT,
+    note TEXT,                      -- 출처가 남긴 메모 (로그지지 주석: "메랜 실측값", "KMS389" 등)
+    source_url TEXT,
+    fetched_at TEXT,
+    PRIMARY KEY (item_id, source)
+);
 """
 
 FTS_SCHEMA = """

@@ -273,7 +273,7 @@
         "incMHPr": 10,
         "incMMPr": 10
       },
-      "source_note": "2026-10-14 메랜 인게임 툴팁 확인(운영자) — 카오스 자쿰의 투구는 올스탯 21·방어 180·명중/회피 35에 더해 최대 HP/MP +10%. GMS v92 원본(maplestory.io)·mapleland.gg·인벤(KMS)에는 HP/MP% 줄이 없음."
+      "source_note": "2026-10-14 메랜 인게임 툴팁 확인(운영자) — 카오스 자쿰의 투구는 올스탯 21·방어 180·명중/회피 35에 더해 최대 HP/MP +10%. 메팁 옛날 메이플 DB(matip.kr/com/db)도 같은 값(incMHPr/incMMPr 10). GMS v92 원본(maplestory.io)·로그지지·mapleland.gg·인벤(KMS)에는 HP/MP% 줄이 없음."
     },
     "1402009": {
       "stats": {

@@ -8,6 +8,7 @@ from typing import Optional
 from crawler.db import get_connection
 from crawler.catalog_data import equipment_notes
 from api.routes.mapleland_reference import id_filter_sql, require_mapleland_id
+from crawler.item_sources import load_source_records, normalize_override, resolve
 
 router = APIRouter()
 
@@ -201,78 +202,40 @@ def list_items(
     return {"items": results, "total": total, "page": page, "per_page": per_page}
 
 
-# ── 메이플랜드 현행 수치 (item_mapleland_stats, mapledb.kr 전수 수집) ─────────────
-# 상세 페이지는 이 블록이 있으면 메랜 수치를 정본으로 그리고, items.stats(GMS v92 원작)와의 차이를 함께 보여준다.
-_ML_LABEL_TO_KEY = {
-    "물리방어력": "incPDD", "마법방어력": "incMDD", "물리공격력": "incPAD", "마법공격력": "incMAD",
-    "STR": "incSTR", "DEX": "incDEX", "INT": "incINT", "LUK": "incLUK",
-    "최대체력": "incMHP", "최대마나": "incMMP", "명중률": "incACC", "회피율": "incEVA",
-    "이동속도": "incSpeed", "점프력": "incJump",
-}
+# ── 메이플랜드 현행 수치 — 다중 출처 병합 (item_source_stats: 메팁 · 로그지지 · mapledb 스냅샷 + 운영자 오버라이드) ──
 _OVERRIDES_PATH = Path(__file__).resolve().parents[2] / "data" / "mapleland_overrides.json"
 
 
 @lru_cache(maxsize=1)
-def _override_notes() -> dict[str, str]:
+def _override_items() -> dict[str, dict]:
     try:
         payload = json.loads(_OVERRIDES_PATH.read_text(encoding="utf-8"))
-        return {k: str(v.get("source_note") or "") for k, v in (payload.get("items") or {}).items() if isinstance(v, dict)}
+        return {k: v for k, v in (payload.get("items") or {}).items() if isinstance(v, dict)}
     except Exception:
         return {}
 
 
 def _mapleland_block(conn, item: dict) -> dict | None:
-    try:
-        row = conn.execute("SELECT * FROM item_mapleland_stats WHERE item_id = ?", (item["id"],)).fetchone()
-    except Exception:
-        row = None
-    note = _override_notes().get(str(item["id"]))
-    if row is None and not note:
-        return None
-    block: dict = {"source": None, "override_note": note or None, "diff": []}
-    if row is None:
-        return block
-    r = dict(row)
-    try:
-        stats = json.loads(r.get("stats_json") or "{}")
-    except Exception:
-        stats = {}
-    try:
-        req = json.loads(r.get("req_json") or "{}")
-    except Exception:
-        req = {}
+    """상세 응답의 item.mapleland — crawler/item_sources.resolve 결과(+ 출처 메타). 출처가 하나도 없으면 None."""
+    records = load_source_records(conn, item["id"])
+    entry = _override_items().get(str(item["id"]))
+    note = str(entry.get("source_note") or "") if entry else ""
+    if entry:
+        ov = normalize_override(item["id"], entry)
+        if ov:
+            records["override"] = ov
+    if not records:
+        return {"resolved": None, "override_note": note or None} if note else None
     try:
         original = json.loads(item.get("stats") or "{}") if item.get("stats") else {}
     except Exception:
         original = {}
-    # 원작(items.stats) 대비 차이 — mapledb 가 다루는 14개 옵션만 비교하고 0 은 없음으로 본다
-    diff = []
-    ml_keyed = {_ML_LABEL_TO_KEY[k]: v.get("base") for k, v in stats.items() if k in _ML_LABEL_TO_KEY}
-    for key in sorted(set(ml_keyed) | {k for k in original if k in _ML_LABEL_TO_KEY.values()}):
-        ml_v = int(ml_keyed.get(key) or 0)
-        og_v = int(original.get(key) or 0)
-        if ml_v != og_v:
-            diff.append({"key": key, "mapleland": ml_v, "original": og_v})
-    if r.get("level") is not None and int(item.get("level_req") or 0) != int(r["level"] or 0) and r.get("jobs") != "not":
-        diff.append({"key": "level_req", "mapleland": int(r["level"] or 0), "original": int(item.get("level_req") or 0)})
-    block.update({
-        "source": "mapledb.kr",
-        "source_url": r.get("source_url"),
-        "fetched_at": r.get("fetched_at"),
-        "name_kr": r.get("name_kr"),
-        "level": r.get("level"),
-        "jobs": r.get("jobs"),
-        "gender": r.get("gender"),
-        "category": r.get("category"),
-        "subcategory": r.get("subcategory"),
-        "req": req,
-        "stats": stats,
-        "price": r.get("price"),
-        "attack_speed": r.get("attack_speed"),
-        "description": r.get("description"),
-        "diff": diff,
-    })
-    return block
+    resolved = resolve(records, original)
+    if resolved is None:
+        return None
+    resolved["override_note"] = note or None
+    resolved["fetched_at"] = {s: records[s].get("fetched_at") for s in resolved["sources_used"] if records[s].get("fetched_at")}
+    return resolved
 
 
 @router.get("/items/{item_id}")

@@ -46,29 +46,40 @@ export interface Item {
   overall_category?: string | null;
   names_en?: NameEn[];
   name_kr?: string | null;
-  /** 메이플랜드 현행 수치(mapledb.kr) + 원작 대비 차이 — 상세 API만 채운다 */
+  /** 메이플랜드 현행 수치 — 메팁·로그지지·mapledb 스냅샷·운영자 확인을 병합 (상세 API만 채운다) */
   mapleland?: MaplelandItemStats | null;
 }
 
-export interface MaplelandStatRange { base: number; min: number | null; max: number | null }
+/** 아이템 수치 다중 출처 병합 결과 (api/routes/items.py → crawler/item_sources.resolve) */
+export interface MaplelandStatLine { key: string; value: number; source: string; min: number | null; max: number | null; conflict: boolean }
+export interface MaplelandConflict { key: string; values: Record<string, number> }
 export interface MaplelandItemDiff { key: string; mapleland: number; original: number }
+export interface MaplelandSourceMeta { label: string; short: string; url: string | null }
 export interface MaplelandItemStats {
-  source: "mapledb.kr" | null;      // null 이면 오버라이드 메모만 있는 경우
-  source_url?: string | null;
-  fetched_at?: string | null;
-  override_note?: string | null;    // data/mapleland_overrides.json 의 source_note (인게임 확인 등)
+  primary?: string;                 // 1순위 출처 (override | matip | maplelog | mapledb)
+  sources_used?: string[];
   name_kr?: string | null;
   level?: number | null;
-  jobs?: string | null;             // "공용" | "전사" | "전사,도적" | "not"
+  jobs?: string[] | null;           // 착용 직업 (null = 공용)
+  jobs_known?: boolean;             // false 면 어떤 출처도 직업을 주지 않음 → DB job_req 사용
   gender?: string | null;
-  category?: string | null;         // 주 카테고리 (방어구·무기·…)
-  subcategory?: string | null;      // 부 카테고리 (모자·전신·한손검·…) — 인게임 '장비분류'
+  category?: string | null;
+  subcategory?: string | null;      // 인게임 '장비분류' (한손 검 · 모자 …)
   req?: Record<string, number>;     // STR/DEX/INT/LUK/POP
-  stats?: Record<string, MaplelandStatRange>; // 한글 라벨 → 기본·범위
+  stats?: MaplelandStatLine[];      // 표시 순서대로. 없으면 출처 없이 오버라이드 메모만 있는 경우
   price?: number | null;
   attack_speed?: string | null;
+  tuc?: number | null;
   description?: string | null;
-  diff: MaplelandItemDiff[];
+  conflicts?: MaplelandConflict[];  // 출처끼리 값이 다른 옵션 (0 = 그 출처엔 없음)
+  level_conflict?: Record<string, number> | null;
+  job_conflict?: Record<string, string[] | null> | null;
+  diff?: MaplelandItemDiff[];       // 병합값 vs 원작(GMS v92 크롤)
+  notes?: Record<string, string>;   // 출처가 남긴 메모 (로그지지 주석 · 오버라이드 source_note)
+  source_meta?: Record<string, MaplelandSourceMeta>;
+  override_note?: string | null;
+  fetched_at?: Record<string, string>;
+  resolved?: null;
 }
 
 export interface EquipmentCatalogNotes {
