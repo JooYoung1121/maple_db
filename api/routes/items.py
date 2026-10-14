@@ -274,7 +274,8 @@ def get_item(item_id: int):
             SELECT m.id as mob_id, m.name as mob_name, m.level, m.is_boss, m.icon_url, md.drop_rate,
                    COALESCE(md.drop_rate_source, md.list_source) AS drop_rate_source,
                    (SELECT name_en FROM entity_names_en
-                    WHERE entity_type='mob' AND entity_id=m.id AND source='kms') as mob_name_kr
+                    WHERE entity_type='mob' AND entity_id=m.id AND source='kms') as mob_name_kr,
+                   (SELECT s.rate FROM mob_drop_sources s WHERE s.mob_id = md.mob_id AND s.item_id = md.item_id AND s.source = 'matip') AS matip_rate
             FROM mob_drops md
             JOIN mobs m ON m.id = md.mob_id
             WHERE {' AND '.join(drop_conditions)}

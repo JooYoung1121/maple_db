@@ -65,3 +65,68 @@ def repair_broken_icon_entities(conn):
     if changed:
         conn.commit()
     return changed
+
+
+# start.sh SEED_TABLES 와 같은 목록 — 시드에서 통째 교체되는 순수 레퍼런스 테이블
+REFERENCE_TABLES = ('quests', 'mob_drops', 'mob_spawns', 'sim_jobs', 'sim_skills', 'items', 'map_details',
+                    'mapledb_quests', 'skills', 'maps', 'item_mapleland_stats', 'item_source_stats', 'mob_drop_sources')
+
+
+def repair_empty_reference_tables(conn, seed_path=None, tables=REFERENCE_TABLES):
+    """시드 동기화가 빠뜨린(없거나 0행인) 레퍼런스 테이블을 시드 사본에서 채운다. 멱등.
+
+    start.sh 가 /app/data/seed_reference.db 로 남긴 시드 사본을 ATTACH 해, 볼륨 쪽 테이블이 없거나 비어 있고
+    시드 쪽에 행이 있을 때만 CREATE(시드의 DDL) + INSERT 한다. 유저 데이터 테이블은 목록에 없으므로 건드리지 않는다.
+    결과는 seed_sync_log(status='healed') 에 남겨 /api/admin/db-status 로 확인한다.
+    """
+    import os
+    from pathlib import Path
+    path = Path(seed_path) if seed_path else Path(os.environ.get('SEED_REFERENCE_DB', '/app/data/seed_reference.db'))
+    if not path.exists():
+        return {}
+    healed = {}
+    try:
+        conn.execute("ATTACH DATABASE ? AS seedref", (str(path),))
+    except Exception:
+        return {}
+    try:
+        conn.execute('CREATE TABLE IF NOT EXISTS seed_sync_log (ts TEXT, tbl TEXT, status TEXT, detail TEXT)')
+        from datetime import datetime, timezone
+        now = datetime.now(timezone.utc).isoformat()
+        for tbl in tables:
+            try:
+                seed_row = conn.execute(
+                    "SELECT sql FROM seedref.sqlite_master WHERE type='table' AND name=?", (tbl,)
+                ).fetchone()
+                if not seed_row:
+                    continue
+                seed_cnt = conn.execute(f'SELECT COUNT(*) FROM seedref.{tbl}').fetchone()[0]
+                if not seed_cnt:
+                    continue
+                exists = conn.execute(
+                    "SELECT 1 FROM main.sqlite_master WHERE type='table' AND name=?", (tbl,)
+                ).fetchone()
+                vol_cnt = conn.execute(f'SELECT COUNT(*) FROM main.{tbl}').fetchone()[0] if exists else 0
+                if vol_cnt:
+                    continue
+                if not exists:
+                    conn.execute(seed_row[0])
+                conn.execute(f'INSERT INTO main.{tbl} SELECT * FROM seedref.{tbl}')
+                conn.commit()
+                healed[tbl] = seed_cnt
+                conn.execute('INSERT INTO seed_sync_log VALUES (?,?,?,?)', (now, tbl, 'healed', str(seed_cnt)))
+                conn.commit()
+                print(f'[startup] healed empty reference table {tbl}: {seed_cnt} rows from seed copy')
+            except Exception as e:  # 한 테이블 실패가 나머지를 막지 않는다
+                try:
+                    conn.rollback()
+                    conn.execute('INSERT INTO seed_sync_log VALUES (?,?,?,?)', (now, tbl, 'heal_fail', repr(e)[:500]))
+                    conn.commit()
+                except Exception:
+                    pass
+    finally:
+        try:
+            conn.execute('DETACH DATABASE seedref')
+        except Exception:
+            pass
+    return healed

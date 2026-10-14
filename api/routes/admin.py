@@ -302,6 +302,7 @@ def admin_db_status(request: Request):
     check_tables = [
         "quests", "mob_drops", "mob_spawns", "items", "map_details", "mapledb_quests",
         "sim_jobs", "sim_skills", "codi_posts", "game_results", "entity_names_en", "mobs", "maps",
+        "item_mapleland_stats", "item_source_stats", "mob_drop_sources",
     ]
     conn = get_connection()
     try:

@@ -179,8 +179,8 @@ def run(only: set[str] | None, cache: Path | None) -> dict[str, int]:
                 continue
             if row.get("file") == "item_db_custom.js":
                 r["note"] = " — ".join(x for x in ("로그지지 수기 관리 파일(메랜 전용·실측 보충)", r["note"]) if x)
-            elif row.get("file") == "item_db_ext.js" and not r["note"]:
-                r["note"] = "로그지지 자동 수집분(KMS389/GMS95)"
+            elif row.get("file") == "item_db_ext.js":
+                r["note"] = " — ".join(x for x in ("로그지지 자동 수집분(KMS389/GMS95 대량 수집 · 메랜 미출시 포함 가능)", r["note"]) if x)
             recs.append(r)
         counts["maplelog"] = replace_source(conn, "maplelog", recs, now)
 

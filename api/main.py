@@ -290,11 +290,14 @@ async def lifespan(app: FastAPI):
         init_db().close()
         from crawler.audit_repairs import (
             repair_broken_icon_entities,
+            repair_empty_reference_tables,
             repair_quest_conditions,
             repair_skill_classes,
         )
         repair_conn = get_connection()
         try:
+            # 시드 동기화가 빠뜨린 레퍼런스 테이블은 시드 사본(start.sh 가 남김)에서 자가 복구
+            repair_empty_reference_tables(repair_conn)
             repair_skill_classes(repair_conn)
             repair_quest_conditions(repair_conn)
             # 아이콘 원본이 404 인 엔티티 숨김 (mobs 는 additive 동기화라 시드로는 전달 안 됨)

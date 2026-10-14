@@ -24,7 +24,7 @@ SEED = '$APP_DB'
 # 시드에서 교체할 레퍼런스 테이블 화이트리스트 (유저 데이터 아님)
 # skills는 크롤러·패치 스크립트만 쓰는 순수 레퍼런스라 통째 교체 (2026-09-08, 9/7 밸런스 패치 반영용)
 # maps는 라이브에서 쓰는 곳이 없는 순수 레퍼런스 — 체경비 젠 배율(mob_rate) 반영용 추가 (2026-09-30)
-SEED_TABLES = ['quests', 'mob_drops', 'mob_spawns', 'sim_jobs', 'sim_skills', 'items', 'map_details', 'mapledb_quests', 'skills', 'maps', 'item_mapleland_stats', 'item_source_stats']
+SEED_TABLES = ['quests', 'mob_drops', 'mob_spawns', 'sim_jobs', 'sim_skills', 'items', 'map_details', 'mapledb_quests', 'skills', 'maps', 'item_mapleland_stats', 'item_source_stats', 'mob_drop_sources']
 
 try:
     vol = sqlite3.connect(VOLUME)
@@ -143,6 +143,12 @@ except Exception as e:
     cp "$APP_DB" "$VOLUME_DB"
   fi
 
+  # 시드 사본을 남긴다 — 동기화가 실패한 레퍼런스 테이블을 API 기동 시 여기서 자가 복구한다
+  # (crawler/audit_repairs.repair_empty_reference_tables). 2026-10-14 item_source_stats 가 라이브 볼륨에 비어 있던 사고 대응.
+  SEED_COPY="/app/data/seed_reference.db"
+  if [ -f "$APP_DB" ] && [ ! -L "$APP_DB" ]; then
+    cp "$APP_DB" "$SEED_COPY" && echo "Seed copy kept: $SEED_COPY"
+  fi
   rm -f "$APP_DB"
   ln -sf "$VOLUME_DB" "$APP_DB"
   echo "Symlink: $APP_DB -> $VOLUME_DB"

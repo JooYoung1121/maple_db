@@ -16,7 +16,7 @@ import { toCategoryKr, toSubcategoryKr } from "@/lib/translations";
 import EntityCanonDiffPanel from "@/components/EntityCanonDiffPanel";
 import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
 import { getEntityCanonDiffs } from "@/lib/entityCanonDiffs";
-import DropRateBadge from "@/components/DropRateBadge";
+import DropRateBadge, { MatipRateHint } from "@/components/DropRateBadge";
 
 interface DroppedByMob {
   mob_id: number;
@@ -24,6 +24,7 @@ interface DroppedByMob {
   mob_name_kr?: string | null;
   drop_rate: number | null;
   drop_rate_source?: string | null;
+  matip_rate?: number | null;
 }
 
 export default function ItemDetailPage() {
@@ -110,6 +111,7 @@ export default function ItemDetailPage() {
                   <span className="text-sm text-dim">
                     {m.drop_rate != null && `${(m.drop_rate * 100).toFixed(2)}%`}
                     <DropRateBadge source={m.drop_rate_source} />
+                    {m.drop_rate_source !== "matip" && <MatipRateHint rate={m.drop_rate} matipRate={m.matip_rate} />}
                   </span>
                 )}
               </Link>

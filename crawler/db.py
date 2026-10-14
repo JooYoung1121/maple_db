@@ -597,6 +597,22 @@ CREATE TABLE IF NOT EXISTS item_source_stats (
     fetched_at TEXT,
     PRIMARY KEY (item_id, source)
 );
+
+-- 드롭률 출처별 보관 (v4.18.0): matip(메팁 옛날 메이플 DB monster_detail combined_drops). 수집: scripts/import_matip_drops.py
+-- mob_drops 는 표시용 단일값(출처 배지 포함), 이 테이블은 출처 원본값. 상세 API 가 대체값(matip_rate)으로 함께 내보낸다.
+CREATE TABLE IF NOT EXISTS mob_drop_sources (
+    mob_id INTEGER NOT NULL,
+    item_id INTEGER NOT NULL,
+    source TEXT NOT NULL,           -- matip
+    rate REAL,                      -- 0~1
+    chance INTEGER,
+    chance_denominator INTEGER,
+    min_qty INTEGER,
+    max_qty INTEGER,
+    drop_source TEXT,               -- 출처 내부 파일명 (monster_drops.sql 등)
+    fetched_at TEXT,
+    PRIMARY KEY (mob_id, item_id, source)
+);
 """
 
 FTS_SCHEMA = """

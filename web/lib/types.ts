@@ -137,6 +137,7 @@ export interface MobDrop {
   category?: string | null;
   drop_rate: number | null;
   drop_rate_source?: string | null;
+  matip_rate?: number | null;       // 메팁 드롭 테이블 값(대조용) — 표시값과 다를 때만 화면에 함께 표기
 }
 
 export interface MobSpawn {

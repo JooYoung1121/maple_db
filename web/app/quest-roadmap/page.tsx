@@ -248,7 +248,7 @@ export default function QuestRoadmapPage() {
       </section>
 
       <p className="text-[11px] text-dim mt-6">
-        ※ 데이터 출처: mapledb.kr (메이플랜드 2.0 기준, {quests.length}종) + 사이트 큐레이션 팁.
+        ※ 데이터 출처: 메랜DB 2024 스냅샷(mapledb.kr, 메이플랜드 2.0 기준 {quests.length}종) + 사이트 큐레이션 팁. 이후 패치 퀘스트는 공식 패치노트 기준으로 보강합니다.
         신규 패치 퀘스트(마왕 발록 등)는 원본 DB 갱신 시 재크롤로 반영됩니다.
       </p>
     </div>

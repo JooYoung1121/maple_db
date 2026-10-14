@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { CanonEntityType } from "@/lib/canonDiffs";
 
 const COPY: Partial<Record<CanonEntityType, string>> = {
-  item: "현행 공개 DB가 제공하는 착용 레벨·직업을 원작과 대조했습니다. 스탯·드롭률은 공식 또는 복수 실측이 있는 항목부터 검증합니다.",
+  item: "아이템 옵션은 메팁 DB · 로그지지 · 메랜DB 2024 스냅샷 세 출처를 대조해 표시하고, 출처가 갈리는 항목은 인게임 확인으로 확정합니다. 드롭률은 메팁 드롭 테이블과 메랜DB 값을 함께 씁니다.",
   mob: "현행 공개 DB 749종의 레벨·HP를 원작과 대조했습니다. EXP·방어·드롭률·젠은 라이브 원문이 부족해 원작 참고값이 남아 있습니다.",
   map: "현행 공개 DB의 맵 ID·명칭까지 대조했습니다. KMS·GMS의 같은 ID가 다른 맵인 139건은 구조·젠·포탈을 숨기며, 나머지도 GMS v92 원작 참고값입니다.",
   npc: "현행 공개 DB의 NPC ID·명칭을 대조해 현재 한글명을 우선 표시합니다. 위치·대화·상점 목록은 라이브 원문이 없어 아직 원작 참고값입니다.",

@@ -8,7 +8,7 @@ import type { Mob, MobDrop, MobSpawn } from "@/lib/types";
 import EntityCanonDiffPanel from "@/components/EntityCanonDiffPanel";
 import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
 import FieldEvidence from "@/components/FieldEvidence";
-import DropRateBadge from "@/components/DropRateBadge";
+import DropRateBadge, { MatipRateHint } from "@/components/DropRateBadge";
 import { getEntityCanonDiffs } from "@/lib/entityCanonDiffs";
 import { entityIconUrl, hideIconOnError } from "@/lib/icons";
 
@@ -96,6 +96,7 @@ export default function MobDetailPage() {
                   <span className="text-sm text-dim">
                     {d.drop_rate != null && `${(d.drop_rate * 100).toFixed(2)}%`}
                     <DropRateBadge source={d.drop_rate_source} />
+                    {d.drop_rate_source !== "matip" && <MatipRateHint rate={d.drop_rate} matipRate={d.matip_rate} />}
                   </span>
                 )}
               </Link>
