@@ -115,7 +115,8 @@ class ResolveTests(unittest.TestCase):
         lines = {s["key"]: s for s in res["stats"]}
         self.assertEqual(lines["incSTR"]["source"], "override")
         self.assertEqual(lines["incMHPr"]["value"], 10)
-        self.assertTrue(lines["incSTR"]["conflict"])  # mapledb 는 20 이라고 한다
+        self.assertFalse(lines["incSTR"]["conflict"])  # mapledb 는 20 이라고 하지만 인게임 확정값이라 ※ 를 붙이지 않는다
+        self.assertEqual(res["conflicts"][0]["values"], {"override": 21, "mapledb": 20})  # 박스에는 남긴다
         self.assertNotIn("incJump", lines)  # override 는 전 키를 다루므로 원작에만 있는 점프력은 줄이 사라진다
         self.assertIn({"key": "incJump", "mapleland": 0, "original": 2}, res["diff"])
 

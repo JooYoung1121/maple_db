@@ -84,7 +84,19 @@
       "source_note": "2026-01-23 official MapleLand patch: https://maple.land/board/notices/y71qps22nn1ze094s3rpctfh"
     },
     "1002517": {
-      "level_req": 0
+      "stats": {
+        "incSTR": 2,
+        "incDEX": 2,
+        "incINT": 2,
+        "incLUK": 2,
+        "incPDD": 21,
+        "incMDD": 40
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리) · 이벤트/특수 아이템은 추후 실측 예정",
+      "updated_at": "2026-10-14",
+      "level_req": 30,
+      "job_req": "",
+      "upgrade_slots": 7
     },
     "1032031": {
       "level_req": 100
@@ -194,10 +206,10 @@
     },
     "1402000": {
       "stats": {
-        "incSTR": 70,
-        "incPAD": 40
+        "incPAD": 40,
+        "reqSTR": 70
       },
-      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (양손검)",
+      "source_note": "2026-10-14 mapledb.kr 메랜 DB(2024 스냅샷) — GMS v92 크롤에 옵션이 비어 있던 항목 (양손검) · 요구 STR 을 옵션으로 넣었던 오류 정정(2026-10-14)",
       "level_req": 20
     },
     "1402001": {
@@ -205,26 +217,26 @@
     },
     "1402006": {
       "stats": {
-        "incSTR": 115,
-        "incPAD": 55
+        "incPAD": 55,
+        "reqSTR": 115
       },
-      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (하이랜더)",
+      "source_note": "2026-10-14 mapledb.kr 메랜 DB(2024 스냅샷) — GMS v92 크롤에 옵션이 비어 있던 항목 (하이랜더) · 요구 STR 을 옵션으로 넣었던 오류 정정(2026-10-14)",
       "level_req": 35
     },
     "1402007": {
       "stats": {
-        "incSTR": 130,
-        "incPAD": 60
+        "incPAD": 60,
+        "reqSTR": 130
       },
-      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (쟈드)",
+      "source_note": "2026-10-14 mapledb.kr 메랜 DB(2024 스냅샷) — GMS v92 크롤에 옵션이 비어 있던 항목 (쟈드) · 요구 STR 을 옵션으로 넣었던 오류 정정(2026-10-14)",
       "level_req": 40
     },
     "1402008": {
       "stats": {
-        "incSTR": 85,
-        "incPAD": 45
+        "incPAD": 45,
+        "reqSTR": 85
       },
-      "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (클러디)",
+      "source_note": "2026-10-14 mapledb.kr 메랜 DB(2024 스냅샷) — GMS v92 크롤에 옵션이 비어 있던 항목 (클러디) · 요구 STR 을 옵션으로 넣었던 오류 정정(2026-10-14)",
       "level_req": 25
     },
     "1412001": {
@@ -237,7 +249,16 @@
       "job_req": "전사/궁수/도적"
     },
     "1422011": {
-      "job_req": "전사/마법사/궁수/도적"
+      "stats": {
+        "incPAD": 100,
+        "reqSTR": 110
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리) · 이벤트/특수 아이템은 추후 실측 예정",
+      "updated_at": "2026-10-14",
+      "level_req": 30,
+      "job_req": "",
+      "upgrade_slots": 7,
+      "attack_speed": "6"
     },
     "1432000": {
       "job_req": "전사/궁수/도적"
@@ -252,7 +273,16 @@
       "job_req": "전사/궁수/도적"
     },
     "1442023": {
-      "job_req": "전사/마법사/궁수/도적"
+      "stats": {
+        "incPAD": 220,
+        "reqSTR": 130
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리) · 이벤트/특수 아이템은 추후 실측 예정",
+      "updated_at": "2026-10-14",
+      "level_req": 36,
+      "job_req": "",
+      "upgrade_slots": 7,
+      "attack_speed": "9"
     },
     "2331000": {
       "level_req": 0
@@ -287,6 +317,774 @@
       },
       "source_note": "2026-10-14 mapledb.kr 메랜 현행 DB — GMS v92 크롤에 옵션이 비어 있던 항목 (알루미늄 야구 방망이)",
       "level_req": 30
+    },
+    "1132004": {
+      "level_req": 75,
+      "job_req": "",
+      "upgrade_slots": 3,
+      "stats": {
+        "incSTR": 3,
+        "incDEX": 3,
+        "incINT": 3,
+        "incLUK": 3,
+        "incPAD": 1,
+        "incMAD": 4,
+        "incPDD": 50,
+        "incMDD": 50,
+        "incEVA": 15
+      },
+      "source_note": "2026-10-14 운영자 확인 — 검은색 허리띠는 로그지지 실측값(올스탯 3 · 공격력 1 · 마력 4 · 물방/마방 50 · 회피 15 · 업횟 3)이 맞음. 메팁 DB 의 올스탯 5 는 오기.",
+      "updated_at": "2026-10-14"
+    },
+    "1002378": {
+      "stats": {
+        "incDEX": 3,
+        "incPDD": 100,
+        "reqSTR": 240
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 100,
+      "job_req": "전사",
+      "upgrade_slots": 7
+    },
+    "1002379": {
+      "stats": {
+        "incSTR": 3,
+        "incPDD": 100,
+        "reqSTR": 240
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 100,
+      "job_req": "전사",
+      "upgrade_slots": 7
+    },
+    "1002382": {
+      "stats": {
+        "incSTR": 3,
+        "incLUK": 3,
+        "incMMP": 15,
+        "incPDD": 63,
+        "reqDEX": 140,
+        "reqLUK": 260
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 100,
+      "job_req": "도적",
+      "upgrade_slots": 7
+    },
+    "1002383": {
+      "stats": {
+        "incDEX": 3,
+        "incLUK": 4,
+        "incMHP": 15,
+        "incPDD": 63,
+        "reqLUK": 260
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 100,
+      "job_req": "도적",
+      "upgrade_slots": 7
+    },
+    "1002407": {
+      "stats": {
+        "incSTR": 1,
+        "incDEX": 5,
+        "incMMP": 20,
+        "incPDD": 63,
+        "reqDEX": 310
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 100,
+      "job_req": "궁수",
+      "upgrade_slots": 7
+    },
+    "1002408": {
+      "stats": {
+        "incDEX": 6,
+        "incMHP": 20,
+        "incPDD": 63,
+        "reqDEX": 310
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 100,
+      "job_req": "궁수",
+      "upgrade_slots": 7
+    },
+    "1002547": {
+      "stats": {
+        "incSTR": 2,
+        "incDEX": 6,
+        "incMMP": 20,
+        "incPDD": 69,
+        "reqDEX": 340
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 110,
+      "job_req": "궁수",
+      "upgrade_slots": 7
+    },
+    "1002550": {
+      "stats": {
+        "incDEX": 3,
+        "incLUK": 4,
+        "incMMP": 20,
+        "incPDD": 69,
+        "reqDEX": 150,
+        "reqLUK": 280
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 110,
+      "job_req": "도적",
+      "upgrade_slots": 7
+    },
+    "1052072": {
+      "stats": {
+        "incDEX": 4,
+        "incLUK": 7,
+        "incPDD": 115,
+        "incEVA": 3,
+        "reqDEX": 150,
+        "reqLUK": 280
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 110,
+      "job_req": "도적",
+      "upgrade_slots": 10
+    },
+    "1052113": {
+      "stats": {
+        "incSTR": 4,
+        "incMHP": 10,
+        "incPDD": 40,
+        "reqSTR": 40,
+        "reqDEX": 40
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 40,
+      "job_req": "해적",
+      "upgrade_slots": 10
+    },
+    "1052134": {
+      "stats": {
+        "incSTR": 7,
+        "incDEX": 6,
+        "incMHP": 20,
+        "incPDD": 115,
+        "reqSTR": 110,
+        "reqDEX": 110
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 110,
+      "job_req": "해적",
+      "upgrade_slots": 10
+    },
+    "1072269": {
+      "stats": {
+        "incSTR": 3,
+        "incDEX": 4,
+        "incPDD": 64,
+        "incEVA": 1,
+        "reqDEX": 330
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 110,
+      "job_req": "궁수",
+      "upgrade_slots": 5
+    },
+    "1112311": {
+      "stats": {
+        "incSTR": 3,
+        "incDEX": 3,
+        "incINT": 3,
+        "incLUK": 3,
+        "incMMP": 60
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 0,
+      "job_req": ""
+    },
+    "1032047": {
+      "stats": {
+        "incMHP": 10,
+        "incMMP": 10,
+        "incMDD": 15
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 30,
+      "job_req": "",
+      "upgrade_slots": 5
+    },
+    "1050108": {
+      "stats": {
+        "incSTR": 6,
+        "incDEX": 7,
+        "incPDD": 105,
+        "incEVA": 2,
+        "reqDEX": 310
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 100,
+      "job_req": "궁수",
+      "upgrade_slots": 10
+    },
+    "1051107": {
+      "stats": {
+        "incSTR": 6,
+        "incDEX": 7,
+        "incPDD": 105,
+        "incEVA": 2,
+        "reqDEX": 310
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 100,
+      "job_req": "궁수",
+      "upgrade_slots": 10
+    },
+    "1302077": {
+      "stats": {
+        "incPAD": 30,
+        "reqSTR": 35
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 10,
+      "job_req": "전사",
+      "upgrade_slots": 7,
+      "attack_speed": "4"
+    },
+    "1332063": {
+      "stats": {
+        "incPAD": 28
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 10,
+      "job_req": "도적",
+      "upgrade_slots": 7,
+      "attack_speed": "3"
+    },
+    "1452051": {
+      "stats": {
+        "incPAD": 28,
+        "reqDEX": 25
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 10,
+      "job_req": "궁수",
+      "upgrade_slots": 7,
+      "attack_speed": "6"
+    },
+    "1472061": {
+      "stats": {
+        "incPAD": 11
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 10,
+      "job_req": "도적",
+      "upgrade_slots": 7,
+      "attack_speed": "6"
+    },
+    "1482014": {
+      "stats": {
+        "incPAD": 20
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 10,
+      "job_req": "해적",
+      "upgrade_slots": 7,
+      "attack_speed": "5"
+    },
+    "1492014": {
+      "stats": {
+        "incPAD": 16
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 10,
+      "job_req": "해적",
+      "upgrade_slots": 7,
+      "attack_speed": "5"
+    },
+    "1372043": {
+      "stats": {
+        "incPAD": 16,
+        "incMAD": 25,
+        "reqINT": 20
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 8,
+      "job_req": "마법사",
+      "upgrade_slots": 7,
+      "attack_speed": "6"
+    },
+    "1302081": {
+      "stats": {
+        "incPAD": 108,
+        "reqSTR": 340
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 120,
+      "job_req": "전사",
+      "upgrade_slots": 7,
+      "attack_speed": "5"
+    },
+    "1312037": {
+      "stats": {
+        "incPAD": 108,
+        "reqSTR": 350
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 120,
+      "job_req": "전사",
+      "upgrade_slots": 7,
+      "attack_speed": "6"
+    },
+    "1322060": {
+      "stats": {
+        "incPAD": 108,
+        "reqSTR": 290
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 120,
+      "job_req": "전사",
+      "upgrade_slots": 7,
+      "attack_speed": "6"
+    },
+    "1402046": {
+      "stats": {
+        "incPAD": 110,
+        "reqSTR": 370
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 120,
+      "job_req": "전사",
+      "upgrade_slots": 7,
+      "attack_speed": "6"
+    },
+    "1412033": {
+      "stats": {
+        "incPAD": 112,
+        "reqSTR": 370
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 120,
+      "job_req": "전사",
+      "upgrade_slots": 7,
+      "attack_speed": "6"
+    },
+    "1422037": {
+      "stats": {
+        "incPAD": 112,
+        "reqSTR": 370
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 120,
+      "job_req": "전사",
+      "upgrade_slots": 7,
+      "attack_speed": "7"
+    },
+    "1050099": {
+      "stats": {
+        "incDEX": 4,
+        "incLUK": 7,
+        "incPDD": 105,
+        "incEVA": 2,
+        "reqDEX": 140,
+        "reqLUK": 260
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 100,
+      "job_req": "도적",
+      "upgrade_slots": 10
+    },
+    "1052076": {
+      "stats": {
+        "incINT": 8,
+        "incLUK": 4,
+        "incMMP": 50,
+        "incPDD": 92,
+        "incMDD": 46,
+        "reqINT": 325
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 108,
+      "job_req": "마법사",
+      "upgrade_slots": 10
+    },
+    "1002780": {
+      "stats": {
+        "incSTR": 3,
+        "incDEX": 7,
+        "incMHP": 30,
+        "incPDD": 75,
+        "reqDEX": 370
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 120,
+      "job_req": "궁수",
+      "upgrade_slots": 7
+    },
+    "1442079": {
+      "stats": {
+        "incPAD": 15
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 0,
+      "job_req": "",
+      "upgrade_slots": 7,
+      "attack_speed": "8"
+    },
+    "1002798": {
+      "stats": {
+        "incPDD": 22,
+        "reqSTR": 4,
+        "reqDEX": 4,
+        "reqINT": 4,
+        "reqLUK": 4
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 10,
+      "job_req": "",
+      "upgrade_slots": 7
+    },
+    "1142156": {
+      "stats": {
+        "incSTR": 1,
+        "incDEX": 1,
+        "incINT": 1,
+        "incLUK": 1,
+        "incMHP": 160,
+        "incMMP": 160
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 60,
+      "job_req": ""
+    },
+    "1022073": {
+      "stats": {
+        "incSTR": 1,
+        "incDEX": 1,
+        "incINT": 1,
+        "incLUK": 1,
+        "incMHP": 20,
+        "incMMP": 20
+      },
+      "source_note": "2026-10-14 운영자 확인 — 메팁 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 45,
+      "job_req": "",
+      "upgrade_slots": 3
+    },
+    "1042167": {
+      "stats": {
+        "incPDD": 3
+      },
+      "source_note": "2026-10-14 운영자 확인 — 메팁 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 0,
+      "job_req": "",
+      "upgrade_slots": 7
+    },
+    "1042180": {
+      "stats": {
+        "incPDD": 3
+      },
+      "source_note": "2026-10-14 운영자 확인 — 메팁 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 0,
+      "job_req": "",
+      "upgrade_slots": 7
+    },
+    "1060138": {
+      "stats": {
+        "incPDD": 2
+      },
+      "source_note": "2026-10-14 운영자 확인 — 메팁 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 0,
+      "job_req": "",
+      "upgrade_slots": 7
+    },
+    "1061160": {
+      "stats": {
+        "incPDD": 2
+      },
+      "source_note": "2026-10-14 운영자 확인 — 메팁 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 0,
+      "job_req": "",
+      "upgrade_slots": 7
+    },
+    "1062115": {
+      "stats": {
+        "incPDD": 2
+      },
+      "source_note": "2026-10-14 운영자 확인 — 메팁 수치 채택 (출처 간 상이 항목 정리)",
+      "updated_at": "2026-10-14",
+      "level_req": 0,
+      "job_req": "",
+      "upgrade_slots": 7
+    },
+    "1002728": {
+      "stats": {
+        "incSTR": 10,
+        "incDEX": 10,
+        "incINT": 10,
+        "incLUK": 10
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리) · 이벤트/특수 아이템은 추후 실측 예정",
+      "updated_at": "2026-10-14",
+      "level_req": 10,
+      "job_req": "",
+      "upgrade_slots": 3
+    },
+    "1012011": {
+      "stats": {
+        "incSTR": 2
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리) · 이벤트/특수 아이템은 추후 실측 예정",
+      "updated_at": "2026-10-14",
+      "level_req": 0,
+      "job_req": "",
+      "upgrade_slots": 5
+    },
+    "1012012": {
+      "stats": {
+        "incDEX": 2
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리) · 이벤트/특수 아이템은 추후 실측 예정",
+      "updated_at": "2026-10-14",
+      "level_req": 0,
+      "job_req": "",
+      "upgrade_slots": 5
+    },
+    "1012013": {
+      "stats": {
+        "incINT": 2
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리) · 이벤트/특수 아이템은 추후 실측 예정",
+      "updated_at": "2026-10-14",
+      "level_req": 0,
+      "job_req": "",
+      "upgrade_slots": 5
+    },
+    "1012014": {
+      "stats": {
+        "incLUK": 2
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리) · 이벤트/특수 아이템은 추후 실측 예정",
+      "updated_at": "2026-10-14",
+      "level_req": 0,
+      "job_req": "",
+      "upgrade_slots": 5
+    },
+    "1012015": {
+      "stats": {
+        "incPAD": 2
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리) · 이벤트/특수 아이템은 추후 실측 예정",
+      "updated_at": "2026-10-14",
+      "level_req": 0,
+      "job_req": "",
+      "upgrade_slots": 5
+    },
+    "1012016": {
+      "stats": {
+        "incPDD": 10
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리) · 이벤트/특수 아이템은 추후 실측 예정",
+      "updated_at": "2026-10-14",
+      "level_req": 0,
+      "job_req": "",
+      "upgrade_slots": 5
+    },
+    "1012017": {
+      "stats": {
+        "incMAD": 2
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리) · 이벤트/특수 아이템은 추후 실측 예정",
+      "updated_at": "2026-10-14",
+      "level_req": 0,
+      "job_req": "",
+      "upgrade_slots": 5
+    },
+    "1012018": {
+      "stats": {
+        "incMDD": 10
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리) · 이벤트/특수 아이템은 추후 실측 예정",
+      "updated_at": "2026-10-14",
+      "level_req": 0,
+      "job_req": "",
+      "upgrade_slots": 5
+    },
+    "1012019": {
+      "stats": {
+        "incEVA": 10
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리) · 이벤트/특수 아이템은 추후 실측 예정",
+      "updated_at": "2026-10-14",
+      "level_req": 0,
+      "job_req": "",
+      "upgrade_slots": 5
+    },
+    "1012020": {
+      "stats": {
+        "incACC": 2
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리) · 이벤트/특수 아이템은 추후 실측 예정",
+      "updated_at": "2026-10-14",
+      "level_req": 0,
+      "job_req": "",
+      "upgrade_slots": 5
+    },
+    "1002749": {
+      "stats": {
+        "incSTR": 18,
+        "incDEX": 18,
+        "incINT": 18,
+        "incLUK": 18,
+        "incPDD": 180,
+        "incMDD": 180,
+        "incACC": 25,
+        "incEVA": 25
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리) · 이벤트/특수 아이템은 추후 실측 예정",
+      "updated_at": "2026-10-14",
+      "level_req": 70,
+      "job_req": "",
+      "upgrade_slots": 10
+    },
+    "1072345": {
+      "stats": {
+        "incSTR": 2,
+        "incDEX": 2,
+        "incINT": 2,
+        "incLUK": 2,
+        "incPDD": 40,
+        "incMDD": 40,
+        "incSpeed": 5
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리) · 이벤트/특수 아이템은 추후 실측 예정",
+      "updated_at": "2026-10-14",
+      "level_req": 80,
+      "job_req": "",
+      "upgrade_slots": 6
+    },
+    "1472069": {
+      "stats": {
+        "incDEX": 1,
+        "incLUK": 1,
+        "incPAD": 48,
+        "reqLUK": 305
+      },
+      "source_note": "2026-10-14 운영자 확인 — 로그지지 수치 채택 (출처 간 상이 항목 정리) · 이벤트/특수 아이템은 추후 실측 예정",
+      "updated_at": "2026-10-14",
+      "level_req": 105,
+      "job_req": "도적",
+      "upgrade_slots": 7,
+      "attack_speed": "4"
+    },
+    "1051093": {
+      "stats": {
+        "incDEX": 4,
+        "incLUK": 7,
+        "incPDD": 105,
+        "incEVA": 2,
+        "reqDEX": 140,
+        "reqLUK": 260
+      },
+      "source_note": "2026-10-14 운영자 인게임 확인 — DEX 4 · LUK 7 · 물방 105 · 회피 2",
+      "updated_at": "2026-10-14",
+      "level_req": 100,
+      "job_req": "도적",
+      "upgrade_slots": 10
+    },
+    "1122076": {
+      "stats": {
+        "incSTR": 10,
+        "incDEX": 10,
+        "incINT": 10,
+        "incLUK": 10,
+        "incPAD": 2,
+        "incMAD": 2,
+        "incPDD": 140,
+        "incMDD": 140,
+        "incEVA": 32
+      },
+      "source_note": "2026-10-14 운영자 확인 — 메랜 미출시 아이템. 메팁 DB 의 HP/MP% 옵션은 출시 전까지 미반영",
+      "updated_at": "2026-10-14",
+      "level_req": 120,
+      "job_req": "",
+      "upgrade_slots": 3
+    },
+    "1032077": {
+      "stats": {
+        "incINT": 3,
+        "incLUK": 3,
+        "incMDD": 30
+      },
+      "source_note": "2026-10-14 운영자 확인 — 메랜 미출시 아이템. 메팁 DB 의 HP/MP% 옵션은 출시 전까지 미반영",
+      "updated_at": "2026-10-14",
+      "level_req": 75,
+      "job_req": "",
+      "upgrade_slots": 5
+    },
+    "1032078": {
+      "stats": {
+        "incSTR": 3,
+        "incDEX": 3,
+        "incMDD": 30
+      },
+      "source_note": "2026-10-14 운영자 확인 — 메랜 미출시 아이템. 메팁 DB 의 HP/MP% 옵션은 출시 전까지 미반영",
+      "updated_at": "2026-10-14",
+      "level_req": 75,
+      "job_req": "",
+      "upgrade_slots": 5
+    },
+    "1032079": {
+      "stats": {
+        "incDEX": 3,
+        "incLUK": 3,
+        "incMDD": 30
+      },
+      "source_note": "2026-10-14 운영자 확인 — 메랜 미출시 아이템. 메팁 DB 의 HP/MP% 옵션은 출시 전까지 미반영",
+      "updated_at": "2026-10-14",
+      "level_req": 75,
+      "job_req": "",
+      "upgrade_slots": 5
     }
   },
   "quests": {},

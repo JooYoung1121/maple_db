@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-14T06:16:49+00:00",
+ "generated_at": "2026-10-14T07:41:21+00:00",
  "priority": [
   "override",
   "matip",
@@ -31,9 +31,9 @@
   "incJump"
  ],
  "summary": {
-  "equips_with_source": 2563,
-  "equips_differing_from_gms92": 149,
-  "equips_with_source_conflict": 66
+  "equips_with_source": 2565,
+  "equips_differing_from_gms92": 123,
+  "equips_with_source_conflict": 62
  },
  "items": [
   {
@@ -59,8 +59,9 @@
   {
    "id": 1002378,
    "name_kr": "블루 니르첸 투구",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -70,6 +71,7 @@
     {
      "key": "incSTR",
      "values": {
+      "override": 0,
       "matip": 3,
       "maplelog": 0,
       "mapledb": 0
@@ -78,6 +80,7 @@
     {
      "key": "incDEX",
      "values": {
+      "override": 3,
       "matip": 0,
       "maplelog": 3,
       "mapledb": 3
@@ -90,8 +93,9 @@
   {
    "id": 1002379,
    "name_kr": "다크 니르첸 투구",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -101,6 +105,7 @@
     {
      "key": "incSTR",
      "values": {
+      "override": 3,
       "matip": 4,
       "maplelog": 3,
       "mapledb": 3
@@ -109,6 +114,7 @@
     {
      "key": "incDEX",
      "values": {
+      "override": 0,
       "matip": 1,
       "maplelog": 0,
       "mapledb": 0
@@ -121,8 +127,9 @@
   {
    "id": 1002382,
    "name_kr": "레드 카날 후드",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -132,6 +139,7 @@
     {
      "key": "incLUK",
      "values": {
+      "override": 3,
       "matip": 4,
       "maplelog": 3,
       "mapledb": 3
@@ -140,6 +148,7 @@
     {
      "key": "incMHP",
      "values": {
+      "override": 0,
       "matip": 15,
       "maplelog": 0,
       "mapledb": 0
@@ -148,6 +157,7 @@
     {
      "key": "incMMP",
      "values": {
+      "override": 15,
       "matip": 0,
       "maplelog": 15,
       "mapledb": 15
@@ -160,8 +170,9 @@
   {
    "id": 1002383,
    "name_kr": "다크 카날 후드",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -171,6 +182,7 @@
     {
      "key": "incLUK",
      "values": {
+      "override": 4,
       "matip": 4,
       "maplelog": 4,
       "mapledb": 3
@@ -179,6 +191,7 @@
     {
      "key": "incMHP",
      "values": {
+      "override": 15,
       "matip": 15,
       "maplelog": 15,
       "mapledb": 0
@@ -187,6 +200,7 @@
     {
      "key": "incMMP",
      "values": {
+      "override": 0,
       "matip": 0,
       "maplelog": 0,
       "mapledb": 15
@@ -199,8 +213,9 @@
   {
    "id": 1002407,
    "name_kr": "블루 아르나햇",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -210,6 +225,7 @@
     {
      "key": "incMHP",
      "values": {
+      "override": 0,
       "matip": 20,
       "maplelog": 0,
       "mapledb": 0
@@ -218,6 +234,7 @@
     {
      "key": "incMMP",
      "values": {
+      "override": 20,
       "matip": 0,
       "maplelog": 20,
       "mapledb": 20
@@ -230,8 +247,9 @@
   {
    "id": 1002408,
    "name_kr": "그린 아르나햇",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -241,6 +259,7 @@
     {
      "key": "incMHP",
      "values": {
+      "override": 20,
       "matip": 20,
       "maplelog": 20,
       "mapledb": 0
@@ -249,6 +268,7 @@
     {
      "key": "incMMP",
      "values": {
+      "override": 0,
       "matip": 0,
       "maplelog": 0,
       "mapledb": 20
@@ -261,8 +281,9 @@
   {
    "id": 1002517,
    "name_kr": "메이플 2000일 두건",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -272,6 +293,7 @@
     {
      "key": "incPDD",
      "values": {
+      "override": 21,
       "matip": 21,
       "maplelog": 21,
       "mapledb": 0
@@ -280,6 +302,7 @@
     {
      "key": "incMDD",
      "values": {
+      "override": 40,
       "matip": 40,
       "maplelog": 40,
       "mapledb": 0
@@ -287,6 +310,7 @@
     }
    ],
    "level_conflict": {
+    "override": 30,
     "matip": 30,
     "maplelog": 30,
     "mapledb": 0
@@ -296,8 +320,9 @@
   {
    "id": 1002547,
    "name_kr": "레드 헌터",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -307,6 +332,7 @@
     {
      "key": "incMHP",
      "values": {
+      "override": 0,
       "matip": 20,
       "maplelog": 0,
       "mapledb": 0
@@ -315,6 +341,7 @@
     {
      "key": "incMMP",
      "values": {
+      "override": 20,
       "matip": 0,
       "maplelog": 20,
       "mapledb": 20
@@ -327,8 +354,9 @@
   {
    "id": 1002550,
    "name_kr": "블랙 가리나 후드",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -338,6 +366,7 @@
     {
      "key": "incLUK",
      "values": {
+      "override": 4,
       "matip": 5,
       "maplelog": 4,
       "mapledb": 4
@@ -346,6 +375,7 @@
     {
      "key": "incMHP",
      "values": {
+      "override": 0,
       "matip": 20,
       "maplelog": 0,
       "mapledb": 0
@@ -354,6 +384,7 @@
     {
      "key": "incMMP",
      "values": {
+      "override": 20,
       "matip": 0,
       "maplelog": 20,
       "mapledb": 20
@@ -395,8 +426,9 @@
   {
    "id": 1002728,
    "name_kr": "루돌프의 뿔",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -406,6 +438,7 @@
     {
      "key": "incSTR",
      "values": {
+      "override": 10,
       "matip": 4,
       "maplelog": 10,
       "mapledb": 4
@@ -414,6 +447,7 @@
     {
      "key": "incDEX",
      "values": {
+      "override": 10,
       "matip": 4,
       "maplelog": 10,
       "mapledb": 4
@@ -422,6 +456,7 @@
     {
      "key": "incINT",
      "values": {
+      "override": 10,
       "matip": 4,
       "maplelog": 10,
       "mapledb": 4
@@ -430,6 +465,7 @@
     {
      "key": "incLUK",
      "values": {
+      "override": 10,
       "matip": 4,
       "maplelog": 10,
       "mapledb": 4
@@ -442,62 +478,18 @@
   {
    "id": 1002749,
    "name_kr": "엘프 두건",
-   "primary": "maplelog",
+   "primary": "override",
    "sources": [
+    "override",
     "maplelog",
     "mapledb"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incSTR",
-     "mapleland": 18,
-     "original": 2
-    },
-    {
-     "key": "incDEX",
-     "mapleland": 18,
-     "original": 5
-    },
-    {
-     "key": "incINT",
-     "mapleland": 18,
-     "original": 0
-    },
-    {
-     "key": "incLUK",
-     "mapleland": 18,
-     "original": 0
-    },
-    {
-     "key": "incMHP",
-     "mapleland": 0,
-     "original": 100
-    },
-    {
-     "key": "incPDD",
-     "mapleland": 180,
-     "original": 60
-    },
-    {
-     "key": "incMDD",
-     "mapleland": 180,
-     "original": 20
-    },
-    {
-     "key": "incACC",
-     "mapleland": 25,
-     "original": 0
-    },
-    {
-     "key": "incEVA",
-     "mapleland": 25,
-     "original": 0
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incSTR",
      "values": {
+      "override": 18,
       "maplelog": 18,
       "mapledb": 2
      }
@@ -505,6 +497,7 @@
     {
      "key": "incDEX",
      "values": {
+      "override": 18,
       "maplelog": 18,
       "mapledb": 5
      }
@@ -512,6 +505,7 @@
     {
      "key": "incINT",
      "values": {
+      "override": 18,
       "maplelog": 18,
       "mapledb": 0
      }
@@ -519,6 +513,7 @@
     {
      "key": "incLUK",
      "values": {
+      "override": 18,
       "maplelog": 18,
       "mapledb": 0
      }
@@ -526,6 +521,7 @@
     {
      "key": "incMHP",
      "values": {
+      "override": 0,
       "maplelog": 0,
       "mapledb": 100
      }
@@ -533,6 +529,7 @@
     {
      "key": "incPDD",
      "values": {
+      "override": 180,
       "maplelog": 180,
       "mapledb": 60
      }
@@ -540,6 +537,7 @@
     {
      "key": "incMDD",
      "values": {
+      "override": 180,
       "maplelog": 180,
       "mapledb": 20
      }
@@ -547,6 +545,7 @@
     {
      "key": "incACC",
      "values": {
+      "override": 25,
       "maplelog": 25,
       "mapledb": 0
      }
@@ -554,12 +553,14 @@
     {
      "key": "incEVA",
      "values": {
+      "override": 25,
       "maplelog": 25,
       "mapledb": 0
      }
     }
    ],
    "level_conflict": {
+    "override": 70,
     "maplelog": 70,
     "mapledb": 50
    },
@@ -573,32 +574,18 @@
   {
    "id": 1002780,
    "name_kr": "타임리스 콘라드 헨켈",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incSTR",
-     "mapleland": 6,
-     "original": 0
-    },
-    {
-     "key": "incDEX",
-     "mapleland": 6,
-     "original": 0
-    },
-    {
-     "key": "incPDD",
-     "mapleland": 75,
-     "original": 0
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incSTR",
      "values": {
+      "override": 3,
       "matip": 6,
       "maplelog": 3
      }
@@ -606,6 +593,7 @@
     {
      "key": "incDEX",
      "values": {
+      "override": 7,
       "matip": 6,
       "maplelog": 7
      }
@@ -613,6 +601,7 @@
     {
      "key": "incMHP",
      "values": {
+      "override": 30,
       "matip": 0,
       "maplelog": 30
      }
@@ -620,6 +609,9 @@
    ],
    "level_conflict": null,
    "job_conflict": {
+    "override": [
+     "궁수"
+    ],
     "matip": [
      "해적"
     ],
@@ -659,14 +651,16 @@
   {
    "id": 1002798,
    "name_kr": "머리위에 떡 하나",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog"
    ],
    "resolved_vs_gms92": [],
    "source_conflicts": [],
    "level_conflict": {
+    "override": 10,
     "matip": 15,
     "maplelog": 10
    },
@@ -742,8 +736,9 @@
   {
    "id": 1012011,
    "name_kr": "루돌프의 빨간코",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -753,6 +748,7 @@
     {
      "key": "incSTR",
      "values": {
+      "override": 2,
       "matip": 1,
       "maplelog": 2,
       "mapledb": 1
@@ -765,22 +761,18 @@
   {
    "id": 1012012,
    "name_kr": "루돌프의 빨간코",
-   "primary": "maplelog",
+   "primary": "override",
    "sources": [
+    "override",
     "maplelog",
     "mapledb"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incDEX",
-     "mapleland": 2,
-     "original": 1
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incDEX",
      "values": {
+      "override": 2,
       "maplelog": 2,
       "mapledb": 1
      }
@@ -792,22 +784,18 @@
   {
    "id": 1012013,
    "name_kr": "루돌프의 빨간코",
-   "primary": "maplelog",
+   "primary": "override",
    "sources": [
+    "override",
     "maplelog",
     "mapledb"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incINT",
-     "mapleland": 2,
-     "original": 1
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incINT",
      "values": {
+      "override": 2,
       "maplelog": 2,
       "mapledb": 1
      }
@@ -819,22 +807,18 @@
   {
    "id": 1012014,
    "name_kr": "루돌프의 빨간코",
-   "primary": "maplelog",
+   "primary": "override",
    "sources": [
+    "override",
     "maplelog",
     "mapledb"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incLUK",
-     "mapleland": 2,
-     "original": 1
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incLUK",
      "values": {
+      "override": 2,
       "maplelog": 2,
       "mapledb": 1
      }
@@ -846,22 +830,18 @@
   {
    "id": 1012015,
    "name_kr": "루돌프의 빨간코",
-   "primary": "maplelog",
+   "primary": "override",
    "sources": [
+    "override",
     "maplelog",
     "mapledb"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incPAD",
-     "mapleland": 2,
-     "original": 1
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incPAD",
      "values": {
+      "override": 2,
       "maplelog": 2,
       "mapledb": 1
      }
@@ -873,22 +853,18 @@
   {
    "id": 1012016,
    "name_kr": "루돌프의 빨간코",
-   "primary": "maplelog",
+   "primary": "override",
    "sources": [
+    "override",
     "maplelog",
     "mapledb"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incPDD",
-     "mapleland": 10,
-     "original": 1
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incPDD",
      "values": {
+      "override": 10,
       "maplelog": 10,
       "mapledb": 1
      }
@@ -900,22 +876,18 @@
   {
    "id": 1012017,
    "name_kr": "루돌프의 빨간코",
-   "primary": "maplelog",
+   "primary": "override",
    "sources": [
+    "override",
     "maplelog",
     "mapledb"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incMAD",
-     "mapleland": 2,
-     "original": 1
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incMAD",
      "values": {
+      "override": 2,
       "maplelog": 2,
       "mapledb": 1
      }
@@ -927,22 +899,18 @@
   {
    "id": 1012018,
    "name_kr": "루돌프의 빨간코",
-   "primary": "maplelog",
+   "primary": "override",
    "sources": [
+    "override",
     "maplelog",
     "mapledb"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incMDD",
-     "mapleland": 10,
-     "original": 1
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incMDD",
      "values": {
+      "override": 10,
       "maplelog": 10,
       "mapledb": 1
      }
@@ -954,22 +922,18 @@
   {
    "id": 1012019,
    "name_kr": "루돌프의 빨간코",
-   "primary": "maplelog",
+   "primary": "override",
    "sources": [
+    "override",
     "maplelog",
     "mapledb"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incEVA",
-     "mapleland": 10,
-     "original": 1
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incEVA",
      "values": {
+      "override": 10,
       "maplelog": 10,
       "mapledb": 1
      }
@@ -981,22 +945,18 @@
   {
    "id": 1012020,
    "name_kr": "루돌프의 빨간코",
-   "primary": "maplelog",
+   "primary": "override",
    "sources": [
+    "override",
     "maplelog",
     "mapledb"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incACC",
-     "mapleland": 2,
-     "original": 1
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incACC",
      "values": {
+      "override": 2,
       "maplelog": 2,
       "mapledb": 1
      }
@@ -1081,8 +1041,9 @@
   {
    "id": 1022073,
    "name_kr": "금이 간 안경",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog"
    ],
@@ -1091,6 +1052,7 @@
     {
      "key": "incMHP",
      "values": {
+      "override": 20,
       "matip": 20,
       "maplelog": 0
      }
@@ -1098,6 +1060,7 @@
     {
      "key": "incMMP",
      "values": {
+      "override": 20,
       "matip": 20,
       "maplelog": 0
      }
@@ -1139,23 +1102,19 @@
   {
    "id": 1032047,
    "name_kr": "코-크 귀고리",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incMDD",
-     "mapleland": 10,
-     "original": 15
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incMDD",
      "values": {
+      "override": 15,
       "matip": 10,
       "maplelog": 15,
       "mapledb": 15
@@ -1163,6 +1122,7 @@
     }
    ],
    "level_conflict": {
+    "override": 30,
     "matip": 10,
     "maplelog": 30,
     "mapledb": 30
@@ -1172,22 +1132,18 @@
   {
    "id": 1032077,
    "name_kr": "렉스의 그린 이어링",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incMHPr",
-     "mapleland": 10,
-     "original": 0
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incMHPr",
      "values": {
+      "override": 0,
       "matip": 10,
       "maplelog": 0
      }
@@ -1199,22 +1155,18 @@
   {
    "id": 1032078,
    "name_kr": "렉스의 레드 이어링",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incMHPr",
-     "mapleland": 10,
-     "original": 0
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incMHPr",
      "values": {
+      "override": 0,
       "matip": 10,
       "maplelog": 0
      }
@@ -1226,22 +1178,18 @@
   {
    "id": 1032079,
    "name_kr": "렉스의 블루 이어링",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incMHPr",
-     "mapleland": 10,
-     "original": 0
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incMHPr",
      "values": {
+      "override": 0,
       "matip": 10,
       "maplelog": 0
      }
@@ -1253,8 +1201,9 @@
   {
    "id": 1042167,
    "name_kr": "수수한 무사 상의",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog"
    ],
@@ -1263,6 +1212,7 @@
     {
      "key": "incPDD",
      "values": {
+      "override": 3,
       "matip": 3,
       "maplelog": 2
      }
@@ -1274,8 +1224,9 @@
   {
    "id": 1042180,
    "name_kr": "평범한 체크셔츠",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog"
    ],
@@ -1284,6 +1235,7 @@
     {
      "key": "incPDD",
      "values": {
+      "override": 3,
       "matip": 3,
       "maplelog": 2
      }
@@ -1329,32 +1281,18 @@
   {
    "id": 1050099,
    "name_kr": "다크 카티나스",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incSTR",
-     "mapleland": 7,
-     "original": 0
-    },
-    {
-     "key": "incDEX",
-     "mapleland": 0,
-     "original": 4
-    },
-    {
-     "key": "incLUK",
-     "mapleland": 3,
-     "original": 7
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incSTR",
      "values": {
+      "override": 0,
       "matip": 7,
       "maplelog": 0
      }
@@ -1362,6 +1300,7 @@
     {
      "key": "incDEX",
      "values": {
+      "override": 4,
       "matip": 0,
       "maplelog": 4
      }
@@ -1369,6 +1308,7 @@
     {
      "key": "incLUK",
      "values": {
+      "override": 7,
       "matip": 3,
       "maplelog": 7
      }
@@ -1429,23 +1369,19 @@
   {
    "id": 1050108,
    "name_kr": "레드 아르주나",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incDEX",
-     "mapleland": 5,
-     "original": 7
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incDEX",
      "values": {
+      "override": 7,
       "matip": 5,
       "maplelog": 7,
       "mapledb": 5
@@ -1492,27 +1428,18 @@
   {
    "id": 1051093,
    "name_kr": "다크 카테",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incDEX",
-     "mapleland": 3,
-     "original": 4
-    },
-    {
-     "key": "incPDD",
-     "mapleland": 68,
-     "original": 105
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incDEX",
      "values": {
+      "override": 4,
       "matip": 3,
       "maplelog": 4
      }
@@ -1520,6 +1447,7 @@
     {
      "key": "incPDD",
      "values": {
+      "override": 105,
       "matip": 68,
       "maplelog": 105
      }
@@ -1580,23 +1508,19 @@
   {
    "id": 1051107,
    "name_kr": "레드 아르미스",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incDEX",
-     "mapleland": 5,
-     "original": 7
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incDEX",
      "values": {
+      "override": 7,
       "matip": 5,
       "maplelog": 7,
       "mapledb": 5
@@ -1662,28 +1586,19 @@
   {
    "id": 1052072,
    "name_kr": "블랙 가리나",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incLUK",
-     "mapleland": 7,
-     "original": 8
-    },
-    {
-     "key": "incPDD",
-     "mapleland": 0,
-     "original": 115
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incPDD",
      "values": {
+      "override": 115,
       "matip": 0,
       "maplelog": 115,
       "mapledb": 115
@@ -1716,42 +1631,18 @@
   {
    "id": 1052076,
    "name_kr": "블랙 로타네브",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incINT",
-     "mapleland": 7,
-     "original": 0
-    },
-    {
-     "key": "incLUK",
-     "mapleland": 4,
-     "original": 0
-    },
-    {
-     "key": "incMMP",
-     "mapleland": 50,
-     "original": 0
-    },
-    {
-     "key": "incPDD",
-     "mapleland": 92,
-     "original": 0
-    },
-    {
-     "key": "incMDD",
-     "mapleland": 46,
-     "original": 0
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incINT",
      "values": {
+      "override": 8,
       "matip": 7,
       "maplelog": 8
      }
@@ -1763,8 +1654,9 @@
   {
    "id": 1052113,
    "name_kr": "레드 바르베이",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -1774,6 +1666,7 @@
     {
      "key": "incPDD",
      "values": {
+      "override": 40,
       "matip": 45,
       "maplelog": 40,
       "mapledb": 40
@@ -1786,8 +1679,9 @@
   {
    "id": 1052134,
    "name_kr": "카노푸스 슈트",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -1797,6 +1691,7 @@
     {
      "key": "incDEX",
      "values": {
+      "override": 6,
       "matip": 7,
       "maplelog": 6,
       "mapledb": 6
@@ -1809,8 +1704,9 @@
   {
    "id": 1060138,
    "name_kr": "평범한 청반바지",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog"
    ],
@@ -1819,6 +1715,7 @@
     {
      "key": "incPDD",
      "values": {
+      "override": 2,
       "matip": 2,
       "maplelog": 3
      }
@@ -1830,8 +1727,9 @@
   {
    "id": 1061160,
    "name_kr": "평범한 청치마",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog"
    ],
@@ -1840,6 +1738,7 @@
     {
      "key": "incPDD",
      "values": {
+      "override": 2,
       "matip": 2,
       "maplelog": 3
      }
@@ -1851,8 +1750,9 @@
   {
    "id": 1062115,
    "name_kr": "수수한 무사 하의",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog"
    ],
@@ -1861,6 +1761,7 @@
     {
      "key": "incPDD",
      "values": {
+      "override": 2,
       "matip": 2,
       "maplelog": 3
      }
@@ -1872,33 +1773,19 @@
   {
    "id": 1072269,
    "name_kr": "레드 헌터 슈즈",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incSTR",
-     "mapleland": 3,
-     "original": 2
-    },
-    {
-     "key": "incDEX",
-     "mapleland": 4,
-     "original": 6
-    },
-    {
-     "key": "incPDD",
-     "mapleland": 58,
-     "original": 64
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incPDD",
      "values": {
+      "override": 64,
       "matip": 58,
       "maplelog": 64,
       "mapledb": 64
@@ -1907,6 +1794,9 @@
    ],
    "level_conflict": null,
    "job_conflict": {
+    "override": [
+     "궁수"
+    ],
     "matip": [
      "마법사"
     ],
@@ -1921,53 +1811,19 @@
   {
    "id": 1072345,
    "name_kr": "2012 운동회 우승팀 신발",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incDEX",
-     "mapleland": 2,
-     "original": 5
-    },
-    {
-     "key": "incINT",
-     "mapleland": 2,
-     "original": 0
-    },
-    {
-     "key": "incLUK",
-     "mapleland": 2,
-     "original": 0
-    },
-    {
-     "key": "incMHP",
-     "mapleland": 0,
-     "original": 100
-    },
-    {
-     "key": "incPDD",
-     "mapleland": 40,
-     "original": 45
-    },
-    {
-     "key": "incMDD",
-     "mapleland": 40,
-     "original": 10
-    },
-    {
-     "key": "incSpeed",
-     "mapleland": 5,
-     "original": 0
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incDEX",
      "values": {
+      "override": 2,
       "matip": 2,
       "maplelog": 2,
       "mapledb": 5
@@ -1976,6 +1832,7 @@
     {
      "key": "incINT",
      "values": {
+      "override": 2,
       "matip": 2,
       "maplelog": 2,
       "mapledb": 0
@@ -1984,6 +1841,7 @@
     {
      "key": "incLUK",
      "values": {
+      "override": 2,
       "matip": 2,
       "maplelog": 2,
       "mapledb": 0
@@ -1992,6 +1850,7 @@
     {
      "key": "incMHP",
      "values": {
+      "override": 0,
       "matip": 0,
       "maplelog": 0,
       "mapledb": 100
@@ -2000,6 +1859,7 @@
     {
      "key": "incPDD",
      "values": {
+      "override": 40,
       "matip": 40,
       "maplelog": 40,
       "mapledb": 45
@@ -2008,6 +1868,7 @@
     {
      "key": "incMDD",
      "values": {
+      "override": 40,
       "matip": 40,
       "maplelog": 40,
       "mapledb": 10
@@ -2016,6 +1877,7 @@
     {
      "key": "incSpeed",
      "values": {
+      "override": 5,
       "matip": 5,
       "maplelog": 5,
       "mapledb": 0
@@ -2023,6 +1885,7 @@
     }
    ],
    "level_conflict": {
+    "override": 80,
     "matip": 80,
     "maplelog": 80,
     "mapledb": 50
@@ -2470,23 +2333,19 @@
   {
    "id": 1112311,
    "name_kr": "실버윙링 3캐럿",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incLUK",
-     "mapleland": 2,
-     "original": 3
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incLUK",
      "values": {
+      "override": 3,
       "matip": 2,
       "maplelog": 3,
       "mapledb": 3
@@ -2555,27 +2414,18 @@
   {
    "id": 1122076,
    "name_kr": "카오스 혼테일의 목걸이",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incMHPr",
-     "mapleland": 10,
-     "original": 0
-    },
-    {
-     "key": "incMMPr",
-     "mapleland": 10,
-     "original": 0
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incMHPr",
      "values": {
+      "override": 0,
       "matip": 10,
       "maplelog": 0
      }
@@ -2583,6 +2433,7 @@
     {
      "key": "incMMPr",
      "values": {
+      "override": 0,
       "matip": 10,
       "maplelog": 0
      }
@@ -2594,8 +2445,9 @@
   {
    "id": 1132004,
    "name_kr": "검은색 허리띠",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog"
    ],
@@ -2604,6 +2456,7 @@
     {
      "key": "incSTR",
      "values": {
+      "override": 3,
       "matip": 5,
       "maplelog": 3
      }
@@ -2611,6 +2464,7 @@
     {
      "key": "incDEX",
      "values": {
+      "override": 3,
       "matip": 5,
       "maplelog": 3
      }
@@ -2618,6 +2472,7 @@
     {
      "key": "incINT",
      "values": {
+      "override": 3,
       "matip": 5,
       "maplelog": 3
      }
@@ -2625,6 +2480,7 @@
     {
      "key": "incLUK",
      "values": {
+      "override": 3,
       "matip": 5,
       "maplelog": 3
      }
@@ -2632,6 +2488,7 @@
     {
      "key": "incPAD",
      "values": {
+      "override": 1,
       "matip": 0,
       "maplelog": 1
      }
@@ -2639,6 +2496,7 @@
     {
      "key": "incMAD",
      "values": {
+      "override": 4,
       "matip": 0,
       "maplelog": 4
      }
@@ -3351,14 +3209,16 @@
   {
    "id": 1142156,
    "name_kr": "드래곤 마스터",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog"
    ],
    "resolved_vs_gms92": [],
    "source_conflicts": [],
    "level_conflict": {
+    "override": 60,
     "matip": 80,
     "maplelog": 60
    },
@@ -3400,8 +3260,9 @@
   {
    "id": 1302077,
    "name_kr": "초보 전사의 검",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -3411,6 +3272,7 @@
     {
      "key": "incPAD",
      "values": {
+      "override": 30,
       "matip": 30,
       "maplelog": 30,
       "mapledb": 24
@@ -3423,8 +3285,9 @@
   {
    "id": 1302081,
    "name_kr": "타임리스 엑서큐서너스",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -3434,6 +3297,7 @@
     {
      "key": "incPAD",
      "values": {
+      "override": 108,
       "matip": 110,
       "maplelog": 108,
       "mapledb": 108
@@ -3484,8 +3348,9 @@
   {
    "id": 1312037,
    "name_kr": "타임리스 버디슈",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -3495,6 +3360,7 @@
     {
      "key": "incPAD",
      "values": {
+      "override": 108,
       "matip": 110,
       "maplelog": 108,
       "mapledb": 108
@@ -3545,8 +3411,9 @@
   {
    "id": 1322060,
    "name_kr": "타임리스 알라르간도",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -3556,6 +3423,7 @@
     {
      "key": "incPAD",
      "values": {
+      "override": 108,
       "matip": 110,
       "maplelog": 108,
       "mapledb": 108
@@ -3606,8 +3474,9 @@
   {
    "id": 1332063,
    "name_kr": "초보 도적의 단검",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -3617,6 +3486,7 @@
     {
      "key": "incPAD",
      "values": {
+      "override": 28,
       "matip": 28,
       "maplelog": 28,
       "mapledb": 22
@@ -3686,8 +3556,9 @@
   {
    "id": 1372043,
    "name_kr": "초보 마법사의 완드",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -3697,6 +3568,7 @@
     {
      "key": "incPAD",
      "values": {
+      "override": 16,
       "matip": 16,
       "maplelog": 16,
       "mapledb": 13
@@ -3705,6 +3577,7 @@
     {
      "key": "incMAD",
      "values": {
+      "override": 25,
       "matip": 25,
       "maplelog": 25,
       "mapledb": 21
@@ -3772,106 +3645,6 @@
    "job_conflict": null
   },
   {
-   "id": 1402000,
-   "name_kr": "양손검",
-   "primary": "override",
-   "sources": [
-    "override",
-    "matip",
-    "maplelog",
-    "mapledb"
-   ],
-   "resolved_vs_gms92": [],
-   "source_conflicts": [
-    {
-     "key": "incSTR",
-     "values": {
-      "override": 70,
-      "matip": 0,
-      "maplelog": 0,
-      "mapledb": 0
-     }
-    }
-   ],
-   "level_conflict": null,
-   "job_conflict": null
-  },
-  {
-   "id": 1402006,
-   "name_kr": "하이랜더",
-   "primary": "override",
-   "sources": [
-    "override",
-    "matip",
-    "maplelog",
-    "mapledb"
-   ],
-   "resolved_vs_gms92": [],
-   "source_conflicts": [
-    {
-     "key": "incSTR",
-     "values": {
-      "override": 115,
-      "matip": 0,
-      "maplelog": 0,
-      "mapledb": 0
-     }
-    }
-   ],
-   "level_conflict": null,
-   "job_conflict": null
-  },
-  {
-   "id": 1402007,
-   "name_kr": "쟈드",
-   "primary": "override",
-   "sources": [
-    "override",
-    "matip",
-    "maplelog",
-    "mapledb"
-   ],
-   "resolved_vs_gms92": [],
-   "source_conflicts": [
-    {
-     "key": "incSTR",
-     "values": {
-      "override": 130,
-      "matip": 0,
-      "maplelog": 0,
-      "mapledb": 0
-     }
-    }
-   ],
-   "level_conflict": null,
-   "job_conflict": null
-  },
-  {
-   "id": 1402008,
-   "name_kr": "클러디",
-   "primary": "override",
-   "sources": [
-    "override",
-    "matip",
-    "maplelog",
-    "mapledb"
-   ],
-   "resolved_vs_gms92": [],
-   "source_conflicts": [
-    {
-     "key": "incSTR",
-     "values": {
-      "override": 85,
-      "matip": 0,
-      "maplelog": 0,
-      "mapledb": 0
-     }
-    }
-   ],
-   "level_conflict": null,
-   "job_conflict": null
-  },
-  {
    "id": 1402013,
    "name_kr": "일본지도",
    "primary": "matip",
@@ -3902,8 +3675,9 @@
   {
    "id": 1402046,
    "name_kr": "타임리스 니플하임",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -3913,6 +3687,7 @@
     {
      "key": "incPAD",
      "values": {
+      "override": 110,
       "matip": 112,
       "maplelog": 110,
       "mapledb": 110
@@ -4054,8 +3829,9 @@
   {
    "id": 1412033,
    "name_kr": "타임리스 타바르진",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -4065,6 +3841,7 @@
     {
      "key": "incPAD",
      "values": {
+      "override": 112,
       "matip": 114,
       "maplelog": 112,
       "mapledb": 112
@@ -4115,8 +3892,9 @@
   {
    "id": 1422011,
    "name_kr": "사케(일본주)",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -4138,8 +3916,9 @@
   {
    "id": 1422037,
    "name_kr": "타임리스 벨로체",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -4149,6 +3928,7 @@
     {
      "key": "incPAD",
      "values": {
+      "override": 112,
       "matip": 114,
       "maplelog": 112,
       "mapledb": 112
@@ -4218,8 +3998,9 @@
   {
    "id": 1442023,
    "name_kr": "남색 대걸레",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -4279,8 +4060,9 @@
   {
    "id": 1442079,
    "name_kr": "기본 폴암",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog"
    ],
@@ -4289,6 +4071,7 @@
     {
      "key": "incPAD",
      "values": {
+      "override": 15,
       "matip": 22,
       "maplelog": 15
      }
@@ -4300,8 +4083,9 @@
   {
    "id": 1452051,
    "name_kr": "초보 궁수의 활",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -4311,6 +4095,7 @@
     {
      "key": "incPAD",
      "values": {
+      "override": 28,
       "matip": 28,
       "maplelog": 28,
       "mapledb": 22
@@ -4513,8 +4298,9 @@
   {
    "id": 1472061,
    "name_kr": "초보 도적의 아대",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -4524,6 +4310,7 @@
     {
      "key": "incPAD",
      "values": {
+      "override": 11,
       "matip": 11,
       "maplelog": 11,
       "mapledb": 9
@@ -4536,28 +4323,19 @@
   {
    "id": 1472069,
    "name_kr": "클립토",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
    ],
-   "resolved_vs_gms92": [
-    {
-     "key": "incPAD",
-     "mapleland": 48,
-     "original": 22
-    },
-    {
-     "key": "incPDD",
-     "mapleland": 0,
-     "original": 2
-    }
-   ],
+   "resolved_vs_gms92": [],
    "source_conflicts": [
     {
      "key": "incDEX",
      "values": {
+      "override": 1,
       "matip": 1,
       "maplelog": 1,
       "mapledb": 0
@@ -4566,6 +4344,7 @@
     {
      "key": "incPAD",
      "values": {
+      "override": 48,
       "matip": 48,
       "maplelog": 48,
       "mapledb": 22
@@ -4574,6 +4353,7 @@
     {
      "key": "incPDD",
      "values": {
+      "override": 0,
       "matip": 0,
       "maplelog": 0,
       "mapledb": 2
@@ -4581,6 +4361,7 @@
     }
    ],
    "level_conflict": {
+    "override": 105,
     "matip": 105,
     "maplelog": 105,
     "mapledb": 40
@@ -4628,8 +4409,9 @@
   {
    "id": 1482014,
    "name_kr": "초보 해적의 너클",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -4639,6 +4421,7 @@
     {
      "key": "incPAD",
      "values": {
+      "override": 20,
       "matip": 20,
       "maplelog": 20,
       "mapledb": 16
@@ -4745,8 +4528,9 @@
   {
    "id": 1492014,
    "name_kr": "초보 해적의 건",
-   "primary": "matip",
+   "primary": "override",
    "sources": [
+    "override",
     "matip",
     "maplelog",
     "mapledb"
@@ -4756,6 +4540,7 @@
     {
      "key": "incPAD",
      "values": {
+      "override": 16,
       "matip": 16,
       "maplelog": 16,
       "mapledb": 11

@@ -278,9 +278,11 @@ def resolve(records: dict[str, dict[str, Any]], original_stats: dict[str, Any] |
             continue
         src, value = cands[0]
         distinct = {v for _, v in cands}
-        conflict = len(distinct) > 1
-        if conflict:
+        differs = len(distinct) > 1
+        if differs:
             conflicts.append({"key": key, "values": {s: v for s, v in cands}})
+        # 운영자가 인게임에서 확정한 값(override)은 다른 출처와 달라도 '미확정 충돌' 표시(※)를 붙이지 않는다
+        conflict = differs and src != "override"
         if value:
             rng = None
             for s in present:
