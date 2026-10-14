@@ -62,8 +62,8 @@ export const SITE_SECTIONS: SiteSection[] = [
     label: "시뮬레이터",
     icon: "🧪",
     items: [
-      { href: "/chaos", label: "혼줌 시뮬레이터", icon: "🌀", description: "혼돈의 주문서 작 기대값 · 분포 · 직접 발라보기", keywords: ["혼줌", "혼돈의 주문서", "검은색 허리띠", "허리띠작", "혼줌작", "무릉 허리띠"] },
-      { href: "/scroll-sim", label: "주문서 시뮬레이터", icon: "🎲", description: "주문서 작 연출 무대 · 트별 기록 · 랭킹", keywords: ["주문서작", "작 시뮬", "올작", "주문서 시뮬", "주문서 바르기"] },
+      { href: "/chaos", label: "혼줌 시뮬레이터", icon: "🌀", description: "혼돈의 주문서 직접 발라보기 · 사용 내역·비용 · 기대값 분포", keywords: ["혼줌", "혼돈의 주문서", "검은색 허리띠", "허리띠작", "혼줌작", "무릉 허리띠", "혼줌 비용"] },
+      { href: "/scroll-sim", label: "주문서 시뮬레이터", icon: "🎲", description: "주문서 작 연출 무대 · 사용 내역·비용 · 트별 기록 · 랭킹", keywords: ["주문서작", "작 시뮬", "올작", "주문서 시뮬", "주문서 바르기", "작 비용"] },
       { href: "/reverse-sim", label: "리버스 시뮬레이터", icon: "🔁", description: "리버스 무기 기대값 · 보석 가공 시뮬", keywords: ["리버스", "촉매", "보석 가공", "메이커 시뮬", "리버스 기대값"] },
       { href: "/skill-sim", label: "스킬 시뮬레이터", icon: "✨", description: "직업별 스킬 빌드 설계" },
       { href: "/gear-sim", label: "장비 세팅", icon: "🧰", description: "장비 조합 스탯 · 데미지 시뮬" },

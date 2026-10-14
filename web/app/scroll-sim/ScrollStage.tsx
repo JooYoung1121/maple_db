@@ -117,11 +117,12 @@ export default function ScrollStage(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auto, phase, done]);
 
-  // 키보드: Space=바르기(완료 후엔 새 장비), F=새 장비. 주문서 % 단축키(Q~T)는 page.tsx 담당
+  // 키보드: Space·A=바르기(완료 후엔 새 장비), F=새 장비. 주문서 % 단축키(Q~T)는 page.tsx 담당
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement || e.target instanceof HTMLTextAreaElement) return;
-      if (e.code === "Space") {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      if (e.code === "Space" || e.code === "KeyA") {
         e.preventDefault();
         if (done) { clearTimers(); setAuto(false); setPhase("idle"); onReset(); }
         else cast();

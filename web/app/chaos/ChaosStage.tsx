@@ -122,6 +122,26 @@ export default function ChaosStage(props: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auto, phase, done]);
 
+  // 키보드: Space·A=바르기(완료 후엔 새 악세서리), F·R=새 악세서리. V(전체 리셋)·M(사운드)은 page.tsx 담당
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const t = e.target as HTMLElement | null;
+      if (t && (t.tagName === "INPUT" || t.tagName === "SELECT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
+      if (e.code === "Space" || e.code === "KeyA") {
+        e.preventDefault();
+        if (done) { clearTimers(); setAuto(false); setPhase("idle"); onReset(); }
+        else cast();
+      } else if (e.code === "KeyF" || e.code === "KeyR") {
+        e.preventDefault();
+        clearTimers(); setAuto(false); setPhase("idle"); onReset();
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done, busy, fast, onReset]);
+
   const gain = gainKeys.reduce((sum, k) => sum + ((lines[k] ?? 0) - (baseLines[k] ?? 0)), 0);
   const tier = tierOf(gain);
   const focusValue = lines[focusStat] ?? 0;

@@ -3,17 +3,29 @@
 /* 주문서 시뮬레이터 — /scroll(확률 계산기)에 탭으로 있던 '시뮬레이션·랭킹'을 v4.13.0에서 분리·개편.
  * - 연출 무대(ScrollStage)에서 장비에 10·30·60·70·100% 주문서를 한 장씩 바른다
  * - 트(완작 1회) 단위 기록: 몇 트에 몇 작·스탯 얼마가 나왔는지 쌓이고 요약된다
- * - 완작 결과는 기존 /api/scroll-rankings 에 그대로 등록 (랭킹 데이터 호환) */
+ * - 완작 결과는 기존 /api/scroll-rankings 에 그대로 등록 (랭킹 데이터 호환)
+ *
+ * 화면 구성(v4.15.0): 공용 시뮬 키트(components/sim/SimKit) — 왼쪽 아이템 카드(DB REQ·기본 옵션 + 주문서로 오른 스탯)
+ * · ① 주문서 강화(% 카드 Q·W·E·R·T + 새 장비 + 무대) · ② 사용 내역(%별 주문서 개수 × 단가, 거래소 시세 자동 단가)
+ * · 기록 로그(Space/A 바르기, F 새 장비, V 전체 리셋, M 사운드) · URL ?equip=&scroll=&item= 공유 */
 
 import Link from "next/link";
 import PageGuide from "@/components/PageGuide";
 import { PAGE_GUIDES } from "@/lib/pageGuides";
-import { useState, useCallback, useMemo, useRef, useEffect } from "react";
+import { Suspense, useState, useCallback, useMemo, useRef, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   SCROLL_TYPES, SCROLL_SHORTCUTS, WEAPON_SLOTS, NAMED_ITEMS,
   getScrollsForEquipment, getStatGain, pctTheme, scrollIconUrl, hideOnError,
   type NamedItem,
 } from "@/lib/scrollData";
+import { getItem } from "@/lib/api";
+import type { Item } from "@/lib/types";
+import { useMarketPrices } from "@/lib/useMarketPrice";
+import {
+  SimActionCard, SimItemCard, SimLedger, SimLog, SimToolbar, formatMeso,
+  useSimHotkeys, useSimLog, useSimSound, type SimStatLine,
+} from "@/components/sim/SimKit";
 import ScrollStage, { type StageRoll, type StageSlot } from "./ScrollStage";
 
 /* 트(완작 1회) 기록 */
@@ -39,6 +51,41 @@ interface RankingEntry {
   created_at: string;
 }
 
+const HOTKEY_LEGEND = "Q·W·E·R·T 주문서 % · Space/A 바르기 · F 새 장비 · V 전체 리셋 · M 사운드";
+
+/* 주문서 종류 → 아이템 카드에 표시할 옵션 줄 라벨 · DB stats 키 */
+const SCROLL_STAT_KEY: Record<string, { label: string; key: string }> = {
+  "공격력 주문서": { label: "공격력", key: "incPAD" },
+  "마력 주문서": { label: "마력", key: "incMAD" },
+  "STR 주문서": { label: "STR", key: "incSTR" },
+  "DEX 주문서": { label: "DEX", key: "incDEX" },
+  "INT 주문서": { label: "INT", key: "incINT" },
+  "LUK 주문서": { label: "LUK", key: "incLUK" },
+  "HP 주문서": { label: "HP", key: "incMHP" },
+  "이동속도 주문서": { label: "이동속도", key: "incSpeed" },
+};
+const CARD_STAT_ORDER: { label: string; key: string }[] = [
+  { label: "공격력", key: "incPAD" }, { label: "마력", key: "incMAD" },
+  { label: "STR", key: "incSTR" }, { label: "DEX", key: "incDEX" }, { label: "INT", key: "incINT" }, { label: "LUK", key: "incLUK" },
+  { label: "HP", key: "incMHP" }, { label: "MP", key: "incMMP" }, { label: "물리방어", key: "incPDD" }, { label: "마법방어", key: "incMDD" },
+  { label: "명중", key: "incACC" }, { label: "회피", key: "incEVA" }, { label: "이동속도", key: "incSpeed" }, { label: "점프", key: "incJump" },
+];
+
+function parseStats(statsJson: string | null | undefined): Record<string, number> {
+  if (!statsJson) return {};
+  try {
+    const raw = JSON.parse(statsJson) as Record<string, unknown>;
+    const out: Record<string, number> = {};
+    for (const [k, v] of Object.entries(raw)) if (typeof v === "number") out[k] = v;
+    return out;
+  } catch { return {}; }
+}
+
+function namedItemId(item: NamedItem | null): number | null {
+  const m = item?.icon.match(/\/item\/(\d+)/);
+  return m ? Number(m[1]) : null;
+}
+
 function resultTone(successCount: number, total: number): string {
   if (successCount === total) return "bg-[color-mix(in_srgb,var(--c-maple)_14%,transparent)] text-maple";
   if (successCount >= Math.ceil(total * 0.7)) return "bg-green-100 text-green-700 dark:bg-green-950/40 dark:text-green-300";
@@ -46,7 +93,26 @@ function resultTone(successCount: number, total: number): string {
   return "bg-red-100 text-red-700 dark:bg-red-950/40 dark:text-red-300";
 }
 
+function replaceParams(params: Record<string, string | null>) {
+  try {
+    const url = new URL(window.location.href);
+    for (const [k, v] of Object.entries(params)) {
+      if (v) url.searchParams.set(k, v); else url.searchParams.delete(k);
+    }
+    window.history.replaceState(null, "", url.toString());
+  } catch { /* ignore */ }
+}
+
 export default function ScrollSimPage() {
+  return (
+    <Suspense fallback={<div className="text-center py-12 text-dim">로딩 중...</div>}>
+      <ScrollSim />
+    </Suspense>
+  );
+}
+
+function ScrollSim() {
+  const searchParams = useSearchParams();
   const [equipmentType, setEquipmentType] = useState("한손검");
   const [selectedItem, setSelectedItem] = useState<NamedItem | null>(null);
   const [scrollType, setScrollType] = useState("공격력 주문서");
@@ -54,6 +120,10 @@ export default function ScrollSimPage() {
   const [history, setHistory] = useState<StageSlot[]>([]); // 현재 트에서 사용한 장
   const [attempts, setAttempts] = useState<AttemptRecord[]>([]);
   const [rankingRefresh, setRankingRefresh] = useState(0);
+  const [itemMeta, setItemMeta] = useState<Record<number, Item | null>>({});
+
+  const log = useSimLog();
+  const sound = useSimSound();
 
   // 등록
   const [showRegister, setShowRegister] = useState(false);
@@ -64,42 +134,72 @@ export default function ScrollSimPage() {
   const slots = WEAPON_SLOTS[equipmentType] ?? 7;
   const availableScrolls = useMemo(() => getScrollsForEquipment(equipmentType), [equipmentType]);
   const itemName = selectedItem ? selectedItem.name : equipmentType;
+  const dbId = namedItemId(selectedItem);
+  const meta = dbId !== null ? itemMeta[dbId] : null;
+
+  // URL 초기 적용
+  const urlApplied = useRef(false);
+  useEffect(() => {
+    if (urlApplied.current) return;
+    urlApplied.current = true;
+    const equip = searchParams.get("equip");
+    const scroll = searchParams.get("scroll");
+    const named = searchParams.get("item");
+    const found = named ? NAMED_ITEMS.find((i) => i.name === named) : null;
+    if (found) { setSelectedItem(found); setEquipmentType(found.type); }
+    else if (equip && WEAPON_SLOTS[equip]) setEquipmentType(equip);
+    if (scroll) setScrollType(scroll);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    replaceParams({ equip: equipmentType, scroll: scrollType, item: selectedItem?.name ?? null });
+  }, [equipmentType, scrollType, selectedItem]);
 
   useEffect(() => {
     if (availableScrolls.length > 0 && !availableScrolls.includes(scrollType)) setScrollType(availableScrolls[0]);
   }, [availableScrolls, scrollType]);
 
-  // 장비 변경 → 현재 트 초기화 (기록은 유지)
+  // 아이템 카드 메타 (REQ·기본 옵션)
   useEffect(() => {
-    setHistory([]);
-    setShowRegister(false);
-    setRegisterDone(false);
+    if (dbId === null || itemMeta[dbId] !== undefined) return;
+    let cancelled = false;
+    getItem(dbId)
+      .then((d) => { if (!cancelled) setItemMeta((prev) => ({ ...prev, [dbId]: d.item })); })
+      .catch(() => { if (!cancelled) setItemMeta((prev) => ({ ...prev, [dbId]: null })); });
+    return () => { cancelled = true; };
+  }, [dbId, itemMeta]);
+
+  // 장비 변경 → 현재 트 초기화 (기록은 유지)
+  const prevEquip = useRef(`${equipmentType}|${slots}`);
+  useEffect(() => {
+    const key = `${equipmentType}|${slots}`;
+    if (prevEquip.current !== key) {
+      prevEquip.current = key;
+      setHistory([]);
+      setShowRegister(false);
+      setRegisterDone(false);
+      log.push(`대상 변경 → ${itemName} (${equipmentType} · ${slots}칸)`, "info");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [equipmentType, slots]);
 
   const successes = history.filter((h) => h.ok).length;
   const done = history.length >= slots;
   const statGain = history.reduce((acc, h) => acc + (h.ok ? getStatGain(scrollType, h.pct, equipmentType) : 0), 0);
-
-  // 주문서 % 단축키 (Q·W·E·R·T)
-  useEffect(() => {
-    const pctMap: Record<string, number> = { KeyQ: 10, KeyW: 30, KeyE: 60, KeyR: 70, KeyT: 100 };
-    const handler = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement || e.target instanceof HTMLTextAreaElement) return;
-      if (pctMap[e.code]) { e.preventDefault(); setCurrentPct(pctMap[e.code]); }
-    };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, []);
+  const currentTry = attempts.length + (done ? 0 : 1);
+  const statLabel = scrollType.replace(" 주문서", "");
 
   /* 한 장 바르기 — 성공 판정. 마지막 장이면 트 기록에 추가 */
-  const attemptsRef = useRef(attempts);
-  attemptsRef.current = attempts;
   const applyOne = useCallback((): StageRoll | null => {
     if (history.length >= slots) return null;
     const ok = Math.random() * 100 < currentPct;
     const gain = ok ? getStatGain(scrollType, currentPct, equipmentType) : 0;
     const next = [...history, { pct: currentPct, ok }];
     setHistory(next);
+    const prefix = `${currentTry}트 ${next.length}/${slots}장 ${currentPct}%`;
+    if (ok) { log.push(`${prefix} 성공 · ${statLabel} +${gain}`, "ok"); sound.play("success"); }
+    else { log.push(`${prefix} 실패`, "fail"); sound.play("fail"); }
     if (next.length >= slots) {
       const successCount = next.filter((h) => h.ok).length;
       const total = next.reduce((acc, h) => acc + (h.ok ? getStatGain(scrollType, h.pct, equipmentType) : 0), 0);
@@ -107,15 +207,40 @@ export default function ScrollSimPage() {
         ...prev,
         { n: prev.length + 1, equipmentType, itemName: selectedItem?.name ?? null, scrollType, slots: next, successCount, statGain: total },
       ]);
+      const all = successCount === slots;
+      log.push(`${currentTry}트 완료 — ${successCount}/${slots}작${total > 0 ? ` · ${statLabel} +${total}` : ""}${all ? " ★ 올작" : ""}`, all ? "best" : "warn");
+      if (all) sound.play("fanfare");
     }
     return { success: ok, gain };
-  }, [history, slots, currentPct, scrollType, equipmentType, selectedItem]);
+  }, [history, slots, currentPct, scrollType, equipmentType, selectedItem, currentTry, statLabel, log, sound]);
 
   const newTry = useCallback(() => {
+    if (history.length > 0 && history.length < slots) log.push(`${currentTry}트 중단 (${history.length}/${slots}장) — 새 장비`, "info");
     setHistory([]);
     setShowRegister(false);
     setRegisterDone(false);
-  }, []);
+  }, [history.length, slots, currentTry, log]);
+
+  const resetAll = useCallback(() => {
+    setHistory([]);
+    setAttempts([]);
+    setShowRegister(false);
+    setRegisterDone(false);
+    log.clear();
+    log.push("전체 리셋 — 사용 내역·시도 기록 초기화", "info");
+  }, [log]);
+
+  const pickPct = useCallback((pct: number) => { setCurrentPct(pct); sound.play("click"); }, [sound]);
+
+  useSimHotkeys({
+    KeyQ: () => pickPct(10),
+    KeyW: () => pickPct(30),
+    KeyE: () => pickPct(60),
+    KeyR: () => pickPct(70),
+    KeyT: () => pickPct(100),
+    KeyV: resetAll,
+    KeyM: sound.toggle,
+  });
 
   const handleRegister = async () => {
     if (!registerNickname.trim()) return;
@@ -136,6 +261,7 @@ export default function ScrollSimPage() {
       });
       setRegisterDone(true);
       setRankingRefresh((n) => n + 1);
+      log.push(`랭킹 등록 — ${registerNickname.trim()} · ${successes}/${slots}작`, "info");
     } catch {
       // silent fail — 랭킹 서버 장애 시 시뮬 자체는 계속
     } finally {
@@ -154,26 +280,84 @@ export default function ScrollSimPage() {
     return { total, avg, all, best, scrollsUsed };
   }, [attempts]);
 
+  /* ── 사용 내역: %별 주문서 개수 · 장비 개수 (완작 + 진행 중) ── */
+  const usage = useMemo(() => {
+    const byPct: Record<number, number> = {};
+    for (const a of attempts) for (const s of a.slots) byPct[s.pct] = (byPct[s.pct] ?? 0) + 1;
+    for (const s of history) byPct[s.pct] = (byPct[s.pct] ?? 0) + 1;
+    return { items: attempts.length + (history.length > 0 ? 1 : 0), byPct };
+  }, [attempts, history]);
+
+  const scrollMarketName = (pct: number) => `${equipmentType} ${scrollType} ${pct}%`;
+  const ledgerPcts = SCROLL_TYPES.map((s) => s.pct).filter((pct) => (usage.byPct[pct] ?? 0) > 0 || pct === currentPct);
+  const market = useMarketPrices([itemName, ...ledgerPcts.map(scrollMarketName)]);
+  const [unitPrices, setUnitPrices] = useState<Record<string, number | null>>({});
+  const autoFilled = useRef<Record<string, boolean>>({});
+  useEffect(() => {
+    setUnitPrices((prev) => {
+      let changed = false;
+      const next = { ...prev };
+      for (const [name, mp] of Object.entries(market)) {
+        if (mp && next[name] === undefined && !autoFilled.current[name]) {
+          autoFilled.current[name] = true;
+          next[name] = mp.price;
+          changed = true;
+        }
+      }
+      return changed ? next : prev;
+    });
+  }, [market]);
+  const unitOf = (name: string) => (unitPrices[name] === undefined ? null : unitPrices[name]);
+  const ledgerRows = [
+    { key: itemName, icon: selectedItem?.icon ?? null, label: itemName, count: usage.items, unitPrice: unitOf(itemName), market: market[itemName] ?? null },
+    ...ledgerPcts.map((pct) => {
+      const name = scrollMarketName(pct);
+      return { key: name, icon: scrollIconUrl(pct), label: name, count: usage.byPct[pct] ?? 0, unitPrice: unitOf(name), market: market[name] ?? null };
+    }),
+  ];
+  const costOfAttempt = (a: AttemptRecord) =>
+    a.slots.reduce((sum, s) => sum + (unitOf(`${a.equipmentType} ${a.scrollType} ${s.pct}%`) ?? 0), 0) + (unitOf(a.itemName ?? a.equipmentType) ?? 0);
+  const totalCost = attempts.reduce((sum, a) => sum + costOfAttempt(a), 0)
+    + history.reduce((sum, s) => sum + (unitOf(scrollMarketName(s.pct)) ?? 0), 0)
+    + (history.length > 0 ? (unitOf(itemName) ?? 0) : 0);
+
+  /* ── 아이템 카드 옵션 줄: DB 기본 옵션 + 주문서로 오른 스탯 ── */
+  const cardStats: SimStatLine[] = useMemo(() => {
+    const base = parseStats(meta?.stats);
+    const gainKey = SCROLL_STAT_KEY[scrollType];
+    const lines: SimStatLine[] = [];
+    for (const { label, key } of CARD_STAT_ORDER) {
+      const b = base[key] ?? 0;
+      const g = gainKey && gainKey.key === key ? statGain : 0;
+      if (b > 0 || g > 0 || (gainKey && gainKey.key === key)) lines.push({ label, base: b, current: b + g });
+    }
+    return lines;
+  }, [meta, scrollType, statGain]);
+
   const th = pctTheme(currentPct);
 
   return (
-    <div className="max-w-5xl mx-auto space-y-5">
-      <div>
-        <div className="flex flex-wrap items-center gap-3">
-          <h1 className="text-2xl font-bold font-pixel">🎲 주문서 시뮬레이터</h1>
-          {PAGE_GUIDES["/scroll-sim"] && <PageGuide guide={PAGE_GUIDES["/scroll-sim"]} />}
-        </div>
-        <p className="text-sm text-dim mt-1">
-          장비를 고르고 <b className="text-ink">10·30·60·70·100% 주문서</b>를 한 장씩 발라봅니다. 업그레이드 횟수를 다 쓰면 1트로 기록되고,
-          몇 트에 몇 작·스탯 얼마가 나왔는지 아래에 쌓입니다. 확률·기대값 계산은{" "}
-          <Link href="/scroll" className="text-maple underline">주문서 확률 계산기</Link>에서.
-        </p>
-      </div>
+    <div className="max-w-6xl mx-auto space-y-4">
+      <SimToolbar
+        backHref="/scroll"
+        backLabel="확률 계산기"
+        title={<span>🎲 주문서 시뮬레이터 <span className="text-dim text-sm font-normal">— {itemName}</span></span>}
+        right={PAGE_GUIDES["/scroll-sim"] ? <PageGuide guide={PAGE_GUIDES["/scroll-sim"]} /> : null}
+      />
+      <p className="text-sm text-dim">
+        장비를 고르고 <b className="text-ink">10·30·60·70·100% 주문서</b>를 한 장씩 발라봅니다. 업그레이드 횟수를 다 쓰면 1트로 기록되고,
+        몇 트에 몇 작·스탯 얼마가 나왔는지 아래에 쌓입니다. 확률·기대값 계산은{" "}
+        <Link href="/scroll" className="text-maple underline">주문서 확률 계산기</Link>, 혼돈의 주문서는{" "}
+        <Link href="/chaos" className="text-maple underline">혼줌 시뮬레이터</Link>에서.
+      </p>
 
       {/* ── 설정 ── */}
       <div className="pixel-panel p-4 space-y-3">
-        <h2 className="font-pixel text-sm text-ink">대상 장비 · 주문서</h2>
-        <ItemSearch onSelect={(item) => { setEquipmentType(item.type); setSelectedItem(item); }} />
+        <ItemSearch
+          selected={selectedItem}
+          onSelect={(item) => { setEquipmentType(item.type); setSelectedItem(item); }}
+          onClear={() => setSelectedItem(null)}
+        />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="block text-xs font-medium text-dim mb-1">장비 종류</label>
@@ -198,91 +382,114 @@ export default function ScrollSimPage() {
             </select>
           </div>
         </div>
-
-        {/* 바를 주문서 % — 장마다 바꿀 수 있다 */}
-        <div>
-          <p className="text-xs text-dim mb-2">
-            바를 주문서 — <span className={`font-bold ${th.text}`}>{currentPct}%</span>
-            {" "}(성공 시 {scrollType.replace(" 주문서", "")} +{getStatGain(scrollType, currentPct, equipmentType)}) · 장마다 바꿔 발라도 됩니다
-          </p>
-          <div className="flex gap-2 flex-wrap">
-            {SCROLL_TYPES.map((s) => {
-              const active = currentPct === s.pct;
-              const t = pctTheme(s.pct);
-              return (
-                <button
-                  key={s.pct}
-                  type="button"
-                  onClick={() => setCurrentPct(s.pct)}
-                  className={`flex flex-col items-center gap-0.5 px-3 py-2 border-2 transition-colors ${active ? `${t.ring} ${t.bg}` : "border-edge bg-surface2 hover:border-maple/60"}`}
-                >
-                  <img src={scrollIconUrl(s.pct)} alt="" onError={hideOnError} className="w-7 h-7 object-contain [image-rendering:pixelated]" />
-                  <span className={`font-pixel text-[11px] ${active ? t.text : "text-dim"}`}>{s.label}</span>
-                  <span className="text-[9px] text-dim opacity-60">+{getStatGain(scrollType, s.pct, equipmentType)} · [{SCROLL_SHORTCUTS[s.pct]}]</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
       </div>
 
-      {/* ── 무대 ── */}
-      <div className="pixel-panel p-4 space-y-3">
-        <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <h2 className="font-pixel text-sm text-ink">직접 발라보기 — {attempts.length + (done ? 0 : 1)}트</h2>
-          <span className="text-[11px] text-dim">Space 바르기 · F 새 장비 · Q·W·E·R·T 주문서 선택</span>
-        </div>
-        <ScrollStage
+      {/* ── 아이템 카드 + ① 주문서 강화 ── */}
+      <div className="grid lg:grid-cols-[260px_minmax(0,1fr)] gap-4 items-start">
+        <SimItemCard
           name={itemName}
-          iconUrl={selectedItem?.icon ?? null}
-          slots={slots}
-          history={history}
-          currentPct={currentPct}
-          scrollLabel={scrollType}
-          statGain={statGain}
-          onApply={applyOne}
-          onReset={newTry}
+          subName={meta?.name && meta.name !== itemName ? meta.name : selectedItem ? null : "장비 종류만 선택됨"}
+          icon={selectedItem?.icon ?? null}
+          reqLevel={meta?.level_req ?? null}
+          jobReq={meta?.job_req ?? null}
+          category={equipmentType}
+          stats={cardStats}
+          slotsTotal={slots}
+          slotsUsed={history.length}
+          note={selectedItem ? null : <span>아이템을 검색해 고르면 요구 레벨·기본 옵션이 함께 표시됩니다. 지금은 <b className="text-ink">{equipmentType}</b> 공용 설정({slots}칸)입니다.</span>}
         />
-        {done && (
-          <div className="flex flex-wrap items-center gap-2 border-t border-edge pt-3">
-            <span className={`px-2 py-1 text-xs font-bold ${resultTone(successes, slots)}`}>
-              {attempts.length}트 결과 · {successes}/{slots}작{statGain > 0 && ` · +${statGain}`}
-            </span>
-            {!registerDone ? (
-              <button type="button" onClick={() => setShowRegister(true)} className="pixel-card px-3 py-1.5 font-pixel text-xs text-ink">
-                랭킹에 등록
-              </button>
-            ) : (
-              <span className="text-xs text-green-600 font-medium">등록 완료!</span>
-            )}
-          </div>
-        )}
-        {showRegister && !registerDone && (
-          <div className="border-2 border-edge bg-surface2 p-3 space-y-2">
-            <div className="text-xs text-dim flex flex-wrap gap-3">
-              <span>장비: <b className="text-ink">{itemName}</b></span>
-              <span>주문서: <b className="text-ink">{scrollType}</b></span>
-              <span>결과: <b className="text-ink">{successes}/{slots}작</b></span>
-              {statGain > 0 && <span>스탯: <b className="text-ink">+{statGain}</b></span>}
+
+        <div className="space-y-4 min-w-0">
+          <section className="pixel-panel p-4 space-y-3" aria-label="주문서 강화">
+            <div className="flex flex-wrap items-baseline justify-between gap-2">
+              <h2 className="font-pixel text-sm text-ink">① 주문서 강화 <span className="text-dim font-normal">— {currentTry}트</span></h2>
+              <span className="text-[11px] text-dim">남은 횟수 <b className={done ? "text-red-500" : "text-maple"}>{Math.max(0, slots - history.length)}</b> / {slots}</span>
             </div>
-            <div className="flex gap-2">
-              <input
-                type="text"
-                placeholder="닉네임 입력"
-                value={registerNickname}
-                onChange={(e) => setRegisterNickname(e.target.value)}
-                onKeyDown={(e) => { if (e.key === "Enter" && !e.nativeEvent.isComposing) handleRegister(); }}
-                className="flex-1 px-3 py-2 pixel-input text-sm"
-                maxLength={20}
+            <div className="flex flex-wrap gap-2">
+              {SCROLL_TYPES.map((s) => (
+                <SimActionCard
+                  key={s.pct}
+                  icon={<img src={scrollIconUrl(s.pct)} alt="" onError={hideOnError} className="w-9 h-9 object-contain [image-rendering:pixelated]" />}
+                  hotkey={SCROLL_SHORTCUTS[s.pct]}
+                  title={`${statLabel} ${s.label}`}
+                  subtitle={`성공 시 +${getStatGain(scrollType, s.pct, equipmentType)}`}
+                  active={currentPct === s.pct}
+                  onClick={() => pickPct(s.pct)}
+                />
+              ))}
+              <SimActionCard icon="↺" hotkey="F" title="새 장비" subtitle={history.length > 0 && !done ? `${currentTry}트 중단하고 처음부터` : "처음부터"} onClick={newTry} disabled={history.length === 0} />
+              <SimActionCard icon="🧹" hotkey="V" title="전체 리셋" subtitle="사용 내역·기록 초기화" tone="danger" onClick={resetAll} />
+            </div>
+            <p className="text-xs text-dim">
+              선택한 주문서 <span className={`font-bold ${th.text}`}>{currentPct}%</span> — Space/A 로 한 장씩 바릅니다. 장마다 %를 바꿔 발라도 됩니다.
+            </p>
+            {/* 무대 내부 폭(이미지+툴팁)이 좁은 화면보다 넓을 수 있어 가로 스크롤로 감싼다 */}
+            <div className="overflow-x-auto">
+              <ScrollStage
+                name={itemName}
+                iconUrl={selectedItem?.icon ?? null}
+                slots={slots}
+                history={history}
+                currentPct={currentPct}
+                scrollLabel={scrollType}
+                statGain={statGain}
+                onApply={applyOne}
+                onReset={newTry}
               />
-              <button type="button" onClick={handleRegister} disabled={registerLoading || !registerNickname.trim()} className="px-4 py-2 pixel-btn text-sm disabled:opacity-50">
-                {registerLoading ? "등록중..." : "등록"}
-              </button>
-              <button type="button" onClick={() => setShowRegister(false)} className="px-3 py-2 pixel-card font-pixel text-xs text-dim">취소</button>
             </div>
-          </div>
-        )}
+            {done && (
+              <div className="flex flex-wrap items-center gap-2 border-t border-edge pt-3">
+                <span className={`px-2 py-1 text-xs font-bold ${resultTone(successes, slots)}`}>
+                  {attempts.length}트 결과 · {successes}/{slots}작{statGain > 0 && ` · +${statGain}`}
+                </span>
+                {!registerDone ? (
+                  <button type="button" onClick={() => setShowRegister(true)} className="pixel-card px-3 py-1.5 font-pixel text-xs text-ink">
+                    랭킹에 등록
+                  </button>
+                ) : (
+                  <span className="text-xs text-green-600 font-medium">등록 완료!</span>
+                )}
+              </div>
+            )}
+            {showRegister && !registerDone && (
+              <div className="border-2 border-edge bg-surface2 p-3 space-y-2">
+                <div className="text-xs text-dim flex flex-wrap gap-3">
+                  <span>장비: <b className="text-ink">{itemName}</b></span>
+                  <span>주문서: <b className="text-ink">{scrollType}</b></span>
+                  <span>결과: <b className="text-ink">{successes}/{slots}작</b></span>
+                  {statGain > 0 && <span>스탯: <b className="text-ink">+{statGain}</b></span>}
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="닉네임 입력"
+                    value={registerNickname}
+                    onChange={(e) => setRegisterNickname(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === "Enter" && !e.nativeEvent.isComposing) handleRegister(); }}
+                    className="flex-1 px-3 py-2 pixel-input text-sm"
+                    maxLength={20}
+                  />
+                  <button type="button" onClick={handleRegister} disabled={registerLoading || !registerNickname.trim()} className="px-4 py-2 pixel-btn text-sm disabled:opacity-50">
+                    {registerLoading ? "등록중..." : "등록"}
+                  </button>
+                  <button type="button" onClick={() => setShowRegister(false)} className="px-3 py-2 pixel-card font-pixel text-xs text-dim">취소</button>
+                </div>
+              </div>
+            )}
+          </section>
+
+          <SimLedger
+            rows={ledgerRows}
+            onUnitPriceChange={(key, price) => setUnitPrices((prev) => ({ ...prev, [key]: price }))}
+            onResetAll={resetAll}
+            resetHotkey="V"
+            footnote="단가는 메소 단위. '시세' 버튼은 거래소 최근 일봉 판매 매물 평균가(아이템 시세 메뉴와 동일 출처)입니다. 장비 종류만 고른 경우 장비 단가는 직접 입력하세요."
+          />
+        </div>
       </div>
+
+      {/* ── 기록 로그 ── */}
+      <SimLog entries={log.entries} hotkeyLegend={HOTKEY_LEGEND} soundOn={sound.enabled} onToggleSound={sound.toggle} onClear={log.clear} />
 
       {/* ── 트 기록 ── */}
       <div className="pixel-panel p-4 space-y-3">
@@ -297,11 +504,12 @@ export default function ScrollSimPage() {
         </div>
         {summary ? (
           <>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
               <SmallStat label="총 트" value={`${summary.total}트`} />
               <SmallStat label="평균" value={`${summary.avg.toFixed(1)}작`} />
               <SmallStat label="올작" value={`${summary.all}회`} />
               <SmallStat label="최고" value={`${summary.best.n}트 · ${summary.best.successCount}작${summary.best.statGain > 0 ? ` +${summary.best.statGain}` : ""}`} />
+              <SmallStat label="누적 비용" value={totalCost > 0 ? `${formatMeso(totalCost)} 메소` : "단가 입력"} />
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
@@ -312,11 +520,13 @@ export default function ScrollSimPage() {
                     <th className="text-left px-2 py-1.5 font-medium">바른 순서</th>
                     <th className="text-center px-2 py-1.5 font-medium">결과</th>
                     <th className="text-right px-2 py-1.5 font-medium">스탯</th>
+                    <th className="text-right px-2 py-1.5 font-medium">비용</th>
                   </tr>
                 </thead>
                 <tbody>
                   {[...attempts].reverse().map((a) => {
                     const isBest = a.n === summary.best.n;
+                    const cost = costOfAttempt(a);
                     return (
                       <tr key={a.n} className={`border-t border-edge/40 ${isBest ? "bg-[color-mix(in_srgb,var(--c-maple)_8%,transparent)]" : ""}`}>
                         <td className="px-2 py-1.5 font-pixel">{a.n}트{isBest && <span className="text-maple ml-1">★</span>}</td>
@@ -339,13 +549,14 @@ export default function ScrollSimPage() {
                           </span>
                         </td>
                         <td className="px-2 py-1.5 text-right font-mono">{a.statGain > 0 ? `+${a.statGain}` : "-"}</td>
+                        <td className="px-2 py-1.5 text-right font-mono text-dim">{cost > 0 ? formatMeso(cost) : "-"}</td>
                       </tr>
                     );
                   })}
                 </tbody>
               </table>
             </div>
-            <p className="text-[11px] text-dim">주문서 {summary.scrollsUsed}장 사용 · ★ 표시가 가장 잘 나온 트입니다.</p>
+            <p className="text-[11px] text-dim">주문서 {summary.scrollsUsed}장 사용 · ★ 표시가 가장 잘 나온 트입니다. 비용은 ② 사용 내역의 단가로 계산합니다.</p>
           </>
         ) : (
           <p className="text-xs text-dim py-3 text-center">아직 완작한 장비가 없습니다. 위 무대에서 {slots}장을 다 바르면 1트가 기록됩니다.</p>
@@ -368,11 +579,13 @@ function SmallStat({ label, value }: { label: string; value: string }) {
 }
 
 // ─── 아이템 검색 ───
-function ItemSearch({ onSelect }: { onSelect: (item: NamedItem) => void }) {
-  const [query, setQuery] = useState("");
+function ItemSearch({ selected, onSelect, onClear }: { selected: NamedItem | null; onSelect: (item: NamedItem) => void; onClear: () => void }) {
+  const [query, setQuery] = useState(selected?.name ?? "");
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<NamedItem | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // 외부(URL 복원 등)에서 선택이 바뀌면 입력칸도 따라간다
+  useEffect(() => { if (selected) setQuery(selected.name); }, [selected]);
 
   const filtered = query.length >= 1
     ? NAMED_ITEMS.filter((i) => i.name.includes(query) || i.type.includes(query)).slice(0, 10)
@@ -391,7 +604,7 @@ function ItemSearch({ onSelect }: { onSelect: (item: NamedItem) => void }) {
   return (
     <div ref={containerRef} className="relative">
       <label className="block text-xs font-medium text-dim mb-1">
-        아이템 검색 (선택 시 장비 종류 자동 적용)
+        아이템 검색 (선택 시 장비 종류 자동 적용 · 요구 레벨·기본 옵션 표시)
       </label>
       <div className="flex items-center gap-2 pixel-input px-3 py-2">
         {selected && (
@@ -405,7 +618,7 @@ function ItemSearch({ onSelect }: { onSelect: (item: NamedItem) => void }) {
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
-            setSelected(null);
+            if (selected) onClear();
             setOpen(true);
           }}
           onFocus={() => setOpen(true)}
@@ -414,7 +627,8 @@ function ItemSearch({ onSelect }: { onSelect: (item: NamedItem) => void }) {
         />
         {query && (
           <button
-            onClick={() => { setQuery(""); setSelected(null); }}
+            type="button"
+            onClick={() => { setQuery(""); onClear(); }}
             className="text-dim hover:text-maple text-base leading-none"
           >
             ×
@@ -426,10 +640,10 @@ function ItemSearch({ onSelect }: { onSelect: (item: NamedItem) => void }) {
           {filtered.map((item) => (
             <button
               key={item.name}
+              type="button"
               onMouseDown={(e) => e.preventDefault()}
               onClick={() => {
                 setQuery(item.name);
-                setSelected(item);
                 setOpen(false);
                 onSelect(item);
               }}
