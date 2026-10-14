@@ -2,7 +2,7 @@
   "source": "mapledb.kr",
   "source_url": "https://mapledb.kr/map.php",
   "fetched_at": "2026-06-05T00:33:15.507Z",
-  "total": 1082,
+  "total": 1084,
   "page_total": null,
   "maps": [
     {
@@ -4332,6 +4332,14 @@
     {
       "id": 990001101,
       "name_kr": "샤레니안: 길드협회 캠프"
+    },
+    {
+      "id": 200090010,
+      "name_kr": "오르비스행"
+    },
+    {
+      "id": 222010402,
+      "name_kr": "히든스트리트: 도깨비집"
     }
   ]
 }

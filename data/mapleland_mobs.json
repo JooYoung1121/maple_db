@@ -2,7 +2,7 @@
   "source": "mapledb.kr",
   "source_url": "https://mapledb.kr/mob.php",
   "fetched_at": "2026-06-05T00:33:15.507Z",
-  "total": 749,
+  "total": 751,
   "page_total": 749,
   "mobs": [
     {
@@ -4498,6 +4498,18 @@
       "name_kr": "삐에로 인형",
       "level": 1800,
       "hp": 70
+    },
+    {
+      "id": 8220009,
+      "name_kr": "포장마차",
+      "level": 85,
+      "hp": 110000
+    },
+    {
+      "id": 8220007,
+      "name_kr": "블루 머쉬맘",
+      "level": 90,
+      "hp": 135000
     }
   ]
 }

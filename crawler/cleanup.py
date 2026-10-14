@@ -133,6 +133,10 @@ def cleanup_mobs(conn: sqlite3.Connection) -> dict:
     """)
     stats["variant_hidden"] += cur.rowcount
 
+    # 9) 필드보스 정본 보정 — 8) 이 is_boss=1 복제본(무릉도장·카니발 9xxxxxx)을 남기고 실제 필드 개체를 숨기는 문제
+    from crawler.field_bosses import enforce_field_boss_visibility
+    stats["field_boss"] = enforce_field_boss_visibility(conn)
+
     conn.commit()
 
     # 통계

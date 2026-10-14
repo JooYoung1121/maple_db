@@ -291,6 +291,7 @@ async def lifespan(app: FastAPI):
         from crawler.audit_repairs import (
             repair_broken_icon_entities,
             repair_empty_reference_tables,
+            repair_field_boss_visibility,
             repair_quest_conditions,
             repair_skill_classes,
         )
@@ -302,6 +303,8 @@ async def lifespan(app: FastAPI):
             repair_quest_conditions(repair_conn)
             # 아이콘 원본이 404 인 엔티티 숨김 (mobs 는 additive 동기화라 시드로는 전달 안 됨)
             repair_broken_icon_entities(repair_conn)
+            # 필드보스 정본 노출·동명 복제본 숨김 (is_hidden/is_boss 는 시드 동기화 대상이 아님)
+            repair_field_boss_visibility(repair_conn)
             # 검색 인덱스는 매 기동마다 재구축한다 (0.3초 내외).
             # start.sh 시드 동기화는 mobs/maps/entity_names_en 행만 추가·갱신하고
             # search_index(FTS)는 건드리지 않아, 패치로 추가된 한글명(예: 10/8 말레이시아

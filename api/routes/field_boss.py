@@ -10,6 +10,7 @@ from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
 from crawler.db import get_connection
+from crawler.field_bosses import FIELD_BOSSES
 
 router = APIRouter()
 
@@ -17,40 +18,8 @@ router = APIRouter()
 MAX_CHANNEL = 999
 REPORT_WINDOW_HOURS = 24
 
-# 채널 로테이션으로 잡는 필드보스 큐레이션 (레벨 순).
-# respawn_min: 젠 주기(분) — mobs.spawn_time(mapledb 크롤)에 있는 값만 채움. 미확정은 None.
-# label: 같은 이름 보스 구분용 표시 이름 (없으면 DB 이름)
-BOSSES = [
-    {"id": 2220000, "respawn_min": None},   # 마노 (Lv20)
-    {"id": 3220000, "respawn_min": None},   # 스텀피 (Lv35)
-    {"id": 3220001, "respawn_min": None},   # 데우 (Lv38)
-    {"id": 4220000, "respawn_min": None},   # 세르프 (Lv45)
-    {"id": 5220002, "respawn_min": None},   # 파우스트 (Lv50)
-    {"id": 5220004, "respawn_min": None},   # 대왕지네 (Lv50)
-    {"id": 5220000, "respawn_min": None},   # 킹크랑 (Lv55)
-    {"id": 5220003, "respawn_min": None},   # 타이머 (Lv59)
-    {"id": 6130101, "respawn_min": None},   # 머쉬맘 (Lv60)
-    {"id": 6220000, "respawn_min": None},   # 다일 (Lv65)
-    {"id": 6220001, "respawn_min": None},   # 제노 (Lv65)
-    {"id": 6300005, "respawn_min": 117},    # 좀비 머쉬맘 (Lv65) — spawn_time "1시간 57"
-    {"id": 7220001, "respawn_min": None},   # 구미호 (Lv70)
-    {"id": 7220000, "respawn_min": None},   # 태륜 (Lv71)
-    {"id": 7220002, "respawn_min": None},   # 요괴선사 (Lv77)
-    {"id": 8130100, "respawn_min": None},   # 주니어 발록 (Lv80)
-    {"id": 8220000, "respawn_min": None},   # 엘리쟈 (Lv83)
-    {"id": 8220002, "respawn_min": None},   # 키메라 (Lv85)
-    {"id": 8220009, "respawn_min": None},   # 포장마차 (Lv85)
-    {"id": 8220001, "respawn_min": None},   # 스노우맨 (Lv90)
-    {"id": 8220007, "respawn_min": None},   # 블루 머쉬맘 (Lv90)
-    {"id": 8180000, "respawn_min": None},   # 마뇽 (Lv105)
-    {"id": 8180001, "respawn_min": None},   # 그리프 (Lv105)
-    {"id": 8510000, "respawn_min": None, "label": "피아누스(좌)"},
-    {"id": 8520000, "respawn_min": None, "label": "피아누스(우)"},
-    {"id": 8220003, "respawn_min": None},   # 레비아탄 (Lv120)
-    {"id": 8220004, "respawn_min": 60},     # 도도 — spawn_time "1시간"
-    {"id": 8220005, "respawn_min": 60},     # 릴리노흐 — spawn_time "1시간"
-    {"id": 8220006, "respawn_min": 60},     # 라이카 — spawn_time "1시간"
-]
+# 채널 로테이션으로 잡는 필드보스 큐레이션 — 단일 목록은 crawler/field_bosses.py (몬스터 목록 노출 정리와 공유)
+BOSSES = FIELD_BOSSES
 BOSS_IDS = {b["id"] for b in BOSSES}
 RESPAWN_BY_ID = {b["id"]: b["respawn_min"] for b in BOSSES}
 
@@ -101,12 +70,26 @@ def list_bosses():
             list(BOSS_IDS),
         ).fetchall()
         by_id = {r["id"]: dict(r) for r in rows}
+        # 출현 맵 (mob_spawns · 한글 맵명 우선) — 보스 선택 시 어디서 젠되는지 바로 보이게
+        maps_by_id: dict[int, list[str]] = {}
+        for r in conn.execute(
+            f"""SELECT s.mob_id, COALESCE(n.name_en, mp.name) AS map_name
+                FROM mob_spawns s
+                JOIN maps mp ON mp.id = s.map_id
+                LEFT JOIN entity_names_en n
+                  ON n.entity_type='map' AND n.entity_id=mp.id AND n.source='kms'
+                WHERE s.mob_id IN ({','.join('?' * len(BOSS_IDS))})
+                ORDER BY s.map_id""",
+            list(BOSS_IDS),
+        ).fetchall():
+            maps_by_id.setdefault(r["mob_id"], []).append(r["map_name"])
         bosses = []
         for b in BOSSES:
             info = by_id.get(b["id"])
             if not info:
                 continue
             info["respawn_min"] = b["respawn_min"]
+            info["maps"] = maps_by_id.get(b["id"], [])
             if b.get("label"):
                 info["name"] = b["label"]
             bosses.append(info)

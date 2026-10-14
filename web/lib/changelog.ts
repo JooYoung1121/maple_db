@@ -15,6 +15,21 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.18.3",
+    date: "2026-10-14",
+    type: "patch",
+    title: "필드보스 몬스터 목록·검색 노출 복구",
+    pages: ["/mobs", "/field-boss"],
+    features: [
+      { category: "몬스터", items: [
+        "세르프·스텀피·킹크랑·엘리쟈 등 필드보스 20종이 몬스터 목록·검색·보스 필터에서 빠져 있던 문제 수정 — 무릉도장·카니발 복제 개체가 '보스'로 남고 실제 필드 개체가 숨겨져 있었음",
+        "필드보스 30종을 정본 목록(crawler/field_bosses.py)으로 고정하고 기동 시마다 노출 상태를 자동 보정",
+        "크림슨 발록(엘리니아↔오르비스 배) 필드보스 추가 · 대왕지네·포장마차·블루 머쉬맘 출현 맵 보강(메팁 DB)",
+      ] },
+      { category: "필드보스 채널", items: ["보스 선택 시 출현 맵 표시 · 크림슨 발록 채널 기록 지원"] },
+    ],
+  },
+  {
     version: "4.18.2",
     date: "2026-10-14",
     type: "patch",

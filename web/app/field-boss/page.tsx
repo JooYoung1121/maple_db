@@ -10,6 +10,7 @@ interface BossInfo {
   level: number | null;
   icon_url: string | null;
   respawn_min: number | null;
+  maps?: string[];
 }
 
 interface Report {
@@ -215,7 +216,10 @@ export default function FieldBossPage() {
             {boss.icon_url && <img src={boss.icon_url} alt={boss.name} className="w-9 h-9 object-contain" />}
             <div>
               <div className="font-pixel text-sm text-ink">{boss.name}</div>
-              <div className="text-[11px] text-dim">Lv.{boss.level ?? "?"}</div>
+              <div className="text-[11px] text-dim">
+                Lv.{boss.level ?? "?"}
+                {boss.maps && boss.maps.length > 0 && <> · 📍 {boss.maps.join(" · ")}</>}
+              </div>
             </div>
           </div>
           <label className="flex items-center gap-2 text-xs text-dim">

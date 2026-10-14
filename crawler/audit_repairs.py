@@ -67,6 +67,16 @@ def repair_broken_icon_entities(conn):
     return changed
 
 
+def repair_field_boss_visibility(conn):
+    """필드보스 정본은 노출·보스 표시, 동명의 복제 개체는 숨김 (목록은 crawler/field_bosses.py).
+
+    mobs 는 start.sh 가 is_hidden/is_boss 를 동기화하지 않으므로 기동 시마다 멱등 적용한다.
+    """
+    from crawler.field_bosses import enforce_field_boss_visibility
+
+    return enforce_field_boss_visibility(conn)
+
+
 # start.sh SEED_TABLES 와 같은 목록 — 시드에서 통째 교체되는 순수 레퍼런스 테이블
 REFERENCE_TABLES = ('quests', 'mob_drops', 'mob_spawns', 'sim_jobs', 'sim_skills', 'items', 'map_details',
                     'mapledb_quests', 'skills', 'maps', 'item_mapleland_stats', 'item_source_stats', 'mob_drop_sources')
