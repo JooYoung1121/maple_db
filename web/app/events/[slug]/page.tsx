@@ -1,10 +1,10 @@
 "use client";
-import { eventPeriodLabel } from "@/lib/eventPeriod";
+import { dDayLabel, deadlineLabel, eventDeadline, eventPeriodLabel } from "@/lib/eventPeriod";
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { getEvent, updateEvent, type EventGuide, type EventGuideSection } from "@/lib/api";
+import { getEvent, updateEvent, type EventGuide, type EventGuideDeadline, type EventGuideSection } from "@/lib/api";
 import MonsterParkCalc from "./MonsterParkCalc";
 
 // 이벤트별 인터랙티브 위젯 — 새 이벤트에 계산기 등이 필요하면 여기에 slug로 등록한다.
@@ -46,6 +46,43 @@ function SectionBlock({ section }: { section: EventGuideSection }) {
         </div>
       )}
       {section.note && <p className="text-[11px] text-dim mt-2 leading-relaxed">※ {section.note}</p>}
+    </section>
+  );
+}
+
+// 놓치면 안 되는 기한 — 보상 상자·쿠폰·훈장처럼 이벤트 종료일과 다른 기한을 한곳에 모은다.
+function DeadlineBlock({ deadlines }: { deadlines: EventGuideDeadline[] }) {
+  const now = Date.now();
+  const sorted = [...deadlines].sort(
+    (a, b) => (eventDeadline(a.at)?.getTime() ?? Infinity) - (eventDeadline(b.at)?.getTime() ?? Infinity),
+  );
+  return (
+    <section className="pixel-panel p-4">
+      <h2 className="font-pixel text-sm text-ink mb-3">⏰ 놓치면 안 되는 기한</h2>
+      <ul className="space-y-2">
+        {sorted.map((d, i) => {
+          const passed = d.at ? (eventDeadline(d.at)?.getTime() ?? Infinity) <= now : false;
+          const badge = d.at ? dDayLabel(d.at, now) : null;
+          return (
+            <li key={i} className={`flex items-start gap-3 text-sm ${passed ? "opacity-60" : ""}`}>
+              <span className="flex-1 min-w-0">
+                <span className="text-ink">{d.label}</span>
+                <span className="block text-xs text-dim mt-0.5">
+                  {d.at ? deadlineLabel(d.at) : null}
+                  {d.at && d.note ? " · " : null}
+                  {d.note}
+                </span>
+              </span>
+              {passed ? (
+                <span className="font-pixel text-[10px] px-1.5 py-0.5 border-2 border-edge text-dim shrink-0">지남</span>
+              ) : badge ? (
+                <span className="font-pixel text-[10px] px-1.5 py-0.5 bg-maple text-white dark:text-gray-950 border border-edge-lo shrink-0">{badge}</span>
+              ) : null}
+            </li>
+          );
+        })}
+      </ul>
+      <p className="text-[11px] text-dim mt-3">시각은 모두 한국 시간입니다. 0시 마감은 전날 자정까지라는 뜻이에요.</p>
     </section>
   );
 }
@@ -93,8 +130,12 @@ function AdminEditor({ event, onSaved }: { event: EventGuide; onSaved: () => voi
           <option value="ended">종료</option>
         </select>
         <input value={periodEnd} onChange={(e) => setPeriodEnd(e.target.value)}
-          placeholder="종료일 (YYYY-MM-DD)" className="pixel-input px-3 py-2 w-44" />
+          placeholder="종료 (2026-11-14T00:00:00+09:00)" className="pixel-input px-3 py-2 w-72" />
       </div>
+      <p className="text-[11px] text-dim">
+        공지의 &quot;N일 0시까지&quot;는 시각까지 넣어 저장하세요. 날짜만 넣으면 그날 하루를 포함해 다음날 0시에 종료로 바뀝니다.
+        보상·쿠폰 기한은 content 의 deadlines 배열에 {"{"}&quot;label&quot;, &quot;at&quot;, &quot;note&quot;{"}"} 로 적으면 기한 박스에 D-day 와 함께 표시됩니다.
+      </p>
       <textarea
         value={contentJson}
         onChange={(e) => setContentJson(e.target.value)}
@@ -164,7 +205,10 @@ export default function EventDetailPage() {
         ) : (
           <span className="font-pixel text-[10px] px-1.5 py-0.5 border-2 border-edge">종료</span>
         )}
-        <span>{eventPeriodLabel(event.period_start)} ~ {eventPeriodLabel(event.period_end, event.status === "active" ? "진행 중" : "?")}</span>
+        <span>{eventPeriodLabel(event.period_start)} ~ {event.period_end ? deadlineLabel(event.period_end) : (event.status === "active" ? "진행 중" : "?")}</span>
+        {event.status === "active" && dDayLabel(event.period_end) && (
+          <span className="font-pixel text-[10px] px-1.5 py-0.5 border-2 border-maple text-maple">{dDayLabel(event.period_end)}</span>
+        )}
         <span>· 정리 갱신 {event.updated_at?.slice(0, 10)}</span>
       </div>
 
@@ -190,6 +234,10 @@ export default function EventDetailPage() {
           </section>
         )}
 
+        {event.content.deadlines && event.content.deadlines.length > 0 && (
+          <DeadlineBlock deadlines={event.content.deadlines} />
+        )}
+
         {/* 이벤트별 위젯 (계산기 등) */}
         {(() => {
           const Widget = EVENT_WIDGETS[event.slug];
@@ -205,9 +253,9 @@ export default function EventDetailPage() {
           <section className="pixel-panel p-4">
             <h2 className="font-pixel text-sm text-ink mb-2">🔗 출처 · 관련 링크</h2>
             <ul className="space-y-1">
-              {event.content.links.map((l) => (
-                <li key={l.url}>
-                  <a href={l.url} target="_blank" rel="noopener noreferrer"
+              {event.content.links.map((l, i) => (
+                <li key={i}>
+                  <a href={l.url ?? l.href} target="_blank" rel="noopener noreferrer"
                     className="text-sm text-maple hover:underline break-all">
                     {l.label} ↗
                   </a>

@@ -759,7 +759,16 @@ export interface EventGuideSection {
 export interface EventGuideContent {
   tldr: string[];
   sections: EventGuideSection[];
-  links: { label: string; url: string }[];
+  /** 놓치면 안 되는 기한 — at(ISO, KST)이 있으면 D-day 를 계산하고, 획득 후 N일처럼 상대 기한은 note 로 적는다. */
+  deadlines?: EventGuideDeadline[];
+  /** 예전 정리본 일부는 href 로 저장돼 있어 둘 다 받는다. */
+  links: { label: string; url?: string; href?: string }[];
+}
+
+export interface EventGuideDeadline {
+  label: string;
+  at?: string | null;
+  note?: string;
 }
 
 export interface EventGuide extends EventGuideSummary {
