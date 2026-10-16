@@ -4,6 +4,7 @@ import Link from "next/link";
 import AmorianCooldown from "@/components/AmorianCooldown";
 import { useEffect, useMemo, useState } from "react";
 import { getEvents, getWeeklyIssueLatest, type EventGuideSummary } from "@/lib/api";
+import { dDayLabel, deadlineLabel, eventDeadline } from "@/lib/eventPeriod";
 import type { WeeklyIssue } from "@/lib/types";
 import { ALL_SITE_FEATURES } from "@/lib/siteFeatures";
 import {
@@ -39,8 +40,9 @@ export default function HomeTodayBrief() {
     window.addEventListener(MY_MAPLE_UPDATED_EVENT, syncLocal);
     Promise.allSettled([getEvents(), getWeeklyIssueLatest()]).then(([eventsResult, weeklyResult]) => {
       if (eventsResult.status === "fulfilled") {
-        setEvent(eventsResult.value.events.filter(item => item.status === "active" && (!item.period_end || Date.parse(item.period_end.includes("T") ? item.period_end : `${item.period_end}T23:59:59+09:00`) > Date.now()))
-          .sort((a, b) => (a.period_end ? Date.parse(a.period_end) : Infinity) - (b.period_end ? Date.parse(b.period_end) : Infinity))[0] || null);
+        const end = (item: EventGuideSummary) => eventDeadline(item.period_end)?.getTime() ?? Infinity;
+        setEvent(eventsResult.value.events.filter(item => item.status === "active" && end(item) > Date.now())
+          .sort((a, b) => end(a) - end(b))[0] || null);
       }
       if (weeklyResult.status === "fulfilled") setWeekly(weeklyResult.value.issue);
     });
@@ -70,7 +72,7 @@ export default function HomeTodayBrief() {
         <Link href={event ? `/events/${event.slug}` : "/events"} className="pixel-card p-4">
           <span className="font-pixel text-xs text-mush dark:text-rose-300">마감이 가까운 이벤트</span>
           <strong className="block text-sm mt-2 line-clamp-2">{event?.title || "이벤트 정리 보기"}</strong>
-          <span className="block text-xs text-dim mt-1">{event?.period_end ? `${new Date(event.period_end).toLocaleString('ko-KR', {timeZone: 'Asia/Seoul', month: 'numeric', day: 'numeric', ...(event.period_end.includes('T') ? {hour: 'numeric', minute: '2-digit'} : {})})}까지 (한국 시간)` : "일정과 보상을 확인하세요"}</span>
+          <span className="block text-xs text-dim mt-1">{event?.period_end ? `${dDayLabel(event.period_end) ?? ""} · ${deadlineLabel(event.period_end)} 종료` : "일정과 보상을 확인하세요"}</span>
         </Link>
         <Link href={weekly ? `/weekly/${weekly.issue_no}` : "/weekly"} className="pixel-card p-4">
           <span className="font-pixel text-xs text-maple">최신 주간 메랜</span>

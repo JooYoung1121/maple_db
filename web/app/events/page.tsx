@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { eventPeriodLabel } from "@/lib/eventPeriod";
+import { dDayLabel, deadlineLabel, eventDeadline, eventPeriodLabel } from "@/lib/eventPeriod";
 import { useEffect, useState } from "react";
 import { getEvents, type EventGuideSummary } from "@/lib/api";
 
 function periodLabel(e: EventGuideSummary): string {
   const start = eventPeriodLabel(e.period_start);
-  const end = eventPeriodLabel(e.period_end, e.status === "active" ? "진행 중" : "?");
+  const end = e.period_end ? deadlineLabel(e.period_end) : e.status === "active" ? "진행 중" : "?";
   return `${start} ~ ${end}`;
 }
 
@@ -22,7 +22,10 @@ export default function EventsPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const active = events.filter((e) => e.status === "active");
+  // 진행 중은 마감이 가까운 순, 종료 기한이 없는 상시 이벤트는 뒤로
+  const active = events
+    .filter((e) => e.status === "active")
+    .sort((a, b) => (eventDeadline(a.period_end)?.getTime() ?? Infinity) - (eventDeadline(b.period_end)?.getTime() ?? Infinity));
   const ended = events.filter((e) => e.status === "ended");
 
   return (
@@ -68,7 +71,7 @@ export default function EventsPage() {
                             )}
                             {live && (
                               <span className="font-pixel text-xs px-1.5 py-0.5 bg-maple text-white dark:text-gray-950 border border-edge-lo">
-                                진행 중
+                                {dDayLabel(e.period_end) ?? "진행 중"}
                               </span>
                             )}
                           </div>
@@ -83,6 +86,14 @@ export default function EventsPage() {
           )}
         </div>
       )}
+
+      <p className="text-xs text-dim mt-6 leading-relaxed">
+        여기 없는 지난 이벤트는{" "}
+        <a href="https://maple.land/board/events" target="_blank" rel="noopener noreferrer" className="text-maple underline">
+          공식 이벤트 게시판 ↗
+        </a>
+        에서 &apos;종료&apos; 표시된 글로 확인할 수 있어요. 공지 원문은 종료 후에도 남아 있습니다.
+      </p>
     </div>
   );
 }

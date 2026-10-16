@@ -20,6 +20,7 @@ import httpx
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
+from api.routes.events import effective_event
 from crawler.db import get_connection
 
 router = APIRouter()
@@ -217,9 +218,15 @@ def _cmd_notice(conn) -> str:
 
 def _cmd_event(conn) -> str:
     try:
-        rows = conn.execute(
-            "SELECT slug, title FROM event_guides WHERE status='active' ORDER BY period_start DESC LIMIT 5"
-        ).fetchall()
+        # status 컬럼은 관리자가 수동으로만 바꾸므로, 기간이 지난 이벤트는 effective_event 로 걸러낸다
+        rows = [
+            e for e in map(effective_event, conn.execute(
+                "SELECT slug, title, status, period_start, period_end FROM event_guides WHERE status='active'"
+            ).fetchall())
+            if e["status"] == "active"
+        ]
+        rows.sort(key=lambda e: e["period_start"] or "", reverse=True)
+        rows = rows[:5]
     except Exception:
         rows = []
     if not rows:
