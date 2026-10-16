@@ -15,6 +15,18 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.18.4",
+    date: "2026-10-16",
+    type: "patch",
+    title: "메이플 건 3종 원작 수치 준비 (3주년 대비)",
+    features: [
+      { category: "아이템 데이터", items: [
+        "메이플 건(35제)·메이플 스톰 피스톨(43제)·메이플 캐논 슈터(64제)의 착용 레벨·스탯·공속·업횟을 원작(빅뱅 전) 수치로 채움 — 원본 덤프에 메타가 없어 레벨 0·스탯 공백이던 상태",
+        "메랜 미출시 아이템이라 사이트에는 아직 노출하지 않음 — 3주년 등에서 출시가 확인되면 바로 공개",
+      ] },
+    ],
+  },
+  {
     version: "4.18.3",
     date: "2026-10-14",
     type: "patch",
