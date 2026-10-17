@@ -314,12 +314,16 @@ def get_mob(mob_id: int):
                    COALESCE(md.drop_rate_source, md.list_source) AS drop_rate_source,
                    -- 메팁 드롭 테이블 값(대조용) — 표시값과 다를 때만 화면이 보여준다
                    (SELECT s.rate FROM mob_drop_sources s WHERE s.mob_id = md.mob_id AND s.item_id = i.id AND s.source = 'matip') AS matip_rate,
+                   -- 메이플기분 블로그 값(척도 통일 전 표시값, 참고용)
+                   (SELECT s.rate FROM mob_drop_sources s WHERE s.mob_id = md.mob_id AND s.item_id = i.id AND s.source = 'maplekibun') AS kibun_rate,
+                   -- 메팁 드롭 테이블에만 있는 연결(메랜DB·블로그·실측 미확인) — 화면에서 '미확인'으로 뒤에 둔다
+                   (md.list_source = 'matip') AS unverified,
                    (SELECT name_en FROM entity_names_en
                     WHERE entity_type='item' AND entity_id=i.id AND source='kms') as name_kr
             FROM mob_drops md
             JOIN items i ON i.id = md.item_id
             WHERE {' AND '.join(drop_conditions)}
-            ORDER BY COALESCE(
+            ORDER BY (md.list_source = 'matip'), COALESCE(
                 (SELECT name_en FROM entity_names_en WHERE entity_type='item' AND entity_id=i.id AND source='kms'),
                 i.name
             )

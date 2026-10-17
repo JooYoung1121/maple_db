@@ -138,6 +138,8 @@ export interface MobDrop {
   drop_rate: number | null;
   drop_rate_source?: string | null;
   matip_rate?: number | null;       // 메팁 드롭 테이블 값(대조용) — 표시값과 다를 때만 화면에 함께 표기
+  kibun_rate?: number | null;       // 메이플기분 블로그 값(척도 통일 전 표시값, 참고)
+  unverified?: number | boolean | null; // 메팁 드롭 테이블에만 있는 연결(메랜DB·블로그·실측 미확인)
 }
 
 export interface MobSpawn {
@@ -191,6 +193,7 @@ export interface MapDrop {
   mob_ids: number[];
   sources?: { mob_id: number; rate: number | null }[];
   max_rate?: number | null;
+  unverified?: boolean;             // 이 맵의 연결이 전부 메팁 단독이면 true
 }
 
 export interface MapData {

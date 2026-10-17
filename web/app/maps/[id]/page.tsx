@@ -267,11 +267,31 @@ export default function MapDetailPage() {
   );
   const totalSpawn = detail ? detail.spawns.length : null;
   const hasStructure = Boolean(detail && (detail.footholds.length > 0 || detail.spawns.length > 0));
-  const dropsByCategory = drops.reduce<Record<string, MapDrop[]>>((acc, d) => {
+  // 확인된 연결(메랜DB·블로그·실측)만 본문에, 메팁 드롭 테이블 단독 연결은 접어서 뒤에 둔다
+  const confirmedDrops = drops.filter((d) => !d.unverified);
+  const unverifiedDrops = drops.filter((d) => d.unverified);
+  const dropsByCategory = confirmedDrops.reduce<Record<string, MapDrop[]>>((acc, d) => {
     const c = d.category || "기타";
     (acc[c] = acc[c] || []).push(d);
     return acc;
   }, {});
+  const renderDropCard = (d: MapDrop) => (
+    <Link
+      key={d.item_id}
+      href={`/items/${d.item_id}`}
+      title={`드랍: ${(d.sources || d.mob_ids.map((m) => ({ mob_id: m, rate: null as number | null })))
+        .map((s) => `${mobNameOf.get(s.mob_id) || `#${s.mob_id}`}${s.rate != null ? ` ${(s.rate * 100).toFixed(2)}%` : ""}`)
+        .join(", ")}`}
+      className="pixel-card flex items-center gap-2 px-2.5 py-1.5 hover:border-maple transition-colors"
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={entityIconUrl("item", d.item_id)} alt="" className="w-6 h-6 object-contain shrink-0" loading="lazy" onError={hideIconOnError} />
+      <span className="text-xs truncate flex-1">{d.item_name_kr || d.item_name}</span>
+      {d.max_rate != null && (
+        <span className="text-[10px] text-skill shrink-0 font-mono">{(d.max_rate * 100).toFixed(d.max_rate >= 0.1 ? 0 : 2)}%</span>
+      )}
+    </Link>
+  );
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -415,34 +435,28 @@ export default function MapDetailPage() {
       {/* ── 드랍템 ── */}
       {drops.length > 0 && (
         <div className="mb-6">
-          <h2 className="font-pixel text-lg font-semibold mb-1 text-ink">💰 이 맵에서 얻는 드랍템 <span className="text-sm font-normal text-dim">({drops.length}종)</span></h2>
+          <h2 className="font-pixel text-lg font-semibold mb-1 text-ink">💰 이 맵에서 얻는 드랍템 <span className="text-sm font-normal text-dim">({confirmedDrops.length}종)</span></h2>
           <p className="text-[11px] text-dim mb-2">
-            출현 몬스터들의 드랍 목록 합계 — 우측 %는 이 맵에서의 최고 드랍률, 마우스를 올리면 몹별 확률이 표시됩니다 (원작 데이터 기준 참고값)
+            출현 몬스터들의 드랍 목록 합계 — 우측 %는 이 맵에서의 최고 드랍률(메랜DB·메팁 척도), 마우스를 올리면 몹별 확률이 표시됩니다
           </p>
           {Object.entries(dropsByCategory).map(([cat, list]) => (
             <div key={cat} className="mb-3">
               <h3 className="text-xs font-pixel text-dim mb-1.5">{CATEGORY_KR[cat] || cat} ({list.length})</h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1.5">
-                {list.map((d) => (
-                  <Link
-                    key={d.item_id}
-                    href={`/items/${d.item_id}`}
-                    title={`드랍: ${(d.sources || d.mob_ids.map((m) => ({ mob_id: m, rate: null as number | null })))
-                      .map((s) => `${mobNameOf.get(s.mob_id) || `#${s.mob_id}`}${s.rate != null ? ` ${(s.rate * 100).toFixed(2)}%` : ""}`)
-                      .join(", ")}`}
-                    className="pixel-card flex items-center gap-2 px-2.5 py-1.5 hover:border-maple transition-colors"
-                  >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={entityIconUrl("item", d.item_id)} alt="" className="w-6 h-6 object-contain shrink-0" loading="lazy" onError={hideIconOnError} />
-                    <span className="text-xs truncate flex-1">{d.item_name_kr || d.item_name}</span>
-                    {d.max_rate != null && (
-                      <span className="text-[10px] text-skill shrink-0 font-mono">{(d.max_rate * 100).toFixed(d.max_rate >= 0.1 ? 0 : 2)}%</span>
-                    )}
-                  </Link>
-                ))}
+                {list.map(renderDropCard)}
               </div>
             </div>
           ))}
+          {unverifiedDrops.length > 0 && (
+            <details className="mt-2">
+              <summary className="cursor-pointer text-xs text-dim hover:text-maple">
+                미확인 드랍 {unverifiedDrops.length}종 — 메팁 드롭 테이블에만 있는 연결 (메랜DB·블로그·실측 어디에도 없음)
+              </summary>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1.5 mt-2 opacity-70">
+                {unverifiedDrops.map(renderDropCard)}
+              </div>
+            </details>
+          )}
         </div>
       )}
 

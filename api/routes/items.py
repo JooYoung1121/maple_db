@@ -266,7 +266,8 @@ def get_item(item_id: int):
 
         # Mobs that drop this item
         mob_filter = id_filter_sql("m.id", "mobs")
-        drop_conditions = ["md.item_id = ?"]
+        # 숨긴 복제 개체(카니발 9500xxx 등)는 드롭 몬스터에서 제외 — 드롭은 정본으로 합쳐져 있다
+        drop_conditions = ["md.item_id = ?", "COALESCE(m.is_hidden, 0) = 0"]
         if mob_filter:
             drop_conditions.append(mob_filter)
         drop_rows = conn.execute(
@@ -275,11 +276,13 @@ def get_item(item_id: int):
                    COALESCE(md.drop_rate_source, md.list_source) AS drop_rate_source,
                    (SELECT name_en FROM entity_names_en
                     WHERE entity_type='mob' AND entity_id=m.id AND source='kms') as mob_name_kr,
-                   (SELECT s.rate FROM mob_drop_sources s WHERE s.mob_id = md.mob_id AND s.item_id = md.item_id AND s.source = 'matip') AS matip_rate
+                   (SELECT s.rate FROM mob_drop_sources s WHERE s.mob_id = md.mob_id AND s.item_id = md.item_id AND s.source = 'matip') AS matip_rate,
+                   (SELECT s.rate FROM mob_drop_sources s WHERE s.mob_id = md.mob_id AND s.item_id = md.item_id AND s.source = 'maplekibun') AS kibun_rate,
+                   (md.list_source = 'matip') AS unverified
             FROM mob_drops md
             JOIN mobs m ON m.id = md.mob_id
             WHERE {' AND '.join(drop_conditions)}
-            ORDER BY m.level
+            ORDER BY (md.list_source = 'matip'), m.level
             """,
             (item_id,),
         ).fetchall()

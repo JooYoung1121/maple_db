@@ -16,7 +16,7 @@ import { toCategoryKr, toSubcategoryKr } from "@/lib/translations";
 import EntityCanonDiffPanel from "@/components/EntityCanonDiffPanel";
 import DatasetComparisonNotice from "@/components/DatasetComparisonNotice";
 import { getEntityCanonDiffs } from "@/lib/entityCanonDiffs";
-import DropRateBadge, { MatipRateHint } from "@/components/DropRateBadge";
+import DropRateBadge, { AltRateHint, UnverifiedBadge } from "@/components/DropRateBadge";
 
 interface DroppedByMob {
   mob_id: number;
@@ -25,6 +25,8 @@ interface DroppedByMob {
   drop_rate: number | null;
   drop_rate_source?: string | null;
   matip_rate?: number | null;
+  kibun_rate?: number | null;
+  unverified?: number | boolean | null;
 }
 
 export default function ItemDetailPage() {
@@ -98,20 +100,23 @@ export default function ItemDetailPage() {
           ((kr || "").endsWith("카드") || (item.name || "").endsWith("Card")) && (
             <p className="text-[11px] text-dim mb-2">※ 몬스터 카드 드롭률은 7/31 패치로 메랜에서 전면 재조정 — 표기 수치(원작 기준)와 다를 수 있습니다</p>
           )}
+        {droppedBy.some((m) => m.unverified) && (
+          <p className="text-[11px] text-dim mb-2">※ 점선 「미확인」 표시는 메팁 드롭 테이블에만 있는 연결입니다 — 메랜DB·블로그·실측 어디에도 없어 뒤쪽에 따로 둡니다</p>
+        )}
         {droppedBy.length > 0 ? (
           <div className="pixel-panel divide-y divide-edge/40">
             {droppedBy.map((m) => (
               <Link
                 key={m.mob_id}
                 href={`/mobs/${m.mob_id}`}
-                className="flex items-center justify-between px-4 py-3 hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)]"
+                className={`flex items-center justify-between px-4 py-3 hover:bg-[color-mix(in_srgb,var(--c-maple)_10%,transparent)] ${m.unverified ? "opacity-70" : ""}`}
               >
-                <span className="font-medium">{m.mob_name_kr || m.mob_name}</span>
+                <span className="font-medium">{m.mob_name_kr || m.mob_name}<UnverifiedBadge unverified={m.unverified} /></span>
                 {(m.drop_rate != null || m.drop_rate_source) && (
                   <span className="text-sm text-dim">
                     {m.drop_rate != null && `${(m.drop_rate * 100).toFixed(2)}%`}
                     <DropRateBadge source={m.drop_rate_source} />
-                    {m.drop_rate_source !== "matip" && <MatipRateHint rate={m.drop_rate} matipRate={m.matip_rate} />}
+                    <AltRateHint rate={m.drop_rate} source={m.drop_rate_source} matipRate={m.matip_rate} kibunRate={m.kibun_rate} />
                   </span>
                 )}
               </Link>

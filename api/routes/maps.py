@@ -286,7 +286,7 @@ def get_map(map_id: int):
                 f"""SELECT i.id as item_id, i.name as item_name, i.category, i.icon_url,
                            (SELECT name_en FROM entity_names_en
                             WHERE entity_type='item' AND entity_id=i.id AND source='kms') as item_name_kr,
-                           md.mob_id, md.drop_rate
+                           md.mob_id, md.drop_rate, (md.list_source = 'matip') AS unverified
                     FROM mob_drops md
                     JOIN items i ON i.id = md.item_id
                     WHERE md.mob_id IN ({mob_ph}){item_cond}
@@ -302,7 +302,10 @@ def get_map(map_id: int):
                         "category": r["category"], "icon_url": r["icon_url"],
                         "item_name_kr": r["item_name_kr"],
                         "mob_ids": [], "sources": [], "max_rate": None,
+                        "unverified": True,  # 메팁 단독 연결뿐이면 True — 확인된 연결이 하나라도 있으면 False
                     }
+                if not r["unverified"]:
+                    it["unverified"] = False
                 it["mob_ids"].append(r["mob_id"])
                 it["sources"].append({"mob_id": r["mob_id"], "rate": r["drop_rate"]})
                 if r["drop_rate"] is not None and (it["max_rate"] is None or r["drop_rate"] > it["max_rate"]):

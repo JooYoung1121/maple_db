@@ -46,6 +46,12 @@ FIELD_BOSSES: list[dict] = [
 ]
 FIELD_BOSS_IDS: frozenset[int] = frozenset(b["id"] for b in FIELD_BOSSES)
 
+# 필드보스 외 보스 노출 정책 (2026-10-17 점검)
+# - 노출: 파풀라투스 정본 8500002 (시계탑의 근원 스폰·드롭 95종) — cleanup 이 카니발 복제본 9500362 를 남기고 숨겼었다
+# - 숨김: 메랜 미출시 드래고니카·드래곤 라이더, 보스 페이지에 새던 카니발 복제본(마노·스노우맨·파풀라투스)
+BOSS_SHOW_IDS: frozenset[int] = frozenset({8500002})
+BOSS_HIDE_IDS: frozenset[int] = frozenset({8300006, 8300007, 9500337, 9500357, 9500362})
+
 
 def enforce_field_boss_visibility(conn: sqlite3.Connection) -> dict:
     """정본 필드보스는 노출(is_hidden=0)·보스(is_boss=1)로, 동명의 복제 개체는 숨긴다. 멱등.
@@ -75,6 +81,17 @@ def enforce_field_boss_visibility(conn: sqlite3.Connection) -> dict:
               AND name IN (SELECT name FROM mobs WHERE id IN ({ph}))
               AND (id >= 9000000 {no_spawn_clause})""",
         ids + ids,
+    ).rowcount or 0
+    ph_show = ",".join("?" for _ in BOSS_SHOW_IDS)
+    shown += conn.execute(
+        f"UPDATE mobs SET is_hidden=0, is_boss=1 WHERE id IN ({ph_show}) "
+        "AND (COALESCE(is_hidden,0)=1 OR COALESCE(is_boss,0)=0)",
+        tuple(sorted(BOSS_SHOW_IDS)),
+    ).rowcount or 0
+    ph_hide = ",".join("?" for _ in BOSS_HIDE_IDS)
+    hidden += conn.execute(
+        f"UPDATE mobs SET is_hidden=1 WHERE id IN ({ph_hide}) AND COALESCE(is_hidden,0)=0",
+        tuple(sorted(BOSS_HIDE_IDS)),
     ).rowcount or 0
     if shown or hidden:
         conn.commit()

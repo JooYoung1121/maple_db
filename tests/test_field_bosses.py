@@ -26,6 +26,10 @@ class FieldBossVisibilityTests(unittest.TestCase):
             INSERT INTO mob_spawns VALUES (8510000, 230040420), (8520000, 230040420);
             -- 무관한 몹은 그대로
             INSERT INTO mobs VALUES (100100, 'Snail', 1, 8, 0, 0);
+            -- 정책: 파풀라투스 정본은 노출, 카니발 복제본·미출시 보스는 숨김
+            INSERT INTO mobs VALUES (8500002, 'Papulatus', 125, 1590000, 0, 1);
+            INSERT INTO mobs VALUES (9500362, 'Papulatus', 125, 23000000, 1, 0);
+            INSERT INTO mobs VALUES (8300006, 'Dragonoir', 120, 120000000, 1, 0);
             """
         )
         return conn
@@ -33,7 +37,7 @@ class FieldBossVisibilityTests(unittest.TestCase):
     def test_canonical_shown_and_copies_hidden(self):
         conn = self._db()
         result = enforce_field_boss_visibility(conn)
-        self.assertEqual(result, {"shown": 2, "hidden_copies": 2})
+        self.assertEqual(result, {"shown": 3, "hidden_copies": 4})
         rows = {r[0]: (r[1], r[2]) for r in conn.execute("SELECT id, is_boss, is_hidden FROM mobs")}
         self.assertEqual(rows[4220000], (1, 0))
         self.assertEqual(rows[8520000], (1, 0))
@@ -41,6 +45,9 @@ class FieldBossVisibilityTests(unittest.TestCase):
         self.assertEqual(rows[9303014][1], 1)
         self.assertEqual(rows[4220001][1], 1)
         self.assertEqual(rows[100100], (0, 0))
+        self.assertEqual(rows[8500002], (1, 0))
+        self.assertEqual(rows[9500362][1], 1)
+        self.assertEqual(rows[8300006][1], 1)
         # 멱등
         self.assertEqual(enforce_field_boss_visibility(conn), {"shown": 0, "hidden_copies": 0})
 
