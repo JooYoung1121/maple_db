@@ -15,6 +15,22 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.20.1",
+    date: "2026-10-22",
+    type: "patch",
+    title: "말레이시아 · 시간의 신전 드롭 점검 반영",
+    pages: ["/mobs", "/items", "/pinkbean"],
+    features: [
+      { category: "드롭 데이터", items: [
+        "하피에 시간의 눈 전용 잡템(금이 간 모래시계)이 뜨던 문제 등 다른 몹 잡템 7건 삭제 — 10/17 정리에서 복제 몹 병합이 삭제보다 늦게 돌아 다시 들어온 행",
+        "타르가 · 스칼리온의 메랜 미출시 투구 2종 삭제 (메랜은 INT · DEX 두 종)",
+        "추억의 사제 흑견랑포 중복 표시 정리 · 핑크빈 폴암 2종(타임리스 · 리버스) 누락 복구",
+        "아란 마스터리북 드롭 28건을 미확인으로 표시 (사설 서버 임시 데이터 단독)",
+        "퀘스트 아이템 드롭(장난감 트로이 목마 → 장난감 칼 등)은 출처 목록에 없어도 보존",
+      ] },
+    ],
+  },
+  {
     version: "4.20.0",
     date: "2026-10-22",
     type: "minor",

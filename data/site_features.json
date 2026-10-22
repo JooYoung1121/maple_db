@@ -511,13 +511,6 @@
   "keywords": []
  },
  {
-  "href": "/performance",
-  "label": "반응성 진단",
-  "homeLabel": null,
-  "description": "선택형 로컬 INP 측정 · 서버 전송 없음",
-  "keywords": []
- },
- {
   "href": "/playground",
   "label": "놀이터 모아보기",
   "homeLabel": null,

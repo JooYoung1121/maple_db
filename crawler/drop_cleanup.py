@@ -21,19 +21,26 @@ REFINED_RANGES = (
 )
 _REFINED_SQL = " OR ".join(f"item_id BETWEEN {a} AND {b}" for a, b in REFINED_RANGES)
 _UNSOURCED = "list_source IS NULL AND drop_rate_source IS NULL"
+# 퀘스트 전용 아이템(4031xxx~4039xxx)은 몹 드롭 출처 목록에 빠져 있는 경우가 많아 '다른 몹 잡템' 규칙에서 뺀다
+# (장난감 트로이 목마 → 장난감 칼 등). 제련 완제 규칙에는 걸리지 않는 대역이다.
+QUEST_ITEM_RANGE = (4031000, 4039999)
 
 
 def delete_unsourced_junk(conn: sqlite3.Connection) -> int:
     """무출처 행 중 (1) 제련 완제·마법의 가루이거나 (2) 그 몹에 출처 있는 드롭 목록이 따로 있는 행을 지운다.
 
     출처 있는 목록이 아예 없는 몹의 고유 잡템(페어리의 더듬이 등)은 남긴다 — 지우면 그 몹 드롭이 통째로 빈다.
+    퀘스트 전용 아이템은 (2) 규칙에서 제외한다.
+    merge_duplicate_mob_drops 가 숨긴 복제본의 무출처 행을 정본으로 옮겨 올 수 있으므로 병합 뒤에 돌린다.
     """
+    qa, qb = QUEST_ITEM_RANGE
     cur = conn.execute(
         f"""DELETE FROM mob_drops
             WHERE {_UNSOURCED}
               AND (({_REFINED_SQL})
-                   OR EXISTS (SELECT 1 FROM mob_drops d2 WHERE d2.mob_id = mob_drops.mob_id
-                              AND (d2.list_source IS NOT NULL OR d2.drop_rate_source IS NOT NULL)))"""
+                   OR (item_id NOT BETWEEN {qa} AND {qb}
+                       AND EXISTS (SELECT 1 FROM mob_drops d2 WHERE d2.mob_id = mob_drops.mob_id
+                                   AND (d2.list_source IS NOT NULL OR d2.drop_rate_source IS NOT NULL))))"""
     )
     conn.commit()
     return cur.rowcount or 0

@@ -24,11 +24,13 @@ def _db():
                                 (8220007, 'Blue Mushmom', 90, 0), (9400205, 'Blue Mushmom', 90, 1),
                                 (9500328, 'Crimson Balrog', 35, 1), (8150000, 'Crimson Balrog', 100, 0),
                                 (5220003, 'Timer', 59, 0);
-        INSERT INTO items VALUES (4000245, 0), (4021001, 0), (4000446, 0), (4000999, 0), (2040008, 0), (1402011, 100), (2000006, 0);
+        INSERT INTO items VALUES (4031174, 0), (4000245, 0), (4021001, 0), (4000446, 0), (4000999, 0), (2040008, 0), (1402011, 100), (2000006, 0);
         -- 추억의 사제: 출처 있는 목록 + 무출처 잡행(드래곤의 비늘·자수정)
         INSERT INTO mob_drops VALUES (8200001, 4000446, '웃는 가면', 0.2842, 'maplekibun', NULL);
         INSERT INTO mob_drops VALUES (8200001, 4000245, '드래곤의 비늘', NULL, NULL, NULL);
         INSERT INTO mob_drops VALUES (8200001, 4021001, '자수정', NULL, NULL, NULL);
+        -- 퀘스트 전용 아이템은 출처 목록에 빠져 있어도 남긴다
+        INSERT INTO mob_drops VALUES (8200001, 4031174, '장난감 칼', NULL, NULL, NULL);
         -- 페어리: 출처 있는 목록이 없음 → 고유 잡템은 남기고 완제만 삭제
         INSERT INTO mob_drops VALUES (3000004, 4000999, '페어리의 더듬이', NULL, NULL, NULL);
         INSERT INTO mob_drops VALUES (3000004, 4021001, '자수정', NULL, NULL, NULL);
@@ -51,7 +53,7 @@ class DropCleanupTests(unittest.TestCase):
         conn = _db()
         self.assertEqual(delete_unsourced_junk(conn), 3)
         left = {(r[0], r[1]) for r in conn.execute("SELECT mob_id, item_id FROM mob_drops WHERE drop_rate_source IS NULL AND list_source IS NULL")}
-        self.assertEqual(left, {(3000004, 4000999)})
+        self.assertEqual(left, {(3000004, 4000999), (8200001, 4031174)})
         self.assertEqual(delete_unsourced_junk(conn), 0)
 
     def test_merge_same_level_copies_only(self):
@@ -62,6 +64,14 @@ class DropCleanupTests(unittest.TestCase):
         self.assertEqual(conn.execute("SELECT rate FROM mob_drop_sources WHERE mob_id=8220007 AND source='matip'").fetchone()[0], 0.01)
         self.assertIsNone(conn.execute("SELECT 1 FROM mob_drops WHERE mob_id=8150000").fetchone())
         self.assertEqual(merge_duplicate_mob_drops(conn, {8220007, 8150000}), 0)
+
+    def test_merge_then_delete_drops_copied_unsourced_rows(self):
+        conn = _db()
+        conn.execute("INSERT INTO mob_drops VALUES (9400205, 4000245, '드래곤의 비늘', NULL, NULL, NULL)")
+        merge_duplicate_mob_drops(conn, {8220007})
+        self.assertIsNotNone(conn.execute("SELECT 1 FROM mob_drops WHERE mob_id=8220007 AND item_id=4000245").fetchone())
+        delete_unsourced_junk(conn)
+        self.assertIsNone(conn.execute("SELECT 1 FROM mob_drops WHERE mob_id=8220007 AND item_id=4000245").fetchone())
 
     def test_level_gap_and_rate_scale(self):
         conn = _db()

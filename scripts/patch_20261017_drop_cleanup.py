@@ -28,8 +28,9 @@ def main() -> None:
     conn = get_connection()
     try:
         print("보스 노출 정책:", enforce_field_boss_visibility(conn))
-        print("무출처 잡행 삭제:", delete_unsourced_junk(conn))
         print("복제 몹 드롭 합치기:", merge_duplicate_mob_drops(conn, wl))
+        # 병합이 숨긴 복제본의 무출처 행을 옮겨 오므로 삭제는 병합 뒤에 (2026-10-22 하피 → 금이 간 모래시계)
+        print("무출처 잡행 삭제:", delete_unsourced_junk(conn))
         print("메팁 단독 레벨 불일치 장비 삭제:", delete_matip_only_level_gaps(conn))
         print("메이플기분→메랜DB/메팁 척도 전환:", unify_rate_scale(conn))
         rebuild_search_index(conn)
