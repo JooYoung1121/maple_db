@@ -89,11 +89,8 @@ assert(['localhost', '127.0.0.1'].includes(new URL(base).hostname), 'Never mutat
     await page.evaluate(day => localStorage.setItem(`daily_mob_${day}`, JSON.stringify({solved: true})), today);
     await page.reload();
     await page.getByText('✓ 오늘 완료', {exact: true}).waitFor();
-    await page.goto(base + '/performance');
-    await page.getByRole('checkbox', {name: '로컬 성능 기록 켜기'}).check();
-    assert.equal(await page.evaluate(() => localStorage.getItem('maple-local-vitals-enabled')), '1');
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
     assert.deepEqual(errors, []);
-    console.log('PASS themed quiz, daily completion hub, opt-in diagnostics; no page errors');
+    console.log('PASS themed quiz, daily completion hub; no page errors');
   } finally { await browser.close(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

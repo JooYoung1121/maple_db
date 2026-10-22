@@ -11,7 +11,16 @@ import { searchAll } from "@/lib/api";
 import type { SearchResult } from "@/lib/types";
 import { CHANGELOG } from "@/lib/changelog";
 import { isNewFeature } from "@/lib/newFeatures";
-import { SEARCH_TYPE_META, SITE_SECTIONS, searchFeatures } from "@/lib/siteFeatures";
+import { ALL_SITE_FEATURES, SEARCH_TYPE_META, SITE_SECTIONS, searchFeatures, type SiteFeature } from "@/lib/siteFeatures";
+
+/* 홈 첫 화면 — 가장 자주 쓰는 정보 페이지만 크게 보여주고, 나머지는 "전체 메뉴"·검색으로 진입한다.
+ * 라벨·아이콘은 siteFeatures 에서 가져와 메뉴명이 바뀌어도 따라간다. */
+const CORE_HREFS = ["/items", "/mobs", "/maps", "/bosses"];
+const CORE_FEATURES = CORE_HREFS
+  .map((href) => ALL_SITE_FEATURES.find((feature) => feature.href === href))
+  .filter((feature): feature is SiteFeature => Boolean(feature));
+const SIM_SECTION = SITE_SECTIONS.find((section) => section.label === "시뮬레이터");
+const MENU_SECTIONS = SITE_SECTIONS.filter((section) => section !== SIM_SECTION);
 
 function renderSnippet(snippet: string) {
   const parts = snippet.split(/<\/?b>/);
@@ -150,49 +159,98 @@ function HomeContent() {
         </section>
       ) : (
         <>
-          <HomeTodayBrief />
-          <section className="max-w-3xl mx-auto mt-8">
-            <div className="pixel-panel p-4">
-              <div className="flex items-center justify-between mb-2">
-                <h2 className="font-pixel text-[13px] text-maple flex items-center gap-2">
-                  <span className="inline-block w-2 h-2 bg-maple" />
-                  최근 업데이트
-                </h2>
-                <Link href="/version" className="text-xs text-dim hover:text-maple transition-colors">전체 보기 →</Link>
-              </div>
-              <ul className="space-y-1">
-                {CHANGELOG.slice(0, 3).map((entry) => (
-                  <li key={entry.version} className="flex items-baseline gap-2 text-sm">
-                    <span className="font-pixel text-xs text-dim shrink-0">v{entry.version}</span>
-                    <span className="truncate">{entry.title}</span>
-                    <span className="text-xs text-dim ml-auto shrink-0">{entry.date.slice(5).replace("-", "/")}</span>
-                  </li>
-                ))}
-              </ul>
+          <section className="max-w-3xl mx-auto mt-6" aria-labelledby="home-core-title">
+            <h2 id="home-core-title" className="font-pixel text-[13px] text-maple mb-3 px-0.5 flex items-center gap-2">
+              <span className="inline-block w-2 h-2 bg-maple" />
+              자주 찾는 정보
+            </h2>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {CORE_FEATURES.map((feature) => (
+                <Link key={feature.href} href={feature.href} className="pixel-card group p-4 text-center">
+                  <div className="text-4xl mb-2 [image-rendering:pixelated] transition-transform group-hover:scale-110" aria-hidden>{feature.icon}</div>
+                  <div className="font-pixel text-[13px] text-ink">{feature.homeLabel || feature.label}</div>
+                  <div className="text-xs text-dim mt-1 leading-snug">{feature.description}</div>
+                </Link>
+              ))}
             </div>
           </section>
 
-          <section className="max-w-3xl mx-auto space-y-7 mt-8" aria-label="전체 기능">
-            {SITE_SECTIONS.map((section) => (
-              <div key={section.label}>
-                <h2 className="font-pixel text-[13px] text-maple mb-3 px-0.5 flex items-center gap-2">
-                  <span className="inline-block w-2 h-2 bg-maple" />
-                  {section.label}
-                </h2>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                  {section.items.map((feature) => (
-                    <Link key={feature.href} href={feature.href} className="pixel-card group p-4 text-center">
-                      <div className="text-3xl mb-2 [image-rendering:pixelated] transition-transform group-hover:scale-110" aria-hidden>{feature.icon}</div>
-                      <div className="font-pixel text-[12px] text-ink">
+          {SIM_SECTION && (
+            <section className="max-w-3xl mx-auto mt-6" aria-labelledby="home-sim-title">
+              <h2 id="home-sim-title" className="font-pixel text-[13px] text-maple mb-3 px-0.5 flex items-center gap-2">
+                <span className="inline-block w-2 h-2 bg-maple" />
+                시뮬레이터
+              </h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {SIM_SECTION.items.map((feature) => (
+                  <Link key={feature.href} href={feature.href} className="pixel-card group px-3 py-2.5 flex items-center gap-2.5">
+                    <span className="text-2xl" aria-hidden>{feature.icon}</span>
+                    <span className="min-w-0">
+                      <span className="font-pixel text-[12px] text-ink block leading-snug">
                         {feature.homeLabel || feature.label}
                         {isNewFeature(feature.href) && <span className="font-pixel ml-1 text-xs text-mush border border-mush px-1 align-middle">N</span>}
-                      </div>
-                      <div className="text-xs text-dim mt-1 leading-snug">{feature.description}</div>
-                    </Link>
-                  ))}
-                </div>
+                      </span>
+                      <span className="text-xs text-dim block truncate">{feature.description}</span>
+                    </span>
+                  </Link>
+                ))}
               </div>
-            ))}
+            </section>
+          )}
+
+          <HomeTodayBrief />
+
+          <section className="max-w-3xl mx-auto mt-8" aria-labelledby="home-all-title">
+            <div className="pixel-panel p-4">
+              <div className="flex items-baseline justify-between mb-3 gap-2">
+                <h2 id="home-all-title" className="font-pixel text-[13px] text-maple flex items-center gap-2">
+                  <span className="inline-block w-2 h-2 bg-maple" />
+                  전체 메뉴
+                </h2>
+                <span className="text-xs text-dim">찾는 기능이 없으면 위 검색창에 이름을 입력하세요</span>
+              </div>
+              <div className="space-y-3">
+                {MENU_SECTIONS.map((section) => (
+                  <div key={section.label} className="sm:flex sm:gap-3">
+                    <h3 className="font-pixel text-[12px] text-dim shrink-0 sm:w-24 sm:pt-1.5 mb-1 sm:mb-0">
+                      {section.icon && <span aria-hidden className="mr-1">{section.icon}</span>}
+                      {section.label}
+                    </h3>
+                    <ul className="flex flex-wrap gap-1.5">
+                      {section.items.map((feature) => (
+                        <li key={feature.href}>
+                          <Link
+                            href={feature.href}
+                            title={feature.description}
+                            className="inline-flex min-h-9 items-center gap-1 border border-edge bg-surface px-2.5 py-1 text-xs text-ink transition-colors hover:border-maple hover:text-maple"
+                          >
+                            <span aria-hidden>{feature.icon}</span>
+                            {feature.homeLabel || feature.label}
+                            {isNewFeature(feature.href) && <span className="font-pixel text-[10px] text-mush">N</span>}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="max-w-3xl mx-auto mt-6">
+            <div className="flex items-center justify-between mb-2 px-0.5">
+              <h2 className="font-pixel text-[12px] text-dim">최근 업데이트</h2>
+              <Link href="/version" className="text-xs text-dim hover:text-maple transition-colors">전체 보기 →</Link>
+            </div>
+            <ul className="space-y-1">
+              {CHANGELOG.slice(0, 3).map((entry) => (
+                <li key={entry.version} className="flex items-baseline gap-2 text-sm">
+                  <span className="font-pixel text-xs text-dim shrink-0">v{entry.version}</span>
+                  <span className="truncate">{entry.title}</span>
+                  <span className="text-xs text-dim ml-auto shrink-0">{entry.date.slice(5).replace("-", "/")}</span>
+                </li>
+              ))}
+            </ul>
           </section>
         </>
       )}

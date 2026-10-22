@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import AmorianCooldown from "@/components/AmorianCooldown";
 import { useEffect, useMemo, useState } from "react";
 import { getEvents, getWeeklyIssueLatest, type EventGuideSummary } from "@/lib/api";
 import { dDayLabel, deadlineLabel, eventDeadline } from "@/lib/eventPeriod";
@@ -58,7 +57,7 @@ export default function HomeTodayBrief() {
   const goalFeature = ALL_SITE_FEATURES.find((feature) => feature.href === GOAL_PRIMARY[profile.goal]);
 
   return (
-    <section className="max-w-3xl mx-auto mt-8" aria-labelledby="today-brief-title">
+    <section className="max-w-3xl mx-auto mt-6" aria-labelledby="today-brief-title">
       <div className="flex items-end justify-between mb-3">
         <div>
           <h2 id="today-brief-title" className="font-pixel text-[13px] text-maple">오늘 뭐 하지?</h2>
@@ -85,8 +84,6 @@ export default function HomeTodayBrief() {
           <span className="block text-xs text-dim mt-1">{goalFeature?.description || "자주 쓰는 기능을 모아보세요"}</span>
         </Link>
       </div>
-      <div className="mt-3"><AmorianCooldown compact /></div>
-      <Link className="inline-flex min-h-11 items-center text-sm text-maple underline" href="/battle-mage#mastery-checklist">내 배메 마북 진행 확인 →</Link>
     </section>
   );
 }

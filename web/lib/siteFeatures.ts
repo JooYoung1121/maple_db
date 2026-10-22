@@ -115,7 +115,6 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/bimae", label: "비매박제", icon: "🚫", description: "비매 유저 신고" },
       { href: "/community", label: "투표", icon: "🗳️", description: "유저 투표 참여" },
       { href: "/version", label: "업데이트 소식", icon: "🧾", description: "사이트 변경 내역" },
-      { href: "/performance", label: "반응성 진단", icon: "⏱️", description: "선택형 로컬 INP 측정 · 서버 전송 없음" },
     ],
   },
   {

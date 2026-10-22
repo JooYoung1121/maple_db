@@ -15,6 +15,21 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.20.0",
+    date: "2026-10-22",
+    type: "minor",
+    title: "홈 화면 정리 — 자주 찾는 정보 · 시뮬레이터 중심, 나머지는 전체 메뉴로",
+    pages: ["/"],
+    features: [
+      { category: "홈", items: [
+        "첫 화면을 아이템 · 몬스터 · 맵 · 보스 큰 카드와 시뮬레이터 6종으로 압축",
+        "70여 개 기능 카드 나열을 카테고리별 한 줄 메뉴(전체 메뉴)로 바꿔 스크롤 길이를 크게 줄임",
+        "오늘 뭐 하지?에서 아모리안 쿨타임 · 배메 마북 링크를 빼고 이벤트 · 주간 메랜 · 이어서 보기만 남김",
+      ] },
+      { category: "정리", items: ["개발용 브라우저 반응성 진단 페이지 제거"] },
+    ],
+  },
+  {
     version: "4.19.1",
     date: "2026-10-17",
     type: "minor",
@@ -828,7 +843,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     date: "2026-09-08",
     type: "minor",
     title: "웨딩 파퀘 도우미 · 사이트 점검 개선",
-    pages: ["/pq/amorian-solver", "/pq", "/wedding", "/playground", "/play", "/battle-mage", "/quests", "/skills", "/events", "/performance"],
+    pages: ["/pq/amorian-solver", "/pq", "/wedding", "/playground", "/play", "/battle-mage", "/quests", "/skills", "/events"],
     features: [
       {
         category: "정확성 · 데이터 신뢰",

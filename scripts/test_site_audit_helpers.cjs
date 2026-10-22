@@ -16,12 +16,4 @@ for (const raw of [null, '', 'oops', 'NaN', 'Infinity', '-1', '0', String(now + 
 assert.equal(parseEntry(String(now), now), now);
 assert.equal(SIX_HOURS, 21600000);
 assert.match(formatKst(now + SIX_HOURS), /9.*9.*05:00/);
-const { percentile75, readVitals } = load('localVitals');
-assert.equal(percentile75([]), null);
-assert.equal(percentile75([100, 300, 200, 400]), 300);
-assert.equal(percentile75([0]), 0);
-global.localStorage = {getItem: () => '{bad'};
-assert.deepEqual(readVitals(), []);
-global.localStorage = {getItem: () => '[{"id":"a","name":"INP","value":10,"screen":"mobile"},{"id":"b","name":"SECRET","value":20,"screen":"desktop"}]'};
-assert.equal(readVitals().length, 1);
-console.log('PASS cooldown validation/KST rollover and local INP percentile/storage validation');
+console.log('PASS cooldown validation/KST rollover');
