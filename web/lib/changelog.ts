@@ -15,6 +15,21 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.20.2",
+    date: "2026-10-23",
+    type: "patch",
+    title: "3주년 이벤트 대비 정리",
+    pages: ["/events"],
+    features: [
+      { category: "이벤트 정리", items: [
+        "「[미리보기] 메이플랜드 3주년 이벤트」 추가 — 1·2주년 구성 비교, 2주년 상점, 커뮤니티 예상(디시 85건), 지금 해 둘 준비",
+        "지난 주년 이벤트 아카이브 추가 — 1주년 기념 축제(2024) · 2주년 파티(2025)",
+      ] },
+      { category: "아이템", items: ["메이플 가네샤 상세 페이지 공개 — 2주년 이벤트 보상으로 지급된 메랜 아이템인데 목록에서 빠져 있었음"] },
+      { category: "챗봇", items: ["'3주년' 질문에 미리보기 정리로 안내"] },
+    ],
+  },
+  {
     version: "4.20.1",
     date: "2026-10-22",
     type: "patch",

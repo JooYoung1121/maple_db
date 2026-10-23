@@ -163,6 +163,28 @@
           "url": "https://maple-library.com/item/4032009"
         }
       ]
+    },
+    "1082252": {
+      "name_kr": "메이플 가네샤",
+      "level": 13,
+      "publish": true,
+      "aliases": [
+        "가네샤",
+        "메이플가네샤",
+        "Maple Gage"
+      ],
+      "acquisition": "주년 이벤트 보상 장갑. 2주년(2025-10-31~11-28) 때 카산드라의 '카산드라의 장갑 선물' 퀘스트(레벨 15 이상) 보상으로 지급됐습니다.",
+      "note": "기간 제한 없는(무제한) 이벤트 장비입니다. 2주년에는 단풍잎 상점에서 전용 주문서 '[2주년] 메이플 가네샤 공격력 주문서 100%'(단풍잎 50개)를 팔았습니다. 3주년 지급 여부는 공지 전입니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 · Mapleland 2주년 파티 (2025-10-31)",
+          "url": "https://maple.land/board/events/rsxu96xm9co5a8lz8cvpfc7v"
+        },
+        {
+          "label": "메팁 DB · 이름·착용 조건·옵션",
+          "url": "https://matip.kr/com/db?item=1082252"
+        }
+      ]
     }
   }
 }
