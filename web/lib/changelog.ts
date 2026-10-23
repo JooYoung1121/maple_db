@@ -15,6 +15,18 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.20.3",
+    date: "2026-10-23",
+    type: "patch",
+    title: "3주년 대비 후기 메이플 장비 데이터 준비",
+    features: [
+      { category: "아이템 데이터", items: [
+        "77제 메이플 파이롭 무기 17종·파이롭 펜던트 2종, 77제 메이플 펜던트, 79제 메이플 이올렛 장비 24종의 수치를 미리 넣어 둠 (원작 KMS 값)",
+        "메랜 미출시 아이템이라 아직 사이트에 노출하지 않음 — 3주년 등에서 출시가 확인되면 바로 공개",
+      ] },
+    ],
+  },
+  {
     version: "4.20.2",
     date: "2026-10-23",
     type: "patch",
