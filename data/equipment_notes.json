@@ -45,7 +45,7 @@
         "성소로 통하는 길의 잭에게 크림슨우드 성채 입장을 신청합니다.",
         "원정대를 진행해 보상 장비를 획득합니다."
       ],
-      "note": "메이플랜드 공식 2026-01-23 패치 반영: 공격력 4, 마력 8, HP·MP 150, 명중 대신 회피. 고유 아이템입니다. 원작 도감의 공격력 10·마력 10과 다릅니다.",
+      "note": "메이플랜드 공식 2026-01-23 패치 반영: 공격력 4, 마력 8, HP·MP 150, 명중 대신 회피. 2026-10-27 패치로 고유장착 옵션이 삭제되었습니다. 원작 도감의 공격력 10·마력 10과 다릅니다.",
       "sources": [
         {
           "label": "메이플랜드 공식 · 크림슨우드 및 옵션 변경",
@@ -183,6 +183,312 @@
         {
           "label": "메팁 DB · 이름·착용 조건·옵션",
           "url": "https://matip.kr/com/db?item=1082252"
+        }
+      ]
+    },
+    "1122075": {
+      "name_kr": "메이플 파이롭 매직 펜던트",
+      "level": 77,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC의 '메이플 파이롭 펜던트' 메뉴에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후).",
+      "note": "수치는 원작 KMS 값(메팁·로그지지)입니다. 메이플랜드 실측과 다를 수 있습니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "메팁 DB · 원작 수치",
+          "url": "https://matip.kr/com/db?item=1122075"
+        }
+      ]
+    },
+    "1122077": {
+      "name_kr": "메이플 파이롭 파워 펜던트",
+      "level": 77,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC의 '메이플 파이롭 펜던트' 메뉴에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후).",
+      "note": "수치는 원작 KMS 값(메팁·로그지지)입니다. 메이플랜드 실측과 다를 수 있습니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "메팁 DB · 원작 수치",
+          "url": "https://matip.kr/com/db?item=1122077"
+        }
+      ]
+    },
+    "1302142": {
+      "name_kr": "메이플 파이롭 소드",
+      "level": 77,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후).",
+      "note": "수치는 원작 KMS 값(메팁·로그지지)입니다. 메이플랜드 실측과 다를 수 있습니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "메팁 DB · 원작 수치",
+          "url": "https://matip.kr/com/db?item=1302142"
+        }
+      ]
+    },
+    "1312056": {
+      "name_kr": "메이플 파이롭 엑스",
+      "level": 77,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후).",
+      "note": "수치는 원작 KMS 값(메팁·로그지지)입니다. 메이플랜드 실측과 다를 수 있습니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "메팁 DB · 원작 수치",
+          "url": "https://matip.kr/com/db?item=1312056"
+        }
+      ]
+    },
+    "1322084": {
+      "name_kr": "메이플 파이롭 해머",
+      "level": 77,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후).",
+      "note": "수치는 원작 KMS 값(메팁·로그지지)입니다. 메이플랜드 실측과 다를 수 있습니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "메팁 DB · 원작 수치",
+          "url": "https://matip.kr/com/db?item=1322084"
+        }
+      ]
+    },
+    "1332114": {
+      "name_kr": "메이플 파이롭 하프문",
+      "level": 77,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후).",
+      "note": "수치는 원작 KMS 값(메팁·로그지지)입니다. 메이플랜드 실측과 다를 수 있습니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "메팁 DB · 원작 수치",
+          "url": "https://matip.kr/com/db?item=1332114"
+        }
+      ]
+    },
+    "1372071": {
+      "name_kr": "메이플 파이롭 완드",
+      "level": 77,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후).",
+      "note": "수치는 원작 KMS 값(메팁·로그지지)입니다. 메이플랜드 실측과 다를 수 있습니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "메팁 DB · 원작 수치",
+          "url": "https://matip.kr/com/db?item=1372071"
+        }
+      ]
+    },
+    "1382093": {
+      "name_kr": "메이플 파이롭 스태프",
+      "level": 77,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후).",
+      "note": "수치는 원작 KMS 값(메팁·로그지지)입니다. 메이플랜드 실측과 다를 수 있습니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "메팁 DB · 원작 수치",
+          "url": "https://matip.kr/com/db?item=1382093"
+        }
+      ]
+    },
+    "1402085": {
+      "name_kr": "메이플 파이롭 로헨",
+      "level": 77,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후).",
+      "note": "수치는 원작 KMS 값(메팁·로그지지)입니다. 메이플랜드 실측과 다를 수 있습니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "메팁 DB · 원작 수치",
+          "url": "https://matip.kr/com/db?item=1402085"
+        }
+      ]
+    },
+    "1412055": {
+      "name_kr": "메이플 파이롭 배틀엑스",
+      "level": 77,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후).",
+      "note": "수치는 원작 KMS 값(메팁·로그지지)입니다. 메이플랜드 실측과 다를 수 있습니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "메팁 DB · 원작 수치",
+          "url": "https://matip.kr/com/db?item=1412055"
+        }
+      ]
+    },
+    "1422057": {
+      "name_kr": "메이플 파이롭 모울",
+      "level": 77,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후).",
+      "note": "수치는 원작 KMS 값(메팁·로그지지)입니다. 메이플랜드 실측과 다를 수 있습니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "메팁 DB · 원작 수치",
+          "url": "https://matip.kr/com/db?item=1422057"
+        }
+      ]
+    },
+    "1432075": {
+      "name_kr": "메이플 파이롭 스피어",
+      "level": 77,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후).",
+      "note": "수치는 원작 KMS 값(메팁·로그지지)입니다. 메이플랜드 실측과 다를 수 있습니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "메팁 DB · 원작 수치",
+          "url": "https://matip.kr/com/db?item=1432075"
+        }
+      ]
+    },
+    "1442104": {
+      "name_kr": "메이플 파이롭 핼버드",
+      "level": 77,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후).",
+      "note": "수치는 원작 KMS 값(메팁·로그지지)입니다. 메이플랜드 실측과 다를 수 있습니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "메팁 DB · 원작 수치",
+          "url": "https://matip.kr/com/db?item=1442104"
+        }
+      ]
+    },
+    "1452100": {
+      "name_kr": "메이플 파이롭 보우",
+      "level": 77,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후).",
+      "note": "수치는 원작 KMS 값(메팁·로그지지)입니다. 메이플랜드 실측과 다를 수 있습니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "메팁 DB · 원작 수치",
+          "url": "https://matip.kr/com/db?item=1452100"
+        }
+      ]
+    },
+    "1462085": {
+      "name_kr": "메이플 파이롭 크로우",
+      "level": 77,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후).",
+      "note": "수치는 원작 KMS 값(메팁·로그지지)입니다. 메이플랜드 실측과 다를 수 있습니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "메팁 DB · 원작 수치",
+          "url": "https://matip.kr/com/db?item=1462085"
+        }
+      ]
+    },
+    "1472111": {
+      "name_kr": "메이플 파이롭 스칸다",
+      "level": 77,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후).",
+      "note": "수치는 원작 KMS 값(메팁·로그지지)입니다. 메이플랜드 실측과 다를 수 있습니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "메팁 DB · 원작 수치",
+          "url": "https://matip.kr/com/db?item=1472111"
+        }
+      ]
+    },
+    "1482073": {
+      "name_kr": "메이플 파이롭 너클",
+      "level": 77,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후).",
+      "note": "수치는 원작 KMS 값(메팁·로그지지)입니다. 메이플랜드 실측과 다를 수 있습니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "메팁 DB · 원작 수치",
+          "url": "https://matip.kr/com/db?item=1482073"
+        }
+      ]
+    },
+    "1492073": {
+      "name_kr": "메이플 파이롭 슈터",
+      "level": 77,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후).",
+      "note": "수치는 원작 KMS 값(메팁·로그지지)입니다. 메이플랜드 실측과 다를 수 있습니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "메팁 DB · 원작 수치",
+          "url": "https://matip.kr/com/db?item=1492073"
         }
       ]
     }
