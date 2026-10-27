@@ -1085,6 +1085,19 @@
       "level_req": 75,
       "job_req": "",
       "upgrade_slots": 5
+    },
+    "1382009": {
+      "stats": {
+        "incMHP": 100,
+        "incPAD": 35,
+        "incMAD": 48,
+        "reqLUK": 23
+      },
+      "source_note": "2026-10-27 공식 패치노트 툴팁 이미지 — 메이플 무기 스탯 제한 완화 예시 (REQ LUK 33 → 23)",
+      "updated_at": "2026-10-28",
+      "level_req": 35,
+      "job_req": "마법사",
+      "upgrade_slots": 7
     }
   },
   "quests": {},
