@@ -70,14 +70,16 @@ def format_ox_reply(arg: str, site: str, *, markdown: bool = False, top: int = 3
     lines = []
     for it in hits[:top]:
         ans = f"**[{it['a']}]**" if markdown else f"[{it['a']}]"
-        line = f"{ans} {it['q']}"
+        tag = " 🆕메랜 출제" if it.get("basis") == "observed" else ""
+        line = f"{ans}{tag} {it['q']}"
         if it.get("ex"):
             line += f"\n  └ {it['ex']}"
         if it.get("alt"):
-            line += f"\n  ⚠ {it['alt']['by']}: 메랜에서는 {it['alt']['a']}라는 주장 — 미검증"
+            line += f"\n  ⚠ {it['alt']['by']}: {it['alt']['a']} — {it['alt']['note']}"
         lines.append(line)
     more = f"\n…외 {len(hits) - top}건" if len(hits) > top else ""
-    return "\n".join(lines) + more + f"\n{page}?q={quote_plus(arg)}"
+    warn = "\n※ 메랜은 원작 족보와 다른 문제·정답도 나와요 (🆕 표시만 메랜 실제 출제 확인)"
+    return "\n".join(lines) + more + warn + f"\n{page}?q={quote_plus(arg)}"
 
 
 @router.get("/ox-quiz")
