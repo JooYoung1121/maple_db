@@ -15,6 +15,19 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.21.0",
+    date: "2026-10-31",
+    type: "minor",
+    title: "OX퀴즈 족보 검색",
+    pages: ["/ox"],
+    features: [
+      { category: "놀이터", items: [
+        "OX퀴즈 족보 추가 — 3주년 토요일 21시 OX퀴즈 대비, 원작(빅뱅 이전) OX 이벤트 271문제를 단어 몇 개로 바로 검색 (메이플·상식 분류, 정답 근거 해설 포함)",
+        "카톡봇 '!ox <문제 일부>' 명령 — 족보에서 상위 3건을 정답과 함께 답장",
+      ] },
+    ],
+  },
+  {
     version: "4.20.4",
     date: "2026-10-27",
     type: "patch",

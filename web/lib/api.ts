@@ -1095,6 +1095,29 @@ export async function getBossParticipation() {
 }
 
 /* ── 초성퀴즈 검색기 ── */
+/* ── OX퀴즈 족보 ─────────────────────────── */
+export interface OxQuizItem {
+  id: number;
+  q: string;
+  a: "O" | "X";
+  ex: string;
+  cat: "maple" | "general";
+  basis: "explicit" | "derived";
+  note?: string;
+  alt?: { a: "O" | "X"; by: string; note: string };
+}
+
+export interface OxQuizMeta {
+  description: string;
+  sources: { label: string; url: string }[];
+  updated_at: string;
+  count: number;
+}
+
+export async function getOxQuiz() {
+  return fetchJSON<{ meta: OxQuizMeta; total: number; items: OxQuizItem[] }>(`/api/ox-quiz`);
+}
+
 export async function searchChosung(q: string, type?: string, mode: "exact" | "prefix" = "exact") {
   return fetchJSON<{
     q: string;

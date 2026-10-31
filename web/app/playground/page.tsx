@@ -10,7 +10,7 @@ import { MY_MAPLE_UPDATED_EVENT, readRecentFeatures, type RecentFeature } from "
 const GROUPS = [
   {label: "오늘의 게임 · 가볍게 한 판", paths: ["/daily-mob", "/mapletle", "/fortune", "/quiz", "/highlow", "/map-guess", "/drop-chain"]},
   {label: "파티 결정 도구 · 함께 놀기", paths: ["/play", "/pq/amorian-solver", "/lotto", "/versus", "/worldcup"]},
-  {label: "도감 · 아카이브", paths: ["/chosung", "/museum", "/tespia-bosses"]},
+  {label: "도감 · 아카이브", paths: ["/chosung", "/ox", "/museum", "/tespia-bosses"]},
 ];
 const paths = new Set(GROUPS.flatMap(g => g.paths));
 
