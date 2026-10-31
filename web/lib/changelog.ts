@@ -15,6 +15,18 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.21.1",
+    date: "2026-10-31",
+    type: "patch",
+    title: "디스코드 봇 OX퀴즈 족보",
+    pages: ["/ox"],
+    features: [
+      { category: "디스코드 봇", items: [
+        "푸확 봇에서 '!ox 왕도깨비' · 'OX퀴즈 왕도깨비 정답 뭐야?'처럼 물으면 족보 상위 3건을 정답·해설과 함께 답장 (카톡봇 !ox와 같은 검색)",
+      ] },
+    ],
+  },
+  {
     version: "4.21.0",
     date: "2026-10-31",
     type: "minor",

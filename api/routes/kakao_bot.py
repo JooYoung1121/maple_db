@@ -21,7 +21,7 @@ from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
 from api.routes.events import effective_event
-from api.routes.ox_quiz import search_ox
+from api.routes.ox_quiz import format_ox_reply
 from crawler.db import get_connection
 
 router = APIRouter()
@@ -308,21 +308,7 @@ def _cmd_skill(arg: str) -> str:
 
 
 def _cmd_ox(arg: str) -> str:
-    if not arg:
-        return f"⭕❌ OX퀴즈 족보 — 문제 일부를 같이 적어주세요! (예: !ox 왕도깨비)\n{_site()}/ox"
-    hits = search_ox(arg)
-    if not hits:
-        return f"'{arg}' 문제를 족보에서 못 찾았어요. 다른 단어로 검색해보세요.\n{_site()}/ox"
-    lines = []
-    for it in hits[:3]:
-        line = f"[{it['a']}] {it['q']}"
-        if it.get("ex"):
-            line += f"\n  └ {it['ex']}"
-        if it.get("alt"):
-            line += f"\n  ⚠ {it['alt']['note']}"
-        lines.append(line)
-    more = f"\n…외 {len(hits) - 3}건" if len(hits) > 3 else ""
-    return "\n".join(lines) + more + f"\n{_site()}/ox?q={arg.replace(' ', '+')}"
+    return format_ox_reply(arg, _site())
 
 
 def _cmd_playground(arg: str) -> str:

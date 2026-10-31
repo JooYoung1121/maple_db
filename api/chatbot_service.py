@@ -27,6 +27,7 @@ from urllib.parse import quote, urlparse
 import httpx
 
 from api.routes.mapleland_reference import id_filter_sql
+from api.routes.ox_quiz import format_ox_reply, parse_ox_query
 from crawler.db import get_connection
 
 
@@ -692,6 +693,7 @@ def _info_reply(actor: Optional[ChatActor]) -> str:
         "• `스켈로스 드랍템` · `오늘 패치내용` · `공홈소식 링크`",
         "• `슬리피우드 맵` · `헤이스트 스킬` · `발록 어디서 나와` — 상세 페이지 연결",
         "• `서울 오늘 날씨` · `최신 메이플랜드 소식 검색해줘`",
+        "• `!ox 왕도깨비` — OX퀴즈 족보에서 정답 찾기 (토요일 21시 이벤트)",
         "• 사이트의 몬스터·아이템·공지·계산기·가이드 링크 (체경비·놀이터 포함)",
         "",
         "**서버 메모 스킬**",
@@ -1558,6 +1560,13 @@ async def handle_chat_message(
     if memory_command:
         # User-authored memory content never enters the Gemini conversation history.
         return memory_command
+
+    # OX퀴즈 족보 — '!ox 왕도깨비', 'OX퀴즈 왕도깨비 정답' (3주년 토요일 21시 이벤트)
+    ox_query = parse_ox_query(question)
+    if ox_query is not None:
+        reply = format_ox_reply(ox_query, _site(), markdown=True)
+        _remember(session, question, reply)
+        return reply
 
     notice_followup = _notice_followup_reply(session, question)
     if notice_followup:

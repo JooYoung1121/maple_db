@@ -7,6 +7,7 @@ import json
 import re
 from pathlib import Path
 from typing import Optional
+from urllib.parse import quote_plus
 
 from fastapi import APIRouter, Query
 
@@ -43,6 +44,40 @@ def search_ox(q: str, limit: Optional[int] = None) -> list[dict]:
             in_ex.append(it)
     hits = in_q + in_ex
     return hits[:limit] if limit else hits
+
+
+# 'ox'/'오엑스'로 시작하는 메시지 — 'oxford'처럼 영문이 바로 이어지면 제외
+OX_TRIGGER = re.compile(r"^\s*!?\s*(?:ox|오엑스)(?![a-z])\s*(?:퀴즈)?\s*(?:족보)?\s*[:：]?\s*", re.IGNORECASE)
+_ASK_TAIL = re.compile(r"\s*(?:정답|답)?\s*(?:은|이)?\s*(?:뭐야|뭐임|뭔가요|알려줘)?\s*[?？!]*$")
+
+
+def parse_ox_query(text: str) -> Optional[str]:
+    """'!ox 왕도깨비', 'OX퀴즈 왕도깨비 정답 뭐야?' 같은 메시지면 검색어('' 가능)를, 아니면 None."""
+    m = OX_TRIGGER.match(text)
+    if not m:
+        return None
+    return _ASK_TAIL.sub("", text[m.end():]).strip()
+
+
+def format_ox_reply(arg: str, site: str, *, markdown: bool = False, top: int = 3) -> str:
+    """카톡봇·디스코드봇 공용 답장. markdown=True면 디스코드용 굵게 표시."""
+    page = f"{site}/ox"
+    if not arg:
+        return f"⭕❌ OX퀴즈 족보 — 문제 일부를 같이 적어주세요! (예: !ox 왕도깨비)\n{page}"
+    hits = search_ox(arg)
+    if not hits:
+        return f"'{arg}' 문제를 족보에서 못 찾았어요. 다른 단어로 검색해보세요.\n{page}"
+    lines = []
+    for it in hits[:top]:
+        ans = f"**[{it['a']}]**" if markdown else f"[{it['a']}]"
+        line = f"{ans} {it['q']}"
+        if it.get("ex"):
+            line += f"\n  └ {it['ex']}"
+        if it.get("alt"):
+            line += f"\n  ⚠ {it['alt']['by']}: 메랜에서는 {it['alt']['a']}라는 주장 — 미검증"
+        lines.append(line)
+    more = f"\n…외 {len(hits) - top}건" if len(hits) > top else ""
+    return "\n".join(lines) + more + f"\n{page}?q={quote_plus(arg)}"
 
 
 @router.get("/ox-quiz")
