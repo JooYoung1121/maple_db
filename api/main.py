@@ -59,6 +59,7 @@ from api.routes import guild_events
 from api.routes import guild_settlements
 from api.routes import playground
 from api.routes import recruit_card
+from api.routes import ox_quiz
 from api.discord_bot import start_bot, get_bot
 
 
@@ -425,6 +426,7 @@ app.include_router(guild_events.router, prefix="/api")
 app.include_router(guild_settlements.router, prefix="/api")
 app.include_router(playground.router, prefix="/api")
 app.include_router(recruit_card.router, prefix="/api")
+app.include_router(ox_quiz.router, prefix="/api")
 
 
 @app.get("/api/health")

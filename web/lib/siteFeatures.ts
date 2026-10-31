@@ -134,6 +134,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/worldcup", label: "이상형 월드컵", icon: "🏆", description: "몬스터 · 코디템 최애 뽑기" },
       { href: "/versus", label: "대전 게임", icon: "⚔️", description: "오목 · 짝맞추기 · 원카드 · 윷놀이" },
       { href: "/chosung", label: "초성퀴즈 검색기", icon: "🔤", description: "초성으로 메랜 이름 찾기" },
+      { href: "/ox", label: "OX퀴즈 족보", icon: "⭕", description: "3주년 토요일 OX퀴즈 문제·정답 검색", keywords: ["ox", "오엑스", "3주년", "추억의 이벤트"] },
       { href: "/museum", label: "이세계 도감", icon: "🗃️", description: "메랜에 없는 몹·아이템 구경" },
     ],
   },

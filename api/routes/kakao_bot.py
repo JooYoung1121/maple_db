@@ -21,6 +21,7 @@ from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
 from api.routes.events import effective_event
+from api.routes.ox_quiz import search_ox
 from crawler.db import get_connection
 
 router = APIRouter()
@@ -35,6 +36,7 @@ HELP_TEXT = """[추억길드 봇 명령어]
 !주간 — 최신 주간 메랜
 !놀이터 [핀볼/로또/운세/퀴즈…] — 놀이터 링크
 !오늘의몬스터 — 데일리 추리 게임
+!ox <문제 일부> — OX퀴즈 족보 검색 (토요일 21시)
 !질문 <내용> 또는 푸확아 <내용> — 자유 질문"""
 
 # 놀이터 하위 메뉴 매핑
@@ -305,6 +307,24 @@ def _cmd_skill(arg: str) -> str:
     return base
 
 
+def _cmd_ox(arg: str) -> str:
+    if not arg:
+        return f"⭕❌ OX퀴즈 족보 — 문제 일부를 같이 적어주세요! (예: !ox 왕도깨비)\n{_site()}/ox"
+    hits = search_ox(arg)
+    if not hits:
+        return f"'{arg}' 문제를 족보에서 못 찾았어요. 다른 단어로 검색해보세요.\n{_site()}/ox"
+    lines = []
+    for it in hits[:3]:
+        line = f"[{it['a']}] {it['q']}"
+        if it.get("ex"):
+            line += f"\n  └ {it['ex']}"
+        if it.get("alt"):
+            line += f"\n  ⚠ {it['alt']['note']}"
+        lines.append(line)
+    more = f"\n…외 {len(hits) - 3}건" if len(hits) > 3 else ""
+    return "\n".join(lines) + more + f"\n{_site()}/ox?q={arg.replace(' ', '+')}"
+
+
 def _cmd_playground(arg: str) -> str:
     if arg:
         key = arg.replace(" ", "")
@@ -384,6 +404,8 @@ async def kakao_chat(payload: ChatPayload, request: Request):
             return {"reply": _cmd_playground(arg)}
         if cmd in ("오늘의몬스터", "데일리"):
             return {"reply": f"👾 오늘의 몬스터 — 매일 자정 새 퍼즐!\n{_site()}/daily-mob"}
+        if cmd.lower() in ("ox", "ox퀴즈", "오엑스"):
+            return {"reply": _cmd_ox(arg)}
         if cmd == "질문":
             return {"reply": await _handle_question(conn, payload.room, payload.sender, arg)}
         # 알 수 없는 명령: 룰 매칭이라도 시도 후 도움말 안내
