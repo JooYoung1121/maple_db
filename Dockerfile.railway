@@ -49,6 +49,7 @@ COPY data/mapleland_npcs.json data/mapleland_npcs.json
 COPY data/local_news_summaries.json data/local_news_summaries.json
 COPY data/maker_data.json data/maker_data.json
 COPY data/skill_sim_data.json data/skill_sim_data.json
+COPY data/ox_quiz.json data/ox_quiz.json
 RUN python -c "from crawler.db import init_db; init_db()"
 
 # 시작 스크립트
