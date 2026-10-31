@@ -1102,7 +1102,9 @@ export interface OxQuizItem {
   a: "O" | "X";
   ex: string;
   cat: "maple" | "general";
-  basis: "explicit" | "derived";
+  basis: "explicit" | "derived" | "observed";
+  seen?: string;
+  sources?: string[];
   note?: string;
   alt?: { a: "O" | "X"; by: string; note: string };
 }
@@ -1110,6 +1112,7 @@ export interface OxQuizItem {
 export interface OxQuizMeta {
   description: string;
   sources: { label: string; url: string }[];
+  warning?: string;
   updated_at: string;
   count: number;
 }

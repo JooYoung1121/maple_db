@@ -9,16 +9,80 @@
       {
         "label": "메랜유틸 OX퀴즈 족보 (교차 검증·영문 표기 복원)",
         "url": "https://mapleland-util.com/guides/ox-quiz"
+      },
+      {
+        "label": "디시 메이플랜드 갤러리 — 10/31 1회차 참가자 글",
+        "url": "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=4065585"
       }
     ],
     "basis": {
       "explicit": "원문에 O/X가 명시된 문항",
-      "derived": "원문은 해설만 있어 O/X를 해설에서 판정한 문항 (메랜유틸 판정과 전부 일치)"
+      "derived": "원문은 해설만 있어 O/X를 해설에서 판정한 문항 (메랜유틸 판정과 전부 일치)",
+      "observed": "메이플랜드 실제 출제에서 정답이 확인된 문항 (커뮤니티·참가자 제보)"
     },
     "updated_at": "2026-10-31",
-    "count": 271
+    "count": 276,
+    "warning": "10/31 1회차 결과, 메이플랜드는 원작 문제를 그대로 내지 않습니다 — 운영진 오리지널 문제와 원작과 정답이 다른 문제가 섞여 나왔습니다. 원작 족보 정답은 참고용으로만 보세요."
   },
   "items": [
+    {
+      "id": 272,
+      "q": "그류핀은 얼음 공격을 한다.",
+      "a": "O",
+      "ex": "10/31 1회차 출제 — 메랜DB 운영자가 직접 참가해 확인 (X를 골라 탈락).",
+      "cat": "maple",
+      "basis": "observed",
+      "seen": "2026-10-31"
+    },
+    {
+      "id": 273,
+      "q": "아이스 스트라이크에 공격당하면 일정시간 결빙된다.",
+      "a": "X",
+      "ex": "10/31 1회차 3라운드 출제 — O를 고른 참가자가 대거 탈락했다는 글이 여러 건. 원작 족보(O)와 정답이 다르니 주의.",
+      "cat": "maple",
+      "basis": "observed",
+      "seen": "2026-10-31",
+      "sources": [
+        "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=4065585",
+        "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=4065577"
+      ]
+    },
+    {
+      "id": 274,
+      "q": "드레이크의 고기를 먹으면 3분간 방어력이 10 올라간다.",
+      "a": "O",
+      "ex": "10/31 1회차 출제 — X를 골라 탈락했다는 글 기준. 문장 표현은 커뮤니티 글에서 옮긴 것이라 실제와 조금 다를 수 있음.",
+      "cat": "maple",
+      "basis": "observed",
+      "seen": "2026-10-31",
+      "sources": [
+        "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=4065589"
+      ]
+    },
+    {
+      "id": 275,
+      "q": "모든 상태이상을 풀 수 있는 약이 있다.",
+      "a": "O",
+      "ex": "10/31 1회차 출제 — 정답이 O였다는 글 기준.",
+      "cat": "maple",
+      "basis": "observed",
+      "seen": "2026-10-31",
+      "sources": [
+        "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=4065583"
+      ]
+    },
+    {
+      "id": 276,
+      "q": "태공의 낚싯대에는 나뭇잎이 1개 붙어 있다.",
+      "a": "O",
+      "ex": "10/31 1회차 출제 — 정답이 O였다는 글 기준.",
+      "cat": "maple",
+      "basis": "observed",
+      "seen": "2026-10-31",
+      "sources": [
+        "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=4065571"
+      ]
+    },
     {
       "id": 1,
       "q": "아랫마을에 등장하는 왕도깨비 중 파란왕도깨비는 돼지고기산적을 이용해서 소환할 수 있다.",
@@ -774,7 +838,7 @@
       "ex": "사이좋은 형제다.",
       "cat": "maple",
       "basis": "explicit",
-      "note": "원작 코-크 타운 이벤트 문제 — 메이플랜드에는 코-크 타운이 없어 출제 가능성은 낮습니다."
+      "note": "10/31 메랜에서 실제 출제됨 — 메랜 정답은 미확인(원작 해설은 형제라 X)."
     },
     {
       "id": 95,
@@ -838,7 +902,12 @@
       "a": "O",
       "ex": "명중시 냉기 속성 외의 몬스터는 얼어붙게 되며 한 번에 6마리 이상은 공격할 수 없다.",
       "cat": "maple",
-      "basis": "derived"
+      "basis": "derived",
+      "alt": {
+        "a": "X",
+        "by": "10/31 메랜 실제 출제",
+        "note": "메랜에서 비슷한 문제(아이스 스트라이크 결빙)가 X로 출제됨 — 문장 차이 미확인"
+      }
     },
     {
       "id": 103,
@@ -2194,7 +2263,7 @@
       "alt": {
         "a": "O",
         "by": "메랜유틸",
-        "note": "메이플랜드는 추락 대미지가 HP를 1까지만 깎는다는 주장 — 메랜DB 미검증. 실제 출제 시 정답 확인 필요"
+        "note": "메이플랜드는 추락 대미지가 HP를 1까지만 깎는다는 주장 — 미검증"
       }
     }
   ]

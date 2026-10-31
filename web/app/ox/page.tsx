@@ -72,6 +72,12 @@ function OxQuizContent() {
         <Link href="/events/mapleland-3rd-anniversary-2026" className="text-maple hover:underline">3주년 이벤트 정리 →</Link>
       </p>
 
+      {meta?.warning && (
+        <div className="pixel-card border-amber-500 p-3 mb-4 text-sm text-ink">
+          ⚠️ {meta.warning} <span className="text-dim">🆕 표시 문항만 메랜 실제 출제에서 정답이 확인된 것입니다.</span>
+        </div>
+      )}
+
       <div className="pixel-panel p-4 mb-4">
         <input
           type="search"
@@ -108,14 +114,24 @@ function OxQuizContent() {
           <div key={it.id} className="pixel-card p-3 flex gap-3">
             <AnswerBadge a={it.a} />
             <div className="min-w-0 flex-1">
-              <p className="text-ink font-medium break-keep">{it.q}</p>
+              <p className="text-ink font-medium break-keep">
+                {it.basis === "observed" && (
+                  <span className="mr-1.5 px-1.5 py-0.5 text-[11px] font-pixel bg-maple text-white align-middle">🆕 메랜 {it.seen?.slice(5).replace("-", "/")} 출제</span>
+                )}
+                {it.q}
+              </p>
               {it.ex && <p className="text-sm text-dim mt-1 break-keep">{it.ex}</p>}
               {it.alt && (
                 <p className="text-xs text-amber-600 mt-1">
-                  ⚠ {it.alt.by}: 메이플랜드에서는 {it.alt.a}라는 주장 — {it.alt.note}
+                  ⚠ {it.alt.by}: {it.alt.a} — {it.alt.note}
                 </p>
               )}
               {it.note && <p className="text-xs text-dim mt-1">※ {it.note}</p>}
+              {it.sources?.map((u, i) => (
+                <a key={u} href={u} target="_blank" rel="noopener noreferrer" className="text-xs text-dim hover:text-maple underline mr-2">
+                  제보 {i + 1}
+                </a>
+              ))}
             </div>
           </div>
         ))}
@@ -127,8 +143,8 @@ function OxQuizContent() {
       {meta && (
         <div className="text-xs text-dim mt-6 space-y-1">
           <p>
-            정답은 원작(빅뱅 이전) OX 이벤트 해설 기준입니다. 원문 대부분은 해설만 있어 O/X를 해설에서 판정했고,
-            메이플랜드에서 문제나 정답을 바꿨을 수 있으니 현장 안내를 우선해주세요.
+            🆕 표시가 없는 문항의 정답은 원작(빅뱅 이전) OX 이벤트 해설 기준입니다. 원문 대부분은 해설만 있어
+            O/X를 해설에서 판정했고, 메이플랜드는 문제·정답을 바꿔 내기도 하니 참고용으로만 봐주세요.
           </p>
           <p>
             출처:{" "}

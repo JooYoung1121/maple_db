@@ -15,6 +15,19 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.21.2",
+    date: "2026-10-31",
+    type: "patch",
+    title: "OX퀴즈 메랜 실제 출제 반영",
+    pages: ["/ox"],
+    features: [
+      { category: "놀이터", items: [
+        "OX퀴즈 족보에 10/31 1회차 메랜 실제 출제 5문제 추가(🆕 표시, 정답 확인분) — 그류핀 얼음 공격 O, 아이스 스트라이크 결빙 X 등",
+        "메랜은 원작 족보와 다른 오리지널·정답 변경 문제를 낸다는 경고를 페이지·봇 답장에 표시",
+      ] },
+    ],
+  },
+  {
     version: "4.21.1",
     date: "2026-10-31",
     type: "patch",
