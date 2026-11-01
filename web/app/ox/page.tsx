@@ -83,7 +83,7 @@ function OxQuizContent() {
           type="search"
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="문제 일부 입력 (예: 왕도깨비, 길드 마크, 월드컵)"
+          placeholder="문제 일부 입력 (예: 왕도깨비, 그류핀, 월드컵)"
           className="w-full pixel-input px-4 py-3 text-lg mb-3"
           autoFocus
         />
@@ -118,6 +118,9 @@ function OxQuizContent() {
                 {it.basis === "observed" && (
                   <span className="mr-1.5 px-1.5 py-0.5 text-[11px] font-pixel bg-maple text-white align-middle">🆕 메랜 {it.seen?.slice(5).replace("-", "/")} 출제</span>
                 )}
+                {it.basis === "translated" && (
+                  <span className="mr-1.5 px-1.5 py-0.5 text-[11px] font-pixel bg-surface2 text-dim align-middle" title="원작 데이터 중국판을 한국어로 옮긴 문장 — 실제 출제 문구와 다를 수 있어요">번역문</span>
+                )}
                 {it.q}
               </p>
               {it.ex && <p className="text-sm text-dim mt-1 break-keep">{it.ex}</p>}
@@ -143,8 +146,9 @@ function OxQuizContent() {
       {meta && (
         <div className="text-xs text-dim mt-6 space-y-1">
           <p>
-            🆕 표시가 없는 문항의 정답은 원작(빅뱅 이전) OX 이벤트 해설 기준입니다. 원문 대부분은 해설만 있어
-            O/X를 해설에서 판정했고, 메이플랜드는 문제·정답을 바꿔 내기도 하니 참고용으로만 봐주세요.
+            🆕 표시가 없는 문항의 정답은 원작(빅뱅 이전) 클라이언트의 OX퀴즈 데이터(OXQuiz.img 1~9세트) 기준입니다.
+            한국어 원문이 남아 있지 않은 1~8세트는 중국판 데이터를 한국어로 옮겨 &lsquo;번역문&rsquo;으로 표시했으니 실제 문구와 다를 수 있어요.
+            메이플랜드는 문제·정답을 바꿔 내기도 하니 참고용으로만 봐주세요.
           </p>
           <p>
             출처:{" "}

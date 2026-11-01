@@ -1102,7 +1102,9 @@ export interface OxQuizItem {
   a: "O" | "X";
   ex: string;
   cat: "maple" | "general";
-  basis: "explicit" | "derived" | "observed";
+  basis: "explicit" | "derived" | "observed" | "translated";
+  /** 원작 클라이언트 OXQuiz.img 세트-번호 (예: "1-6") */
+  set?: string;
   seen?: string;
   sources?: string[];
   note?: string;
