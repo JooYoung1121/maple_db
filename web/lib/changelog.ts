@@ -15,6 +15,20 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.22.0",
+    date: "2026-11-01",
+    type: "minor",
+    title: "OX퀴즈 족보 원작 1~9세트 전체 수록",
+    pages: ["/ox"],
+    features: [
+      { category: "놀이터", items: [
+        "OX퀴즈 족보 276 → 517문제 — 원작 클라이언트 OX퀴즈 데이터 1~9세트 전체 수록 (로랑 점프 공격, 고목 나무의 수액 등 10/31에 '족보에 없던' 문제 계열)",
+        "한국어 원문이 없는 1~7세트는 중국어·영문 데이터를 옮겨 '번역문'으로 표시, 봇 답장에도 (원작 번역문) 표기",
+        "기존 문항 정답을 원작 데이터 정답과 대조 — 122문항 중 121문항 일치, 노벨상 문항은 원작 정답 O로 수정",
+      ] },
+    ],
+  },
+  {
     version: "4.21.2",
     date: "2026-10-31",
     type: "patch",

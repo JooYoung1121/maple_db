@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "description": "메이플랜드 3주년 추억의 이벤트 OX퀴즈 족보 (원작 빅뱅 이전 OX 이벤트 문제)",
+    "description": "메이플랜드 3주년 추억의 이벤트 OX퀴즈 족보 (원작 클라이언트 OX퀴즈 데이터 1~9세트 + 메랜 실제 출제분)",
     "sources": [
       {
         "label": "기분안기모띠의 메이플 수첩 — 옛날메이플 기타 정보 (OX 문제), 2018-11-02",
@@ -16,12 +16,13 @@
       }
     ],
     "basis": {
-      "explicit": "원문에 O/X가 명시된 문항",
-      "derived": "원문은 해설만 있어 O/X를 해설에서 판정한 문항 (메랜유틸 판정과 전부 일치)",
-      "observed": "메이플랜드 실제 출제에서 정답이 확인된 문항 (커뮤니티·참가자 제보)"
+      "observed": "메이플랜드 실제 출제에서 정답이 확인된 문항 (커뮤니티·참가자 제보)",
+      "explicit": "원작 클라이언트 데이터(한국어 원문)에 정답이 있는 문항",
+      "derived": "원작 데이터에서 찾지 못해 블로그 해설로 O/X를 판정한 문항",
+      "translated": "한국어 원문이 없어 원작 데이터 중국어·영문판을 한국어로 옮긴 문항 — 실제 출제 문구와 다를 수 있음"
     },
-    "updated_at": "2026-10-31",
-    "count": 276,
+    "updated_at": "2026-11-01",
+    "count": 517,
     "warning": "10/31 1회차 결과, 메이플랜드는 원작 문제를 그대로 내지 않습니다 — 운영진 오리지널 문제와 원작과 정답이 다른 문제가 섞여 나왔습니다. 원작 족보 정답은 참고용으로만 보세요."
   },
   "items": [
@@ -32,7 +33,9 @@
       "ex": "10/31 1회차 출제 — 메랜DB 운영자가 직접 참가해 확인 (X를 골라 탈락).",
       "cat": "maple",
       "basis": "observed",
-      "seen": "2026-10-31"
+      "seen": "2026-10-31",
+      "set": "1-8",
+      "note": "원작 데이터(번역): '그류핀은 얼리는 공격을 하는 몬스터이다.' 정답 X."
     },
     {
       "id": 273,
@@ -57,7 +60,9 @@
       "seen": "2026-10-31",
       "sources": [
         "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=4065589"
-      ]
+      ],
+      "set": "4-9",
+      "note": "원작 데이터(번역): '드레이크의 고기는 3분 동안 물리방어력을 10 올려 준다.' 정답 O."
     },
     {
       "id": 275,
@@ -161,7 +166,8 @@
       "a": "X",
       "ex": "일본 뇌염 백신은 여름철에만 맞는 것이 아니다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-25"
     },
     {
       "id": 11,
@@ -169,7 +175,8 @@
       "a": "O",
       "ex": "이순신 장군의 호는 충무공이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-27"
     },
     {
       "id": 12,
@@ -177,7 +184,8 @@
       "a": "X",
       "ex": "의식주란 옷, 음식, 집을 뜻한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-28"
     },
     {
       "id": 13,
@@ -185,7 +193,8 @@
       "a": "X",
       "ex": "공기를 가열하면 공기의 부피가 늘어난다. 공기의 부피는 온도에 따라 달라진다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-32"
     },
     {
       "id": 14,
@@ -193,7 +202,8 @@
       "a": "X",
       "ex": "색의 밝고 어두운 정도를 명도라 하고 맑고 탁한 정도는 채도라 한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-33"
     },
     {
       "id": 15,
@@ -201,7 +211,8 @@
       "a": "X",
       "ex": "피를 빨아먹는 모기는 암놈이고, 수놈은 식물의 진(수액)을 먹는 것이 보통이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-34"
     },
     {
       "id": 16,
@@ -209,7 +220,8 @@
       "a": "X",
       "ex": "미국의 장외주식거래 시장은 나스닥이라 한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-126"
     },
     {
       "id": 17,
@@ -217,7 +229,8 @@
       "a": "X",
       "ex": "산정상에서는 낮은 온도에서 물이 끓기 때문에 밥을 지으면 설익게 된다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-129"
     },
     {
       "id": 18,
@@ -233,7 +246,8 @@
       "a": "X",
       "ex": "우리나라에서 최초로 건설된 고속도로는 경인고속도로이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-131"
     },
     {
       "id": 20,
@@ -241,7 +255,8 @@
       "a": "X",
       "ex": "추석의 다른 이름이 중추절이다. 3대 명절은 단오, 설, 추석이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-132"
     },
     {
       "id": 21,
@@ -249,7 +264,8 @@
       "a": "X",
       "ex": "김구 선생님의 호는 '백범'이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-134"
     },
     {
       "id": 22,
@@ -257,7 +273,8 @@
       "a": "X",
       "ex": "독도의 행정소재지는 경상북도이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-135"
     },
     {
       "id": 23,
@@ -265,7 +282,8 @@
       "a": "X",
       "ex": "김대중 전대통령은 노벨 평화상을 수상하였다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-137"
     },
     {
       "id": 24,
@@ -273,7 +291,8 @@
       "a": "X",
       "ex": "새우의 뇌는 머리에 달려 있다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-138"
     },
     {
       "id": 25,
@@ -281,7 +300,8 @@
       "a": "X",
       "ex": "실론은 스리랑카의 지명이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-139"
     },
     {
       "id": 26,
@@ -289,7 +309,8 @@
       "a": "X",
       "ex": "김치찌개를 먹으며 추위를 극복했다고 전해진다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-140"
     },
     {
       "id": 27,
@@ -297,7 +318,8 @@
       "a": "X",
       "ex": "여름(夏)을 뜻하는 괘는 [곤]이다. 건은 봄(春)을 의미한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-144"
     },
     {
       "id": 28,
@@ -305,7 +327,8 @@
       "a": "X",
       "ex": "목련은 봄의 화신이라 불린다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-145"
     },
     {
       "id": 29,
@@ -313,7 +336,8 @@
       "a": "O",
       "ex": "하마의 땀샘에서는 붉은색을 띠는 끈끈한 분비물을 내기 때문이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-147"
     },
     {
       "id": 30,
@@ -321,7 +345,8 @@
       "a": "X",
       "ex": "눈물이 더 짜다. 땀은 99%가 물이고 눈물 성분은 98%가 물이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-148"
     },
     {
       "id": 31,
@@ -329,7 +354,8 @@
       "a": "X",
       "ex": "모기에게 물렸을 때 가려움증을 느끼는 이유는 '히스타민균' 때문이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-149"
     },
     {
       "id": 32,
@@ -337,7 +363,8 @@
       "a": "O",
       "ex": "19 × 19 = 361이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-150"
     },
     {
       "id": 33,
@@ -345,7 +372,8 @@
       "a": "O",
       "ex": "태양의 황경이 45°에 이르면 여름이 다가오며, 이 절기를 입하(立夏)라 한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-152"
     },
     {
       "id": 34,
@@ -353,7 +381,8 @@
       "a": "O",
       "ex": "축구장(26년), 테니스장(34년), 수영장(36년), 야구장(59년)이 잇따라 개설되었다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-153"
     },
     {
       "id": 35,
@@ -361,7 +390,8 @@
       "a": "O",
       "ex": "추운 날씨로 혈관이 수축되어 압력이 높아지기 때문이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-154"
     },
     {
       "id": 36,
@@ -369,7 +399,8 @@
       "a": "O",
       "ex": "다우존스사에서 매일 발표하는 4종류의 주가 평균을 구해 공표한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-155"
     },
     {
       "id": 37,
@@ -377,7 +408,8 @@
       "a": "O",
       "ex": "1997년 7월 1일 155년의 식민통치를 끝내고 중국에 반환되었다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-156"
     },
     {
       "id": 38,
@@ -385,7 +417,8 @@
       "a": "O",
       "ex": "5세기 중국에서 황제의 디저트로 빙과가 처음으로 만들어졌다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-158"
     },
     {
       "id": 39,
@@ -393,7 +426,8 @@
       "a": "O",
       "ex": "독일신문 플루크블라트가 최초의 인쇄된 신문이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-161"
     },
     {
       "id": 40,
@@ -401,7 +435,8 @@
       "a": "O",
       "ex": "1922년 조선일보에 입사한 고 최은희 여사가 우리나라 최초의 여성기자이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-162"
     },
     {
       "id": 41,
@@ -409,7 +444,8 @@
       "a": "O",
       "ex": "반 고흐, 폴 고갱은 모두 대표적인 후기인상파 작가들이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-163"
     },
     {
       "id": 42,
@@ -417,7 +453,8 @@
       "a": "O",
       "ex": "판게아란 하나의 커다란 대륙을 의미한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-166"
     },
     {
       "id": 43,
@@ -433,7 +470,8 @@
       "a": "O",
       "ex": "도투락은 순 우리말로 색동댕기를 뜻한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-168"
     },
     {
       "id": 45,
@@ -449,7 +487,8 @@
       "a": "X",
       "ex": "1961년에 (주)한국샤크라인의 전신인 백화사가 '상어표수영복' 브랜드를 만들었다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-170"
     },
     {
       "id": 47,
@@ -457,7 +496,8 @@
       "a": "X",
       "ex": "여름에 영향을 끼치는 기단은 '북태평양 기단'이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-172"
     },
     {
       "id": 48,
@@ -465,7 +505,8 @@
       "a": "X",
       "ex": "냉방병의 원인이 되는 균은 '레지오넬라균'이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-173"
     },
     {
       "id": 49,
@@ -473,7 +514,8 @@
       "a": "X",
       "ex": "수컷이 특수한 발음기를 가지고 있어서 높은 소리를 내는 것으로 잘 알려져 있다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-174"
     },
     {
       "id": 50,
@@ -481,7 +523,8 @@
       "a": "X",
       "ex": "장마전선을 형성하는 기단은 오호츠크해 기단과 북태평양 기단이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-175"
     },
     {
       "id": 51,
@@ -489,7 +532,8 @@
       "a": "X",
       "ex": "'백로'는 가을에 해당하는 절기이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-176"
     },
     {
       "id": 52,
@@ -497,7 +541,8 @@
       "a": "X",
       "ex": "조선의 6대 왕은 '단종(端宗)'이다. 1452 ~ 1455",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-177"
     },
     {
       "id": 53,
@@ -505,7 +550,8 @@
       "a": "X",
       "ex": "1446년은 반포된 해이고 만들어진 시기는 1443년이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-178"
     },
     {
       "id": 54,
@@ -513,7 +559,8 @@
       "a": "X",
       "ex": "최초의 통상조약은 강화도조약으로 일본에 의해 강제로 맺어졌다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-179"
     },
     {
       "id": 55,
@@ -521,7 +568,8 @@
       "a": "X",
       "ex": "인왕재색도는 정선의 작품이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-180"
     },
     {
       "id": 56,
@@ -529,7 +577,8 @@
       "a": "X",
       "ex": "조선시대 20번째 왕은 경종이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-181"
     },
     {
       "id": 57,
@@ -553,7 +602,8 @@
       "a": "X",
       "ex": "백경은 미국 소설가 H.멜빌이 지은 작품으로 미국소설의 백미로 꼽히고 있다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-184"
     },
     {
       "id": 60,
@@ -1371,7 +1421,8 @@
       "a": "X",
       "ex": "제1회 대회는 우루과이이고 이탈리아는 2회 대회이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-1"
     },
     {
       "id": 161,
@@ -1379,7 +1430,8 @@
       "a": "X",
       "ex": "헝가리, 터키에게 모두 졌다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-2"
     },
     {
       "id": 162,
@@ -1387,7 +1439,8 @@
       "a": "X",
       "ex": "4년마다 한 번씩 개최된다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-3"
     },
     {
       "id": 163,
@@ -1395,7 +1448,8 @@
       "a": "X",
       "ex": "아르헨티나, 이탈리아에게는 지고 불가리아와는 비겼다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-4"
     },
     {
       "id": 164,
@@ -1403,7 +1457,8 @@
       "a": "O",
       "ex": "1986년 대회에서 박창선 선수가 첫골을 기록했다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-5"
     },
     {
       "id": 165,
@@ -1411,7 +1466,8 @@
       "a": "O",
       "ex": "한일 월드컵은 제17회 대회이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-6"
     },
     {
       "id": 166,
@@ -1419,7 +1475,8 @@
       "a": "O",
       "ex": "이탈리아 월드컵에서 홍명보 선수는 활약하였다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-7"
     },
     {
       "id": 167,
@@ -1427,7 +1484,8 @@
       "a": "X",
       "ex": "브라질은 2000년 시드니 올림픽 때까지 단 한차례도 금메달을 따지 못했다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-8"
     },
     {
       "id": 168,
@@ -1435,7 +1493,8 @@
       "a": "O",
       "ex": "제18회 월드컵은 독일에서 개최된다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-9"
     },
     {
       "id": 169,
@@ -1443,7 +1502,8 @@
       "a": "X",
       "ex": "농구는 5명이 플레이하는 경기이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-10"
     },
     {
       "id": 170,
@@ -1451,7 +1511,8 @@
       "a": "O",
       "ex": "오륜기에서 황색은 아시아를 상징한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-11"
     },
     {
       "id": 171,
@@ -1459,7 +1520,8 @@
       "a": "X",
       "ex": "최희섭은 강타자이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-12"
     },
     {
       "id": 172,
@@ -1467,7 +1529,8 @@
       "a": "O",
       "ex": "1964년 일본 도쿄 올림픽에서 처음 정식종목으로 채택되었다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-100"
     },
     {
       "id": 173,
@@ -1475,7 +1538,8 @@
       "a": "O",
       "ex": "03년까지 천하장사 석권 횟수는 1위 이만기(10회) 2위 강호동(5회)이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-101"
     },
     {
       "id": 174,
@@ -1483,7 +1547,8 @@
       "a": "O",
       "ex": "4대 메이저 대회를 석권하는 것을 그랜드 슬램이라 한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-102"
     },
     {
       "id": 175,
@@ -1491,7 +1556,8 @@
       "a": "X",
       "ex": "3개 적게 들어가는 경우 알바트로스라고 한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-103"
     },
     {
       "id": 176,
@@ -1499,7 +1565,8 @@
       "a": "X",
       "ex": "2000년도 코리안 시리즈 우승팀은 현대유니콘스이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-104"
     },
     {
       "id": 177,
@@ -1507,7 +1574,8 @@
       "a": "O",
       "ex": "2003년 피스컵에는 총 8팀이 출전했다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-105"
     },
     {
       "id": 178,
@@ -1515,7 +1583,8 @@
       "a": "O",
       "ex": "사커는 우리가 일반적으로 하는 축구를 의미한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-106"
     },
     {
       "id": 179,
@@ -1531,7 +1600,8 @@
       "a": "X",
       "ex": "장대는 3.98m ~ 4.02m 중에서 사용 가능하다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-108"
     },
     {
       "id": 181,
@@ -1539,7 +1609,8 @@
       "a": "O",
       "ex": "1회 대회에서 그리스는 2위, 2회 대회에서 프랑스는 1위를 하였다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-109"
     },
     {
       "id": 182,
@@ -1547,7 +1618,8 @@
       "a": "X",
       "ex": "아이스하키에서도 해트트릭이라고 한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-110"
     },
     {
       "id": 183,
@@ -1555,7 +1627,8 @@
       "a": "X",
       "ex": "양정모 선수는 레슬링 금메달을 획득한 레슬링 선수이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-111"
     },
     {
       "id": 184,
@@ -1563,7 +1636,8 @@
       "a": "O",
       "ex": "정규 인원 9명 + 지정타자 1명의 총 10명이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-112"
     },
     {
       "id": 185,
@@ -1571,7 +1645,8 @@
       "a": "X",
       "ex": "여자는 100m, 남자는 110m이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-113"
     },
     {
       "id": 186,
@@ -1579,7 +1654,8 @@
       "a": "O",
       "ex": "9.15m 안에 들어올 경우 경고를 받는다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-114"
     },
     {
       "id": 187,
@@ -1587,7 +1663,8 @@
       "a": "X",
       "ex": "1900년 제2회 파리올림픽 때부터 정식종목으로 채택되었다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "8-115"
     },
     {
       "id": 188,
@@ -1595,7 +1672,8 @@
       "a": "O",
       "ex": "23+9=32이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-1"
     },
     {
       "id": 189,
@@ -1603,7 +1681,8 @@
       "a": "O",
       "ex": "물의 온도가 높고, 양이 많고 설탕 알갱이의 크기가 작을수록 잘 녹는다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-2"
     },
     {
       "id": 190,
@@ -1611,7 +1690,8 @@
       "a": "O",
       "ex": "화로에 고구마를 구워먹거나 음식을 데우기도 하였다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-3"
     },
     {
       "id": 191,
@@ -1619,7 +1699,8 @@
       "a": "O",
       "ex": "식물의 뿌리에서 흡수된 물은 줄기를 따라 이동한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-4"
     },
     {
       "id": 192,
@@ -1627,7 +1708,8 @@
       "a": "O",
       "ex": "불, 햇빛, 형광등 등이 광원에 속한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-5"
     },
     {
       "id": 193,
@@ -1635,7 +1717,8 @@
       "a": "O",
       "ex": "예를 들어 부모와 자식만 사는 가족을 핵가족이라고 한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-6"
     },
     {
       "id": 194,
@@ -1643,7 +1726,8 @@
       "a": "O",
       "ex": "수은, 알코올이 들어있는 온도계는 열에 의한 액체의 부피 변화를 이용해 만든 것이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-7"
     },
     {
       "id": 195,
@@ -1651,7 +1735,8 @@
       "a": "O",
       "ex": "기체로는 화산가스, 고체는 화산탄, 화산재, 돌덩어리 등을 분출한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-8"
     },
     {
       "id": 196,
@@ -1659,7 +1744,8 @@
       "a": "O",
       "ex": "겨울은 해가 가장 늦게 뜨고 가장 빨리 진다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-9"
     },
     {
       "id": 197,
@@ -1667,7 +1753,8 @@
       "a": "O",
       "ex": "명암을 잘 표현하면 대상의 입체감, 양감이 느껴져 실재감이 난다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-10"
     },
     {
       "id": 198,
@@ -1675,7 +1762,8 @@
       "a": "X",
       "ex": "여름은 두번째 계절이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-11"
     },
     {
       "id": 199,
@@ -1683,7 +1771,8 @@
       "a": "X",
       "ex": "대가족이라고 한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-12"
     },
     {
       "id": 200,
@@ -1691,7 +1780,8 @@
       "a": "O",
       "ex": "실내외의 온도차는 5°가 적당하다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-13"
     },
     {
       "id": 201,
@@ -1699,7 +1789,8 @@
       "a": "O",
       "ex": "연관도 없는 두가지 일이 동시에 일어날 때 쓰인다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-14"
     },
     {
       "id": 202,
@@ -1707,7 +1798,8 @@
       "a": "O",
       "ex": "장마철에는 비가 많이 오기에 물을 많이 먹어 단맛이 덜하다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-15"
     },
     {
       "id": 203,
@@ -1715,7 +1807,8 @@
       "a": "O",
       "ex": "땀은 적절하게 흘려주는게 좋다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-16"
     },
     {
       "id": 204,
@@ -1723,7 +1816,8 @@
       "a": "O",
       "ex": "기온차가 5도 이상일 경우 냉방병에 걸리기 쉽다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-17"
     },
     {
       "id": 205,
@@ -1731,7 +1825,8 @@
       "a": "O",
       "ex": "찬음식을 먹으면 신체 내부의 열기가 부족해지기 쉽다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-18"
     },
     {
       "id": 206,
@@ -1739,7 +1834,8 @@
       "a": "O",
       "ex": "신체는 열이 날 때는 땀을 흘려 열을 내리려고 한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-19"
     },
     {
       "id": 207,
@@ -1747,7 +1843,8 @@
       "a": "O",
       "ex": "자석의 성질을 이용한 물품에 자석을 가까이하면 정보가 지워질 수 있다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-20"
     },
     {
       "id": 208,
@@ -1755,7 +1852,8 @@
       "a": "O",
       "ex": "수박에는 수분이 90% 이상 함유되어 있다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-21"
     },
     {
       "id": 209,
@@ -1763,7 +1861,8 @@
       "a": "X",
       "ex": "'春'은 봄을 나타내는 한자이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-22"
     },
     {
       "id": 210,
@@ -1771,7 +1870,8 @@
       "a": "X",
       "ex": "여름은 겨울보다 밤의 길이가 짧다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-23"
     },
     {
       "id": 211,
@@ -1779,7 +1879,8 @@
       "a": "X",
       "ex": "찬음식을 먹으면 신체 내부의 열기가 부족해지기 쉽다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-24"
     },
     {
       "id": 212,
@@ -1787,7 +1888,8 @@
       "a": "X",
       "ex": "1978년까지는 여성이었다가 이후부터는 남자와 여자 이름을 번갈아 사용하였다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-26"
     },
     {
       "id": 213,
@@ -1795,7 +1897,8 @@
       "a": "X",
       "ex": "소금이 계속 물에 녹게 하려면 계속해서 물도 더 넣어주어야 한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-29"
     },
     {
       "id": 214,
@@ -1803,7 +1906,8 @@
       "a": "X",
       "ex": "물의 온도가 높을수록 설탕이 잘 녹는다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-30"
     },
     {
       "id": 215,
@@ -1811,7 +1915,8 @@
       "a": "X",
       "ex": "알→애벌레→[번데기]→성충의 과정을 거쳐 나비가 된다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-31"
     },
     {
       "id": 216,
@@ -1819,7 +1924,8 @@
       "a": "X",
       "ex": "똑같이 3분이 걸린다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-35"
     },
     {
       "id": 217,
@@ -1827,7 +1933,8 @@
       "a": "X",
       "ex": "가사: 남산위에 저 소나무 철갑을 두른듯....",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-36"
     },
     {
       "id": 218,
@@ -1835,7 +1942,8 @@
       "a": "X",
       "ex": "국방이 아니라 영토이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-37"
     },
     {
       "id": 219,
@@ -1843,7 +1951,8 @@
       "a": "X",
       "ex": "소방업무는 무료이다. 대신 불을 낸 사람은 과실에 따라 책임을 묻게 된다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-38"
     },
     {
       "id": 220,
@@ -1851,7 +1960,8 @@
       "a": "X",
       "ex": "스타크래프트에 나오는 종족은 테란, 저그, 프로토스이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-39"
     },
     {
       "id": 221,
@@ -1859,7 +1969,8 @@
       "a": "O",
       "ex": "텔레토비는 KBS에서 방송된 어린이 프로이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-40"
     },
     {
       "id": 222,
@@ -1867,7 +1978,8 @@
       "a": "O",
       "ex": "신호등의 주황색등은 잠시 대기 등을 나타내는 주의 신호이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-41"
     },
     {
       "id": 223,
@@ -1875,7 +1987,8 @@
       "a": "O",
       "ex": "이열치열은 열은 열로써 다스린다는 뜻이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-42"
     },
     {
       "id": 224,
@@ -1883,7 +1996,8 @@
       "a": "X",
       "ex": "가사: ...세수하러 왔다가 물만먹고 가지요.. 옹달샘에 온 목적은 세수이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-43"
     },
     {
       "id": 225,
@@ -1891,7 +2005,8 @@
       "a": "O",
       "ex": "검정고무신은 동생 이기영과 형 이기철이 주인공인 만화이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-44"
     },
     {
       "id": 226,
@@ -1899,7 +2014,8 @@
       "a": "O",
       "ex": "우정국은 1884년 3월에 처음 설치된 우리나라 최초의 우체국이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-100"
     },
     {
       "id": 227,
@@ -1907,7 +2023,8 @@
       "a": "X",
       "ex": "빗살무늬토기는 신석기, 민무늬토기는 청동기이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-101"
     },
     {
       "id": 228,
@@ -1915,7 +2032,8 @@
       "a": "X",
       "ex": "청동기 시대에 읍락국가와 같은 최초의 국가형태가 나타났다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-102"
     },
     {
       "id": 229,
@@ -1923,7 +2041,8 @@
       "a": "O",
       "ex": "부족장이 부족을 대표했으며 농경과 목축이 시작되었다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-103"
     },
     {
       "id": 230,
@@ -1939,7 +2058,8 @@
       "a": "O",
       "ex": "1891년 단편들을 시작으로 홈즈 시리즈를 발표하였다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-105"
     },
     {
       "id": 232,
@@ -1947,7 +2067,8 @@
       "a": "O",
       "ex": "달라이라마는 티벳지방의 정치, 종교의 실질적 지도자이기도 하다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-106"
     },
     {
       "id": 233,
@@ -1955,7 +2076,8 @@
       "a": "O",
       "ex": "시나브로는 나도 모르게 조금씩이란 뜻을 가지고 있다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-107"
     },
     {
       "id": 234,
@@ -1971,7 +2093,8 @@
       "a": "O",
       "ex": "중국의 화폐단위는 '위안'이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-109"
     },
     {
       "id": 236,
@@ -1979,15 +2102,22 @@
       "a": "O",
       "ex": "오이도는 옥귀도 혹은 오끼섬이라 불리우던 섬이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-110"
     },
     {
       "id": 237,
       "q": "노벨상은 물리학, 화학, 생리ㆍ의학, 문학, 평화, 경제학의 6개 부문에서 시상한다.",
-      "a": "X",
+      "a": "O",
       "ex": "노벨상은 1901년에 처음 시행되었고 7개 분야에서 수상하고 있다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-111",
+      "alt": {
+        "a": "X",
+        "by": "해설 기준",
+        "note": "원작 해설은 '7개 분야'라고 적혀 있어 X로 볼 수도 있음 (원작 데이터 정답은 O)"
+      }
     },
     {
       "id": 238,
@@ -1995,7 +2125,8 @@
       "a": "O",
       "ex": "1896년 처음 독립신문이 창간되었다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-112"
     },
     {
       "id": 239,
@@ -2003,7 +2134,8 @@
       "a": "O",
       "ex": "Starfish는 불가사리를 의미한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-113"
     },
     {
       "id": 240,
@@ -2011,7 +2143,8 @@
       "a": "O",
       "ex": "백삼과 홍삼은 같은 인삼을 다르게 가공하여 만든 것이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-114"
     },
     {
       "id": 241,
@@ -2019,7 +2152,8 @@
       "a": "O",
       "ex": "가사: 아~ 신라의 밤이여 불국사의 종소리 들리어온다....",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-115"
     },
     {
       "id": 242,
@@ -2027,7 +2161,8 @@
       "a": "O",
       "ex": "태양-수성-금성-지구-화성-목성-토성-천왕성-해왕성-명왕성",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-116"
     },
     {
       "id": 243,
@@ -2035,7 +2170,8 @@
       "a": "O",
       "ex": "고체→액체→기체: 흡열반응 때문이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-117"
     },
     {
       "id": 244,
@@ -2043,7 +2179,8 @@
       "a": "O",
       "ex": "하면(夏眠) 동물로는 까나리, 해삼, 무당벌레 등이 있다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-118"
     },
     {
       "id": 245,
@@ -2051,7 +2188,8 @@
       "a": "O",
       "ex": "태풍의 이름은 각 국가별로 제출하여 명명한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-119"
     },
     {
       "id": 246,
@@ -2059,7 +2197,8 @@
       "a": "O",
       "ex": "산란기를 앞둔 암컷들이 동물성 단백질을 얻기 위해서이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-120"
     },
     {
       "id": 247,
@@ -2067,7 +2206,8 @@
       "a": "O",
       "ex": "더위를 먹었을 땐 녹두즙을 먹으면 몸의 열을 식힐 수 있다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-121"
     },
     {
       "id": 248,
@@ -2075,7 +2215,8 @@
       "a": "O",
       "ex": "인디언 썸머는 우리나라에서는 흔히 볼 수 없다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-122"
     },
     {
       "id": 249,
@@ -2083,7 +2224,8 @@
       "a": "X",
       "ex": "고체→액체→기체(흡열반응) 때문이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-123"
     },
     {
       "id": 250,
@@ -2091,7 +2233,8 @@
       "a": "X",
       "ex": "계산하면 답은 301,200cm이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-124"
     },
     {
       "id": 251,
@@ -2099,7 +2242,8 @@
       "a": "X",
       "ex": "남, 북한 전체에서 가장 높은 산은 백두산이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-125"
     },
     {
       "id": 252,
@@ -2107,7 +2251,8 @@
       "a": "X",
       "ex": "셰익스피어의 4대 비극은 아더왕이 아니고 리어왕이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-127"
     },
     {
       "id": 253,
@@ -2123,7 +2268,8 @@
       "a": "X",
       "ex": "74회 아카데미상 여우주연상은 몬스터볼의 할리베리가 수상하였다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-133"
     },
     {
       "id": 255,
@@ -2131,7 +2277,8 @@
       "a": "O",
       "ex": "아기공룡 둘리의 작가는 김수정님이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-136"
     },
     {
       "id": 256,
@@ -2139,7 +2286,8 @@
       "a": "X",
       "ex": "세계 최초의 핸드폰은 모토로라에서 만든 다이나텍이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-141"
     },
     {
       "id": 257,
@@ -2147,7 +2295,8 @@
       "a": "X",
       "ex": "장빙고는 관리들이 사용하는 얼음을 관리하는 기관이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-142"
     },
     {
       "id": 258,
@@ -2155,7 +2304,8 @@
       "a": "X",
       "ex": "서빙고는 얼음을 보관하는 창고이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-143"
     },
     {
       "id": 259,
@@ -2163,7 +2313,8 @@
       "a": "X",
       "ex": "하마의 땀만 붉은색이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-146"
     },
     {
       "id": 260,
@@ -2171,7 +2322,8 @@
       "a": "O",
       "ex": "양력으로는 7월 23일경 대서가 시작된다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-151"
     },
     {
       "id": 261,
@@ -2179,7 +2331,8 @@
       "a": "O",
       "ex": "여름철 남쪽 하늘의 별자리이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-157"
     },
     {
       "id": 262,
@@ -2187,7 +2340,8 @@
       "a": "O",
       "ex": "15세기에 쓰여진 우리나라 최초의 한문 소설이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-159"
     },
     {
       "id": 263,
@@ -2195,7 +2349,8 @@
       "a": "O",
       "ex": "어린이날은 처음 만들어질 당시 5월 1일이었다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-160"
     },
     {
       "id": 264,
@@ -2203,7 +2358,8 @@
       "a": "O",
       "ex": "코알라는 새끼가 잘못하였을 경우 엉덩이를 때린다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-164"
     },
     {
       "id": 265,
@@ -2211,7 +2367,8 @@
       "a": "O",
       "ex": "Sb는 준금속으로 5주기 원소에 속한다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-165"
     },
     {
       "id": 266,
@@ -2219,7 +2376,8 @@
       "a": "X",
       "ex": "늦게 자고 일찍 일어나는 것이 좋다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-171"
     },
     {
       "id": 267,
@@ -2227,7 +2385,8 @@
       "a": "X",
       "ex": "미국은 어머니날 5월 두번째 일요일, 아버지날 6월 세번째 일요일이고, 우리나라는 5월 8일이다.",
       "cat": "general",
-      "basis": "derived"
+      "basis": "explicit",
+      "set": "9-185"
     },
     {
       "id": 268,
@@ -2264,7 +2423,2212 @@
         "a": "O",
         "by": "메랜유틸",
         "note": "메이플랜드는 추락 대미지가 HP를 1까지만 깎는다는 주장 — 미검증"
+      },
+      "set": "7-6",
+      "note": "원작 데이터(번역): '안전한 마을 안에서는 높은 곳에서 떨어져 HP가 다 닳아도 죽지 않는다.' 정답 X."
+    },
+    {
+      "id": 277,
+      "q": "우리나라 고유 무술인 택견은 중요 무형 문화제 76호로 지정되어 있다.",
+      "a": "O",
+      "ex": "택견은 중요 무형 문화제 76호이다.",
+      "cat": "general",
+      "basis": "explicit",
+      "set": "8-107"
+    },
+    {
+      "id": 278,
+      "q": "청어엮기, 고사리꺽기, 남생이 놀이 등으로 이루어진 우리나라의 민속 놀이는 강강술래 이다.",
+      "a": "O",
+      "ex": "강강술래는 8월 한가위날 많이 한다.",
+      "cat": "general",
+      "basis": "explicit",
+      "set": "9-104"
+    },
+    {
+      "id": 279,
+      "q": "인기 그룹 '신화','GOD','서울시스터즈'의 인원을 모두 합하면 14명 이다.",
+      "a": "O",
+      "ex": "신화6명, GOD5명, 서울시스터즈3명 이다.",
+      "cat": "general",
+      "basis": "explicit",
+      "set": "9-108"
+    },
+    {
+      "id": 280,
+      "q": "9/11테러로 파괴된 미 국방성 팬타곤을  하늘에서 내려다 보면 정삼각형으로 보인다.",
+      "a": "X",
+      "ex": "펜타곤은 5각형이라는 뜻이다. 따라서 5각형이다.",
+      "cat": "general",
+      "basis": "explicit",
+      "set": "9-128"
+    },
+    {
+      "id": 281,
+      "q": "[까투리]는 다 자란 숫닭을 의미한다.",
+      "a": "X",
+      "ex": "까투리는 암컷꿩을 의미한다. 수컷꿩은 장끼라 부른다.",
+      "cat": "general",
+      "basis": "explicit",
+      "set": "9-130"
+    },
+    {
+      "id": 282,
+      "q": "세계 최초의 컴퓨터는 미국 펜실베니아 대학에서 만든 애니악(Eniac)이다.",
+      "a": "O",
+      "ex": "애니악은 1946년에 최초로 만들어진 컴퓨터이다.",
+      "cat": "general",
+      "basis": "explicit",
+      "set": "9-167"
+    },
+    {
+      "id": 283,
+      "q": "애니매이션이란 살아있다라는 의미의 아니마(Anima/라틴어)에 어원을 두고있다.",
+      "a": "O",
+      "ex": "각각의 그림들을 연속적으로 보여주어 움직이는 것처럼 느끼게 한다.",
+      "cat": "general",
+      "basis": "explicit",
+      "set": "9-169"
+    },
+    {
+      "id": 284,
+      "q": "세계 제7대 불가사의 중의 하나인 쿠프왕의 피라미드는 옆면과 바닥이 모두 정삼각형으로 되어 있다.",
+      "a": "X",
+      "ex": "옆면은 삼각형이고 바닥은 사각형이다.",
+      "cat": "general",
+      "basis": "explicit",
+      "set": "9-182"
+    },
+    {
+      "id": 285,
+      "q": "공룡의 이름들을 보면 사우루스(sauros)라는 말이 많이 붙는데 사우르스란 라틴어로 '공포','무서움'이란 의미이다.",
+      "a": "X",
+      "ex": "사우르스란 라틴어로 큰 도마뱀을 뜻한다.",
+      "cat": "general",
+      "basis": "explicit",
+      "set": "9-183"
+    },
+    {
+      "id": 286,
+      "q": "던전 깊은 곳에 사는 와일드카고는 원거리 공격과 근접 공격을 모두 할 수 있는 강력한 몬스터이다.",
+      "a": "X",
+      "ex": "와일드카고는 근접 공격만 한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-1"
+    },
+    {
+      "id": 287,
+      "q": "이블아이, 커즈아이, 콜드아이는 비슷하게 생긴 몬스터인데, 그중 이블아이만 눈이 2개이다.",
+      "a": "X",
+      "ex": "모두 눈이 1개이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-2"
+    },
+    {
+      "id": 288,
+      "q": "빗자루를 타고 날아다니는 멜러디는 강력한 마법 광선으로 멀리 있는 플레이어를 공격한다.",
+      "a": "X",
+      "ex": "멜러디는 근거리 공격 몬스터이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-3"
+    },
+    {
+      "id": 289,
+      "q": "빗자루를 타고 날아다니는 멜러디는 성속성 마법을 두려워한다.",
+      "a": "O",
+      "ex": "멜러디는 성속성 마법을 두려워한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-4",
+      "alt": {
+        "a": "X",
+        "by": "원작 데이터",
+        "note": "원작 정답 값이 해설과 반대 — 그류핀 문제처럼 메랜은 해설 쪽을 정답으로 냈던 사례가 있어 해설 기준으로 표시"
       }
+    },
+    {
+      "id": 290,
+      "q": "마이너 좀비와 쿨리 좀비 중에서는 쿨리 좀비의 레벨이 더 높다.",
+      "a": "X",
+      "ex": "둘 다 레벨 57이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-5"
+    },
+    {
+      "id": 291,
+      "q": "날아다니는 몬스터 스티지는 한동안 날아다니다가 천장에 매달려 쉰다.",
+      "a": "X",
+      "ex": "쉬지 않고 계속 날아다닌다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-6"
+    },
+    {
+      "id": 292,
+      "q": "플로리나 비치에서 볼 수 있는 꽃게처럼 생긴 몬스터 로랑은 가끔 점프하면서 공격한다.",
+      "a": "O",
+      "ex": "꽃게처럼 생겼지만 점프 공격도 한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-7"
+    },
+    {
+      "id": 293,
+      "q": "귀여운 바다거북처럼 생긴 몬스터 움티는 강력한 원거리 공격을 한다.",
+      "a": "O",
+      "ex": "움티는 원거리 공격을 하는 몬스터이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-9",
+      "alt": {
+        "a": "X",
+        "by": "원작 데이터",
+        "note": "원작 정답 값이 해설과 반대 — 그류핀 문제처럼 메랜은 해설 쪽을 정답으로 냈던 사례가 있어 해설 기준으로 표시"
+      }
+    },
+    {
+      "id": 294,
+      "q": "레드 드레이크는 드레이크류 몬스터 중 유일하게 원거리 공격을 할 수 있는 몬스터이다.",
+      "a": "O",
+      "ex": "레드 드레이크와 아이스 드레이크 모두 원거리 공격을 한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-10, 1-100",
+      "alt": {
+        "a": "X",
+        "by": "원작 데이터",
+        "note": "원작 정답 값이 해설과 반대 — 그류핀 문제처럼 메랜은 해설 쪽을 정답으로 냈던 사례가 있어 해설 기준으로 표시"
+      }
+    },
+    {
+      "id": 295,
+      "q": "필드, 숲, 공사장 주변에서 자주 볼 수 있는 초록버섯은 갓에 회색 뿔이 달려 있다.",
+      "a": "X",
+      "ex": "초록버섯에는 뿔이 없다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-11"
+    },
+    {
+      "id": 296,
+      "q": "던전 깊은 곳에 사는 와일드카고는 근접 공격과 원거리 공격 모두에 능숙하다.",
+      "a": "X",
+      "ex": "와일드카고는 근접 공격만 한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-12"
+    },
+    {
+      "id": 297,
+      "q": "이블아이, 커즈아이, 콜드아이는 모두 비슷하게 생겼지만, 이블아이만 눈이 2개이다.",
+      "a": "X",
+      "ex": "모두 눈이 1개이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-13"
+    },
+    {
+      "id": 298,
+      "q": "늪지대 주변에 사는 리게이터는 거미와 많이 닮았다.",
+      "a": "X",
+      "ex": "악어를 닮았다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-14"
+    },
+    {
+      "id": 299,
+      "q": "던전 깊은 곳에 사는 와일드카고는 머리 한가운데에 뿔이 하나 달린 고양이의 변종이다.",
+      "a": "X",
+      "ex": "와일드카고는 커다란 뿔이 2개 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-15"
+    },
+    {
+      "id": 300,
+      "q": "저주받은 신전에 사는 주니어 발록은 레벨 80 몬스터이다.",
+      "a": "O",
+      "ex": "주니어 발록은 레벨 80 몬스터이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-16"
+    },
+    {
+      "id": 301,
+      "q": "메이플스토리에서 가장 빠른 몬스터는 스톤골렘이다.",
+      "a": "X",
+      "ex": "스톤골렘과 다크 스톤골렘은 게임에서 가장 느린 몬스터로 꼽힌다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-17"
+    },
+    {
+      "id": 302,
+      "q": "고약한 좀비루팡은 하인즈의 흑마법과 저주받은 인형으로 만들어졌다.",
+      "a": "O",
+      "ex": "하인즈의 흑마법으로 만들어진 몬스터이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-18"
+    },
+    {
+      "id": 303,
+      "q": "거대한 버섯 몬스터 머쉬맘은 기본적으로 주황버섯을 크게 만든 모습이다.",
+      "a": "O",
+      "ex": "머쉬맘은 주황버섯의 거대한 버전이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-19"
+    },
+    {
+      "id": 304,
+      "q": "지하철에 사는 버블링은 멀리서 거품을 쏘아 공격한다.",
+      "a": "X",
+      "ex": "버블링은 근접 공격만 한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-20"
+    },
+    {
+      "id": 305,
+      "q": "날아다니는 몬스터 스티지는 보통 한참 날아다니다가 천장에 매달려 쉰다.",
+      "a": "X",
+      "ex": "절대 쉬지 않고 계속 날아다닌다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-21"
+    },
+    {
+      "id": 306,
+      "q": "주니어 네키를 잡으면 [주니어 네키의 가죽]을 얻을 수 있는데, 이것을 먹으면 MP가 조금 회복된다.",
+      "a": "X",
+      "ex": "[주니어 네키의 가죽]은 먹을 수 없다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-22"
+    },
+    {
+      "id": 307,
+      "q": "유령을 닮은 몬스터 주니어 레이스는 가끔 [파란 식탁보]를 준다.",
+      "a": "X",
+      "ex": "[식탁보](흰색)만 준다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-23"
+    },
+    {
+      "id": 308,
+      "q": "플로리나 비치 주변의 게처럼 생긴 몬스터 로랑은 가끔 점프하면서 공격한다.",
+      "a": "O",
+      "ex": "게처럼 생겼지만 점프하면서 공격하기도 한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-24"
+    },
+    {
+      "id": 309,
+      "q": "게처럼 생긴 몬스터 로랑은 죽을 때가 되면 모래를 파고 그 속에 숨는다.",
+      "a": "X",
+      "ex": "죽을 때까지 싸운다. (브라보...)",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-25"
+    },
+    {
+      "id": 310,
+      "q": "바다거북을 닮은 몬스터 움티는 보통 강력한 원거리 공격을 한다.",
+      "a": "O",
+      "ex": "움티는 원거리 공격을 한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-26"
+    },
+    {
+      "id": 311,
+      "q": "[아이언 호그의 철발굽]은 금속 갑옷을 입은 말처럼 생긴 몬스터 아이언 호그에게서 얻을 수 있다.",
+      "a": "X",
+      "ex": "아이언 호그는 돼지이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-27"
+    },
+    {
+      "id": 312,
+      "q": "레이스가 주는 아이템 [이상한 느낌의 약]을 먹으면 정말 이상한 느낌이 든다.",
+      "a": "X",
+      "ex": "[이상한 느낌의 약]은 먹을 수 없다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-28"
+    },
+    {
+      "id": 313,
+      "q": "빗자루를 타고 날아다니는 몬스터 멜러디는 멀리서 레이저 광선을 쏜다.",
+      "a": "X",
+      "ex": "멜러디는 근접 공격만 한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-29"
+    },
+    {
+      "id": 314,
+      "q": "주로 늪지대에 사는 크로코는 카파 드레이크보다 레벨이 높은 몬스터이다.",
+      "a": "O",
+      "ex": "크로코는 52레벨, 카파 드레이크는 45레벨이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-101"
+    },
+    {
+      "id": 315,
+      "q": "페리온 주변에서 볼 수 있는 카파 드레이크는 드레이크의 진화종으로, 원거리 공격이 특징이다.",
+      "a": "X",
+      "ex": "근거리 공격만 하고 원거리 공격은 하지 않는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-102"
+    },
+    {
+      "id": 316,
+      "q": "엘나스에 등장하는 모든 몬스터는 불속성 마법을 두려워하는 특징이 있다.",
+      "a": "X",
+      "ex": "다크 예티, 다크 페페는 성속성 마법을 두려워한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-103"
+    },
+    {
+      "id": 317,
+      "q": "주니어 씰은 공격을 받으면 머리 위의 작은 물개와 분리되어 함께 공격한다.",
+      "a": "X",
+      "ex": "주니어 씰은 분리될 수 없다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-104",
+      "alt": {
+        "a": "O",
+        "by": "원작 데이터",
+        "note": "원작 정답 값이 해설과 반대 — 그류핀 문제처럼 메랜은 해설 쪽을 정답으로 냈던 사례가 있어 해설 기준으로 표시"
+      }
+    },
+    {
+      "id": 318,
+      "q": "레벨 100인 크림슨 발록은 독 마법에 중독되지 않는다.",
+      "a": "O",
+      "ex": "독 마법을 무효화하고 성 마법을 두려워하는 특징이 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-105"
+    },
+    {
+      "id": 319,
+      "q": "빗자루를 타고 날아다니는 멜러디는 언데드 몬스터이다.",
+      "a": "X",
+      "ex": "멜러디는 성속성 마법을 두려워하지만 언데드 몬스터는 아니다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-106"
+    },
+    {
+      "id": 320,
+      "q": "가재 몬스터 킹크랑은 황금 새우튀김을 먹고 나면 더 잡기 쉬워진다.",
+      "a": "X",
+      "ex": "황금 새우튀김과는 관계가 없다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-107"
+    },
+    {
+      "id": 321,
+      "q": "엑스텀프는 나무꾼이 도끼를 뽑지 않아 원한을 품고 태어난 몬스터이다.",
+      "a": "O",
+      "ex": "나무꾼이 도끼를 뽑지 않아 원한을 품고 다시 태어났다고 전해진다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-108",
+      "alt": {
+        "a": "X",
+        "by": "원작 데이터",
+        "note": "원작 정답 값이 해설과 반대 — 그류핀 문제처럼 메랜은 해설 쪽을 정답으로 냈던 사례가 있어 해설 기준으로 표시"
+      }
+    },
+    {
+      "id": 322,
+      "q": "북반구의 물 소용돌이는 시계 반대 방향으로 돈다.",
+      "a": "O",
+      "ex": "물의 회전은 지구의 자전과 관련이 있으며, 관찰해 보면 우리가 사는 북반구의 소용돌이는 시계 반대 방향이다!",
+      "cat": "general",
+      "basis": "translated",
+      "set": "1-109"
+    },
+    {
+      "id": 323,
+      "q": "웨어울프는 공격을 받으면 분신을 소환해 공격한다.",
+      "a": "X",
+      "ex": "웨어울프에게는 분신이 없다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-110"
+    },
+    {
+      "id": 324,
+      "q": "아랫마을에 등장하는 도깨비 중 초록 왕도깨비는 메밀묵으로 소환할 수 있다.",
+      "a": "O",
+      "ex": "초록 왕도깨비 - 메밀묵",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "1-111"
+    },
+    {
+      "id": 325,
+      "q": "구심투각(勾心鬪角)은 원래 중국 고대 건축이 보여주는 예술적 형태를 가리키는 말이었다.",
+      "a": "O",
+      "ex": "원래 구심투각은 예술적인 아름다움을 뜻했는데, 지금은 의미가 좀 불화스럽게 바뀌었다. 아름다움을 추구하기 위해 노력하자!",
+      "cat": "general",
+      "basis": "translated",
+      "set": "2-1",
+      "alt": {
+        "a": "X",
+        "by": "원작 데이터",
+        "note": "원작 정답 값이 해설과 반대 — 그류핀 문제처럼 메랜은 해설 쪽을 정답으로 냈던 사례가 있어 해설 기준으로 표시"
+      }
+    },
+    {
+      "id": 326,
+      "q": "청동과 강철로 나사를 만들면 한 세트에 총 15개의 나사가 만들어진다.",
+      "a": "O",
+      "ex": "나사는 아이템을 만들거나 업그레이드할 때 유용하다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-2"
+    },
+    {
+      "id": 327,
+      "q": "한손 둔기인 퓨전 메이스는 전사와 마법사만 사용할 수 있다.",
+      "a": "O",
+      "ex": "전사와 마법사만 사용할 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-3"
+    },
+    {
+      "id": 328,
+      "q": "한손 둔기인 메이스는 전사와 마법사만 사용할 수 있다.",
+      "a": "O",
+      "ex": "메이스는 전사와 마법사만 사용할 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-4"
+    },
+    {
+      "id": 329,
+      "q": "한손검인 카알 대검은 초보자를 제외한 모두가 사용할 수 있다.",
+      "a": "X",
+      "ex": "초보자도 사용할 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-5"
+    },
+    {
+      "id": 330,
+      "q": "헤네시스에서 판매하는 궁수용 무기 발란쉐에는 STR + 2 옵션이 붙어 있다.",
+      "a": "X",
+      "ex": "발란쉐에는 STR + 1 옵션이 붙어 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-6"
+    },
+    {
+      "id": 331,
+      "q": "한쪽 은 귀고리는 상점에서 살 수 있지만, 자수정 귀고리는 살 수 없다.",
+      "a": "X",
+      "ex": "자수정 귀고리는 헤네시스 백화점에서 살 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-7"
+    },
+    {
+      "id": 332,
+      "q": "레벨 26부터 착용할 수 있는 파란색 가죽 구두는 초보자를 포함한 모든 직업이 착용할 수 있다.",
+      "a": "O",
+      "ex": "모든 직업이 착용할 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-8"
+    },
+    {
+      "id": 333,
+      "q": "투구 주문서에는 방어력 주문서와 체력 주문서 두 종류가 있다.",
+      "a": "O",
+      "ex": "페리온 백화점에서 확인할 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-9"
+    },
+    {
+      "id": 334,
+      "q": "상점에서 100% 주문서를 살 때, 두손 무기용 주문서가 한손 무기용 주문서보다 비싸다.",
+      "a": "X",
+      "ex": "두손 무기용과 한손 무기용 주문서의 가격은 같다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-10"
+    },
+    {
+      "id": 335,
+      "q": "엘리니아 무기 상점에서는 스태프와 완드 주문서만 판매한다.",
+      "a": "X",
+      "ex": "귀 장식 주문서도 판매한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-11"
+    },
+    {
+      "id": 336,
+      "q": "리스항구 무기 상점은 수비 표창을 팔지 않는 유일한 곳이다.",
+      "a": "X",
+      "ex": "수비 표창은 리스항구에서도 살 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-12"
+    },
+    {
+      "id": 337,
+      "q": "사각 나무 방패는 리스항구에서만 살 수 있다.",
+      "a": "O",
+      "ex": "사각 나무 방패는 리스항구에서 살 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-13"
+    },
+    {
+      "id": 338,
+      "q": "흰색 고무신과 검정색 고무신은 아이템 옵션이 다르다.",
+      "a": "X",
+      "ex": "색깔만 다를 뿐 옵션은 같다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-14"
+    },
+    {
+      "id": 339,
+      "q": "아대 공격력 주문서 100%를 사용하면 공격력이 +1, 명중률도 +1 오른다.",
+      "a": "X",
+      "ex": "공격력만 1 오르고 명중률은 그대로이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-15"
+    },
+    {
+      "id": 340,
+      "q": "아이템 한 칸에는 같은 종류의 원석을 최대 100개까지 넣을 수 있다.",
+      "a": "O",
+      "ex": "원석은 한 칸에 100개까지 보관할 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-16"
+    },
+    {
+      "id": 341,
+      "q": "필드에 떨어뜨린 아이템은 오랜 시간이 지나도 사라지지 않는다.",
+      "a": "X",
+      "ex": "일정 시간이 지나면 사라진다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-17"
+    },
+    {
+      "id": 342,
+      "q": "미스릴 타워 실드를 만들려면 스틸 타워 실드, 미스릴 10개, 50,000 메소가 필요하다.",
+      "a": "X",
+      "ex": "50,000 메소가 아니라 100,000 메소가 필요하다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-100"
+    },
+    {
+      "id": 343,
+      "q": "달의 돌을 만들려면 미스릴, 강철, 청동, 아다만티움, 은, 오리할콘, 금을 하나씩 요정 아르웬에게 가져가면 된다.",
+      "a": "X",
+      "ex": "아이템과 함께 10,000 메소도 필요하다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-101"
+    },
+    {
+      "id": 344,
+      "q": "미스릴 브리스트를 만들려면 스틸 브리스트, 미스릴 5개, 55,000 메소가 필요하다.",
+      "a": "O",
+      "ex": "페리온의 스미스가 만들어 준다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-102"
+    },
+    {
+      "id": 345,
+      "q": "마법사용 모자 손오공 강철 머리띠에는 INT + 1, LUK + 1 옵션이 붙어 있다.",
+      "a": "X",
+      "ex": "INT + 1 옵션만 붙어 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-103"
+    },
+    {
+      "id": 346,
+      "q": "레벨 30 전사용 신발 스틸 티거를 만들려면 용의 가죽 30개가 필요하다.",
+      "a": "X",
+      "ex": "동물의 가죽 30개와 용의 가죽 20개가 필요하다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-104"
+    },
+    {
+      "id": 347,
+      "q": "레벨 25 이상 궁수가 착용할 수 있는 그린 잭부츠에는 DEX + 2 옵션이 붙어 있다.",
+      "a": "X",
+      "ex": "DEX + 1 옵션이 붙어 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-105"
+    },
+    {
+      "id": 348,
+      "q": "레벨 35 이상 도적이 착용할 수 있는 블루 라인부츠에는 LUK + 1, DEX + 1 옵션이 붙어 있다.",
+      "a": "O",
+      "ex": "슬리피우드의 크리슈라마에게서 구할 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-106"
+    },
+    {
+      "id": 349,
+      "q": "전사용 투구 메탈 코이프를 만들려면 브론즈 코이프, 강철 1개, 500 메소가 필요하다.",
+      "a": "O",
+      "ex": "페리온의 선더가 만들어 준다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-107"
+    },
+    {
+      "id": 350,
+      "q": "궁수용 장갑인 그린 디로스를 만들려면 재료 중 하나로 레드 디로스가 필요하다.",
+      "a": "X",
+      "ex": "레드 디로스가 아니라 블루 디로스가 필요하다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-108"
+    },
+    {
+      "id": 351,
+      "q": "아르를 만들려면 동물의 가죽 20개가 필요하다.",
+      "a": "X",
+      "ex": "아르를 만들려면 동물의 가죽 15개가 필요하다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-109"
+    },
+    {
+      "id": 352,
+      "q": "도적용 장갑인 노가다 목장갑을 만들려면 동물의 가죽 20개와 1,000메소가 필요하다.",
+      "a": "X",
+      "ex": "동물의 가죽 15개와 1,000메소가 필요하다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-110"
+    },
+    {
+      "id": 353,
+      "q": "도적용 장갑인 다크 우드쉽을 만들려면 재료 중 하나로 스틸 우드쉽이 필요하다.",
+      "a": "X",
+      "ex": "스틸 우드쉽이 아니라 브론즈 우드쉽이 필요하다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-111"
+    },
+    {
+      "id": 354,
+      "q": "도적용 아대인 스틸 티탄즈를 만들려면 재료 중 하나로 나사 5개가 필요하다.",
+      "a": "O",
+      "ex": "커닝시티의 뒷골목의 제이엠이 만들어 준다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-112"
+    },
+    {
+      "id": 355,
+      "q": "도적용 아대인 스틸 이고르를 만들려면 브론즈 이고르, 강철 2개, 3,000메소가 필요하다.",
+      "a": "O",
+      "ex": "커닝시티의 뒷골목의 제이엠이 만들어 준다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-113"
+    },
+    {
+      "id": 356,
+      "q": "마법사용 장갑인 레드 루티아를 만들려면 동물의 가죽 60개가 필요하다.",
+      "a": "O",
+      "ex": "엘리니아의 에뜨랑이 만들어 준다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-114"
+    },
+    {
+      "id": 357,
+      "q": "마법사용 장갑인 다크 아르텐에는 INT +2, LUK +1 옵션이 붙어 있다.",
+      "a": "X",
+      "ex": "붙어 있는 옵션은 INT +3 하나뿐이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-115"
+    },
+    {
+      "id": 358,
+      "q": "전사용 장갑인 주노의 레벨 제한은 15이다.",
+      "a": "X",
+      "ex": "레벨 제한은 10이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-116"
+    },
+    {
+      "id": 359,
+      "q": "전사용 장갑인 옐로우 브리건을 만들려면 토파즈 2개가 필요하다.",
+      "a": "X",
+      "ex": "2개가 아니라 토파즈 3개가 필요하다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-117"
+    },
+    {
+      "id": 360,
+      "q": "모든 직업 공용 무기는 전부 레벨 제한만 있고 능력치 제한은 없다.",
+      "a": "X",
+      "ex": "능력치 제한이 있는 무기도 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-118"
+    },
+    {
+      "id": 361,
+      "q": "전사용 장갑인 브론즈 허스크를 만들려면 재료 중 하나로 힘의 크리스탈 2개가 필요하다.",
+      "a": "O",
+      "ex": "STR +2 옵션이 붙어 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-119"
+    },
+    {
+      "id": 362,
+      "q": "눈길에서 미끄러지지 않게 해 주는 아이젠은 레벨 제한 30으로 모든 직업이 착용할 수 있다.",
+      "a": "X",
+      "ex": "직업마다 착용할 수 있는 아이젠이 다르다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-120"
+    },
+    {
+      "id": 363,
+      "q": "석궁 로우어를 만들려면 나사 45개가 필요하다.",
+      "a": "X",
+      "ex": "나사 40개가 필요하다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-121"
+    },
+    {
+      "id": 364,
+      "q": "제련 비용이 가장 비싼 것은 별의 돌이다.",
+      "a": "X",
+      "ex": "제련 비용이 가장 비싼 것은 어둠의 크리스탈로, 50,000메소가 든다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-122"
+    },
+    {
+      "id": 365,
+      "q": "수리점에서 아이언 호그의 철발굽 100개와 1,000메소로 강철을 얻을 수 있다.",
+      "a": "O",
+      "ex": "수리점은 커닝시티에 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-123"
+    },
+    {
+      "id": 366,
+      "q": "활전용 청동화살과 활전용 강철화살은 헤네시스의 비셔스에게서 만들 수 있다.",
+      "a": "X",
+      "ex": "비셔스는 활전용 청동화살만 만들어 준다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "2-124"
+    },
+    {
+      "id": 367,
+      "q": "버섯의 포자 1개를 팔면 5메소를 받는다.",
+      "a": "X",
+      "ex": "버섯의 포자 1개를 팔면 3메소를 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-1"
+    },
+    {
+      "id": 368,
+      "q": "슬라임의 방울은 물컹물컹한 액체보다 비싸다.",
+      "a": "O",
+      "ex": "슬라임의 방울이 물컹물컹한 액체보다 비싼 게 맞다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-2"
+    },
+    {
+      "id": 369,
+      "q": "청동의 원석 1개를 팔면 100메소를 받는다.",
+      "a": "O",
+      "ex": "청동의 원석 1개를 팔면 100메소를 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-3"
+    },
+    {
+      "id": 370,
+      "q": "레드 드레이크의 드레이크의 머리뼈는 다른 드레이크의 드레이크의 머리뼈보다 비싸다.",
+      "a": "X",
+      "ex": "모두 가격이 같다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-4"
+    },
+    {
+      "id": 371,
+      "q": "흑수정 1개를 제련하려면 3,000메소가 든다.",
+      "a": "O",
+      "ex": "흑수정 1개를 제련하는 데 3,000메소가 든다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-5"
+    },
+    {
+      "id": 372,
+      "q": "주황버섯의 갓 1개를 팔면 8메소를 받는다.",
+      "a": "X",
+      "ex": "주황버섯의 갓 1개를 팔면 4메소를 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-6"
+    },
+    {
+      "id": 373,
+      "q": "나뭇가지 10개를 팔면 50메소를 받는다.",
+      "a": "X",
+      "ex": "나뭇가지 1개를 팔면 4메소를 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-7"
+    },
+    {
+      "id": 374,
+      "q": "동물의 가죽 3개를 팔면 300메소를 받는다.",
+      "a": "O",
+      "ex": "동물의 가죽 1개를 팔면 100메소를 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-8"
+    },
+    {
+      "id": 375,
+      "q": "금의 원석 10개와 금괴 1개의 가격은 같다.",
+      "a": "X",
+      "ex": "금의 원석 10개를 팔면 3,000메소, 금괴 1개는 1,200메소를 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-9"
+    },
+    {
+      "id": 376,
+      "q": "귀환 주문서 중 가장 비싼 것은 슬리피우드 귀환 주문서이다.",
+      "a": "O",
+      "ex": "슬리피우드 귀환 주문서는 600메소이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-10"
+    },
+    {
+      "id": 377,
+      "q": "멜러디의 실험용 개구리 5개를 팔아 활전용 화살을 산 뒤 다시 상점에 팔면 300메소를 받는다.",
+      "a": "X",
+      "ex": "화살은 상점에 팔아도 한 푼도 못 받는다. 좀 너무하지 않은가?",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-11",
+      "note": "문제 전제가 다소 모호함"
+    },
+    {
+      "id": 378,
+      "q": "[군밤장수 모자]를 사려면 3,000메소가 필요하다.",
+      "a": "O",
+      "ex": "[군밤장수 모자]는 헤네시스 무기상점에서 살 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-12"
+    },
+    {
+      "id": 379,
+      "q": "활전용 화살은 상점에서 1개당 1메소에 살 수 있지만, 상점에 팔면 한 푼도 받을 수 없다.",
+      "a": "O",
+      "ex": "활전용 화살과 석궁전용 화살은 상점에 팔아도 돈을 받을 수 없다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-13"
+    },
+    {
+      "id": 380,
+      "q": "메이플스토리의 수박 가격은 3,100메소이다.",
+      "a": "X",
+      "ex": "3,200메소이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-14"
+    },
+    {
+      "id": 381,
+      "q": "메이플스토리의 팥빙수 가격은 4,000메소이다.",
+      "a": "O",
+      "ex": "NPC에게서 4,000메소에 살 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-15"
+    },
+    {
+      "id": 382,
+      "q": "메이플스토리의 쭈쭈바 가격은 2,100메소이다.",
+      "a": "X",
+      "ex": "2,300메소이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-16"
+    },
+    {
+      "id": 383,
+      "q": "버블링의 큰 방울 150개의 가격은 슬라임의 방울 200개보다 싸다.",
+      "a": "O",
+      "ex": "슬라임의 방울 200개는 10,000메소, 버블링의 큰 방울 150개는 1,500메소이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-17"
+    },
+    {
+      "id": 384,
+      "q": "주니어 네키의 가죽과 스티지의 날개는 가격이 같다.",
+      "a": "O",
+      "ex": "둘 다 12메소이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-100"
+    },
+    {
+      "id": 385,
+      "q": "주니어 네키의 가죽 2개의 가격은 리게이터의 가죽 1개보다 싸다.",
+      "a": "O",
+      "ex": "주니어 네키의 가죽 2개는 24메소, 리게이터의 가죽 1개는 25메소이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-101"
+    },
+    {
+      "id": 386,
+      "q": "주니어 레이스의 식탁보 10개를 팔면 그 돈으로 레몬을 살 수 있다.",
+      "a": "X",
+      "ex": "레몬은 305메소라서 5메소가 모자란다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-102"
+    },
+    {
+      "id": 387,
+      "q": "로랑의 집게발 1개는 콜드아이의 꼬리 1개와 가격이 같다.",
+      "a": "X",
+      "ex": "로랑의 집게발은 32메소, 콜드아이의 꼬리는 35메소이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-103"
+    },
+    {
+      "id": 388,
+      "q": "클랑의 집게발 1개의 가격은 파란버섯의 갓 5개의 가격과 같다.",
+      "a": "O",
+      "ex": "클랑의 집게발은 60메소, 파란버섯의 갓은 12메소이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-104"
+    },
+    {
+      "id": 389,
+      "q": "엄티의 등껍질과 슬라임의 방울은 가격이 같다.",
+      "a": "O",
+      "ex": "둘 다 50메소이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-105"
+    },
+    {
+      "id": 390,
+      "q": "아이언 호그의 철발굽 100개를 팔면 다크문 고깔모자를 살 수 있다.",
+      "a": "O",
+      "ex": "아이언 호그의 철발굽 100개는 3,800메소이다. 그 돈으로 다크문 고깔모자를 살 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-106"
+    },
+    {
+      "id": 391,
+      "q": "레이스의 이상한 느낌의 약은 가공된 나무 1개와 가격이 같다.",
+      "a": "X",
+      "ex": "이상한 느낌의 약은 50메소, 가공된 나무는 20메소이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-107"
+    },
+    {
+      "id": 392,
+      "q": "크로코의 가죽 128개의 가격은 6,500메소이다.",
+      "a": "X",
+      "ex": "128 x 50 = 6,400이므로 6,500이 아니다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-108"
+    },
+    {
+      "id": 393,
+      "q": "돼지의 리본 10개를 상점에 팔면 그 돈으로 빨간 포션을 살 수 있다.",
+      "a": "O",
+      "ex": "돼지의 리본 10개는 50메소이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-109"
+    },
+    {
+      "id": 394,
+      "q": "머쉬맘의 포자는 타우로마시스의 뿔과 가격이 같다.",
+      "a": "O",
+      "ex": "둘 다 100메소이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-110"
+    },
+    {
+      "id": 395,
+      "q": "별의 돌을 상점에 팔면 1개당 10,000메소를 받는다.",
+      "a": "O",
+      "ex": "별의 돌 1개당 10,000메소를 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-111"
+    },
+    {
+      "id": 396,
+      "q": "빨간 달팽이의 껍질 2개, 돼지의 머리 2개, 슬라임의 방울 1개를 상점에 팔면 140메소를 받는다.",
+      "a": "O",
+      "ex": "30+60+50=140메소를 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-112"
+    },
+    {
+      "id": 397,
+      "q": "노란색 우산과 하늘색 우산은 둘 다 상점에 팔면 1메소를 받는다.",
+      "a": "X",
+      "ex": "하늘색 우산은 1메소지만 노란색 우산은 50,000메소를 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-113"
+    },
+    {
+      "id": 398,
+      "q": "메이플스토리에서 원석 제련 비용은 어디서나 같다.",
+      "a": "X",
+      "ex": "커닝시티가 조금 더 싸다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-114"
+    },
+    {
+      "id": 399,
+      "q": "나사를 상점에 팔면 1개당 100메소를 받는다.",
+      "a": "X",
+      "ex": "50메소를 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "3-115"
+    },
+    {
+      "id": 400,
+      "q": "빨간 포션은 HP를 100 회복시킨다.",
+      "a": "X",
+      "ex": "HP를 50 회복시킨다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-1"
+    },
+    {
+      "id": 401,
+      "q": "레몬은 MP를 150 회복시킨다.",
+      "a": "O",
+      "ex": "MP를 150 회복시킨다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-2"
+    },
+    {
+      "id": 402,
+      "q": "전사의 물약은 3분 동안 공격력을 10 올려 준다.",
+      "a": "X",
+      "ex": "3분 동안 공격력을 5 올려 준다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-3"
+    },
+    {
+      "id": 403,
+      "q": "파란 포션은 엘리니아잡화상점에서 다른 곳보다 8메소 싸다.",
+      "a": "O",
+      "ex": "파란 포션은 엘리니아잡화상점이 더 싸다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-4"
+    },
+    {
+      "id": 404,
+      "q": "주황 포션을 먹으면 HP가 150 회복되며, 상점 가격은 150메소이다.",
+      "a": "X",
+      "ex": "가격은 160메소이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-5"
+    },
+    {
+      "id": 405,
+      "q": "속도향상의 물약은 5분 동안 이동속도를 올려 준다.",
+      "a": "X",
+      "ex": "3분 동안 이동속도를 올려 준다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-6"
+    },
+    {
+      "id": 406,
+      "q": "현자의 물약은 5분 동안 마력을 10 올려 준다.",
+      "a": "X",
+      "ex": "3분 동안 마력을 5 올려 준다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-7"
+    },
+    {
+      "id": 407,
+      "q": "고목 나무의 수액은 5분 동안 마력을 10 올려 준다.",
+      "a": "O",
+      "ex": "5분 동안 마력을 10 올려 준다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-8"
+    },
+    {
+      "id": 408,
+      "q": "드레이크의 피는 5분 동안 공격력을 10 올려 준다.",
+      "a": "X",
+      "ex": "5분 동안 공격력을 8 올려 준다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-10"
+    },
+    {
+      "id": 409,
+      "q": "파워 엘릭서 1개를 먹으면 HP와 MP가 100% 회복된다.",
+      "a": "O",
+      "ex": "파워 엘릭서는 HP와 MP를 모두 회복시킨다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-11"
+    },
+    {
+      "id": 410,
+      "q": "짐승의 고기는 상점에서 106메소에 살 수 있으며, HP를 100 회복시킨다.",
+      "a": "O",
+      "ex": "HP를 100 회복시킨다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-12"
+    },
+    {
+      "id": 411,
+      "q": "명사수의 물약은 5분 동안 명중률을 5 올려 준다.",
+      "a": "O",
+      "ex": "5분 동안 명중률을 5 올려 준다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-100"
+    },
+    {
+      "id": 412,
+      "q": "피자는 420메소이며, 한 조각에 HP를 400 회복시킨다.",
+      "a": "X",
+      "ex": "피자는 450메소이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-101"
+    },
+    {
+      "id": 413,
+      "q": "케이크는 320메소이며, 한 조각에 HP 100과 MP 100을 회복시킨다.",
+      "a": "O",
+      "ex": "24시간 편의점을 확인해 보자.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-102"
+    },
+    {
+      "id": 414,
+      "q": "24시간 편의점에서 파는 맑은 물은 1600메소이며, MP를 800 회복시킨다.",
+      "a": "X",
+      "ex": "24시간 편의점에서 파는 맑은 물은 1650메소이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-103"
+    },
+    {
+      "id": 415,
+      "q": "길쭉이 핫도그는 320 메소이고, 1개당 HP를 300 회복한다.",
+      "a": "O",
+      "ex": "24시간 포장마차에서 확인해 보자.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-104"
+    },
+    {
+      "id": 416,
+      "q": "햄버거는 430 메소이고, 1개당 HP를 400 회복한다.",
+      "a": "X",
+      "ex": "햄버거는 450 메소이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-105"
+    },
+    {
+      "id": 417,
+      "q": "파워 엘릭서를 상점에 팔면 2,750 메소를 받는다.",
+      "a": "X",
+      "ex": "2,500 메소를 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-106"
+    },
+    {
+      "id": 418,
+      "q": "민첩함의 물약은 3분 동안 회피율을 5 올려 준다.",
+      "a": "O",
+      "ex": "3분 동안 회피율이 5 증가한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-107"
+    },
+    {
+      "id": 419,
+      "q": "황혼의 이슬은 MP를 5000 회복한다.",
+      "a": "O",
+      "ex": "MP를 5,000 회복한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-108"
+    },
+    {
+      "id": 420,
+      "q": "새벽의 이슬은 HP를 4000 회복한다.",
+      "a": "X",
+      "ex": "MP를 4,000 회복한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-109"
+    },
+    {
+      "id": 421,
+      "q": "새벽의 이슬은 상점에 4,050 메소에 팔 수 있다.",
+      "a": "O",
+      "ex": "4,050 메소에 팔린다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-110"
+    },
+    {
+      "id": 422,
+      "q": "황혼의 이슬은 상점에 5,050 메소에 팔 수 있다.",
+      "a": "X",
+      "ex": "5,100 메소에 팔린다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-111"
+    },
+    {
+      "id": 423,
+      "q": "맑은 물은 24시간 포장마차, 제인, 발렌, 하나, 시원해에게서 살 수 있다.",
+      "a": "X",
+      "ex": "엘나스의 하나는 맑은 물을 팔지 않는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "4-112"
+    },
+    {
+      "id": 424,
+      "q": "메이플 아일랜드의 '세라와 거울' 퀘스트를 완료하면 약간의 경험치와 메소를 얻는다.",
+      "a": "X",
+      "ex": "메소는 없고 경험치만 얻는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-1"
+    },
+    {
+      "id": 425,
+      "q": "메이플 아일랜드의 '다나와 센의 저녁 식사' 퀘스트에서 센은 버섯 수프를 부탁한다.",
+      "a": "O",
+      "ex": "센은 버섯 수프를 원한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-2"
+    },
+    {
+      "id": 426,
+      "q": "메이플 아일랜드의 '로저와 사과' 퀘스트를 완료하면 로저에게서 수박을 받는다.",
+      "a": "X",
+      "ex": "사과를 준다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-3"
+    },
+    {
+      "id": 427,
+      "q": "메이플 아일랜드의 '촌장님께 편지 전달' 퀘스트를 완료하면 나무 방패를 받는다.",
+      "a": "X",
+      "ex": "두건을 준다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-4"
+    },
+    {
+      "id": 428,
+      "q": "메이플 아일랜드의 '빅스의 아이템 수집' 퀘스트를 완료하면 목검을 받는다.",
+      "a": "X",
+      "ex": "후루츠 대거나 도루코 대거 중 하나를 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-5"
+    },
+    {
+      "id": 429,
+      "q": "페리온의 '돼지와 함께 춤을의 집 수리' 퀘스트는 1차 전직을 한 사람만 완료할 수 있다.",
+      "a": "X",
+      "ex": "전직을 하지 않아도 완료할 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-6"
+    },
+    {
+      "id": 430,
+      "q": "헤네시스의 '피아와 파란버섯' 퀘스트를 깨려면 뿔버섯의 갓 60개와 파란버섯의 갓 60개가 필요하다.",
+      "a": "X",
+      "ex": "뿔버섯의 갓이 아니라 초록버섯의 갓이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-7"
+    },
+    {
+      "id": 431,
+      "q": "리스항구의 '제인과 와일드보어' 퀘스트를 완료하면 방어구 방어력 주문서를 받는다.",
+      "a": "X",
+      "ex": "방어구 주문서가 아니라 무기 주문서를 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-8"
+    },
+    {
+      "id": 432,
+      "q": "커닝시티의 '가출 소년 알렉스' 퀘스트를 깨려면 장로 스탄에게서 금시계를 받아 알렉스에게 전해 줘야 한다.",
+      "a": "O",
+      "ex": "장로 스탄은 헤네시스에, 알렉스는 커닝시티에 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-9"
+    },
+    {
+      "id": 433,
+      "q": "엘리니아의 '요정 아르웬과 유리구두' 퀘스트는 한 번만 완료할 수 있다.",
+      "a": "X",
+      "ex": "'유리구두' 퀘스트는 몇 번이고 반복할 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-10"
+    },
+    {
+      "id": 434,
+      "q": "'돼지와 함께 춤을의 집 수리' 퀘스트를 깨려면 나뭇가지 50개와 장작 30개가 필요하다.",
+      "a": "X",
+      "ex": "나뭇가지 30개와 장작 50개가 필요하다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-11"
+    },
+    {
+      "id": 435,
+      "q": "커닝시티 파티퀘스트의 제한 시간은 30분이다.",
+      "a": "O",
+      "ex": "30분 제한 시간 안에 클리어해야 한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-12"
+    },
+    {
+      "id": 436,
+      "q": "레벨 40 이상이면 2차 전직을 하지 않아도 '연금술사 제인' 퀘스트를 받을 수 있다.",
+      "a": "X",
+      "ex": "2차 전직을 해야 퀘스트를 받을 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-13"
+    },
+    {
+      "id": 437,
+      "q": "커닝시티 파티퀘스트는 다른 파티가 이미 들어가 있으면 입장할 수 없다.",
+      "a": "O",
+      "ex": "파티퀘스트 맵에는 한 번에 한 파티만 입장할 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-14"
+    },
+    {
+      "id": 438,
+      "q": "커닝시티의 가출 소년 알렉스의 아버지는 슬리피우드 고급 사우나의 시워언해이다.",
+      "a": "X",
+      "ex": "알렉스의 아버지는 헤네시스의 장로 스탄이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-15"
+    },
+    {
+      "id": 439,
+      "q": "'존의 분홍 꽃바구니' 퀘스트를 깨면 존에게서 보상으로 나사 30개를 받는다.",
+      "a": "O",
+      "ex": "존에게서 나사 30개를 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-16"
+    },
+    {
+      "id": 440,
+      "q": "시워언해의 비밀의 책은 파란색이다.",
+      "a": "X",
+      "ex": "빨간색이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-17"
+    },
+    {
+      "id": 441,
+      "q": "지하철 공사장 B1, B2, B3 입장권은 모두 2,000 메소이다.",
+      "a": "X",
+      "ex": "B1 - 500 메소, B2 - 1,200 메소, B3 - 2,000 메소.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-18"
+    },
+    {
+      "id": 442,
+      "q": "커닝시티 파티퀘스트의 레벨 제한은 20~30이다.",
+      "a": "X",
+      "ex": "레벨 제한은 21~30이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-19"
+    },
+    {
+      "id": 443,
+      "q": "'돼지와 함께 춤을의 새 집 짓기' 퀘스트를 받으려면 인기도가 5 이상이어야 한다.",
+      "a": "X",
+      "ex": "인기도가 10 이상이어야 한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-20"
+    },
+    {
+      "id": 444,
+      "q": "슈미의 퀘스트는 깰 때마다 인기도가 1씩, 3번 모두 오른다.",
+      "a": "O",
+      "ex": "슈미의 퀘스트로 인기도를 총 +3 얻는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-21"
+    },
+    {
+      "id": 445,
+      "q": "'사비트라마와 노화방지약' 퀘스트를 깨면 별의 돌이나 달의 돌을 얻을 수 있다.",
+      "a": "O",
+      "ex": "사비트라마가 부탁한 아이템이 아니면 대신 달의 돌을 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-22"
+    },
+    {
+      "id": 446,
+      "q": "'사비트라마와 다이어트약' 퀘스트에서 사비트라마가 부탁하는 꽃의 색은 항상 같다.",
+      "a": "X",
+      "ex": "부탁할 때마다 꽃의 색이 다르다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-23"
+    },
+    {
+      "id": 447,
+      "q": "커닝시티 파티퀘스트는 5단계로 이루어져 있다.",
+      "a": "O",
+      "ex": "5단계를 깨야 한다. 보너스 스테이지도 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-24"
+    },
+    {
+      "id": 448,
+      "q": "'연금술사 제인' 퀘스트는 재료를 3번에 걸쳐 요구한다.",
+      "a": "O",
+      "ex": "재료를 3번 모아야 퀘스트를 깰 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-25"
+    },
+    {
+      "id": 449,
+      "q": "'사비트라마와 다이어트약' 퀘스트에서 맞는 약초를 가져다주지 않고 깨면 경험치 500만 받는다.",
+      "a": "O",
+      "ex": "깰 때 경험치 500을 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-26"
+    },
+    {
+      "id": 450,
+      "q": "'제인과 와일드보어' 퀘스트를 깨면 100%, 60%, 10% 중 하나의 무기 공격력 주문서를 랜덤으로 받는다.",
+      "a": "X",
+      "ex": "경험치 500과 무기 공격력 주문서 60%를 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-100"
+    },
+    {
+      "id": 451,
+      "q": "인내의 숲은 5단계로 이루어져 있다.",
+      "a": "O",
+      "ex": "다이어트약(1, 2단계), 노화방지약(3, 4, 5단계).",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-101"
+    },
+    {
+      "id": 452,
+      "q": "슈미의 퀘스트는 <잃어버린 동전 - 많은 돈 - 돈주머니> 순서로 진행된다.",
+      "a": "X",
+      "ex": "두 번째 퀘스트는 '슈미의 잃어버린 돈뭉치'이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-102"
+    },
+    {
+      "id": 453,
+      "q": "시워언해의 퀘스트에 필요한 장어 구이 특선은 루팡의 바나나, 커즈아이의 꼬리, 돼지의 머리로 만든다.",
+      "a": "X",
+      "ex": "루팡의 바나나는 장어 구이 특선에 들어가지 않는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-103"
+    },
+    {
+      "id": 454,
+      "q": "끈기의 깊은 숲은 7단계로 이루어져 있다.",
+      "a": "O",
+      "ex": "끈기의 깊은 숲은 7단계로 이루어져 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-104"
+    },
+    {
+      "id": 455,
+      "q": "'보안요원 루크' 퀘스트를 깨려면 주니어 네키의 가죽 100개, 스티지의 날개 10개, 맑은 물 1개가 필요하다.",
+      "a": "X",
+      "ex": "맑은 물이 아니라 샐러드 1개이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-105"
+    },
+    {
+      "id": 456,
+      "q": "'요정 로웬과 저주받은 인형' 퀘스트를 깨려면 저주받은 인형이 총 2,300개 필요하다.",
+      "a": "O",
+      "ex": "퀘스트마다 저주받은 인형이 100, 200, 400, 600, 1,000개 필요하다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-106"
+    },
+    {
+      "id": 457,
+      "q": "'만지의 낡은 글라디우스' 퀘스트에서 낡은 글라디우스를 되살리려면 달의 돌이 필요하다.",
+      "a": "X",
+      "ex": "별의 돌이 필요하다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-107"
+    },
+    {
+      "id": 458,
+      "q": "'돼지와 함께 춤을의 새 집 짓기' 퀘스트를 깨면 무기 공격력 주문서 10%를 랜덤으로 받는다.",
+      "a": "X",
+      "ex": "주문서는 직업에 맞게 고를 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-108"
+    },
+    {
+      "id": 459,
+      "q": "'돼지와 함께 춤을의 새 집 짓기' 퀘스트에 필요한 '돼지와 함께 춤을'의 땅문서는 콜드아이에게서 얻을 수 있다.",
+      "a": "X",
+      "ex": "땅문서는 커즈아이에게서 얻을 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-109"
+    },
+    {
+      "id": 460,
+      "q": "'로니와 요정들의 새 집 짓기' 퀘스트를 깨면 경험치 4,000을 받는다.",
+      "a": "X",
+      "ex": "경험치 3,900을 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-110"
+    },
+    {
+      "id": 461,
+      "q": "'사비트라마와 노화방지약' 퀘스트를 깨면 인기도가 2 오른다.",
+      "a": "O",
+      "ex": "인기도가 오르고, 경험치와 아이템도 얻는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-111"
+    },
+    {
+      "id": 462,
+      "q": "'피아의 친구 선물' 퀘스트를 깨면 레벨 제한 60인 도적용 전신 갑옷을 받는다.",
+      "a": "X",
+      "ex": "레벨 60 상의와 하의 세트를 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-112"
+    },
+    {
+      "id": 463,
+      "q": "'찰리중사와의 교환' 퀘스트는 레벨에 상관없이 할 수 있다.",
+      "a": "O",
+      "ex": "초보자도 할 수 있는 퀘스트이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-113"
+    },
+    {
+      "id": 464,
+      "q": "'알파 소대의 연락망' 퀘스트에서 만나야 하는 NPC는 폭스상사, 브라보중사, 찰리하사, 이지병장이다.",
+      "a": "X",
+      "ex": "폭스상사, 브라보하사, 찰리중사, 이지병장이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-114",
+      "note": "원작 문제와 해설의 NPC 목록이 같아 오답 포인트를 계급 표기로 추정해 옮김"
+    },
+    {
+      "id": 465,
+      "q": "'고대의 책을 찾아서' 퀘스트는 레벨 50 이상이면 직업에 상관없이 누구나 할 수 있다.",
+      "a": "X",
+      "ex": "초보자를 제외한 레벨 55 이상 유저만 할 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "5-115"
+    },
+    {
+      "id": 466,
+      "q": "초보자가 궁수가 되려면 궁수 훈련소로 가야 한다.",
+      "a": "X",
+      "ex": "초보자는 궁수 교육원에서 궁수가 될 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-1"
+    },
+    {
+      "id": 467,
+      "q": "초보자가 전사가 되려면 전사의 성전으로 가야 한다.",
+      "a": "O",
+      "ex": "초보자는 전사의 성전에서 전사가 될 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-2"
+    },
+    {
+      "id": 468,
+      "q": "초보자가 마법사가 되려면 마법 도서관으로 가야 한다.",
+      "a": "O",
+      "ex": "초보자는 마법 도서관에서 마법사가 될 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-3"
+    },
+    {
+      "id": 469,
+      "q": "2차 전직을 하기 위해 30개를 모아야 하는 아이템은 갈색 구슬이다.",
+      "a": "X",
+      "ex": "검은 구슬 30개를 모아야 한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-4"
+    },
+    {
+      "id": 470,
+      "q": "2차 전직을 위해 검은 구슬 30개를 모으면 '영웅의 증거'를 받는다.",
+      "a": "O",
+      "ex": "2차 전직을 위해 검은 구슬 30개를 모으면 '영웅의 증거'를 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-5"
+    },
+    {
+      "id": 471,
+      "q": "전사는 2차 전직 때 파이터, 페이지, 액스맨 중 하나를 고를 수 있다.",
+      "a": "X",
+      "ex": "전사의 2차 전직은 파이터, 페이지, 스피어맨 중에서 고를 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-6"
+    },
+    {
+      "id": 472,
+      "q": "궁수는 2차 전직 때 헌터와 사수 중 하나를 고를 수 있다.",
+      "a": "O",
+      "ex": "활을 쓰는 궁수는 헌터, 석궁을 쓰는 궁수는 사수.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-7"
+    },
+    {
+      "id": 473,
+      "q": "도적은 2차 전직 때 어쌔신과 시프 중 하나를 고를 수 있다.",
+      "a": "O",
+      "ex": "표창을 쓰는 도적은 어쌔신, 단검을 쓰는 도적은 시프.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-8"
+    },
+    {
+      "id": 474,
+      "q": "마법사는 2차 전직 때 위자드와 프리스트 중 하나를 고를 수 있다.",
+      "a": "X",
+      "ex": "위자드나 클레릭 중 하나를 고르게 된다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-9"
+    },
+    {
+      "id": 475,
+      "q": "초보자는 레벨 10이 되면 전사, 마법사, 도적, 궁수 중 하나가 될 수 있다.",
+      "a": "X",
+      "ex": "마법사는 레벨 8에 될 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-10"
+    },
+    {
+      "id": 476,
+      "q": "초보자가 도적이 되려면 LUK이 25 이상이어야 한다.",
+      "a": "X",
+      "ex": "DEX가 25 이상이어야 한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-11"
+    },
+    {
+      "id": 477,
+      "q": "3차 전직을 하려면 레벨 70 이상이어야 한다.",
+      "a": "O",
+      "ex": "3차 전직은 레벨 70 이상 유저가 할 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-12"
+    },
+    {
+      "id": 478,
+      "q": "초보자가 1차 전직을 하면 스킬 포인트 1을 받는다.",
+      "a": "O",
+      "ex": "초보자가 전직하면 스킬 포인트 1을 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-13"
+    },
+    {
+      "id": 479,
+      "q": "2차 전직 때 전혀 다른 직업으로 바꿀 수 있다. (예: 전사 → 궁수)",
+      "a": "X",
+      "ex": "전혀 다른 직업으로는 바꿀 수 없다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-14"
+    },
+    {
+      "id": 480,
+      "q": "4차 전직을 하려면 3차 전직을 마치고 레벨 120 이상이어야 한다.",
+      "a": "O",
+      "ex": "4차 전직은 레벨 120 이상이면 할 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-15"
+    },
+    {
+      "id": 481,
+      "q": "매지션 1차 스킬인 '향상된 MP 회복'은 마스터 레벨이 15이다.",
+      "a": "X",
+      "ex": "마스터 레벨은 16이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-16"
+    },
+    {
+      "id": 482,
+      "q": "스피어맨의 스킬 '하이퍼 바디'를 마스터하면 최대 HP와 최대 MP가 60% 증가한다.",
+      "a": "O",
+      "ex": "스킬을 마스터하면 최대 HP와 최대 MP가 60% 증가한다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-100"
+    },
+    {
+      "id": 483,
+      "q": "저격수의 스킬 '아이언 애로우'를 마스터하면 데미지가 180%가 된다.",
+      "a": "O",
+      "ex": "아이언 애로우를 마스터하면 데미지가 180%가 된다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-101"
+    },
+    {
+      "id": 484,
+      "q": "도적에게는 공중에서도 표창을 던질 수 있는 '럭키 세븐'이라는 스킬이 있다.",
+      "a": "O",
+      "ex": "도적은 공중에서도 스킬을 사용할 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-102"
+    },
+    {
+      "id": 485,
+      "q": "2차 전직 스킬은 직업에 관계없이 모두 6종류이다.",
+      "a": "X",
+      "ex": "전사의 2차 스킬은 8종류이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-103"
+    },
+    {
+      "id": 486,
+      "q": "초보자가 궁수로 전직하려면 궁수 교육원으로 가야 한다.",
+      "a": "X",
+      "ex": "초보자는 아지트에서 도적으로 전직할 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-104",
+      "note": "원작 해설이 문제와 무관한 내용(도적 전직)이라 정답이 불확실함"
+    },
+    {
+      "id": 487,
+      "q": "마법사는 4차 전직 시 3가지 직업으로 나뉜다.",
+      "a": "X",
+      "ex": "4차 전직 시 3갈래로 나뉘는 직업은 전사뿐이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-105"
+    },
+    {
+      "id": 488,
+      "q": "활을 쓰는 궁수의 전직 순서는 [아처 → 헌터 → 레인저 → 신궁]이다.",
+      "a": "X",
+      "ex": "전직 순서는 [헌터 → 레인저 → 보우마스터]이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-106"
+    },
+    {
+      "id": 489,
+      "q": "단검을 쓰는 도적의 전직 순서는 [로그 → 시프 → 시프 마스터 → 나이트로드]이다.",
+      "a": "X",
+      "ex": "전직 순서는 [로그 → 시프 → 시프 마스터 → 섀도어]이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-107"
+    },
+    {
+      "id": 490,
+      "q": "클레릭의 전직 순서는 [매지션 → 클레릭 → 프리스트 → 비숍]이다.",
+      "a": "O",
+      "ex": "전직 순서는 [매지션 → 클레릭 → 프리스트 → 비숍]이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-108"
+    },
+    {
+      "id": 491,
+      "q": "4차 전직 직업을 모두 합하면 9가지이다.",
+      "a": "O",
+      "ex": "전사 3 + 마법사 2 + 궁수 2 + 도적 2 = 9",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "6-109"
+    },
+    {
+      "id": 492,
+      "q": "캐릭터를 처음 만들면 가장 먼저 가게 되는 곳은 [메이플 아일랜드]이다.",
+      "a": "O",
+      "ex": "메이플스토리에서 가장 처음 도착하는 곳은 [메이플 아일랜드]이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-1"
+    },
+    {
+      "id": 493,
+      "q": "캐릭터를 만들 때 주사위를 굴려 능력치를 정하는데, STR, DEX, INT, LUK를 모두 합하면 24이다.",
+      "a": "X",
+      "ex": "합계는 25이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-2"
+    },
+    {
+      "id": 494,
+      "q": "메이플스토리에서 처음 만나는 NPC는 '리나'이다.",
+      "a": "X",
+      "ex": "메이플스토리에서 처음 만나는 NPC는 '히나'이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-3"
+    },
+    {
+      "id": 495,
+      "q": "초보자는 섬 안의 마을마다 있는 택시를 100메소만 내면 크게 할인받아 이용할 수 있다.",
+      "a": "X",
+      "ex": "초보자는 50메소만 내면 택시를 이용할 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-4"
+    },
+    {
+      "id": 496,
+      "q": "커닝시티에서 물약과 주문서를 사려면 '커닝시티 명약국'에 가면 된다.",
+      "a": "O",
+      "ex": "커닝시티에서 물약을 사려면 '커닝시티 명약국'에 가면 된다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-5"
+    },
+    {
+      "id": 497,
+      "q": "히든 스트리트에 들어가려면 레벨 10 이상이면서 전직을 한 상태여야 한다.",
+      "a": "X",
+      "ex": "히든 스트리트는 누구나 들어갈 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-7"
+    },
+    {
+      "id": 498,
+      "q": "슬리피우드호텔의 고급 사우나 입장료는 999메소이다.",
+      "a": "O",
+      "ex": "고급 사우나 입장료는 999메소이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-8"
+    },
+    {
+      "id": 499,
+      "q": "메이플스토리 고객센터 전화번호는 1588-7703이다.",
+      "a": "O",
+      "ex": "메이플스토리 고객센터 전화번호는 1588-7703이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-9"
+    },
+    {
+      "id": 500,
+      "q": "레벨업에 필요한 경험치는 직업마다 다르다.",
+      "a": "X",
+      "ex": "레벨업에 필요한 경험치는 모든 직업이 같다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-10"
+    },
+    {
+      "id": 501,
+      "q": "같은 몬스터를 잡아도 얻는 경험치는 매번 다르다.",
+      "a": "X",
+      "ex": "같은 몬스터라면 얻는 경험치는 항상 같다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-11"
+    },
+    {
+      "id": 502,
+      "q": "플로리나비치에서 물약을 파는 NPC의 이름은 '발렌'이다.",
+      "a": "O",
+      "ex": "그곳에서 물약을 파는 NPC는 '발렌'이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-12"
+    },
+    {
+      "id": 503,
+      "q": "레벨 1에서 레벨 2가 되려면 경험치 15가 필요하다.",
+      "a": "O",
+      "ex": "레벨 1에서 레벨 2가 되려면 경험치 15가 필요하다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-13"
+    },
+    {
+      "id": 504,
+      "q": "레벨 2에서 레벨 3이 되려면 경험치 34가 필요하다.",
+      "a": "O",
+      "ex": "경험치 34가 필요하다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-14"
+    },
+    {
+      "id": 505,
+      "q": "레벨 3에서 레벨 4가 되려면 경험치 67이 필요하다.",
+      "a": "X",
+      "ex": "경험치 57이 필요하다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-15"
+    },
+    {
+      "id": 506,
+      "q": "캐시를 사고파는 행위는 모두 엄중한 처벌을 받는다.",
+      "a": "O",
+      "ex": "이용약관에 위배되는 행위이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-16"
+    },
+    {
+      "id": 507,
+      "q": "레벨 4에서 레벨 5가 되려면 경험치 92가 필요하다.",
+      "a": "O",
+      "ex": "경험치 92가 필요하다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-100"
+    },
+    {
+      "id": 508,
+      "q": "레벨 5에서 레벨 6이 되려면 경험치 250이 필요하다.",
+      "a": "X",
+      "ex": "경험치 135가 필요하다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-101"
+    },
+    {
+      "id": 509,
+      "q": "넥슨캐시는 메이플스토리 홈페이지나 게임 안의 캐시샵에서만 충전할 수 있다.",
+      "a": "X",
+      "ex": "홈페이지에서는 캐시를 충전할 수 없다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-102",
+      "note": "원작 해설 문장이 어색해 정답이 불확실함"
+    },
+    {
+      "id": 510,
+      "q": "캐시 아이템을 삭제하면 35%를 메이플포인트로 돌려받는다.",
+      "a": "X",
+      "ex": "30%만 돌려받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-103"
+    },
+    {
+      "id": 511,
+      "q": "선물받은 캐시 아이템은 모두 삭제할 수 없다.",
+      "a": "X",
+      "ex": "삭제할 수 없는 것은 소비 캐시 아이템뿐이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-104"
+    },
+    {
+      "id": 512,
+      "q": "캐시샵 위시리스트에는 원하는 아이템을 8개까지 넣을 수 있다.",
+      "a": "X",
+      "ex": "위시리스트에는 10개까지 넣을 수 있다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-105"
+    },
+    {
+      "id": 513,
+      "q": "레벨 31 이후에 2차 전직을 하면 전직 보너스 SP +1을 받을 수 없다.",
+      "a": "X",
+      "ex": "전직할 때마다 보너스 SP를 받는다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-106"
+    },
+    {
+      "id": 514,
+      "q": "메이플포인트로 친구에게 선물을 할 수 있다.",
+      "a": "X",
+      "ex": "메이플포인트로는 다른 사람에게 선물할 수 없다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-107"
+    },
+    {
+      "id": 515,
+      "q": "슬리피우드호텔의 일반 사우나 입장료는 490메소이다.",
+      "a": "X",
+      "ex": "일반 사우나 입장료는 499메소이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-108"
+    },
+    {
+      "id": 516,
+      "q": "캐릭터를 처음 만들 때 검, 몽둥이, 도끼 중 하나를 무기로 고를 수 있는데, 그중 도끼가 가장 강하고 가장 느리다.",
+      "a": "X",
+      "ex": "캐릭터 생성 시 고르는 기본 무기들은 모양만 다를 뿐 성능은 모두 같다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-109"
+    },
+    {
+      "id": 517,
+      "q": "메이플스토리는 넥슨이 만든 2D 횡스크롤 온라인 어드벤처 게임이다.",
+      "a": "X",
+      "ex": "메이플스토리는 위젯이 만든 2D 횡스크롤 온라인 어드벤처 게임이다.",
+      "cat": "maple",
+      "basis": "translated",
+      "set": "7-110"
     }
   ]
 }

@@ -1,6 +1,6 @@
 """OX퀴즈 족보 검색 — 3주년 '추억의 이벤트' 토요일 21시 OX퀴즈 대비.
 
-데이터는 data/ox_quiz.json (원작 빅뱅 이전 OX 이벤트 문제, 출처는 _meta.sources).
+데이터는 data/ox_quiz.json (원작 클라이언트 OXQuiz.img 1~9세트 + 메랜 실제 출제분, 출처는 _meta.sources).
 문제 일부만 입력해도 찾도록 공백·문장부호를 제거하고 모든 단어가 포함된 문항을 돌려준다.
 """
 import json
@@ -70,7 +70,7 @@ def format_ox_reply(arg: str, site: str, *, markdown: bool = False, top: int = 3
     lines = []
     for it in hits[:top]:
         ans = f"**[{it['a']}]**" if markdown else f"[{it['a']}]"
-        tag = " 🆕메랜 출제" if it.get("basis") == "observed" else ""
+        tag = {"observed": " 🆕메랜 출제", "translated": " (원작 번역문)"}.get(it.get("basis"), "")
         line = f"{ans}{tag} {it['q']}"
         if it.get("ex"):
             line += f"\n  └ {it['ex']}"
