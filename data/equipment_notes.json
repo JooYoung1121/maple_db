@@ -1188,6 +1188,81 @@
           "url": "https://www.youtube.com/watch?v=1Yih9Kv87vI"
         }
       ]
+    },
+    "1492020": {
+      "name_kr": "메이플 건",
+      "level": 35,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후, 본인 직업군 무기만). 비용: 단풍잎 250개 (처음부터 누적 250개).",
+      "note": "10/27 패치로 메이플 무기의 스탯 제한이 일부 완화됐지만(공지 예시: 35제 메이플 스태프 LUK 33→23), 이 무기의 바뀐 요구 스탯은 아직 확인되지 않았습니다. 툴팁의 REQ 스탯은 미확인 값입니다. 전용 주문서([3주년] 무기 70%, 단풍잎 100개)로만 강화되고, 다음 단계로 교환하면 강화 수치가 초기화됩니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지 (10/27 패치노트)",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "디시 메랜갤 — 3주년 이벤트 정리 (교환 개수)",
+          "url": "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=4055326"
+        },
+        {
+          "label": "난동군 — 3주년 이벤트 공략 영상 (강화 초기화)",
+          "url": "https://www.youtube.com/watch?v=1Yih9Kv87vI"
+        },
+        {
+          "label": "메이플랜드 공식 공지 (11/6 패치노트 — 메이플 건·스톰 피스톨·캐논 슈터 주년 이펙트 수정)",
+          "url": "https://maple.land/board/notices/q3h4633gzcl2zlxjhojr12gc"
+        }
+      ]
+    },
+    "1492021": {
+      "name_kr": "메이플 스톰 피스톨",
+      "level": 43,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후, 본인 직업군 무기만). 비용: 35제 메이플 무기 + 단풍잎 250개 (처음부터 누적 500개).",
+      "note": "10/27 패치로 메이플 무기의 스탯 제한이 일부 완화됐지만(공지 예시: 35제 메이플 스태프 LUK 33→23), 이 무기의 바뀐 요구 스탯은 아직 확인되지 않았습니다. 툴팁의 REQ 스탯은 미확인 값입니다. 전용 주문서([3주년] 무기 70%, 단풍잎 100개)로만 강화되고, 다음 단계로 교환하면 강화 수치가 초기화됩니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지 (10/27 패치노트)",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "디시 메랜갤 — 3주년 이벤트 정리 (교환 개수)",
+          "url": "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=4055326"
+        },
+        {
+          "label": "난동군 — 3주년 이벤트 공략 영상 (강화 초기화)",
+          "url": "https://www.youtube.com/watch?v=1Yih9Kv87vI"
+        },
+        {
+          "label": "메이플랜드 공식 공지 (11/6 패치노트 — 메이플 건·스톰 피스톨·캐논 슈터 주년 이펙트 수정)",
+          "url": "https://maple.land/board/notices/q3h4633gzcl2zlxjhojr12gc"
+        }
+      ]
+    },
+    "1492022": {
+      "name_kr": "메이플 캐논 슈터",
+      "level": 64,
+      "publish": true,
+      "acquisition": "Mapleland 3주년 이벤트(2026-10-27 점검 후 ~ 12/1 0시) — 각 마을 메이플 운영자 NPC에서 [3주년] 단풍잎으로 교환 ('Mapleland 3주년을 축하해!' 퀘스트 완료 후, 본인 직업군 무기만). 비용: 43제 메이플 무기 + 단풍잎 500개 (처음부터 누적 1,000개). 77제 메이플 파이롭 무기의 교환 재료입니다.",
+      "note": "10/27 패치로 메이플 무기의 스탯 제한이 일부 완화됐지만(공지 예시: 35제 메이플 스태프 LUK 33→23), 이 무기의 바뀐 요구 스탯은 아직 확인되지 않았습니다. 툴팁의 REQ 스탯은 미확인 값입니다. 전용 주문서([3주년] 무기 70%, 단풍잎 100개)로만 강화되고, 다음 단계로 교환하면 강화 수치가 초기화됩니다.",
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지 (10/27 패치노트)",
+          "url": "https://maple.land/board/notices/myms1gxzerv1yqo7evlsllpi"
+        },
+        {
+          "label": "디시 메랜갤 — 3주년 이벤트 정리 (교환 개수)",
+          "url": "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=4055326"
+        },
+        {
+          "label": "난동군 — 3주년 이벤트 공략 영상 (강화 초기화)",
+          "url": "https://www.youtube.com/watch?v=1Yih9Kv87vI"
+        },
+        {
+          "label": "메이플랜드 공식 공지 (11/6 패치노트 — 메이플 건·스톰 피스톨·캐논 슈터 주년 이펙트 수정)",
+          "url": "https://maple.land/board/notices/q3h4633gzcl2zlxjhojr12gc"
+        }
+      ]
     }
   }
 }

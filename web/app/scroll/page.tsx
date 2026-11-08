@@ -5,7 +5,7 @@ import PageGuide from "@/components/PageGuide";
 import { SCROLL_GUIDE } from "@/lib/pageGuides";
 import { useState, useMemo } from "react";
 import {
-  SCROLL_TYPES, WEAPON_SLOTS, SCROLL_STATS,
+  SCROLL_TYPES, WEAPON_SLOTS, SCROLL_STATS, MAPLE_EQUIPS, mapleEquip,
   binomialProb, binomialCDF, pctTheme, scrollIconUrl, hideOnError,
 } from "@/lib/scrollData";
 
@@ -81,6 +81,9 @@ function CalcTab() {
     if (wt && WEAPON_SLOTS[wt]) {
       setSlots(WEAPON_SLOTS[wt]);
     }
+    // 3주년 메이플 장비는 전용 주문서 확률이 고정이다 (무기 70%, 나머지 100%)
+    const m = mapleEquip(wt);
+    if (m) setScrollPct(m.pct);
   };
 
   const rows = useMemo(() => {
@@ -332,6 +335,42 @@ function RefTab() {
       </div>
 
       {/* 주문서 스탯표 */}
+      <div className="pixel-panel p-5">
+        <h2 className="font-bold text-lg mb-1 font-pixel">3주년 전용 주문서</h2>
+        <p className="text-sm text-dim mb-4">
+          메이플 운영자에게 단풍잎으로 교환하는 전용 주문서입니다. 메이플 장비에는 일반 주문서 대신 이 주문서를 바릅니다.
+          65% 무기 주문서는 카산드라에서 같은 종류 무기 60% + 주문서 조각 1개 + 30만 메소로 만들며, 스탯은 60%와 같습니다.
+        </p>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="bg-surface2 text-dim text-left">
+                <th className="px-3 py-2 font-medium">장비</th>
+                <th className="px-3 py-2 font-medium">주문서</th>
+                <th className="px-3 py-2 font-medium">성공 시</th>
+                <th className="px-3 py-2 font-medium">교환 비용</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(MAPLE_EQUIPS).map(([equip, m]) => (
+                <tr key={equip} className="border-t border-edge align-top">
+                  <td className="px-3 py-2 text-ink whitespace-nowrap">{equip.replace("[3주년] ", "")} ({m.slots}칸)</td>
+                  <td className="px-3 py-2">{m.scrollLabel}</td>
+                  <td className="px-3 py-2">
+                    {m.scrolls.map((sc) => `${sc.name.replace(" 주문서", "")} +${sc.gain}${sc.extra ? ` · ${sc.extra}` : ""}`).join(" / ")}
+                  </td>
+                  <td className="px-3 py-2 whitespace-nowrap">{m.cost}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="text-xs text-dim mt-2">
+          교환 비용은 디시 3주년 정리글, 스탯은 메랜유틸 아이템 정보(이어링)와 유저 세팅 계산기 데이터 기준입니다. 공식 공지에는 수치가 없습니다.
+          메이플 파이롭 펜던트는 혼돈의 주문서로 강화합니다.
+        </p>
+      </div>
+
       {SCROLL_STATS.map((cat) => (
         <div
           key={cat.category}

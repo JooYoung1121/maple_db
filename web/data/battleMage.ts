@@ -151,7 +151,7 @@ export const MASTERY_BOOK_EVIDENCE: MasteryBookEvidence[] = [
     tier: "20",
     evidence: "verified",
     drops: [{ name: "망각의 사제", mobId: 8200009 }],
-    note: "9/7 몬스터북 스크린샷에서 확인. 쉘터의 최종 마스터 레벨은 20이라 필요 마북은 이 한 권.",
+    note: "9/7 몬스터북 스크린샷에서 확인. 마스터 레벨 20 기준으로 필요 마북은 이 한 권으로 정리했으나, 11/6 패치노트에 '[마스터리북] 쉘터 30의 성공 확률이 70%부터 시작하던 문제 수정'이 있어 쉘터 30 마북도 게임에 존재합니다 — 마스터 레벨·드롭처 확인 중.",
     source: "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=3943054",
   },
   {
