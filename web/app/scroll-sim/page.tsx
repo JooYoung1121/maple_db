@@ -17,6 +17,7 @@ import { useSearchParams } from "next/navigation";
 import {
   SCROLL_TYPES, SCROLL_SHORTCUTS, WEAPON_SLOTS, NAMED_ITEMS,
   getScrollsForEquipment, getStatGain, pctTheme, scrollIconUrl, hideOnError,
+  pctsForEquipment, mapleEquip,
   type NamedItem,
 } from "@/lib/scrollData";
 import { getItem } from "@/lib/api";
@@ -51,7 +52,7 @@ interface RankingEntry {
   created_at: string;
 }
 
-const HOTKEY_LEGEND = "Q·W·E·R·T 주문서 % · Space/A 바르기 · F 새 장비 · V 전체 리셋 · M 사운드";
+const HOTKEY_LEGEND = "Q·W·E·Y·R·T 주문서 % · Space/A 바르기 · F 새 장비 · V 전체 리셋 · M 사운드";
 
 /* 주문서 종류 → 아이템 카드에 표시할 옵션 줄 라벨 · DB stats 키 */
 const SCROLL_STAT_KEY: Record<string, { label: string; key: string }> = {
@@ -63,6 +64,7 @@ const SCROLL_STAT_KEY: Record<string, { label: string; key: string }> = {
   "LUK 주문서": { label: "LUK", key: "incLUK" },
   "HP 주문서": { label: "HP", key: "incMHP" },
   "이동속도 주문서": { label: "이동속도", key: "incSpeed" },
+  "올스탯 주문서": { label: "올스탯", key: "incSTR" },
 };
 const CARD_STAT_ORDER: { label: string; key: string }[] = [
   { label: "공격력", key: "incPAD" }, { label: "마력", key: "incMAD" },
@@ -133,6 +135,9 @@ function ScrollSim() {
 
   const slots = WEAPON_SLOTS[equipmentType] ?? 7;
   const availableScrolls = useMemo(() => getScrollsForEquipment(equipmentType), [equipmentType]);
+  const allowedPcts = useMemo(() => pctsForEquipment(equipmentType), [equipmentType]);
+  const maple = mapleEquip(equipmentType);
+  const mapleScroll = maple?.scrolls.find((sc) => sc.name === scrollType) ?? null;
   const itemName = selectedItem ? selectedItem.name : equipmentType;
   const dbId = namedItemId(selectedItem);
   const meta = dbId !== null ? itemMeta[dbId] : null;
@@ -159,6 +164,11 @@ function ScrollSim() {
   useEffect(() => {
     if (availableScrolls.length > 0 && !availableScrolls.includes(scrollType)) setScrollType(availableScrolls[0]);
   }, [availableScrolls, scrollType]);
+
+  // 메이플 장비는 전용 주문서 1종(70%·100%)만, 65%는 일반 무기만 — 장비를 바꾸면 고른 %도 맞춰 준다
+  useEffect(() => {
+    if (!allowedPcts.includes(currentPct)) setCurrentPct(allowedPcts.includes(60) ? 60 : allowedPcts[0]);
+  }, [allowedPcts, currentPct]);
 
   // 아이템 카드 메타 (REQ·기본 옵션)
   useEffect(() => {
@@ -188,7 +198,7 @@ function ScrollSim() {
   const done = history.length >= slots;
   const statGain = history.reduce((acc, h) => acc + (h.ok ? getStatGain(scrollType, h.pct, equipmentType) : 0), 0);
   const currentTry = attempts.length + (done ? 0 : 1);
-  const statLabel = scrollType.replace(" 주문서", "");
+  const statLabel = scrollType.replace(" 주문서", "") + (mapleScroll?.extra ? `(${mapleScroll.extra})` : "");
 
   /* 한 장 바르기 — 성공 판정. 마지막 장이면 트 기록에 추가 */
   const applyOne = useCallback((): StageRoll | null => {
@@ -230,12 +240,16 @@ function ScrollSim() {
     log.push("전체 리셋 — 사용 내역·시도 기록 초기화", "info");
   }, [log]);
 
-  const pickPct = useCallback((pct: number) => { setCurrentPct(pct); sound.play("click"); }, [sound]);
+  const pickPct = useCallback((pct: number) => {
+    if (!allowedPcts.includes(pct)) return;
+    setCurrentPct(pct); sound.play("click");
+  }, [sound, allowedPcts]);
 
   useSimHotkeys({
     KeyQ: () => pickPct(10),
     KeyW: () => pickPct(30),
     KeyE: () => pickPct(60),
+    KeyY: () => pickPct(65),
     KeyR: () => pickPct(70),
     KeyT: () => pickPct(100),
     KeyV: resetAll,
@@ -288,8 +302,8 @@ function ScrollSim() {
     return { items: attempts.length + (history.length > 0 ? 1 : 0), byPct };
   }, [attempts, history]);
 
-  const scrollMarketName = (pct: number) => `${equipmentType} ${scrollType} ${pct}%`;
-  const ledgerPcts = SCROLL_TYPES.map((s) => s.pct).filter((pct) => (usage.byPct[pct] ?? 0) > 0 || pct === currentPct);
+  const scrollMarketName = (pct: number) => (maple ? `${maple.scrollLabel} (${statLabel})` : `${equipmentType} ${scrollType} ${pct}%`);
+  const ledgerPcts = SCROLL_TYPES.map((s) => s.pct as number).filter((pct) => (usage.byPct[pct] ?? 0) > 0 || pct === currentPct);
   const market = useMarketPrices([itemName, ...ledgerPcts.map(scrollMarketName)]);
   const [unitPrices, setUnitPrices] = useState<Record<string, number | null>>({});
   const autoFilled = useRef<Record<string, boolean>>({});
@@ -325,14 +339,17 @@ function ScrollSim() {
   const cardStats: SimStatLine[] = useMemo(() => {
     const base = parseStats(meta?.stats);
     const gainKey = SCROLL_STAT_KEY[scrollType];
+    // 메이플 전용 주문서는 여러 줄(올스탯 등)이 함께 오른다
+    const gainKeys = mapleScroll ? mapleScroll.keys : gainKey ? [gainKey.key] : [];
     const lines: SimStatLine[] = [];
     for (const { label, key } of CARD_STAT_ORDER) {
       const b = base[key] ?? 0;
-      const g = gainKey && gainKey.key === key ? statGain : 0;
-      if (b > 0 || g > 0 || (gainKey && gainKey.key === key)) lines.push({ label, base: b, current: b + g });
+      const hit = gainKeys.includes(key);
+      const g = hit ? statGain : 0;
+      if (b > 0 || g > 0 || hit) lines.push({ label, base: b, current: b + g });
     }
     return lines;
-  }, [meta, scrollType, statGain]);
+  }, [meta, scrollType, statGain, mapleScroll]);
 
   const th = pctTheme(currentPct);
 
@@ -345,7 +362,7 @@ function ScrollSim() {
         right={PAGE_GUIDES["/scroll-sim"] ? <PageGuide guide={PAGE_GUIDES["/scroll-sim"]} /> : null}
       />
       <p className="text-sm text-dim">
-        장비를 고르고 <b className="text-ink">10·30·60·70·100% 주문서</b>를 한 장씩 발라봅니다. 업그레이드 횟수를 다 쓰면 1트로 기록되고,
+        장비를 고르고 <b className="text-ink">10·30·60·65·70·100% 주문서</b>를 한 장씩 발라봅니다. 65%는 3주년 이벤트 무기 주문서이고, 3주년 메이플 무기·이어링·모자·가네샤는 장비 종류에서 고르면 전용 주문서만 바를 수 있습니다. 업그레이드 횟수를 다 쓰면 1트로 기록되고,
         몇 트에 몇 작·스탯 얼마가 나왔는지 아래에 쌓입니다. 확률·기대값 계산은{" "}
         <Link href="/scroll" className="text-maple underline">주문서 확률 계산기</Link>, 혼돈의 주문서는{" "}
         <Link href="/chaos" className="text-maple underline">혼줌 시뮬레이터</Link>에서.
@@ -382,9 +399,19 @@ function ScrollSim() {
             </select>
           </div>
         </div>
+        {maple ? (
+          <p className="text-xs text-dim border-t border-edge pt-2">
+            <b className="text-ink">{maple.scrollLabel}</b> ({maple.cost}) — {maple.note}
+          </p>
+        ) : (
+          <p className="text-xs text-dim border-t border-edge pt-2">
+            3주년 메이플 무기·이어링·모자·가네샤는 장비 종류 맨 아래에서 고르세요. 메이플 파이롭 펜던트는 혼돈의 주문서 대상이라{" "}
+            <Link href="/chaos" className="text-maple underline">혼줌 시뮬레이터</Link>에서 바를 수 있습니다.
+          </p>
+        )}
       </div>
 
-      {/* ── 아이템 카드 + ① 주문서 강화 ── */}
+            {/* ── 아이템 카드 + ① 주문서 강화 ── */}
       <div className="grid lg:grid-cols-[260px_minmax(0,1fr)] gap-4 items-start">
         <SimItemCard
           name={itemName}
@@ -406,12 +433,12 @@ function ScrollSim() {
               <span className="text-[11px] text-dim">남은 횟수 <b className={done ? "text-red-500" : "text-maple"}>{Math.max(0, slots - history.length)}</b> / {slots}</span>
             </div>
             <div className="flex flex-wrap gap-2">
-              {SCROLL_TYPES.map((s) => (
+              {SCROLL_TYPES.filter((s) => allowedPcts.includes(s.pct)).map((s) => (
                 <SimActionCard
                   key={s.pct}
                   icon={<img src={scrollIconUrl(s.pct)} alt="" onError={hideOnError} className="w-9 h-9 object-contain [image-rendering:pixelated]" />}
-                  hotkey={SCROLL_SHORTCUTS[s.pct]}
-                  title={`${statLabel} ${s.label}`}
+                  hotkey={maple ? undefined : SCROLL_SHORTCUTS[s.pct]}
+                  title={maple ? `${maple.scrollLabel.replace(/^\[3주년\] /, "")} · ${scrollType.replace(" 주문서", "")}` : `${statLabel} ${s.label}${s.pct === 65 ? " (3주년)" : ""}`}
                   subtitle={`성공 시 +${getStatGain(scrollType, s.pct, equipmentType)}`}
                   active={currentPct === s.pct}
                   onClick={() => pickPct(s.pct)}
@@ -431,7 +458,7 @@ function ScrollSim() {
                 slots={slots}
                 history={history}
                 currentPct={currentPct}
-                scrollLabel={scrollType}
+                scrollLabel={maple ? `${maple.scrollLabel} · ${scrollType}` : scrollType}
                 statGain={statGain}
                 onApply={applyOne}
                 onReset={newTry}

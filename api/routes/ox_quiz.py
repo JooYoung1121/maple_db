@@ -78,7 +78,7 @@ def format_ox_reply(arg: str, site: str, *, markdown: bool = False, top: int = 3
             line += f"\n  ⚠ {it['alt']['by']}: {it['alt']['a']} — {it['alt']['note']}"
         lines.append(line)
     more = f"\n…외 {len(hits) - top}건" if len(hits) > top else ""
-    warn = "\n※ 메랜은 원작 족보와 다른 문제·정답도 나와요 (🆕 표시만 메랜 실제 출제 확인)"
+    warn = "\n※ 11/6 패치로 OX퀴즈가 메랜 전용 문제로 바뀌었어요 — 원작 족보는 참고용 (🆕 표시만 메랜 실제 출제 확인)"
     return "\n".join(lines) + more + warn + f"\n{page}?q={quote_plus(arg)}"
 
 
