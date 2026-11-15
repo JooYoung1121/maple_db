@@ -4,6 +4,7 @@ import AmorianCooldown from "@/components/AmorianCooldown";
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 
+const OFFICIAL_CARNIVAL2_PATCH = "https://maple.land/board/notices/urv9m8wt7951r3lpecndd855";
 const OFFICIAL_AMORIAN_PATCH = "https://maple.land/board/notices/u59poew390cw27yfl21j5fdf";
 const ORIGINAL_AMORIAN_GUIDE = "https://maplestorywiki.net/w/Amorian_Challenge";
 
@@ -134,6 +135,42 @@ const PQ_LIST: PQData[] = [
       "완파: 15~40분, 주문서 드랍 기대",
       "경파/완파 선택은 파티원과 미리 협의",
       "휴게실 레코드판은 요일마다 다르므로 미리 확인",
+    ],
+  },
+  {
+    id: "carnival2",
+    name: "몬스터 카니발 2",
+    nameEn: "제 2회 몬스터 카니발 · 11/13 신규",
+    levelMin: 51,
+    levelMax: 70,
+    members: "2~6",
+    membersLabel: "필드1·2 2~4명 · 필드3 3~6명",
+    dailyLimit: "필드별 6회",
+    timeLimit: "약 10분 (원작 610초)",
+    location: "커닝시티·오르비스·루디브리엄 → 슈피겔만의 사무실",
+    npc: "슈피겔만",
+    requiredJobs: [],
+    stages: [
+      { name: "대기실 개설·매칭", desc: "필드 인원수만큼 파티를 꾸려 대기실을 엽니다. 3분 동안 다른 파티의 대전 신청을 수락·거절하며, 입장 신청 시 대기 중인 파티와 자동 매칭됩니다. 매칭 후 10초 뒤 시작." },
+      { name: "카니발 필드 <전장>", desc: "몬스터를 잡아 CP를 얻고, 좌측 상단 UI(F1~F10·TAB)로 CP를 써서 상대 진영에 몬스터 소환·스킬·수호물을 겁니다. 메랜은 양 팀이 균등하게 소환하도록 수정됐고, 필드1 맵이 원작과 다른 1층 평지형으로 바뀌었습니다." },
+      { name: "부활의 장", desc: "사망 시 이동하는 맵. 원작 기준 사망 시 CP 10 손실." },
+      { name: "승리의 외침 / 패자의 오기", desc: "획득 CP와 승패에 따라 랭크와 최종 보상 경험치가 정해집니다. 수치는 공지되지 않았습니다." },
+    ],
+    rewards: {
+      exp: "랭크·승패별 경험치 (공식 수치 미공개) · 유저 실측: 60렙대 필드1 분당 1.6~2만",
+      items: [
+        "반짝이는 메이플 코인 (필드 몬스터 드롭) → 슈피겔만의 혼돈 목걸이 150개",
+        "슈피겔만의 목걸이 50 코인 · 슈피겔만의 구슬 40 코인 · 직업별 무기",
+      ],
+    },
+    tips: [
+      "공식 입장 조건: Lv.51~70, 필드1·2·3 각각 하루 6회 (최대 18판)",
+      "대기실에 들어가면 3·4차 전직 버프가 해제되고, 필드에서는 3차 이상 스킬 사용 불가",
+      "필드 안에서는 아이템 사용이 막히고, 몬스터가 떨어뜨린 아이템을 주워야 발동",
+      "원작은 몬카2 몬스터 경험치가 1~10 수준이었지만 메랜은 '정상적인 양'으로 수정 (수치 미공개)",
+      "소환 몬스터 CP(원작·메랜 스샷 일치): 버피·소울테니 7 / 레이지 버피·마스터 소울테니 8 / 클라크·버푼 9 / 딥 버푼 10 / 파이렛 11 / 데스테니 12 / 바이킹 30",
+      "판당 코인은 공식 수치 없음 — 유저 실측 필드1 올먹 판당 15~20개 안팎",
+      "슈피겔만의 혼돈 목걸이: REQ 51 · 올스탯·공·마 +1 · 물방·마방 +27 · 업그레이드 1회 (원작 3회에서 변경)",
     ],
   },
   {
@@ -273,6 +310,7 @@ const REWARD_COMPARE = [
   { id: "kerning", expPerRun: "15~25%", expPerHour: "약 3~5회/시간", efficiency: "높음 (21~30)", mainDrops: "전신갑옷 주문서 10%/60%" },
   { id: "ludi", expPerRun: "40~50%", expPerHour: "약 2~3회/시간", efficiency: "최고 (35~50)", mainDrops: "전신 이속/지력, 귀지력 주문서" },
   { id: "orbis", expPerRun: "경파 15.5k / 완파 80~100k", expPerHour: "경파 15+회/시간", efficiency: "높음 (51~70)", mainDrops: "여신의 팔찌, 귀지력60, 장공60" },
+  { id: "carnival2", expPerRun: "랭크·승패별 (미공개)", expPerHour: "판당 약 10분 · 필드별 일 6회", efficiency: "51~70 (분경 1.6~2만 유저 실측)", mainDrops: "반짝이는 메이플 코인 → 슈피겔만의 혼돈 목걸이" },
   { id: "romeo", expPerRun: "20~30%", expPerHour: "약 1~2회/시간", efficiency: "보통 (70~119)", mainDrops: "호루스 눈, 연금술사 반지" },
   { id: "ellin", expPerRun: "원작 대비 상향 (패치노트)", expPerHour: "원작 기준 판당 최대 30분", efficiency: "45~70", mainDrops: "알테어 조각 → 알테어 이어링" },
   { id: "kenta", expPerRun: "약 75만 (유저 체감)", expPerHour: "판당 6~10분 · 일 10회", efficiency: "높음 (90~120)", mainDrops: "얼음결정 페이스페인팅 (보스 드롭)" },
@@ -280,6 +318,12 @@ const REWARD_COMPARE = [
 ];
 
 const TESPIA_PQ_NOTES = [
+  {
+    title: "몬스터 카니발 2 (신규)",
+    version: "11/13 패치",
+    level: "Lv.51~70 · 필드1·2 2~4명 / 필드3 3~6명 · 필드별 일 6회",
+    note: "커닝·오르비스·루디 슈피겔만으로 입장. 균등 소환·정상 경험치로 원작 문제 수정, 반짝이는 메이플 코인 150개로 슈피겔만의 혼돈 목걸이 교환.",
+  },
   {
     title: "아모리안 챌린지 (신규)",
     version: "9/4 패치",
@@ -306,9 +350,9 @@ const TESPIA_PQ_NOTES = [
   },
   {
     title: "몬스터 카니발",
-    version: "Test 2.2.62",
+    version: "Test 2.2.62 · 11/13 변경",
     level: "Lv.30~50",
-    note: "2.0 정식 적용. 카니발 필드 드롭률은 1배로 안내됨.",
+    note: "2.0 정식 적용. 카니발 필드 드롭률은 1배로 안내됨. 11/13 패치로 양 팀 균등 소환, 필드 1·2·5·6 몬스터 수 소폭 증가.",
   },
 ];
 
@@ -346,7 +390,8 @@ export default function PQPage() {
           ))}
         </div>
         <p className="mt-2 text-xs text-sky-700 dark:text-sky-300">
-          출처: <a href={OFFICIAL_AMORIAN_PATCH} target="_blank" rel="noopener noreferrer" className="underline">메이플랜드 9/4 공식 공지</a>
+          출처: <a href={OFFICIAL_CARNIVAL2_PATCH} target="_blank" rel="noopener noreferrer" className="underline">메이플랜드 11/13 공식 공지</a>
+          {" · "}<a href={OFFICIAL_AMORIAN_PATCH} target="_blank" rel="noopener noreferrer" className="underline">메이플랜드 9/4 공식 공지</a>
           {" · "}<a href={ORIGINAL_AMORIAN_GUIDE} target="_blank" rel="noopener noreferrer" className="underline">원작 진행 참고</a>
         </p>
       </div>
@@ -382,7 +427,7 @@ export default function PQPage() {
 //  PQ 가이드 탭
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 function GuideTab() {
-  const [openPQ, setOpenPQ] = useState<string | null>("amorian");
+  const [openPQ, setOpenPQ] = useState<string | null>("carnival2");
 
   return (
     <div className="space-y-3">

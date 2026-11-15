@@ -336,10 +336,11 @@ function RefTab() {
 
       {/* 주문서 스탯표 */}
       <div className="pixel-panel p-5">
-        <h2 className="font-bold text-lg mb-1 font-pixel">3주년 전용 주문서</h2>
+        <h2 className="font-bold text-lg mb-1 font-pixel">전용 주문서 (3주년 · 슈피겔만)</h2>
         <p className="text-sm text-dim mb-4">
           메이플 운영자에게 단풍잎으로 교환하는 전용 주문서입니다. 메이플 장비에는 일반 주문서 대신 이 주문서를 바릅니다.
           65% 무기 주문서는 카산드라에서 같은 종류 무기 60% + 주문서 조각 1개 + 30만 메소로 만들며, 스탯은 60%와 같습니다.
+          슈피겔만의 구슬은 몬스터 카니발 코인으로 교환하는 슈피겔만의 목걸이 전용 주문서입니다.
         </p>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">

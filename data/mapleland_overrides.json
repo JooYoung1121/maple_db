@@ -1098,6 +1098,23 @@
       "level_req": 35,
       "job_req": "마법사",
       "upgrade_slots": 7
+    },
+    "1122058": {
+      "stats": {
+        "incSTR": 1,
+        "incDEX": 1,
+        "incINT": 1,
+        "incLUK": 1,
+        "incPAD": 1,
+        "incMAD": 1,
+        "incPDD": 27,
+        "incMDD": 27
+      },
+      "source_note": "2026-11-13 메랜 패치노트 툴팁 이미지 — 업그레이드 가능 횟수 1 (원작 v83은 3): https://maple.land/board/notices/urv9m8wt7951r3lpecndd855",
+      "updated_at": "2026-11-15",
+      "level_req": 51,
+      "job_req": "",
+      "upgrade_slots": 1
     }
   },
   "quests": {},

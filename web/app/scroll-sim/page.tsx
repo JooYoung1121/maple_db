@@ -405,7 +405,7 @@ function ScrollSim() {
           </p>
         ) : (
           <p className="text-xs text-dim border-t border-edge pt-2">
-            3주년 메이플 무기·이어링·모자·가네샤는 장비 종류 맨 아래에서 고르세요. 메이플 파이롭 펜던트는 혼돈의 주문서 대상이라{" "}
+            3주년 메이플 무기·이어링·모자·가네샤와 슈피겔만의 목걸이(구슬)는 장비 종류 맨 아래에서 고르세요. 메이플 파이롭 펜던트·슈피겔만의 혼돈 목걸이는 혼돈의 주문서 대상이라{" "}
             <Link href="/chaos" className="text-maple underline">혼줌 시뮬레이터</Link>에서 바를 수 있습니다.
           </p>
         )}
