@@ -15,6 +15,18 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.24.2",
+    date: "2026-11-15",
+    type: "patch",
+    title: "보스 타이머 사망 복귀 15분",
+    pages: ["/boss-timer"],
+    features: [
+      { category: "보스 타이머", items: [
+        "사망 복귀 타이머 기본값 14분 → 15분 (혼테일·카오스 자쿰 프리셋, 원정대 관리 멤버 사망 버튼 모두) — 기존 14분 기본값을 쓰던 저장분도 자동으로 15분으로 바뀜",
+      ] },
+    ],
+  },
+  {
     version: "4.24.1",
     date: "2026-11-15",
     type: "patch",

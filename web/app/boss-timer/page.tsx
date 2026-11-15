@@ -52,7 +52,7 @@ interface BossPreset {
  * - 공무·마무: 지속 40초(실측 43초) · 재사용 60초 — 머리별 물/마 모두 보유
  * - 버프해제: 중머리·좌팔 HP60%↓ 5분 / HP30%↓ 3분 (독립 쿨)
  * - 단체유혹: 좌팔·우팔 각각 HP30%↓ 60초마다 10인 · 개인유혹: 양팔 3분마다 1인(원정대 1번 고정)
- * - 인레이지 쿨 8분 / 리저 30분 / 사망 복귀 실측 14분
+ * - 인레이지 쿨 8분 / 리저 30분 / 사망 복귀 15분 (실측 약 14분 + 여유, 공대 편의상 15분으로 통일)
  * 값은 카드별 수정 가능.
  */
 const HORNTAIL_SECTIONS: TimerSection[] = [
@@ -74,10 +74,10 @@ const HORNTAIL_SECTIONS: TimerSection[] = [
     id: "death-buff",
     title: "사망 & 버프",
     icon: "🪦",
-    desc: "사망 후 마을 복귀 14분 · 인레이지 쿨 8분(지속 4분)",
+    desc: "사망 후 마을 복귀 15분 · 인레이지 쿨 8분(지속 4분)",
     timers: [
-      { id: "death-1", label: "사망 복귀-1", duration: 840, endAt: null, removable: false },
-      { id: "death-2", label: "사망 복귀-2", duration: 840, endAt: null, removable: false },
+      { id: "death-1", label: "사망 복귀-1", duration: 900, endAt: null, removable: false },
+      { id: "death-2", label: "사망 복귀-2", duration: 900, endAt: null, removable: false },
       { id: "enrage", label: "인레이지", duration: 480, endAt: null, removable: false },
     ],
   },
@@ -178,10 +178,10 @@ const CHAOS_ZAKUM_SECTIONS: TimerSection[] = [
     id: "cz-death",
     title: "사망 · 커스텀",
     icon: "🪦",
-    desc: "사망 후 마을 복귀 14분 — 사망 순간 시작해 재입장 시점을 잽니다 (공대 룰에 맞게 수정 가능)",
+    desc: "사망 후 마을 복귀 15분 — 사망 순간 시작해 재입장 시점을 잽니다 (공대 룰에 맞게 수정 가능)",
     timers: [
-      { id: "cz-death-1", label: "사망 복귀-1", duration: 840, endAt: null, removable: true },
-      { id: "cz-death-2", label: "사망 복귀-2", duration: 840, endAt: null, removable: true },
+      { id: "cz-death-1", label: "사망 복귀-1", duration: 900, endAt: null, removable: true },
+      { id: "cz-death-2", label: "사망 복귀-2", duration: 900, endAt: null, removable: true },
     ],
   },
 ];
@@ -313,7 +313,7 @@ interface Expedition {
 }
 
 const EMPTY_EXPEDITION: Expedition = { startedAt: null, parties: [] };
-const DEATH_RETURN_SECONDS = 840; // 사망 후 마을 복귀 실측 14분 (혼테일 프리셋과 동일 근거)
+const DEATH_RETURN_SECONDS = 900; // 사망 후 마을 복귀 15분 (실측 약 14분 + 여유 — 혼테일 프리셋과 동일)
 const MAX_PARTIES = 6;
 const MAX_MEMBERS = 6;
 const EXP_JOBS = [
@@ -723,7 +723,10 @@ export default function BossTimerPage() {
         const saved: TimerSection[] = JSON.parse(raw);
         return BOSSES[id].sections.map((preset) => {
           const s = saved.find((x) => x.id === preset.id);
-          return s ? { ...preset, timers: s.timers } : preset;
+          // 구 기본값(사망 복귀 840초)을 그대로 쓰던 저장분은 새 기본값 900초로 올린다 (직접 수정한 값은 유지)
+          return s
+            ? { ...preset, timers: s.timers.map((t) => (/death-\d+$/.test(t.id) && t.duration === 840 ? { ...t, duration: 900 } : t)) }
+            : preset;
         });
       }
     } catch {
@@ -1498,7 +1501,7 @@ export default function BossTimerPage() {
           </li>
           <li className="text-sm text-dim flex gap-2">
             <span className="text-maple flex-shrink-0">-</span>
-            <span><strong>원정대 관리</strong> (혼테일·카쿰): 파티별로 공대원을 등록하면 멤버마다 <strong>사망</strong>(복귀 14분)과 직업 스킬 쿨(비숍 리저렉션 · 히어로 인레이지 · 바이퍼 타임리프 · 섀도어 연막탄) 버튼이 생깁니다. 입장 버튼으로 레이드 경과 시간을 재고, 방 공유 중이면 편성·사망 현황이 전원에게 동기화됩니다.</span>
+            <span><strong>원정대 관리</strong> (혼테일·카쿰): 파티별로 공대원을 등록하면 멤버마다 <strong>사망</strong>(복귀 15분)과 직업 스킬 쿨(비숍 리저렉션 · 히어로 인레이지 · 바이퍼 타임리프 · 섀도어 연막탄) 버튼이 생깁니다. 입장 버튼으로 레이드 경과 시간을 재고, 방 공유 중이면 편성·사망 현황이 전원에게 동기화됩니다.</span>
           </li>
           <li className="text-sm text-dim flex gap-2">
             <span className="text-maple flex-shrink-0">-</span>
@@ -1538,7 +1541,7 @@ export default function BossTimerPage() {
           </li>
           <li className="text-sm text-dim flex gap-2">
             <span className="text-maple flex-shrink-0">-</span>
-            기본값(리저 30분 · 사망 복귀 14분 · 인레이지 8분 · 공무 43초 · 카쿰 벞해 2분 등)은 통용되는 공략 기준이며, 실측과 다르면 각 카드에서 수정해 쓰세요. 방은 마지막 조작 후 48시간이 지나면 자동 삭제됩니다.
+            기본값(리저 30분 · 사망 복귀 15분 · 인레이지 8분 · 공무 43초 · 카쿰 벞해 2분 등)은 통용되는 공략 기준이며, 실측과 다르면 각 카드에서 수정해 쓰세요. 방은 마지막 조작 후 48시간이 지나면 자동 삭제됩니다.
           </li>
         </ul>
       </div>
