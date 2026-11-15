@@ -1141,9 +1141,18 @@ export default function BossTimerPage() {
     setSections((prev) => prev.map((s) => ({ ...s, timers: s.timers.map((t) => ({ ...t, endAt: null })) })));
   }, []);
 
-  /* ── 보스 전환 (방 참여 중엔 잠금 — 방 상태가 곧 진실원) ── */
+  /* ── 보스 전환 — 방 참여 중이면 방 전체의 보스를 바꾼다 (원정대 편성·방 코드 유지) ── */
   const switchBoss = useCallback((id: BossId) => {
-    if (roomRef.current || id === bossId) return;
+    if (id === bossId) return;
+    const r = roomRef.current;
+    if (r) {
+      if (!confirm(`이 방(${r.code})의 보스를 ${BOSSES[id].name}(으)로 바꿀까요?\n\n· 방 코드·링크와 원정대 편성은 그대로 유지됩니다\n· 타이머는 ${BOSSES[id].name} 기본 프리셋으로 바뀌고, 진행 중 타이머는 초기화됩니다\n· 방에 접속한 모든 사람에게 바로 적용됩니다`)) return;
+      bossTimerAction(r.code, { type: "set_boss", state: BOSSES[id].sections, boss_name: BOSSES[id].name },
+        clientIdRef.current, nicknameRef.current || "익명")
+        .then((res) => applyResponse(r.code, res))
+        .catch((e) => setShareError(String(e.message)));
+      return;
+    }
     setBossId(id);
     setSections(loadLocalSections(id));
     setExpedition(loadLocalExpedition(id));
@@ -1157,7 +1166,7 @@ export default function BossTimerPage() {
     } catch {
       // ignore
     }
-  }, [bossId, loadLocalSections, loadLocalExpedition]);
+  }, [bossId, loadLocalSections, loadLocalExpedition, applyResponse]);
 
   /* ── PIP ── */
   const openPip = useCallback(async () => {
@@ -1269,13 +1278,12 @@ export default function BossTimerPage() {
           <button
             key={b.id}
             onClick={() => switchBoss(b.id)}
-            disabled={inRoom && bossId !== b.id}
             className={`px-3 py-1.5 text-sm font-pixel border-2 transition-colors ${
               bossId === b.id
                 ? "border-maple text-maple bg-surface2"
-                : "border-edge text-dim hover:text-maple hover:border-maple disabled:opacity-40 disabled:hover:text-dim disabled:hover:border-edge"
+                : "border-edge text-dim hover:text-maple hover:border-maple"
             }`}
-            title={inRoom && bossId !== b.id ? "방 참여 중에는 보스를 전환할 수 없습니다 — 방 나가기 후 전환하세요" : undefined}
+            title={inRoom && bossId !== b.id ? "이 방의 보스를 전환합니다 — 방 코드·원정대 편성은 유지" : undefined}
           >
             {b.icon} {b.name}
           </button>

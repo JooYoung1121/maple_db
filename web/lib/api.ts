@@ -1005,6 +1005,9 @@ export async function bossTimerAction(
     job?: string;
     kind?: string;
     op?: string;
+    // 방 보스 전환(set_boss) 액션용
+    state?: unknown;
+    boss_name?: string;
   },
   clientId: string,
   nickname: string

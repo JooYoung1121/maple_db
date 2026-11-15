@@ -15,6 +15,18 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.24.1",
+    date: "2026-11-15",
+    type: "patch",
+    title: "보스 타이머 방 보스 전환",
+    pages: ["/boss-timer"],
+    features: [
+      { category: "보스 타이머", items: [
+        "방 안에서 보스 전환 — 방 참여 중에도 상단 보스 탭으로 방 전체의 보스를 바꿀 수 있음 (방 코드·링크와 원정대 편성은 그대로, 타이머만 새 보스 프리셋으로 초기화)",
+      ] },
+    ],
+  },
+  {
     version: "4.24.0",
     date: "2026-11-15",
     type: "minor",

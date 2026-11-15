@@ -165,6 +165,9 @@ class ActionPayload(BaseModel):
     job: Optional[str] = None
     kind: Optional[str] = None  # death | skill
     op: Optional[str] = None  # start | stop
+    # set_boss 액션용 — 새 보스 프리셋 섹션 (원정대 편성은 유지)
+    state: Any = None
+    boss_name: Optional[str] = None
 
 
 @router.post("/boss-timer/rooms")
@@ -273,6 +276,30 @@ def room_action(code: str, payload: ActionPayload):
             conn.execute(
                 "UPDATE boss_timer_rooms SET expedition = ?, log = ?, version = ?, updated_at = ? WHERE code = ?",
                 (json.dumps(expedition, ensure_ascii=False), json.dumps(log, ensure_ascii=False), version, time.time(), code),
+            )
+            conn.commit()
+            members = _touch_presence(code, payload.client_id, nick)
+            return {"changed": True, "version": version, "state": state, "expedition": expedition,
+                    "log": log, "server_now": _now_ms(), "members": members}
+
+        if payload.type == "set_boss":
+            # 방 보스 전환 — 타이머 섹션만 새 프리셋으로 교체하고 원정대 편성·방 코드는 유지
+            new_state = payload.state
+            if (
+                not isinstance(new_state, list)
+                or not new_state
+                or not all(isinstance(s, dict) and s.get("id") and isinstance(s.get("timers"), list) for s in new_state)
+                or len(json.dumps(new_state, ensure_ascii=False)) > 64_000
+            ):
+                raise HTTPException(status_code=400, detail="보스 프리셋이 올바르지 않습니다")
+            state = new_state
+            label = (payload.boss_name or "다른 보스").strip()[:12] or "다른 보스"
+            log.append({"at": _now_ms(), "text": f"{nick}: 보스를 {label}(으)로 전환"})
+            log = log[-LOG_LIMIT:]
+            version += 1
+            conn.execute(
+                "UPDATE boss_timer_rooms SET state = ?, log = ?, version = ?, updated_at = ? WHERE code = ?",
+                (json.dumps(state, ensure_ascii=False), json.dumps(log, ensure_ascii=False), version, time.time(), code),
             )
             conn.commit()
             members = _touch_presence(code, payload.client_id, nick)
