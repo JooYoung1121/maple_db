@@ -18,7 +18,7 @@ export const CHANGELOG: ChangelogEntry[] = [
     version: "4.24.0",
     date: "2026-11-15",
     type: "minor",
-    title: "몬스터 카니발 2 · 슈피겔만의 혼돈 목걸이 반영 (11/13 패치) · 보스 타이머 고정 방",
+    title: "몬스터 카니발 2 · 슈피겔만의 혼돈 목걸이 반영 (11/13 패치) · 보스 타이머 고정 방 · 방 보스 전환",
     pages: ["/pq", "/items", "/scroll-sim", "/scroll", "/chaos", "/pinkbean", "/boss-timer"],
     features: [
       { category: "파티퀘스트", items: [
@@ -36,6 +36,7 @@ export const CHANGELOG: ChangelogEntry[] = [
       ] },
       { category: "보스 타이머", items: [
         "공유 방 고정 기능 — 관리자가 '📌 방 고정'을 누른 방은 오래 사용하지 않아도 사라지지 않음 (일반 방은 기존대로 마지막 사용 후 48시간 뒤 정리)",
+        "방 안에서 보스 전환 — 방 참여 중에도 상단 보스 탭으로 방 전체의 보스를 바꿀 수 있음 (방 코드·링크와 원정대 편성은 그대로, 타이머만 새 보스 프리셋으로 초기화)",
       ] },
     ],
   },

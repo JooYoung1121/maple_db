@@ -88,6 +88,28 @@ class BossTimerPinTests(unittest.TestCase):
         )
         self.assertEqual(res.status_code, 404)
 
+    def test_set_boss_replaces_state_keeps_expedition_and_code(self):
+        res = self.client.post("/api/boss-timer/rooms", json={
+            "state": [{"id": "cz-seduce", "timers": [{"id": "a", "label": "x", "duration": 30, "endAt": 1}]}],
+            "expedition": {"startedAt": None, "parties": [{"id": "p1", "members": [
+                {"id": "m1", "name": "ScyllaDB", "job": "다크나이트", "deathEndAt": None, "skillEndAt": None}]}]},
+            "nickname": "t", "client_id": "c"})
+        code = res.json()["code"]
+        ht = [{"id": "ht-left", "timers": [{"id": "b", "label": "y", "duration": 60, "endAt": None}]}]
+        res = self.client.post(f"/api/boss-timer/rooms/{code}/action",
+                               json={"type": "set_boss", "state": ht, "boss_name": "혼테일"})
+        self.assertEqual(res.status_code, 200)
+        poll = self.client.get(f"/api/boss-timer/rooms/{code}").json()
+        self.assertEqual(poll["state"], ht)
+        self.assertEqual(poll["expedition"]["parties"][0]["members"][0]["name"], "ScyllaDB")
+        self.assertIn("혼테일", poll["log"][-1]["text"])
+
+    def test_set_boss_rejects_bad_state(self):
+        code = self._create()
+        for bad in (None, [], [{"id": "x"}], "abc"):
+            res = self.client.post(f"/api/boss-timer/rooms/{code}/action", json={"type": "set_boss", "state": bad})
+            self.assertEqual(res.status_code, 400)
+
 
 if __name__ == "__main__":
     unittest.main()
