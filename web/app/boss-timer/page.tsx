@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { createPortal } from "react-dom";
-import { createBossTimerRoom, pollBossTimerRoom, bossTimerAction } from "@/lib/api";
+import { createBossTimerRoom, pollBossTimerRoom, bossTimerAction, pinBossTimerRoom } from "@/lib/api";
 
 /* ── 타입 ── */
 interface RaidTimer {
@@ -28,6 +28,7 @@ interface RoomInfo {
   version: number;
   members: number;
   log: { at: number; text: string }[];
+  pinned: boolean;
 }
 
 type BossId = "horntail" | "chaos-zakum" | "hunt";
@@ -748,7 +749,7 @@ export default function BossTimerPage() {
   const applyResponse = useCallback((code: string, res: {
     version: number; state?: TimerSection[]; log?: { at: number; text: string }[];
     expedition?: Expedition | null;
-    server_now: number; members: number; changed: boolean;
+    server_now: number; members: number; changed: boolean; pinned?: boolean;
   }) => {
     serverOffsetRef.current = res.server_now - Date.now();
     if (res.changed && res.state) {
@@ -762,6 +763,7 @@ export default function BossTimerPage() {
       version: res.version,
       members: res.members,
       log: res.log ?? prev?.log ?? [],
+      pinned: res.pinned ?? (prev?.code === code ? prev.pinned : false),
     }));
   }, []);
 
@@ -1218,6 +1220,31 @@ export default function BossTimerPage() {
       .finally(() => setShareBusy(false));
   }, [joinCode, nickname, applyResponse]);
 
+  /* 관리자 전용 방 고정 — 고정 방은 48시간 미사용 만료에서 제외 */
+  const [pinBusy, setPinBusy] = useState(false);
+  const togglePin = useCallback(async () => {
+    const r = roomRef.current;
+    if (!r || pinBusy) return;
+    let pw = "";
+    try { pw = localStorage.getItem("admin_pw") ?? ""; } catch { /* ignore */ }
+    if (!pw) pw = window.prompt("관리자 비밀번호를 입력하세요 (방 고정은 관리자만 가능)") ?? "";
+    if (!pw) return;
+    setPinBusy(true);
+    try {
+      const res = await pinBossTimerRoom(pw, r.code, !r.pinned);
+      try { localStorage.setItem("admin_pw", pw); } catch { /* ignore */ }
+      setRoom((prev) => (prev && prev.code === res.code ? { ...prev, pinned: res.pinned } : prev));
+    } catch (e) {
+      // 비밀번호 오류(403)일 때만 저장된 관리자 비밀번호를 지운다
+      if (e instanceof Error && e.message.includes("비밀번호")) {
+        try { localStorage.removeItem("admin_pw"); } catch { /* ignore */ }
+      }
+      window.alert(e instanceof Error ? e.message : "방 고정에 실패했습니다.");
+    } finally {
+      setPinBusy(false);
+    }
+  }, [pinBusy]);
+
   const leaveRoom = useCallback(() => {
     setRoom(null);
     localStorage.removeItem("boss_timer_room");
@@ -1321,6 +1348,9 @@ export default function BossTimerPage() {
               <span className="font-pixel text-xs text-dim">{boss.icon} {boss.name}</span>
               <span className="font-mono font-bold text-lg tracking-widest">{room.code}</span>
               <span className="text-xs text-dim">👥 {room.members}명 접속</span>
+              {room.pinned && (
+                <span className="text-xs font-pixel text-maple" title="관리자가 고정한 방 — 오래 사용하지 않아도 사라지지 않습니다">📌 고정 방</span>
+              )}
               <button onClick={copyShareLink} className="pixel-btn px-3 py-1.5 text-xs">
                 {copied ? "복사됨!" : "초대 링크 복사"}
               </button>
@@ -1329,6 +1359,14 @@ export default function BossTimerPage() {
                 className="px-3 py-1.5 text-xs font-pixel border-2 border-edge text-dim hover:text-red-500 hover:border-red-400 transition-colors"
               >
                 방 나가기
+              </button>
+              <button
+                onClick={togglePin}
+                disabled={pinBusy}
+                title={room.pinned ? "고정 해제 — 마지막 사용 후 48시간이 지나면 정리됩니다 (관리자)" : "방 고정 — 오래 사용하지 않아도 이 방 코드를 계속 유지합니다 (관리자)"}
+                className="px-3 py-1.5 text-xs font-pixel border-2 border-edge text-dim hover:text-maple hover:border-maple transition-colors disabled:opacity-50"
+              >
+                {room.pinned ? "고정 해제" : "📌 방 고정"}
               </button>
               <input
                 type="text"

@@ -18,8 +18,8 @@ export const CHANGELOG: ChangelogEntry[] = [
     version: "4.24.0",
     date: "2026-11-15",
     type: "minor",
-    title: "몬스터 카니발 2 · 슈피겔만의 혼돈 목걸이 반영 (11/13 패치)",
-    pages: ["/pq", "/items", "/scroll-sim", "/scroll", "/chaos", "/pinkbean"],
+    title: "몬스터 카니발 2 · 슈피겔만의 혼돈 목걸이 반영 (11/13 패치) · 보스 타이머 고정 방",
+    pages: ["/pq", "/items", "/scroll-sim", "/scroll", "/chaos", "/pinkbean", "/boss-timer"],
     features: [
       { category: "파티퀘스트", items: [
         "파티퀘스트 가이드에 몬스터 카니발 2 추가 — Lv.51~70, 필드1·2 2~4명 · 필드3 3~6명, 필드별 하루 6회, 진행 방식·소환 몬스터 CP·교환 보상 (11/13 공지·공지 이미지 기준, 경험치·코인은 유저 실측 표기)",
@@ -33,6 +33,9 @@ export const CHANGELOG: ChangelogEntry[] = [
       { category: "강화", items: [
         "주문서 시뮬레이터 장비 종류에 슈피겔만의 목걸이 추가 — 전용 주문서 슈피겔만의 구슬(60%, HP·MP +30)만 바를 수 있음",
         "슈피겔만의 혼돈 목걸이는 혼줌 시뮬레이터 악세서리 목록에 자동 포함 (업횟 1)",
+      ] },
+      { category: "보스 타이머", items: [
+        "공유 방 고정 기능 — 관리자가 '📌 방 고정'을 누른 방은 오래 사용하지 않아도 사라지지 않음 (일반 방은 기존대로 마지막 사용 후 48시간 뒤 정리)",
       ] },
     ],
   },
