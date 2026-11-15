@@ -6,11 +6,12 @@
 - boss_timer_rooms는 유저 데이터 테이블 — 시드 동기화 대상 아님
 """
 import json
+import os
 import secrets
 import time
 from typing import Any, Optional
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
 from crawler.db import get_connection
@@ -51,6 +52,9 @@ def _ensure_tables() -> None:
     cols = [row[1] for row in conn.execute("PRAGMA table_info(boss_timer_rooms)")]
     if "expedition" not in cols:
         conn.execute("ALTER TABLE boss_timer_rooms ADD COLUMN expedition TEXT NOT NULL DEFAULT 'null'")
+    # 고정 방(v4.24) — 관리자가 고정한 방은 48시간 만료 정리에서 제외
+    if "pinned" not in cols:
+        conn.execute("ALTER TABLE boss_timer_rooms ADD COLUMN pinned INTEGER NOT NULL DEFAULT 0")
     conn.commit()
     conn.close()
 
@@ -60,9 +64,20 @@ _ensure_tables()
 
 def _purge_expired(conn) -> None:
     conn.execute(
-        "DELETE FROM boss_timer_rooms WHERE updated_at < ?",
+        "DELETE FROM boss_timer_rooms WHERE updated_at < ? AND COALESCE(pinned, 0) = 0",
         (time.time() - ROOM_TTL_SECONDS,),
     )
+
+
+def _is_pinned(conn, code: str) -> bool:
+    row = conn.execute("SELECT COALESCE(pinned, 0) FROM boss_timer_rooms WHERE code = ?", (code.upper(),)).fetchone()
+    return bool(row and row[0])
+
+
+def _require_admin(request: Request) -> None:
+    admin_pw = os.environ.get("GAME_ADMIN_PASSWORD", "")
+    if not admin_pw or request.headers.get("X-Admin-Password", "") != admin_pw:
+        raise HTTPException(status_code=403, detail="관리자 비밀번호가 틀립니다.")
 
 
 def _now_ms() -> int:
@@ -186,11 +201,34 @@ def create_room(payload: CreateRoomPayload):
         conn.close()
 
 
+class PinPayload(BaseModel):
+    pinned: bool
+
+
+@router.post("/boss-timer/rooms/{code}/pin")
+def pin_room(code: str, payload: PinPayload, request: Request):
+    """관리자 전용 — 고정한 방은 마지막 사용 후 48시간 만료 정리에서 제외된다."""
+    _require_admin(request)
+    conn = _conn()
+    try:
+        cur = conn.execute(
+            "UPDATE boss_timer_rooms SET pinned = ?, updated_at = ? WHERE code = ?",
+            (1 if payload.pinned else 0, time.time(), code.upper()),
+        )
+        if cur.rowcount == 0:
+            raise HTTPException(status_code=404, detail="방을 찾을 수 없습니다 (만료되었거나 잘못된 코드)")
+        conn.commit()
+    finally:
+        conn.close()
+    return {"code": code.upper(), "pinned": payload.pinned}
+
+
 @router.get("/boss-timer/rooms/{code}")
 def poll_room(code: str, since: int = 0, client_id: Optional[str] = None, nickname: str = "익명"):
     conn = _conn()
     try:
         state, log, version, expedition = _load_room(conn, code)
+        pinned = _is_pinned(conn, code)
         # TTL 갱신 쓰기는 방당 10분에 1회로 제한 (폴링은 기본 읽기 전용)
         now = time.time()
         if now - _last_touch.get(code.upper(), 0.0) > TOUCH_INTERVAL:
@@ -201,9 +239,10 @@ def poll_room(code: str, since: int = 0, client_id: Optional[str] = None, nickna
         conn.close()
     members = _touch_presence(code.upper(), client_id, nickname)
     if version <= since:
-        return {"changed": False, "version": version, "server_now": _now_ms(), "members": members}
+        return {"changed": False, "version": version, "server_now": _now_ms(), "members": members, "pinned": pinned}
     return {
         "changed": True,
+        "pinned": pinned,
         "version": version,
         "state": state,
         "expedition": expedition,

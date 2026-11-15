@@ -79,6 +79,8 @@ export const WEAPON_SLOTS: Record<string, number> = {
   "[3주년] 메이플 모자": 7,
   "[3주년] 메이플 가네샤": 5,
   "메이플 리프": 7,
+  // 몬스터 카니발 보상 — 슈피겔만의 구슬(전용 60%)만 발린다
+  "슈피겔만의 목걸이": 3,
 };
 
 /* ─── 3주년 메이플 장비 전용 주문서 ───
@@ -126,6 +128,12 @@ export const MAPLE_EQUIPS: Record<string, MapleEquip> = {
       { name: "LUK 주문서", gain: 1, keys: ["incLUK"] },
     ],
     note: "메이플 리프(얼굴장식, 원하는 스탯 +5)는 메이플 시럽(100%, 스탯 +1)으로 강화합니다. 리프와 시럽 모두 단풍잎 50개, 교환 횟수 무제한입니다.",
+  },
+  // 슈피겔만의 구슬(2041211) — 원작 설명: 슈피겔만의 목걸이 전용, 성공률 60%, HP·MP +30. 메랜 교환가는 11/13 공지 이미지.
+  "슈피겔만의 목걸이": {
+    slots: 3, pct: 60, scrollLabel: "슈피겔만의 구슬 60%", cost: "몬스터 카니발 코인 40개 (슈피겔만)",
+    scrolls: [{ name: "HP·MP 주문서", gain: 30, keys: ["incMHP", "incMMP"] }],
+    note: "슈피겔만의 목걸이(Lv.30, 업횟 3) 전용 주문서입니다. 성공 시 HP·MP +30 (원작 아이템 설명 기준). 11/13 출시된 슈피겔만의 혼돈 목걸이(업횟 1)에 구슬이 발리는지는 공지에 없고, 혼돈의 주문서는 혼줌 시뮬레이터에서 바를 수 있습니다.",
   },
 };
 export function mapleEquip(equipmentType: string): MapleEquip | null {
@@ -354,6 +362,7 @@ export const NAMED_ITEMS: { name: string; type: string; icon: string }[] = [
   { name: "메이플 모자 (Lv.70)", type: "[3주년] 메이플 모자", icon: "/api/icon/item/1002511" },
   { name: "메이플 가네샤", type: "[3주년] 메이플 가네샤", icon: "/api/icon/item/1082252" },
   { name: "메이플 리프", type: "메이플 리프", icon: "/api/icon/item/1012098" },
+  { name: "슈피겔만의 목걸이", type: "슈피겔만의 목걸이", icon: "/api/icon/item/1122007" },
 ];
 
 // 주문서 스탯 데이터 (공격력/마력 기준)

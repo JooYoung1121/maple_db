@@ -969,6 +969,7 @@ export interface BossTimerRoomResponse {
   server_now: number;
   members: number;
   code?: string;
+  pinned?: boolean; // 관리자 고정 방 — 48시간 만료 정리에서 제외 (폴링 응답에만 포함)
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -1015,6 +1016,17 @@ export async function bossTimerAction(
   });
   if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
   return res.json() as Promise<BossTimerRoomResponse>;
+}
+
+/** 관리자 전용 — 방 고정/해제. 고정 방은 마지막 사용 후 48시간 만료 정리에서 제외된다. */
+export async function pinBossTimerRoom(adminPassword: string, code: string, pinned: boolean) {
+  const res = await fetch(`${API_BASE}/api/boss-timer/rooms/${encodeURIComponent(code)}/pin`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Admin-Password": adminPassword },
+    body: JSON.stringify({ pinned }),
+  });
+  if (!res.ok) throw new Error((await res.json()).detail ?? `API error: ${res.status}`);
+  return res.json() as Promise<{ code: string; pinned: boolean }>;
 }
 
 /* ── 강화 명예의전당 ────────────────────── */

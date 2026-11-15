@@ -1263,6 +1263,33 @@
           "url": "https://maple.land/board/notices/q3h4633gzcl2zlxjhojr12gc"
         }
       ]
+    },
+    "1122058": {
+      "name_kr": "슈피겔만의 혼돈 목걸이",
+      "level": 51,
+      "publish": true,
+      "acquisition": "몬스터 카니발 2(11/13 출시, Lv.51~70) — 슈피겔만에게 반짝이는 메이플 코인 150개로 교환. 교환 횟수 제한 없음. 코인은 카니발 2 필드에서 몬스터를 잡으면 떨어진다.",
+      "note": "메이플랜드 툴팁 기준 업그레이드 가능 횟수는 1회입니다(원작은 3회). 출시 직후 거래소 매물이 모두 기본 수치(올스탯 +1, 공·마 +1, 물방·마방 +27)였다는 유저 관찰이 있지만, 옵션 편차 여부는 공지되지 않았습니다. 펜던트라 혼돈의 주문서 대상이며, 업횟 1회를 혼줌에 쓰는 것으로 보는 시각이 많습니다(유저 논의 · 공식 언급 없음).",
+      "variation_status": "unverified",
+      "stat_ranges": {},
+      "sources": [
+        {
+          "label": "메이플랜드 공식 공지 (11/13 패치노트 — 몬스터 카니발 2·교환·툴팁 이미지)",
+          "url": "https://maple.land/board/notices/urv9m8wt7951r3lpecndd855"
+        },
+        {
+          "label": "디시 메랜갤 — 슈피겔만 혼돈 목걸이 정옵만 나오는듯?",
+          "url": "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=4088526"
+        },
+        {
+          "label": "디시 메랜갤 — 혼슈목 싹다정옵인듯",
+          "url": "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=4088338"
+        },
+        {
+          "label": "메랜유틸 — 슈피겔만의 혼돈 목걸이 (업횟 1)",
+          "url": "https://mapleland-util.com/items/1122058"
+        }
+      ]
     }
   }
 }
