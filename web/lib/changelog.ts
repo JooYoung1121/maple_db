@@ -15,6 +15,24 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.25.0",
+    date: "2026-11-19",
+    type: "minor",
+    title: "매물 검색과 장비·보석작 비용 비교",
+    pages: ["/market"],
+    features: [
+      { category: "매물 검색", items: [
+        "아이템 이름 자동완성·썸네일, 판매 중 매물과 최근 거래 검색 추가",
+        "옵션·보석작·가격 조건 검색과 가격·거래 시각 정렬 지원",
+      ] },
+      { category: "장비 비교", items: [
+        "검색한 장비 2~5개를 담아 옵션 차이와 추가 스탯 1당 비용 비교",
+        "현재 장비 판매 실수령액을 입력해 교체 순지출 계산",
+        "등급별 보석 가격과 옵션 부여 수수료를 합산해 직접 보석작과 완성품 구매 비교",
+      ] },
+    ],
+  },
+  {
     version: "4.24.2",
     date: "2026-11-15",
     type: "patch",

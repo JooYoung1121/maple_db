@@ -1,6 +1,7 @@
 "use client";
 
 import PageGuide from "@/components/PageGuide";
+import ItemchartSearch from "@/components/ItemchartSearch";
 import { MARKET_GUIDE } from "@/lib/pageGuides";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -140,10 +141,15 @@ export default function MarketPage() {
           <PageGuide guide={MARKET_GUIDE} />
         </div>
         <p className="mt-2 text-sm leading-relaxed text-dim">
-          거래소 매물 집계 기반 시세를 조회합니다. 9/11 버닝 월드 통합 직후라{" "}
-          <span className="font-semibold text-ink">시세 변동이 클 수 있는 시기</span>이니 최근 매물 수(건수)를 함께 확인하세요.
+          아이템 이름으로 판매 중 매물과 최근 거래를 검색하고, 장비 옵션·보석작·가격을 비교하세요.
         </p>
       </header>
+
+      <ItemchartSearch />
+
+      <details className="pixel-panel p-4">
+        <summary className="cursor-pointer font-semibold text-ink">메팁 집계 시세 · 일/주/월 추이</summary>
+        <div className="mt-4 space-y-6">
 
       <section className="pixel-panel space-y-3 p-4">
         <div className="relative">
@@ -254,6 +260,8 @@ export default function MarketPage() {
         매물 집계 (5분 캐시 프록시). 실제 거래가와 다를 수 있으며, 매물이 적은 아이템일수록 평균가 신뢰도가 낮습니다.
         찰리중사 교환 효율은 <Link href="/charlie" className="text-maple hover:underline">찰리중사 교환</Link> 페이지에서 시세 연동으로 계산됩니다.
       </section>
+        </div>
+      </details>
     </div>
   );
 }

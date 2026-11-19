@@ -1,0 +1,336 @@
+[
+  {
+    "kind": "active",
+    "row": {
+      "id": "119395219",
+      "itemId": 1122058,
+      "quantity": "1",
+      "unitPrice": "17999999",
+      "item": {
+        "name": "슈피겔만의 혼돈 목걸이",
+        "categoryVerified": true,
+        "itemCategory": {
+          "top": "방어구",
+          "sub": "펜던트"
+        }
+      },
+      "displayOptions": {
+        "normalized": {
+          "strength": 2,
+          "dexterity": 4,
+          "intelligence": 5,
+          "luck": 2,
+          "hp": null,
+          "mp": null,
+          "attack": 1,
+          "magicAttack": 3,
+          "physicalDefense": 27,
+          "magicDefense": 27,
+          "accuracy": null,
+          "avoidability": null,
+          "speed": null,
+          "jump": null,
+          "craft": null,
+          "upgradeCount": 1,
+          "remainingUpgrades": 0,
+          "requiredLevelAdjustment": 0,
+          "itemLevel": null,
+          "itemExperiencePercent": null,
+          "gemApplied": false,
+          "gemCodes": [],
+          "verification": "inferred"
+        },
+        "raw": [
+          0,
+          1,
+          2,
+          4,
+          5,
+          2,
+          0,
+          0,
+          1,
+          3,
+          27,
+          27,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          -1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "rawAdditional": [
+          [
+            1,
+            3,
+            2,
+            4,
+            5,
+            2
+          ],
+          0,
+          0,
+          0
+        ]
+      },
+      "expiresAt": "2026-11-20T03:28:04.273Z"
+    },
+    "attack": 1,
+    "gemApplied": false
+  },
+  {
+    "kind": "sold",
+    "row": {
+      "id": "1795059282208:46374454",
+      "itemId": 1122058,
+      "quantity": "1",
+      "unitPrice": "18800000",
+      "item": {
+        "name": "슈피겔만의 혼돈 목걸이",
+        "categoryVerified": true,
+        "itemCategory": {
+          "top": "방어구",
+          "sub": "펜던트"
+        }
+      },
+      "options": {
+        "raw": [
+          1,
+          0,
+          1,
+          1,
+          1,
+          1,
+          0,
+          0,
+          1,
+          1,
+          27,
+          27,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "verification": "unmapped",
+        "rawAdditional": [
+          [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          0,
+          0
+        ]
+      },
+      "soldAt": "2026-11-19T03:34:42.208Z"
+    },
+    "attack": 1,
+    "gemApplied": false
+  },
+  {
+    "kind": "active",
+    "row": {
+      "id": "118808405",
+      "itemId": 1492013,
+      "quantity": "1",
+      "unitPrice": "3600000",
+      "item": {
+        "name": "드래곤 세인트",
+        "categoryVerified": true,
+        "itemCategory": {
+          "top": "무기",
+          "sub": "건"
+        }
+      },
+      "displayOptions": {
+        "normalized": {
+          "strength": null,
+          "dexterity": null,
+          "intelligence": null,
+          "luck": null,
+          "hp": null,
+          "mp": null,
+          "attack": 87,
+          "magicAttack": null,
+          "physicalDefense": null,
+          "magicDefense": null,
+          "accuracy": 4,
+          "avoidability": null,
+          "speed": null,
+          "jump": null,
+          "craft": null,
+          "upgradeCount": 4,
+          "remainingUpgrades": 0,
+          "requiredLevelAdjustment": 0,
+          "itemLevel": null,
+          "itemExperiencePercent": null,
+          "gemApplied": true,
+          "gemCodes": [
+            26000
+          ],
+          "verification": "inferred"
+        },
+        "raw": [
+          0,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          84,
+          0,
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          -1,
+          0,
+          128,
+          0,
+          0,
+          0,
+          0,
+          26000,
+          0,
+          0
+        ],
+        "rawAdditional": [
+          [
+            84,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            26000,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          0,
+          0
+        ]
+      },
+      "expiresAt": "2026-11-19T10:05:45.118Z"
+    },
+    "attack": 87,
+    "gemApplied": true
+  },
+  {
+    "kind": "sold",
+    "row": {
+      "id": "1795058203918:46370579",
+      "itemId": 1472052,
+      "quantity": "1",
+      "unitPrice": "275000000",
+      "item": {
+        "name": "드래곤 퍼플 슬레브",
+        "categoryVerified": true,
+        "itemCategory": {
+          "top": "무기",
+          "sub": "아대"
+        }
+      },
+      "options": {
+        "raw": [
+          0,
+          6,
+          0,
+          0,
+          0,
+          7,
+          0,
+          0,
+          65,
+          0,
+          0,
+          0,
+          6,
+          7,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          128,
+          0,
+          0,
+          0,
+          0,
+          26011,
+          26000,
+          26010
+        ],
+        "verification": "unmapped",
+        "rawAdditional": [
+          [
+            65,
+            0,
+            0,
+            0,
+            0,
+            7
+          ],
+          [
+            26011,
+            26000,
+            26010,
+            0,
+            0,
+            0
+          ],
+          0
+        ]
+      },
+      "soldAt": "2026-11-19T03:16:43.918Z"
+    },
+    "attack": 68,
+    "gemApplied": true
+  }
+]
