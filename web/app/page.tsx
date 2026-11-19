@@ -94,6 +94,9 @@ function HomeContent() {
           <div className="max-w-2xl mx-auto mt-6">
             <SearchBar large />
           </div>
+          <Link href="/guide" className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-lg border border-edge px-3 py-2 text-xs text-dim hover:border-maple hover:text-maple">
+            <span aria-hidden="true">🍁</span> 처음 오셨나요? 메랜 할 때, 이렇게 써보세요 <span aria-hidden="true">→</span>
+          </Link>
         </div>
       </section>
 

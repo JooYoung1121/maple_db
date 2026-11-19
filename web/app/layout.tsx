@@ -57,9 +57,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <img src="/leaf.svg" alt="" className="w-3.5 h-3.5 opacity-70" />
               추억길드 전용 메이플랜드 2.0 정보 사이트
             </span>
-            <a href="/version" className="font-pixel text-[11px] hover:text-maple transition-colors">
-              v{APP_VERSION}
-            </a>
+            <div className="flex items-center gap-4">
+              <a href="/guide" className="inline-flex min-h-11 items-center text-xs hover:text-maple">사이트 사용 안내</a>
+              <a href="/version" className="font-pixel text-[11px] hover:text-maple transition-colors">
+                v{APP_VERSION}
+              </a>
+            </div>
           </div>
         </footer>
       </body>

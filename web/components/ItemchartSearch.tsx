@@ -234,7 +234,9 @@ export default function ItemchartSearch() {
           <input inputMode="numeric" pattern="[0-9]*" maxLength={19} value={maxPrice} onChange={(event) => setMaxPrice(event.target.value.replace(/\D/g, ""))} placeholder="제한 없음" className={inputClass} />
         </label>
       </div>
-      <p className="text-xs text-dim">조건을 입력한 뒤 검색을 눌러 주세요. 자동 갱신 없이 요청할 때만 조회합니다.</p>
+      <p className="text-xs leading-relaxed text-dim">조건·정렬을 선택한 뒤 검색을 눌러 주세요. 자동 갱신 없이 요청할 때만 조회합니다.{" "}
+        <Link href="/guide#market-updates" className="text-maple underline">언제 다시 조회하나요?</Link>
+      </p>
     </form>
 
     {compared.length > 0 && <div className="sticky top-2 z-20 rounded border-2 border-edge bg-surface p-3 shadow-md" aria-label="비교할 매물">
