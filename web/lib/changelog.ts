@@ -15,6 +15,24 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.26.0",
+    date: "2026-11-19",
+    type: "minor",
+    title: "메랜 할 때, 이렇게 써보세요 — 사이트 사용 안내",
+    pages: ["/guide", "/", "/market"],
+    features: [
+      { category: "사용 안내", items: [
+        "검색·타이머·매물 비교·주문서·제작·소식·커뮤니티·놀이터를 상황별로 소개",
+        "필요한 기능을 펼쳐 단계별 화면 예시를 보고 실제 메뉴로 이동",
+        "카톡에 보낼 소개글·안내 링크 복사와 공유 미리보기 추가",
+      ] },
+      { category: "쉽게 찾아가기", items: [
+        "메인 검색창 아래·가이드 메뉴·하단에 사용 안내 연결",
+        "매물 검색의 정렬·캐시·비교 데이터가 언제 갱신되는지 설명 추가",
+      ] },
+    ],
+  },
+  {
     version: "4.25.0",
     date: "2026-11-19",
     type: "minor",

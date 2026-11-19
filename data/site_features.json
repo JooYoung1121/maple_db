@@ -99,12 +99,15 @@
   "href": "/market",
   "label": "아이템 시세",
   "homeLabel": null,
-  "description": "거래소 매물 집계 시세 — 일/주/월봉 추이",
+  "description": "매물 검색 · 장비 옵션·교체·보석작 비용 비교",
   "keywords": [
    "시세",
    "가격",
    "거래소",
-   "메소"
+   "메소",
+   "경매장",
+   "가성비",
+   "매물 비교"
   ]
  },
  {
@@ -222,6 +225,19 @@
   "homeLabel": null,
   "description": "헤어 · 성형 · 장비 입혀보기",
   "keywords": []
+ },
+ {
+  "href": "/guide",
+  "label": "사이트 사용 안내",
+  "homeLabel": null,
+  "description": "메랜 할 때, 이렇게 써보세요 — 필요한 기능부터 3단계로",
+  "keywords": [
+   "사용법",
+   "처음",
+   "안내",
+   "튜토리얼",
+   "사이트 소개"
+  ]
  },
  {
   "href": "/pq",
@@ -600,6 +616,18 @@
   "homeLabel": null,
   "description": "초성으로 메랜 이름 찾기",
   "keywords": []
+ },
+ {
+  "href": "/ox",
+  "label": "OX퀴즈 족보",
+  "homeLabel": null,
+  "description": "3주년 토요일 OX퀴즈 문제·정답 검색",
+  "keywords": [
+   "ox",
+   "오엑스",
+   "3주년",
+   "추억의 이벤트"
+  ]
  },
  {
   "href": "/museum",

@@ -43,7 +43,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/skills", label: "스킬", icon: "✨", description: "직업별 스킬 정보" },
       { href: "/drop-search", label: "획득 경로", icon: "🔎", description: "아이템 → 몬스터 → 출현 맵" },
       { href: "/maker", label: "메이커", icon: "⚒️", description: "제작 정보 · 강화 시뮬 · 재료 획득 · 보석 가성비", keywords: ["제작", "메이커 스킬", "강화 시뮬", "명예의전당", "보석"] },
-      { href: "/market", label: "아이템 시세", icon: "💰", description: "거래소 매물 집계 시세 — 일/주/월봉 추이", keywords: ["시세", "가격", "거래소", "메소"] },
+      { href: "/market", label: "아이템 시세", icon: "💰", description: "매물 검색 · 장비 옵션·교체·보석작 비용 비교", keywords: ["시세", "가격", "거래소", "메소", "경매장", "가성비", "매물 비교"] },
       { href: "/differences", label: "원작 차이", icon: "ⓘ", description: "메이플랜드 변경점 · 원작 수치 대조" },
     ],
   },
@@ -74,6 +74,7 @@ export const SITE_SECTIONS: SiteSection[] = [
     label: "가이드",
     icon: "📖",
     items: [
+      { href: "/guide", label: "사이트 사용 안내", icon: "🍁", description: "메랜 할 때, 이렇게 써보세요 — 필요한 기능부터 3단계로", keywords: ["사용법", "처음", "안내", "튜토리얼", "사이트 소개"] },
       { href: "/pq", label: "파티퀘스트", icon: "🏰", description: "PQ 공략 및 보상", keywords: ["파퀘"] },
       { href: "/pq/amorian-solver", label: "웨딩 파퀘 조합", icon: "🪢", description: "아모리안 밧줄·발판 퍼즐 풀이와 이동 안내", keywords: ["아모리아", "아모리안", "엘리아스", "웨딩", "결혼", "파퀘", "조합표", "발판", "밧줄", "솔버"] },
       { href: "/hunt", label: "사냥터 추천", icon: "🎯", description: "레벨별 사냥터 가이드" },
