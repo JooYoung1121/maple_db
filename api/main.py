@@ -28,7 +28,7 @@ from api.routes import worldcup
 from api.routes import codi
 from api.routes import versus
 from api.routes import matip
-from api.routes import itemchart
+from api.routes import hunt_market, itemchart
 from api.routes import game_results
 from api.routes import guild
 from api.routes import guild_members
@@ -405,6 +405,7 @@ app.include_router(free_board.router, prefix="/api")
 app.include_router(info_board.router, prefix="/api")
 app.include_router(matip.router, prefix="/api")
 app.include_router(itemchart.router, prefix="/api")
+app.include_router(hunt_market.router, prefix="/api")
 app.include_router(fortune.router, prefix="/api")
 app.include_router(maker.router, prefix="/api")
 app.include_router(quiz.router, prefix="/api")

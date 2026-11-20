@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import HuntSeatMarket from "@/components/HuntSeatMarket";
 import { HUNTING_SPOTS, BURNING, isBurningActive, type HuntingSpot } from "@/data/huntingSpots";
 
 // ─── 직업 타입 ───
@@ -123,6 +124,8 @@ export default function HuntPage() {
       <p className="text-sm text-dim mb-6">
         레벨과 직업에 맞는 최적의 사냥터를 찾아보세요 — 검증된 메이플랜드 데이터 기반
       </p>
+
+      <div className="mb-6"><HuntSeatMarket /></div>
 
       {/* 입력 영역 */}
       <div className="pixel-panel p-5 mb-6">

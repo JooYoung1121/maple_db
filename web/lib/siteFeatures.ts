@@ -43,7 +43,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/skills", label: "스킬", icon: "✨", description: "직업별 스킬 정보" },
       { href: "/drop-search", label: "획득 경로", icon: "🔎", description: "아이템 → 몬스터 → 출현 맵" },
       { href: "/maker", label: "메이커", icon: "⚒️", description: "제작 정보 · 강화 시뮬 · 재료 획득 · 보석 가성비", keywords: ["제작", "메이커 스킬", "강화 시뮬", "명예의전당", "보석"] },
-      { href: "/market", label: "아이템 시세", icon: "💰", description: "매물 검색 · 장비 옵션·교체·보석작 비용 비교", keywords: ["시세", "가격", "거래소", "메소", "경매장", "가성비", "매물 비교"] },
+      { href: "/market", label: "아이템 시세", icon: "💰", description: "메팁 집계 시세 · 일·주·월 가격 추이", keywords: ["시세", "가격", "거래소", "메소", "경매장", "가성비", "매물 비교"] },
       { href: "/differences", label: "원작 차이", icon: "ⓘ", description: "메이플랜드 변경점 · 원작 수치 대조" },
     ],
   },
