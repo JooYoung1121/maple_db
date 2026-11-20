@@ -15,6 +15,17 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.27.0",
+    date: "2026-11-20",
+    type: "minor",
+    title: "사냥터 자리 시세와 게시판 활동",
+    pages: ["/hunt", "/market"],
+    features: [
+      { category: "사냥터", items: ["메랜샵 본섭의 구매·판매 희망가와 완료 표시 가격, 최근 게시판 활동을 조회합니다."] },
+      { category: "아이템 시세", items: ["템차트 실시간 매물 검색과 비교 제공을 중단했습니다. 메팁 집계 시세는 계속 제공합니다."] },
+    ],
+  },
+  {
     version: "4.26.0",
     date: "2026-11-19",
     type: "minor",

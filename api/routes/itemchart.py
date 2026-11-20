@@ -1,5 +1,6 @@
 """On-demand, name-based Itemchart search. No scheduler or persistent collection."""
 import asyncio
+import os
 import time
 from datetime import datetime, timezone
 from typing import Literal
@@ -12,6 +13,7 @@ from api.itemchart_service import GEMS, ItemchartFormatError, extract_rows, norm
 
 router = APIRouter()
 ORIGIN = "https://itemchart.net"
+SEARCH_ENABLED = os.getenv("ITEMCHART_SEARCH_ENABLED") == "1"
 CACHE_SECONDS = 30
 MAX_CACHE_ENTRIES = 128
 MAX_HTML_BYTES = 3_000_000
@@ -45,7 +47,7 @@ async def _fetch_page(url: str) -> str:
             return content.decode("utf-8")
 
 
-@router.get("/itemchart/search")
+@router.get("/itemchart/search", deprecated=True)
 async def search(
     response: Response,
     q: str = Query(..., min_length=1, max_length=100),
@@ -60,6 +62,8 @@ async def search(
     min_price: int | None = Query(default=None, ge=0, le=9_223_372_036_854_775_807),
     max_price: int | None = Query(default=None, ge=0, le=9_223_372_036_854_775_807),
 ):
+    if not SEARCH_ENABLED:
+        raise HTTPException(410, "템차트 실시간 매물 검색 제공을 중단했습니다.")
     q = q.strip()
     if not q:
         raise HTTPException(422, "아이템 이름을 입력해 주세요.")

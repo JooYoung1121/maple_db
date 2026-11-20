@@ -119,6 +119,9 @@ class ParserTests(unittest.TestCase):
 
 class SearchTests(unittest.TestCase):
     def setUp(self):
+        enabled = patch.object(itemchart, "SEARCH_ENABLED", True)
+        enabled.start()
+        self.addCleanup(enabled.stop)
         itemchart._cache.clear()
         itemchart._fetch_lock = asyncio.Lock()
         app = FastAPI()
@@ -128,6 +131,12 @@ class SearchTests(unittest.TestCase):
     def tearDown(self):
         self.client.close()
         itemchart._cache.clear()
+
+    def test_disabled_search_does_not_fetch(self):
+        with patch.object(itemchart, "SEARCH_ENABLED", False), patch.object(itemchart, "_fetch_page", AsyncMock()) as fake:
+            response = self.client.get("/api/itemchart/search?q=드래곤")
+            self.assertEqual(response.status_code, 410)
+            fake.assert_not_awaited()
 
     def test_gem_catalog_uses_refined_ids_without_market_request(self):
         with patch.object(itemchart, "_fetch_page", AsyncMock()) as fake:

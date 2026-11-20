@@ -1,7 +1,6 @@
 "use client";
 
 import PageGuide from "@/components/PageGuide";
-import ItemchartSearch from "@/components/ItemchartSearch";
 import { MARKET_GUIDE } from "@/lib/pageGuides";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
@@ -141,13 +140,13 @@ export default function MarketPage() {
           <PageGuide guide={MARKET_GUIDE} />
         </div>
         <p className="mt-2 text-sm leading-relaxed text-dim">
-          아이템 이름으로 판매 중 매물과 최근 거래를 검색하고, 장비 옵션·보석작·가격을 비교하세요.
+          아이템 이름으로 메팁 집계 시세와 일·주·월 가격 추이를 확인하세요.
         </p>
       </header>
 
-      <ItemchartSearch />
+      <p className="pixel-panel p-4 text-sm text-dim">템차트 실시간 매물 검색과 매물 비교는 제공을 중단했습니다.</p>
 
-      <details className="pixel-panel p-4">
+      <details open className="pixel-panel p-4">
         <summary className="cursor-pointer font-semibold text-ink">메팁 집계 시세 · 일/주/월 추이</summary>
         <div className="mt-4 space-y-6">
 
