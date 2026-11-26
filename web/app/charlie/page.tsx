@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   CHARLIE_MATERIALS,
   CHARLIE_NEED_PER_EXCHANGE,
@@ -9,25 +9,12 @@ import {
   DEFAULT_SCROLL_PCT,
   DEFAULT_RARE_PCT,
   NPC_PRICE,
-  allCharlieItemIds,
   type CharlieMaterial,
   type CharlieReward,
 } from "@/lib/charlieExchange";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "";
 
 const icon = (id: number) => `https://maplestory.io/api/gms/92/item/${id}/icon`;
-
-interface QuotePoint { time: string; avg: number; count: number }
-interface QuoteData { sellActive?: QuotePoint[]; buyActive?: QuotePoint[] }
-
-/** 최신 매물 평균가 (sellActive 마지막 포인트) */
-function latestPrice(q: QuoteData | null | undefined): number | null {
-  const arr = q?.sellActive;
-  if (!arr || arr.length === 0) return null;
-  const last = arr[arr.length - 1];
-  return last?.avg ?? null;
-}
 
 function fmtMeso(n: number): string {
   if (!Number.isFinite(n)) return "-";
@@ -54,49 +41,15 @@ function rewardProbs(m: CharlieMaterial, scrollPct: number, rarePct: number): nu
 }
 
 export default function CharliePage() {
-  const [prices, setPrices] = useState<Record<number, number | null>>({});
-  const [priceLoaded, setPriceLoaded] = useState(false);
   const [overrides, setOverrides] = useState<Record<number, string>>({}); // 재료 매입가 수동 입력
   const [scrollPct, setScrollPct] = useState(DEFAULT_SCROLL_PCT);
   const [rarePct, setRarePct] = useState(DEFAULT_RARE_PCT);
   const [open, setOpen] = useState<number | null>(null);
   const [sortByEff, setSortByEff] = useState(true);
 
-  // 시세 배치 로드 — 일봉 → (없으면) 월봉 폴백. 최종 폴백은 NPC가.
-  useEffect(() => {
-    const fetchBatch = async (ids: number[], resolution: string) => {
-      const chunks: number[][] = [];
-      for (let i = 0; i < ids.length; i += 50) chunks.push(ids.slice(i, i + 50));
-      const map: Record<number, number | null> = {};
-      const results = await Promise.all(
-        chunks.map((chunk) =>
-          fetch(`${API_BASE}/api/matip/quote/batch?itemCodes=${chunk.join(",")}&resolution=${resolution}`)
-            .then((r) => (r.ok ? r.json() : null))
-            .catch(() => null)
-        )
-      );
-      for (const res of results) {
-        for (const [code, data] of Object.entries(res?.results || {})) {
-          map[Number(code)] = latestPrice(data as QuoteData);
-        }
-      }
-      return map;
-    };
-    (async () => {
-      const ids = allCharlieItemIds();
-      const day = await fetchBatch(ids, "day");
-      const missing = ids.filter((id) => day[id] == null);
-      const month = missing.length > 0 ? await fetchBatch(missing, "month") : {};
-      setPrices({ ...month, ...Object.fromEntries(Object.entries(day).filter(([, v]) => v != null)) });
-      setPriceLoaded(true);
-    })();
-  }, []);
-
-  /** 거래소 시세 → 없으면 NPC가 폴백. 반환: [가격, 출처] */
+  /** NPC 판매 가격. 재료 매입가는 직접 입력한다. */
   const priceInfo = (id: number | null): [number | null, "market" | "npc" | null] => {
     if (id == null) return [null, null];
-    const mkt = prices[id];
-    if (mkt != null) return [mkt, "market"];
     if (NPC_PRICE[id] != null) return [NPC_PRICE[id], "npc"];
     return [null, null];
   };
@@ -129,7 +82,7 @@ export default function CharliePage() {
       return bv - av;
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [prices, overrides, scrollPct, rarePct, sortByEff]);
+  }, [overrides, scrollPct, rarePct, sortByEff]);
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -162,9 +115,7 @@ export default function CharliePage() {
       {/* 시세 상태 */}
       <div className="flex items-center justify-between mb-2 text-[11px] text-dim">
         <span>
-          {priceLoaded
-            ? "시세: 메랜지지(메팁 집계) 최근 매물 평균가 — 재료 시세는 직접 수정 가능"
-            : "시세 불러오는 중..."}
+          외부 시세 연동 종료 — 재료 매입가는 직접 입력해 주세요. 보상은 NPC 판매가 기준입니다.
         </span>
         <label className="flex items-center gap-1 cursor-pointer">
           <input type="checkbox" checked={sortByEff} onChange={(e) => setSortByEff(e.target.checked)} />
@@ -200,7 +151,7 @@ export default function CharliePage() {
                 <div className="px-3 pb-3 border-t-2 border-edge/40 pt-2.5">
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-dim mb-2.5">
                     <Link href={`/items/${m.itemId}`} className="text-maple hover:underline">
-                      드랍 몬스터 · 시세 차트 보기 →
+                      드랍 몬스터 · 아이템 정보 보기 →
                     </Link>
                     <label className="flex items-center gap-1.5">
                       재료 1개 매입가
@@ -283,7 +234,7 @@ export default function CharliePage() {
         </p>
         <p>· 어금니 외 재료의 확률은 미실측 — 위 실측 패턴(일반 보상 균등 + 주문서 0.63%)을 가정한 추정치입니다. 상단에서 가정을 조정하세요.</p>
         <p>· 정리 시점이 1.0(2024-01) 기준이라 2.0에서 보상·확률이 다를 수 있습니다. 실측 제보는 길드 디스코드로!</p>
-        <p>· 시세는 메랜지지(메팁 집계) 최근 매물 평균가 기준(일봉 → 월봉 폴백) — 실거래가와 다를 수 있습니다. 거래소 시세가 없는 아이템은 <b>NPC가</b>(표기 NPC)로 계산하며, 그마저 없으면 기대값에서 빠집니다.</p>
+        <p>· 보상은 <b>NPC 판매가</b> 기준으로 계산합니다. 가격 정보가 없는 보상은 기대값에서 빠지며, 재료 매입가는 직접 입력해 주세요.</p>
       </div>
     </div>
   );

@@ -67,7 +67,7 @@ export function WeeklyIssueNavigator({
           >
             {ordered.map((issue) => (
               <option key={issue.issue_no} value={issue.issue_no}>
-                제{issue.issue_no}호 · {formatDate(issue.week_start)}
+                제{issue.issue_no}호 · {formatDate(issue.week_end)}
               </option>
             ))}
           </select>
