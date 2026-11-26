@@ -39,7 +39,7 @@ const GUILD_CANDIDATES: Candidate[] = [
   { id: 16, name: "가다로진2", img: "/worldcup-guild/gadarojin2.png", fallback_img: null, sub: null },
 ];
 
-/* ── 아이템 모드 대결 비교(월드컵 2단계): 핵심 스탯 + 거래소 시세 ── */
+/* ── 아이템 모드 대결 비교(월드컵 2단계): 핵심 스탯 ── */
 const COMPACT_STAT: [string, string][] = [
   ["incPAD", "공"], ["incMAD", "마"], ["incSTR", "힘"], ["incDEX", "민"],
   ["incINT", "지"], ["incLUK", "럭"], ["incPDD", "방"], ["incACC", "명중"],
@@ -181,7 +181,7 @@ export default function WorldcupPage() {
   const b = pool[pairIdx * 2 + 1];
   const remaining = pool.length;
 
-  // 아이템 모드: 현재 대결 카드에 스탯·시세를 나란히 표시 (조회 결과는 캐시)
+  // 아이템 모드: 현재 대결 카드에 스탯을 표시 (조회 결과는 캐시)
   const [pairInfo, setPairInfo] = useState<Record<number, PairInfo>>({});
   useEffect(() => {
     if (mode !== "item" || phase !== "play" || !a || !b) return;
@@ -199,14 +199,6 @@ export default function WorldcupPage() {
           } catch { /* 무시 */ }
         })
       );
-      try {
-        const res = await fetch(`${API_BASE}/api/matip/quote/batch?itemCodes=${ids.join(",")}&resolution=month`)
-          .then((r) => (r.ok ? r.json() : null));
-        for (const [code, data] of Object.entries(res?.results || {})) {
-          const arr = (data as { sellActive?: { avg: number }[] })?.sellActive;
-          if (arr && arr.length > 0 && out[Number(code)]) out[Number(code)].price = arr[arr.length - 1].avg;
-        }
-      } catch { /* 무시 */ }
       if (alive) setPairInfo((prev) => ({ ...prev, ...out }));
     })();
     return () => { alive = false; };
@@ -283,7 +275,7 @@ export default function WorldcupPage() {
                       <span className="mt-1 block text-[11px] leading-relaxed">
                         {pairInfo[c.id].stats && <span className="block text-dim">{pairInfo[c.id].stats}</span>}
                         <span className={`block ${pairInfo[c.id].price != null ? "text-maple font-semibold" : "text-dim"}`}>
-                          {pairInfo[c.id].price != null ? `시세 ${fmtMeso(pairInfo[c.id].price as number)} 메소` : "시세 정보 없음"}
+                          {pairInfo[c.id].price != null ? `시세 ${fmtMeso(pairInfo[c.id].price as number)} 메소` : "외부 시세 연동 종료"}
                         </span>
                       </span>
                     )}

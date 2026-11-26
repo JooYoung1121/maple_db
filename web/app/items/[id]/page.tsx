@@ -10,7 +10,6 @@ import Link from "next/link";
 import { getItem } from "@/lib/api";
 import type { Item } from "@/lib/types";
 import EquipmentNotes from "@/components/EquipmentNotes";
-import PriceChart from "@/components/PriceChart";
 import ItemTooltip, { MaplelandDiffBox } from "@/components/ItemTooltip";
 import { toCategoryKr, toSubcategoryKr } from "@/lib/translations";
 import EntityCanonDiffPanel from "@/components/EntityCanonDiffPanel";
@@ -130,7 +129,6 @@ export default function ItemDetailPage() {
       </div>
 
       {/* 시세 차트 — 메랜지지 데이터(메팁 집계) */}
-      <PriceChart itemId={item.id} />
     </div>
   );
 }

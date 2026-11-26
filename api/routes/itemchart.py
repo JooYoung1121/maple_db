@@ -13,7 +13,7 @@ from api.itemchart_service import GEMS, ItemchartFormatError, extract_rows, norm
 
 router = APIRouter()
 ORIGIN = "https://itemchart.net"
-SEARCH_ENABLED = os.getenv("ITEMCHART_SEARCH_ENABLED") == "1"
+SEARCH_ENABLED = False  # 외부 경매장 연동 종료; 로컬 보석 정보는 유지
 CACHE_SECONDS = 30
 MAX_CACHE_ENTRIES = 128
 MAX_HTML_BYTES = 3_000_000

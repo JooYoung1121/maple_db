@@ -15,6 +15,14 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.27.1",
+    date: "2026-11-26",
+    type: "patch",
+    title: "주간 메랜 날짜 수정 · 외부 아이템 시세 연동 종료",
+    pages: ["/weekly", "/market", "/hunt", "/charlie"],
+    features: [{ category: "수정", items: ["호수 옆 날짜를 해당 주 마지막 날짜로 표시합니다.", "외부 아이템 시세 조회를 종료하고 직접 가격 입력과 NPC 가격 계산을 유지합니다.", "메랜샵 사냥터 자리 시세는 계속 제공합니다."] }],
+  },
+  {
     version: "4.27.0",
     date: "2026-11-20",
     type: "minor",

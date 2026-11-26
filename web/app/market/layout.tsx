@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "아이템 시세",
-  description: "아이템 이름으로 메팁 집계 시세와 일·주·월 추이 검색",
+  description: "외부 시세 연동 종료 및 가격 직접 입력 계산기 안내",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
