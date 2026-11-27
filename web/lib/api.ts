@@ -560,6 +560,10 @@ export async function getMakerData() {
   return fetchJSON<import("./types").MakerData>(`/api/maker/data`);
 }
 
+export async function getReverseWeapons() {
+  return fetchJSON<{ weapons: import("./reverseCraft").Weapon[] }>(`/api/maker/reverse-weapons`);
+}
+
 export async function getMakerMaterialSources(params: { level_min: number; level_max: number; limit?: number }) {
   return fetchJSON<{ mobs: import("./types").MakerMobSource[]; level_min: number; level_max: number; count: number }>(
     `/api/maker/material-sources?${qs(params as Record<string, number>)}`
@@ -1145,4 +1149,8 @@ export async function searchChosung(q: string, type?: string, mode: "exact" | "p
     total: number;
     results: { type: string; type_label: string; id: number; name: string }[];
   }>(`/api/chosung?${qs({ q, type: type ?? "", mode })}`);
+}
+
+export async function getNeoTokyo() {
+  return fetchJSON<import("./neoTokyo").NeoTokyoData>("/api/neo-tokyo");
 }

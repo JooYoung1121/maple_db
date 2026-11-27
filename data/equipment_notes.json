@@ -1290,6 +1290,54 @@
           "url": "https://mapleland-util.com/items/1122058"
         }
       ]
+    },
+    "1092049": {
+      "name_kr": "드래곤 칸쟈르",
+      "level": 0,
+      "publish": true,
+      "acquisition": "신규 지역에서 조건 달성 후 메이커 제작",
+      "note": "11/27 공식 출시 확인. 기존 도감 옵션은 원작 참고이며 메이플랜드 완성품 옵션·제작 재료는 확인 중입니다.",
+      "sources": [
+        {
+          "label": "11/27 공식 패치노트",
+          "url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        }
+      ]
+    },
+    "2070016": {
+      "name_kr": "크리스탈 일비 표창",
+      "level": 0,
+      "publish": true,
+      "acquisition": "신규 지역에서 조건 달성 후 메이커 제작",
+      "note": "11/27 공식 출시 확인. 기존 도감 옵션은 원작 참고이며 메이플랜드 완성품 옵션·제작 재료는 확인 중입니다.",
+      "sources": [
+        {
+          "label": "11/27 공식 패치노트",
+          "url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        },
+        {
+          "label": "11/27 게임 화면 제보",
+          "url": "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=4113098"
+        }
+      ],
+      "steps": [
+        "아키하바라 사령실의 노란에게 제조법 안내를 확인합니다.",
+        "게임 화면 제보상 제조 매뉴얼 안내 수수료는 은화 2,500개입니다.",
+        "이는 완제품 제작 재료 전체가 아닙니다. 재료·공격력·교환 여부는 확인 중입니다."
+      ]
+    },
+    "2330007": {
+      "name_kr": "아머 피어싱 불릿",
+      "level": 0,
+      "publish": true,
+      "acquisition": "신규 지역에서 조건 달성 후 메이커 제작",
+      "note": "11/27 공식 출시 확인. 기존 도감 옵션은 원작 참고이며 메이플랜드 완성품 옵션·제작 재료는 확인 중입니다.",
+      "sources": [
+        {
+          "label": "11/27 공식 패치노트",
+          "url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        }
+      ]
     }
   }
 }

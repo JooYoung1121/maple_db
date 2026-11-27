@@ -1,4 +1,5 @@
 "use client";
+import NeoTokyoLink from "@/components/NeoTokyoLink";
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
@@ -71,6 +72,7 @@ export default function MobDetailPage() {
         </div>
         <EntityCanonDiffPanel entries={canonDiffs} />
         <DatasetComparisonNotice type="mob" className="mt-3" />
+        {mob.id >= 9400253 && mob.id <= 9400273 && <NeoTokyoLink section="monsters" detail />}
         <FieldEvidence entries={mob.field_evidence} />
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
           {statRows.map(([label, val]) => (

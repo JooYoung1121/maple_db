@@ -13,6 +13,13 @@ router = APIRouter()
 _MAKER_DATA_PATH = Path(__file__).resolve().parent.parent.parent / "data" / "maker_data.json"
 
 
+@router.get("/maker/reverse-weapons")
+def get_reverse_weapons():
+    """도감에서 대조한 전체 리버스 무기와 원작 성장 범위. 확률은 계산 가정."""
+    path = _MAKER_DATA_PATH.with_name("reverse_weapons.json")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 @lru_cache(maxsize=1)
 def _maker_data() -> dict:
     try:

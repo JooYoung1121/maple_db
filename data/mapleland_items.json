@@ -2,7 +2,7 @@
  "source": "mapledb.kr",
  "source_url": "https://mapledb.kr/item.php",
  "fetched_at": "2026-06-05T00:33:15.507Z",
- "total": 4180,
+ "total": 4182,
  "page_total": 3956,
  "items": [
   {
@@ -24443,10 +24443,11 @@
   },
   {
    "id": 1092050,
-   "name_kr": "칸자르",
+   "name_kr": "칸쟈르",
    "level": 80,
    "jobs": "도적",
-   "source": "maplelog"
+   "source": "maplelog",
+   "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
   },
   {
    "id": 1122059,
@@ -24912,10 +24913,11 @@
   },
   {
    "id": 1092049,
-   "name_kr": "드래곤 칸자르",
+   "name_kr": "드래곤 칸쟈르",
    "level": 120,
    "jobs": "도적",
-   "source": "maplelog"
+   "source": "maplelog",
+   "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
   },
   {
    "id": 1092060,
@@ -25308,6 +25310,16 @@
    "level": 0,
    "jobs": "공용",
    "source": "maplelog"
+  },
+  {
+   "id": 2070016,
+   "name_kr": "크리스탈 일비 표창",
+   "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+  },
+  {
+   "id": 2330007,
+   "name_kr": "아머 피어싱 불릿",
+   "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
   }
  ]
 }

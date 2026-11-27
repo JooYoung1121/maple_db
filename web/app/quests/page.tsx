@@ -1,4 +1,5 @@
 "use client";
+import NeoTokyoLink from "@/components/NeoTokyoLink";
 import BattleMageKnownIssue from "@/components/BattleMageKnownIssue";
 import QuestDataWarning from "@/components/QuestDataWarning";
 
@@ -1421,6 +1422,7 @@ export default function QuestsPage() {
         </div>
       }
     >
+      <NeoTokyoLink section="quests" />
       <QuestsPageContent />
     </Suspense>
   );

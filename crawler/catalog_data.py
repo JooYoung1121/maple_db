@@ -9,3 +9,8 @@ DATA_DIR = Path(__file__).resolve().parents[1] / "data"
 @lru_cache(maxsize=1)
 def equipment_notes() -> dict:
     return json.loads((DATA_DIR / "equipment_notes.json").read_text(encoding="utf-8"))["items"]
+
+
+@lru_cache(maxsize=1)
+def neo_tokyo() -> dict:
+    return json.loads((DATA_DIR / "neo_tokyo.json").read_text(encoding="utf-8"))

@@ -77,6 +77,7 @@ export const SITE_SECTIONS: SiteSection[] = [
       { href: "/guide", label: "사이트 사용 안내", icon: "🍁", description: "메랜 할 때, 이렇게 써보세요 — 필요한 기능부터 3단계로", keywords: ["사용법", "처음", "안내", "튜토리얼", "사이트 소개"] },
       { href: "/pq", label: "파티퀘스트", icon: "🏰", description: "PQ 공략 및 보상", keywords: ["파퀘"] },
       { href: "/pq/amorian-solver", label: "웨딩 파퀘 조합", icon: "🪢", description: "아모리안 밧줄·발판 퍼즐 풀이와 이동 안내", keywords: ["아모리아", "아모리안", "엘리아스", "웨딩", "결혼", "파퀘", "조합표", "발판", "밧줄", "솔버"] },
+      { href: "/neo-tokyo", label: "네오도쿄 가이드", icon: "🌆", description: "Part. 1 입장 · 맵 · 몬스터 · 드롭 · 퀘스트 · 제작", keywords: ["네오도쿄", "크리스탈 일비", "크일비", "은화", "베르가모트", "아키하바라"] },
       { href: "/hunt", label: "사냥터 추천", icon: "🎯", description: "레벨별 사냥터 가이드" },
       { href: "/hp-exp", label: "체경비 사냥터", icon: "🩸", description: "체력 대비 경험치로 찾는 꿀 사냥터 — 맵별 마릿수·분포 기반", keywords: ["체경비", "체경", "효율", "꿀몹", "꿀맵", "가성비"] },
       { href: "/leveling", label: "직업별 사냥터", icon: "🗺️", description: "직업·레벨 구간별 육성 루트", keywords: ["육성", "레벨링"] },

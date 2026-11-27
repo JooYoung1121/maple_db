@@ -99,7 +99,7 @@
   "href": "/market",
   "label": "아이템 시세",
   "homeLabel": null,
-  "description": "매물 검색 · 장비 옵션·교체·보석작 비용 비교",
+  "description": "메팁 집계 시세 · 일·주·월 가격 추이",
   "keywords": [
    "시세",
    "가격",
@@ -264,6 +264,20 @@
    "발판",
    "밧줄",
    "솔버"
+  ]
+ },
+ {
+  "href": "/neo-tokyo",
+  "label": "네오도쿄 가이드",
+  "homeLabel": null,
+  "description": "Part. 1 입장 · 맵 · 몬스터 · 드롭 · 퀘스트 · 제작",
+  "keywords": [
+   "네오도쿄",
+   "크리스탈 일비",
+   "크일비",
+   "은화",
+   "베르가모트",
+   "아키하바라"
   ]
  },
  {

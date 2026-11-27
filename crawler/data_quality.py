@@ -1,5 +1,6 @@
 """Field-level provenance for the 2026-09-08 audit. Never infer live values."""
 import json
+from crawler.catalog_data import neo_tokyo
 
 COMMUNITY = 'https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no='
 MAYA_CONDITIONS = ['물컹물컹한 액체 50개 (슬라임)', '나뭇잎 50개 (다크 스텀프)',
@@ -11,6 +12,16 @@ EXP_VALUES = {7150000: 452, 7150001: 472, 7150002: 488, 7150004: 630,
 
 
 def mob_evidence(mob, spawns):
+    neo = neo_tokyo()
+    if any(row['id'] == mob['id'] for row in neo['monsters']):
+        return [
+            dict(field='출시·이름·레벨', status='official',
+                 note='11/27 네오도쿄 Part. 1 공지 기준. 일반 몬스터 레벨은 공개되었고 보스 레벨은 미공개입니다.',
+                 source_url=neo['source'], checked_at=neo['updated_at']),
+            dict(field='HP·EXP·드롭·출현 위치', status='unknown',
+                 note='본섭 실측 확인 중입니다. 빈 값은 0 또는 드롭/출현 없음이 아닙니다. 원작 참고 자료는 네오도쿄 가이드에서 따로 확인하세요.',
+                 source_url=None, checked_at=neo['updated_at']),
+        ]
     fields = []
     def add(field, status, note, source):
         fields.append(dict(field=field, status=status, note=note, source_url=source, checked_at='2026-09-08'))

@@ -1,4 +1,5 @@
 "use client";
+import NeoTokyoLink from "@/components/NeoTokyoLink";
 
 import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
@@ -86,6 +87,7 @@ function MapsPageContent() {
       <p className="mb-5 mt-2 text-sm text-dim">
         지역별 맵을 둘러보고 몬스터 위치·젠 수·드롭 아이템을 확인하세요.
       </p>
+      <NeoTokyoLink section="maps" />
       <DatasetComparisonNotice type="map" className="mb-4" />
       <div className="mb-5 flex flex-wrap items-center gap-2">
         <span className="text-xs text-dim">자주 찾는 사냥터</span>
