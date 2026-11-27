@@ -17,8 +17,8 @@ interface BossRow extends Boss {
 const columns: Column<BossRow>[] = [
   { key: "icon", label: "", render: (r) => <img src={entityIconUrl("mob", r.id)} alt="" className="w-10 h-10 object-contain [image-rendering:pixelated]" loading="lazy" onError={hideIconOnError} /> },
   { key: "name", label: "이름", render: (r) => r.name_kr ? <><span>{r.name_kr}</span> <span className="text-dim text-xs">({r.name})</span></> : r.name },
-  { key: "level", label: "레벨" },
-  { key: "hp", label: "HP", render: (r) => (r.hp ?? 0).toLocaleString() },
+  { key: "level", label: "레벨", render: (r) => r.level ?? "미공개" },
+  { key: "hp", label: "HP", render: (r) => r.hp == null ? "미확인" : r.hp.toLocaleString() },
   { key: "spawn_time", label: "젠타임", render: (r) => r.spawn_time || "-" },
   { key: "spawn_map", label: "스폰맵", render: (r) => r.spawn_map || "-" },
   { key: "drop_count", label: "드롭", render: (r) => r.drop_count ?? 0 },

@@ -24,6 +24,7 @@ from crawler.db import init_db, get_connection
 from api.routes import search, items, mobs, maps, npcs, quests, export, skills, admin, bimae, scroll_rankings, community
 from api.routes import efficiency
 from api.routes import maple_land
+from api.routes import neo_tokyo
 from api.routes import worldcup
 from api.routes import codi
 from api.routes import versus
@@ -391,6 +392,7 @@ app.include_router(bimae.router, prefix="/api")
 app.include_router(scroll_rankings.router, prefix="/api")
 app.include_router(community.router, prefix="/api")
 app.include_router(maple_land.router, prefix="/api")
+app.include_router(neo_tokyo.router, prefix="/api")
 app.include_router(game_results.router, prefix="/api")
 app.include_router(worldcup.router, prefix="/api")
 app.include_router(codi.router, prefix="/api")

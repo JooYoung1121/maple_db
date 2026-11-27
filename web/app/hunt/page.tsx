@@ -1,4 +1,5 @@
 "use client";
+import NeoTokyoLink from "@/components/NeoTokyoLink";
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
@@ -125,6 +126,7 @@ export default function HuntPage() {
         레벨과 직업에 맞는 최적의 사냥터를 찾아보세요 — 검증된 메이플랜드 데이터 기반
       </p>
 
+      <NeoTokyoLink section="maps" />
       <div className="mb-6"><HuntSeatMarket /></div>
 
       {/* 입력 영역 */}

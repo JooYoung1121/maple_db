@@ -1,0 +1,1083 @@
+{
+  "updated_at": "2026-11-27",
+  "patch_revision": "13:52 수정본",
+  "source": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl",
+  "official_image": "https://cdn.content.maple.land/261127_5b4388a068.png",
+  "min_level": 121,
+  "summary": "지팡구의 미래를 구하는 네오도쿄 Part. 1이 열렸습니다. 각 시대의 조사와 목표를 마치면 다음 시대로 이동합니다.",
+  "entry": [
+    "각 마을의 스피넬을 통해 버섯신사로 이동",
+    "버섯신사에서 카무나로 이동해 아시아와 대화",
+    "퀘스트를 진행하고 크리스탈을 통해 열린 시대로 이동"
+  ],
+  "locked_areas": [
+    "2102년 시부야",
+    "2102년 롯폰기 몰 최상층"
+  ],
+  "areas": [
+    {
+      "name": "카무나",
+      "maps": [
+        {
+          "name": "카무나",
+          "id": 802000101
+        },
+        {
+          "name": "카무나 (전투)",
+          "id": null
+        }
+      ]
+    },
+    {
+      "name": "2100년 오다이바",
+      "maps": [
+        {
+          "name": "2100년 오다이바",
+          "id": 802000200
+        },
+        {
+          "name": "2100년 오다이바 항구",
+          "id": null
+        },
+        {
+          "name": "2100년 오다이바 (시나리오)",
+          "id": null
+        }
+      ]
+    },
+    {
+      "name": "2095년 공원",
+      "maps": [
+        {
+          "name": "2095년 공원",
+          "id": 802000300
+        },
+        {
+          "name": "2095년 놀이터",
+          "id": null
+        },
+        {
+          "name": "2095년 변두리",
+          "id": null
+        }
+      ]
+    },
+    {
+      "name": "2102년 아키하바라",
+      "maps": [
+        {
+          "name": "2102년 아키하바라",
+          "id": 802000400
+        },
+        {
+          "name": "2102년 아키하바라 - 옥상",
+          "id": 802000401
+        },
+        {
+          "name": "2102년 아키하바라 - 사령실",
+          "id": 802000500
+        },
+        {
+          "name": "2102년 아키하바라 고가도로",
+          "id": null
+        },
+        {
+          "name": "2102년 아키하바라 (시나리오)",
+          "id": null
+        }
+      ]
+    },
+    {
+      "name": "2102년 도쿄 상공",
+      "maps": [
+        {
+          "name": "2102년 전함",
+          "id": null
+        },
+        {
+          "name": "2102년 전함 A구역",
+          "id": null
+        },
+        {
+          "name": "2102년 전함 B구역",
+          "id": null
+        },
+        {
+          "name": "2102년 도쿄 상공",
+          "id": 802000600
+        },
+        {
+          "name": "2102년 전함 (시나리오)",
+          "id": null
+        },
+        {
+          "name": "2102년 도쿄 상공 (시나리오)",
+          "id": null
+        }
+      ]
+    }
+  ],
+  "monsters": [
+    {
+      "id": 9400253,
+      "name": "애프터로드",
+      "level": 135,
+      "boss": false,
+      "source": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl",
+      "reference_stats": {
+        "hp": 260000,
+        "mp": 280,
+        "exp": 10200,
+        "physical_damage": 610,
+        "magic_damage": 650,
+        "defense": 1110,
+        "magic_defense": 1020,
+        "accuracy": 250,
+        "evasion": 20
+      },
+      "reference_drops": [
+        {
+          "item_id": 4032155,
+          "name": "애프터로드의 무한궤도"
+        },
+        {
+          "item_id": 4032151,
+          "name": "구동 유닛"
+        },
+        {
+          "item_id": 4032154,
+          "name": "고차원 연산 도미노"
+        },
+        {
+          "item_id": 4032181,
+          "name": "은화"
+        },
+        {
+          "item_id": 2000005,
+          "name": "파워 엘릭서"
+        },
+        {
+          "item_id": 2000006,
+          "name": "마나 엘릭서"
+        },
+        {
+          "item_id": 2022345,
+          "name": "힘솟는 드링크"
+        },
+        {
+          "item_id": 2050004,
+          "name": "만병통치약"
+        },
+        {
+          "item_id": 2000004,
+          "name": "엘릭서"
+        },
+        {
+          "item_id": 4010003,
+          "name": "아다만티움의 원석"
+        },
+        {
+          "item_id": 4006000,
+          "name": "마법의 돌"
+        },
+        {
+          "item_id": 4006001,
+          "name": "소환의 돌"
+        },
+        {
+          "item_id": 4004004,
+          "name": "어둠의 크리스탈 원석"
+        },
+        {
+          "item_id": 2040106,
+          "name": "회피의 주문서(얼굴)"
+        },
+        {
+          "item_id": 2040625,
+          "name": "하의 민첩 주문서 60%"
+        },
+        {
+          "item_id": 2049003,
+          "name": "순백의 주문서 20%"
+        },
+        {
+          "item_id": 2330007,
+          "name": "아머 피어싱 불릿"
+        },
+        {
+          "item_id": 1092049,
+          "name": "드래곤 칸쟈르"
+        },
+        {
+          "item_id": 1462017,
+          "name": "다크 네쉐르"
+        },
+        {
+          "item_id": 1452021,
+          "name": "다크 니스록"
+        },
+        {
+          "item_id": 4020010,
+          "name": "봉인된 용사의 돌"
+        },
+        {
+          "item_id": 4032166,
+          "name": "나노 플랜트(γ)"
+        }
+      ],
+      "reference_drop_source": "https://xn--o80b01o9mlw3kdzc.com/monster_card/9400253"
+    },
+    {
+      "id": 9400254,
+      "name": "오버로드",
+      "level": 132,
+      "boss": false,
+      "source": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl",
+      "reference_stats": {
+        "hp": 150000,
+        "mp": 450,
+        "exp": 6560,
+        "physical_damage": 320,
+        "magic_damage": 420,
+        "defense": 920,
+        "magic_defense": 750,
+        "accuracy": 280,
+        "evasion": 42
+      },
+      "reference_drops": [
+        {
+          "item_id": 4032156,
+          "name": "오버로드의 렌즈"
+        },
+        {
+          "item_id": 4032153,
+          "name": "도전성 폴리머 게인"
+        },
+        {
+          "item_id": 4032152,
+          "name": "고분자 액추에이터"
+        },
+        {
+          "item_id": 4032181,
+          "name": "은화"
+        },
+        {
+          "item_id": 2000004,
+          "name": "엘릭서"
+        },
+        {
+          "item_id": 2000005,
+          "name": "파워 엘릭서"
+        },
+        {
+          "item_id": 2000006,
+          "name": "마나 엘릭서"
+        },
+        {
+          "item_id": 2022345,
+          "name": "힘솟는 드링크"
+        },
+        {
+          "item_id": 2050004,
+          "name": "만병통치약"
+        },
+        {
+          "item_id": 4006000,
+          "name": "마법의 돌"
+        },
+        {
+          "item_id": 4006001,
+          "name": "소환의 돌"
+        },
+        {
+          "item_id": 4020005,
+          "name": "사파이어의 원석"
+        },
+        {
+          "item_id": 4004001,
+          "name": "지혜의 크리스탈 원석"
+        },
+        {
+          "item_id": 2049003,
+          "name": "순백의 주문서 20%"
+        },
+        {
+          "item_id": 2040613,
+          "name": "민첩성의 주문서(하의)"
+        },
+        {
+          "item_id": 2040201,
+          "name": "눈 장식 명중률 주문서 60%"
+        },
+        {
+          "item_id": 1002381,
+          "name": "블루 카날 후드"
+        },
+        {
+          "item_id": 1422027,
+          "name": "골든 스미스해머"
+        },
+        {
+          "item_id": 1032030,
+          "name": "소드 이어링"
+        }
+      ],
+      "reference_drop_source": "https://xn--o80b01o9mlw3kdzc.com/monster_card/9400254"
+    },
+    {
+      "id": 9400255,
+      "name": "프로토로드",
+      "level": 134,
+      "boss": false,
+      "source": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl",
+      "reference_stats": {
+        "hp": 190000,
+        "mp": 450,
+        "exp": 10300,
+        "physical_damage": 600,
+        "magic_damage": 300,
+        "defense": 850,
+        "magic_defense": 950,
+        "accuracy": 250,
+        "evasion": 20
+      },
+      "reference_drops": [
+        {
+          "item_id": 4032159,
+          "name": "프로토타입로드의 배기통"
+        },
+        {
+          "item_id": 4032158,
+          "name": "디스토션 레이더"
+        },
+        {
+          "item_id": 4032181,
+          "name": "은화"
+        },
+        {
+          "item_id": 2050004,
+          "name": "만병통치약"
+        },
+        {
+          "item_id": 2022345,
+          "name": "힘솟는 드링크"
+        },
+        {
+          "item_id": 2000006,
+          "name": "마나 엘릭서"
+        },
+        {
+          "item_id": 2000005,
+          "name": "파워 엘릭서"
+        },
+        {
+          "item_id": 2000004,
+          "name": "엘릭서"
+        },
+        {
+          "item_id": 4006000,
+          "name": "마법의 돌"
+        },
+        {
+          "item_id": 4006001,
+          "name": "소환의 돌"
+        },
+        {
+          "item_id": 4020007,
+          "name": "다이아몬드의 원석"
+        },
+        {
+          "item_id": 4004003,
+          "name": "행운의 크리스탈 원석"
+        },
+        {
+          "item_id": 2040516,
+          "name": "전신 갑옷 행운 주문서 60%"
+        },
+        {
+          "item_id": 2041013,
+          "name": "망토 힘 주문서 60%"
+        },
+        {
+          "item_id": 2049003,
+          "name": "순백의 주문서 20%"
+        },
+        {
+          "item_id": 1040122,
+          "name": "블랙 네오스"
+        },
+        {
+          "item_id": 1082213,
+          "name": "블랙 스켈듀크"
+        },
+        {
+          "item_id": 1050096,
+          "name": "그린 카티나스"
+        },
+        {
+          "item_id": 4020010,
+          "name": "봉인된 용사의 돌"
+        },
+        {
+          "item_id": 4032166,
+          "name": "나노 플랜트(γ)"
+        }
+      ],
+      "reference_drop_source": "https://xn--o80b01o9mlw3kdzc.com/monster_card/9400255"
+    },
+    {
+      "id": 9400260,
+      "name": "이루바타",
+      "level": 143,
+      "boss": false,
+      "source": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl",
+      "reference_stats": {
+        "hp": 280000,
+        "mp": 1500,
+        "exp": 11000,
+        "physical_damage": 700,
+        "magic_damage": 700,
+        "defense": 1210,
+        "magic_defense": 910,
+        "accuracy": 270,
+        "evasion": 45
+      },
+      "reference_drops": [
+        {
+          "item_id": 4032161,
+          "name": "이루워터의 레이저건"
+        },
+        {
+          "item_id": 4032180,
+          "name": "이루워터의 발신기"
+        },
+        {
+          "item_id": 4032181,
+          "name": "은화"
+        },
+        {
+          "item_id": 2050004,
+          "name": "만병통치약"
+        },
+        {
+          "item_id": 2022345,
+          "name": "힘솟는 드링크"
+        },
+        {
+          "item_id": 2000006,
+          "name": "마나 엘릭서"
+        },
+        {
+          "item_id": 2000005,
+          "name": "파워 엘릭서"
+        },
+        {
+          "item_id": 2000004,
+          "name": "엘릭서"
+        },
+        {
+          "item_id": 4010003,
+          "name": "아다만티움의 원석"
+        },
+        {
+          "item_id": 4006000,
+          "name": "마법의 돌"
+        },
+        {
+          "item_id": 4006001,
+          "name": "소환의 돌"
+        },
+        {
+          "item_id": 4004004,
+          "name": "어둠의 크리스탈 원석"
+        },
+        {
+          "item_id": 2040914,
+          "name": "공격의 주문서(방패)"
+        },
+        {
+          "item_id": 2040919,
+          "name": "마력의 주문서(방패)"
+        },
+        {
+          "item_id": 2049003,
+          "name": "순백의 주문서 20%"
+        },
+        {
+          "item_id": 1061123,
+          "name": "다크 엘소르 치마"
+        },
+        {
+          "item_id": 2070019,
+          "name": "마의 표창"
+        },
+        {
+          "item_id": 1442046,
+          "name": "슈퍼 스노우보드"
+        },
+        {
+          "item_id": 1312030,
+          "name": "토마호크"
+        },
+        {
+          "item_id": 4020011,
+          "name": "봉인된 현자의 돌"
+        },
+        {
+          "item_id": 4032168,
+          "name": "나노 플랜트(Ω)"
+        }
+      ],
+      "reference_drop_source": "https://xn--o80b01o9mlw3kdzc.com/monster_card/9400260"
+    },
+    {
+      "id": 9400256,
+      "name": "매버릭 Type α",
+      "level": 141,
+      "boss": false,
+      "source": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl",
+      "reference_stats": {
+        "hp": 270000,
+        "mp": 450,
+        "exp": 10300,
+        "physical_damage": 620,
+        "magic_damage": 640,
+        "defense": 1100,
+        "magic_defense": 890,
+        "accuracy": 270,
+        "evasion": 41
+      },
+      "reference_drops": [
+        {
+          "item_id": 4032160,
+          "name": "매버릭의 밸런서"
+        },
+        {
+          "item_id": 4032192,
+          "name": "에너지 전송장치"
+        },
+        {
+          "item_id": 4032181,
+          "name": "은화"
+        },
+        {
+          "item_id": 2000004,
+          "name": "엘릭서"
+        },
+        {
+          "item_id": 2000005,
+          "name": "파워 엘릭서"
+        },
+        {
+          "item_id": 2000006,
+          "name": "마나 엘릭서"
+        },
+        {
+          "item_id": 2022345,
+          "name": "힘솟는 드링크"
+        },
+        {
+          "item_id": 2050004,
+          "name": "만병통치약"
+        },
+        {
+          "item_id": 4010006,
+          "name": "금의 원석"
+        },
+        {
+          "item_id": 4006001,
+          "name": "소환의 돌"
+        },
+        {
+          "item_id": 4006000,
+          "name": "마법의 돌"
+        },
+        {
+          "item_id": 4004002,
+          "name": "민첩성의 크리스탈 원석"
+        },
+        {
+          "item_id": 2049003,
+          "name": "순백의 주문서 20%"
+        },
+        {
+          "item_id": 2041019,
+          "name": "망토 민첩 주문서 60%"
+        },
+        {
+          "item_id": 2040704,
+          "name": "신발 점프력 주문서 60%"
+        },
+        {
+          "item_id": 1032062,
+          "name": "엘레멘트 피어스"
+        },
+        {
+          "item_id": 1332052,
+          "name": "블러드 대거"
+        },
+        {
+          "item_id": 1332051,
+          "name": "골드 트윈 나이프"
+        },
+        {
+          "item_id": 1072228,
+          "name": "블루 아르나슈즈"
+        },
+        {
+          "item_id": 4020012,
+          "name": "봉인된 성자의 돌"
+        },
+        {
+          "item_id": 4032167,
+          "name": "나노 플랜트(Σ)"
+        }
+      ],
+      "reference_drop_source": "https://xn--o80b01o9mlw3kdzc.com/monster_card/9400256"
+    },
+    {
+      "id": 9400258,
+      "name": "매버릭 Type β",
+      "level": 143,
+      "boss": false,
+      "source": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl",
+      "reference_stats": {
+        "hp": 820000,
+        "mp": 550,
+        "exp": 10500,
+        "physical_damage": 640,
+        "magic_damage": 640,
+        "defense": 1110,
+        "magic_defense": 850,
+        "accuracy": 270,
+        "evasion": 43
+      },
+      "reference_drops": [
+        {
+          "item_id": 4032163,
+          "name": "매버릭의 부스터"
+        },
+        {
+          "item_id": 4032192,
+          "name": "에너지 전송장치"
+        },
+        {
+          "item_id": 4032181,
+          "name": "은화"
+        },
+        {
+          "item_id": 2000004,
+          "name": "엘릭서"
+        },
+        {
+          "item_id": 2000005,
+          "name": "파워 엘릭서"
+        },
+        {
+          "item_id": 2000006,
+          "name": "마나 엘릭서"
+        },
+        {
+          "item_id": 2022345,
+          "name": "힘솟는 드링크"
+        },
+        {
+          "item_id": 2050004,
+          "name": "만병통치약"
+        },
+        {
+          "item_id": 4006001,
+          "name": "소환의 돌"
+        },
+        {
+          "item_id": 4006000,
+          "name": "마법의 돌"
+        },
+        {
+          "item_id": 4020003,
+          "name": "에메랄드의 원석"
+        },
+        {
+          "item_id": 4004002,
+          "name": "민첩성의 크리스탈 원석"
+        },
+        {
+          "item_id": 2049003,
+          "name": "순백의 주문서 20%"
+        },
+        {
+          "item_id": 2040321,
+          "name": "귀 장식 행운 주문서 60%"
+        },
+        {
+          "item_id": 2040301,
+          "name": "귀 장식 지력 주문서 60%"
+        },
+        {
+          "item_id": 1032026,
+          "name": "골드 에메랄드 이어링"
+        },
+        {
+          "item_id": 1472053,
+          "name": "레드 크리븐"
+        },
+        {
+          "item_id": 1432030,
+          "name": "피나카"
+        },
+        {
+          "item_id": 1032062,
+          "name": "엘레멘트 피어스"
+        },
+        {
+          "item_id": 4020012,
+          "name": "봉인된 성자의 돌"
+        },
+        {
+          "item_id": 4032167,
+          "name": "나노 플랜트(Σ)"
+        }
+      ],
+      "reference_drop_source": "https://xn--o80b01o9mlw3kdzc.com/monster_card/9400258"
+    },
+    {
+      "id": 9400257,
+      "name": "매버릭 Type γ",
+      "level": 143,
+      "boss": false,
+      "source": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl",
+      "reference_stats": {
+        "hp": 270000,
+        "mp": 550,
+        "exp": 10400,
+        "physical_damage": 640,
+        "magic_damage": 640,
+        "defense": 1110,
+        "magic_defense": 850,
+        "accuracy": 270,
+        "evasion": 43
+      },
+      "reference_drops": [
+        {
+          "item_id": 4032163,
+          "name": "매버릭의 부스터"
+        },
+        {
+          "item_id": 4032192,
+          "name": "에너지 전송장치"
+        },
+        {
+          "item_id": 4032164,
+          "name": "휴대형 레이저 유도장치"
+        },
+        {
+          "item_id": 4032181,
+          "name": "은화"
+        },
+        {
+          "item_id": 2050004,
+          "name": "만병통치약"
+        },
+        {
+          "item_id": 2022345,
+          "name": "힘솟는 드링크"
+        },
+        {
+          "item_id": 2000006,
+          "name": "마나 엘릭서"
+        },
+        {
+          "item_id": 2000005,
+          "name": "파워 엘릭서"
+        },
+        {
+          "item_id": 2000004,
+          "name": "엘릭서"
+        },
+        {
+          "item_id": 4006000,
+          "name": "마법의 돌"
+        },
+        {
+          "item_id": 4006001,
+          "name": "소환의 돌"
+        },
+        {
+          "item_id": 4020003,
+          "name": "에메랄드의 원석"
+        },
+        {
+          "item_id": 4004002,
+          "name": "민첩성의 크리스탈 원석"
+        },
+        {
+          "item_id": 2040621,
+          "name": "하의 체력 주문서 60%"
+        },
+        {
+          "item_id": 2040801,
+          "name": "장갑 민첩 주문서 60%"
+        },
+        {
+          "item_id": 2049003,
+          "name": "순백의 주문서 20%"
+        },
+        {
+          "item_id": 1032062,
+          "name": "엘레멘트 피어스"
+        },
+        {
+          "item_id": 1402035,
+          "name": "참화도"
+        },
+        {
+          "item_id": 1302056,
+          "name": "스파타"
+        },
+        {
+          "item_id": 1060110,
+          "name": "블루 네오스 바지"
+        },
+        {
+          "item_id": 4020012,
+          "name": "봉인된 성자의 돌"
+        },
+        {
+          "item_id": 4032167,
+          "name": "나노 플랜트(Σ)"
+        }
+      ],
+      "reference_drop_source": "https://xn--o80b01o9mlw3kdzc.com/monster_card/9400257"
+    },
+    {
+      "id": 9400259,
+      "name": "매버릭 Type ν",
+      "level": 143,
+      "boss": false,
+      "source": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl",
+      "reference_stats": {
+        "hp": 200000,
+        "mp": 550,
+        "exp": 9400,
+        "physical_damage": 640,
+        "magic_damage": 640,
+        "defense": 1110,
+        "magic_defense": 850,
+        "accuracy": 270,
+        "evasion": 43
+      },
+      "reference_drops": [
+        {
+          "item_id": 4032163,
+          "name": "매버릭의 부스터"
+        },
+        {
+          "item_id": 4032181,
+          "name": "은화"
+        },
+        {
+          "item_id": 2000004,
+          "name": "엘릭서"
+        },
+        {
+          "item_id": 2000005,
+          "name": "파워 엘릭서"
+        },
+        {
+          "item_id": 2000006,
+          "name": "마나 엘릭서"
+        },
+        {
+          "item_id": 2022345,
+          "name": "힘솟는 드링크"
+        },
+        {
+          "item_id": 2050004,
+          "name": "만병통치약"
+        },
+        {
+          "item_id": 4032167,
+          "name": "나노 플랜트(Σ)"
+        },
+        {
+          "item_id": 4010001,
+          "name": "강철의 원석"
+        },
+        {
+          "item_id": 4006001,
+          "name": "소환의 돌"
+        },
+        {
+          "item_id": 4006000,
+          "name": "마법의 돌"
+        },
+        {
+          "item_id": 4004002,
+          "name": "민첩성의 크리스탈 원석"
+        },
+        {
+          "item_id": 2049003,
+          "name": "순백의 주문서 20%"
+        },
+        {
+          "item_id": 2044501,
+          "name": "활 공격력 주문서 60%"
+        },
+        {
+          "item_id": 2043801,
+          "name": "스태프 마력 주문서 60%"
+        },
+        {
+          "item_id": 1032062,
+          "name": "엘레멘트 피어스"
+        },
+        {
+          "item_id": 1492012,
+          "name": "콘체르토"
+        },
+        {
+          "item_id": 1482012,
+          "name": "킹 센트"
+        },
+        {
+          "item_id": 1041124,
+          "name": "다크 엘소르"
+        },
+        {
+          "item_id": 4020012,
+          "name": "봉인된 성자의 돌"
+        }
+      ],
+      "reference_drop_source": "https://xn--o80b01o9mlw3kdzc.com/monster_card/9400259"
+    },
+    {
+      "id": 9400263,
+      "name": "베르가모트",
+      "level": null,
+      "boss": true,
+      "source": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl",
+      "reference_stats": null,
+      "reference_drops": [],
+      "reference_drop_source": null
+    },
+    {
+      "id": 9400270,
+      "name": "듀나스",
+      "level": null,
+      "boss": true,
+      "source": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl",
+      "reference_stats": null,
+      "reference_drops": [],
+      "reference_drop_source": null
+    },
+    {
+      "id": 9400271,
+      "name": "니벨룽겐",
+      "level": null,
+      "boss": true,
+      "source": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl",
+      "reference_stats": null,
+      "reference_drops": [],
+      "reference_drop_source": null
+    },
+    {
+      "id": 9400266,
+      "name": "이름없는 마수",
+      "level": null,
+      "boss": true,
+      "source": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl",
+      "reference_stats": null,
+      "reference_drops": [],
+      "reference_drop_source": null
+    }
+  ],
+  "items": [
+    {
+      "name": "스피어 글레이브",
+      "id": null,
+      "method": "신규 지역에서 조건 달성 후 메이커 제작",
+      "status": "official",
+      "note": "제작 조건·재료 수량·완성품 옵션은 인게임 대조 필요"
+    },
+    {
+      "name": "플레어 글레이브",
+      "id": null,
+      "method": "신규 지역에서 조건 달성 후 메이커 제작",
+      "status": "official",
+      "note": "제작 조건·재료 수량·완성품 옵션은 인게임 대조 필요"
+    },
+    {
+      "name": "저지먼트",
+      "id": null,
+      "method": "신규 지역에서 조건 달성 후 메이커 제작",
+      "status": "official",
+      "note": "제작 조건·재료 수량·완성품 옵션은 인게임 대조 필요"
+    },
+    {
+      "name": "드래곤 칸쟈르",
+      "id": 1092049,
+      "method": "신규 지역에서 조건 달성 후 메이커 제작",
+      "status": "official",
+      "note": "제작 조건·재료 수량·완성품 옵션은 인게임 대조 필요"
+    },
+    {
+      "name": "크리스탈 일비 표창",
+      "id": 2070016,
+      "method": "신규 지역에서 조건 달성 후 메이커 제작",
+      "status": "official",
+      "note": "제작 조건·재료 수량·완성품 옵션은 인게임 대조 필요"
+    },
+    {
+      "name": "아머 피어싱 불릿",
+      "id": 2330007,
+      "method": "신규 지역에서 조건 달성 후 메이커 제작",
+      "status": "official",
+      "note": "제작 조건·재료 수량·완성품 옵션은 인게임 대조 필요"
+    }
+  ],
+  "quest_steps": [
+    {
+      "title": "카무나에서 아시아 만나기",
+      "description": "121레벨 이상 캐릭터로 아시아의 퀘스트를 시작합니다. 세부 퀘스트명과 수집품·수량은 인게임 확인 중입니다.",
+      "status": "official"
+    },
+    {
+      "title": "2100년 오다이바 조사",
+      "description": "크리스탈로 이동해 해당 시대의 목표를 수행합니다. 베르가모트(시나리오) 격파 후 퀘스트를 완료하면 일반 베르가모트에 도전할 수 있습니다.",
+      "status": "official"
+    },
+    {
+      "title": "2095년 공원 → 2102년 아키하바라 → 2102년 도쿄 상공",
+      "description": "각 시대의 조사를 완료하고 최종 목표를 달성해야 다음 시대로 이동할 수 있습니다. 보스별 상세 입장 조건·일일 제한·퀘스트 보상은 확인 중입니다.",
+      "status": "official"
+    },
+    {
+      "title": "노란의 제조법 안내 확인",
+      "description": "아키하바라 사령실의 노란이 제작법을 안내하는 화면을 커뮤니티에서 확인했습니다. 크리스탈 일비 제조 매뉴얼 안내 수수료는 은화 2,500개이며 완제품 재료 전체를 뜻하지 않습니다.",
+      "status": "community",
+      "source": "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=4113098"
+    }
+  ],
+  "crystal_ilbi": {
+    "manual_npc": "노란",
+    "manual_location": "2102년 아키하바라 - 사령실",
+    "manual_currency": "은화",
+    "manual_cost": 2500,
+    "manual_source": "https://gall.dcinside.com/mgallery/board/view/?id=mapleland&no=4113098",
+    "note": "11/27 게임 화면 제보. 제조 매뉴얼 안내 수수료만 확인되었으며, 완제품의 재료·공격력·교환 여부는 아직 검증하지 않았습니다."
+  },
+  "other_changes": [
+    "3주년 코인샵 이용 오류 수정 · 마감 12월 1일 00:00",
+    "네오도쿄 몬스터 카드·에피소드 추가",
+    "도적 방패 칸자르 → 칸쟈르 명칭 변경 (단검 드래곤 칸자르와 구별)",
+    "신궁 스나이핑에 생츄어리와 같은 최소 스펙 요구 로직 시범 적용",
+    "텍스트 렌더링·몬스터 디버프 표시·발판 드롭 위치·길드 공지·일부 거래소 검색 오류 수정"
+  ],
+  "notes": [
+    "몬스터명·일반 몬스터 레벨·입장 조건·지역·제작 품목: 공식 패치노트 및 첨부 이미지.",
+    "몬스터 ID와 맵 ID 연결은 원작 v62/메이플노트 이름 대조. 메이플랜드 전용 시나리오·추가 사냥터 ID와 스폰 수는 아직 확인되지 않았습니다.",
+    "HP·EXP 등 참고 수치는 로컬 대만판 v62 Mob_info.json에서 추출한 원작 값입니다. 본섭 실측값이 아니므로 사냥 효율 계산에 사용하지 않습니다.",
+    "참고 드롭 목록: 메이플노트 클래식. 해당 사이트도 원작 기반이라고 고지하며, 여기서는 확률을 가져오지 않습니다. 본섭 확정 드롭 목록에 합치지 않습니다.",
+    "보스는 시나리오/일반 분리가 있어 기존 원작 HP·EXP·단계별 수치를 등록하지 않습니다."
+  ]
+}

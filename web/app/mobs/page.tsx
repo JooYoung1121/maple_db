@@ -1,4 +1,5 @@
 "use client";
+import NeoTokyoLink from "@/components/NeoTokyoLink";
 
 import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -24,9 +25,9 @@ const columns: Column<MobRow>[] = [
     const entries = getEntityCanonDiffs("mob", r.id, r.name_kr || r.name);
     return <span className="inline-flex flex-wrap items-center gap-1.5"><span>{r.name_kr || r.name}</span>{r.name_kr && <span className="text-dim text-xs">({r.name})</span>}{entries.map((entry) => <CanonDiffInfo key={entry.id} entry={entry} compact align="left" />)}</span>;
   } },
-  { key: "level", label: "레벨" },
-  { key: "hp", label: "HP", render: (r) => (r.hp ?? 0).toLocaleString() },
-  { key: "exp", label: "EXP", render: (r) => (r.exp ?? 0).toLocaleString() },
+  { key: "level", label: "레벨", render: (r) => r.level ?? "미공개" },
+  { key: "hp", label: "HP", render: (r) => r.hp == null ? "미확인" : r.hp.toLocaleString() },
+  { key: "exp", label: "EXP", render: (r) => r.exp == null ? "미확인" : r.exp.toLocaleString() },
   { key: "is_boss", label: "보스", render: (r) => r.is_boss ? "보스" : "일반" },
 ];
 
@@ -71,6 +72,7 @@ function MobsPageContent() {
         <h1 className="font-pixel text-2xl font-bold">몬스터</h1>
 
       </div>
+      <NeoTokyoLink section="monsters" />
       <DatasetComparisonNotice type="mob" className="mb-4" />
       <FilterPanel filters={filters} values={filterValues} onChange={setFilterValues} sortOptions={sortOptions} sortValue={sortValue} onSortChange={setSortValue} />
       <div className="mt-4">

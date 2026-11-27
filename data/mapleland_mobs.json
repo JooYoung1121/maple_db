@@ -2,7 +2,7 @@
   "source": "mapledb.kr",
   "source_url": "https://mapledb.kr/mob.php",
   "fetched_at": "2026-06-05T00:33:15.507Z",
-  "total": 751,
+  "total": 763,
   "page_total": 749,
   "mobs": [
     {
@@ -4510,6 +4510,78 @@
       "name_kr": "블루 머쉬맘",
       "level": 90,
       "hp": 135000
+    },
+    {
+      "id": 9400253,
+      "name_kr": "애프터로드",
+      "level": 135,
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+    },
+    {
+      "id": 9400254,
+      "name_kr": "오버로드",
+      "level": 132,
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+    },
+    {
+      "id": 9400255,
+      "name_kr": "프로토로드",
+      "level": 134,
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+    },
+    {
+      "id": 9400260,
+      "name_kr": "이루바타",
+      "level": 143,
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+    },
+    {
+      "id": 9400256,
+      "name_kr": "매버릭 Type α",
+      "level": 141,
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+    },
+    {
+      "id": 9400258,
+      "name_kr": "매버릭 Type β",
+      "level": 143,
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+    },
+    {
+      "id": 9400257,
+      "name_kr": "매버릭 Type γ",
+      "level": 143,
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+    },
+    {
+      "id": 9400259,
+      "name_kr": "매버릭 Type ν",
+      "level": 143,
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+    },
+    {
+      "id": 9400263,
+      "name_kr": "베르가모트",
+      "level": null,
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+    },
+    {
+      "id": 9400270,
+      "name_kr": "듀나스",
+      "level": null,
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+    },
+    {
+      "id": 9400271,
+      "name_kr": "니벨룽겐",
+      "level": null,
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+    },
+    {
+      "id": 9400266,
+      "name_kr": "이름없는 마수",
+      "level": null,
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
     }
   ]
 }

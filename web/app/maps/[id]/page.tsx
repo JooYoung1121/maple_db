@@ -1,4 +1,5 @@
 "use client";
+import NeoTokyoLink from "@/components/NeoTokyoLink";
 
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
@@ -320,6 +321,7 @@ export default function MapDetailPage() {
         {map.original_data_conflict && <CanonDiffInfo entry={CANON_DIFFS["data.map-id-collision"]} />}
       </div>
       <DatasetComparisonNotice type="map" className="mb-4" />
+      {map.id >= 802000100 && map.id <= 802000600 && <NeoTokyoLink section="maps" detail />}
 
       {/* ── 맵 뷰어 ── */}
       {map.original_data_conflict ? (

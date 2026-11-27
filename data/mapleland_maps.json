@@ -2,7 +2,7 @@
   "source": "mapledb.kr",
   "source_url": "https://mapledb.kr/map.php",
   "fetched_at": "2026-06-05T00:33:15.507Z",
-  "total": 1084,
+  "total": 1090,
   "page_total": null,
   "maps": [
     {
@@ -3639,7 +3639,8 @@
     },
     {
       "id": 802000101,
-      "name_kr": "일본: 카무나"
+      "name_kr": "네오도쿄: 카무나",
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
     },
     {
       "id": 809000101,
@@ -4340,6 +4341,36 @@
     {
       "id": 222010402,
       "name_kr": "히든스트리트: 도깨비집"
+    },
+    {
+      "id": 802000200,
+      "name_kr": "네오도쿄: 2100년 오다이바",
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+    },
+    {
+      "id": 802000300,
+      "name_kr": "네오도쿄: 2095년 공원",
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+    },
+    {
+      "id": 802000400,
+      "name_kr": "네오도쿄: 2102년 아키하바라",
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+    },
+    {
+      "id": 802000401,
+      "name_kr": "네오도쿄: 2102년 아키하바라 - 옥상",
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+    },
+    {
+      "id": 802000500,
+      "name_kr": "네오도쿄: 2102년 아키하바라 - 사령실",
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+    },
+    {
+      "id": 802000600,
+      "name_kr": "네오도쿄: 2102년 도쿄 상공",
+      "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
     }
   ]
 }

@@ -1,4 +1,5 @@
 "use client";
+import NeoTokyoLink from "@/components/NeoTokyoLink";
 import BattleMageKnownIssue from "@/components/BattleMageKnownIssue";
 
 import Link from "next/link";
@@ -35,6 +36,7 @@ export default function MakerPage() {
     <div className="max-w-4xl mx-auto space-y-5">
       <div>
         <h1 className="font-pixel text-xl font-bold text-ink">메이커 (전문기술)</h1>
+      <NeoTokyoLink section="crafting" />
         <BattleMageKnownIssue />
         <p className="text-sm text-dim mt-1">
           메이플랜드 2.0의 메이커 제작 정보·강화 시뮬·재료 획득 가이드입니다.

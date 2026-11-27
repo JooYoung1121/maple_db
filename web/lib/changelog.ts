@@ -15,6 +15,15 @@ export interface ChangelogEntry {
 
 export const CHANGELOG: ChangelogEntry[] = [
   {
+    version: "4.28.0", date: "2026-11-27", type: "minor",
+    title: "네오도쿄 Part. 1 가이드 · 리버스 무기 전체 선택",
+    pages: ["/neo-tokyo", "/reverse-sim", "/mobs", "/maps", "/quests", "/maker"],
+    features: [
+      { category: "네오도쿄", items: ["공식 입장 조건·열린 지역·몬스터·제작 품목과 퀘스트 진행 흐름 정리", "크리스탈 일비 제조법 은화 2,500개 제보를 완제품 재료와 구분", "원작 HP·경험치·드롭은 참고 자료로 분리하고 미확인 수치는 0으로 표시하지 않음"] },
+      { category: "리버스", items: ["도감의 리버스 무기 18종 검색·종류 필터·선택 지원", "완드·스태프 마력과 너클·건 성장 범위를 구분하고 성장 가중치 조정 지원"] },
+    ],
+  },
+  {
     version: "4.27.1",
     date: "2026-11-26",
     type: "patch",

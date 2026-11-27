@@ -4,7 +4,7 @@
   "entities": {
     "mobs": {
       "source_url": "https://mapledb.kr/mob.php",
-      "total": 906,
+      "total": 970,
       "page_total": 749,
       "records": [
         {
@@ -5754,12 +5754,84 @@
           "name_kr": "블루 머쉬맘",
           "level": 90,
           "hp": 135000
+        },
+        {
+          "id": 9400253,
+          "name_kr": "애프터로드",
+          "level": 135,
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        },
+        {
+          "id": 9400254,
+          "name_kr": "오버로드",
+          "level": 132,
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        },
+        {
+          "id": 9400255,
+          "name_kr": "프로토로드",
+          "level": 134,
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        },
+        {
+          "id": 9400260,
+          "name_kr": "이루바타",
+          "level": 143,
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        },
+        {
+          "id": 9400256,
+          "name_kr": "매버릭 Type α",
+          "level": 141,
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        },
+        {
+          "id": 9400258,
+          "name_kr": "매버릭 Type β",
+          "level": 143,
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        },
+        {
+          "id": 9400257,
+          "name_kr": "매버릭 Type γ",
+          "level": 143,
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        },
+        {
+          "id": 9400259,
+          "name_kr": "매버릭 Type ν",
+          "level": 143,
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        },
+        {
+          "id": 9400263,
+          "name_kr": "베르가모트",
+          "level": null,
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        },
+        {
+          "id": 9400270,
+          "name_kr": "듀나스",
+          "level": null,
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        },
+        {
+          "id": 9400271,
+          "name_kr": "니벨룽겐",
+          "level": null,
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        },
+        {
+          "id": 9400266,
+          "name_kr": "이름없는 마수",
+          "level": null,
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
         }
       ]
     },
     "items": {
       "source_url": "https://mapledb.kr/item.php",
-      "total": 4406,
+      "total": 4409,
       "page_total": 3956,
       "records": [
         {
@@ -31556,10 +31628,11 @@
         },
         {
           "id": 1092050,
-          "name_kr": "칸자르",
+          "name_kr": "칸쟈르",
           "level": 80,
           "jobs": "도적",
-          "source": "maplelog"
+          "source": "maplelog",
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
         },
         {
           "id": 1122059,
@@ -32025,10 +32098,11 @@
         },
         {
           "id": 1092049,
-          "name_kr": "드래곤 칸자르",
+          "name_kr": "드래곤 칸쟈르",
           "level": 120,
           "jobs": "도적",
-          "source": "maplelog"
+          "source": "maplelog",
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
         },
         {
           "id": 1092060,
@@ -32427,12 +32501,22 @@
           "name_kr": "반짝이는 메이플 코인",
           "level": 0,
           "jobs": "not"
+        },
+        {
+          "id": 2070016,
+          "name_kr": "크리스탈 일비 표창",
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        },
+        {
+          "id": 2330007,
+          "name_kr": "아머 피어싱 불릿",
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
         }
       ]
     },
     "maps": {
       "source_url": "https://mapledb.kr/map.php",
-      "total": 1123,
+      "total": 1249,
       "page_total": null,
       "records": [
         {
@@ -36233,7 +36317,8 @@
         },
         {
           "id": 802000101,
-          "name_kr": "일본: 카무나"
+          "name_kr": "네오도쿄: 카무나",
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
         },
         {
           "id": 809000101,
@@ -37406,6 +37491,36 @@
         {
           "id": 980033400,
           "name_kr": "몬스터 카니발 2: 카니발 필드3 <패자의 오기>"
+        },
+        {
+          "id": 802000200,
+          "name_kr": "네오도쿄: 2100년 오다이바",
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        },
+        {
+          "id": 802000300,
+          "name_kr": "네오도쿄: 2095년 공원",
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        },
+        {
+          "id": 802000400,
+          "name_kr": "네오도쿄: 2102년 아키하바라",
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        },
+        {
+          "id": 802000401,
+          "name_kr": "네오도쿄: 2102년 아키하바라 - 옥상",
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        },
+        {
+          "id": 802000500,
+          "name_kr": "네오도쿄: 2102년 아키하바라 - 사령실",
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
+        },
+        {
+          "id": 802000600,
+          "name_kr": "네오도쿄: 2102년 도쿄 상공",
+          "source_url": "https://maple.land/board/notices/wm95k26ks5hjzyl47uzfpnwl"
         }
       ]
     },
